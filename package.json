@@ -17,7 +17,7 @@
   "scripts": {
     "ng": "ng",
     "conventional-changelog": "conventional-changelog",
-    "start": "ng serve",
+    "start": "ng serve --open --port=4201",
     "buildprod": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build --prod --aot",
     "build": "ng build",
     "build:prod": "npm run build -- --prod --aot",

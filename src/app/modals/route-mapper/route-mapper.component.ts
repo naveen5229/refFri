@@ -36,7 +36,6 @@ export class RouteMapperComponent implements OnInit {
     this.vehicleRegNo = this.commonService.params.vehicleRegNo;
     this.orderId = this.commonService.params.orderId;
     this.orderType = this.commonService.params.orderType;
-    console.log("common params:", this.commonService.params, "title:", this.title);
     this.title = this.commonService.params.title ? this.commonService.params.title : this.title;
 
   }
@@ -99,11 +98,9 @@ export class RouteMapperComponent implements OnInit {
       orderId: this.orderId,
       orderType: this.orderType
     }
-    console.log("paramssssss--->", params);
     this.apiService.post('HaltOperations/getvehicleEvents', params)
       .subscribe(res => {
         this.commonService.loading--;
-        console.log(res);
         let vehicleEvents = res['data'].reverse();
         this.getPlaceName(vehicleEvents);
         let params = {
@@ -114,7 +111,6 @@ export class RouteMapperComponent implements OnInit {
           'orderType': this.orderType
         }
         this.commonService.loading++;
-        console.log(params);
         this.apiService.post('Vehicles/getVehDistanceBwTime', { 'vehicleId': this.vehicleSelected, fromTime: params['startTime'], tTime: params['toTime'], orderId: this.orderId, orderType: this.orderType })
           .subscribe(resdist => {
             this.commonService.loading--;
@@ -161,7 +157,6 @@ export class RouteMapperComponent implements OnInit {
                   i++;
                 }
                 this.maxOdo = total;
-                console.log("PolyLine", this.polypath);
 
                 this.mapService.polygonPath && this.mapService.polygonPath.set('icons', [{
                   icon: this.mapService.lineSymbol,
@@ -173,12 +168,10 @@ export class RouteMapperComponent implements OnInit {
                 if (vehicleEvents[0].end_time)
                   realEnd = new Date(vehicleEvents[vehicleEvents.length - 1].end_time) > new Date(this.endDate) ?
                     vehicleEvents[vehicleEvents.length - 1].end_time : this.commonService.dateFormatter(this.endDate);
-                console.log("RealStart", realStart, "RealEnd", realEnd);
 
                 let totalHourDiff = 0;
                 if (vehicleEvents.length != 0) {
                   totalHourDiff = this.commonService.dateDiffInHours(realStart, realEnd, true);
-                  console.log("Total Diff", totalHourDiff);
                 }
 
                 for (let index = 0; index < vehicleEvents.length; index++) {
@@ -198,12 +191,10 @@ export class RouteMapperComponent implements OnInit {
                     realStart, vehicleEvents[index].start_time) / totalHourDiff) * 98;
                   vehicleEvents[index].width = (this.commonService.dateDiffInHours(
                     vehicleEvents[index].start_time, vehicleEvents[index].end_time, true) / totalHourDiff) * 98;
-                  console.log("Width", vehicleEvents[index].width);
 
                   vehicleEvents[index].duration = this.commonService.dateDiffInHoursAndMins(
                     vehicleEvents[index].start_time, vehicleEvents[index].end_time);
                 }
-                console.log("vehicleEvents", vehicleEvents);
                 this.vehicleEvents = vehicleEvents;
                 let markers = this.mapService.createMarkers(this.vehicleEvents, false, false);
                 let markerIndex = 0
@@ -215,18 +206,18 @@ export class RouteMapperComponent implements OnInit {
                 }
               }, err => {
                 this.commonService.loading--;
-                console.log(err); ////
+                console.error(err); ////
               });
 
           }, err => {
             this.commonService.loading--;
-            console.log(err); ////
+            console.error(err); ////
           });
 
 
       }, err => {
         this.commonService.loading--;
-        console.log(err);
+        console.error(err);
       });
   }
   clearAll() {
@@ -240,7 +231,6 @@ export class RouteMapperComponent implements OnInit {
     this.breakPrevious = true;
     this.isPlay = false;
     this.slideToolTipLeft = (document.getElementById('myRange').offsetWidth / 100) * this.timelineValue;
-    console.log("Point", this.timelineValue, 'width: ', this.slideToolTipLeft);
     this.mapService.polygonPath.set('icons', [{
       icon: this.mapService.lineSymbol,
       offset: this.timelineValue + "%"
@@ -278,8 +268,6 @@ export class RouteMapperComponent implements OnInit {
   }
   zoomOnArrow(isEvent = true) {
     let bound = this.mapService.getMapBounds();
-    // console.log("Bound", bound, "TimeLinePoly", this.timeLinePoly);
-
     if (isEvent || !((bound.lat1 + 0.001 <= this.timeLinePoly.lat && bound.lat2 - 0.001 >= this.timeLinePoly.lat) &&
       (bound.lng1 + 0.001 <= this.timeLinePoly.lng && bound.lng2 - 0.001 >= this.timeLinePoly.lng))) {
       this.mapService.zoomAt({ lat: this.timeLinePoly.lat, lng: this.timeLinePoly.lng }, isEvent ? this.zoomLevel : this.mapService.map.getZoom());
@@ -314,8 +302,6 @@ export class RouteMapperComponent implements OnInit {
   }
   unsetEventInfo() {
     let diff = new Date().getTime() - this.infoStart;
-    // console.log("Diff", diff);
-
     if (diff > 500) {
       this.infoWindow.close();
       this.infoWindow.opened = false;
@@ -337,10 +323,8 @@ export class RouteMapperComponent implements OnInit {
     this.zoomFunctionality(i, vehicleEvents);
   }
   zoomFunctionality(i, vehicleEvents) {
-    console.log("vehicleEvents", vehicleEvents);
     let latLng = this.mapService.getLatLngValue(vehicleEvents);
     let googleLatLng = this.mapService.createLatLng(latLng.lat, latLng.lng);
-    console.log("latlngggg", googleLatLng);
     this.mapService.zoomAt(googleLatLng);
   }
 
@@ -354,11 +338,9 @@ export class RouteMapperComponent implements OnInit {
     E.forEach((E) => {
       if (E.site_name != null) {
         str_site_name = E.site_name.toUpperCase();
-        console.log('str_site_name', str_site_name)
       }
       if (E.halt_reason != null) {
         str_halt_reason = E.halt_reason.toUpperCase();
-        console.log('str_halt_reason', str_halt_reason)
       }
 
       if ((str_site_name == "UNKNOWN") || (E.site_name == null)) {
@@ -366,30 +348,24 @@ export class RouteMapperComponent implements OnInit {
           if ((str_halt_reason != "UNKNOWN")) {
             this.placeName = E.site_type + '_' + E.halt_reason;
             this.getPlace.push(this.placeName);
-            console.log('place:1 ', this.placeName);
           } else {
             this.placeName = E.site_type;
             this.getPlace.push(this.placeName);
-            console.log('place:2 ', this.placeName);
           }
         } else if ((str_halt_reason != "UNKNOWN")) {
           this.placeName = E.halt_reason;
           this.getPlace.push(this.placeName);
-          console.log('place:3 ', this.placeName);
         } else {
           this.placeName = 'Halt';
           this.getPlace.push(this.placeName);
-          console.log('place:4 ', this.placeName);
         }
       } else if ((str_halt_reason != "UNKNOWN")) {
         if (str_site_name.substring(0, 7) == 'UNKNOWN') {
           this.placeName = str_site_name.split(',')[1] + '_' + E.halt_reason;
           this.getPlace.push(this.placeName);
-          console.log('place:5 if', this.placeName);
         } else {
           this.placeName = E.site_name + '_' + E.halt_reason;
           this.getPlace.push(this.placeName);
-          console.log('place:5 else', this.placeName);
 
         }
 
@@ -397,16 +373,13 @@ export class RouteMapperComponent implements OnInit {
         if (str_site_name.substring(0, 7) == 'UNKNOWN') {
           this.placeName = str_site_name.split(',')[1];
           this.getPlace.push(this.placeName);
-          console.log('place:6 if ', this.placeName);
         } else {
           this.placeName = E.site_name;
           this.getPlace.push(this.placeName);
-          console.log('place:6 else', this.placeName);
         }
 
       }
 
     });
-    console.log('getPlace: ', this.getPlace);
   }
 }
