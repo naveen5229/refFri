@@ -98,6 +98,7 @@ export class RouteMapperComponent implements OnInit {
       }
 
       this.maxOdo = total;
+      this.title = "Distance : "+Math.round(this.maxOdo/1000)+" KMs";
       this.mapService.polygonPath && this.mapService.polygonPath.set('icons', [{
         icon: this.mapService.lineSymbol,
         offset: "0%"
