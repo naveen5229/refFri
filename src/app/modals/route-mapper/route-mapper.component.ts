@@ -197,38 +197,6 @@ export class RouteMapperComponent implements OnInit {
     });
   }
 
-  getVehDistanceBwTime() {
-    return new Promise((resolve, reject) => {
-
-      let params = {
-        'vehicleId': this.vehicleSelected,
-        'startTime': this.commonService.dateFormatter(this.startDate),
-        'toTime': this.commonService.dateFormatter(this.endDate),
-        'orderId': this.orderId,
-        'orderType': this.orderType
-      }
-      this.commonService.loading++;
-
-      let subscription = this.apiService.post('Vehicles/getVehDistanceBwTime', { 'vehicleId': this.vehicleSelected, fromTime: params['startTime'], tTime: params['toTime'], orderId: this.orderId, orderType: this.orderType })
-        .subscribe(resdist => {
-          this.commonService.loading--;
-          let distance = resdist['data'];
-          if (distance > 0) {
-            distance = Math.round((distance / 1000) * 100 / 100);
-          } else {
-            distance = 0;
-          }
-          this.title = "Distance: " + distance + " Kms";
-          resolve(true);
-          subscription.unsubscribe();
-        }, err => {
-          this.commonService.loading--;
-          console.error(err);
-          resolve(false);
-          subscription.unsubscribe();
-        });
-    })
-  }
 
   getVehicleTrailAll() {
     return new Promise((resolve, reject) => {
