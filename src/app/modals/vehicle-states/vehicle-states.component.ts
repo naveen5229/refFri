@@ -68,7 +68,7 @@ export class VehicleStatesComponent implements OnInit {
     public mapService: MapService,
     public datepipe: DatePipe,
     private modalService: NgbModal) {
-    this.common.handleModalSize('class', 'modal-lg', '1000');
+    this.common.handleModalSize('class', 'modal-lg', '1200');
     this.vid = this.common.params.vehicleId;
     this.vehicle[0].lat = this.common.params.lat;
     this.vehicle[0].long = this.common.params.long;

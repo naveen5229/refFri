@@ -434,6 +434,7 @@ export class MapService {
       if (boundsReset) {
         this.bounds = new google.maps.LatLngBounds();
       }
+      this.markers = [];
     } catch (e) {
       console.error('Exception in resetMarker:', e);
     }
