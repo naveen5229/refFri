@@ -159,21 +159,19 @@ export class TicketFormFieldComponent implements OnInit {
       remark: null,
     }
     console.log("param......", params);
-    return false;
-
-    // this.common.loading++;
-    // this.api.primePost('Ticket/addTicket', params,"I").subscribe(res => {
-    //     this.common.loading--;
-    //     if (res['code'] == 1) {
-    //         this.common.showToast(res['msg']);
-    //     } else {
-    //       this.common.showError(res['msg']);
-    //     }
-    //   }, err => {
-    //     this.common.loading--;
-    //     this.common.showError();
-    //     console.error('Api Error:', err);
-    //   });
+    this.common.loading++;
+    this.api.primePost('Ticket/addTicket', params,"I").subscribe(res => {
+        this.common.loading--;
+        if (res['code'] == 1) {
+            this.common.showToast(res['msg']);
+        } else {
+          this.common.showError(res['msg']);
+        }
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+        console.error('Api Error:', err);
+      });
   }
 
   AdditionalForm(arraytype, i) {
