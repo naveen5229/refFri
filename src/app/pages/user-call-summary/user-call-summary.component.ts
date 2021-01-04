@@ -5,6 +5,8 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { UserCallHistoryComponent } from '../../modals/user-call-history/user-call-history.component';
+import { CsvService } from '../../services/csv/csv.service';
+import { PdfService } from '../../services/pdf/pdf.service';
 
 @Component({
   selector: 'user-call-summary',
@@ -32,7 +34,9 @@ export class UserCallSummaryComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    private csvService:CsvService,
+    private pdfService:PdfService) {
 
     console.log(this.fromDate);
     console.log(this.endDate);
@@ -169,6 +173,23 @@ export class UserCallSummaryComponent implements OnInit {
       data => console.log("data", data)
       // this.reloadData()
     );
+  }
+
+  printPDF(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:",name);
+    let details = [
+      ['Name: ' + name, 'Start Date: '+this.fromDate,'End Date: '+this.endDate,  'Report: '+'User Call Summary']
+    ];
+    this.pdfService.jrxTablesPDF(['userCallSummary'], 'User Call Summary', details);
+  }
+
+  printCSV(){
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let details = [
+      { name: 'Name:' + name,startdate:"Start Date:"+this.fromDate,enddate:"End Date: "+this.endDate, report:"Report:User Call Summary"}
+    ];
+    this.csvService.byMultiIds(['userCallSummary'], 'User Call Summary', details);
   }
 
 }
