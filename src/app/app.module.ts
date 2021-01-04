@@ -303,6 +303,8 @@ import { TripKmRepairViewComponent } from './modals/trip-km-repair-view/trip-km-
 import { AdhocRouteComponent } from './modals/adhoc-route/adhoc-route.component';
 import { TollpaymentmanagementComponent } from './modals/tollpaymentmanagement/tollpaymentmanagement.component';
 import { AddmissingtollComponent } from './modals/addmissingtoll/addmissingtoll.component';
+import { TicketFormFieldComponent } from './modals/ticket-form-field/ticket-form-field.component';
+import { FormDataTableComponent } from './modals/form-data-table/form-data-table.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -561,7 +563,9 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   FoSiteAliasComponent,
   AdhocRouteComponent,
   TollpaymentmanagementComponent,
-  AddmissingtollComponent
+  AddmissingtollComponent,
+  TicketFormFieldComponent,
+  FormDataTableComponent
 ];
 
 @NgModule({

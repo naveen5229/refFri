@@ -57,10 +57,10 @@
 
 <div class="header_mini_menu  col-2 pr-0 pl-2">
 
-  <!-- <div class="customer_complain">
+  <div class="customer_complain" *ngIf="user._loggedInBy==='customer'">
     <button class="form-control refresh" (click)="openCustomerComplaint()"><i class="fas fa-info icon"
         title="Customer Complaint"></i></button>
-  </div> -->
+  </div>
 
   <div class="bank_icon">
     <button class="form-control refresh" (click)="openBankModal()"><i class="fa fa-university icon"
