@@ -87,6 +87,7 @@ export class TollUsageSummaryComponent implements OnInit {
     this.api.walle8Get('TollSummary/getTollUsageSummary.json?' + params)
       .subscribe(res => {
         this.common.loading--;
+        this.total=null;
         console.log('Res:', res['data']);
         this.data = res['data'];
         if (this.data == null) {
