@@ -521,7 +521,19 @@ export class TmgTripComponent implements OnInit {
             suggestedMin: yaxisObj.minValue,
           }
           ]
-        }
+        }, 
+        tooltips: {
+          enabled: true,
+          mode: 'single',
+          callbacks: {
+              label: function(tooltipItems, data) { 
+                console.log("tooltipItems",tooltipItems, "data", data);
+                let tti = (''+tooltipItems.yLabel).split(".");
+                let min = tti[1] ? parseInt(tti[1])*6 :'00';
+                  return  tooltipItems.xLabel + " ( "+tti[0]+":"+min +" Hrs. )";
+              }
+          }
+      },
         // scales: {
         //   yAxes: [{
         //     ticks: { stepSize: 50000},
@@ -585,7 +597,19 @@ export class TmgTripComponent implements OnInit {
             ticks: { stepSize: yaxisObj.gridSize }, //beginAtZero: true,min:0,
             suggestedMin: yaxisObj.minValue,
           }]
-        }
+        },
+        tooltips: {
+          enabled: true,
+          mode: 'single',
+          callbacks: {
+              label: function(tooltipItems, data) { 
+                console.log("tooltipItems",tooltipItems, "data", data);
+                let tti = (''+tooltipItems.yLabel).split(".");
+                let min = tti[1] ? parseInt(tti[1])*6 :'00';
+                  return  tooltipItems.xLabel + " ( "+tti[0]+":"+min +" Hrs. )";
+              }
+          }
+      },
       };
   }
   getDetials(url, params, value = 0,type='days') {

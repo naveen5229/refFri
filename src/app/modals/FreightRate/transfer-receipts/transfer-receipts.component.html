@@ -90,7 +90,7 @@
                 <div class="radio-type col-8" style="padding-left: 37px;">
                     <input type="radio" value="Transfer" name="radio" [(ngModel)]="transferReceipt.selectOption"
                         (change)="report(transferReceipt.selectOption)"
-                        [disabled]="refData?.selectOption && refData.selectOption=='Receipt'?true:false">Transfer
+                        [disabled]="refData?.selectOption && refData.selectOption=='Receipt'?true:false">Transfer<br>
                     <input type="radio" value="Receipt" name="radio" [(ngModel)]="transferReceipt.selectOption"
                         (change)="report(transferReceipt.selectOption)"
                         [disabled]="refData?.selectOption && refData.selectOption=='Transfer'?true:false">Receipt
@@ -212,6 +212,14 @@
         </div>
     </div>
 </div>
+<div style="display:inline-block;" class="p-2 float">
+    <span style="display: block;">
+      <span class="pdf-icon" title="PDF Export" (click)="printPDF();" style="cursor: pointer;"><i
+          class="fa fa-file-pdf"></i></span>
+      <span class="exel-icon" title="CSV Export" (click)="printCSV()"
+        style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
+    </span>
+  </div>
 <div class="modal-footer text-center">
     <smart-table *ngIf="transferReceipt.refId && transferReceipt.refernceType" [data]="table.data"
         [settings]="table.settings" id="freightwithLocation">

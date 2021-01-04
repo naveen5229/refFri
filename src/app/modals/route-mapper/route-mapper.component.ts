@@ -39,7 +39,6 @@ export class RouteMapperComponent implements OnInit {
     console.log("common params:", this.commonService.params, "title:", this.title);
     this.title = this.commonService.params.title ? this.commonService.params.title : this.title;
 
-    this.getHaltTrails();
   }
 
 
@@ -49,6 +48,9 @@ export class RouteMapperComponent implements OnInit {
     this.mapService.mapIntialize("map");
     this.mapService.setMapType(0);
     this.mapService.map.setOptions({ draggableCursor: 'cursor' });
+    setTimeout(() => {
+      this.getHaltTrails();
+    }, 500)
   }
   polypath = [
     {
@@ -80,12 +82,12 @@ export class RouteMapperComponent implements OnInit {
   vehicleEvents = [];
   timelineValue = 1;
   isPlay = false;
-  
+
   getHaltTrails() {
     this.strHaltReason = [];
     this.strSiteName = [];
     this.clearAll();
-    if (!(this.vehicleSelected && this.startDate && this.endDate) &&!(this.orderId) ) {
+    if (!(this.vehicleSelected && this.startDate && this.endDate) && !(this.orderId)) {
       this.commonService.showError("Fill All Params");
       return;
     }
@@ -113,7 +115,7 @@ export class RouteMapperComponent implements OnInit {
         }
         this.commonService.loading++;
         console.log(params);
-        this.apiService.post('Vehicles/getVehDistanceBwTime', { 'vehicleId': this.vehicleSelected, fromTime: params['startTime'], tTime: params['toTime'],orderId: this.orderId,orderType: this.orderType })
+        this.apiService.post('Vehicles/getVehDistanceBwTime', { 'vehicleId': this.vehicleSelected, fromTime: params['startTime'], tTime: params['toTime'], orderId: this.orderId, orderType: this.orderType })
           .subscribe(resdist => {
             this.commonService.loading--;
             let distance = resdist['data'];
@@ -189,10 +191,7 @@ export class RouteMapperComponent implements OnInit {
                     vehicleEvents[index].subType = 'marker';
                     vehicleEvents[index].color = '0000ff';
                     vehicleEvents[index].rc = '0000ff';
-
-
-                  }
-                  else {
+                  } else {
                     vehicleEvents[index].color = "00ffff";
                   }
                   vehicleEvents[index].position = (this.commonService.dateDiffInHours(

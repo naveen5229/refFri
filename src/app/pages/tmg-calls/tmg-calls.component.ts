@@ -537,7 +537,7 @@ export class TmgCallsComponent implements OnInit {
     };
   }
 
-  getDetials(url, params, value = 0,type='days') {
+  getDetials(url, params, value = 0,type='days',isDateFilter=false) {
     let dataparams = {
       view: {
         api: url,
@@ -545,7 +545,8 @@ export class TmgCallsComponent implements OnInit {
         type: 'post'
       },
   
-      title: 'Details'
+      title: 'Details',
+      isDateFilter : isDateFilter
     }
     if (value) {
       let startDate = type == 'months'? new Date(new Date().setMonth(new Date().getMonth() - value)): new Date(new Date().setDate(new Date().getDate() - value));
