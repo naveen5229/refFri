@@ -356,9 +356,9 @@ export class ConciseComponent implements OnInit {
       let status = statusArray.splice(0, 1)[0].trim();
       let subStatus = statusArray.join(",").trim();
       let findStatus = false;
-      if (status == "No Data 12 Hr") {
+      if (status.include('No Data')) {
         status = "Issue";
-        subStatus = "12 Hr +";
+        subStatus = status.substr(status.search(/[0-9]/)).split(' ')[0] + ' Hr +'; 
       } else if (status == "Undetected") {
         status = "Issue";
         subStatus = "Undetected";
@@ -854,7 +854,7 @@ export class ConciseComponent implements OnInit {
 
     this.mapService.clearAll();
     for (let index = 0; index < this.kpis.length; index++) {
-      if (this.kpis[index].showprim_status == "No Data 12 Hr" || this.kpis[index].showprim_status == "Undetected" || this.kpis[index].showprim_status == "No GPS Data") {
+      if (this.kpis[index].showprim_status.includes('No Data') || this.kpis[index].showprim_status == "Undetected" || this.kpis[index].showprim_status == "No GPS Data") {
         this.kpis[index].color = "ff0000";
       }
       else if ((this.kpis[index].x_idle_time / 60) > 0) {
