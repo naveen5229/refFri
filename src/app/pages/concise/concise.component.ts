@@ -356,9 +356,9 @@ export class ConciseComponent implements OnInit {
       let status = statusArray.splice(0, 1)[0].trim();
       let subStatus = statusArray.join(",").trim();
       let findStatus = false;
-      if (status.include('No Data')) {
-        status = "Issue";
+      if (status && status.includes('No Data')) {
         subStatus = status.substr(status.search(/[0-9]/)).split(' ')[0] + ' Hr +'; 
+        status = "Issue";
       } else if (status == "Undetected") {
         status = "Issue";
         subStatus = "Undetected";
