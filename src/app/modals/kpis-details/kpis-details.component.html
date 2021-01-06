@@ -84,12 +84,20 @@
             <td>{{vehicleInfo.dstkm}}</td>
           </tr>
           <tr>
-            <td>{{vehicleInfo.start_time_label}}</td>
+            <td>Trip Start Time</td>
             <td>{{vehicleInfo.trp_srt_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
           </tr>
           <tr>
-            <td>{{vehicleInfo.end_time_label}}</td>
+            <td>Trip End Time</td>
             <td>{{vehicleInfo.trp_end_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+          </tr>
+          <tr *ngIf="vehicleInfo['Event Start Time']">
+            <td>{{vehicleInfo.start_time_label}}</td>
+            <td>{{vehicleInfo['Event Start Time'] | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+          </tr>
+          <tr *ngIf="vehicleInfo['Event Start Time']">
+            <td>{{vehicleInfo.end_time_label}}</td>
+            <td>{{vehicleInfo['Event End Time'] | date : 'dd-MMM-yyyy hh:mm a'}}</td>
           </tr>
           <tr>
             <td>ETOA</td>
