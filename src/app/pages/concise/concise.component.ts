@@ -587,6 +587,7 @@ export class ConciseComponent implements OnInit {
     const location = {
       lat: kpi.x_tlat,
       lng: kpi.x_tlong,
+      angle: kpi.x_angle,
       name: "",
       time: ""
     };
