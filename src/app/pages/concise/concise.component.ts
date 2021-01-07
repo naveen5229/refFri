@@ -220,9 +220,9 @@ export class ConciseComponent implements OnInit {
       columns.push({
         _id: kpi.x_showveh,
         vehicle: {
-          value: this._sanitizer.bypassSecurityTrustHtml(`<span><div style='float:left;'>${kpi.x_showveh}</div><div class="${kpi.x_gps_state=='Offline'?'ball red':kpi.x_gps_state=='Online'?'ball bgreen':'ball byellow'}" title=${kpi.x_gps_state}></div></span>`),
+          value: this._sanitizer.bypassSecurityTrustHtml(`<span><div style='float:left;'>${kpi.x_showveh}</div><div class="${kpi.x_gps_state == 'Offline' ? 'ball red' : kpi.x_gps_state == 'Online' ? 'ball bgreen' : 'ball byellow'}" title=${kpi.x_gps_state}></div></span>`),
           action: '',
-          isHTML:true,
+          isHTML: true,
           colActions: {
             dblclick: '',
             click: '',
@@ -243,8 +243,9 @@ export class ConciseComponent implements OnInit {
           action: ''
         },
         hrs: {
-          value: kpi.x_hrssince,
+          value: this.convertHrsToDays(kpi.x_hrssince),
           action: "",
+          sortBy: kpi.x_hrssince
         },
         Idle_Time: {
           value: this.common.changeTimeformat(kpi.x_idle_time),
@@ -269,6 +270,19 @@ export class ConciseComponent implements OnInit {
       });
     });
     return columns;
+  }
+
+  convertHrsToDays(hrs: number) {
+    let days = Math.floor(hrs / 24);
+    let remainingHrs = hrs % 24;
+    let str = '';
+    if (days) {
+      str = days + 'd ';
+    }
+    if (remainingHrs) {
+      str += remainingHrs + 'h';
+    }
+    return str.trim();
   }
 
 
@@ -357,7 +371,7 @@ export class ConciseComponent implements OnInit {
       let subStatus = statusArray.join(",").trim();
       let findStatus = false;
       if (status && status.includes('No Data')) {
-        subStatus = status.substr(status.search(/[0-9]/)).split(' ')[0] + ' Hr +'; 
+        subStatus = status.substr(status.search(/[0-9]/)).split(' ')[0] + ' Hr +';
         status = "Issue";
       } else if (status == "Undetected") {
         status = "Issue";
@@ -1370,21 +1384,21 @@ export class ConciseComponent implements OnInit {
   }
   gpsStatus = null;
   gpsStatusKeys = [];
-  getGpsStatus(){
-    this.gpsStatus =_.groupBy(this.allKpis, 'x_gps_state');
-    this.gpsStatusKeys=Object.keys(this.gpsStatus)
-    console.log("this.gpsStatus=",this.gpsStatus);
-    console.log("this.gpsStatusKeys=",this.gpsStatusKeys);
+  getGpsStatus() {
+    this.gpsStatus = _.groupBy(this.allKpis, 'x_gps_state');
+    this.gpsStatusKeys = Object.keys(this.gpsStatus)
+    console.log("this.gpsStatus=", this.gpsStatus);
+    console.log("this.gpsStatusKeys=", this.gpsStatusKeys);
   }
 
-  filterByGpsData(filterKey){
+  filterByGpsData(filterKey) {
     this.kpis = this.allKpis.filter(kpi => {
       if (kpi['x_gps_state'] == filterKey) {
         return true;
       }
       return false;
     });
-    console.log("filterKey",this.kpis);
+    console.log("filterKey", this.kpis);
     this.table = this.setTable();
   }
 }
