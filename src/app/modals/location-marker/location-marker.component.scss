@@ -66,3 +66,14 @@
     background: #fff;
     color: orange;
 }
+.tracker_img {
+    position: absolute;
+    bottom: 10px;
+    z-index: 999;
+    width: 40px;
+    left: 12px;
+
+    img {
+        width: 100%;
+    }
+}
