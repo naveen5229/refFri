@@ -29,7 +29,8 @@ export class CardUsageComponent implements OnInit {
       columns: []
     },
     settings: {
-      hideHeader: true
+      hideHeader: true,
+      tableHeight:"38vh"
     }
   };
 

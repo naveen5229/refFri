@@ -112,13 +112,13 @@ export const WALLE8_MENU_ITEMS = JSON.stringify([
         home: true,
 
     },
-    {
-        title: 'Toll Analytics',
-        icon: 'fa-credit-card',
-        link: '/walle8/toll-analatics',
-        home: true,
+    // {
+    //     title: 'Toll Analytics',
+    //     icon: 'fa-credit-card',
+    //     link: '/walle8/toll-analatics',
+    //     home: true,
 
-    },
+    // },
     {
         title: 'Other Usage',
         icon: 'fa-credit-card',
