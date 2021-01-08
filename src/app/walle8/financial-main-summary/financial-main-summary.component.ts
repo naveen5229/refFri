@@ -72,7 +72,7 @@ export class FinancialMainSummaryComponent implements OnInit {
       },
       settings: {
         hideHeader: true,
-        tableHeight: "auto"
+        tableHeight: "60vh"
       }
     }
   }
