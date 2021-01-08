@@ -139,12 +139,11 @@ import {
         });
         sampleItemElem = <HTMLElement>this.templateElem.nextSibling;
       }
-  
-      if (this.itemHeight === undefined) {
+      if (sampleItemElem && this.itemHeight === undefined) {
         this.itemHeight = sampleItemElem.clientHeight;
       }
   
-      if (this.itemTagName === undefined) {
+      if (sampleItemElem && this.itemTagName === undefined) {
         this.itemTagName = sampleItemElem.tagName;
       }
   
