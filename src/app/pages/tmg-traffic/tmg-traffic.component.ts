@@ -28,156 +28,153 @@ export class TmgTrafficComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal) {
-    this.getTrafficLiveStatus();
-    this.getTrafficLongestDriverUnavailable();
-    this.getTrafficLongestVehicleGpsIssue();
-    this.getTrafficTopRmb();
-    this.getTrafficLongestLoadingSites();
-    this.getTrafficLongestUnloadingSite();
-    this.getTrafficLongestVehicleEmpty();
-    this.getTrafficSlowestOnwardVehicles();
     this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
   }
 
-  refresh() {
-    this.getTrafficLiveStatus();
-    this.getTrafficLongestDriverUnavailable();
-    this.getTrafficLongestVehicleGpsIssue ();
-    this.getTrafficTopRmb();
-    this.getTrafficLongestLoadingSites();
-    this.getTrafficLongestUnloadingSite();
-    this.getTrafficSlowestOnwardVehicles();
-    this.getTrafficLongestVehicleEmpty();
+  ngAfterViewInit() {
+    this.refresh();
   }
 
-  getTrafficLiveStatus() {
+
+  refresh() {
+    this.getTrafficLiveStatus(0);
+    this.getTrafficLongestDriverUnavailable(1);
+    this.getTrafficLongestVehicleGpsIssue (2);
+    this.getTrafficTopRmb(3);
+    this.getTrafficLongestLoadingSites(4);
+    this.getTrafficLongestUnloadingSite(5);
+    this.getTrafficSlowestOnwardVehicles(6);
+    this.getTrafficLongestVehicleEmpty(7);
+  }
+
+  getTrafficLiveStatus(index) {
     this.trafficLiveStatus = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let params = {
      totalrecord :7
     };
     this.api.post('Tmgreport/GetTrafficLiveStatus', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('trafficLiveStatus:', res);
         this.trafficLiveStatus = res['data'];
         this.handleChart(this.trafficLiveStatus);
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTrafficLongestDriverUnavailable() {
+  getTrafficLongestDriverUnavailable(index) {
     this.trafficLongestDriverUnavailable = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let params = { totalrecord: 5 };
     this.api.post('Tmgreport/GetTrafficLongestDriverUnavailable', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('tripSlowestOnward:', res);
         this.trafficLongestDriverUnavailable = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTrafficLongestVehicleGpsIssue () {
+  getTrafficLongestVehicleGpsIssue (index) {
     this.trafficLongestVehicleGpsIssue  = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let params = {
       totalrecord : 5
     };
     this.api.post('Tmgreport/GetTrafficLongestVehicleGpsIssue', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('trafficLongestVehicleGpsIssue:', res['data']);
         this.trafficLongestVehicleGpsIssue = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTrafficTopRmb() {
+  getTrafficTopRmb(index) {
     this.trafficTopRmb = [];
     let params = { totalrecord: 10 };
-    ++this.common.loading;
+     this.showLoader(index);
     this.api.post('Tmgreport/GetTrafficTopRmb', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('trafficTopRmb:', res);
         this.trafficTopRmb = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
- getTrafficLongestLoadingSites() {
+ getTrafficLongestLoadingSites(index) {
     this.trafficLongestLoadingSites = [];
     let params = { totalrecord: 3 };
-    ++this.common.loading;
+     this.showLoader(index);
     this.api.post('Tmgreport/GetTrafficLongestLoadingSites', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('trafficLongestLoadingSites:', res);
         this.trafficLongestLoadingSites = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTrafficLongestUnloadingSite() {
+  getTrafficLongestUnloadingSite(index) {
     this.trafficLongestUnloadingSite = [];
     let params = { totalrecord: 3 };
-    ++this.common.loading;
+     this.showLoader(index);
     this.api.post('Tmgreport/GetTrafficLongestUnloadingSite', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('trafficLongestUnloadingSite:', res);
         this.trafficLongestUnloadingSite = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTrafficSlowestOnwardVehicles() { 
+  getTrafficSlowestOnwardVehicles(index) { 
     this.trafficSlowestOnwardVehicles = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let params = {
       totalrecord : 3
     };
     this.api.post('Tmgreport/GetTrafficSlowestOnwardVehicles', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('trafficSlowestOnwardVehicles:', res['data']);
         this.trafficSlowestOnwardVehicles = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTrafficLongestVehicleEmpty() { 
+  getTrafficLongestVehicleEmpty(index) { 
     this.trafficLongestVehicleEmpty = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let params = {
       totalrecord : 3
     };
     this.api.post('Tmgreport/GetTrafficLongestVehicleEmpty', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('trafficLongestVehicleEmpty:', res['data']);
         this.trafficLongestVehicleEmpty = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
@@ -243,6 +240,20 @@ export class TmgTrafficComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1100');
     this.common.params = { data: dataparams };
     const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+
+  showLoader(index) {
+    setTimeout(() => {
+      let outers = document.getElementsByClassName("outer");
+      let loader = document.createElement('div');
+      loader.className = 'loader';
+      outers[index].appendChild(loader);
+    }, 50);
+  }
+
+  hideLoader(index) {
+    let outers = document.getElementsByClassName("outer");
+    outers[index].lastChild.remove();
   }
 }
 

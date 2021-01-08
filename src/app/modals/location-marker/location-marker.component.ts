@@ -16,9 +16,11 @@ export class LocationMarkerComponent implements OnInit {
   location = {
     lat: 26.9124336,
     lng: 75.78727090000007,
+    angle:0,
     name: '',
     time: '',
   };
+  rotate = null;
   fence=null;
   polygon = null;
   bounds = new google.maps.LatLngBounds();
@@ -41,6 +43,7 @@ export class LocationMarkerComponent implements OnInit {
     this.location = this.common.params['location'];
     this.fence = this.common.params['fence'];
     this.loadMap(this.location.lat, this.location.lng);
+    this.rotate = this.location.angle ? 'rotate(' + this.location.angle + 'deg)': null;
   }
 
   setBounds(latLng, reset = false) {
