@@ -23,7 +23,7 @@ export class TollUsageSummaryComponent implements OnInit {
   data = [];
   total = null;
   table = null;
-  startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  startDate = new Date(new Date().setDate(new Date().getDate() - 7));
   endDate = new Date();
   constructor(
     public api: ApiService,

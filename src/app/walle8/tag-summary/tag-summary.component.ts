@@ -19,7 +19,7 @@ export class TagSummaryComponent implements OnInit {
   typedKey = '';
   result = [];
 
-  startTime = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  startTime = new Date(new Date().setDate(new Date().getDate() - 7));
   endTime = new Date();
   vehId=null;
   regno=null;

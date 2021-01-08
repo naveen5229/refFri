@@ -13,7 +13,7 @@ import { CsvService } from '../../services/csv/csv.service';
   styleUrls: ['./financial-toll-summary.component.scss']
 })
 export class FinancialTollSummaryComponent implements OnInit {
-  startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  startDate = new Date(new Date().setDate(new Date().getDate() - 7));
   endDate = new Date();
   table = null;
   data = [];
@@ -22,6 +22,7 @@ export class FinancialTollSummaryComponent implements OnInit {
   closingBalance = null;
   vehid = 6754;
   mobileno = this.user._details.mobileno;
+
   constructor(
     public api: ApiService,
     private pdfService: PdfService,
@@ -75,7 +76,7 @@ export class FinancialTollSummaryComponent implements OnInit {
       },
       settings: {
         hideHeader: true,
-        tableHeight: "auto"
+        tableHeight: "38vh"
       }
     }
   }
