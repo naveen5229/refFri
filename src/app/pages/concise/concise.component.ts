@@ -605,7 +605,7 @@ export class ConciseComponent implements OnInit {
       name: "",
       time: ""
     };
-    this.common.params = { location, title: "Vehicle Location" };
+    this.common.params = { location, title: "Vehicle Location : "+kpi.x_showveh };
     const activeModal = this.modalService.open(LocationMarkerComponent, {
       size: "lg",
       container: "nb-layout"
