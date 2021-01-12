@@ -130,6 +130,7 @@ export class ConciseComponent implements OnInit {
   rotate = '';
   gpsStatus = null;
   gpsStatusKeys = [];
+  isHidePie: boolean = localStorage.getItem('isHidePie') ?  JSON.parse(localStorage.getItem('isHidePie')) : true;
 
   constructor(
     public api: Api,
@@ -597,7 +598,7 @@ export class ConciseComponent implements OnInit {
       name: "",
       time: ""
     };
-    this.common.params = { location, title: "Vehicle Location : "+kpi.x_showveh };
+    this.common.params = { location, title: "Vehicle Location : " + kpi.x_showveh };
     this.modalService.open(LocationMarker, {
       size: "lg",
       container: "nb-layout"
@@ -1175,7 +1176,7 @@ export class ConciseComponent implements OnInit {
     }
   }
 
-  
+
   getPdf() {
     this.common.downloadPdf('Content1');
   }
@@ -1385,5 +1386,10 @@ export class ConciseComponent implements OnInit {
     });
     console.log("filterKey", this.kpis);
     this.table = this.setTable();
+  }
+
+  setIsHidePie() {
+    this.isHidePie = !this.isHidePie;
+    localStorage.setItem('isHidePie', this.isHidePie.toString());
   }
 }
