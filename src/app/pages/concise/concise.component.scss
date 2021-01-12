@@ -910,9 +910,10 @@ h4{
 } 
 :host ::ng-deep{
     .ball {
+    margin-top: 3px;
     float: left;
-    width: 13px;
-    height: 13px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     margin-left:4px;
     -webkit-animation: up-right 1s infinite;
@@ -934,4 +935,13 @@ h4{
         opacity: .25;
     }
 }
+}
+.right-status{
+    padding-top:6px;
+    u{
+        font-size: 14px;
+        margin-left: 3px;
+        cursor: pointer;
+        vertical-align: top;
+    }
 }

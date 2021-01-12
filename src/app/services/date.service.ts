@@ -39,9 +39,8 @@ export class DateService {
 
   }
 
-  changeDateformat(date) {
-    let d = new Date(date);
-    return this.datePipe.transform(date, 'dd-MMM-yyyy hh:mm a')
+  changeDateformat(date, format = 'dd-MMM-yyyy hh:mm a') {
+    return this.datePipe.transform(date, format)
   }
 
   changeDateformat1(date) {
