@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { DateService } from '../../services/date.service';
 
 @Component({
   selector: 'uj-date-time-picker',
@@ -22,11 +23,12 @@ export class DateTimePickerComponent implements OnInit {
   @Input() dateTimeValue: Date;
 
 
-  constructor() {
+  constructor(private dateService: DateService) {
     this.isDate = true;
     this.isTime = true;
     this.isForm = true;
     this.isStart = true;
+
   }
 
   ngOnInit() {
@@ -43,15 +45,17 @@ export class DateTimePickerComponent implements OnInit {
   }
 
   setDate(event: Date, type) {
-    console.log("Event", event, "Type", type);
+    if (!event) return;
     if (!this.isTime && this.dateTimeValue && this.dateTimeValue.getTime() !== event.getTime()) {
       if (this.isStart)
         this.onChanged.emit(new Date(event.setHours(0, 0, 0, 0)));
       else
         this.onChanged.emit(new Date(event.setHours(23, 59, 59, 0)));
       this.dateTimeValue = event;
-    } else
+    } else {
+      event.setSeconds(0)
       this.onChanged.emit(event);
+    }
   }
 
 }
