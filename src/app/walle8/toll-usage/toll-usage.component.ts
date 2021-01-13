@@ -23,7 +23,7 @@ export class TollUsageComponent implements OnInit {
   //   end: this.common.dateFormatter(new Date()),
   // }
 
-  startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  startDate = new Date(new Date().setDate(new Date().getDate() - 7));
   endDate = new Date();
   
   constructor(

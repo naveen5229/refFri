@@ -62,7 +62,7 @@ export class CardMappingComponent implements OnInit {
       },
       settings: {
         hideHeader: true,
-        tableHeight: "auto"
+        tableHeight: "73vh"
       }
     }
   }

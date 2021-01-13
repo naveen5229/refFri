@@ -45,3 +45,73 @@
   :host ::ng-deep .filter-container{
     border-radius:23px!important;
   }
+
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+ 
+  td, th {
+    // border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+ 
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+
+  table{
+    thead{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        background-color: #E5F3F9;
+        color: #000;        
+    }
+    tr{
+      th:nth-child(1){
+        width: auto;
+      }
+      th{
+        width: auto;
+      }
+      td:nth-child(1){
+        width: auto;
+      }
+      td{
+          width: auto;
+      }
+      th:last-child{
+        width: auto;
+      }
+      td:last-child{
+          width: auto;
+          word-break:break-all;
+      }
+    }
+    tbody{
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 276px);
+        tr{
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+        }
+        tr:nth-child(odd){
+            background-color: #f5f5f538 !important;
+        }
+        tr:nth-child(even){
+            background-color: #EDF1F7 !important;
+        }
+    }
+ }
+
+ :host ::ng-deep .tableFixHead th{
+  background:#E5F3F9!important;
+}
