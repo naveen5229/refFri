@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { NbCalendarRange, NbDateService } from '@nebular/theme';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'date-picker',
   templateUrl: './date-picker.component.html',
@@ -20,7 +23,8 @@ export class DatePickerComponent implements OnInit {
 
 
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {

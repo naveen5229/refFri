@@ -3,6 +3,9 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../../services/api.service';
 import { CommonService } from '../../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'particlulars',
   templateUrl: './particlulars.component.html',
@@ -35,7 +38,8 @@ export class ParticlularsComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1500');
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   addField(i){

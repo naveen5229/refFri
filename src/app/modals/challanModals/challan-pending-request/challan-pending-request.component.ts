@@ -4,6 +4,9 @@ import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { ConfirmComponent } from '../../confirm/confirm.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'challan-pending-request',
   templateUrl: './challan-pending-request.component.html',
@@ -37,7 +40,8 @@ export class ChallanPendingRequestComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

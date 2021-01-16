@@ -5,6 +5,9 @@ import { DateService } from '../../services/date.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'general-modal',
   templateUrl: './general-modal.component.html',
@@ -31,7 +34,8 @@ export class GeneralModalComponent implements OnInit {jobId = null;
 
     this.viewData();
   }
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
 
   }
   viewData() {

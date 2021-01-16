@@ -3,6 +3,9 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'driver-status-change',
   templateUrl: './driver-status-change.component.html',
@@ -43,7 +46,8 @@ export class DriverStatusChangeComponent implements OnInit {
 
 
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     //if(this.common.params.driver.md_name||this.common.params.driver.md_no){
 
     this.driverStatusForm = this.formbuilder.group({

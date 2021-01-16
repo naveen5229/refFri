@@ -6,6 +6,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { ConstraintsComponent } from '../constraints/constraints.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'update-ticket-properties',
   templateUrl: './update-ticket-properties.component.html',
@@ -76,7 +79,8 @@ export class UpdateTicketPropertiesComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   dismiss(status) {

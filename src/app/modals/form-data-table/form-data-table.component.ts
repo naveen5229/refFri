@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ngx-form-data-table',
   templateUrl: './form-data-table.component.html',
@@ -29,7 +32,8 @@ export class FormDataTableComponent implements OnInit {
     }
   }
 
-  ngOnInit() { }
+  ngOnDestroy(){}
+ngOnInit() { }
 
   close(res) {
     this.activeModal.close({ response: res, data: (this.additionalFields && this.additionalFields.length > 0) ? this.additionalFields : null });

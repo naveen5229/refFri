@@ -10,6 +10,9 @@ import { LocationSelectionComponent } from '../../modals/location-selection/loca
 
 declare var google: any;
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-trip-update',
   templateUrl: './vehicle-trip-update.component.html',
@@ -65,7 +68,8 @@ export class VehicleTripUpdateComponent implements OnInit {
     this.getVehicleCurrentStatus();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   selecteCity() {
     console.log("city selected");

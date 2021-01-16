@@ -6,6 +6,9 @@ import { CommonService } from '../../services/common.service';
 import { DateService } from '../../services/date.service';
 import { LocationSelectionComponent } from '../location-selection/location-selection.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-via-routes',
   templateUrl: './add-via-routes.component.html',
@@ -44,7 +47,8 @@ export class AddViaRoutesComponent implements OnInit {
       }
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   ngAfterViewInit() {
   }

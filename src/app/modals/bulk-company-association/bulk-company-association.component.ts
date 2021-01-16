@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { CsvErrorReportComponent } from '../csv-error-report/csv-error-report.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'bulk-company-association',
   templateUrl: './bulk-company-association.component.html',
@@ -26,7 +29,8 @@ export class BulkCompanyAssociationComponent implements OnInit {
 
      }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

@@ -7,6 +7,9 @@ import { RouteTimeTableDetailsComponent } from '../route-time-table-details/rout
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { VehicleTimeTableAssociationComponent } from '../vehicle-time-table-association/vehicle-time-table-association.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'route-time-table',
   templateUrl: './route-time-table.component.html',
@@ -45,7 +48,8 @@ export class RouteTimeTableComponent implements OnInit {
     this.getRoutes();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   ngOnDestroy() {
     this.common.params = null;

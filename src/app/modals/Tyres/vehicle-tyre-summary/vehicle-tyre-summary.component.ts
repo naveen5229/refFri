@@ -5,6 +5,9 @@ import { ApiService } from '../../../services/api.service';
 import { CommonService } from '../../../services/common.service';
 import { UserService } from '../../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-tyre-summary',
   templateUrl: './vehicle-tyre-summary.component.html',
@@ -44,7 +47,8 @@ export class VehicleTyreSummaryComponent implements OnInit {
     this.refresh();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

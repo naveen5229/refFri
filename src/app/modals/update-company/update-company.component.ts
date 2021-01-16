@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'update-company',
   templateUrl: './update-company.component.html',
@@ -34,7 +37,8 @@ export class UpdateCompanyComponent implements OnInit {
 
    }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     this.Form = this.formBuilder.group({
       name:['',],
       panNo: ['', [Validators.required, Validators.pattern("^[A-Z]{5}[0-9]{4}[A-Z]$")]],

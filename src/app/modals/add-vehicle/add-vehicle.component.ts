@@ -3,6 +3,9 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { ImportBulkVehiclesComponent } from '../../modals/import-bulk-vehicles/import-bulk-vehicles.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-vehicle',
   templateUrl: './add-vehicle.component.html',
@@ -19,7 +22,8 @@ export class AddVehicleComponent implements OnInit {
     public api: ApiService,
     private modalService: NgbModal, ) { }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   selectFoUser(user) {
     this.Foid = user.id;
