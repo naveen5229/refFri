@@ -130,7 +130,7 @@ export class ConciseComponent implements OnInit {
   rotate = '';
   gpsStatus = null;
   gpsStatusKeys = [];
-  isHidePie: boolean = localStorage.getItem('isHidePie') ?  JSON.parse(localStorage.getItem('isHidePie')) : true;
+  isHidePie: boolean = !!JSON.parse(localStorage.getItem('isHidePie'));
 
   constructor(
     public api: Api,
