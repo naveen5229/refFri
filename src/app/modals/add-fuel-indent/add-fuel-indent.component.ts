@@ -104,7 +104,6 @@ export class AddFuelIndentComponent implements OnInit {
     }
   }
 
-  ngOnDestroy(){}
 ngOnInit() {
     if (!this.fuelIndentData.rowId && !this.refData.id) {
       console.log("simple add");
