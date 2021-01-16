@@ -48,7 +48,6 @@ export class RouteTimeTableComponent implements OnInit {
     this.getRoutes();
   }
 
-  ngOnDestroy(){}
 ngOnInit() {
   }
   ngOnDestroy() {

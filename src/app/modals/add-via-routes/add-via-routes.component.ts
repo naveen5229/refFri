@@ -47,7 +47,6 @@ export class AddViaRoutesComponent implements OnInit {
       }
   }
 
-  ngOnDestroy(){}
 ngOnInit() {
   }
   ngAfterViewInit() {
