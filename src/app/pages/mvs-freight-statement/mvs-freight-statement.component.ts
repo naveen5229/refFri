@@ -11,6 +11,9 @@ import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-
 
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'mvs-freight-statement',
   templateUrl: './mvs-freight-statement.component.html',
@@ -41,7 +44,8 @@ export class MvsFreightStatementComponent implements OnInit {
     this.viewMvcFreightStaement();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   viewMvcFreightStaement() {

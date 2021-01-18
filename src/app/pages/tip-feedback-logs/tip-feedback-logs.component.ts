@@ -6,6 +6,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { stringify } from 'querystring';
 import { DomSanitizer } from '@angular/platform-browser';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tip-feedback-logs',
   templateUrl: './tip-feedback-logs.component.html',
@@ -38,7 +41,8 @@ export class TipFeedbackLogsComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   ngAfterViewInit() {
     this.endDate = new Date();

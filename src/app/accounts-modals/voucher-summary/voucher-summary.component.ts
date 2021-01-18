@@ -13,6 +13,9 @@ import { EditFillingComponent } from '../../../app/modals/edit-filling/edit-fill
 import { PrintService } from '../../services/print/print.service';
 import { DateService } from '../../services/date/date.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'voucher-summary',
   templateUrl: './voucher-summary.component.html',
@@ -195,7 +198,8 @@ export class VoucherSummaryComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getcreditLedgers(transactionType) {

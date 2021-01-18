@@ -5,6 +5,9 @@ import { CommonService } from '../../services/common.service';
 import { AccountService } from '../../services/account.service';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-city',
   templateUrl: './add-city.component.html',
@@ -57,7 +60,8 @@ export class AddCityComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1250');
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   dismiss(response) {
     console.log('data:', this.data);

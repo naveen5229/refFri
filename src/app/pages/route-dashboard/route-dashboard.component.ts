@@ -8,6 +8,9 @@ import { RoutesTimetableComponent } from '../../modals/routes-timetable/routes-t
 import { AddShortTargetComponent } from '../../modals/add-short-target/add-short-target.component';
 import * as _ from "lodash";
 import { AdhocRouteComponent } from '../../modals/adhoc-route/adhoc-route.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'route-dashboard',
   templateUrl: './route-dashboard.component.html',
@@ -58,7 +61,7 @@ export class RouteDashboardComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+ngOnInit() {
   }
 
   ngAfterViewInit() {

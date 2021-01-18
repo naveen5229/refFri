@@ -5,6 +5,9 @@ import { dateFieldName } from '@telerik/kendo-intl';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'card-mapping',
   templateUrl: './card-mapping.component.html',
@@ -41,7 +44,8 @@ export class CardMappingComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   
   refresh() {

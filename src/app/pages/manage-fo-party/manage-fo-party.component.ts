@@ -8,6 +8,9 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'manage-fo-party',
   templateUrl: './manage-fo-party.component.html',
@@ -43,7 +46,8 @@ export class ManageFoPartyComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

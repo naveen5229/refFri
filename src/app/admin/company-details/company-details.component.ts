@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgModel } from '@angular/forms';
 import { UpdateCompanyComponent } from '../../modals/update-company/update-company.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'company-details',
   templateUrl: './company-details.component.html',
@@ -21,7 +24,8 @@ export class CompanyDetailsComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   

@@ -12,6 +12,9 @@ import { LocationMarkerComponent } from '../../modals/location-marker/location-m
 import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trip-summary',
   templateUrl: './trip-summary.component.html',
@@ -117,7 +120,8 @@ export class TripSummaryComponent implements OnInit {
     this.getTripSummary();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.getTripSummary();

@@ -6,6 +6,9 @@ import { VoucherTypeGetComponent } from '../../modals/voucher-type-get/voucher-t
 import { AddFreightExpensesComponent } from '../../modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
 import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vouchers-summary',
   templateUrl: './vouchers-summary.component.html',
@@ -46,7 +49,8 @@ export class VouchersSummaryComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.getVouchersSummary();

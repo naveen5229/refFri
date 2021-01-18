@@ -7,6 +7,9 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
 import { AccountService } from '../../services/account.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'voucheredited',
   templateUrl: './voucheredited.component.html',
@@ -67,7 +70,8 @@ export class VouchereditedComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {

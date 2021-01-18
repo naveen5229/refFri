@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fuel-mileage-with-odo',
   templateUrl: './fuel-mileage-with-odo.component.html',
@@ -28,7 +31,8 @@ export class FuelMileageWithOdoComponent implements OnInit {
 
      }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getFuelFillingsAverageWithOdo(){

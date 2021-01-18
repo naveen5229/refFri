@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { resolve } from 'path';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-ledgers',
   templateUrl: './vehicle-ledgers.component.html',
@@ -45,7 +48,8 @@ export class VehicleLedgersComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getVehList() {

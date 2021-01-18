@@ -38,7 +38,8 @@ export class AppComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     this.analytics.trackPageViews();
   }
 

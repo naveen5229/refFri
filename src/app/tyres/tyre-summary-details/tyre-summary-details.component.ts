@@ -5,6 +5,9 @@ import { InventoryComponent } from '../inventory/inventory.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tyre-summary-details',
   templateUrl: './tyre-summary-details.component.html',
@@ -45,7 +48,8 @@ export class TyreSummaryDetailsComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal) { }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getTyreSummary() {

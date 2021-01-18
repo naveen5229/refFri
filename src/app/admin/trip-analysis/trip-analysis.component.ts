@@ -7,6 +7,9 @@ import { NbThemeService } from '@nebular/theme';
 import { DatePipe, NumberFormatStyle } from '@angular/common';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trip-analysis',
   templateUrl: './trip-analysis.component.html',
@@ -28,7 +31,8 @@ export class TripAnalysisComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){

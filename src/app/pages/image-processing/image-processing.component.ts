@@ -3,6 +3,9 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'image-processing',
   templateUrl: './image-processing.component.html',
@@ -17,7 +20,8 @@ export class ImageProcessingComponent implements OnInit {
 
   constructor(public api: ApiService, public common: CommonService) { }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   // fileChangeEvent(event: any): void {

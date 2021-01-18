@@ -32,6 +32,9 @@ import { PdfService } from "../../services/pdf/pdf.service";
 import { MatTableDataSource } from "@angular/material/table";
 import { EntityFlagsComponent } from "../../modals/entity-flags/entity-flags.component";
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: "concise",
   templateUrl: "./dashboard.component.html",
@@ -158,7 +161,7 @@ export class DashboardComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+ngOnInit() {
     this.registerForm = this.formBuilder.group({
       firstName: ["", Validators.required],
       lastName: ["", Validators.required],

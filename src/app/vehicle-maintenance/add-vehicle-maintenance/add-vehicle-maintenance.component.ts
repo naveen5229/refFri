@@ -9,6 +9,9 @@ import { AddVehicleModalServiceComponent } from '../model/add-vehicle-modal-serv
 import { AddAdvancedMaintenanceComponent } from '../model/add-advanced-maintenance/add-advanced-maintenance.component';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-vehicle-maintenance',
   templateUrl: './add-vehicle-maintenance.component.html',
@@ -40,7 +43,8 @@ export class AddVehicleMaintenanceComponent implements OnInit {
     private modalService: NgbModal) {
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getvehicleData(vehicle) {

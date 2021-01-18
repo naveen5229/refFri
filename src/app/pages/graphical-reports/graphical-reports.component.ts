@@ -5,6 +5,9 @@ import { CdkDragDrop, copyArrayItem } from '@angular/cdk/drag-drop';
 import * as Chart from 'chart.js';
 import * as _ from 'lodash';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'graphical-reports',
   templateUrl: './graphical-reports.component.html',
@@ -97,7 +100,8 @@ dropdownFilter = [];
       this.getSavedReportList();
     }
 
-  ngOnInit(): void {
+  ngOnDestroy(){}
+ngOnInit(): void {
   }
   
   // getProcessList() {

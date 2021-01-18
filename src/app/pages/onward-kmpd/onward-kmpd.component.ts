@@ -7,6 +7,9 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'onward-kmpd',
   templateUrl: './onward-kmpd.component.html',
@@ -45,7 +48,8 @@ export class onwardKmpdComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

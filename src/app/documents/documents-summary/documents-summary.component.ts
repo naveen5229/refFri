@@ -7,6 +7,9 @@ import { EditDocumentComponent } from '../../documents/documentation-modals/edit
 import { DocumentIssuesComponent } from '../../documents/documentation-modals/document-issues/document-issues.component';
 import { AddDocumentComponent } from '../documentation-modals/add-document/add-document.component';
 import { DocumentReportComponent } from '../documentation-modals/document-report/document-report.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'documents-summary',
   templateUrl: './documents-summary.component.html',
@@ -35,7 +38,8 @@ export class DocumentsSummaryComponent implements OnInit {
     this.getDocumentMatrixData();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {

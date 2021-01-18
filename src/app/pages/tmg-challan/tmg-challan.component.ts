@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tmg-challan',
   templateUrl: './tmg-challan.component.html',
@@ -40,7 +43,8 @@ export class TmgChallanComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   ngAfterViewInit() {
     this.refresh();

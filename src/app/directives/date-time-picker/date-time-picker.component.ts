@@ -2,6 +2,9 @@ import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { DateService } from '../../services/date.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'uj-date-time-picker',
   templateUrl: './date-time-picker.component.html',
@@ -31,7 +34,8 @@ export class DateTimePickerComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
 
   }
 

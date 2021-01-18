@@ -9,6 +9,9 @@ import "jspdf-autotable";
 import { CsvService } from '../../services/csv/csv.service';
 import { DatePipe } from '@angular/common';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'financialhistorysummary',
   templateUrl: './financialhistorysummary.component.html',
@@ -61,7 +64,8 @@ export class FinancialhistorysummaryComponent implements OnInit {
       // this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 15)));
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(){}
+ngOnInit(): void {
   }
 
   // setMaxDate(){

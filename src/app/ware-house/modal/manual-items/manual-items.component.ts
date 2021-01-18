@@ -5,6 +5,9 @@ import { CommonService } from '../../../services/common.service';
 import { AddConsigneeComponent } from '../../../modals/LRModals/add-consignee/add-consignee.component';
 import { AddMaterialComponent } from '../../../modals/LRModals/add-material/add-material.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'manual-items',
   templateUrl: './manual-items.component.html',
@@ -37,7 +40,8 @@ export class ManualItemsComponent implements OnInit {
       this.getUnitList();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
    
   }
 

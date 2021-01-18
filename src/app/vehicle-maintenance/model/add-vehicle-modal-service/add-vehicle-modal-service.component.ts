@@ -5,6 +5,9 @@ import { DateService } from '../../../services/date.service';
 import { UserService } from '../../../@core/data/users.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-vehicle-modal-service',
   templateUrl: './add-vehicle-modal-service.component.html',
@@ -37,7 +40,8 @@ export class AddVehicleModalServiceComponent implements OnInit {
     this.vehicleModalTypes();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

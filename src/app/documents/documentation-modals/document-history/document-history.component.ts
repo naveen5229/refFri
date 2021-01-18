@@ -5,6 +5,9 @@ import { UserService } from '../../../services/user.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'document-history',
   templateUrl: './document-history.component.html',
@@ -39,7 +42,8 @@ export class DocumentHistoryComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getDocumentChangeHistory() {

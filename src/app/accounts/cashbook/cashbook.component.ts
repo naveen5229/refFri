@@ -15,6 +15,9 @@ import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summ
 import { ServiceComponent } from '../service/service.component';
 import * as localforage from 'localforage';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'cashbook',
   templateUrl: './cashbook.component.html',
@@ -120,7 +123,8 @@ export class CashbookComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {
