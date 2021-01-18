@@ -3,6 +3,7 @@ import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { getLocaleDateFormat } from '@angular/common';
 @Component({
   selector: 'generic-model',
   templateUrl: './generic-model.component.html',
@@ -38,6 +39,9 @@ export class GenericModelComponent implements OnInit {
   };
   deleteParams = null;
   viewModalParams = null;
+  isDateFilter = false;
+  startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  endDate = new Date();
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     private commonService: CommonService,
@@ -46,7 +50,26 @@ export class GenericModelComponent implements OnInit {
     if (this.common.params && this.common.params.data) {
       console.log()
       this.title = this.common.params.data.title ? this.common.params.data.title : '';
+      this.isDateFilter = this.common.params.data.isDateFilter ? this.common.params.data.isDateFilter : this.isDateFilter;
+      this.common.params.data.view.param['fromdate'] = this.common.params.data.view.param['fromdate'] ? this.common.params.data.view.param['fromdate'] : this.common.dateFormatter1(this.startDate);
+      this.common.params.data.view.param['todate'] = this.common.params.data.view.param['todate'] ? this.common.params.data.view.param['todate'] : this.common.dateFormatter1(this.endDate);
+      this.getData();
+    
 
+      if (this.common.params.data.delete) {
+        this.deleteObj = this.common.params.data.delete;
+      }
+      if (this.common.params.data.viewModal) {
+        this.viewModalObj = this.common.params.data.viewModal;
+      }
+
+    }
+  }
+
+  ngOnInit() {
+  }
+
+  getData(){
       //post api call
       if (this.common.params.data.view && this.common.params.data.view.type && (this.common.params.data.view.type) == 'post') {
 
@@ -70,18 +93,6 @@ export class GenericModelComponent implements OnInit {
 
       }
 
-
-      if (this.common.params.data.delete) {
-        this.deleteObj = this.common.params.data.delete;
-      }
-      if (this.common.params.data.viewModal) {
-        this.viewModalObj = this.common.params.data.viewModal;
-      }
-
-    }
-  }
-
-  ngOnInit() {
   }
 
   view() {
@@ -141,6 +152,8 @@ export class GenericModelComponent implements OnInit {
     this.valobj = {};
 
     this.common.loading++;
+    this.viewObj.param['fromdate'] = this.isDateFilter?this.common.dateFormatter1(this.startDate):this.viewObj.param['fromdate'] ?this.viewObj.param['fromdate'] : this.common.dateFormatter1(this.startDate);
+    this.viewObj.param['todate'] = this.isDateFilter?this.common.dateFormatter1(this.endDate):this.viewObj.param['todate'] ?this.viewObj.param['todate'] : this.common.dateFormatter1(this.endDate);
     this.api.post(this.viewObj.api, this.viewObj.param)
       .subscribe(res => {
         this.common.loading--;

@@ -1,6 +1,6 @@
 {
   "name": "dost",
-  "version": "0.5.0",
+  "version": "0.0.35",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -17,8 +17,8 @@
   "scripts": {
     "ng": "ng",
     "conventional-changelog": "conventional-changelog",
-    "start": "ng serve",
-    "buildprod": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build --prod",
+    "start": "ng serve --open --port=4201",
+    "buildprod": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build --prod --aot",
     "build": "ng build",
     "build:prod": "npm run build -- --prod --aot",
     "test": "ng test",
@@ -32,7 +32,9 @@
     "docs": "compodoc -p src/tsconfig.app.json -d docs",
     "docs:serve": "compodoc -p src/tsconfig.app.json -d docs -s",
     "release:changelog": "npm run conventional-changelog -- -p angular -i CHANGELOG.md -s",
-    "postinstall": "ngcc"
+    "postinstall": "ngcc",
+    "build-prod-patch": "npm version patch && node ./replace.build.js && npm run buildprod && node ./versioning.build.js",
+    "build-prod-no-patch": "node ./replace.build.js &&  npm run buildprod  && node ./versioning.build.js"
   },
   "dependencies": {
     "@angular-devkit/build-angular": "^0.1001.4",
@@ -86,6 +88,7 @@
     "node-sass": "^4.14.1",
     "normalize.css": "6.0.0",
     "pace-js": "1.0.2",
+    "replace-in-file": "^6.1.0",
     "roboto-fontface": "0.8.0",
     "rxjs": "6.6.3",
     "rxjs-compat": "^6.6.3",

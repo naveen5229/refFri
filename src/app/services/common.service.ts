@@ -228,6 +228,8 @@ export class CommonService {
   changeDateformat(date, format = "dd-MMM-yyyy hh:mm:ss a") {
     return this.datePipe.transform(date, format);
   }
+
+
   changeDateformat4(date) {
     let d = new Date(date);
     return this.datePipe.transform(date, "dd-MMM-yyyy hh:mm");
@@ -1962,6 +1964,75 @@ export class CommonService {
     }
     xhr.send();
   }
+  resetCommonService() {
+    this.params = null;
+    this.loading = 0;
+    this.chartData;
+    this.chartOptions;
+    this.themeSubscription;
+    this.searchId = null;
+    this.refresh = null;
+    this.passedVehicleId = null;
+    this.changeHaltModal = null;
+    this.ref_page = null;
+    this.openType = 'page';
+    this.primaryType = {
+      1: { page: "HomePage", title: "Home" },
+      2: { page: "HomePage", title: "Home" },
+      100: { page: "/ticket-details", title: "Ticket Details" },
+      200: { page: "/pages/ticket-site-details", title: "Vehicle Halt" },
+      201: { page: "VehicleHaltPage", title: "Change Vehicle Halt" },
+      300: { page: "/pages/ticket-site-details", title: "Vehicle Halt" },
+      301: { page: "VehicleHaltPage", title: "Change Site Halt" }
+    };
+
+    this.secondaryType = {
+      201: {
+        page: "VehicleHaltPage",
+        btnTxt: "Change Halt",
+        title: "Change Vehicle Halt"
+      },
+      301: {
+        page: "VehicleHaltPage",
+        btnTxt: "Change Halt",
+        title: "Change Site Halt"
+      }
+    };
+
+    this.pages = {
+      100: { title: "Home", page: "HomePage" },
+      200: { title: "Vehicle KPIs", page: "VehicleKpisPage" },
+      201: { title: "KPI Details", page: "VehicleKpiDetailsPage" }
+    };
+
+    this.currentPage = "";
+    this.isComponentActive = false;
+  }
+
+  async handleFileSelection(event, format) {
+    let result = { name: null, file: null };
+    this.loading++;
+    await this.getBase64(event.target.files[0]).then((res: any) => {
+      this.loading--;
+      let file = event.target.files[0];
+      console.log("Type:", file, res);
+      var ext = file.name.split('.').pop();
+      let formats = (format && format.length) ? format : ["jpeg", "jpg", "png", 'xlsx', 'xls', 'docx', 'doc', 'pdf', 'csv'];
+      if (formats.includes(ext)) {
+        result.name = file.name;
+        result.file = res;
+      } else {
+        this.showError("Valid Format Are : jpeg, png, jpg, xlsx, xls, docx, doc, pdf,csv");
+        return false;
+      }
+      console.log("attachmentFile:", file);
+    }, err => {
+      this.loading--;
+      this.showError(err);
+      console.error('Base Err: ', err);
+    })
+    return result;
+  }
   HSLToHex(h, s, l) {
     s /= 100;
     l /= 100;
@@ -2006,7 +2077,6 @@ export class CommonService {
 
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
-
       // Pick a remaining element...
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;

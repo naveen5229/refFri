@@ -14,6 +14,7 @@ import { CsvService } from '../../services/csv/csv.service';
 export class CardBalanceComponent implements OnInit {
   data = [];
   total = 0;
+  tollTotal=0;
   sum = {
     bpcl: 0,
     hpcl: 0,
@@ -79,6 +80,8 @@ export class CardBalanceComponent implements OnInit {
 
 
         }
+        this.tollTotal=0;
+       this.tollTotal= this.data.reduce((a, b) => +a + +b.tolls, 0);
         this.total = this.total + this.sum.bpcl + this.sum.hpcl + this.sum.atm;
         console.log('card', this.total);
         // this.table=this.setTable();

@@ -13,7 +13,7 @@ import { CsvService } from '../../services/csv/csv.service';
   styleUrls: ['./financial-toll-summary.component.scss']
 })
 export class FinancialTollSummaryComponent implements OnInit {
-  startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  startDate = new Date(new Date().setDate(new Date().getDate() - 7));
   endDate = new Date();
   table = null;
   data = [];
@@ -22,6 +22,7 @@ export class FinancialTollSummaryComponent implements OnInit {
   closingBalance = null;
   vehid = 6754;
   mobileno = this.user._details.mobileno;
+
   constructor(
     public api: ApiService,
     private pdfService: PdfService,
@@ -75,7 +76,7 @@ export class FinancialTollSummaryComponent implements OnInit {
       },
       settings: {
         hideHeader: true,
-        tableHeight: "auto"
+        tableHeight: "38vh"
       }
     }
   }
@@ -95,30 +96,35 @@ export class FinancialTollSummaryComponent implements OnInit {
     return columns;
   }
   getfinancialTollReport() {
-    let params = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate));
-    this.common.loading++;
-    this.api.walle8Get('FinancialAccountSummary/getOpeningAndClosingBalance.json?' + params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('Res:', res);
-        this.balance = res['data'];
-        if (this.balance == null) {
-          this.balance = [];
-        }
-        this.openingBalance = this.balance[0].opening_balance;
-        this.closingBalance = this.balance[0].closing_balance;
+    let foid=this.user._loggedInBy=='admin' ? this.user._customer.foid : this.user._details.foid;
+    // let params = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate))+"&mobileno=" + this.user._details.fo_mobileno+"&foid="+foid;
+    // this.common.loading++;
+    // this.api.walle8Get('FinancialAccountSummary/getOpeningAndClosingBalance.json?' + params)
+    //   .subscribe(res => {
+    //     this.common.loading--;
+    //     console.log('Res:', res);
+    //     this.balance = res['data'];
+    //     if (this.balance == null) {
+    //       this.balance = [];
+    //     }
+    //     this.openingBalance = this.balance[0].opening_balance;
+    //     this.closingBalance = this.balance[0].closing_balance;
 
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-    let param = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate));
+    //   }, err => {
+    //     this.common.loading--;
+    //     console.log(err);
+    //   });
+    let param = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate))+"&mobileno=" + this.user._details.fo_mobileno+"&foid="+foid;;
     this.common.loading++;
     this.api.walle8Get('FinancialAccountSummary/getFinancialAccountSummary.json?' + param)
       .subscribe(Res => {
         this.common.loading--;
         console.log('Res:', Res);
-        this.data = Res['data'];
+        if (Res && Res['data'] && Res['data'].length > 0) {
+          this.data = Res['data'];
+          this.calculateAmount(this.data);
+        }
+
         if (this.data == null) {
           this.data = [];
           this.table = null;
@@ -131,4 +137,23 @@ export class FinancialTollSummaryComponent implements OnInit {
         console.log(err);
       });
   }
+
+
+
+  calculateAmount(arr) {
+    let usageStatus = arr[0]['entry_type'];
+    let opening_balance_new = arr[0]['balance'];
+    let usageAmount = arr[0]['amount'];
+
+    console.log("usageStatus", (usageStatus).toLowerCase, "opening_balance_new", opening_balance_new, "usageAmount", usageAmount)
+    if ((usageStatus).toLowerCase() == "usage") {
+
+      this.openingBalance = parseInt(opening_balance_new) - usageAmount;
+    } else {
+      this.openingBalance = parseInt(opening_balance_new) + (usageAmount);
+    }
+    this.closingBalance = arr[(arr.length - 1)]['balance'];
+  }
+
+
 }

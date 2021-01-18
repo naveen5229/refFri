@@ -6,8 +6,15 @@
 </div>
 <div class="modal-body">
   <div class="container">
-    <input type="file" class="file-control" id="challan-receipt" 
+    <input type="file" class="file-control" id="upload-file" 
     (change)="handleFileSelection($event)">
+  </div>
+  <div class="row" *ngIf="sampleURL">
+    <div class="col-md-12 offset-md-08">
+      <label style="text-decoration: underline;color: blue; cursor: pointer;" (click)="sampleCsv()">Sample Csv
+        Download </label>
+      <i class="icon ion-md-cloud-download" style="cursor:pointer" (click)="sampleCsv()"></i>
+    </div>
   </div>
 </div>
 <div class="modal-footer">

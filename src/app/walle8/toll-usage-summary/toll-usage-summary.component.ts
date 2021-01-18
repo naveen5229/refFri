@@ -23,7 +23,7 @@ export class TollUsageSummaryComponent implements OnInit {
   data = [];
   total = null;
   table = null;
-  startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  startDate = new Date(new Date().setDate(new Date().getDate() - 7));
   endDate = new Date();
   constructor(
     public api: ApiService,
@@ -79,13 +79,15 @@ export class TollUsageSummaryComponent implements OnInit {
   }
   
   gettollUsageSummary() {
-    this.mobile=this.user._loggedInBy=='admin'?this.user._details.fo_mobileno:this.user._details.mobile;
-    let params = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate))+"&mobileno="+this.mobile;
+    this.mobile=this.user._details.fo_mobileno;
+    let foid=this.user._loggedInBy=='admin' ? this.user._customer.foid : this.user._details.foid;
+    let params = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate))+"&mobileno="+this.mobile +"&foid="+ foid;
     this.common.loading++;
     let response;
     this.api.walle8Get('TollSummary/getTollUsageSummary.json?' + params)
       .subscribe(res => {
         this.common.loading--;
+        this.total=null;
         console.log('Res:', res['data']);
         this.data = res['data'];
         if (this.data == null) {

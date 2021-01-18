@@ -22,6 +22,10 @@ import { PrintManifestComponent } from '../../modals/print-manifest/print-manife
 import { TripSettlementComponent } from '../../modals/trip-settlement/trip-settlement.component';
 import { VehicleInfoComponent } from '../../modals/vehicle-info/vehicle-info.component';
 import { MapService } from '../../services/map.service';
+import { UploadFileComponent } from '../../modals/generic-modals/upload-file/upload-file.component';
+import { AccountService } from '../../services/account.service';
+import { CsvErrorReportComponent } from '../../modals/csv-error-report/csv-error-report.component';
+import { TollpaymentmanagementComponent } from '../../modals/tollpaymentmanagement/tollpaymentmanagement.component';
 @Component({
   selector: 'vehicle-trip',
   templateUrl: './vehicle-trip.component.html',
@@ -47,11 +51,13 @@ export class VehicleTripComponent implements OnInit {
       pagination:true
     }
   };
+  branchId = null;
   constructor(
     private datePipe: DatePipe,
     public api: ApiService,
     public common: CommonService,
     public dateService: DateService,
+    public accountService: AccountService,
     public user: UserService,
     public map : MapService,
     private modalService: NgbModal) {
@@ -77,6 +83,41 @@ export class VehicleTripComponent implements OnInit {
 
     this.getVehicleTrips();
   }
+
+  openUploadModal() {
+    this.common.params={sampleURL:'http://dev.elogist.in/sample/csv/SampleTripUpload.csv'};
+    const activeModal = this.modalService.open(UploadFileComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      if (data.response) {
+        console.log("data",data);
+        this.uploadCsv(data.fileType,data.file);
+      }
+    });
+  }
+
+  uploadCsv(fileType,file) {
+    if (!file) {
+      return this.common.showError("Select  Option");
+    }
+    file = file.replace('77u/','');
+    const params = {
+      tripCSV: file,
+    };
+    this.common.loading++;
+    this.api.post('TripsOperation/bulkInsertTripsCSV', params)
+      .subscribe(res => {
+        this.common.loading--;
+        let successData =  res['data']['success'];
+        let errorData =res['data']['fail'];
+        alert(res["msg"]);
+        this.common.params = { apiData: params,successData, errorData, title: 'Bulk Site csv Report',isUpdate:false };
+        const activeModal = this.modalService.open(CsvErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
   getVehicleTrips() {
     this.vehicleTrips = [];
     this.table = {
@@ -189,7 +230,8 @@ export class VehicleTripComponent implements OnInit {
       { class: 'fa fa-question-circle report-btn', action: this.reportIssue.bind(this, trip) },
       { class: " fa fa-route route-mapper", action: this.openRouteMapper.bind(this, trip) },
       { class: 'fa fa-star  vehicle-report', action: this.vehicleReport.bind(this, trip) },
-      { class: 'fa fa-chart-bar status', action: this.vehicleStates.bind(this, trip) },
+      // { class: 'fa fa-chart-bar status', action: this.vehicleStates.bind(this, trip) },
+      { class: 'fa fa-chart-bar status', action: this.tollPaymentManagement.bind(this, trip) },
       { class: 'fa fa-handshake-o trip-settlement', action: this.tripSettlement.bind(this, trip) },
       { class: 'fa fa-road route-view', action: this.vehicleInfo.bind(this, trip) },
     ];
@@ -286,7 +328,6 @@ export class VehicleTripComponent implements OnInit {
     this.common.params = { vehicleTrip: vehicleTrip };
     const activeModal = this.modalService.open(UpdateTripDetailComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' })
     activeModal.result.then(data => {
-
     });
   }
 
@@ -343,6 +384,17 @@ export class VehicleTripComponent implements OnInit {
     this.common.handleModalHeightWidth('class', 'modal-lg', '200', '1500');
     this.modalService.open(VehicleTripStagesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "mycustomModalClass" });
 
+  }
+
+  tollPaymentManagement(trip){
+    console.log("trip------", trip);
+    let fromTime = trip._startdate;
+    let toTime = trip._enddate;
+    console.log("trip------", fromTime, toTime);
+    this.common.params = { vehId: trip._vid, vehRegNo: trip.Vehicle, startDate: fromTime, endDate: toTime,startDatedis:trip['Start Date'],endDatedis:trip['End Date'] };
+    this.common.openType = "modal";
+    // this.common.handleModalHeightWidth('class', 'modal-lg', '200', '1500');
+    this.modalService.open(TollpaymentmanagementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "mycustomModalClass" });
   }
 
 

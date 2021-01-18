@@ -205,10 +205,10 @@
           <!-- <input class="form-control" type="text" style="cursor: pointer;margin-left:3px;" autocomplete="off"
           (click)="getDate('date')" placeholder="Custom LTime" [value]="customDate | date: 'dd MMM yyyy'" name="date"
           readonly> -->
-          <!-- <button class="btn btn-primary" id="addAutomaticHalt" (click)="addAutomaticHalt()" style="margin-left:3px">Add
-          Auto Halt </button> -->
-        <!-- <button class="btn btn-primary" id="addManualHalt" (click)="openManualHalt('vehicleEvent')"
-          style="margin-left:3px">Manual Halt </button> -->
+          <button class="btn btn-primary" id="addAutomaticHalt" (click)="addAutomaticHalt()" style="margin-left:3px">Add
+          Auto Halt </button>
+        <button class="btn btn-primary" id="addManualHalt" (click)="openManualHalt('vehicleEvent')"
+          style="margin-left:3px">Manual Halt </button>
         </div>
         <div class="col-3">
           <uj-date-time-picker (onChanged)="getDate('lTime',$event);" [isTime]='false' [dateTimeValue]="lTime">

@@ -23,7 +23,7 @@ export class TollUsageComponent implements OnInit {
   //   end: this.common.dateFormatter(new Date()),
   // }
 
-  startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  startDate = new Date(new Date().setDate(new Date().getDate() - 7));
   endDate = new Date();
   
   constructor(
@@ -58,7 +58,8 @@ export class TollUsageComponent implements OnInit {
 
   gettollUsage() {
     this.total=0;
-    let params ="startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate));
+    let foid=this.user._loggedInBy=='admin' ? this.user._customer.foid : this.user._details.foid;
+    let params ="startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate))+"&mobileno=" + this.user._details.fo_mobileno+"&foid="+ foid;
     this.common.loading++;
     let response;
     this.api.walle8Get('TollSummary/getEntireTollUsage.json?' + params)

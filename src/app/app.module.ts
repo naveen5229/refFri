@@ -300,6 +300,11 @@ import { IframeModalComponent } from './modals/iframe-modal/iframe-modal.compone
 import { UploadFileComponent } from './modals/generic-modals/upload-file/upload-file.component';
 import { FoSiteAliasComponent } from './modals/fo-site-alias/fo-site-alias.component';
 import { TripKmRepairViewComponent } from './modals/trip-km-repair-view/trip-km-repair-view.component';
+import { AdhocRouteComponent } from './modals/adhoc-route/adhoc-route.component';
+import { TollpaymentmanagementComponent } from './modals/tollpaymentmanagement/tollpaymentmanagement.component';
+import { AddmissingtollComponent } from './modals/addmissingtoll/addmissingtoll.component';
+import { TicketFormFieldComponent } from './modals/ticket-form-field/ticket-form-field.component';
+import { FormDataTableComponent } from './modals/form-data-table/form-data-table.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -556,7 +561,11 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   IframeModalComponent,
   UploadFileComponent,
   FoSiteAliasComponent,
-
+  AdhocRouteComponent,
+  TollpaymentmanagementComponent,
+  AddmissingtollComponent,
+  TicketFormFieldComponent,
+  FormDataTableComponent
 ];
 
 @NgModule({
@@ -573,11 +582,13 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     CheckloginandredirectComponent,
     CheckloginandredirectComponent,
     TripKmRepairViewComponent,
-
+    TollpaymentmanagementComponent,
+    AddmissingtollComponent,
   ],
   entryComponents: [
     ...COMMON_COMPONENT,
-    VehicleInfoComponent
+    VehicleInfoComponent,
+    
   ],
   imports: [
     BrowserModule,
