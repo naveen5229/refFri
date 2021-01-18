@@ -9,6 +9,9 @@ import { ActivatedRoute } from '@angular/router';
 import { LrPodDetailsComponent } from '../../modals/lr-pod-details/lr-pod-details.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'lr-pod-receipts',
   templateUrl: './lr-pod-receipts.component.html',
@@ -48,7 +51,8 @@ export class LrPodReceiptsComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getLorryPodReceipts() {

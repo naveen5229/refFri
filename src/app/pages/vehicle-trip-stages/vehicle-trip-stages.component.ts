@@ -6,6 +6,9 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
 import { on } from 'cluster';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-trip-stages',
   templateUrl: './vehicle-trip-stages.component.html',
@@ -53,7 +56,8 @@ export class VehicleTripStagesComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

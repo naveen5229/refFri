@@ -6,6 +6,9 @@ import { UserService } from '../../@core/data/users.service';
 import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ledgermapping',
   templateUrl: './ledgermapping.component.html',
@@ -47,7 +50,8 @@ export class LedgermappingComponent implements OnInit {
   }
 
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

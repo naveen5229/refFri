@@ -6,6 +6,9 @@ import { CommonService } from '../../services/common.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { map } from 'rxjs/operators';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'route-mapper',
   templateUrl: './route-mapper.component.html',
@@ -22,7 +25,8 @@ export class RouteMapperComponent implements OnInit {
       
      }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   ngAfterViewInit() {
     this.mapService.mapIntialize("map");

@@ -7,6 +7,9 @@ import * as d3ScaleChromatic from 'd3-scale-chromatic';
 import * as d3Geo from "d3-geo";
 import * as topojson from "topojson-client";
 import { ApiService } from '../../services/api.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'hotspot-summary',
   templateUrl: './hotspot-summary.component.html',
@@ -43,7 +46,8 @@ export class HotspotSummaryComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(){}
+ngOnInit(): void {
 
   }
   ngAfterViewInit() {

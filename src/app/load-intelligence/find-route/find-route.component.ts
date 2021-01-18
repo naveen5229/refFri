@@ -8,6 +8,9 @@ import { UserService } from '../../services/user.service';
 
 declare var google: any;
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'find-route',
   templateUrl: './find-route.component.html',
@@ -140,7 +143,8 @@ export class FindRouteComponent implements OnInit {
     this.getOrigin();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

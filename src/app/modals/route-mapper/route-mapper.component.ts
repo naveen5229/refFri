@@ -5,6 +5,9 @@ import { ApiService } from "../../services/api.service";
 import { CommonService } from '../../services/common.service';
 import { DateService } from '../../services/date.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'route-mapper',
   templateUrl: './route-mapper.component.html',
@@ -55,32 +58,37 @@ export class RouteMapperComponent implements OnInit {
     this.orderId = this.commonService.params.orderId;
     this.orderType = this.commonService.params.orderType;
     this.title = this.commonService.params.title ? this.commonService.params.title : this.title;
+    console.time('total');
+    console.time('api time')
+    this.initFunctionality();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {
     this.mapService.mapIntialize("map");
     this.mapService.setMapType(0);
     this.mapService.map.setOptions({ draggableCursor: 'cursor' });
-    setTimeout(() => {
-      this.initFunctionality();
-    }, 500);
+    // setTimeout(() => {
+    //   this.initFunctionality();
+    // }, 500);
   }
 
   initFunctionality() {
     let promises = [this.getHaltTrails(), this.getVehicleTrailAll()]
     Promise.all(promises).then((result) => {
-      console.log('Result:', result);
+      console.timeEnd('api time');
+      console.time('execution');
       this.mapService.clearAll();
       let i = 0;
       let prevElement = null;
       let total = 0;
-      for (const element of this.trails) {
+      for (let index = 0; index < this.trails.length; index++) {
+        const element = this.trails[index];
         if (i != 0) {
           total += this.commonService.distanceFromAToB(element.lat, element.long, prevElement.lat, prevElement.long, "Mt");
-
           this.polypath.push({
             lat: element.lat, lng: element.long,
             odo: total, time: element.time
@@ -98,7 +106,7 @@ export class RouteMapperComponent implements OnInit {
       }
 
       this.maxOdo = total;
-      this.title = "Distance : "+Math.round(this.maxOdo/1000)+" KMs";
+      this.title = "Distance : " + Math.round(this.maxOdo / 1000) + " KMs";
       this.mapService.polygonPath && this.mapService.polygonPath.set('icons', [{
         icon: this.mapService.lineSymbol,
         offset: "0%"
@@ -106,18 +114,29 @@ export class RouteMapperComponent implements OnInit {
 
       let realStart = new Date(this.vehicleEvents[0].start_time) < new Date(this.startDate) ? this.vehicleEvents[0].start_time : this.commonService.dateFormatter(this.startDate);
       let realEnd = null;
-      
+
       if (this.vehicleEvents[0].end_time)
         realEnd = new Date(this.vehicleEvents[this.vehicleEvents.length - 1].end_time) > new Date(this.endDate) ?
           this.vehicleEvents[this.vehicleEvents.length - 1].end_time : this.commonService.dateFormatter(this.endDate);
 
       let totalHourDiff = 0;
-      
+
       if (this.vehicleEvents.length != 0) {
         totalHourDiff = this.commonService.dateDiffInHours(realStart, realEnd, true);
       }
-
+      let trailIndex = 0;
+      let prevOdo = 0;
       for (let index = 0; index < this.vehicleEvents.length; index++) {
+        for (let indexInner = trailIndex; indexInner < this.polypath.length; indexInner++) {
+          const element = this.polypath[indexInner];
+          if(new Date(element.time) > new Date(this.vehicleEvents[index].start_time)){
+            trailIndex = indexInner;
+            this.vehicleEvents[index]["odo"] = Math.round((element.odo - prevOdo)/1000);
+            this.vehicleEvents[index]["grand"] = Math.round(element.odo/1000);
+            prevOdo = element.odo;
+            break;
+          }
+        }
         if (this.vehicleEvents[index].halt_reason == "Unloading" || this.vehicleEvents[index].halt_reason == "Loading") {
           this.vehicleEvents[index].subType = 'marker';
           this.vehicleEvents[index].color = this.vehicleEvents[index].halt_reason == "Unloading" ? 'ff4d4d' : '88ff4d';
@@ -138,7 +157,6 @@ export class RouteMapperComponent implements OnInit {
         this.vehicleEvents[index].duration = this.commonService.dateDiffInHoursAndMins(
           this.vehicleEvents[index].start_time, this.vehicleEvents[index].end_time);
       }
-      this.vehicleEvents = this.vehicleEvents;
       let markers = this.mapService.createMarkers(this.vehicleEvents, false, false);
       let markerIndex = 0
       for (const marker of markers) {
@@ -147,6 +165,8 @@ export class RouteMapperComponent implements OnInit {
         this.mapService.addListerner(marker, 'mouseout', () => this.unsetEventInfo());
         markerIndex++;
       }
+      console.timeEnd('execution');
+      console.timeEnd('total');
     })
   }
 
@@ -166,6 +186,7 @@ export class RouteMapperComponent implements OnInit {
 
   getHaltTrails() {
     return new Promise((resolve, reject) => {
+      console.time('getHaltTrails');
       this.strHaltReason = [];
       this.strSiteName = [];
       this.clearAll();
@@ -187,6 +208,7 @@ export class RouteMapperComponent implements OnInit {
           this.commonService.loading--;
           this.vehicleEvents = res['data'].reverse();
           this.getPlaceName(this.vehicleEvents);
+          console.timeEnd('getHaltTrails');
           resolve(true);
           subscription.unsubscribe();
         }, err => {
@@ -201,6 +223,7 @@ export class RouteMapperComponent implements OnInit {
 
   getVehicleTrailAll() {
     return new Promise((resolve, reject) => {
+      console.time('getVehicleTrailAll');
       let params = {
         'vehicleId': this.vehicleSelected,
         'startTime': this.commonService.dateFormatter(this.startDate),
@@ -218,6 +241,8 @@ export class RouteMapperComponent implements OnInit {
           else
             this.isLite = false;
           this.trails = res['data'];
+          console.timeEnd('getVehicleTrailAll');
+
           resolve(true);
           subscription.unsubscribe();
         }, err => {
@@ -394,5 +419,5 @@ export class RouteMapperComponent implements OnInit {
 
     });
   }
-  
+
 }

@@ -13,6 +13,9 @@ import { AccountService } from '../../services/account.service';
 import { VouchercostcenterComponent } from '../../acounts-modals/vouchercostcenter/vouchercostcenter.component';
 import { PdfService } from '../../services/pdf/pdf.service';
 import{ RecordsComponent } from '../../acounts-modals/records/records.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vouchers',
   templateUrl: './vouchers.component.html',
@@ -83,7 +86,8 @@ export class VouchersComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
 
   }
   refresh() {

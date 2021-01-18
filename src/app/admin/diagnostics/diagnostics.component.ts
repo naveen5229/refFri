@@ -8,6 +8,9 @@ import { VechileTrailsComponent } from '../../modals/vechile-trails/vechile-trai
 import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status/change-vehicle-status.component';
 import { VehicleAnalysisComponent } from '../../modals/vehicle-analysis/vehicle-analysis.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'diagnostics',
   templateUrl: './diagnostics.component.html',
@@ -45,7 +48,8 @@ export class DiagnosticsComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
 
   }
 

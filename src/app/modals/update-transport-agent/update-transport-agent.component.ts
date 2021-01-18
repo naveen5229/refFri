@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'update-transport-agent',
   templateUrl: './update-transport-agent.component.html',
@@ -30,7 +33,8 @@ export class UpdateTransportAgentComponent implements OnInit {
     this.transportAgent.id = this.common.params.transportAgent.id;
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     this.Form = this.formBuilder.group({
       name: ['', Validators.required],
       panNo: ['', [Validators.required, Validators.pattern("^[A-Z]{5}[0-9]{4}[A-Z]$")]],

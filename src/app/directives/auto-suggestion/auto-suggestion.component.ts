@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'auto-suggestion',
   templateUrl: './auto-suggestion.component.html',
@@ -54,7 +57,8 @@ export class AutoSuggestionComponent implements OnInit {
     public common: CommonService) {
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     this.searchForm = this.formBuilder.group({
       search: ['']
     });

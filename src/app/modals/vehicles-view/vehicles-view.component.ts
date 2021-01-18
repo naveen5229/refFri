@@ -3,6 +3,9 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicles-view',
   templateUrl: './vehicles-view.component.html',
@@ -34,7 +37,8 @@ export class VehiclesViewComponent implements OnInit {
     this.displayVehicleInformation();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   displayVehicleInformation() {
     console.log("VehicleId:", this.common.params.vehicleId);

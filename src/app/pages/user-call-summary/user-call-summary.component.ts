@@ -8,6 +8,9 @@ import { UserCallHistoryComponent } from '../../modals/user-call-history/user-ca
 import { CsvService } from '../../services/csv/csv.service';
 import { PdfService } from '../../services/pdf/pdf.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'user-call-summary',
   templateUrl: './user-call-summary.component.html',
@@ -45,7 +48,8 @@ export class UserCallSummaryComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
 

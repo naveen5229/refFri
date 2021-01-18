@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'lr-pod-dashboard',
   templateUrl: './lr-pod-dashboard.component.html',
@@ -60,7 +63,8 @@ export class LrPodDashboardComponent implements OnInit {
     //console.log('dates', this.common.dateFormatter1(this.common.params.details.lr_date));
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   getSelection() {
     this.stateId = this.id;

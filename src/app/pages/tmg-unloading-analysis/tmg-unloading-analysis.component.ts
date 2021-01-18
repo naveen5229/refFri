@@ -5,6 +5,9 @@ import { GenericModelComponent } from '../../modals/generic-modals/generic-model
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tmg-unloading-analysis',
   templateUrl: './tmg-unloading-analysis.component.html',
@@ -52,7 +55,8 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit(){

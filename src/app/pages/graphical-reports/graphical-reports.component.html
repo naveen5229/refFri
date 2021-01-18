@@ -44,32 +44,34 @@
     </div>
 
     <div class="row mt-2" *ngIf="!graphBodyVisi">
-        <div class="col-12">
-          <div class="row mt-2" id="graph">
-            <div class="col-8" style="margin-left: 18%;">
-              <div class="chartbox">
-                <canvas id="Graph"></canvas>
-              </div>
+      <div class="col-12">
+        <div class="row mt-2" id="graph">
+          <div class="col-8" style="margin-left: 18%;">
+            <div class="chartbox">
+              <canvas id="Graph"></canvas>
             </div>
           </div>
-  
-  
-          <div class="row mt-2"  id="table">
-            <div class="col-12" style="height: 369px;">
-              <smart-table [data]="tableGraph.data" [settings]="tableGraph.settings" id="tableLeadsForMe" class="sl-smart-table">
-              </smart-table>
-            </div>
+        </div>
+
+
+        <div class="row mt-2" id="table">
+          <div class="col-12" style="height: 369px;">
+            <smart-table [data]="tableGraph.data" [settings]="tableGraph.settings" id="tableLeadsForMe"
+              class="sl-smart-table">
+            </smart-table>
           </div>
-            <div class="row mt-4" style="text-align: center;">
-                <div class="col-6">
-                  <button class="btn btn-primary" (click)="resetAssignForm();graphBodyVisi=true;editState=false">Cancel</button>
-                </div>
-                <div class="col-6">
-                  <button class="btn btn-primary" (click)="editGraph()">Edit</button>
-                </div>
-            </div>
+        </div>
+        <div class="row mt-4" style="text-align: center;">
+          <div class="col-6">
+            <button class="btn btn-primary"
+              (click)="resetAssignForm();graphBodyVisi=true;editState=false">Cancel</button>
+          </div>
+          <div class="col-6">
+            <button class="btn btn-primary" (click)="editGraph()">Edit</button>
+          </div>
         </div>
       </div>
+    </div>
 
     <div class="row mr-0" *ngIf="graphBodyVisi">
       <div class="col-2 sidenavleft p-0">
@@ -153,12 +155,17 @@
 
         <div class="row mt-2" style="text-align: right;">
           <div class="col-12">
-            <button class="btn btn-primary margin_right" (click)="openSaveModal()">Save</button>
+            <button class="btn btn-primary margin_right"
+              (click)="openSaveModal()">{{editState && reportIdUpdate?'Update':'Save'}}</button>
             <button class="btn btn-primary margin_right" (click)="getReportPreview()">Preview</button>
             <button class="btn btn-primary" (click)="resetAssignForm()">Clear</button>
           </div>
         </div>
+      </div>
+    </div>
 
+    <div class="row mr-0" *ngIf="graphBodyVisi">
+      <div class="col-12 graph-panel">
         <div class="row mt-2" id="graph">
           <div class="col-8" style="margin-left: 18%;">
             <div class="chartbox">
@@ -175,7 +182,6 @@
             </smart-table>
           </div>
         </div>
-
       </div>
     </div>
   </nb-card-body>
@@ -184,7 +190,7 @@
 
 <!-- start:filter modal  -->
 <div class="modal" id="filterModal" #filterModal>
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg" class="filterModalClass">
     <div class="modal-content">
       <!-- Modal Header -->
       <div class="modal-header">
@@ -279,7 +285,8 @@
 
         <div class="row mt-2" style="text-align: center;">
           <div class="col-12">
-            <button type="button" class="btn btn-success" (click)="saveGraphicReport()">Save</button>
+            <button type="button" class="btn btn-success"
+              (click)="saveGraphicReport()">{{editState && reportIdUpdate?'Update':'Save'}}</button>
           </div>
         </div>
       </div>

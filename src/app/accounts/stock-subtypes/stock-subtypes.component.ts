@@ -5,6 +5,9 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { StockSubtypeComponent } from '../../acounts-modals/stock-subtype/stock-subtype.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { from } from 'rxjs';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'stock-subtypes',
   templateUrl: './stock-subtypes.component.html',
@@ -31,7 +34,8 @@ export class StockSubtypesComponent implements OnInit {
  
 
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh(){
     this.getStockSubTypes();

@@ -3,6 +3,9 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'change-driver',
   templateUrl: './change-driver.component.html',
@@ -25,7 +28,8 @@ export class ChangeDriverComponent implements OnInit {
     this.vehicleId = this.common.params.vehicleId;
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   searchVehicle(driver) {

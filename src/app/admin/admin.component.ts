@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { AccountService } from '../services/account.service';
 import { ApiService } from '../services/api.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ngx-pages',
   styleUrls: ['./admin.scss'],
@@ -31,6 +34,8 @@ export class AdminComponent {
       this.getBranches();
     }
   }
+
+  ngOnDestroy(){}
 
 
   getBranches() {

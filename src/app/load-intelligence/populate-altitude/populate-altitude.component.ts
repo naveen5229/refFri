@@ -6,6 +6,9 @@ import { MapService } from '../../services/map.service';
 import { async } from '@angular/core/testing';
 declare var google: any;
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'populate-altitude',
   templateUrl: './populate-altitude.component.html',
@@ -37,7 +40,8 @@ export class PopulateAltitudeComponent implements OnInit {
         this.getUnpopAltitude();
     }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getUnpopAltitude() {

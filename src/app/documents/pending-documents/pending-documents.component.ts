@@ -10,6 +10,9 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { DocumentHistoryComponent } from '../documentation-modals/document-history/document-history.component';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'pending-documents',
   templateUrl: './pending-documents.component.html',
@@ -54,7 +57,8 @@ export class PendingDocumentsComponent implements OnInit {
     this.listtype;
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

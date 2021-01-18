@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 
 import { MENU_ITEMS } from './partner-menu';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ngx-pages',
   template: `

@@ -4,6 +4,9 @@ import { GenericModelComponent } from '../../modals/generic-modals/generic-model
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tmg-transporter-analysis',
   templateUrl: './tmg-transporter-analysis.component.html',
@@ -64,7 +67,8 @@ export class TmgTransporterAnalysisComponent implements OnInit {
     this.refresh();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

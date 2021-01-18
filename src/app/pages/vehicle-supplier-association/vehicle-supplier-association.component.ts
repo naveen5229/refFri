@@ -8,6 +8,9 @@ import { AddSupplierAssociationComponent } from '../../modals/add-supplier-assoc
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-supplier-association',
   templateUrl: './vehicle-supplier-association.component.html',
@@ -34,7 +37,8 @@ export class VehicleSupplierAssociationComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

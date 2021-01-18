@@ -5,6 +5,9 @@ import { DatePickerComponent } from '../../../modals/date-picker/date-picker.com
 import { ApiService } from '../../../services/api.service';
 import { ConfirmComponent } from '../../../modals/confirm/confirm.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'got-pass',
   templateUrl: './got-pass.component.html',
@@ -107,7 +110,8 @@ export class GotPassComponent implements OnInit {
     }];
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getItems() {

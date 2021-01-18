@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { DatePipe } from '@angular/common';
 import { ApiService } from '../../services/api.service';
 import { DateService } from '../../services/date.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'odo-meter',
   templateUrl: './odo-meter.component.html',
@@ -43,7 +46,8 @@ export class OdoMeterComponent implements OnInit {
     this.getOdoMeterData();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

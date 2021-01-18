@@ -9,6 +9,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'storerequisitions',
   templateUrl: './storerequisitions.component.html',
@@ -41,7 +44,8 @@ export class StorerequisitionsComponent implements OnInit {
     this.getStoreQuestion();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

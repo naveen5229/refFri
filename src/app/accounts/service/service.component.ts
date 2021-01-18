@@ -18,6 +18,9 @@ import { OtherinfoComponent } from '../../acounts-modals/otherinfo/otherinfo.com
 import { GstdataComponent } from '../../acounts-modals/gstdata/gstdata.component';
 import { map } from 'd3';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'service',
   templateUrl: './service.component.html',
@@ -299,7 +302,8 @@ export class ServiceComponent implements OnInit {
    // this.changeWithType();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   changeWithType(){
     console.log('withtype',this.withtype);

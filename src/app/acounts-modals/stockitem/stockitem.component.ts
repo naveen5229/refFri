@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { trimTrailingNulls } from '@angular/compiler/src/render3/view/util';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'stockitem',
   templateUrl: './stockitem.component.html',
@@ -123,7 +126,8 @@ export class StockitemComponent implements OnInit {
   }
 
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   // handleArrowUpDown(key) {

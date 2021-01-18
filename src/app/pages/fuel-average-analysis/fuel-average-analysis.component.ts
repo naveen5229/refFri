@@ -10,6 +10,9 @@ import { DatePipe } from '@angular/common';
 import { OdoMeterComponent } from '../../modals/odo-meter/odo-meter.component';
 import { start } from 'repl';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fuel-average-analysis',
   templateUrl: './fuel-average-analysis.component.html',
@@ -53,7 +56,8 @@ export class FuelAverageAnalysisComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
 

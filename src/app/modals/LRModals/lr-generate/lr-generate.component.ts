@@ -21,6 +21,9 @@ import { AddSupplierAssociationComponent } from '../../add-supplier-association/
 import { TemplatePreviewComponent } from '../../template-preview/template-preview.component';
 import { LrRateComponent } from '../lr-rate/lr-rate.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'lr-generate',
   templateUrl: './lr-generate.component.html',
@@ -88,7 +91,8 @@ export class LrGenerateComponent implements OnInit {
     this.formatGeneralDetails();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   ngAfterViewInit(): void {
   }

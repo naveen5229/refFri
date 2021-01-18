@@ -6,6 +6,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { LrNearbyPodComponent } from '../../modals/LRModals/lr-nearby-pod/lr-nearby-pod.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'nearby-pods',
   templateUrl: './nearby-pods.component.html',
@@ -65,7 +68,8 @@ export class NearbyPodsComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   
   refresh() {

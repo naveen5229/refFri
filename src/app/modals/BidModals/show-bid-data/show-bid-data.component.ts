@@ -7,6 +7,9 @@ import { VehicleStatusComponent } from '../../vehicle-status/vehicle-status.comp
 import { AddProposalComponent } from '../add-proposal/add-proposal.component';
 import { ProposalStateComponent } from '../proposal-state/proposal-state.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'show-bid-data',
   templateUrl: './show-bid-data.component.html',
@@ -39,7 +42,8 @@ export class ShowBidDataComponent implements OnInit {
     this.getBids();
    }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal(status) {

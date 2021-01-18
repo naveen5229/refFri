@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tyre-health-check-up',
   templateUrl: './tyre-health-check-up.component.html',
@@ -41,7 +44,8 @@ export class TyreHealthCheckUpComponent implements OnInit {
     this.getAdmin();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){

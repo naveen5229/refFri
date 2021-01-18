@@ -5,6 +5,9 @@ import { CommonService } from '../..//services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer } from "@angular/platform-browser";
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'template-devview',
   templateUrl: './template-devview.component.html',
@@ -31,7 +34,8 @@ export class TemplateDevviewComponent implements OnInit {
       this.devView();
     }
   
-    ngOnInit() {
+    ngOnDestroy(){}
+ngOnInit() {
     }
 
     devView()

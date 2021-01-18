@@ -9,6 +9,9 @@ import { DatePipe, NumberFormatStyle } from '@angular/common';
 
 
 declare var google: any;
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'edit-lorry-details',
   templateUrl: './edit-lorry-details.component.html',
@@ -75,7 +78,8 @@ export class EditLorryDetailsComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

@@ -7,6 +7,9 @@ import { AddStateComponent } from '../../acounts-modals/add-state/add-state.comp
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { from } from 'rxjs';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'state',
   templateUrl: './state.component.html',
@@ -43,7 +46,8 @@ export class StateComponent  {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     console.log('Refresh');

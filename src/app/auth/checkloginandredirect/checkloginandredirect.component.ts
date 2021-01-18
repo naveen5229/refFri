@@ -5,6 +5,9 @@ import { DataService } from '../../services/data.service';
 import { UserService } from '../../services/user.service';
 import { ApiService } from '../../services/api.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'checkloginandredirect',
   templateUrl: './checkloginandredirect.component.html',
@@ -71,7 +74,8 @@ export class CheckloginandredirectComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
 
   }
 

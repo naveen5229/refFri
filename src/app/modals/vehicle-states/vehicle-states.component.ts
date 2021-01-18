@@ -8,6 +8,9 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { MapService } from '../../services/map.service';
 
 declare var google: any;
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-states',
   templateUrl: './vehicle-states.component.html',
@@ -77,7 +80,8 @@ export class VehicleStatesComponent implements OnInit {
     this.getVehicleEvent();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   changeStateType() {

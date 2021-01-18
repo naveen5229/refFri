@@ -78,7 +78,7 @@
                                         <td (click)="openSmartTool(i,vehicleEvent);">
                                             {{commonService.changeDateformat2(vehicleEvent.end_time)}}</td>
                                         <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.duration}}</td>
-                                        <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.odo +'('+vehicleEvent.grand+')'}}</td>
+                                        <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.odo +' ('+vehicleEvent.grand+')'}}</td>
                                     </tr>
                                     <tr *ngIf="vehicleEvent.isOpen">
                                         <td colspan="9">

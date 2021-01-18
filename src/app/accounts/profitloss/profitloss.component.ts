@@ -11,6 +11,9 @@ import { LedgerviewComponent } from '../../acounts-modals/ledgerview/ledgerview.
 import { AccountService } from '../../services/account.service';
 import { isNull } from 'util';
 import { StoclsummaryComponent } from '../stoclsummary/stoclsummary.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'profitloss-tree',
   templateUrl: './profitloss.html',
@@ -94,6 +97,8 @@ export class ProfitlossTreeComponent {
   }
 
 }
+
+@AutoUnsubscribe()
 @Component({
   selector: 'profitloss',
   templateUrl: './profitloss.component.html',
@@ -181,7 +186,8 @@ export class ProfitlossComponent implements OnInit {
   }
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getBranchList() {

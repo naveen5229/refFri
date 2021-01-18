@@ -3,6 +3,9 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'issue-report',
   templateUrl: './issue-report.component.html',
@@ -36,7 +39,8 @@ export class IssueReportComponent implements OnInit {
       this.cardUsage = this.common.params.cardUsage;
     }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   handleFileSelection(event) {

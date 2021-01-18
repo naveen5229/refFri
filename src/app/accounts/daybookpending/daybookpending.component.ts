@@ -17,6 +17,9 @@ import { AccountService } from '../../services/account.service';
 import {AdvanceComponent } from '../../acounts-modals/advance/advance.component';
 import { ServiceComponent } from '../service/service.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'daybookpending',
   templateUrl: './daybookpending.component.html',
@@ -100,7 +103,8 @@ export class DaybookpendingComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.getVoucherTypeList();

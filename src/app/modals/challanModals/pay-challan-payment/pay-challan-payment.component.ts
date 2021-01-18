@@ -3,6 +3,9 @@ import { CommonService } from '../../../services/common.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../../services/api.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'pay-challan-payment',
   templateUrl: './pay-challan-payment.component.html',
@@ -41,7 +44,8 @@ export class PayChallanPaymentComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

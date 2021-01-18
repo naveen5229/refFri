@@ -4,6 +4,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 import { UploadDocsComponent } from '../../modals/upload-docs/upload-docs.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'driver-document',
   templateUrl: './driver-document.component.html',
@@ -23,7 +26,8 @@ export class DriverDocumentComponent implements OnInit {
     this.getDocumentData();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.getDocumentData();

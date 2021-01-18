@@ -6,6 +6,9 @@ import { UserService } from '../../@core/data/users.service';
 import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'reportconfig',
   templateUrl: './reportconfig.component.html',
@@ -26,7 +29,8 @@ export class ReportconfigComponent implements OnInit {
     this.common.currentPage = 'Report Configure';
     }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.getRportList();

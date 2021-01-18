@@ -6,6 +6,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NbThemeService } from '@nebular/theme';
 import { DatePipe, NumberFormatStyle } from '@angular/common';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-gps-trail',
   templateUrl: './vehicle-gps-trail.component.html',
@@ -42,7 +45,8 @@ export class VehicleGpsTrailComponent implements OnInit {
     // console.log('dates ', this.endDate, this.startDate);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){

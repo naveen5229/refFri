@@ -4,6 +4,9 @@ import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../../services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-agent',
   templateUrl: './add-agent.component.html',
@@ -32,7 +35,8 @@ export class AddAgentComponent implements OnInit {
     this.btn2 = this.common.params.btn2 || 'Cancel';
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     this.agentForm = this.formBuilder.group({
       name: ['', Validators.required],
       mobileNo: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],

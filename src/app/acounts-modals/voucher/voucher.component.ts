@@ -17,6 +17,9 @@ import { PdfService } from '../../services/pdf/pdf.service';
 import { PrintService } from '../../services/print/print.service';
 import * as localforage from 'localforage';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'voucher',
   templateUrl: './voucher.component.html',
@@ -106,7 +109,8 @@ export class VoucherComponent implements OnInit {
       });
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
 
   }
 
