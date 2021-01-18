@@ -85,10 +85,10 @@ ngOnInit() {
       let i = 0;
       let prevElement = null;
       let total = 0;
-      for (const element of this.trails) {
+      for (let index = 0; index < this.trails.length; index++) {
+        const element = this.trails[index];
         if (i != 0) {
           total += this.commonService.distanceFromAToB(element.lat, element.long, prevElement.lat, prevElement.long, "Mt");
-
           this.polypath.push({
             lat: element.lat, lng: element.long,
             odo: total, time: element.time
@@ -124,8 +124,19 @@ ngOnInit() {
       if (this.vehicleEvents.length != 0) {
         totalHourDiff = this.commonService.dateDiffInHours(realStart, realEnd, true);
       }
-
+      let trailIndex = 0;
+      let prevOdo = 0;
       for (let index = 0; index < this.vehicleEvents.length; index++) {
+        for (let indexInner = trailIndex; indexInner < this.polypath.length; indexInner++) {
+          const element = this.polypath[indexInner];
+          if(new Date(element.time) > new Date(this.vehicleEvents[index].start_time)){
+            trailIndex = indexInner;
+            this.vehicleEvents[index]["odo"] = Math.round((element.odo - prevOdo)/1000);
+            this.vehicleEvents[index]["grand"] = Math.round(element.odo/1000);
+            prevOdo = element.odo;
+            break;
+          }
+        }
         if (this.vehicleEvents[index].halt_reason == "Unloading" || this.vehicleEvents[index].halt_reason == "Loading") {
           this.vehicleEvents[index].subType = 'marker';
           this.vehicleEvents[index].color = this.vehicleEvents[index].halt_reason == "Unloading" ? 'ff4d4d' : '88ff4d';
@@ -146,7 +157,6 @@ ngOnInit() {
         this.vehicleEvents[index].duration = this.commonService.dateDiffInHoursAndMins(
           this.vehicleEvents[index].start_time, this.vehicleEvents[index].end_time);
       }
-      this.vehicleEvents = this.vehicleEvents;
       let markers = this.mapService.createMarkers(this.vehicleEvents, false, false);
       let markerIndex = 0
       for (const marker of markers) {
