@@ -5,6 +5,9 @@ import { CommonService } from '../..//services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer } from "@angular/platform-browser";
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'template-preview',
   templateUrl: './template-preview.component.html',
@@ -49,7 +52,8 @@ export class TemplatePreviewComponent implements OnInit {
     this.showdata();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   ngDestroy() {
     this.common.params = null;

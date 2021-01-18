@@ -5,6 +5,9 @@ import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddEscalationIssueComponent } from '../../modals/add-escalation-issue/add-escalation-issue.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'escalation-matrix',
   templateUrl: './escalation-matrix.component.html',
@@ -35,7 +38,8 @@ export class EscalationMatrixComponent implements OnInit {
     this.Matrixdata();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

@@ -6,6 +6,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 declare var google: any;
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'manual-halt',
   templateUrl: './manual-halt.component.html',
@@ -37,7 +40,8 @@ export class ManualHaltComponent implements OnInit {
     this.vid = this.preselectedVehId;
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   searchVehicle(vehicleList) {

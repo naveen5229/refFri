@@ -5,6 +5,9 @@ import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { ActivityService } from '../../services/Activity/activity.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
@@ -40,7 +43,8 @@ export class LoginComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     let url = window.location.href;
     url = url.toLowerCase();
     this.iswallet = url.search("walle8customer") > -1 ? '1' : '0';

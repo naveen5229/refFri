@@ -7,6 +7,9 @@ import { UserService } from '../../services/user.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-states',
   templateUrl: './vehicle-states.component.html',
@@ -43,7 +46,8 @@ export class VehicleStatesComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getStates() {

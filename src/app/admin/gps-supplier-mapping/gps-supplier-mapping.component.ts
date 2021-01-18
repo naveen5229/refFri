@@ -5,6 +5,9 @@ import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ManualHaltComponent } from '../../modals/manual-halt/manual-halt.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'gps-supplier-mapping',
   templateUrl: './gps-supplier-mapping.component.html',
@@ -25,7 +28,8 @@ export class GpsSupplierMappingComponent implements OnInit {
       this.common.refresh = this.refresh.bind(this);
      }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){

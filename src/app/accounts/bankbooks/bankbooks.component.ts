@@ -16,6 +16,9 @@ import { ServiceComponent } from '../service/service.component';
 import * as localforage from 'localforage';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'bankbooks',
   templateUrl: './bankbooks.component.html',
@@ -118,7 +121,8 @@ export class BankbooksComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {

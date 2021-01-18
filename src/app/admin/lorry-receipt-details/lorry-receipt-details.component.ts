@@ -12,6 +12,9 @@ import { NgZone } from '@angular/core';
 import { LrGenerateComponent } from '../../modals/LRModals/lr-generate/lr-generate.component';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'lorry-receipt-details',
   templateUrl: './lorry-receipt-details.component.html',
@@ -54,7 +57,8 @@ export class LorryReceiptDetailsComponent implements OnInit {
   }
 
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     console.log('Refresh');

@@ -7,6 +7,9 @@ import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'unmerge-lrstate',
   templateUrl: './unmerge-lrstate.component.html',
@@ -34,7 +37,8 @@ export class UnmergeLRStateComponent implements OnInit {
     this.getUnmergeStateList();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

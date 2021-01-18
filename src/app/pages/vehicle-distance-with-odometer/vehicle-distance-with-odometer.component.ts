@@ -4,6 +4,9 @@ import { UserService } from '../../services/user.service';
 import { CommonService } from '../../services/common.service';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-distance-with-odometer',
   templateUrl: './vehicle-distance-with-odometer.component.html',
@@ -27,7 +30,8 @@ export class VehicleDistanceWithOdometerComponent implements OnInit {
 
    }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   setTable() {

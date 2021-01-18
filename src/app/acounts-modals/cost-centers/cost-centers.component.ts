@@ -3,6 +3,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'cost-centers',
   templateUrl: './cost-centers.component.html',
@@ -44,7 +47,8 @@ export class CostCentersComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1250');
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   dismiss(response) {

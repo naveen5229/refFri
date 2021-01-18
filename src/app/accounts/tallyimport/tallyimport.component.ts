@@ -18,6 +18,9 @@ import { saveAs } from 'file-saver';
 import { ExcelService } from '../../services/excel/excel.service';
 import { constructor } from 'vfile-message';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tallyimport',
   templateUrl: './tallyimport.component.html',
@@ -62,7 +65,8 @@ export class TallyimportComponent implements OnInit {
 
   activeGroup = [];
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.branchname = this.accountService.selected.branch.name;   

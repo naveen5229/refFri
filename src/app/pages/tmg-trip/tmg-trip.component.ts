@@ -5,6 +5,9 @@ import { ApiService } from '../../services/api.service';
 import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
 import { DomSanitizer } from '@angular/platform-browser';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tmg-trip',
   templateUrl: './tmg-trip.component.html',
@@ -62,7 +65,8 @@ export class TmgTripComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {

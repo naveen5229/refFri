@@ -11,6 +11,9 @@ import { LedgerviewComponent } from '../../acounts-modals/ledgerview/ledgerview.
 import { AccountService } from '../../services/account.service';
 import { StoclsummaryComponent } from '../stoclsummary/stoclsummary.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trading-tree',
   templateUrl: './trading.html',
@@ -75,6 +78,8 @@ export class TradingTreeComponent {
     }
   }
 }
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trading',
   templateUrl: './trading.component.html',
@@ -137,7 +142,8 @@ export class TradingComponent implements OnInit {
     this.common.currentPage = 'Trading Account';
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getBalanceSheet() {

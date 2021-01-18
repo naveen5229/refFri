@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { EncryptService } from '../../services/encrypt.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'beehive',
   templateUrl: './beehive.component.html',
@@ -60,7 +63,8 @@ export class BeehiveComponent implements OnInit {
     console.log('Refresh');
     this.LatLong = this.common.params;
   }
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   ngAfterViewInit() {
     this.mapService.mapIntialize();

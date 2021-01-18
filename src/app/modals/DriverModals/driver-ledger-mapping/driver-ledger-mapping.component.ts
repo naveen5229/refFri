@@ -3,6 +3,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../../services/api.service';
 import { CommonService } from '../../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'driver-ledger-mapping',
   templateUrl: './driver-ledger-mapping.component.html',
@@ -43,7 +46,8 @@ export class DriverLedgerMappingComponent implements OnInit {
    this.getDriverLedgers();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getDriverLedgers() {

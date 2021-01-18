@@ -6,6 +6,9 @@ import { Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
 import { AccountService } from '../services/account.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ngx-lorry-receipt',
   template: `
@@ -26,6 +29,8 @@ export class LorryReceiptComponent {
       return;
     }
   }
+  ngOnDestroy() { }
+
 
   getBranches() {
     this.api.post('Suggestion/GetBranchList', { search: 123 })

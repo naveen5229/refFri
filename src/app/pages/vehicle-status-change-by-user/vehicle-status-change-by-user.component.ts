@@ -6,6 +6,9 @@ import { UserService } from '../../services/user.service';
 import { ChangeVehicleStatusByCustomerComponent } from '../../modals/change-vehicle-status-by-customer/change-vehicle-status-by-customer.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status/change-vehicle-status.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-status-change-by-user',
   templateUrl: './vehicle-status-change-by-user.component.html',
@@ -39,7 +42,8 @@ export class VehicleStatusChangeByUserComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

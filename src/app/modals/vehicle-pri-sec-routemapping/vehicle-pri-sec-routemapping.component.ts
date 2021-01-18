@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmComponent } from '../confirm/confirm.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-pri-sec-routemapping',
   templateUrl: './vehicle-pri-sec-routemapping.component.html',
@@ -47,7 +50,8 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1050');
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

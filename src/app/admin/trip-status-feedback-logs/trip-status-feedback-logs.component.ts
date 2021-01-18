@@ -8,6 +8,9 @@ import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status
 import { VehicleTripUpdateComponent } from '../../modals/vehicle-trip-update/vehicle-trip-update.component';
 import { DomSanitizer } from '@angular/platform-browser';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trip-status-feedback-logs',
   templateUrl: './trip-status-feedback-logs.component.html',
@@ -43,7 +46,8 @@ export class TripStatusFeedbackLogsComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     console.log('Refresh');

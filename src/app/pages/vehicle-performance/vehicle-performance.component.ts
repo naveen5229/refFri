@@ -6,6 +6,9 @@ import { DateService } from '../../services/date.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-performance',
   templateUrl: './vehicle-performance.component.html',
@@ -43,7 +46,8 @@ export class VehiclePerformanceComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.getVehiclePerformance();

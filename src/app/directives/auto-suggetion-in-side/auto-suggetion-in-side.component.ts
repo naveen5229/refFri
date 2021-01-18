@@ -1,5 +1,8 @@
 import { Component, OnInit, Output, Input, EventEmitter, ChangeDetectorRef } from '@angular/core';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'auto-suggetion-in-side',
   templateUrl: './auto-suggetion-in-side.component.html',
@@ -38,7 +41,8 @@ export class AutoSuggetionInSideComponent implements OnInit {
     this.initialize();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
 
   }
 

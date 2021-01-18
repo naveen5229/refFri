@@ -6,6 +6,9 @@ import { ConfirmComponent } from '../../confirm/confirm.component';
 import { UserService } from '../../../services/user.service';
 import { PrintService } from '../../../services/print/print.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'view-transfer',
   templateUrl: './view-transfer.component.html',
@@ -49,7 +52,8 @@ export class ViewTransferComponent implements OnInit {
     this.viewTransfer();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   viewTransfer() {

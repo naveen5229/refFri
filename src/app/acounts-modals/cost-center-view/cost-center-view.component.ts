@@ -6,6 +6,9 @@ import { UserService } from '../../services/user.service';
 import { DatePickerComponent } from '@progress/kendo-angular-dateinputs';
 import { VoucherdetailComponent } from '../voucherdetail/voucherdetail.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'cost-center-view',
   templateUrl: './cost-center-view.component.html',
@@ -79,7 +82,8 @@ export class CostCenterViewComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.getVoucherTypeList();

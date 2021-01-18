@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tmg',
   templateUrl: './tmg.component.html',
@@ -12,7 +15,8 @@ export class TmgComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   getIndex() {
     for (let i = 0; i <= this.seletionsArray.length; i++) {

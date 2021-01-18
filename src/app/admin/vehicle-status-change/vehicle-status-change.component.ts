@@ -9,6 +9,9 @@ import { EmpDashboardComponent } from '../../documents/documentation-modals/emp-
 import { ChangeVehicleStatusByCustomerComponent } from '../../modals/change-vehicle-status-by-customer/change-vehicle-status-by-customer.component';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-status-change',
   templateUrl: './vehicle-status-change.component.html',
@@ -36,7 +39,8 @@ export class VehicleStatusChangeComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

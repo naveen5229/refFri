@@ -6,6 +6,9 @@ import { PayChallanPaymentComponent } from '../../modals/challanModals/pay-chall
 import { PdfViewerComponent } from '../../generic/pdf-viewer/pdf-viewer.component';
 import { UploadFileComponent } from '../../modals/generic-modals/upload-file/upload-file.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'challan-payment-request',
   templateUrl: './challan-payment-request.component.html',
@@ -31,7 +34,8 @@ export class ChallanPaymentRequestComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

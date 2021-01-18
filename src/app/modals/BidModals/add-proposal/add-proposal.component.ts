@@ -4,6 +4,9 @@ import { ApiService } from '../../../services/api.service';
 import { CommonService } from '../../../services/common.service';
 import { UserService } from '../../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-proposal',
   templateUrl: './add-proposal.component.html',
@@ -60,7 +63,8 @@ export class AddProposalComponent implements OnInit {
     this.activeModal.close({ response: status });
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 }

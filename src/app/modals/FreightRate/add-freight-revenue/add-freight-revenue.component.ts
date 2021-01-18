@@ -6,6 +6,9 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { ConfirmComponent } from '../../confirm/confirm.component';
 import { TransferReceiptsComponent } from '../transfer-receipts/transfer-receipts.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-freight-revenue',
   templateUrl: './add-freight-revenue.component.html',
@@ -94,7 +97,8 @@ export class AddFreightRevenueComponent implements OnInit {
   }
 
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
 
   }
 

@@ -12,6 +12,9 @@ import { LocationMarkerComponent } from '../../modals/location-marker/location-m
 
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'toll-analatics',
   templateUrl: './toll-analatics.component.html',
@@ -116,7 +119,8 @@ export class TollAnalaticsComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){

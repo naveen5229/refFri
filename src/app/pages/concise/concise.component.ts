@@ -27,6 +27,9 @@ import {
   VehicleTripUpdate
 } from "../../modals";
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: "concise",
   templateUrl: "./concise.component.html",
@@ -155,7 +158,7 @@ export class ConciseComponent implements OnInit {
     return this.registerForm.controls;
   }
 
-  ngOnInit() {
+ngOnInit() {
     this.registerForm = this.formBuilder.group({
       firstName: ["", Validators.required],
       lastName: ["", Validators.required],

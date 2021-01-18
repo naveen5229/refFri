@@ -5,6 +5,9 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { ErrorCoomonVehiclesComponent } from '../../modals/error-coomon-vehicles/error-coomon-vehicles.component';
 import { CsvErrorReportComponent } from '../csv-error-report/csv-error-report.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'import-bulk-vehicles',
   templateUrl: './import-bulk-vehicles.component.html',
@@ -23,7 +26,8 @@ export class ImportBulkVehiclesComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   sampleCsv() {
     window.open("http://13.126.215.102/sample/csv/sample_bulk_vehicle_upload.csv");

@@ -3,6 +3,9 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'update-ticket-subscribe',
   templateUrl: './update-ticket-subscribe.component.html',
@@ -35,7 +38,8 @@ export class UpdateTicketSubscribeComponent implements OnInit {
     //   this.ticket.refType = this.common.params.ref_type
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   UpdateTicketSubscribe() {

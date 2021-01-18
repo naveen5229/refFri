@@ -5,6 +5,9 @@ import { ApiService } from "../../services/api.service";
 import { CommonService } from '../../services/common.service';
 import { DateService } from '../../services/date.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'route-mapper',
   templateUrl: './route-mapper.component.html',
@@ -60,7 +63,8 @@ export class RouteMapperComponent implements OnInit {
     this.initFunctionality();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {

@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'supervisor-user-association',
   templateUrl: './supervisor-user-association.component.html',
@@ -24,7 +27,8 @@ export class SupervisorUserAssociationComponent implements OnInit {
     this.getAllUserList();
    }
 
-   ngOnInit() {
+   ngOnDestroy(){}
+ngOnInit() {
   }
    getAllUserList() {
     this.common.loading++;

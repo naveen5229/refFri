@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { Api2Service } from '../../services/api2.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'police-station',
   templateUrl: './police-station.component.html',
@@ -45,7 +48,8 @@ export class PoliceStationComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   ngAfterViewInit() {
 

@@ -6,6 +6,9 @@ import { UserService } from '../../services/user.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'card-balance',
   templateUrl: './card-balance.component.html',
@@ -43,7 +46,8 @@ export class CardBalanceComponent implements OnInit {
     //  this.dates.start = today.setDate(today.getDate() - 1);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){

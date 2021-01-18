@@ -12,6 +12,9 @@ declare var google: any;
 
 
 //@IonicPage()
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'path-viewer',
   templateUrl: './path-viewer.component.html',
@@ -81,6 +84,8 @@ export class PathViewerComponent {
     //this.common.sendFireBaseEvent('View', { page: 'Path_Viewer' });
     //this.common.setFireBaseCurrentScreen('Path_Viewer_Page');
   }
+
+  ngOnDestroy() { }
 
   loadMap(lat = 26.9124336, lng = 75.78727090000007) {
     let mapOptions = {

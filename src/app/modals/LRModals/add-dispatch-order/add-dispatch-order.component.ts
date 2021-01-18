@@ -10,6 +10,9 @@ import { BasicPartyDetailsComponent } from '../../basic-party-details/basic-part
 import { VehiclesViewComponent } from '../../vehicles-view/vehicles-view.component';
 import { AddSupplierAssociationComponent } from '../../add-supplier-association/add-supplier-association.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-dispatch-order',
   templateUrl: './add-dispatch-order.component.html',
@@ -58,7 +61,8 @@ export class AddDispatchOrderComponent implements OnInit {
     this.formatGeneralDetails();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getDispatchOrderFields(isSetBranchId?) {

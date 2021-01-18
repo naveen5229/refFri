@@ -3,6 +3,9 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'verifyfuturetripstate',
   templateUrl: './verifyfuturetripstate.component.html',
@@ -26,7 +29,8 @@ export class VerifyfuturetripstateComponent implements OnInit {
     this.startTime =new Date( this.common.params.verifyTrip.startTime);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   updateTrip() {

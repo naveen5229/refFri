@@ -6,6 +6,9 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddFreightExpensesComponent } from '../FreightRate/add-freight-expenses/add-freight-expenses.component';
 import { AddFreightRevenueComponent } from '../FreightRate/add-freight-revenue/add-freight-revenue.component';
 import { BeehiveComponent } from '../../admin/beehive/beehive.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'voucher-type-get',
   templateUrl: './voucher-type-get.component.html',
@@ -85,7 +88,8 @@ export class VoucherTypeGetComponent implements OnInit {
     this.getItems();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

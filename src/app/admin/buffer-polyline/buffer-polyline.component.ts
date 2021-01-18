@@ -6,6 +6,9 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'buffer-polyline',
   templateUrl: './buffer-polyline.component.html',
@@ -39,7 +42,8 @@ export class BufferPolylineComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     this.getRemainingTable();
   }
   refresh() {

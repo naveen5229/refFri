@@ -7,6 +7,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { GenericSuggestionComponent } from '../generic-modals/generic-suggestion/generic-suggestion.component';
 import { lstat } from 'fs';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'save-user-template',
   templateUrl: './save-user-template.component.html',
@@ -68,7 +71,8 @@ export class SaveUserTemplateComponent implements OnInit {
   }
 
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   setValue() {

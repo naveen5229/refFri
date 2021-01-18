@@ -17,6 +17,9 @@ import { AccountService } from '../../services/account.service';
 
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'order',
   templateUrl: './order.component.html',
@@ -168,7 +171,8 @@ export class OrderComponent implements OnInit {
     this.getFreeze();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   approvefunction(id) {

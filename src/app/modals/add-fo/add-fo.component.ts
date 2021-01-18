@@ -6,6 +6,9 @@ import { DOCUMENT } from "@angular/common";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { AddConsigneeComponent } from '../LRModals/add-consignee/add-consignee.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-fo',
   templateUrl: './add-fo.component.html',
@@ -66,7 +69,8 @@ export class AddFoComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   toggle() {

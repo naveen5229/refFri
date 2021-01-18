@@ -3,6 +3,9 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-details-update',
   templateUrl: './vehicle-details-update.component.html',
@@ -49,7 +52,8 @@ export class VehicleDetailsUpdateComponent implements OnInit {
     this.getBscodes();
   }
   }
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   displayVehicleInformation() {
 

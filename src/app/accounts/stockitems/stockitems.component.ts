@@ -6,6 +6,9 @@ import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.com
 import { UserService } from '../../@core/data/users.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'stockitems',
   templateUrl: './stockitems.component.html',
@@ -33,7 +36,8 @@ export class StockitemsComponent implements OnInit {
      }
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.getStockItems();

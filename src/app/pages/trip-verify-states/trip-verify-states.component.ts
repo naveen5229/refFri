@@ -6,6 +6,9 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { VehicleStatesComponent } from '../../modals/vehicle-states/vehicle-states.component';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trip-verify-states',
   templateUrl: './trip-verify-states.component.html',
@@ -40,7 +43,8 @@ export class TripVerifyStatesComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

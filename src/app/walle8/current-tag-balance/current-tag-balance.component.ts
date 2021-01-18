@@ -5,6 +5,9 @@ import { UserService } from '../../services/user.service';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'current-tag-balance',
   templateUrl: './current-tag-balance.component.html',
@@ -25,7 +28,8 @@ export class CurrentTagBalanceComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){
