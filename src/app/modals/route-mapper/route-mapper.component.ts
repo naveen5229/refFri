@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MapService } from '../../services/map.service';
 import { ApiService } from "../../services/api.service";
@@ -11,7 +11,8 @@ import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 @Component({
   selector: 'route-mapper',
   templateUrl: './route-mapper.component.html',
-  styleUrls: ['./route-mapper.component.scss']
+  styleUrls: ['./route-mapper.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RouteMapperComponent implements OnInit {
   slideToolTipLeft = 0;
@@ -47,7 +48,7 @@ export class RouteMapperComponent implements OnInit {
   infoStart = null;
   trails = [];
   constructor(private mapService: MapService,
-    private apiService: ApiService,
+    private apiService: ApiService, private cdr: ChangeDetectorRef,
     private activeModal: NgbActiveModal,
     private commonService: CommonService,
     public dateService: DateService) {
@@ -63,8 +64,8 @@ export class RouteMapperComponent implements OnInit {
     this.initFunctionality();
   }
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() { }
+  ngOnInit() {
   }
 
   ngAfterViewInit() {
@@ -82,18 +83,22 @@ ngOnInit() {
       console.timeEnd('api time');
       console.time('execution');
       this.mapService.clearAll();
+      if (this.trails.length > 1) {
+        if (new Date(this.trails[0].time) > new Date(this.trails[1].time)) {
+          this.trails.reverse();
+        }
+      }
       let i = 0;
       let prevElement = null;
       let total = 0;
       for (let index = 0; index < this.trails.length; index++) {
         const element = this.trails[index];
-        if (i != 0) {
+        if (i) {
           total += this.commonService.distanceFromAToB(element.lat, element.long, prevElement.lat, prevElement.long, "Mt");
           this.polypath.push({
             lat: element.lat, lng: element.long,
             odo: total, time: element.time
           });
-
         } else {
           this.polypath = [];
           this.polypath.push({ lat: element.lat, lng: element.long, odo: 0, time: element.time });
@@ -129,10 +134,10 @@ ngOnInit() {
       for (let index = 0; index < this.vehicleEvents.length; index++) {
         for (let indexInner = trailIndex; indexInner < this.polypath.length; indexInner++) {
           const element = this.polypath[indexInner];
-          if(new Date(element.time) > new Date(this.vehicleEvents[index].start_time)){
+          if (new Date(element.time) >= new Date(this.vehicleEvents[index].start_time)) {
             trailIndex = indexInner;
-            this.vehicleEvents[index]["odo"] = Math.round((element.odo - prevOdo)/1000);
-            this.vehicleEvents[index]["grand"] = Math.round(element.odo/1000);
+            this.vehicleEvents[index]["odo"] = Math.round((element.odo - prevOdo) / 1000);
+            this.vehicleEvents[index]["grand"] = Math.round(element.odo / 1000);
             prevOdo = element.odo;
             break;
           }
@@ -167,6 +172,7 @@ ngOnInit() {
       }
       console.timeEnd('execution');
       console.timeEnd('total');
+      this.cdr.detectChanges();
     })
   }
 
