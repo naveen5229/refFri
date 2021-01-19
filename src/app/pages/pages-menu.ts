@@ -618,7 +618,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
   {
     title: 'Walle8',
     icon: 'fa-wallet',
-    link: '/walle8/card-balance'
+    link: '/walle8/card-mapping'
   },
   {
     title: 'Bid-System',
