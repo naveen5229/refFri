@@ -10,6 +10,9 @@ import { ImageViewComponent } from '../../../modals/image-view/image-view.compon
 import { RemarkModalComponent } from '../../../modals/remark-modal/remark-modal.component';
 import { ReturnStatement } from '@angular/compiler';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'pending-document',
   templateUrl: './pending-document.component.html',
@@ -100,7 +103,8 @@ export class PendingDocumentComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getDocumentPending() {

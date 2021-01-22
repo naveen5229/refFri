@@ -6,6 +6,9 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-consignee',
   templateUrl: './add-consignee.component.html',
@@ -31,7 +34,8 @@ export class AddConsigneeComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '500', 'px', 1);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     this.Form = this.formBuilder.group({
       name: ['', Validators.required],
       address: [''],

@@ -19,6 +19,9 @@ import { BulkCompanyAssociationComponent } from '../../modals/bulk-company-assoc
 import { MultiVehicleHaltAddComponent } from '../../modals/multi-vehicle-halt-add/multi-vehicle-halt-add.component';
 import { SingleVehicleGpsDataComponent } from '../../modals/single-vehicle-gps-data/single-vehicle-gps-data.component';
 import { AtSitesComponent } from '../../modals/at-sites/at-sites.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-customer',
   templateUrl: './add-customer.component.html',
@@ -46,7 +49,8 @@ export class AddCustomerComponent implements OnInit {
     console.log('Refresh');
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   addVehicle() {
     const activeModal = this.modalService.open(AddVehicleComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });

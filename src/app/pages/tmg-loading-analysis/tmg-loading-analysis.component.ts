@@ -6,6 +6,9 @@ import { CommonService } from '../../services/common.service';
 import * as _ from "lodash";
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tmg-loading-analysis',
   templateUrl: './tmg-loading-analysis.component.html',
@@ -56,7 +59,8 @@ export class TmgLoadingAnalysisComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {

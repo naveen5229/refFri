@@ -14,6 +14,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 // import { saveAs } from 'file-saver/FileSaver';
 import { ExcelService } from '../../services/excel/excel.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tallyexport',
   templateUrl: './tallyexport.component.html',
@@ -61,7 +64,8 @@ export class TallyexportComponent implements OnInit {
 
   activeGroup = [];
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.branchname = this.accountService.selected.branch.name;   

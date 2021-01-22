@@ -229,7 +229,7 @@ export class CommonService {
     return this.datePipe.transform(date, format);
   }
 
-  
+
   changeDateformat4(date) {
     let d = new Date(date);
     return this.datePipe.transform(date, "dd-MMM-yyyy hh:mm");
@@ -1964,7 +1964,6 @@ export class CommonService {
     }
     xhr.send();
   }
-
   resetCommonService() {
     this.params = null;
     this.loading = 0;
@@ -2020,7 +2019,7 @@ export class CommonService {
       var ext = file.name.split('.').pop();
       let formats = (format && format.length) ? format : ["jpeg", "jpg", "png", 'xlsx', 'xls', 'docx', 'doc', 'pdf', 'csv'];
       if (formats.includes(ext)) {
-        result.name= file.name;
+        result.name = file.name;
         result.file = res;
       } else {
         this.showError("Valid Format Are : jpeg, png, jpg, xlsx, xls, docx, doc, pdf,csv");
@@ -2034,5 +2033,60 @@ export class CommonService {
     })
     return result;
   }
+  HSLToHex(h, s, l) {
+    s /= 100;
+    l /= 100;
 
+    let c = (1 - Math.abs(2 * l - 1)) * s,
+      x = c * (1 - Math.abs((h / 60) % 2 - 1)),
+      m = l - c / 2,
+      r = 0,
+      g = 0,
+      b = 0;
+
+    if (0 <= h && h < 60) {
+      r = c; g = x; b = 0;
+    } else if (60 <= h && h < 120) {
+      r = x; g = c; b = 0;
+    } else if (120 <= h && h < 180) {
+      r = 0; g = c; b = x;
+    } else if (180 <= h && h < 240) {
+      r = 0; g = x; b = c;
+    } else if (240 <= h && h < 300) {
+      r = x; g = 0; b = c;
+    } else if (300 <= h && h < 360) {
+      r = c; g = 0; b = x;
+    }
+    // Having obtained RGB, convert channels to hex
+    let rs = Math.round((r + m) * 255).toString(16);
+    let gs = Math.round((g + m) * 255).toString(16);
+    let bs = Math.round((b + m) * 255).toString(16);
+
+    // Prepend 0s, if necessary
+    if (rs.length == 1)
+      rs = "0" + rs;
+    if (gs.length == 1)
+      gs = "0" + gs;
+    if (bs.length == 1)
+      bs = "0" + bs;
+
+    return "#" + rs + gs + bs;
+  }
+  shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+  }
 }

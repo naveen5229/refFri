@@ -6,6 +6,9 @@ import { LocationMarkerComponent } from '../../modals/location-marker/location-m
 
 import { DatePipe } from '@angular/common';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'remaining-fuel',
   templateUrl: './remaining-fuel.component.html',
@@ -26,7 +29,8 @@ export class RemainingFuelComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     console.log('Refresh');

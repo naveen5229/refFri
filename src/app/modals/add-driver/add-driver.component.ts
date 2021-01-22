@@ -5,6 +5,9 @@ import { UserService } from '../../services/user.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-driver',
   templateUrl: './add-driver.component.html',
@@ -39,7 +42,8 @@ export class AddDriverComponent implements OnInit {
     private modalService: NgbModal,
     private formbuilder: FormBuilder, ) { }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     this.driverForm = this.formbuilder.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(64)]],
       mobileno: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],

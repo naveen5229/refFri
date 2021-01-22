@@ -12,6 +12,9 @@ import { LocationMarkerComponent } from '../../modals/location-marker/location-m
 
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trends',
   templateUrl: './trends.component.html',
@@ -75,7 +78,8 @@ export class TrendsComponent implements OnInit {
 
   }
 
-  ngOnInit() { }
+  ngOnDestroy(){}
+ngOnInit() { }
   refresh() {
 
     this.getDefaultTrend();

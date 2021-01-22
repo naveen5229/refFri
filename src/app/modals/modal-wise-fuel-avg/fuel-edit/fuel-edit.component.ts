@@ -7,6 +7,9 @@ import { ChangeVehicleStatusComponent } from '../../change-vehicle-status/change
 import { ImageViewComponent } from '../../image-view/image-view.component';
 import { from } from 'rxjs';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fuel-edit',
   templateUrl: './fuel-edit.component.html',
@@ -38,7 +41,8 @@ export class FuelEditComponent implements OnInit {
     this.activeModal.close();
 
   }
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   change() {
     if (this.isUpdate) {

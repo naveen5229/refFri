@@ -4,6 +4,9 @@ import { ApiService } from '../../../services/api.service';
 import { CommonService } from '../../../services/common.service';
 import { UserService } from '../../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-bid',
   templateUrl: './add-bid.component.html',
@@ -43,7 +46,8 @@ export class AddBidComponent implements OnInit {
     console.log("orderType",this.orderType);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal(status) {

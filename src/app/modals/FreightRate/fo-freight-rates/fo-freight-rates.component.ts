@@ -8,6 +8,9 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { BasicPartyDetailsComponent } from '../../basic-party-details/basic-party-details.component';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fo-freight-rates',
   templateUrl: './fo-freight-rates.component.html',
@@ -51,7 +54,8 @@ export class FoFreightRatesComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '450');
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     this.Form = this.formBuilder.group({
       companyautoSuggestion: ['',],
       wef: ['',],

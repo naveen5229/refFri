@@ -5,6 +5,9 @@ import { CommonService } from '../../services/common.service';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { LocationSelectionComponent } from '../location-selection/location-selection.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fo-site-alias',
   templateUrl: './fo-site-alias.component.html',
@@ -43,7 +46,8 @@ export class FoSiteAliasComponent implements OnInit {
     }
 
    
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
    

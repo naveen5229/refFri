@@ -3,6 +3,9 @@ import { ApiService } from '../../../services/api.service';
 import { CommonService } from '../../../services/common.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'generic-input-type',
   templateUrl: './generic-input-type.component.html',
@@ -42,7 +45,8 @@ export class GenericInputTypeComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

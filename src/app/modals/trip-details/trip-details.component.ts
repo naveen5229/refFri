@@ -7,6 +7,9 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateService } from '../../services/date.service';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trip-details',
   templateUrl: './trip-details.component.html',
@@ -48,7 +51,8 @@ export class TripDetailsComponent implements OnInit {
     this.getTripDetails();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

@@ -3,6 +3,9 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'addmissingtoll',
   templateUrl: './addmissingtoll.component.html',
@@ -36,7 +39,8 @@ export class AddmissingtollComponent implements OnInit {
       this.viewUserTolls();
    }
 
-  ngOnInit(): void {
+  ngOnDestroy(){}
+ngOnInit(): void {
   }
 
   handleFileSelection(event) {

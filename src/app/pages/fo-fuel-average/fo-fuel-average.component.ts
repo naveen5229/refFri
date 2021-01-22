@@ -7,6 +7,9 @@ import { ModalWiseFuelAverageComponent } from '../../modals/modal-wise-fuel-aver
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fo-fuel-average',
   templateUrl: './fo-fuel-average.component.html',
@@ -43,7 +46,8 @@ export class FoFuelAverageComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

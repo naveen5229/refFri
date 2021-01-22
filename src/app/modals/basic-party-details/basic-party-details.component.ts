@@ -12,6 +12,9 @@ import { ConfirmComponent } from '../confirm/confirm.component';
 import { PartyLedgerMappingComponent } from '../party-ledger-mapping/party-ledger-mapping.component';
 import { AddCompanyAssociationComponent } from '../add-company-association/add-company-association.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'basic-party-details',
   templateUrl: './basic-party-details.component.html',
@@ -135,7 +138,8 @@ export class BasicPartyDetailsComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
 
   }
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     this.Form = this.formBuilder.group({
       company: ['', [Validators.required]],
       cmpAlias: [''],

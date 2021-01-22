@@ -10,6 +10,9 @@ import { log } from 'util';
 import { EditFillingComponent } from '../../../app/modals/edit-filling/edit-filling.component';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fuelfillings',
   templateUrl: './fuelfillings.component.html',
@@ -46,7 +49,8 @@ export class FuelfillingsComponent implements OnInit {
     this.common.currentPage = 'Fuel Voucher';
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getVehicle(vehicle) {

@@ -117,11 +117,13 @@
           <table class="table">
             <thead class="thead">
               <th>Driver Name</th>
+              <th>Challan Count</th>
               <th>Challan Amount</th>
             </thead>
             <tbody class="tbody">
               <tr *ngFor="let cda of challansdrivaramount">
                 <td>{{cda['Driver']}}</td>
+                <td>{{cda['Challan Count']}}</td>
                 <td>{{cda['Challan Amount']}}</td>
               </tr>
             </tbody>

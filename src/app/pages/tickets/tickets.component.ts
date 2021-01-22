@@ -6,6 +6,9 @@ import { UserService } from '../../services/user.service';
 import { TicketTrailsComponent } from '../../modals/ticket-trails/ticket-trails.component';
 import { TicketInfoComponent } from '../../modals/ticket-info/ticket-info.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tickets',
   templateUrl: './tickets.component.html',
@@ -40,7 +43,8 @@ export class TicketsComponent implements OnInit {
     setTimeout(this.countDown.bind(this), 30000);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
 
   }
 

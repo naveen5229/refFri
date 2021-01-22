@@ -487,6 +487,10 @@ nb-card {
 nb-card {
   border: 0px !important;
 }
+.dashboard_chart{
+  height: 160px;
+  width: 100%;
+}
 
 .dashboard_chart canvas {
   width: 100% !important;

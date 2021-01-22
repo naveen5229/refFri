@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { MapService } from '../../services/map.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trip-km-repair-view',
   templateUrl: './trip-km-repair-view.component.html',
@@ -28,7 +31,8 @@ export class TripKmRepairViewComponent implements OnInit {
     this.map.map = null;
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(){}
+ngOnInit(): void {
   }
   ngAfterViewInit(): void {
     this.getTripKmData();

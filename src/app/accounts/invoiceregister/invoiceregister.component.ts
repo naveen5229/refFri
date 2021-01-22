@@ -6,6 +6,9 @@ import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { AccountService } from '../../services/account.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'invoiceregister',
   templateUrl: './invoiceregister.component.html',
@@ -63,7 +66,8 @@ export class InvoiceregisterComponent implements OnInit {
     this.common.currentPage = 'Invoice Register';
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.getVoucherTypeList();

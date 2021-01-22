@@ -5,6 +5,9 @@ import { ApiService } from '../../services/api.service';
 import { MapService } from '../../services/map.service';
 import { DatePipe } from '@angular/common';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'print-manifest',
   templateUrl: './print-manifest.component.html',
@@ -26,7 +29,8 @@ export class PrintManifestComponent implements OnInit {
     this.getManifestDetail(manifestId);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   closeModal() {
     this.activeModal.close();

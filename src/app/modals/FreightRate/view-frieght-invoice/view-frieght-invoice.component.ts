@@ -5,6 +5,9 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FreightInvoiceRateComponent } from '../freight-invoice-rate/freight-invoice-rate.component';
 import { PrintService } from '../../../services/print/print.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'view-frieght-invoice',
   templateUrl: './view-frieght-invoice.component.html',
@@ -34,7 +37,8 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
     this.printInvoice();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

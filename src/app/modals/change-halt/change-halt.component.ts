@@ -5,6 +5,9 @@ import { ApiService } from '../../services/api.service';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { RemarkModalComponent } from '../remark-modal/remark-modal.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'change-halt',
   templateUrl: './change-halt.component.html',
@@ -39,7 +42,8 @@ export class ChangeHaltComponent implements OnInit {
     console.log("vehicleEvent", this.vehicleEvent, this.common.passedVehicleId);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

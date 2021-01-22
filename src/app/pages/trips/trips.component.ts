@@ -8,6 +8,9 @@ import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.com
 import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
 import { TripKmRepairViewComponent } from '../../modals/trip-km-repair-view/trip-km-repair-view.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trips',
   templateUrl: './trips.component.html',
@@ -55,7 +58,8 @@ export class TripsComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

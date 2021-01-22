@@ -6,6 +6,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { UserCallHistoryComponent } from '../../modals/user-call-history/user-call-history.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'call-logs',
   templateUrl: './call-logs.component.html',
@@ -27,7 +30,8 @@ export class CallLogsComponent implements OnInit {
     console.log('currentDay:', this.currentDay, this.nextDay);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getDate() {

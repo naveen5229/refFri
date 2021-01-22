@@ -6,6 +6,9 @@ import { AccountService } from '../../../services/account.service';
 import { AddConsigneeComponent } from '../../LRModals/add-consignee/add-consignee.component';
 import { LrAssignComponent } from '../../LRModals/lr-assign/lr-assign.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'freight-invoice',
   templateUrl: './freight-invoice.component.html',
@@ -108,7 +111,8 @@ export class FreightInvoiceComponent implements OnInit {
     
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   closeModal() {
     this.activeModal.close();

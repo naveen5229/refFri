@@ -5,6 +5,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'gstdata',
   templateUrl: './gstdata.component.html',
@@ -41,7 +44,8 @@ export class GstdataComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
      }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   modelCondition() {
     //  this.showConfirm = flag;

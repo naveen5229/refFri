@@ -7,6 +7,9 @@ import { UserService } from '../../../services/user.service';
 import { PdfService } from '../../../services/pdf/pdf.service';
 import { CsvService } from '../../../services/csv/csv.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'transfer-receipts',
   templateUrl: './transfer-receipts.component.html',
@@ -107,7 +110,8 @@ export class TransferReceiptsComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

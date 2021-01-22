@@ -10,6 +10,9 @@ import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.com
 import { Router } from '@angular/router';
 import { TicketForwardComponent } from '../../modals/ticket-forward/ticket-forward.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ticket-actions',
   templateUrl: './ticket-actions.component.html',
@@ -27,7 +30,8 @@ export class TicketActionsComponent implements OnInit {
     public api: ApiService) {
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getExtraTime() {

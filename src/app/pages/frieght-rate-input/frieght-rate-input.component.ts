@@ -11,6 +11,9 @@ import { FreightRateCalculationComponent } from '../../modals/freight-rate-calcu
 import { FreightRateSummaryComponent } from '../../modals/FreightRate/freight-rate-summary/freight-rate-summary.component';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'frieght-rate-input',
   templateUrl: './frieght-rate-input.component.html',
@@ -46,7 +49,8 @@ export class FrieghtRateInputComponent implements OnInit {
     console.log("current Year", this.startDate);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

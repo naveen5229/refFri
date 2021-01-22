@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'openingstock',
   templateUrl: './openingstock.component.html',
@@ -42,7 +45,8 @@ export class OpeningstockComponent implements OnInit {
     this.setFoucus('date');
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   } 
   keyHandler(event) {
     const key = event.key.toLowerCase();

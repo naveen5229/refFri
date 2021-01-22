@@ -3,6 +3,9 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fuel-consumption',
   templateUrl: './fuel-consumption.component.html',
@@ -29,7 +32,8 @@ valobj = {};
   constructor(public common:CommonService,
     public api:ApiService) { }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

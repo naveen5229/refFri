@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 
 import { MENU_ITEMS } from './imtelligence-menu';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ngx-pages',
   template: `
@@ -14,4 +17,5 @@ import { MENU_ITEMS } from './imtelligence-menu';
 export class IntelligenceComponent {
 
   menu = MENU_ITEMS;
+  ngOnDestroy(){}
 }

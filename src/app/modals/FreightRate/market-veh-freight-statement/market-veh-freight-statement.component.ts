@@ -6,6 +6,9 @@ import { AccountService } from '../../../services/account.service';
 import { AddConsigneeComponent } from '../../LRModals/add-consignee/add-consignee.component';
 import { MvsLrAssignComponent } from '../mvs-lr-assign/mvs-lr-assign.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'market-veh-freight-statement',
   templateUrl: './market-veh-freight-statement.component.html',
@@ -55,7 +58,8 @@ export class MarketVehFreightStatementComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getMvsFreightData()

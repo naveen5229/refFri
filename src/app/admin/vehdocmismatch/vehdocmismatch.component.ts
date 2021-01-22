@@ -6,6 +6,9 @@ import { UserService } from '../../services/user.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehdocmismatch',
   templateUrl: './vehdocmismatch.component.html',
@@ -33,7 +36,8 @@ export class VehdocmismatchComponent implements OnInit {
       this.vehDocMismatchSummary()
     }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   vehDocMismatchSummary(){

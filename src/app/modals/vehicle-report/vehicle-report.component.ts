@@ -9,6 +9,9 @@ import * as moment_ from 'moment';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
 import { DateService } from '../../services/date.service';
 const moment = moment_;
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-report',
   templateUrl: './vehicle-report.component.html',
@@ -67,7 +70,8 @@ export class VehicleReportComponent implements OnInit {
   }
 
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   ngAfterViewInit() { }
 

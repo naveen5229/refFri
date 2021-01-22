@@ -6,6 +6,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { VehicleFuelFillingEntryComponent } from '../../modals/vehicle-fuel-filling-entry/vehicle-fuel-filling-entry.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fuel-average-issues',
   templateUrl: './fuel-average-issues.component.html',
@@ -24,7 +27,8 @@ export class FuelAverageIssuesComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   

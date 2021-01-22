@@ -3,14 +3,17 @@
     <div *ngIf="allKpis.length ">
         <div class="status-print-view pt-0" id="page-1">
             <div class="row">
-                <div class="col-10 status-print-title text-center">
+                <div class="col-2 x-hide">
+                    <i class="fa fa-bars x-hide" [ngClass]="{'active': isHidePie}" (click)="setIsHidePie()"></i>
+                </div>
+                <div class="col-8 status-print-title text-center">
                     <h4>Trip dashboard</h4>
                 </div>
-                <div class="col-2 status-print-title" style="background-color: #c9c2de; padding: 10px; border-radius: 25px;"  > 
-                    <div *ngFor="let gs of gpsStatusKeys" style="float:left" >
+                <div class="col-2 right-status"> 
+                    <div *ngFor="let gs of gpsStatusKeys" style="float:left">
                         <div [class]="gs=='Offline'?'ball red':gs=='Online'?'ball bgreen':'ball byellow'" style="margin-left: 8px;" >     
                         </div>
-                        <u style="font-size: 20px; margin-left:3px; cursor:pointer"(click)="filterByGpsData(gs)">
+                        <u (click)="filterByGpsData(gs)">
                             {{gpsStatus[gs].length}}
                         </u>
                     </div>
@@ -138,7 +141,7 @@
     <nb-card class="nb_card_box" style="border: 0px; height: 100%;" *ngIf="allKpis.length">
         <nb-card-body style="padding:5px 5px 0px;">
             <div class="row m-0">
-                <div class="col-sm-3 pl-0 pr-2" style="height: 90vh; overflow: hidden;" [hidden]="isMapView">
+                <div class="col-sm-3 pl-0 pr-2" style="height: 90vh; overflow: hidden;" [hidden]="isMapView || isHidePie">
                     <div style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
                         class="row">
                         <div class="col-sm-2">
@@ -245,7 +248,7 @@
                     <span class="exel-icon" title="CSV Export" (click)="exportCsv('print-section')"
                         style="cursor: pointer;"><i class="fas fa-file-excel"></i></span>
                 </div>
-                <div class="" *ngIf="table" [ngClass]="isMapView ? 'col-sm-12 p-0' : 'col-sm-9 p-0'">
+                <div class="" *ngIf="table" [ngClass]="isMapView || isHidePie ? 'col-sm-12 p-0' : 'col-sm-9 p-0'">
                     <div>
                         <!-- ============================= SMART TABLE VIEW ============================= -->
                         <div mwlResizable [enableGhostResize]="true" class="map-table-container"

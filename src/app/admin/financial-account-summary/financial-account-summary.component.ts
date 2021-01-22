@@ -8,6 +8,9 @@ import { PdfService } from '../../services/pdf/pdf.service';
 import jsPDF from "jspdf";
 import html2canvas from 'html2canvas';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'financial-account-summary',
   templateUrl: './financial-account-summary.component.html',
@@ -44,7 +47,8 @@ export class FinancialAccountSummaryComponent implements OnInit {
     this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 15)));
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

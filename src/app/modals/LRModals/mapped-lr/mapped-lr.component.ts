@@ -7,6 +7,9 @@ import { ChangeVehicleStatusComponent } from '../../change-vehicle-status/change
 import { ImageViewComponent } from '../../image-view/image-view.component';
 import { from } from 'rxjs';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'mapped-lr',
   templateUrl: './mapped-lr.component.html',
@@ -30,7 +33,8 @@ export class MappedLrComponent implements OnInit {
     this.table = this.setTable();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   closeModal() {
     this.activeModal.close();

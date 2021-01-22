@@ -6,6 +6,9 @@ import { Router } from '@angular/router';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { VehicleHaltComponent } from '../../modals/vehicle-halt/vehicle-halt.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ticket-site-details',
   templateUrl: './ticket-site-details.component.html',
@@ -42,7 +45,8 @@ export class TicketSiteDetailsComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
 
