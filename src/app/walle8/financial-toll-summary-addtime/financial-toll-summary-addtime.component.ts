@@ -9,6 +9,9 @@ import "jspdf-autotable";
 import { CsvService } from '../../services/csv/csv.service';
 import { DatePipe } from '@angular/common';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'financial-toll-summary-addtime',
   templateUrl: './financial-toll-summary-addtime.component.html',
@@ -63,7 +66,8 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
       
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   selectVehicle(vehData) {

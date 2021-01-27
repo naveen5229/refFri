@@ -2,6 +2,9 @@ import { Component, OnInit, EventEmitter, ChangeDetectionStrategy, Input, Output
 import { CommonService } from '../../services/common.service';
 import { type } from 'os';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'smart-table',
   templateUrl: './smart-table.component.html',
@@ -41,7 +44,8 @@ export class SmartTableComponent implements OnInit {
   constructor(private cdr: ChangeDetectorRef,
     public common: CommonService) { }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngOnChanges(changes) {

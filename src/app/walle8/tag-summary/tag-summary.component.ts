@@ -7,6 +7,9 @@ import "jspdf-autotable";
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tag-summary',
   templateUrl: './tag-summary.component.html',
@@ -37,7 +40,8 @@ export class TagSummaryComponent implements OnInit {
       this.foid = this.user._loggedInBy == 'admin' ? this.user._customer.foid:this.user._details.foid;
     }
 
-  ngOnInit(): void {
+  ngOnDestroy(){}
+ngOnInit(): void {
   }
 
   selectVehicle(vehData) {

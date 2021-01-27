@@ -3,6 +3,9 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'bulk-vehicle-next-service-detail',
   templateUrl: './bulk-vehicle-next-service-detail.component.html',
@@ -22,7 +25,8 @@ export class BulkVehicleNextServiceDetailComponent implements OnInit {
     this.getNextServiceEntries()
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   closeModal() {
     this.activeModal.close();

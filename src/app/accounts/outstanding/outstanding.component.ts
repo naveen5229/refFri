@@ -16,6 +16,9 @@ import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component
 import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
 import { ServiceComponent } from '../service/service.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'out-standing-tree',
   template: `
@@ -136,6 +139,8 @@ export class outStandingTreeComponent {
 
 }
 
+
+@AutoUnsubscribe()
 @Component({
   selector: 'outstanding',
   templateUrl: './outstanding.component.html',
@@ -205,7 +210,8 @@ export class OutstandingComponent implements OnInit {
 
   activeGroup = [];
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.getLedgerList();

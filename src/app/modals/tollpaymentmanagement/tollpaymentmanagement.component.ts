@@ -8,6 +8,9 @@ import { isNumeric } from 'rxjs/util/isNumeric';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AddmissingtollComponent } from '../addmissingtoll/addmissingtoll.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tollpaymentmanagement',
   templateUrl: './tollpaymentmanagement.component.html',
@@ -47,10 +50,9 @@ export class TollpaymentmanagementComponent implements OnInit {
     this.getVehicleClass();
   }
 
-  // ngOnInit(): void {
-  // }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {

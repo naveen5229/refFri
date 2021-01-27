@@ -5,6 +5,9 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { GenericSuggestionComponent } from '../generic-modals/generic-suggestion/generic-suggestion.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trip-state-mapping',
   templateUrl: './trip-state-mapping.component.html',
@@ -33,7 +36,8 @@ export class TripStateMappingComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

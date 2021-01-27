@@ -5,6 +5,9 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
 import { LedgerComponent} from '../ledger/ledger.component';
 import { AccountService } from '../../services/account.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'taxdetail',
   templateUrl: './taxdetail.component.html',
@@ -57,7 +60,8 @@ console.log('size index',this.sizeIndex);
   allowBackspace = true;
 
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   dismisspop(response) {

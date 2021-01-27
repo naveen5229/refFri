@@ -5,6 +5,9 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router'
 import { ApiService } from '../../services/api.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tank-empty-details',
   templateUrl: './tank-empty-details.component.html',
@@ -33,7 +36,8 @@ export class TankEmptyDetailsComponent implements OnInit {
     console.log('dates ', this.startDate);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {

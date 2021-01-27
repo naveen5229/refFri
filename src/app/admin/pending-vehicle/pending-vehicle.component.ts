@@ -6,6 +6,9 @@ import { UserService } from '../../services/user.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'pending-vehicle',
   templateUrl: './pending-vehicle.component.html',
@@ -52,7 +55,8 @@ export class PendingVehicleComponent implements OnInit {
     // this.bodyType = ["Truck(OpenBody)", "Truck(FullBody)", "Multiaxle(Trailer)", "Tanker", "Trailer", "Doubleaxle(Trailer)"]
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

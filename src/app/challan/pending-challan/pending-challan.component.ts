@@ -11,6 +11,9 @@ import { CsvService } from '../../services/csv/csv.service';
 import { UserService } from '../../services/user.service';
 import { ExcelService } from '../../services/excel/excel.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'pending-challan',
   templateUrl: './pending-challan.component.html',
@@ -45,7 +48,8 @@ export class PendingChallanComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

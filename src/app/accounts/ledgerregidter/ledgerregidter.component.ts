@@ -18,6 +18,9 @@ import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component
 import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
 import { ServiceComponent } from '../service/service.component';
  
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ledger-register-tree',
   template: `
@@ -192,6 +195,8 @@ export class ledgerRegisterTreeComponent {
 
 }
 
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ledgerregidter',
   templateUrl: './ledgerregidter.component.html',
@@ -279,7 +284,8 @@ export class LedgerregidterComponent implements OnInit {
     this.getSecondaryGoup();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.GetLedger();

@@ -6,6 +6,9 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoadHaltComponent } from '../../modals/load-halts/load-halt.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'halt-density',
   templateUrl: './halt-density.component.html',
@@ -33,7 +36,8 @@ export class HaltDensityComponent implements OnInit {
       this.commonService.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh(){
     console.log("refresh");

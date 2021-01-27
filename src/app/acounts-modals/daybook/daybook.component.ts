@@ -19,6 +19,9 @@ import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-
 import { AccountService } from '../../services/account.service';
 import { ServiceComponent } from '../../accounts/service/service.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'daybook',
   templateUrl: './daybook.component.html',
@@ -120,7 +123,8 @@ export class DaybookComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.getVoucherTypeList();

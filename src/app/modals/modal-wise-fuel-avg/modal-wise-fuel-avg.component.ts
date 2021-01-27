@@ -7,6 +7,9 @@ import { ChangeVehicleStatusComponent } from '../change-vehicle-status/change-ve
 import { ImageViewComponent } from '../image-view/image-view.component';
 import { from } from 'rxjs';
 import { FuelEditComponent } from '../modal-wise-fuel-avg/fuel-edit/fuel-edit.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'modal-wise-fuel-avg',
   templateUrl: './modal-wise-fuel-avg.component.html',
@@ -24,7 +27,8 @@ export class ModalWiseFuelAvgComponent implements OnInit {
     this.modalWiseFuel();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   closeModal() {
     this.activeModal.close();

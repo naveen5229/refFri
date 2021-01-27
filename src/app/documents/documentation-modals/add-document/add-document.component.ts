@@ -9,6 +9,9 @@ import { AddAgentComponent } from '../add-agent/add-agent.component';
 import { DatePickerComponent } from '../../../modals/date-picker/date-picker.component';
 import { from } from 'rxjs';
 import { DropDownListComponent } from '../drop-down-list/drop-down-list.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-document',
   templateUrl: './add-document.component.html',
@@ -96,7 +99,8 @@ export class AddDocumentComponent implements OnInit {
     this.getDocumentsData();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal(response) {

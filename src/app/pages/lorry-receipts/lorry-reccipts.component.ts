@@ -21,6 +21,9 @@ import { TemplatePreviewComponent } from '../../modals/template-preview/template
 import { PdfService } from '../../services/pdf/pdf.service';
 import { FreightInvoiceComponent } from '../../modals/FreightRate/freight-invoice/freight-invoice.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'lorry-reccipts',
   templateUrl: './lorry-reccipts.component.html',
@@ -59,7 +62,8 @@ export class LorryRecciptsComponent implements OnInit {
 
 
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

@@ -5,6 +5,9 @@ import { CommonService } from '../../../services/common.service';
 import { UserService } from '../../../services/user.service';
 import { AddProposalComponent } from '../add-proposal/add-proposal.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'proposal-state',
   templateUrl: './proposal-state.component.html',
@@ -40,7 +43,8 @@ export class ProposalStateComponent implements OnInit {
       this.getProposalLogs();
      }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal(status) {

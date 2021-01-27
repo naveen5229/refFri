@@ -6,6 +6,9 @@ import { DatePipe } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'adhoc-route',
   templateUrl: './adhoc-route.component.html',
@@ -51,7 +54,8 @@ export class AdhocRouteComponent implements OnInit {
     this.vehicleNo = this.common.params.vehicle.regNo;
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(){}
+ngOnInit(): void {
   }
 
   closeModal() {

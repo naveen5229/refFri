@@ -5,6 +5,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from "lodash";
 import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tmg-calls',
   templateUrl: './tmg-calls.component.html',
@@ -53,7 +56,8 @@ export class TmgCallsComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {

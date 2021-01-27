@@ -9,6 +9,9 @@ import { DatePickerComponent } from '../../../modals/date-picker/date-picker.com
 import { ViewListComponent } from '../../../modals/view-list/view-list.component';
 import { LocationMarkerComponent } from '../../../modals/location-marker/location-marker.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'emp-dashboard',
   templateUrl: './emp-dashboard.component.html',
@@ -44,7 +47,8 @@ export class EmpDashboardComponent implements OnInit {
   closeModal(response) {
     this.activeModal.close({ response: response });
   }
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit(){

@@ -13,6 +13,9 @@ import { LRViewComponent } from '../../modals/LRModals/lrview/lrview.component';
 import { ChangeDriverComponent } from '../../modals/DriverModals/change-driver/change-driver.component';
 import { start } from 'repl';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'generate-lr',
   templateUrl: './generate-lr.component.html',
@@ -96,7 +99,8 @@ export class GenerateLRComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     // this.getBranches();
 
   }

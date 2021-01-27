@@ -3,6 +3,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ware-house-modal',
   templateUrl: './ware-house-modal.component.html',
@@ -52,7 +55,8 @@ export class WareHouseModalComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   dismiss(response) {
     console.log('Accounts:', this.Accounts);

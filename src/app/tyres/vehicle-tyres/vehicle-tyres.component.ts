@@ -6,6 +6,9 @@ import { ApiService } from '../../services/api.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-tyres',
   templateUrl: './vehicle-tyres.component.html',
@@ -91,7 +94,8 @@ export class VehicleTyresComponent implements OnInit {
     public api: ApiService
   ) { }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   resetDetails(){

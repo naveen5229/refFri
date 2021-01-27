@@ -45,7 +45,8 @@ export class LazyForDirective implements DoCheck, OnInit {
     private tpl: TemplateRef<any>,
     private iterableDiffers: IterableDiffers) { }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     this.templateElem = this.vcr.element.nativeElement;
 
     this.lazyForContainer = this.templateElem.parentElement;

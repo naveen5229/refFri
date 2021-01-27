@@ -6,6 +6,9 @@ import { UserService } from '../../services/user.service';
 import { AddCityComponent } from '../../acounts-modals/add-city/add-city.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { from } from 'rxjs';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'city',
   templateUrl: './city.component.html',
@@ -42,7 +45,8 @@ export class CityComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     console.log('Refresh');

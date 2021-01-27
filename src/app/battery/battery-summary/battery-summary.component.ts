@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BatterySummaryReportComponent } from '../../modals/Battery/battery-summary-report/battery-summary-report.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'battery-summary',
   templateUrl: './battery-summary.component.html',
@@ -31,7 +34,8 @@ export class BatterySummaryComponent implements OnInit {
     this.getBetterySummary();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

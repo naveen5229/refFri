@@ -13,6 +13,9 @@ import { StockSummaryComponent } from '../../acounts-modals/stock-summary/stock-
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'stoclsummary',
   templateUrl: './stoclsummary.component.html',
@@ -118,7 +121,8 @@ warehouseid=0;
 
   activeGroup = [];
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.getStockTypeList();

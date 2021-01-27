@@ -18,6 +18,9 @@ import { TripStateMappingComponent } from '../trip-state-mapping/trip-state-mapp
 
 declare let google: any;
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'change-vehicle-status',
   templateUrl: './change-vehicle-status.component.html',
@@ -79,7 +82,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.getEvents();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   ngAfterViewInit() {
     this.loadMap(this.location.lat, this.location.lng);

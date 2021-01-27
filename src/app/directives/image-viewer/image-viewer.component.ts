@@ -16,6 +16,9 @@ import { FullScreenViewer } from 'iv-viewer';
 /**
  * @author Jai Rana 15/09/2020
  */
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'jrx-image-viewer',
   templateUrl: './image-viewer.component.html',
@@ -71,7 +74,8 @@ export class ImageViewerComponent implements OnChanges, OnInit, AfterViewInit {
 
   constructor(private renderer: Renderer2) { }
 
-  ngOnInit(): void {
+  ngOnDestroy(){}
+ngOnInit(): void {
     if (this.loadOnInit) {
       this.isImagensPresentes();
     }

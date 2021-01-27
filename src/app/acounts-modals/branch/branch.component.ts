@@ -3,6 +3,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'branch',
   templateUrl: './branch.component.html',
@@ -127,7 +130,8 @@ export class BranchComponent implements OnInit {
     this.getSite();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   dismiss(response) {
     console.log('Accounts:', this.Branches);

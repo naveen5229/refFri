@@ -3,6 +3,9 @@ import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../../services/user.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'drop-down-list',
   templateUrl: './drop-down-list.component.html',
@@ -37,7 +40,8 @@ export class DropDownListComponent implements OnInit {
     this.data = this.common.params.ignoreData;
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal(response) {

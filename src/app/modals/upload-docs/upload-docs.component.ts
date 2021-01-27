@@ -4,6 +4,9 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { CommonService } from '../../services/common.service';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'upload-docs',
   templateUrl: './upload-docs.component.html',
@@ -77,7 +80,8 @@ export class UploadDocsComponent implements OnInit {
     //console.log('', this.docId);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getData() {

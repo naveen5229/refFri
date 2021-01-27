@@ -3,6 +3,9 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-cost-center-list',
   templateUrl: './vehicle-cost-center-list.component.html',
@@ -24,7 +27,8 @@ export class VehicleCostCenterListComponent implements OnInit {
     this.common.currentPage = 'Vehicle Cost Center List';
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
 
   }
 

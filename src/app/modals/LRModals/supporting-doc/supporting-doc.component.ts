@@ -3,6 +3,9 @@ import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'supporting-doc',
   templateUrl: './supporting-doc.component.html',
@@ -33,7 +36,8 @@ export class SupportingDocComponent implements OnInit {
     this.supportDoc();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

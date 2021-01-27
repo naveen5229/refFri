@@ -7,6 +7,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 import { VehicleTripUpdateComponent } from '../../modals/vehicle-trip-update/vehicle-trip-update.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'kpis-details',
   templateUrl: './kpis-details.component.html',
@@ -25,7 +28,8 @@ export class KpisDetailsComponent implements OnInit {
     this.getVehicleInformation();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   getLR(lrId) {
     this.common.loading++;

@@ -11,6 +11,9 @@ import { FuelStationEntryComponent } from '../../modals/fuel-station-entry/fuel-
 import { ShowFuelStationComponent } from '../../modals/show-fuel-station/show-fuel-station.component';
 import { TankEmptyDetailsComponent } from '../../modals/tank-empty-details/tank-empty-details.component';
 import { CsvService } from '../../services/csv/csv.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fuel-fillings',
   templateUrl: './fuel-fillings.component.html',
@@ -62,7 +65,8 @@ export class FuelFillingsComponent implements OnInit {
     console.log("Page Type:", user._pages);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

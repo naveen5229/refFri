@@ -9,6 +9,9 @@ import { from } from 'rxjs';
 import { RemarkModalComponent } from '../remark-modal/remark-modal.component';
 import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-halt',
   templateUrl: './vehicle-halt.component.html',
@@ -30,7 +33,8 @@ export class VehicleHaltComponent implements OnInit {
     this.description = this.common.params.description;
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   confirmOption(option) {

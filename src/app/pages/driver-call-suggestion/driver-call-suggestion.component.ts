@@ -12,6 +12,9 @@ import { headersToString } from 'selenium-webdriver/http';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { ReportIssueComponent } from '../../modals/report-issue/report-issue.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'driver-call-suggestion',
   templateUrl: './driver-call-suggestion.component.html',
@@ -58,7 +61,8 @@ export class DriverCallSuggestionComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

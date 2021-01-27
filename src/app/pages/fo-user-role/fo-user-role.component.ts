@@ -6,6 +6,9 @@ import * as _ from 'lodash';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fo-user-role',
   templateUrl: './fo-user-role.component.html',
@@ -34,7 +37,8 @@ export class FoUserRoleComponent implements OnInit {
     this.getAllUserList();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.common.isComponentActive = false;

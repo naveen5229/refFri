@@ -26,6 +26,9 @@ import { UploadFileComponent } from '../../modals/generic-modals/upload-file/upl
 import { AccountService } from '../../services/account.service';
 import { CsvErrorReportComponent } from '../../modals/csv-error-report/csv-error-report.component';
 import { TollpaymentmanagementComponent } from '../../modals/tollpaymentmanagement/tollpaymentmanagement.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-trip',
   templateUrl: './vehicle-trip.component.html',
@@ -76,7 +79,8 @@ export class VehicleTripComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

@@ -5,6 +5,9 @@ import { UserService } from '../../services/user.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormDataTableComponent } from '../form-data-table/form-data-table.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ngx-ticket-form-field',
   templateUrl: './ticket-form-field.component.html',
@@ -49,7 +52,8 @@ export class TicketFormFieldComponent implements OnInit {
     this.getTicketProcessByTocken();
   }
 
-  ngOnInit() {}
+  ngOnDestroy(){}
+ngOnInit() {}
 
   getTicketProcessByTocken() {
     

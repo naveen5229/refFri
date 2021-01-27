@@ -7,6 +7,9 @@ import { PrintManifestComponent } from '../../modals/print-manifest/print-manife
 import { GenerateLrMainfestoComponent } from '../generate-lr-mainfesto/generate-lr-mainfesto.component';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'view-manifesto',
   templateUrl: './view-manifesto.component.html',
@@ -43,7 +46,8 @@ export class ViewManifestoComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

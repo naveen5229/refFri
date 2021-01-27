@@ -5,6 +5,9 @@ import { DateService } from '../../../services/date.service';
 import { UserService } from '../../../@core/data/users.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'view-summary-details',
   templateUrl: './view-summary-details.component.html',
@@ -39,7 +42,8 @@ export class ViewSummaryDetailsComponent implements OnInit {
     this.getDocumentData();
 
   }
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
 
   }
   getDocumentData() {

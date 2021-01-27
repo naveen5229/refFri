@@ -10,6 +10,9 @@ import { GeneralModalComponent } from '../../modals/general-modal/general-modal.
 import { ProposalStateComponent } from '../../modals/BidModals/proposal-state/proposal-state.component';
 import * as _ from "lodash";
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'open-orders',
   templateUrl: './open-orders.component.html',
@@ -47,7 +50,8 @@ export class OpenOrdersComponent implements OnInit {
     this.getOrders(this.orderType);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   

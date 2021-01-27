@@ -3,6 +3,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'party-ledger-mapping',
   templateUrl: './party-ledger-mapping.component.html',
@@ -45,7 +48,8 @@ export class PartyLedgerMappingComponent implements OnInit {
     this.getPartyLedgers();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   // getPartyList() {

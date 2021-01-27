@@ -11,6 +11,9 @@ import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summ
 
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trip-voucher-expense',
   templateUrl: './trip-voucher-expense.component.html',
@@ -71,7 +74,8 @@ export class TripVoucherExpenseComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
    
   }
 

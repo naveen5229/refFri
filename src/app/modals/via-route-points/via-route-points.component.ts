@@ -6,6 +6,9 @@ import { ApiService } from '../../services/api.service';
 import { LocationSelectionComponent } from '../location-selection/location-selection.component';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'via-route-points',
   templateUrl: './via-route-points.component.html',
@@ -67,7 +70,8 @@ export class ViaRoutePointsComponent implements OnInit {
     }, 2000)
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

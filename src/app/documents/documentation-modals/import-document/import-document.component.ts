@@ -6,6 +6,9 @@ import { UserService } from '../../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorReportComponent } from '../error-report/error-report.component';
 import { CsvErrorReportComponent } from '../../../modals/csv-error-report/csv-error-report.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'import-document',
   templateUrl: './import-document.component.html',
@@ -45,7 +48,8 @@ export class ImportDocumentComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal(response) {
