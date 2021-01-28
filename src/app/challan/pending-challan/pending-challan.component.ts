@@ -10,7 +10,6 @@ import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 import { UserService } from '../../services/user.service';
 import { ExcelService } from '../../services/excel/excel.service';
-
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 
 @AutoUnsubscribe()
@@ -252,6 +251,16 @@ ngOnInit() {
     // }
 
     generateExcel() {
+      
+      let startDate= this.common.dateFormatter1(this.startDate);
+      let endDate=   this.common.dateFormatter1(this.endDate);
+      let foName =   this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+      let headerDetails=[];
+      headerDetails=[
+        {sDate:startDate},
+        {eDate:endDate},
+        {name:foName}
+      ]
       let headersArray = ["RegNo", "Challan Date", "Challan No", "Dl Rc No", "Payment", "Payment Source", "State", "Payment Type","Amount","Transaction Id","Violator Name","Driver"];
       let json = this.challan.map(challan => {
         return {
@@ -270,7 +279,7 @@ ngOnInit() {
         };
       });
   
-      this.excelService.jrxExcel(headersArray, json, 'Pending Challan');
+      this.excelService.jrxExcel("pending Challan",headerDetails,headersArray, json, 'Pending Challan');
     }
 
 }
