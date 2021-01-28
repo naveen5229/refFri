@@ -13,7 +13,6 @@ import { isNull } from 'util';
 import { StoclsummaryComponent } from '../stoclsummary/stoclsummary.component';
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 
-@AutoUnsubscribe()
 @Component({
   selector: 'profitloss-tree',
   templateUrl: './profitloss.html',

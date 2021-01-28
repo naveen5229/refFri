@@ -13,7 +13,6 @@ import { StoclsummaryComponent } from '../stoclsummary/stoclsummary.component';
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 
-@AutoUnsubscribe()
 @Component({
   selector: 'trading-tree',
   templateUrl: './trading.html',
