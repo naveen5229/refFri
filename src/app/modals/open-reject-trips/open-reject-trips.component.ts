@@ -11,14 +11,18 @@ import { ApiService } from '../../services/api.service';
 })
 export class OpenRejectTripsComponent implements OnInit {
   vehicleId=null;
-  startDate = new Date(new Date().setDate(new Date().getDate() - 30));
-  endDate = new Date();
+  startDate = null;
+  endDate = null;
 
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     private datePipe: DatePipe,
     public api: ApiService,
-    private modalService: NgbModal,) { }
+    private modalService: NgbModal,) {
+      this.vehicleId = this.common.params.vehicleId;
+      this.startDate = this.common.params.startDate ? this.common.params.startDate : new Date(new Date().setDate(new Date().getDate() - 30));
+      this.endDate = this.common.params.endDate ? this.common.params.endDate : new Date();
+     }
 
   ngOnInit(): void {
   }
@@ -27,7 +31,7 @@ export class OpenRejectTripsComponent implements OnInit {
     let params = {
       sdate: this.common.dateFormatter(this.startDate),
       edate: this.common.dateFormatter(this.endDate),
-      vid:this.common.params.vehicleId
+      vid:this.vehicleId
     };
     console.log("Params:",params);
     this.common.loading++;

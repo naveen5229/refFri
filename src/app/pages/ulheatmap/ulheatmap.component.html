@@ -1,1 +1,14 @@
-<p>ulheatmap works!</p>
+<div class="floating-panel">
+    <button (click)="mapService.toggleHeatmap()">Toggle Heatmap</button>
+    <button (click)="mapService.changeGradient()">Change gradient</button>
+    <button (click)="mapService.changeRadius()">Change radius</button>
+    <button (click)="mapService.changeOpacity()">Change opacity</button>
+</div>
+<div class="floating-panel1">
+    <button (click)="setHeatMap('today')">Today</button>
+    <button (click)="setHeatMap('7 days')">7 Days</button>
+    <button (click)="setHeatMap('15 days')">15 Days</button>
+    <button (click)="setHeatMap('month')">This Month</button>
+    <button (click)="setHeatMap('6 months')">6 Months</button>
+</div>
+<div id="map"></div>
