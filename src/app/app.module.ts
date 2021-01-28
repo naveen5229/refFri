@@ -306,6 +306,7 @@ import { AddmissingtollComponent } from './modals/addmissingtoll/addmissingtoll.
 import { TicketFormFieldComponent } from './modals/ticket-form-field/ticket-form-field.component';
 import { FormDataTableComponent } from './modals/form-data-table/form-data-table.component';
 import { AtSitesComponent } from './modals/at-sites/at-sites.component';
+import { OpenRejectTripsComponent } from './modals/open-reject-trips/open-reject-trips.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -586,6 +587,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     TollpaymentmanagementComponent,
     AddmissingtollComponent,
     AtSitesComponent,
+    OpenRejectTripsComponent,
   ],
   entryComponents: [
     ...COMMON_COMPONENT,

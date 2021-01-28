@@ -19,6 +19,7 @@ import { TripStateMappingComponent } from '../trip-state-mapping/trip-state-mapp
 declare let google: any;
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+import { OpenRejectTripsComponent } from '../open-reject-trips/open-reject-trips.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -797,6 +798,14 @@ ngOnInit() {
     activeModal.result.then(data =>
       this.reloadData());
   }
+
+  openRejMulTrips(vehicleEvent) {
+    this.common.params = { vehicleId: this.VehicleStatusData.vehicle_id, vehicleRegNo: this.VehicleStatusData.regno }
+    const activeModal = this.modalService.open(OpenRejectTripsComponent, { size: 'md', container: 'nb-layout' });
+    activeModal.result.then(data =>
+      this.reloadData());
+  }
+
 
   resolveTicket(status) {
     this.common.loading++;
