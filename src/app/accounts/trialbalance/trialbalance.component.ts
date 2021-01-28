@@ -14,7 +14,6 @@ import { AccountService } from '../../services/account.service';
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 
-@AutoUnsubscribe()
 @Component({
   selector: 'trail-tree',
   templateUrl: './trail.tree.html',
