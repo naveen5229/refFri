@@ -23,6 +23,7 @@ export class MapService {
   isMapLoaded = false;
   mapLoadDiv = null;
   cluster = null;
+  labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   lineSymbol = {
     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
   };
@@ -42,6 +43,37 @@ export class MapService {
   polygonPaths = [];
   polygonPathsVertices = [[]];
   constructor(public common: CommonService) {
+  }
+
+  toggleHeatmap() {
+    this.heatmap.setMap(this.heatmap.getMap() ? null : this.map);
+  }
+
+  changeGradient() {
+    const gradient = [
+      "rgba(0, 255, 255, 0)",
+      "rgba(0, 255, 255, 1)",
+      "rgba(0, 191, 255, 1)",
+      "rgba(0, 127, 255, 1)",
+      "rgba(0, 63, 255, 1)",
+      "rgba(0, 0, 255, 1)",
+      "rgba(0, 0, 223, 1)",
+      "rgba(0, 0, 191, 1)",
+      "rgba(0, 0, 159, 1)",
+      "rgba(0, 0, 127, 1)",
+      "rgba(63, 0, 91, 1)",
+      "rgba(127, 0, 63, 1)",
+      "rgba(191, 0, 31, 1)",
+      "rgba(255, 0, 0, 1)",
+    ];
+    this.heatmap.set("gradient", this.heatmap.get("gradient") ? null : gradient);
+  }
+  changeRadius() {
+    this.heatmap.set("radius", this.heatmap.get("radius") ? null : 20);
+  }
+
+  changeOpacity() {
+    this.heatmap.set("opacity", this.heatmap.get("opacity") ? null : 0.2);
   }
 
   autoSuggestion(elementId, setLocation?, types?) {
@@ -290,7 +322,8 @@ export class MapService {
             flat: true,
             icon: pinImage,
             map: this.map,
-            title: title
+            title: title,
+            label: title
           });
           let displayText = '';
           if (infoKeys) {
@@ -340,6 +373,15 @@ export class MapService {
     }
   }
 
+  createMarkerCluster(markers) {
+    let markerCluster =
+      new MarkerClusterer(this.map, markers, {
+        imagePath:
+          "assets\\images\\blank",
+      });
+    return markerCluster;
+  }
+
   createCluster(markers, ismake?) {
     let infoWindows = [];
 
@@ -371,6 +413,7 @@ export class MapService {
         this.cluster.clearMarkers();
       markers.map(marker => marker && marker.setMap(this.map));
     }
+    return this.cluster;
   }
 
 
@@ -390,7 +433,7 @@ export class MapService {
   }
 
   toggleBounceMF(id, evtype = 1) {
-    console.log("id=",id);
+    console.log("id=", id);
     if (this.markers[id]) {
       if (this.markers[id].getAnimation() == null && evtype == 1) {
         this.markers[id].setAnimation(google.maps.Animation.BOUNCE);
@@ -777,5 +820,35 @@ export class MapService {
     return url;
   }
 
+  setHeatMap(data) {
+    this.heatmap = new google.maps.visualization.HeatmapLayer({
+      data: data,
+      map: this.map,
+    });
+    return this.heatmap;
+  }
+
+  createSimpleMarkers(datax, setBounds = true) {
+    let markers = [];
+    datax.map((location, i) => {
+      if (location.lat && location.lat != 0)
+        markers.push(new google.maps.Marker({
+          position: this.createLatLng(location.lat, location.long),
+          label: location.title,
+        }));
+    });
+    if (setBounds) {
+      var bounds = new google.maps.LatLngBounds();
+      datax.forEach(e => {
+        if (e.lat && e.lat != 0) {
+          let point = new google.maps.LatLng(e.lat, e.long);
+          datax.push({ location: point, weight: e.weight })
+          bounds.extend(point);
+        }
+      });
+      this.map.fitBounds(bounds);
+    }
+    return markers;
+  }
 
 }
