@@ -7,6 +7,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 import { getUrlScheme } from '@angular/compiler';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'latest-recharge',
   templateUrl: './latest-recharge.component.html',
@@ -40,7 +43,8 @@ export class LatestRechargeComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){
@@ -90,7 +94,8 @@ export class LatestRechargeComponent implements OnInit {
   //     });
   // }
   getLatestRecharge() {
-    let params = "mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
+    let foid=this.user._loggedInBy=='admin' ? this.user._customer.foid : this.user._details.foid;
+    let params = "mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end+"&foid="+foid;
     this.common.loading++;
     let response;
     this.api.walle8Get('CardRechargeApi/FoCardRechargeView.json?' + params)

@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UpdateTransportAgentComponent } from '../../modals/update-transport-agent/update-transport-agent.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'transport-agents',
   templateUrl: './transport-agents.component.html',
@@ -19,7 +22,8 @@ export class TransportAgentsComponent implements OnInit {
       this.common.refresh = this.refresh.bind(this);
     }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

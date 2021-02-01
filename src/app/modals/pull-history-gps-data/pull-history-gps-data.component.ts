@@ -6,6 +6,9 @@ import { DatePickerComponent } from '../date-picker/date-picker.component';
 import { userInfo } from 'os';
 import { dateFieldName } from '@telerik/kendo-intl';
 import { ApiService } from '../../services/api.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'pull-history-gps-data',
   templateUrl: './pull-history-gps-data.component.html',
@@ -26,7 +29,8 @@ export class PullHistoryGPSDataComponent implements OnInit {
     console.log("Start Date:", this.startDate);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     //this.Form = this.formBuilder.group({
 
   }

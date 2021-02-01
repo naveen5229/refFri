@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tmg-documents',
   templateUrl: './tmg-documents.component.html',
@@ -17,7 +21,8 @@ currentStatus = [];
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {
@@ -38,5 +43,26 @@ currentStatus = [];
         --this.common.loading;
         console.log('Err:', err);
       });
+  }
+  getDetials(url, params, value = 0,type='days') {
+    let dataparams = {
+      view: {
+        api: url,
+        param: params,
+        type: 'post'
+      },
+  
+      title: 'Details'
+    }
+    if (value) {
+      let startDate = type == 'months'? new Date(new Date().setMonth(new Date().getMonth() - value)): new Date(new Date().setDate(new Date().getDate() - value));
+      let endDate = new Date();
+      dataparams.view.param['fromdate'] = this.common.dateFormatter(startDate);
+      dataparams.view.param['todate'] = this.common.dateFormatter(endDate);
+    }
+    console.log("dataparams=", dataparams);
+    this.common.handleModalSize('class', 'modal-lg', '1100');
+    this.common.params = { data: dataparams };
+    const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 }

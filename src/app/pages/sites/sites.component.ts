@@ -1,8 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CsvErrorReportComponent } from '../../modals/csv-error-report/csv-error-report.component';
+import { UploadFileComponent } from '../../modals/generic-modals/upload-file/upload-file.component';
+import { AccountService } from '../../services/account.service';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { MapService } from '../../services/map.service';
 import { UserService } from '../../services/user.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'sites',
   templateUrl: './sites.component.html',
@@ -62,17 +69,21 @@ export class SitesComponent implements OnInit {
 
   }];
   typeID = null;
-
+  branchId = null;
   constructor(public common: CommonService,
     public api: ApiService,
     public mapService: MapService,
+    private modalService: NgbModal,
+    public accountService: AccountService,
     public user: UserService) {
     this.companySites();
     this.site.name = "Add";
     this.common.refresh = this.refresh.bind(this);
+    console.log("this.accountService.selected.branch.id",this.accountService.selected.branch.id);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {
@@ -320,5 +331,40 @@ getLatLng(){
 }
 }
 
+openUploadModal() {
+  this.common.params={sampleURL:'http://dev.elogist.in/sample/csv/sampleDealorUpload.csv'};
+  const activeModal = this.modalService.open(UploadFileComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false });
+  activeModal.result.then(data => {
+    if (data.response) {
+      console.log("data",data);
+      this.uploadCsv(data.fileType,data.file);
+    }
+  });
+}
+
+uploadCsv(fileType,file) {
+  if (!file && !this.branchId) {
+    return this.common.showError("Select  Option");
+  }
+  file = file.replace('77u/','');
+  const params = {
+    sitesCSV: file,
+    branchId: this.accountService.selected.branch.id
+  };
+  
+  this.common.loading++;
+  this.api.post('Site/createDealorSitesUsingCSV ', params)
+    .subscribe(res => {
+      this.common.loading--;
+      let successData =  res['data']['success'];
+      let errorData =res['data']['fail'];
+      alert(res["msg"]);
+      this.common.params = { apiData: params,successData, errorData, title: 'Bulk Site csv Report',isUpdate:false };
+      const activeModal = this.modalService.open(CsvErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    }, err => {
+      this.common.loading--;
+      console.log(err);
+    });
+}
 
 }

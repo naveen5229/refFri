@@ -7,6 +7,9 @@ import { AddFuelIndentComponent } from '../../modals/add-fuel-indent/add-fuel-in
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fuel-indent',
   templateUrl: './fuel-indent.component.html',
@@ -56,7 +59,8 @@ export class FuelIndentComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

@@ -5,6 +5,9 @@ import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddShortTargetComponent } from '../../modals/add-short-target/add-short-target.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'short-target',
   templateUrl: './short-target.component.html',
@@ -35,7 +38,8 @@ export class ShortTargetComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

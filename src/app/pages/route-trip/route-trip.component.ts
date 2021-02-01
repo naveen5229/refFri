@@ -9,6 +9,9 @@ import { DateService } from '../../services/date.service';
 import { RoutesTimetableComponent } from '../../modals/routes-timetable/routes-timetable.component';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'route-trip',
   templateUrl: './route-trip.component.html',
@@ -56,7 +59,8 @@ export class RouteTripComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
 

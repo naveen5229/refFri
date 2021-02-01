@@ -8,6 +8,9 @@ import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.com
 import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
 import { TripKmRepairViewComponent } from '../../modals/trip-km-repair-view/trip-km-repair-view.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trips',
   templateUrl: './trips.component.html',
@@ -55,7 +58,8 @@ export class TripsComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {
@@ -109,10 +113,10 @@ export class TripsComponent implements OnInit {
           }
           let km = { title: 'KM', placeholder: 'KM' };
           this.table.data.headings['km'] = km;
-          let googlekm = { title: 'Google KM', placeholder: 'Google KM' };
-          this.table.data.headings['googlekm'] = googlekm;
-          let hiskm = { title: 'Historic KM (Avg)', placeholder: 'Historic KM (Avg)' };
-          this.table.data.headings['hiskm'] = hiskm;
+          // let googlekm = { title: 'Google KM', placeholder: 'Google KM' };
+          // this.table.data.headings['googlekm'] = googlekm;
+          // let hiskm = { title: 'Historic KM (Avg)', placeholder: 'Historic KM (Avg)' };
+          // this.table.data.headings['hiskm'] = hiskm;
           if (this.type == '-2') {
             let status = { title: 'Status', placeholder: 'Status' };
             this.table.data.headings['status'] = status;

@@ -8,6 +8,9 @@ import { LocationSelectionComponent } from '../../location-selection/location-se
 import { ConfirmComponent } from '../../confirm/confirm.component';
 import { FreightInputWithoutLocationComponent } from '../freight-input-without-location/freight-input-without-location.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'freight-input-location',
   templateUrl: './freight-input-location.component.html',
@@ -64,7 +67,8 @@ export class FreightInputLocationComponent implements OnInit {
     this.addMore();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   closeModal() {
     this.activeModal.close();

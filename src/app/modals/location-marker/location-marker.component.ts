@@ -4,6 +4,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 declare var google: any;
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'location-marker',
   templateUrl: './location-marker.component.html',
@@ -16,9 +19,11 @@ export class LocationMarkerComponent implements OnInit {
   location = {
     lat: 26.9124336,
     lng: 75.78727090000007,
+    angle:0,
     name: '',
     time: '',
   };
+  rotate = null;
   fence=null;
   polygon = null;
   bounds = new google.maps.LatLngBounds();
@@ -32,7 +37,8 @@ export class LocationMarkerComponent implements OnInit {
     this.title = this.common.params.title;
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 
@@ -41,6 +47,7 @@ export class LocationMarkerComponent implements OnInit {
     this.location = this.common.params['location'];
     this.fence = this.common.params['fence'];
     this.loadMap(this.location.lat, this.location.lng);
+    this.rotate = this.location.angle ? 'rotate(' + this.location.angle + 'deg)': null;
   }
 
   setBounds(latLng, reset = false) {

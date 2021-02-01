@@ -5,7 +5,7 @@
         <h5>Trip Feedback Logs</h5>
       </div>
 
-      <div class="col-3">
+      <div class="col-2">
         <div *ngIf="activitySummary.length>0">
           <span>
             <span class="pdf-icon" title="PDF Export" (click)="printPDF('feedbackLogs')" style="cursor: pointer;"><i
@@ -15,7 +15,7 @@
           </span>
         </div>
       </div>
-      <div class="col-7">
+      <div class="col-8">
         <div class="row">
           <div class="col-sm-3">
             <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate"  [isTime]=false>
@@ -29,14 +29,20 @@
             <!-- <input type="text" class="form-control" [value]="endDate | date: 'dd MMM yyyy'" name="date1"
               placeholder="End Date" (click)="getDate('end')" /> -->
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-2">
             <div class="search_vehicle_input">
               <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid"
                 display="regno" placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
             </div>
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-2">
             <button class="btn btn-primary m-0" (click)="getFeedbackLogs()">submit</button>
+          </div>
+          <div class="col-sm-2">
+            <select class="form-control" [(ngModel)]='dataFormat' (change)='getFeedbackLogs()'>
+              <option value="vehicle_wise">Vehicle Wise</option>
+              <option value="day_wise">Day Wise</option>
+            </select>
           </div>
         </div>
       </div>

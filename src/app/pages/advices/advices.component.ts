@@ -8,6 +8,9 @@ import { SaveAdvicesComponent } from '../../modals/save-advices/save-advices.com
 import { ClearAdvicesComponent } from '../../modals/clear-advices/clear-advices.component';
 import { UserService } from '../../services/user.service';
 import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'advices',
   templateUrl: './advices.component.html',
@@ -44,7 +47,8 @@ export class AdvicesComponent implements OnInit {
     this.searchData();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   selectType(type) {
     console.log("type:", type.target.value);

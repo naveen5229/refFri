@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-search',
   templateUrl: './vehicle-search.component.html',
@@ -29,7 +32,8 @@ export class VehicleSearchComponent implements OnInit {
     console.log(this.vehicleId,this.vehicleRegNo)
    }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   selectedVehicle(vehicle){

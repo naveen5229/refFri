@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { ConfirmComponent } from '../confirm/confirm.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'routes-expenses',
   templateUrl: './routes-expenses.component.html',
@@ -42,7 +45,8 @@ export class RoutesExpensesComponent implements OnInit {
     this.addMore();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
 
 
   }

@@ -6,6 +6,9 @@ import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { UserService } from '../../@core/data/users.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ledgerapprove',
   templateUrl: './ledgerapprove.component.html',
@@ -67,7 +70,8 @@ export class LedgerapproveComponent implements OnInit {
     this.getSecondaryGoup();
 
   }
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     console.log('ledger approve test');

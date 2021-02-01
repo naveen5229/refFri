@@ -4,6 +4,9 @@ import { CommonService } from '../../../services/common.service';
 import { UserService } from '../../../services/user.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'upload-file',
   templateUrl: './upload-file.component.html',
@@ -12,15 +15,21 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class UploadFileComponent implements OnInit {
 file = null;
 fileType =null;
+sampleURL = null;
   constructor(public api: ApiService,
     public common: CommonService,
     private activeModal: NgbActiveModal) {
-   
+      this.sampleURL =  this.common.params.sampleURL?this.common.params.sampleURL:null;
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   
+  ngAfterViewInit(){
+    console.log("this.common.params.sampleURL",this.common.params.sampleURL)
+    this.sampleURL =  this.common.params.sampleURL?this.common.params.sampleURL:null;
+  }
   closeModal(response) {
     this.activeModal.close({ response: response,file:this.file,fileType:this.fileType });
   }
@@ -43,5 +52,8 @@ fileType =null;
       })
   }
 
+  sampleCsv() {
+    window.open(this.sampleURL);
+  }
 }
 

@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { ConfirmComponent } from '../confirm/confirm.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'routes-traffic-kpis',
   templateUrl: './routes-traffic-kpis.component.html',
@@ -46,7 +49,8 @@ export class RoutesTrafficKpisComponent implements OnInit {
     this.addMore();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   vehicleModalTypes() {

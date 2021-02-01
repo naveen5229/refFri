@@ -1,0 +1,28 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Reject Multiple Trips</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+        <div class="col-4">
+            <label>Start Date</label>
+            <uj-date-time-picker (onChanged)="startDate = $event" [isTime]="false" [dateTimeValue]="startDate">
+            </uj-date-time-picker>
+        </div>
+
+        <div class="col-4">
+            <label>End Date</label>
+            <uj-date-time-picker (onChanged)="endDate = $event" [isStart]="false" [isTime]="false" [dateTimeValue]="endDate">
+            </uj-date-time-picker>
+        </div>
+
+        <div class="col-2">
+            <button class="btn btn-primary mt-3" type="button" id="submit" (click)="rejectTrips()" style="cursor: pointer;">Submit</button>
+        </div>
+    </div>
+
+  </div>
+  
+  

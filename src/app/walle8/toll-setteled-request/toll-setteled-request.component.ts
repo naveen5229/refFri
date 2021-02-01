@@ -6,17 +6,16 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'toll-setteled-request',
   templateUrl: './toll-setteled-request.component.html',
   styleUrls: ['./toll-setteled-request.component.scss']
 })
 export class TollSetteledRequestComponent implements OnInit {
-  // dates = {
-  //   start: null,
-
-  //   end: this.common.dateFormatter(new Date()),
-  // };
+  
   startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
   endDate = new Date();
   table = null;
@@ -29,29 +28,19 @@ export class TollSetteledRequestComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
   ) {
-    // let today = new Date();
-    // this.dates.start = this.common.dateFormatter1(today.setDate(today.getDate() - 1));
     this.gettollSetteledReq();
     this.common.refresh = this.refresh.bind(this);
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){
     this.gettollSetteledReq();
   }
-  // getDate(date) {
-  //   this.common.params = { ref_page: "card usage" };
-  //   const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-  //   activeModal.result.then(data => {
-  //     this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
-  //     console.log('Date:', this.dates);
-  //   });
-  // }
-
-  
+    
   setTable() {
     let headings = {
       toll_usage_id: { title: 'Toll Id', placeholder: 'Toll Id' },
@@ -96,7 +85,8 @@ export class TollSetteledRequestComponent implements OnInit {
     return columns;
   }
   gettollSetteledReq() {
-    let params ="&startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate));
+    let foid=this.user._loggedInBy=='admin' ? this.user._customer.foid : this.user._details.foid;
+    let params ="&startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate))+"&mobileno=" + this.user._details.fo_mobileno+"&foid="+ foid;
     //  console.log("api hit");
     this.common.loading++;
     this.api.walle8Get('TollSummary/getTollSettledRequests.json?' + params)

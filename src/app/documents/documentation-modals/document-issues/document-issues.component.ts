@@ -6,6 +6,9 @@ import { UserService } from '../../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'document-issues',
   templateUrl: './document-issues.component.html',
@@ -28,7 +31,8 @@ export class DocumentIssuesComponent implements OnInit {
     this.displayIssueReport();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal(response) {

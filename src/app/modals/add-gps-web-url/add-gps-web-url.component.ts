@@ -4,6 +4,9 @@ import { AddGpsSupplierComponent } from '../add-gps-supplier/add-gps-supplier.co
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-gps-web-url',
   templateUrl: './add-gps-web-url.component.html',
@@ -32,7 +35,8 @@ export class AddGpsWebUrlComponent implements OnInit {
     this.getGpsSupplierList();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   selectSupplierData(gps) {
     this.gpsSupplierId = gps.id;

@@ -4,6 +4,9 @@ import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'mvs-lr-assign',
   templateUrl: './mvs-lr-assign.component.html',
@@ -52,7 +55,8 @@ export class MvsLrAssignComponent implements OnInit {
     this.viewlrData();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

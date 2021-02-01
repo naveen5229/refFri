@@ -5,6 +5,9 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TicketDetailsComponent } from '../../modals/ticket-details/ticket-details.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tickets-kpi',
   templateUrl: './tickets-kpi.component.html',
@@ -24,7 +27,8 @@ export class TicketsKpiComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
 
   }
 

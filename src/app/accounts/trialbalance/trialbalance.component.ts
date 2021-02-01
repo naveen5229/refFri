@@ -12,6 +12,8 @@ import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 import { AccountService } from '../../services/account.service'; 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
 @Component({
   selector: 'trail-tree',
   templateUrl: './trail.tree.html',
@@ -102,6 +104,8 @@ export class TrailTreeComponent {
   }
 }
 
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trialbalance',
   templateUrl: './trialbalance.component.html',
@@ -173,7 +177,8 @@ export class TrialbalanceComponent implements OnInit {
     this.common.currentPage = 'Trial Balance';
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     // this.getVoucherTypeList();

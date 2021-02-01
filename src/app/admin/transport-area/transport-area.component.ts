@@ -3,6 +3,9 @@ import { MapService } from '../../services/map.service';
 import { ApiService } from "../../services/api.service";
 import { CommonService } from '../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'transport-area',
   templateUrl: './transport-area.component.html',
@@ -25,7 +28,8 @@ export class TransportAreaComponent implements OnInit {
       this.commonService.refresh = this.refresh.bind(this);
     }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){

@@ -9,174 +9,193 @@
   <form [formGroup]="driverForm" name="addDriver-form" id="addDriver-form"
     (submit)="driverForm.valid && Updatedriver()">
 
-      <div class="row">
-        <div class="col-3">
-          <label>Name</label>
-        </div>
-        <div class="col-3">
-          <input type="text" class="form-control" id="driver-name" formControlName="name" minlength="3" maxlength="64"
-            placeholder="Driver Name" autocomplete="off" readonly>
-          <!-- <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+    <div class="row">
+      <div class="col-3">
+        <label>Name</label>
+      </div>
+      <div class="col-3">
+        <input type="text" class="form-control" id="driver-name" formControlName="name" minlength="3" maxlength="64"
+          placeholder="Driver Name" autocomplete="off" readonly>
+        <!-- <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
               <div *ngIf="f.name.errors.required">Driver Name is required</div> -->
-        </div>
-
-        <div class="col-3">
-          <label>Contact Number</label>
-        </div>
-        <div class="col-3">
-          <input type="text" class="form-control" id="mobile-number" placeholder="Mobile NO." autocomplete="off"
-            formControlName="mobileno" minlength="10" maxlength="10"
-            [ngClass]="{ 'is-invalid': submitted && f.mobileno.errors }" readonly>
-          <div *ngIf="submitted && f.mobileno.errors" class="invalid-feedback">
-            <div *ngIf="f.mobileno.errors.required">mobileNumber is not editable</div>
-            <div *ngIf="f.mobileno.errors.minlength ">mobile Number minlength 10</div>
-            <div *ngIf="f.mobileno.errors.maxlength ">mobile Number maxlength 10</div>
-          </div>
-
-        </div>
       </div>
 
-      <div class="row margin-top-15">
-        <div class="col-3">
-          <label>Contact Number 2</label>
+      <div class="col-3">
+        <label>Contact Number</label>
+      </div>
+      <div class="col-3">
+        <input type="text" class="form-control" id="mobile-number" placeholder="Mobile NO." autocomplete="off"
+          formControlName="mobileno" minlength="10" maxlength="10"
+          [ngClass]="{ 'is-invalid': submitted && f.mobileno.errors }" readonly>
+        <div *ngIf="submitted && f.mobileno.errors" class="invalid-feedback">
+          <div *ngIf="f.mobileno.errors.required">mobileNumber is not editable</div>
+          <div *ngIf="f.mobileno.errors.minlength ">mobile Number minlength 10</div>
+          <div *ngIf="f.mobileno.errors.maxlength ">mobile Number maxlength 10</div>
         </div>
-        <div class="col-3">
-          <input type="text" class="form-control" id="mobile-number" placeholder="Mobile NO." autocomplete="off"
-            formControlName="mobileno2" minlength="10" maxlength="10"
-            [ngClass]="{ 'is-invalid': submitted && f.mobileno2.errors }">
-          <div *ngIf="submitted && f.mobileno2.errors" class="invalid-feedback">
-            <div *ngIf="f.mobileno2.errors.minlength ">mobile Number minlength 10</div>
-            <div *ngIf="f.mobileno2.errors.maxlength ">mobile Number maxlength 10</div>
-          </div>
+
+      </div>
+    </div>
+
+    <div class="row margin-top-15">
+      <div class="col-3">
+        <label>Contact Number 2</label>
+      </div>
+      <div class="col-3">
+        <input type="text" class="form-control" id="mobile-number" placeholder="Mobile NO." autocomplete="off"
+          formControlName="mobileno2" minlength="10" maxlength="10"
+          [ngClass]="{ 'is-invalid': submitted && f.mobileno2.errors }">
+        <div *ngIf="submitted && f.mobileno2.errors" class="invalid-feedback">
+          <div *ngIf="f.mobileno2.errors.minlength ">mobile Number minlength 10</div>
+          <div *ngIf="f.mobileno2.errors.maxlength ">mobile Number maxlength 10</div>
         </div>
-        <div class="col-3">
-          <label>Date of Joining</label>
-        </div>
-        <div class="col-3">
-          <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" placeholder="Select Date"
+      </div>
+      <div class="col-3">
+        <label>Date of Joining</label>
+      </div>
+      <div class="col-3">
+        <uj-date-time-picker (onChanged)="driver.date=$event" [dateTimeValue]="driver.date" [isTime]="false">
+        </uj-date-time-picker>
+        <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" placeholder="Select Date"
             [value]="driver.date | date: 'dd MMM yyyy'" formControlName="date" readonly> -->
 
 
-            <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('doj')"
-            placeholder="Select Date" [value]="driver.date | date: 'dd MMM yyyy'" formControlName="date" name="date" readonly>
+        <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('doj')"
+            placeholder="Select Date" [value]="driver.date | date: 'dd MMM yyyy'" formControlName="date" name="date"> -->
 
+      </div>
+    </div>
+
+    <div class="row margin-top-15">
+      <div class="col-3">
+        <label>Salary</label>
+      </div>
+      <div class="col-3">
+        <input type="text" class="form-control" id="Salary" autocomplete="off" formControlName="Salary"
+          placeholder="Salary">
+      </div>
+      <div class="col-3">
+        <label>Guarantor</label>
+      </div>
+      <div class="col-3">
+        <input type="text" class="form-control" id="Gauranter" autocomplete="off" formControlName="guranter"
+          placeholder="Guarantor">
+      </div>
+    </div>
+
+    <div class="row margin-top-15">
+      <div class="col-3">
+        <label>Guarantor Mobile No.</label>
+      </div>
+      <div class="col-3">
+        <input type="text" class="form-control" minlength="10" autocomplete="off" maxlength="10" id="guranter-no."
+          placeholder="Guarantor mobile No." formControlName="guranterno"
+          [ngClass]="{ 'is-invalid': submitted && f.guranterno.errors }">
+        <div *ngIf="submitted && f.guranterno.errors" class="invalid-feedback">
+          <div *ngIf="f.guranterno.errors.minlength ">mobile Number minlength 10</div>
+          <div *ngIf="f.guranterno.errors.maxlength ">mobile Number maxlength 10</div>
         </div>
+
       </div>
 
-      <div class="row margin-top-15">
-        <div class="col-3">
-          <label>Salary</label>
-        </div>
-        <div class="col-3">
-          <input type="text" class="form-control" id="Salary" autocomplete="off" formControlName="Salary"
-            placeholder="Salary">
-        </div>
-        <div class="col-3">
-          <label>Guarantor</label>
-        </div>
-        <div class="col-3">
-          <input type="text" class="form-control" id="Gauranter" autocomplete="off" formControlName="guranter"
-            placeholder="Guarantor">
-        </div>
+      <div class="col-3">
+        <label>Date Of Birth</label>
+      </div>
+      <div class="col-3">
+        <uj-date-time-picker (onChanged)="driver.dateofbirth=$event" [dateTimeValue]="driver.dateofbirth"
+          [isTime]="false"></uj-date-time-picker>
+        <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('dtbrth')"
+            placeholder="Select Date" [value]="driver.dateofbirth | date: 'dd MMM yyyy'" formControlName="dateofbirth" name="dateofbirth"> -->
+      </div>
+    </div>
+
+    <div class="row margin-top-15">
+      <div class="col-3">
+        <label>Address</label>
+      </div>
+      <div class="col-3">
+        <input type="text" class="form-control" id="address" autocomplete="off" formControlName="address"
+          placeholder="Address">
       </div>
 
-      <div class="row margin-top-15">
-        <div class="col-3">
-          <label>Guarantor Mobile No.</label>
-        </div>
-        <div class="col-3">
-          <input type="text" class="form-control" minlength="10" autocomplete="off" maxlength="10" id="guranter-no."
-            placeholder="Guarantor mobile No." formControlName="guranterno"
-            [ngClass]="{ 'is-invalid': submitted && f.guranterno.errors }">
-          <div *ngIf="submitted && f.guranterno.errors" class="invalid-feedback">
-            <div *ngIf="f.guranterno.errors.minlength ">mobile Number minlength 10</div>
-            <div *ngIf="f.guranterno.errors.maxlength ">mobile Number maxlength 10</div>
-          </div>
-
-        </div>
-
-        <div class="col-3">
-          <label>Date Of Birth</label>
-        </div>
-        <div class="col-3">
-          <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" placeholder="Select Date"
-            [value]="driver.dateofbirth | date: 'dd MMM yyyy'" formControlName="dateofbirth" readonly> -->
-
-            <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('dtbrth')"
-            placeholder="Select Date" [value]="driver.dateofbirth | date: 'dd MMM yyyy'" formControlName="dateofbirth" name="dateofbirth" readonly>
-
-        </div>
+      <div class="col-3">
+        <label>DL Type</label>
       </div>
 
-      <div class="row margin-top-15">
-        <div class="col-3">
-          <label>Address</label>
-        </div>
-        <div class="col-3">
-          <input type="text"  class="form-control" id="address" autocomplete="off" formControlName="address"
-            placeholder="Address">
-        </div>
-  
-        <div class="col-3">
+      <div class="col-3">
+        <auto-suggestion [data]="isLCType" display="name" seperator="-" placeholder="Select DL Type"
+          (onSelected)="selectDLTypes($event)" inputId="dlType" name="dlType"
+          [preSelected]="selectedDLType" isMultiSelect="true" [bGConditions]="bGConditions">
+        </auto-suggestion>
+      </div>
+
+      <!-- <div class="col-3">
           <label>DL Expiry Date</label>
         </div>
         <div class="col-3">
-          <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" placeholder="Select Date"
-            [value]="driver.dlExpiryDate | date: 'dd MMM yyyy'" formControlName="dlExpiryDate" readonly> -->
+            <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off"
+            placeholder="Select Date" [value]="driver.dlExpiryDate | date: 'dd MMM yyyy'" formControlName="dlExpiryDate" name="dlexpiry">
+        </div> -->
+    </div>
 
-            <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('dlexp')"
-            placeholder="Select Date" [value]="driver.dlExpiryDate | date: 'dd MMM yyyy'" formControlName="dlExpiryDate" name="dlexpiry" readonly>
-        </div>
+    <div class="row margin-top-15">
+      <div class="col-3">
+        <label>Bank Name</label>
       </div>
+      <div class="col-3">
+        <input type="text" class="form-control" id="bankName" autocomplete="off" formControlName="bankName"
+          placeholder="Bank Name" readonly>
+      </div>
+
+      <div class="col-3">
+        <label>Account Holder Name</label>
+      </div>
+      <div class="col-3">
+        <input type="text" class="form-control" id="accountHolderName" autocomplete="off" formControlName="accountHolderName"
+          placeholder="Account Holder Name">
+      </div>
+
       
-      <div class="row margin-top-15">
-        <div class="col-3">
-          <label>DL Type</label>
-        </div>
-  
-        <div class="col-3">
-          <auto-suggestion [data]="isLCType" display="name" seperator="-" placeholder="Select DL Type"
-           (onSelected)="selectDLTypes($event)" inputId="dlType" name="dlType" 
-           isMultiSelect="true" [bGConditions]="bGConditions"></auto-suggestion>
-        </div>
-  
-        <div class="col-3">
-          <label>Bank Name</label>
-        </div>
-        <div class="col-3">
-          <input type="text"  class="form-control" id="bankName" autocomplete="off" formControlName="bankName"
-            placeholder="Bank Name">
-        </div>
+
+    </div>
+
+    <div class="row margin-top-15">
+
+      <div class="col-3">
+        <label>Account No.</label>
       </div>
+
+      <div class="col-3">
+        <input type="text" class="form-control" id="accountNo" autocomplete="off" formControlName="accountNo"
+          placeholder="Account No" readonly>
+      </div>
+
+      <div class="col-3">
+        <label>IFSC Code</label>
+      </div>
+
+      <div class="col-3">
+        <input type="text" class="form-control" id="ifscCode" autocomplete="off" formControlName="ifscCode"
+          placeholder="IFSC Code" readonly>
+      </div>
+
       
-      <div class="row margin-top-15">
-        <div class="col-3">
-          <label>Account No.</label>
-        </div>
-  
-        <div class="col-3">
-          <input type="text"  class="form-control" id="accountNo" autocomplete="off" formControlName="accountNo"
-            placeholder="Account No">
-        </div>
-  
-        <div class="col-3">
-          <label>IFSC Code</label>
-        </div>
-  
-        <div class="col-3">
-          <input type="text"  class="form-control" id="ifscCode" autocomplete="off" formControlName="ifscCode"
-            placeholder="IFSC Code">
+    </div>
 
-            <div *ngIf="submitted && f.ifscCode.errors" class="invalid-feedback">
-              <div *ngIf="f.ifscCode.errors.pattern" >Please Fill Correct IFSC Code</div>
-            </div>
-        </div>
+    <div class="row margin-top-15">
+
+      <div class="col-3">
+        <label>Driver Image</label>
       </div>
 
-      <div class="col-md-12 text-center margin-top-15">
+      <div class="col-3">
+        <input type="file" class="form-control" id="driverImg" (change)="handleFileSelection($event) ">
+      </div>
+
+      <div class="col-6 text-center">
         <button type="submit" id="submit" class="btn btn-primary" form="addDriver-form"
           (click)="submitted=true">Update</button>
       </div>
+    </div>
 
   </form>
 </div>

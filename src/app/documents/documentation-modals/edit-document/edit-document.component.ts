@@ -6,6 +6,9 @@ import { UserService } from '../../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddAgentComponent } from '../add-agent/add-agent.component';
 import { DatePickerComponent } from '../../../modals/date-picker/date-picker.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'edit-document',
   templateUrl: './edit-document.component.html',
@@ -102,7 +105,8 @@ export class EditDocumentComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   getDocumentsData() {
     this.common.loading++;

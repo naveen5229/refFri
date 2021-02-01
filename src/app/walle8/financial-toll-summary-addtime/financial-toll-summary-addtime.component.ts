@@ -9,6 +9,9 @@ import "jspdf-autotable";
 import { CsvService } from '../../services/csv/csv.service';
 import { DatePipe } from '@angular/common';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'financial-toll-summary-addtime',
   templateUrl: './financial-toll-summary-addtime.component.html',
@@ -16,10 +19,16 @@ import { DatePipe } from '@angular/common';
 })
 export class FinancialTollSummaryAddtimeComponent implements OnInit {
   dates = {
-    currentdate: this.common.dateFormatter1(new Date()),
-    start: null,
-    end: this.common.dateFormatter1(new Date()),
+    currentdate: this.common.dateFormatter1(new Date())
+    // start: null,
+    // end: this.common.dateFormatter1(new Date()),
   };
+
+  startDate = (new Date(new Date().setDate(new Date().getDate() - 7)));
+  minDate=new Date(new Date().setFullYear(new Date().getFullYear() - 1));
+  endDate = new Date();
+
+  
 
   fo = {
     id: null,
@@ -46,16 +55,19 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     public modalService: NgbModal,
     private datePipe: DatePipe,
     private csvService: CsvService ) {
-      this.foid = this.user._details.foid;
+      // this.foid = this.user._details.foid;
+      
       console.log("this.user._details.",this.user._details);
-      this.fo.id = this.user._details.foid;
+      this.fo.id = this.user._loggedInBy == 'admin' ? this.user._customer.foid:this.user._details.foid;
       this.fo.mobileNo = this.user._details.fo_mobileno;
-      this.fo.name = this.user._details.name;
+      this.fo.name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.name;
+      console.log("FoName:",this.user._details.username);
       this.common.refresh = this.refresh.bind(this);
-    this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 15)));
+      
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   selectVehicle(vehData) {
@@ -92,14 +104,14 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     this.closingBalance = arr[(arr.length - 1)]['balance'];
   }
 
-  getDate(date) {
-    this.common.params = { ref_page: "card usage" };
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log('Date:', this.dates);
-    });
-  }
+  // getDate(date) {
+  //   this.common.params = { ref_page: "card usage" };
+  //   const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+  //   activeModal.result.then(data => {
+  //     this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
+  //     console.log('Date:', this.dates);
+  //   });
+  // }
 
   getaddTimeFinancialTollReport() {
     this.openingBalance = 0;
@@ -107,7 +119,7 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
     this.data = [];
     console.log("mobile no", this.mobileno);
     if (this.mobileno) {
-      let params = "&startDate=" + this.dates.start + "&endDate=" + this.dates.end + "&mobileno=" + this.mobileno + "&vehid=" + this.vehId;
+      let params = "&startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate)) + "&mobileno=" + this.mobileno + "&vehid=" + this.vehId;
       this.common.loading++;
       this.api.walle8Get('FinancialAccountSummary/getFinancialAccountSummaryAddTime.json?' + params)
         .subscribe(res => {
@@ -264,7 +276,7 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
         let details = [
           { customer: 'Customer : ' + this.fo.name },
           { report: 'Report : Financial Toll Summary (Add Time)' },
-          {period : 'Period : '+this.common.dateFormatter1(this.dates.start)+" To "+this.common.dateFormatter1(this.dates.end)},
+          {period : 'Period : '+this.common.dateFormatter1(this.startDate)+" To "+this.common.dateFormatter1(this.endDate)},
           { time: 'Time : ' + this.datePipe.transform(new Date(), 'dd-MM-yyyy hh:mm:ss a') }
          ];
         this.csvService.byMultiIds([tblEltId1], 'Financial Toll Summary', details);

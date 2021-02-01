@@ -18,6 +18,10 @@ import { TripStateMappingComponent } from '../trip-state-mapping/trip-state-mapp
 
 declare let google: any;
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+import { OpenRejectTripsComponent } from '../open-reject-trips/open-reject-trips.component';
+
+@AutoUnsubscribe()
 @Component({
   selector: 'change-vehicle-status',
   templateUrl: './change-vehicle-status.component.html',
@@ -79,7 +83,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.getEvents();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   ngAfterViewInit() {
     this.loadMap(this.location.lat, this.location.lng);
@@ -793,6 +798,14 @@ export class ChangeVehicleStatusComponent implements OnInit {
     activeModal.result.then(data =>
       this.reloadData());
   }
+
+  openRejMulTrips(vehicleEvent) {
+    this.common.params = { vehicleId: this.VehicleStatusData.vehicle_id, vehicleRegNo: this.VehicleStatusData.regno, endDate : this.toTime, startDate : this.lTime }
+    const activeModal = this.modalService.open(OpenRejectTripsComponent, { size: 'md', container: 'nb-layout' });
+    activeModal.result.then(data =>
+      this.reloadData());
+  }
+
 
   resolveTicket(status) {
     this.common.loading++;

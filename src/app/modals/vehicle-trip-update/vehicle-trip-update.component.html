@@ -20,10 +20,11 @@
       <tbody>
         <tr>
           <td><span *ngIf="vehicleStatus && vehicleStatus.regno">{{vehicleStatus.regno}}</span></td>
-          <td><span><span style="color:rgb(25, 97, 25)"
+          <td [innerHTML]="getTripHtml(vehicleStatus.r_trip)"></td>
+          <!-- <td><span><span style="color:rgb(25, 97, 25)"
                 *ngIf="vehicleStatus && vehicleStatus.loading_point">{{vehicleStatus.loading_point}}</span><span
                 style="color:red" *ngIf="vehicleStatus && vehicleStatus.unloading_point"> -
-                {{vehicleStatus.unloading_point}}</span></span></td>
+                {{vehicleStatus.unloading_point}}</span></span></td> -->
           <td><span
               *ngIf="vehicleStatus && vehicleStatus.last_loc_time">{{vehicleStatus.last_loc_time | date : 'dd-MMM-yyyy hh:mm a'}}</span>
           </td>

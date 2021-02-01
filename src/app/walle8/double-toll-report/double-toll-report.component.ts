@@ -7,6 +7,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'double-toll-report',
   templateUrl: './double-toll-report.component.html',
@@ -39,32 +42,18 @@ export class DoubleTollReportComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
   ) {
-    // let today = new Date();
-    // let start = '';
-    // let end = '';
-    // start = this.common.dateFormatter1(today.setDate(today.getDate() - 30));
-    // this.dates.start = start;
-    // end = this.common.dateFormatter1(new Date(today.getDate()));
     this.getdoubleTollReport();
     this.common.refresh = this.refresh.bind(this);
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){
     this.getdoubleTollReport();
   }
-
-  // getDate(date) {
-  //   this.common.params = { ref_page: "card usage" };
-  //   const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-  //   activeModal.result.then(data => {
-  //     this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
-  //     console.log('Date:', this.dates);
-  //   });
-  // }
   
   setTable() {
     let headings = {
@@ -113,7 +102,8 @@ export class DoubleTollReportComponent implements OnInit {
   }
 
   getdoubleTollReport() {
-    let params = "mobileno=" + this.user._details.fo_mobileno +"&startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate));
+    let foid=this.user._loggedInBy=='admin' ? this.user._customer.foid : this.user._details.foid;
+    let params = "mobileno=" + this.user._details.fo_mobileno +"&startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate))+"&foid="+foid;
     // console.log("api hit");
     this.common.loading++;
     this.api.walle8Get('TollSummary/getDoubleTollReport.json?' + params)
@@ -125,7 +115,6 @@ export class DoubleTollReportComponent implements OnInit {
           this.data = [];
           this.table = null;
           return;
-
         }
         this.table = this.setTable();
       }, err => {

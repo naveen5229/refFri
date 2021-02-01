@@ -10,6 +10,9 @@ import { ShowBidDataComponent } from '../../modals/BidModals/show-bid-data/show-
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'order-trip-management',
   templateUrl: './order-trip-management.component.html',
@@ -49,7 +52,8 @@ export class OrderTripManagementComponent implements OnInit {
    this.getOrders();
  }
 
- ngOnInit() {
+ ngOnDestroy(){}
+ngOnInit() {
  }
 
  resetData(){

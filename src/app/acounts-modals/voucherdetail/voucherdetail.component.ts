@@ -3,6 +3,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'voucherdetail',
   templateUrl: './voucherdetail.component.html',
@@ -22,7 +25,8 @@ export class VoucherdetailComponent implements OnInit {
     this.getDayBookDetailList();
     this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
   }
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getDayBookDetailList() {

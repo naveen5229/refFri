@@ -243,7 +243,9 @@ nb-menu .menu-item a .menu-icon{
 }
 
 .nb-theme-corporate .modal-content {
-  border: 0px;
+  /* border: 0px; */
+  border: 1px solid #544e4e;
+  box-shadow: 0px 0px 11px 3px #2b2727;
 }
 
 nb-menu .menu-item a:hover,
@@ -484,6 +486,10 @@ nb-card {
 
 nb-card {
   border: 0px !important;
+}
+.dashboard_chart{
+  height: 160px;
+  width: 100%;
 }
 
 .dashboard_chart canvas {
@@ -995,9 +1001,15 @@ input[type=number] {
   border-radius: .75rem;
   border-color: #8b000000 !important;
 }
+
+
+
 @media (max-width: 1024px) and (min-width: 768px)
 {
 table thead, table tbody {
     display: block !important;
 }
+
+
 }
+

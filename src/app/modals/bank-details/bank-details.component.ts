@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'bank-details',
   templateUrl: './bank-details.component.html',
@@ -20,7 +23,8 @@ export class BankDetailsComponent implements OnInit {
     this.foMobileNo = this.user._details.fo_mobileno;
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fuel-entries',
   templateUrl: './fuel-entries.component.html',
@@ -22,7 +25,8 @@ export class FuelEntriesComponent implements OnInit {
     this.getDetails();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

@@ -6,7 +6,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status/change-vehicle-status.component';
 import { VehicleTripUpdateComponent } from '../../modals/vehicle-trip-update/vehicle-trip-update.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trip-status-feedback-logs',
   templateUrl: './trip-status-feedback-logs.component.html',
@@ -31,7 +35,8 @@ export class TripStatusFeedbackLogsComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    private sanitizer: DomSanitizer ) {
     let today = new Date();
     this.startDate = (this.common.dateFormatter(today)).split(' ')[0];
     this.endDate = (this.common.dateFormatter(new Date(today.setDate(today.getDate() + 1)))).split(' ')[0];
@@ -41,7 +46,8 @@ export class TripStatusFeedbackLogsComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     console.log('Refresh');
@@ -119,8 +125,12 @@ export class TripStatusFeedbackLogsComponent implements OnInit {
         j
         if (this.headings[j] == 'Vehicle') {
           this.valobj[this.headings[j]] = { value: this.tripLogs[i][this.headings[j]], class: 'black', action: this.openChangeStatusModal.bind(this, this.tripLogs[i]) };
-        } else if (this.headings[j] == 'New Destination') {
+        } 
+        else if (this.headings[j] == 'New Destination') {
           this.valobj[this.headings[j]] = { value: this.tripLogs[i][this.headings[j]], class: 'blue', action: this.openPlacementModal.bind(this, this.tripLogs[i]) };
+        }
+        else if (this.headings[j] == 'Trip') {
+          this.valobj[this.headings[j]] = { value: this.getTripHtml(this.tripLogs[i][this.headings[j]]), class: 'blue',isHTML: true };
         }
         else if (this.headings[j] == 'Action') {
           if (this.tripLogs[i][this.headings[j]] == 0)
@@ -180,19 +190,15 @@ export class TripStatusFeedbackLogsComponent implements OnInit {
 
 
 
-  // ShowData() {
+  getTripHtml(oldTrip){
+    oldTrip = JSON.parse(oldTrip);
+    let trip = this.common.getTripStatusHTML(oldTrip._trip_status_type,oldTrip._showtripstart, oldTrip._showtripend, oldTrip._placement_types, oldTrip._p_loc_name);
+    // let trip = '<span [innerHTML]='+this.common.getTripStatusHTML(oldTrip._trip_status_type,oldTrip._showtripstart, oldTrip._showtripend, oldTrip._placement_types, oldTrip._p_loc_name)['changingThisBreaksApplicationSecurity']+'></span><br>';
+    console.log("trip",trip);
+    return trip;
+    // return this.sanitizer.bypassSecurityTrustHtml(trip);
+  }
 
-  //   this.common.loading++;
-  //   this.api.get('VehicleKpi/createMaster')
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       this.common.showToast(res['msg']);
-
-  //     }, err => {
-  //       this.common.loading--;
-  //       this.common.showError();
-  //     })
-  // }
   getVerifiedButton() {
     let html = `
     <button class="btn btn-primary m-0" (click)="checked();">Get Details</button>

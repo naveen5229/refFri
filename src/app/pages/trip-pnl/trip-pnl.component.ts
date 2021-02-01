@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { DatePipe } from '@angular/common';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trip-pnl',
   templateUrl: './trip-pnl.component.html',
@@ -31,7 +34,8 @@ export class TripPnlComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getPnlSummary() {

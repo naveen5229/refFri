@@ -10,6 +10,9 @@ import { TemplatePreviewComponent } from '../../modals/template-preview/template
 import { UserService } from '../../services/user.service';
 import { TemplateDevviewComponent } from '../../modals/template-devview/template-devview.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'user-templates',
   templateUrl: './user-templates.component.html',
@@ -41,7 +44,8 @@ export class UserTemplatesComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

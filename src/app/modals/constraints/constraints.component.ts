@@ -5,6 +5,9 @@ import { UserService } from '../../services/user.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LocationSelectionComponent } from '../location-selection/location-selection.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'constraints',
   templateUrl: './constraints.component.html',
@@ -46,7 +49,8 @@ export class ConstraintsComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1100', 'px', 1);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

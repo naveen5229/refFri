@@ -8,6 +8,9 @@ import { CompileShallowModuleMetadata } from '@angular/compiler';
 
 declare var google: any;
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'location-selection',
   templateUrl: './location-selection.component.html',
@@ -53,7 +56,8 @@ export class LocationSelectionComponent implements OnInit {
     } : this.location;
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {

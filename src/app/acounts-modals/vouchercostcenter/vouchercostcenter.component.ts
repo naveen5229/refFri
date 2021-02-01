@@ -8,6 +8,9 @@ import { AccountService } from '../../services/account.service';
 import { CostCentersComponent } from '../cost-centers/cost-centers.component';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vouchercostcenter',
   templateUrl: './vouchercostcenter.component.html',
@@ -60,7 +63,8 @@ export class VouchercostcenterComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
 
   }
 

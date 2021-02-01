@@ -7,6 +7,9 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'other-usage',
   templateUrl: './other-usage.component.html',
@@ -39,7 +42,8 @@ export class OtherUsageComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){
@@ -47,8 +51,8 @@ export class OtherUsageComponent implements OnInit {
   }
   getOtherUsageDetail() {
     // this.userId=this.user
-
-    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.common.dateFormatter(new Date(this.startDate)) + "&enddate=" + this.common.dateFormatter(new Date(this.endDate));
+    let foid=this.user._loggedInBy=='admin' ? this.user._customer.foid : this.user._details.foid;
+    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.common.dateFormatter(new Date(this.startDate)) + "&enddate=" + this.common.dateFormatter(new Date(this.endDate))+"&foid="+ foid;
     //console.log("api hit");
     this.common.loading++;
     this.api.walle8Get('AccountSummaryApi/ViewOtherUsages.json?' + params)

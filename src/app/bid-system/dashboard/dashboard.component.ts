@@ -9,6 +9,9 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { GeneralModalComponent } from '../../modals/general-modal/general-modal.component';
 import * as _ from "lodash";
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'dashboard',
   templateUrl: './dashboard.component.html',
@@ -48,7 +51,8 @@ export class DashboardComponent implements OnInit {
     this.getOrders();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   resetData(){

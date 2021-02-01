@@ -6,6 +6,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { isArray } from 'util';
 import { LocationSelectionComponent } from '../location-selection/location-selection.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'freight-rate-calculation',
   templateUrl: './freight-rate-calculation.component.html',
@@ -74,7 +77,8 @@ export class FreightRateCalculationComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1000');
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getAllFieldName() {

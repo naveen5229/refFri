@@ -4,6 +4,9 @@ import { GenericModelComponent } from '../../modals/generic-modals/generic-model
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tmg-traffic-analysis',
   templateUrl: './tmg-traffic-analysis.component.html',
@@ -27,50 +30,49 @@ export class TmgTrafficAnalysisComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal) {
-    this.getTrafficLiveStatus();
-    this.getConsignmentLongestOnwardHalt();
-    this.getConsignmentLongestGpsIssue();
-    this.getConsignmentLongestLoading();
-    this.getConsignmentLongestUnLoading();
-    this.getLiveLongestParking();
-    this.getConsignmentSlowestOnward();
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
+    this.refresh();
+  }
+
+
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {
-    this.getTrafficLiveStatus();
-    this.getConsignmentLongestOnwardHalt();
-    this.getConsignmentLongestGpsIssue ();
-    this.getConsignmentLongestLoading();
-    this.getConsignmentLongestUnLoading();
-    this.getConsignmentSlowestOnward();
-    this.getLiveLongestParking();
+    this.getTrafficLiveStatus(0);
+    this.getConsignmentLongestOnwardHalt(1);
+    this.getConsignmentLongestGpsIssue (2);
+    this.getConsignmentLongestLoading(3);
+    this.getConsignmentLongestUnLoading(4);
+    this.getConsignmentSlowestOnward(5);
+    this.getLiveLongestParking(6);
   }
 
-  getTrafficLiveStatus() {
+  getTrafficLiveStatus(index) {
     this.trafficLiveStatus = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let params = {
      totalrecord :7
     };
     this.api.post('Tmgreport/GetTrafficLiveStatus', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('trafficLiveStatus:', res);
         this.trafficLiveStatus = res['data'];
         this.handleChart(this.trafficLiveStatus);
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getConsignmentLongestOnwardHalt() {
+  getConsignmentLongestOnwardHalt(index) {
     this.consignmentLongestOnwardHalt = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 15));
     let endDate = new Date();
     let params = {
@@ -80,18 +82,18 @@ export class TmgTrafficAnalysisComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetConsignmentLongestOnwardHalt', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('ConsignmentLongestOnwardHalt:', res);
         this.consignmentLongestOnwardHalt = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getConsignmentLongestGpsIssue () {
+  getConsignmentLongestGpsIssue (index) {
     this.consignmentLongestGpsIssue  = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 15));
     let endDate = new Date();
     let params = {
@@ -101,18 +103,18 @@ export class TmgTrafficAnalysisComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetConsignmentLongestGpsIssue', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('trafficLongestVehicleGpsIssue:', res['data']);
         this.consignmentLongestGpsIssue = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
  
 
- getConsignmentLongestLoading() {
+ getConsignmentLongestLoading(index) {
     this.consignmentLongestLoading = [];
     let startDate = new Date(new Date().setDate(new Date().getDate() - 15));
     let endDate = new Date();
@@ -121,19 +123,19 @@ export class TmgTrafficAnalysisComponent implements OnInit {
       todate: this.common.dateFormatter(endDate),
       totalrecord : 3
     };
-    ++this.common.loading;
+     this.showLoader(index);
     this.api.post('Tmgreport/GetConsignmentLongestLoading', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('ConsignmentLongestLoading:', res);
         this.consignmentLongestLoading = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getConsignmentLongestUnLoading() {
+  getConsignmentLongestUnLoading(index) {
     this.consignmentLongestUnLoading = [];
     let startDate = new Date(new Date().setDate(new Date().getDate() - 15));
     let endDate = new Date();
@@ -145,21 +147,21 @@ export class TmgTrafficAnalysisComponent implements OnInit {
       jsonparam:null
      
     };
-    ++this.common.loading;
+     this.showLoader(index);
     this.api.post('Tmgreport/GetConsignmentLongestUnLoading', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('ConsignmentLongestUnLoading:', res);
         this.consignmentLongestUnLoading = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getConsignmentSlowestOnward() { 
+  getConsignmentSlowestOnward(index) { 
     this.consignmentSlowestOnward = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 15));
     let endDate = new Date();
     let params = {
@@ -169,28 +171,28 @@ export class TmgTrafficAnalysisComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetConsignmentSlowestOnward', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('ConsignmentSlowestOnward:', res['data']);
         this.consignmentSlowestOnward = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getLiveLongestParking() { 
+  getLiveLongestParking(index) { 
     this.liveLongestParking = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let params = {
       totalrecord : 3
     };
     this.api.post('Tmgreport/GetLiveLongestParking', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('LiveLongestParking:', res['data']);
         this.liveLongestParking = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
@@ -237,18 +239,18 @@ export class TmgTrafficAnalysisComponent implements OnInit {
     }
   }
 
-  getDetials(url, params, days = 0) {
+  getDetials(url, params, value = 0,type='days') {
     let dataparams = {
       view: {
         api: url,
         param: params,
         type: 'post'
       },
-
+  
       title: 'Details'
     }
-    if (days) {
-      let startDate = new Date(new Date().setDate(new Date().getDate() - days));
+    if (value) {
+      let startDate = type == 'months'? new Date(new Date().setMonth(new Date().getMonth() - value)): new Date(new Date().setDate(new Date().getDate() - value));
       let endDate = new Date();
       dataparams.view.param['fromdate'] = this.common.dateFormatter(startDate);
       dataparams.view.param['todate'] = this.common.dateFormatter(endDate);
@@ -257,5 +259,18 @@ export class TmgTrafficAnalysisComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1100');
     this.common.params = { data: dataparams };
     const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+  showLoader(index) {
+    setTimeout(() => {
+      let outers = document.getElementsByClassName("outer");
+      let loader = document.createElement('div');
+      loader.className = 'loader';
+      outers[index].appendChild(loader);
+    }, 50);
+  }
+
+  hideLoader(index) {
+    let outers = document.getElementsByClassName("outer");
+    outers[index].lastChild.remove();
   }
 }

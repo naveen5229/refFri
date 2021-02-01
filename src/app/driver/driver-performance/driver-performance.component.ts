@@ -5,6 +5,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateService } from '../../services/date.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'driver-performance',
   templateUrl: './driver-performance.component.html',
@@ -41,7 +44,8 @@ export class DriverPerformanceComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

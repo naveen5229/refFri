@@ -5,6 +5,9 @@ import { UserService } from '../../services/user.service';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'card-mapping',
   templateUrl: './card-mapping.component.html',
@@ -26,7 +29,8 @@ export class CardMappingComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){
@@ -62,7 +66,7 @@ export class CardMappingComponent implements OnInit {
       },
       settings: {
         hideHeader: true,
-        tableHeight: "auto"
+        tableHeight: "73vh"
       }
     }
   }

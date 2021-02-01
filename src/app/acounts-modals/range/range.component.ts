@@ -7,6 +7,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from '../../services/account.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'range',
   templateUrl: './range.component.html',
@@ -28,7 +31,8 @@ export class RangeComponent implements OnInit {
     this.setFoucus('voucher-date-f2');
     }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   keyHandler(event) {

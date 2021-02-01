@@ -4,6 +4,9 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { CommonService } from '../../services/common.service';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'upload-docs',
   templateUrl: './upload-docs.component.html',
@@ -17,6 +20,7 @@ export class UploadDocsComponent implements OnInit {
 
   driver = {
     docImage: null,
+    expiryDate:null
   };
   photo = null;
   licenseNo = null;
@@ -76,7 +80,8 @@ export class UploadDocsComponent implements OnInit {
     //console.log('', this.docId);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getData() {
@@ -111,7 +116,6 @@ export class UploadDocsComponent implements OnInit {
       img1: this.driver.docImage,
       img2: this.photo,
       remark: this.remark
-
     }
     if (params.docTypeId == '1') {
       params.docTypeName = "Adhar Card";
@@ -122,6 +126,7 @@ export class UploadDocsComponent implements OnInit {
     }
     if (params.docTypeId == '3') {
       params.docTypeName = "Driving License"
+      params['dlexpdt'] = this.common.dateFormatter(this.driver.expiryDate);
     }
     this.common.loading++;
     this.api.post('Drivers/uploadDocs', params)
@@ -145,6 +150,7 @@ export class UploadDocsComponent implements OnInit {
   getDocChange() {
     this.driver.docImage = null;
     this.remark = null;
+    this.driver.expiryDate=null;
     document.getElementById('imageData1')['value'] = '';
     document.getElementById('imageData2')['value'] = '';
 

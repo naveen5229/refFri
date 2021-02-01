@@ -6,6 +6,9 @@ import { CommonService } from '../../services/common.service';
 import { Router } from '@angular/router'
 import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'toll-transaction-summary',
   templateUrl: './toll-transaction-summary.component.html',
@@ -30,7 +33,8 @@ export class TollTransactionSummaryComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

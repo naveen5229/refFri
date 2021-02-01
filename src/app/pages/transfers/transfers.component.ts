@@ -9,6 +9,9 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { ViewTransferComponent } from '../../modals/FreightRate/view-transfer/view-transfer.component';
 import { EditFillingComponent } from '../../modals/edit-filling/edit-filling.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'transfers',
   templateUrl: './transfers.component.html',
@@ -40,7 +43,8 @@ export class TransfersComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

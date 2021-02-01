@@ -3,6 +3,9 @@ import { ApiService } from '../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'company-contacts',
   templateUrl: './company-contacts.component.html',
@@ -52,7 +55,8 @@ export class CompanyContactsComponent implements OnInit {
     this.getCompanyEstablishmentType();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getCompanyBranchs() {

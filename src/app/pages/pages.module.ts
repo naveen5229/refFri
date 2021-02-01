@@ -99,6 +99,7 @@ import { IssuesReportComponent } from './issues-report/issues-report.component';
 import { VehicleStatesComponent } from './vehicle-states/vehicle-states.component';
 import { GraphicalReportsComponent } from './graphical-reports/graphical-reports.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { UlheatmapComponent } from './ulheatmap/ulheatmap.component';
 
 const PAGES_COMPONENTS = [
   PagesComponent
@@ -197,6 +198,7 @@ const PAGES_COMPONENTS = [
     IssuesReportComponent,
     VehicleStatesComponent,
     GraphicalReportsComponent,
+    UlheatmapComponent,
   ],
   exports: [
     FuelAverageAnalysisComponent,

@@ -7,6 +7,9 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../services/account.service';
 import { LocationSelectionComponent } from '../../modals/location-selection/location-selection.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'generate-lr-mainfesto',
   templateUrl: './generate-lr-mainfesto.component.html',
@@ -110,7 +113,8 @@ export class GenerateLrMainfestoComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

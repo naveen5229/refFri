@@ -5,6 +5,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.component';
 import { StockSubtypeComponent } from '../../acounts-modals/stock-subtype/stock-subtype.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'battery-modals',
   templateUrl: './battery-modals.component.html',
@@ -28,7 +31,8 @@ export class BatteryModalsComponent implements OnInit {
     //this.getStockItems()
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){

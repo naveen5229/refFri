@@ -9,6 +9,9 @@ import { ImageViewComponent } from '../../modals/image-view/image-view.component
 
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-kpis',
   templateUrl: './vehicle-kpis.component.html',
@@ -47,7 +50,8 @@ export class VehicleKpisComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     console.log('ionViewDidLoad DriverKpisPage');
   }
   refresh() {

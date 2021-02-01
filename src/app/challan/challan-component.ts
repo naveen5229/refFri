@@ -4,6 +4,9 @@ import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import { CHALLAN_MENU_ITEMS } from './challan-menu';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ngx-pages',
   template: `
@@ -22,4 +25,6 @@ export class ChallanComponent {
     // }
 
   }
+  ngOnDestroy(){}
+
 }

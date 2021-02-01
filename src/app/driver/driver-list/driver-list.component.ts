@@ -14,6 +14,9 @@ import { ImageViewComponent } from '../../modals/image-view/image-view.component
 import { UploadDocsComponent } from '../../modals/upload-docs/upload-docs.component';
 import { DriverLedgerMappingComponent } from '../../modals/DriverModals/driver-ledger-mapping/driver-ledger-mapping.component';
 import { DriverPersonalInfoComponent } from '../../modals/driver-personal-info/driver-personal-info.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'driver-list',
   templateUrl: './driver-list.component.html',
@@ -37,7 +40,8 @@ export class DriverListComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.getdriverLists();
@@ -169,8 +173,6 @@ export class DriverListComponent implements OnInit {
   updateDriver(driver) {
     this.common.params = { driver };
     const activeModal = this.modalService.open(UploadDocsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-
-
   }
 
   printPDF() {

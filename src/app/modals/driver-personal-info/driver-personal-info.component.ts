@@ -3,6 +3,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'driver-personal-info',
   templateUrl: './driver-personal-info.component.html',
@@ -24,6 +27,7 @@ export class DriverPersonalInfoComponent implements OnInit {
   Dltype = '';
   photo = '';
   pan = '';
+  accHolderName='';
   bankName='';
   bankAccountNumber=null;
   bankIfscCode='';
@@ -37,7 +41,8 @@ export class DriverPersonalInfoComponent implements OnInit {
     this.driverPersonalInfo();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {
@@ -74,6 +79,7 @@ export class DriverPersonalInfoComponent implements OnInit {
         this.bankAccountNumber=driverinfodata.bank_acno!=null?driverinfodata.bank_acno:"---------------------";
         this.bankIfscCode=driverinfodata.ifsc_code!=null?driverinfodata.ifsc_code:"---------------------";
         this.bankName=driverinfodata.bank_name!=null?driverinfodata.bank_name:"---------------------";
+        this.accHolderName=driverinfodata.account_holder_name!=null ? driverinfodata.account_holder_name : "---------------------";
         console.log("dataaaaaaaaaaaaa", this.driverInfo);
       })
 

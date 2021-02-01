@@ -8,6 +8,9 @@ import { CsvService } from '../../services/csv/csv.service';
 import { UserService } from '../../services/user.service';
 import { DriverStatusChangeComponent } from '../../modals/driver-status-change/driver-status-change.component';
 import { NewDriverStatusComponent } from '../../modals/new-driver-status/new-driver-status.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-driver-mapping',
   templateUrl: './vehicle-driver-mapping.component.html',
@@ -38,7 +41,8 @@ export class VehicleDriverMappingComponent implements OnInit {
     this.getdriverMapping();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   getvehicleData($driverInfo) {
     console.log($driverInfo.mobileno);

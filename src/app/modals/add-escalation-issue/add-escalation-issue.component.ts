@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { ConstraintsComponent } from '../constraints/constraints.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-escalation-issue',
   templateUrl: './add-escalation-issue.component.html',
@@ -58,7 +61,8 @@ export class AddEscalationIssueComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1100', 'px');
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

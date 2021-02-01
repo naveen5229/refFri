@@ -9,7 +9,7 @@
       To Time
     </label>
   </div>
-  <button (click)="closeModal(false)" class="close-btn"><i class="fa fa-close"></i></button>
+  <button (click)="closeModal(false)" class="close-btn"><i class="fas fa-times"></i></button>
   <nb-calendar [(date)]="date" name="date" [boundingMonth]="false" (dateChange)="closeModal(true)">
   </nb-calendar>
   <!-- <div class="close_btn">

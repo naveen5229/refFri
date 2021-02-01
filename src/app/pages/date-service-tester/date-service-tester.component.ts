@@ -3,6 +3,9 @@ import { DateService } from '../../services/date/date.service';
 import { DatePipe } from '@angular/common';
 import { CommonService } from '../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'date-service-tester',
   templateUrl: './date-service-tester.component.html',
@@ -26,7 +29,8 @@ export class DateServiceTesterComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   dateFormatSetter() {
     console.log("dateType=", this.dateType);

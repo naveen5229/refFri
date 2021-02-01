@@ -12,6 +12,9 @@ import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-rec
 import { PrintService } from '../../services/print/print.service';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'voucher-summary-short',
   templateUrl: './voucher-summary-short.component.html',
@@ -172,7 +175,8 @@ export class VoucherSummaryShortComponent implements OnInit {
     this.getDriveLedgers('credit');
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getcreditLedgers(transactionType) {

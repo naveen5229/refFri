@@ -3,6 +3,9 @@ import { ApiService } from '../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, ViewChild, ElementRef, NgZone, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl }from '@angular/platform-browser';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'iframe-modal',
   templateUrl: './iframe-modal.component.html',
@@ -19,7 +22,8 @@ title = 'Map Route'
       this.title = this.common.params.data.title ? this.common.params.data.title :this.title;
     }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     this.urlSafe= this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
   }
 

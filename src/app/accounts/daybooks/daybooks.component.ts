@@ -22,6 +22,9 @@ import { AdvanceComponent } from '../../acounts-modals/advance/advance.component
 import { ServiceComponent } from '../service/service.component';
 import * as localforage from 'localforage';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'daybooks',
   templateUrl: './daybooks.component.html',
@@ -137,7 +140,8 @@ export class DaybooksComponent implements OnInit {
     this.common.currentPage = (this.deletedId == 0) ? 'Day Book' : 'Voucher & Invoice Deleted';
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

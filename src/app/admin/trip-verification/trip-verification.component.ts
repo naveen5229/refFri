@@ -7,6 +7,9 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TripKmRepairViewComponent } from '../../modals/trip-km-repair-view/trip-km-repair-view.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trip-verification',
   templateUrl: './trip-verification.component.html',
@@ -53,7 +56,8 @@ export class TripVerificationComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {
@@ -157,10 +161,10 @@ export class TripVerificationComponent implements OnInit {
     }
     let km = { title: 'KM', placeholder: 'KM' };
     this.table.data.headings['km'] = km;
-    let googlekm = { title: 'Google KM', placeholder: 'Google KM' };
-    this.table.data.headings['googlekm'] = googlekm;
-    let hiskm = { title: 'Historic KM (Avg)', placeholder: 'Historic KM (Avg)' };
-    this.table.data.headings['hiskm'] = hiskm;
+    // let googlekm = { title: 'Google KM', placeholder: 'Google KM' };
+    // this.table.data.headings['googlekm'] = googlekm;
+    // let hiskm = { title: 'Historic KM (Avg)', placeholder: 'Historic KM (Avg)' };
+    // this.table.data.headings['hiskm'] = hiskm;
     if (this.status == -2) {
       let status = { title: 'Status', placeholder: 'Status' };
       this.table.data.headings['status'] = status;

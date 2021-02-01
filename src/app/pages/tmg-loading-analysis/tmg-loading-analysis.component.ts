@@ -6,6 +6,9 @@ import { CommonService } from '../../services/common.service';
 import * as _ from "lodash";
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tmg-loading-analysis',
   templateUrl: './tmg-loading-analysis.component.html',
@@ -56,29 +59,27 @@ export class TmgLoadingAnalysisComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {
-    this.getLoadingtat();
-    this.getLoadingAged();
-    this.getLoadingSlowest();
-    this.getLoadingSlowest7days();
+    this.refresh();
   }
 
   refresh() {
     this.xAxisData = [];
-    this.getLoadingtat();
-    this.getLoadingSlowest();
-    this.getLoadingSlowest7days();
-    this.getLoadingAged();
+    this.getLoadingtat(0);
+    this.getLoadingSlowest(1);
+    this.getLoadingSlowest7days(2);
+    this.getLoadingAged(3);
 
   }
 
-  getLoadingtat() {
+  getLoadingtat(index) {
     this.loadingtat = [];
-    ++this.common.loading;
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+     this.showLoader(index);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -87,29 +88,21 @@ export class TmgLoadingAnalysisComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetLoadingtat', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('GetLoadingtat:', res);
         this.loadingtat = res['data'];
         this.getlabelValue(params.fromdate, params.todate);
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
   getlabelValue(fromdate, todate) {
-    // if (this.GetLoadingtat) {
-    //   this.GetLoadingtat.forEach((cmg) => {
-    //     this.chart.data.line.push(cmg['Amount']);
-    //     this.chart.data.bar.push(cmg['Onward KMS']);
-    //     this.xAxisData.push(cmg['Period']);
-    //   });
-
     this.handleChart(fromdate, todate);
-    // }
   }
 
-  getLoadingSlowest7days() {
+  getLoadingSlowest7days(index) {
     this.loadingSlowest7days = [];
     let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
@@ -120,20 +113,20 @@ export class TmgLoadingAnalysisComponent implements OnInit {
       stepno: 0,
       jsonparam: null
     };
-    ++this.common.loading;
+     this.showLoader(index);
     this.api.post('Tmgreport/getLoadingSlowest', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('LoadingSlowest7days:', res);
         this.loadingSlowest7days = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
-  getLoadingSlowest() {
+  getLoadingSlowest(index) {
     this.loadingSlowest = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
@@ -146,18 +139,18 @@ export class TmgLoadingAnalysisComponent implements OnInit {
     };
     this.api.post('Tmgreport/getLoadingSlowest', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('loadingSlowest:', res['data']);
         this.loadingSlowest = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getLoadingAged() {
+  getLoadingAged(index) {
     this.loadingAged = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
@@ -168,12 +161,14 @@ export class TmgLoadingAnalysisComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetLoadingAged', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('loadingAged:', res['data']);
-        this.loadingAged = res['data'];
+        if (res['data']) {
+          this.loadingAged = res['data'].filter(aged => aged.site_name);
+        }
         if (this.loadingAged.length > 0) this.handleChart2(params.fromdate, params.todate);
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
@@ -397,18 +392,19 @@ export class TmgLoadingAnalysisComponent implements OnInit {
     return options;
   }
 
-  getDetials(url, params, days = 0) {
+  
+  getDetials(url, params, value = 0,type='days') {
     let dataparams = {
       view: {
         api: url,
         param: params,
         type: 'post'
       },
-
+  
       title: 'Details'
     }
-    if (days) {
-      let startDate = new Date(new Date().setDate(new Date().getDate() - days));
+    if (value) {
+      let startDate = type == 'months'? new Date(new Date().setMonth(new Date().getMonth() - value)): new Date(new Date().setDate(new Date().getDate() - value));
       let endDate = new Date();
       dataparams.view.param['fromdate'] = this.common.dateFormatter(startDate);
       dataparams.view.param['todate'] = this.common.dateFormatter(endDate);
@@ -419,10 +415,10 @@ export class TmgLoadingAnalysisComponent implements OnInit {
     const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
-  handleChart2(fromdate, todate) {  
+  handleChart2(fromdate, todate) {
     let xaxis = [];
     let Periods = _.groupBy(this.loadingAged, 'Period');
-    console.log('Periods ',Periods);
+    console.log('Periods ', Periods);
     let site_names = _.groupBy(this.loadingAged, 'site_name');
     let yaxis = [];
     let datasets = Object.keys(site_names)
@@ -458,40 +454,55 @@ export class TmgLoadingAnalysisComponent implements OnInit {
       labels: Object.keys(Periods),
       datasets
     };
-        this.chart2.options = {
-        responsive: true,
-        legend: {
-          position: 'bottom',
-          display: true
-        },
-        scaleLabel: {
-          display: true,
-          fontSize: 17,
-        },
-
-        maintainAspectRatio: false,
-        title: {
-          display: true,
-        },
+    this.chart2.options = {
+      responsive: true,
+      legend: {
+        position: 'bottom',
+        display: true
+      },
+      scaleLabel: {
         display: true,
-        elements: {
-          line: {
-            tension: 0
-          }
-        },
-        scales: {
-          yAxes: [{
-            scaleLabel: {
-              display: true,
-            },
-            
-          }
+        fontSize: 17,
+      },
+
+      maintainAspectRatio: false,
+      title: {
+        display: true,
+      },
+      display: true,
+      elements: {
+        line: {
+          tension: 0
+        }
+      },
+      scales: {
+        yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Trip Counts',
+            fontSize: 16,
+          },
+
+        }
 
 
-          ]
-        },
-    
-      };
-console.log("chart2----",this.chart2);
+        ]
+      },
+
+    };
+    console.log("chart2----", this.chart2);
+  }
+  showLoader(index) {
+    setTimeout(() => {
+      let outers = document.getElementsByClassName("outer");
+      let loader = document.createElement('div');
+      loader.className = 'loader';
+      outers[index].appendChild(loader);
+    }, 50);
+  }
+
+  hideLoader(index) {
+    let outers = document.getElementsByClassName("outer");
+    outers[index].lastChild.remove();
   }
 }

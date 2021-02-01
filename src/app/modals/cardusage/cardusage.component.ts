@@ -7,6 +7,9 @@ import { IssueReportComponent } from '../issue-report/issue-report.component';
 import { CsvService } from '../../services/csv/csv.service';
 import { PdfService } from '../../services/pdf/pdf.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'cardusage',
   templateUrl: './cardusage.component.html',
@@ -36,7 +39,8 @@ export class CardusageComponent implements OnInit {
     this.getcardUsage();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getcardUsage() {
