@@ -42,7 +42,9 @@ export class AccountsComponent {
     this.getFinancial();
     }
   }
-
+  anotherPageOpen(){
+    alert('hello dear');
+  }
   getBranches() {
     this.api.post('Suggestion/GetBranchList', { search: 123 })
       .subscribe(res => {
