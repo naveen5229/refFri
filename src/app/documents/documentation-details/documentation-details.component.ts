@@ -13,6 +13,9 @@ import { DocumentHistoryComponent } from '../documentation-modals/document-histo
 import { from } from 'rxjs';
 import { DatePipe } from '@angular/common';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'documentation-details',
   templateUrl: './documentation-details.component.html',
@@ -38,7 +41,8 @@ export class DocumentationDetailsComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

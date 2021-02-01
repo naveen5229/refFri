@@ -34,6 +34,14 @@
     background: red;
     color: #fff;
 }
+:host ::ng-deep.byellow {
+    background: yellow;
+    color: #fff;
+}
+:host ::ng-deep.bgreen {
+    background: green;
+    color: black;
+}
 
 :host ::ng-deep.pink {
     background: pink;
@@ -86,10 +94,9 @@
     vertical-align: middle;
     margin-left: 10px;
     width: 60%;
-    letter-spacing: .3px;
+    letter-spacing: 0.3px;
     color: #000;
 }
-
 
 table {
     cursor: pointer; // background: aliceblue;
@@ -142,7 +149,7 @@ table {
             margin-right: 5px;
             display: inline-block;
             vertical-align: middle;
-            box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .2);
+            box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
         }
 
         li:nth-child(1) span {
@@ -158,7 +165,7 @@ table {
         }
 
         li:nth-child(4) span {
-            background-color: #2196F3;
+            background-color: #2196f3;
         }
 
         li:nth-child(5) span {
@@ -166,14 +173,14 @@ table {
         }
 
         li:nth-child(6) span {
-            background-color: #607D8B;
+            background-color: #607d8b;
         }
 
         li:nth-child(7) span {
-            background-color: #9C27B0;
+            background-color: #9c27b0;
         }
 
-        li+li {
+        li + li {
             margin-top: 10px;
         }
 
@@ -186,7 +193,6 @@ table {
 mwlResizable {
     box-sizing: border-box; // required for the enableGhostResize option to work
 }
-
 
 .map-table-container {
     display: inline-block;
@@ -241,7 +247,7 @@ mwlResizable {
 
         .sort-container {
             width: 15px;
-            display: none
+            display: none;
         }
 
         .filter-input-container {
@@ -278,12 +284,12 @@ mwlResizable {
             }
 
             span::before {
-                content: 'Change Vehicle Status';
+                content: "Change Vehicle Status";
                 display: block;
                 position: absolute;
                 top: 0px;
                 left: 0px;
-                background-color: #04A9F5;
+                background-color: #04a9f5;
                 border-radius: 3px;
                 padding: 5px 10px;
                 color: #fff;
@@ -291,12 +297,12 @@ mwlResizable {
             }
 
             span::after {
-                content: '';
+                content: "";
                 width: 0;
                 height: 0;
                 border-left: 5px solid transparent;
                 border-right: 5px solid transparent;
-                border-top: 5px solid #04A9F5;
+                border-top: 5px solid #04a9f5;
                 position: absolute;
                 bottom: -5px;
                 left: 50%;
@@ -327,7 +333,7 @@ mwlResizable {
             }
 
             span::before {
-                content: 'Vehicle Event';
+                content: "Vehicle Event";
                 display: block;
                 position: absolute;
                 top: 0px;
@@ -340,7 +346,7 @@ mwlResizable {
             }
 
             span::after {
-                content: '';
+                content: "";
                 width: 0;
                 height: 0;
                 border-left: 5px solid transparent;
@@ -377,7 +383,7 @@ mwlResizable {
             }
 
             span::before {
-                content: 'Route Tracker';
+                content: "Route Tracker";
                 display: block;
                 position: absolute;
                 top: 0px;
@@ -390,7 +396,7 @@ mwlResizable {
             }
 
             span::after {
-                content: '';
+                content: "";
                 width: 0;
                 height: 0;
                 border-left: 5px solid transparent;
@@ -426,7 +432,7 @@ mwlResizable {
             }
 
             span::before {
-                content: 'Trips';
+                content: "Trips";
                 display: block;
                 position: absolute;
                 top: 0px;
@@ -439,7 +445,7 @@ mwlResizable {
             }
 
             span::after {
-                content: '';
+                content: "";
                 width: 0;
                 height: 0;
                 border-left: 5px solid transparent;
@@ -475,7 +481,7 @@ mwlResizable {
             }
 
             span::before {
-                content: 'Vehicle States';
+                content: "Vehicle States";
                 display: block;
                 position: absolute;
                 top: 0px;
@@ -488,7 +494,7 @@ mwlResizable {
             }
 
             span::after {
-                content: '';
+                content: "";
                 width: 0;
                 height: 0;
                 border-left: 5px solid transparent;
@@ -522,7 +528,7 @@ mwlResizable {
             }
 
             span::before {
-                content: 'Report Issue';
+                content: "Report Issue";
                 display: block;
                 position: absolute;
                 top: 0px;
@@ -535,7 +541,7 @@ mwlResizable {
             }
 
             span::after {
-                content: '';
+                content: "";
                 width: 0;
                 height: 0;
                 border-left: 5px solid transparent;
@@ -565,7 +571,7 @@ mwlResizable {
             }
 
             span::before {
-                content: 'Station';
+                content: "Station";
                 display: block;
                 position: absolute;
                 top: 0px;
@@ -578,7 +584,7 @@ mwlResizable {
             }
 
             span::after {
-                content: '';
+                content: "";
                 width: 0;
                 height: 0;
                 border-left: 5px solid transparent;
@@ -588,7 +594,6 @@ mwlResizable {
                 bottom: -5px;
                 right: 22px;
             }
-
         }
 
         .icon.fa-user-secret:hover span {
@@ -598,10 +603,6 @@ mwlResizable {
         .icon.fa-question-circle:hover span {
             display: block;
         }
-
-
-
-
 
         .icon.fa-tachometer-alt {
             color: #ff8099;
@@ -621,7 +622,7 @@ mwlResizable {
             }
 
             span::before {
-                content: 'Odometer';
+                content: "Odometer";
                 display: block;
                 position: absolute;
                 top: 0px;
@@ -634,7 +635,7 @@ mwlResizable {
             }
 
             span::after {
-                content: '';
+                content: "";
                 width: 0;
                 height: 0;
                 border-left: 5px solid transparent;
@@ -645,17 +646,11 @@ mwlResizable {
                 right: 50%;
                 transform: translate(50%);
             }
-
         }
 
         .icon.fa-tachometer-alt:hover span {
             display: block;
         }
-
-
-
-
-
 
         .icon.fa-flag-checkered {
             color: #d84a11;
@@ -675,7 +670,7 @@ mwlResizable {
             }
 
             span::before {
-                content: 'Entity flag';
+                content: "Entity flag";
                 display: block;
                 position: absolute;
                 top: 0px;
@@ -688,7 +683,7 @@ mwlResizable {
             }
 
             span::after {
-                content: '';
+                content: "";
                 width: 0;
                 height: 0;
                 border-left: 5px solid transparent;
@@ -699,13 +694,11 @@ mwlResizable {
                 right: 50%;
                 transform: translate(50%);
             }
-
         }
 
         .icon.fa-flag-checkered:hover span {
             display: block;
         }
-
     }
 
     .icon.fa-gavel {
@@ -726,7 +719,7 @@ mwlResizable {
         }
 
         span::before {
-            content: 'Vehicle Orders';
+            content: "Vehicle Orders";
             display: block;
             position: absolute;
             top: 0px;
@@ -739,7 +732,7 @@ mwlResizable {
         }
 
         span::after {
-            content: '';
+            content: "";
             width: 0;
             height: 0;
             border-left: 5px solid transparent;
@@ -773,7 +766,7 @@ mwlResizable {
         }
 
         span::before {
-            content: 'Call Driver';
+            content: "Call Driver";
             display: block;
             position: absolute;
             top: 0px;
@@ -786,7 +779,7 @@ mwlResizable {
         }
 
         span::after {
-            content: '';
+            content: "";
             width: 0;
             height: 0;
             border-left: 5px solid transparent;
@@ -877,24 +870,75 @@ mwlResizable {
     border-radius: 5px;
     left: 45%;
 }
-.status-print-title{
+.status-print-title {
     margin-top: -7px;
     padding-bottom: 20px;
-h4{
-    height: auto;
-    margin: auto;
-    z-index: 999999;
-    overflow: visible;
-    border-radius: .17rem;
-    padding: 4px 20px;
-    background-color: #c9c2de;
-    border-bottom: 1px solid #fff;
-    -webkit-box-shadow: 0 16px 26px -10px rgba(63,106,216,.56), 0 4px 25px 0 rgba(0,0,0,.12), 0 8px 10px -5px rgba(63,106,216,.2);
-    box-shadow: 0 16px 26px -10px rgba(63,106,216,.56), 0 4px 25px 0 rgba(0,0,0,.12), 0 8px 10px -5px rgba(63,106,216,.2);
-    display: inline-block;
-    color: #000;
-    font-weight: 600;
-    font-size: 1rem;
-    text-align: center;
+    h4 {
+        height: auto;
+        margin: auto;
+        z-index: 999999;
+        overflow: visible;
+        border-radius: 0.17rem;
+        padding: 4px 20px;
+        background-color: #c9c2de;
+        border-bottom: 1px solid #fff;
+        -webkit-box-shadow: 0 16px 26px -10px rgba(63, 106, 216, 0.56), 0 4px 25px 0 rgba(0, 0, 0, 0.12),
+            0 8px 10px -5px rgba(63, 106, 216, 0.2);
+        box-shadow: 0 16px 26px -10px rgba(63, 106, 216, 0.56), 0 4px 25px 0 rgba(0, 0, 0, 0.12),
+            0 8px 10px -5px rgba(63, 106, 216, 0.2);
+        display: inline-block;
+        color: #000;
+        font-weight: 600;
+        font-size: 1rem;
+        text-align: center;
+    }
 }
-} 
+:host ::ng-deep {
+    .ball {
+        margin-top: 3px;
+        float: left;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-left: 4px;
+        -webkit-animation: up-right 1s infinite;
+        -moz-animation: up-right 1s infinite;
+        -o-animation: up-right 1s infinite;
+        animation: up-right 1s infinite;
+    }
+    @keyframes up-right {
+        0% {
+            transform: scale(1);
+            opacity: 0.25;
+        }
+        50% {
+            transform: scale (1, 5);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 0.25;
+        }
+    }
+}
+.right-status {
+    padding-top: 6px;
+    u {
+        font-size: 14px;
+        margin-left: 3px;
+        cursor: pointer;
+        vertical-align: top;
+    }
+}
+.x-hide {
+    padding-left: 0px;
+    i {
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 8px;
+        color: gray;
+    }
+    .active {
+        color: blue;
+    }
+}

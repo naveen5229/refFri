@@ -6,6 +6,9 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'toll-usage',
   templateUrl: './toll-usage.component.html',
@@ -23,7 +26,7 @@ export class TollUsageComponent implements OnInit {
   //   end: this.common.dateFormatter(new Date()),
   // }
 
-  startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  startDate = new Date(new Date().setDate(new Date().getDate() - 7));
   endDate = new Date();
   
   constructor(
@@ -41,7 +44,8 @@ export class TollUsageComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){

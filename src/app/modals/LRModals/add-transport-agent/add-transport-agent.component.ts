@@ -6,6 +6,9 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LocationSelectionComponent } from '../../location-selection/location-selection.component';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-transport-agent',
   templateUrl: './add-transport-agent.component.html',
@@ -35,7 +38,8 @@ export class AddTransportAgentComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '500', 'px', 1);
    }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   saveTransportAgent()

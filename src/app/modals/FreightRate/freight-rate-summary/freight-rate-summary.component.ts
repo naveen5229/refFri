@@ -3,6 +3,9 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'freight-rate-summary',
   templateUrl: './freight-rate-summary.component.html',
@@ -38,7 +41,8 @@ export class FreightRateSummaryComponent implements OnInit {
     this.lrFoDetail();
    }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
 
   }
 

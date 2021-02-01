@@ -7,13 +7,16 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'financial-toll-summary',
   templateUrl: './financial-toll-summary.component.html',
   styleUrls: ['./financial-toll-summary.component.scss']
 })
 export class FinancialTollSummaryComponent implements OnInit {
-  startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  startDate = new Date(new Date().setDate(new Date().getDate() - 7));
   endDate = new Date();
   table = null;
   data = [];
@@ -22,6 +25,7 @@ export class FinancialTollSummaryComponent implements OnInit {
   closingBalance = null;
   vehid = 6754;
   mobileno = this.user._details.mobileno;
+
   constructor(
     public api: ApiService,
     private pdfService: PdfService,
@@ -34,7 +38,8 @@ export class FinancialTollSummaryComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
     }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){
@@ -75,7 +80,7 @@ export class FinancialTollSummaryComponent implements OnInit {
       },
       settings: {
         hideHeader: true,
-        tableHeight: "auto"
+        tableHeight: "38vh"
       }
     }
   }

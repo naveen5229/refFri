@@ -7,6 +7,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'alert-related-issue',
   templateUrl: './alert-related-issue.component.html',
@@ -44,7 +47,8 @@ export class AlertRelatedIssueComponent implements OnInit {
     this.ticket();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.ticket();

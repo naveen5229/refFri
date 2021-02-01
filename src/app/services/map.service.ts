@@ -23,6 +23,7 @@ export class MapService {
   isMapLoaded = false;
   mapLoadDiv = null;
   cluster = null;
+  labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   lineSymbol = {
     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
   };
@@ -44,6 +45,37 @@ export class MapService {
   constructor(public common: CommonService) {
   }
 
+  toggleHeatmap() {
+    this.heatmap.setMap(this.heatmap.getMap() ? null : this.map);
+  }
+
+  changeGradient() {
+    const gradient = [
+      "rgba(0, 255, 255, 0)",
+      "rgba(0, 255, 255, 1)",
+      "rgba(0, 191, 255, 1)",
+      "rgba(0, 127, 255, 1)",
+      "rgba(0, 63, 255, 1)",
+      "rgba(0, 0, 255, 1)",
+      "rgba(0, 0, 223, 1)",
+      "rgba(0, 0, 191, 1)",
+      "rgba(0, 0, 159, 1)",
+      "rgba(0, 0, 127, 1)",
+      "rgba(63, 0, 91, 1)",
+      "rgba(127, 0, 63, 1)",
+      "rgba(191, 0, 31, 1)",
+      "rgba(255, 0, 0, 1)",
+    ];
+    this.heatmap.set("gradient", this.heatmap.get("gradient") ? null : gradient);
+  }
+  changeRadius() {
+    this.heatmap.set("radius", this.heatmap.get("radius") ? null : 20);
+  }
+
+  changeOpacity() {
+    this.heatmap.set("opacity", this.heatmap.get("opacity") ? null : 0.2);
+  }
+
   autoSuggestion(elementId, setLocation?, types?) {
     let options = {
       types: types ? types : ['(cities)'],
@@ -56,7 +88,6 @@ export class MapService {
 
   updateLocation(elementId, autocomplete, setLocation?) {
     let placeFull = autocomplete.getPlace();
-    console.log('placeFullNAme', placeFull);
     let lat = placeFull.geometry.location.lat();
     let lng = placeFull.geometry.location.lng();
     let place = placeFull.formatted_address.split(',')[0];
@@ -92,7 +123,6 @@ export class MapService {
     }
   }
   setPolyBounds(polygon, isReset = false) {
-    console.log("polygon", polygon);
     if (isReset)
       this.resetBounds();
     for (let index = 0; index < polygon["i"].length; index++) {
@@ -102,7 +132,6 @@ export class MapService {
   }
 
   createSingleMarker(latLng, icons?, dragEvent?, clickEvent?, label?) {
-    console.log("label", label);
     var icon = icons ? icons : {
       path: google.maps.SymbolPath.redpin,
       scale: 4,
@@ -118,7 +147,6 @@ export class MapService {
       draggable: dragEvent ? true : false,
     });
 
-    console.log("marker", marker);
 
     if (dragEvent) {
       this.addListerner(marker, 'dragend', (e) => dragEvent(e, latLng))
@@ -182,7 +210,6 @@ export class MapService {
     return this.polygon;
   }
   createPolygons(latLngsMulti, options?) {// strokeColor = '#', fillColor = '#') {
-    console.log(latLngsMulti);
     let index = 0;
 
     latLngsMulti.forEach(latLngs => {
@@ -250,7 +277,6 @@ export class MapService {
     try {
       let thisMarkers = [];
       let infoWindows = [];
-      console.log("Markers", markers);
       for (let index = 0; index < markers.length; index++) {
         let subType = markers[index]["subType"];
         let design = markers[index]["type"] == "site" ? this.designsDefaults[0] :
@@ -296,15 +322,14 @@ export class MapService {
             flat: true,
             icon: pinImage,
             map: this.map,
-            title: title
+            title: title,
+            label: title
           });
           let displayText = '';
           if (infoKeys) {
             let infoWindow = this.createInfoWindow();
             infoWindows.push(infoWindow);
             infoWindow.opened = false;
-            console.log(infoWindow);
-            console.log("typeof (infoKeys)", typeof (infoKeys), infoKeys);
             if (typeof (infoKeys) == 'object') {
               infoKeys.map((display, indexx) => {
                 if (indexx != infoKeys.length - 1) {
@@ -348,6 +373,15 @@ export class MapService {
     }
   }
 
+  createMarkerCluster(markers) {
+    let markerCluster =
+      new MarkerClusterer(this.map, markers, {
+        imagePath:
+          "assets\\images\\blank",
+      });
+    return markerCluster;
+  }
+
   createCluster(markers, ismake?) {
     let infoWindows = [];
 
@@ -363,7 +397,6 @@ export class MapService {
         cluster.markers_.map(mrk => {
           infoStr += mrk.title + ', '
         })
-        console.log("infoStr", infoStr);
         this.infoStart = new Date().getTime();
         for (let infoIndex = 0; infoIndex < infoWindows.length; infoIndex++) {
           const element = infoWindows[infoIndex];
@@ -380,12 +413,12 @@ export class MapService {
         this.cluster.clearMarkers();
       markers.map(marker => marker && marker.setMap(this.map));
     }
+    return this.cluster;
   }
 
 
   circle = null;
   createCirclesOnPostion(center, radius, stokecolor = '#FF0000', fillcolor = '#FF0000', fillOpacity = 0.1, strokeOpacity = 1) {
-    console.log("center, radius,color", center, radius, stokecolor);
     this.circle = new google.maps.Circle({
       strokeColor: stokecolor,
       strokeOpacity: strokeOpacity,
@@ -396,16 +429,11 @@ export class MapService {
       center: center,
       radius: radius
     });
-    console.log("this.circle", this.circle);
     return this.circle;
   }
 
   toggleBounceMF(id, evtype = 1) {
-    //console.log("Bounce marker",id);
-    //console.log("index",index);
-    //.log("test",test);
-    //console.log("item",item);
-    // console.log('Evtype:', evtype);
+    console.log("id=", id);
     if (this.markers[id]) {
       if (this.markers[id].getAnimation() == null && evtype == 1) {
         this.markers[id].setAnimation(google.maps.Animation.BOUNCE);
@@ -443,9 +471,6 @@ export class MapService {
     try {
       let actualMarker = markers || this.markers;
       for (let i = 0; i < actualMarker.length; i++) {
-        if (actualMarker[i])
-          console.log("reset");
-
         actualMarker[i].setMap(null);
       }
       if (reset)
@@ -453,6 +478,7 @@ export class MapService {
       if (boundsReset) {
         this.bounds = new google.maps.LatLngBounds();
       }
+      this.markers = [];
     } catch (e) {
       console.error('Exception in resetMarker:', e);
     }
@@ -542,7 +568,6 @@ export class MapService {
             offset: '100%'
           }]
         };
-        // console.log(defaultPolygonOptions);
         this.polygonPath = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
         this.polygonPath.setMap(this.map);
       }
@@ -555,7 +580,6 @@ export class MapService {
     }
   }
   createPolyPathDetached2(latLng, polygonOptions?, drawVertix?,) {
-    // console.log(polygonOptions);
     if (!this.poly) {
       const defaultPolygonOptions = {
         strokeColor: "black",
@@ -576,7 +600,6 @@ export class MapService {
   }
 
   createPolyPathDetached(latLng, polygonOptions?, drawVertix?, poly?, infoKeys?) {
-    // console.log(latLng);
     if (!poly) {
       const defaultPolygonOptions = {
         strokeColor: "black",
@@ -622,11 +645,9 @@ export class MapService {
 
   createPolyPathsManual(latLngsAll, afterClick?, drawVertix?) {
     latLngsAll.forEach((latLngAll) => {
-      // console.log("hereout");
       this.poly = null;
       this.polyVertices = [];
       latLngAll.latLngs.forEach((latLng) => {
-        // console.log("herein");
         const defaultPolygonOptions = {
           strokeColor: latLngAll.color,
           strokeOpacity: 1,
@@ -641,7 +662,6 @@ export class MapService {
       this.polygonPaths.push(this.poly);
       drawVertix && this.polygonPathsVertices.push(this.polyVertices);
       this.addListerner(this.poly, 'click', function (event) { afterClick(latLngAll, event); });
-      // console.log(this.polygonPaths);
 
     });
   }
@@ -659,9 +679,7 @@ export class MapService {
   }
   getMapBounds() {
     if (this.map) {
-      console.log("this.map", this.map);
       let boundsx = this.map.getBounds();
-      console.log("boundsx", boundsx);
       let ne = boundsx.getNorthEast(); // LatLng of the north-east corner
       let sw = boundsx.getSouthWest(); // LatLng of the south-west corder
       let lat2 = ne.lat();
@@ -720,8 +738,6 @@ export class MapService {
         avoidHighways: false,
         avoidTolls: false,
       }, (response, status) => {
-        console.log("response:", response);
-
         if (status != google.maps.DistanceMatrixStatus.OK) {
           reject(-1)
         } else {
@@ -733,38 +749,23 @@ export class MapService {
 
 
   displayLocationElevation(lat, lng) {
-    console.log(lat, lng);
     let prom = new Promise((resolve, reject) => {
 
       this.elevator ? this.elevator : this.elevator = new google.maps.ElevationService;
       let location = this.createLatLng(lat, lng);
-      console.log(this.elevator);
-      console.log(location);
       this.elevator.getElevationForLocations({
         'locations': [location]
       },
-
         (response, status) => {
-          console.log("response:", response, status);
-
           if (status != google.maps.DistanceMatrixStatus.OK) {
             reject(-1)
           } else {
-            console.log(response);
             resolve(response[0]);
           }
         });
 
     });
-    //   prom.then(e => {
-    //    this.test =  e;
-    //    console.log(e);
-    //  })
-    //   console.log(this.test);
     return prom;
-
-
-
   }
 
   drawDataonMap(data) {
@@ -816,9 +817,38 @@ export class MapService {
     points.map(pt => {
       url = url + "'" + pt.lat + "," + pt.long + "'/";
     });
-    console.log("url=", url);
     return url;
   }
 
+  setHeatMap(data) {
+    this.heatmap = new google.maps.visualization.HeatmapLayer({
+      data: data,
+      map: this.map,
+    });
+    return this.heatmap;
+  }
+
+  createSimpleMarkers(datax, setBounds = true) {
+    let markers = [];
+    datax.map((location, i) => {
+      if (location.lat && location.lat != 0)
+        markers.push(new google.maps.Marker({
+          position: this.createLatLng(location.lat, location.long),
+          label: location.title,
+        }));
+    });
+    if (setBounds) {
+      var bounds = new google.maps.LatLngBounds();
+      datax.forEach(e => {
+        if (e.lat && e.lat != 0) {
+          let point = new google.maps.LatLng(e.lat, e.long);
+          datax.push({ location: point, weight: e.weight })
+          bounds.extend(point);
+        }
+      });
+      this.map.fitBounds(bounds);
+    }
+    return markers;
+  }
 
 }

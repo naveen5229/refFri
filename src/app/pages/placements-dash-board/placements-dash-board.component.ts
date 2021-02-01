@@ -7,6 +7,9 @@ import { SiteTripDetailsComponent } from '../../modals/site-trip-details/site-tr
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'placements-dash-board',
   templateUrl: './placements-dash-board.component.html',
@@ -37,7 +40,8 @@ export class PlacementsDashBoardComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
 

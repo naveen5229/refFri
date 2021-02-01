@@ -6,6 +6,9 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-driver',
   templateUrl: './add-driver.component.html',
@@ -37,7 +40,8 @@ export class AddDriverComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     this.driverForm = this.formbuilder.group({
       name: [''],
       mobileno: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],

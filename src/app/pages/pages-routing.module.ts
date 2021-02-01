@@ -107,6 +107,7 @@ import { TmgCallsComponent } from './tmg-calls/tmg-calls.component';
 import { TmgAlertsComponent } from './tmg-alerts/tmg-alerts.component';
 import { GraphicalReportsComponent } from './graphical-reports/graphical-reports.component';
 import { OnSideImagesComponent } from '../driver/on-side-images/on-side-images.component';
+import { UlheatmapComponent } from './ulheatmap/ulheatmap.component';
 
 
 const routes: Routes = [{
@@ -663,8 +664,13 @@ const routes: Routes = [{
   path: 'graphical-reports',
   component: GraphicalReportsComponent,
   canActivate: [AuthGuard,RouteGuard]
-}
+},
+{
 
+  path: 'ulheatmap',
+  component: UlheatmapComponent,
+  canActivate: [AuthGuard, RouteGuard],
+},
 
 
   

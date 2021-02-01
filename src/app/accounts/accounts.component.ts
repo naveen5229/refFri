@@ -8,6 +8,9 @@ import { Router } from '@angular/router';
 import { NgbModal,NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { RangeComponent} from '../acounts-modals/range/range.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ngx-pages',
   template: `
@@ -42,9 +45,9 @@ export class AccountsComponent {
     this.getFinancial();
     }
   }
-  anotherPageOpen(){
-    alert('hello dear');
-  }
+
+  ngOnDestroy(){}
+
   getBranches() {
     this.api.post('Suggestion/GetBranchList', { search: 123 })
       .subscribe(res => {

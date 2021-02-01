@@ -5,7 +5,12 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MapService } from '../../services/map.service';
 import { RemarkModalComponent } from '../remark-modal/remark-modal.component';
 import { isNumeric } from 'rxjs/util/isNumeric';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { AddmissingtollComponent } from '../addmissingtoll/addmissingtoll.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tollpaymentmanagement',
   templateUrl: './tollpaymentmanagement.component.html',
@@ -15,27 +20,39 @@ export class TollpaymentmanagementComponent implements OnInit {
 
   startDate = new Date();
   endDate = new Date();
+  disStart=null;
+  disEnd=null;
   vehicleId = null;
   vehicleRegNo = '';
   vehicleClass = [];
   vClass = '';
   tpManagement_tolls=[];
   tpManagement_paths=[];
+  disc=0;
+  terrifCount=null;
   constructor(public common: CommonService,
     public mapService: MapService,
     public api: ApiService,
     private modalService: NgbModal,
     public activeModal: NgbActiveModal) {
-    this.common.handleModalSize('class', 'modal-lg', '1050');
+    this.common.handleModalSize('class', 'modal-lg', '1200');
+    console.log("CommonData:",this.common.params);
+    if(this.common.params && this.common.params.vehId){
+      this.vehicleId=this.common.params.vehId;
+      this.vehicleRegNo=this.common.params.vehRegNo;
+      this.disStart=this.common.params.startDatedis;
+      this.disEnd=this.common.params.endDatedis;
+      this.startDate=this.common.params.startDate;
+      this.endDate=this.common.params.endDate;
+    }
     // this.endDate = new Date();
     // this.startDate = new Date();
     this.getVehicleClass();
   }
 
-  // ngOnInit(): void {
-  // }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {
@@ -81,7 +98,14 @@ export class TollpaymentmanagementComponent implements OnInit {
         this.mapService.clearAll();
         this.mapService.createMarkers(this.tpManagement_tolls,false,false);
         this.tpManagement_paths=res['data']['path'];
-        this.showPoly(this.formatCSVData(this.tpManagement_paths)['data']);
+        this.terrifCount=(this.tpManagement_tolls).reduce((acc, val) => acc += val.tariff==null?0:val.tariff, 0);
+        console.log("disc:",this.disc);
+        let polydata = this.formatCSVData(this.tpManagement_paths);
+        this.showPoly(polydata['data']);
+        this.disc=polydata['dis'];
+        // this.disc=this.showPoly(polydata['dis']);
+        
+        console.log("TotalTariff:",this.terrifCount);
 
         }
         
@@ -118,14 +142,19 @@ export class TollpaymentmanagementComponent implements OnInit {
     return polyPath;
   }
 
+  drop(event: CdkDragDrop<string[]>) {
+    //moveItemInArray(this.vehicleEvents, event.previousIndex, event.currentIndex);
+  }
+
   updateTeriff(teriffData){
     console.log("testData:",teriffData);
     this.common.params = {title: "Update Tariff",placeholder:"Enter Tariff", label:"Tariff",remark:teriffData.tariff};
     const activeModal = this.modalService.open(RemarkModalComponent, {
-      size: "lg",
+      size: "sm",
       container: "nb-layout"
     });activeModal.result.then(data => {
       console.log('Data: ', data);
+      if(data.response){ 
       if (isNumeric(data.remark)) {
         let params={
           tollId:teriffData.id,
@@ -144,6 +173,23 @@ export class TollpaymentmanagementComponent implements OnInit {
       }else{
         this.common.showError("please enter numeric value");
       }
+    }else{
+      return;
+    }
+    });
+  }
+
+  addMissingToll(){
+    let vehData={
+      vid:this.vehicleId,
+      vClass:this.vClass,
+      sdate:this.startDate,
+      edate:this.endDate
+    }
+    this.common.params = { vehData };
+    const activeModal = this.modalService.open(AddmissingtollComponent, {
+      size: "lg",
+      container: "nb-layout"
     });
   }
 

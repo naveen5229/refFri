@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { CsvErrorReportComponent } from '../../modals/csv-error-report/csv-error-report.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'dashboard',
   templateUrl: './dashboard.component.html',
@@ -17,7 +20,8 @@ export class DashboardComponent implements OnInit {
     public common: CommonService,
     public api: ApiService) {
   }
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   

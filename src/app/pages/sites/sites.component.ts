@@ -7,6 +7,9 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { MapService } from '../../services/map.service';
 import { UserService } from '../../services/user.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'sites',
   templateUrl: './sites.component.html',
@@ -79,7 +82,8 @@ export class SitesComponent implements OnInit {
     console.log("this.accountService.selected.branch.id",this.accountService.selected.branch.id);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

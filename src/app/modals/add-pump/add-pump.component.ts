@@ -10,6 +10,9 @@ import { NullTemplateVisitor } from '@angular/compiler';
 import { position } from '@progress/kendo-popup-common';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-pump',
   templateUrl: './add-pump.component.html',
@@ -55,7 +58,8 @@ export class AddPumpComponent implements OnInit {
     }, 2000)
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     this.getTypeIds();
   }
 

@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'expenses',
   templateUrl: './expenses.component.html',
@@ -25,7 +28,8 @@ export class ExpensesComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     this.getExpenditure();
   }
   refresh() {

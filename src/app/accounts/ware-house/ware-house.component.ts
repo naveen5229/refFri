@@ -5,6 +5,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service'
 import { WareHouseModalComponent } from '../../acounts-modals/ware-house-modal/ware-house-modal.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ware-house',
   templateUrl: './ware-house.component.html',
@@ -26,7 +29,8 @@ export class WareHouseComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     console.log('Refresh');

@@ -10,6 +10,9 @@ import * as _ from 'lodash';
 import { ExcelService } from '../../services/excel/excel.service';
 import { OrderComponent } from '../../acounts-modals/order/order.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'gst-report',
   templateUrl: './gst-report.component.html',
@@ -66,7 +69,8 @@ export class GstReportComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {

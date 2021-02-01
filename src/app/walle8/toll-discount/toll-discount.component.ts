@@ -9,6 +9,9 @@ import { CsvService } from '../../services/csv/csv.service';
 import { getUrlScheme } from '@angular/compiler';
 import { now } from 'moment';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'toll-discount',
   templateUrl: './toll-discount.component.html',
@@ -49,7 +52,8 @@ export class TollDiscountComponent implements OnInit {
     //this.calculateTotal();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){

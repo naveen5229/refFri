@@ -6,6 +6,9 @@ import * as _ from 'lodash';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TicketTrailsComponent } from '../../modals/ticket-trails/ticket-trails.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tickets-all',
   templateUrl: './tickets-all.component.html',
@@ -35,7 +38,8 @@ export class TicketsAllComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
 
   }
 

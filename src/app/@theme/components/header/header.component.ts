@@ -12,6 +12,7 @@ import { AccountService } from '../../../services/account.service';
 import { ActivityService } from '../../../services/Activity/activity.service';
 import { BankDetailsComponent } from '../../../modals/bank-details/bank-details.component';
 import * as localforage from 'localforage';
+import { TicketFormFieldComponent } from '../../../modals/ticket-form-field/ticket-form-field.component';
 
 @Component({
   selector: 'ngx-header',
@@ -145,5 +146,11 @@ export class HeaderComponent implements OnInit {
       console.log('Date:', data);
     });
   }
+
+  openCustomerComplaint(){
+    this.common.params = null;
+    // console.log("CurrentUrl:",this.common.params.currentUrl);
+    const activeModal = this.modalService.open(TicketFormFieldComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  } 
 
 }

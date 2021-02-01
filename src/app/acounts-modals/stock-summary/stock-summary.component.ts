@@ -7,6 +7,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
 import { StorerequisitionComponent } from '../../acounts-modals/storerequisition/storerequisition.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'stock-summary',
   templateUrl: './stock-summary.component.html',
@@ -28,7 +31,8 @@ export class StockSummaryComponent  implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1250');
  
   }
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getDetailList() {

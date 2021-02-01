@@ -3,6 +3,9 @@ import { CommonService } from '../../services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LocationMarkerComponent } from '../location-marker/location-marker.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-distance-covered-compact-form',
   templateUrl: './vehicle-distance-covered-compact-form.component.html',
@@ -34,7 +37,8 @@ export class VehicleDistanceCoveredCompactFormComponent implements OnInit {
     this.getTable();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

@@ -17,6 +17,9 @@ import { FreightInvoiceRateComponent } from '../../modals/FreightRate/freight-in
 import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
 import { TemplatePreviewComponent } from '../../modals/template-preview/template-preview.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'freight-invoices',
   templateUrl: './freight-invoices.component.html',
@@ -46,7 +49,8 @@ export class FreightInvoicesComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

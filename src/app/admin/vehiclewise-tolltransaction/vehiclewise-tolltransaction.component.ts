@@ -5,6 +5,9 @@ import { Router } from '@angular/router'
 import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehiclewise-tolltransaction',
   templateUrl: './vehiclewise-tolltransaction.component.html',
@@ -30,7 +33,8 @@ export class VehiclewiseTolltransactionComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   
   refresh() {

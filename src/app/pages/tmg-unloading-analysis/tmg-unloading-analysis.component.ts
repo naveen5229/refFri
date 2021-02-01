@@ -5,6 +5,9 @@ import { GenericModelComponent } from '../../modals/generic-modals/generic-model
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tmg-unloading-analysis',
   templateUrl: './tmg-unloading-analysis.component.html',
@@ -52,31 +55,27 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit(){
-    this.getUnloadingtat();
-    this.getUnloadingWorstDestination();
-    this.getUnLoadingWorstTransportar();
-    this.getUnLoadingWorstTransportar1month();
-    this.getUnLoadingWorstConsignee();
-    this.getUnLoadingWorstConsignee1month();
+    this.refresh();
   }
 
   refresh() {
     this.xAxisData = [];
-    this.getUnloadingtat();
-    this.getUnloadingWorstDestination();
-    this.getUnLoadingWorstTransportar();
-    this.getUnLoadingWorstTransportar1month();
-    this.getUnLoadingWorstConsignee();
-    this.getUnLoadingWorstConsignee1month();
+    this.getUnloadingtat(0);
+    this.getUnloadingWorstDestination(3);
+    this.getUnLoadingWorstTransportar(5);
+    this.getUnLoadingWorstTransportar1month(4);
+    this.getUnLoadingWorstConsignee(2);
+    this.getUnLoadingWorstConsignee1month(1);
   }
 
-  getUnloadingtat() {
+  getUnloadingtat(index) {
     this.unloadingtat = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
@@ -86,29 +85,22 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetUnLoadingtat', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('getUnloadingtat:', res);
         this.unloadingtat = res['data'];
         this.getlabelValue(params.fromdate,params.todate);
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
   getlabelValue(fromdate,todate) {
-    // if (this.getUnloadingtat) {
-    //   this.getUnloadingtat.forEach((cmg) => {
-    //     this.chart.data.line.push(cmg['Amount']);
-    //     this.chart.data.bar.push(cmg['Onward KMS']);
-    //     this.xAxisData.push(cmg['Period']);
-    //   });
-
+   
     this.handleChart(fromdate,todate);
-    // }
   }
 
-  getUnLoadingWorstTransportar1month() {
+  getUnLoadingWorstTransportar1month(index) {
     this.unLoadingWorstTransportar1month = [];
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
@@ -117,21 +109,21 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
       todate: this.common.dateFormatter(endDate),
       totalrecord: 3
     };
-    ++this.common.loading;
+     this.showLoader(index);
     this.api.post('Tmgreport/getUnLoadingWorstTransportar', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('UnLoadingWorstTransportar1month:', res);
         this.unLoadingWorstTransportar1month = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
   
-  getUnLoadingWorstTransportar() {
+  getUnLoadingWorstTransportar(index) {
     this.unLoadingWorstTransportar = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 180));
     let endDate = new Date();
     let params = {
@@ -141,18 +133,18 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
     };
     this.api.post('Tmgreport/getUnLoadingWorstTransportar', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('UnLoadingWorstTransportar:', res['data']);
         this.unLoadingWorstTransportar = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getUnloadingWorstDestination() {
+  getUnloadingWorstDestination(index) {
     this.unloadingWorstDestination = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
@@ -162,21 +154,21 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetUnLoadingWorstDestination', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('UnloadingWorstDestination:', res['data']);
         this.unloadingWorstDestination = res['data'];
         this.getlabelValue1();
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
   
 
-  getUnLoadingWorstConsignee() {
+  getUnLoadingWorstConsignee(index) {
     this.unLoadingWorstConsignee = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 180));
     let endDate = new Date();
     let params = {
@@ -186,18 +178,18 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetUnLoadingWorstConsignee', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('UnLoadingWorstConsignee:', res['data']);
         this.unLoadingWorstConsignee = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getUnLoadingWorstConsignee1month() {
+  getUnLoadingWorstConsignee1month(index) {
     this.unLoadingWorstConsignee1month = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
@@ -207,11 +199,11 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetUnLoadingWorstConsignee', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('UnLoadingWorstConsignee:', res['data']);
         this.unLoadingWorstConsignee1month = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
@@ -468,4 +460,19 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
     this.common.params = { data: dataparams };
     const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
+
+  showLoader(index) {
+    setTimeout(() => {
+      let outers = document.getElementsByClassName("outer");
+      let loader = document.createElement('div');
+      loader.className = 'loader';
+      outers[index].appendChild(loader);
+    }, 50);
+  }
+
+  hideLoader(index) {
+    let outers = document.getElementsByClassName("outer");
+    outers[index].lastChild.remove();
+  }
 }
+

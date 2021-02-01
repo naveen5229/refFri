@@ -3,6 +3,9 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'route-deviations',
   templateUrl: './route-deviations.component.html',
@@ -34,7 +37,8 @@ export class RouteDeviationsComponent implements OnInit {
       this.getrouteDeviations();
      }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getrouteDeviations() {

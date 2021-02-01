@@ -1,45 +1,41 @@
-import { Component, OnInit, HostListener } from "@angular/core";
-import { ApiService } from "../../services/api.service";
-import { CommonService } from "../../services/common.service";
-import { UserService } from "../../services/user.service";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { KpisDetailsComponent } from "../../modals/kpis-details/kpis-details.component";
-import { LocationMarkerComponent } from "../../modals/location-marker/location-marker.component";
-import { ImageViewComponent } from "../../modals/image-view/image-view.component";
-import * as _ from "lodash";
-import { ReportIssueComponent } from "../../modals/report-issue/report-issue.component";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { RadioSelectionComponent } from "../../modals/radio-selection/radio-selection.component";
-import { VehiclesOnMapComponent } from "../../modals/vehicles-on-map/vehicles-on-map.component";
-import { VehicleReportComponent } from "../../modals/vehicle-report/vehicle-report.component";
-import { RouteMapperComponent } from "../../modals/route-mapper/route-mapper.component";
-import { TripDetailsComponent } from "../../modals/trip-details/trip-details.component";
-import { VehicleStatesComponent } from "../../modals/vehicle-states/vehicle-states.component";
-import { ResizeEvent } from "angular-resizable-element";
-import { MapService } from "../../services/map.service";
-import { NgxPrintModule } from 'ngx-print';
-import { VehicleTripUpdateComponent } from "../../modals/vehicle-trip-update/vehicle-trip-update.component";
-import { ChangeVehicleStatusComponent } from "../../modals/change-vehicle-status/change-vehicle-status.component";
-import * as moment from 'moment';
-import { AddShortTargetComponent } from "../../modals/add-short-target/add-short-target.component";
-import { DateService } from "../../services/date.service";
-import { PoliceStationComponent } from "../../modals/police-station/police-station.component";
-import { OdoMeterComponent } from "../../modals/odo-meter/odo-meter.component";
-import { PdfService } from "../../services/pdf/pdf.service";
-import { MatTableDataSource } from "@angular/material/table";
-import { EntityFlagsComponent } from "../../modals/entity-flags/entity-flags.component";
-import { DatePipe } from "@angular/common";
-import { PdfViewerComponent } from "../../generic/pdf-viewer/pdf-viewer.component";
-import { VehicleOrdersComponent } from "../../modals/BidModals/vehicle-orders/vehicle-orders.component";
-import { ChangeVehicleStatusByCustomerComponent } from "../../modals/change-vehicle-status-by-customer/change-vehicle-status-by-customer.component";
+import { Component, OnInit } from "@angular/core";
 import { DomSanitizer } from '@angular/platform-browser';
-import { CsvService } from "../../services/csv/csv.service";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ResizeEvent } from "angular-resizable-element";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { DatePipe } from "@angular/common";
+import * as _ from "lodash";
+import * as moment from 'moment';
+import { Api, Common, Csv, DateTime, Map, Pdf, User } from "../../services";
+import {
+  AddShortTarget,
+  ChangeVehicleStatus,
+  ChangeVehicleStatusByCustomer,
+  EntityFlags,
+  ImageView,
+  KpisDetails,
+  LocationMarker,
+  OdoMeter,
+  PoliceStation,
+  ReportIssue,
+  RouteMapper,
+  TripDetails,
+  VehicleOrders,
+  VehicleReport,
+  VehiclesOnMap,
+  VehicleStates,
+  VehicleTripUpdate
+} from "../../modals";
+
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: "concise",
   templateUrl: "./concise.component.html",
   styleUrls: ["./concise.component.scss", "../pages.component.css", "print.scss"],
   host: {
-    '(document:mousemove)': 'onMouseMove($event)'
+    '(document:mousemove)': 'onMouseMove()'
   }
 })
 export class ConciseComponent implements OnInit {
@@ -134,18 +130,22 @@ export class ConciseComponent implements OnInit {
     name: undefined,
     data: []
   };
+  rotate = '';
+  gpsStatus = null;
+  gpsStatusKeys = [];
+  isHidePie: boolean = !!JSON.parse(localStorage.getItem('isHidePie'));
 
   constructor(
-    public api: ApiService,
-    public common: CommonService,
-    public user: UserService,
+    public api: Api,
+    public common: Common,
+    public user: User,
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
-    public mapService: MapService,
+    public mapService: Map,
     private datePipe: DatePipe,
-    public dateService: DateService,
-    private _sanitizer: DomSanitizer, private csvService: CsvService,
-    public pdfService: PdfService) {
+    public dateService: DateTime,
+    private _sanitizer: DomSanitizer, private csvService: Csv,
+    public pdfService: Pdf) {
     console.log("this.user._customer", this.user._customer, "this.user._details", this.user._details)
     this.getKPIS();
     this.common.currentPage = "";
@@ -154,7 +154,11 @@ export class ConciseComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  get f() {
+    return this.registerForm.controls;
+  }
+
+ngOnInit() {
     this.registerForm = this.formBuilder.group({
       firstName: ["", Validators.required],
       lastName: ["", Validators.required],
@@ -169,10 +173,6 @@ export class ConciseComponent implements OnInit {
   ngOnDestroy() {
     this.mapService.map = null;
     this.common.continuoueScroll();
-  }
-
-  get f() {
-    return this.registerForm.controls;
   }
 
   onSubmit() {
@@ -200,6 +200,7 @@ export class ConciseComponent implements OnInit {
           localStorage.setItem('KPI_DATA', JSON.stringify(this.allKpis));
           this.kpis = res["data"];
           this.grouping(this.viewType);
+          this.getGpsStatus();
           this.table = this.setTable();
           this.handlePdfPrint();
         }
@@ -211,16 +212,16 @@ export class ConciseComponent implements OnInit {
       });
   }
 
-
   getTableColumns(kpis?) {
     let columns = [];
     let kpisList = kpis || this.kpis;
-    kpisList.map((kpi, i) => {
+    kpisList.map(kpi => {
       columns.push({
         _id: kpi.x_showveh,
         vehicle: {
-          value: kpi.x_showveh,
+          value: this._sanitizer.bypassSecurityTrustHtml(`<span><div style='float:left;'>${kpi.x_showveh}</div><div class="${kpi.x_gps_state == 'Offline' ? 'ball red' : kpi.x_gps_state == 'Online' ? 'ball bgreen' : 'ball byellow'}" title=${kpi.x_gps_state}></div></span>`),
           action: '',
+          isHTML: true,
           colActions: {
             dblclick: '',
             click: '',
@@ -241,8 +242,9 @@ export class ConciseComponent implements OnInit {
           action: ''
         },
         hrs: {
-          value: kpi.x_hrssince,
+          value: this.convertHrsToDays(kpi.x_hrssince),
           action: "",
+          sortBy: kpi.x_hrssince
         },
         Idle_Time: {
           value: this.common.changeTimeformat(kpi.x_idle_time),
@@ -269,6 +271,18 @@ export class ConciseComponent implements OnInit {
     return columns;
   }
 
+  convertHrsToDays(hrs: number) {
+    let days = Math.floor(hrs / 24);
+    let remainingHrs = hrs % 24;
+    let str = '';
+    if (days) {
+      str = days + 'd ';
+    }
+    if (remainingHrs) {
+      str += remainingHrs + 'h';
+    }
+    return str.trim();
+  }
 
   getViewType() {
     this.table.data.columns = this.getTableColumns();
@@ -354,9 +368,9 @@ export class ConciseComponent implements OnInit {
       let status = statusArray.splice(0, 1)[0].trim();
       let subStatus = statusArray.join(",").trim();
       let findStatus = false;
-      if (status == "No Data 12 Hr") {
+      if (status && status.includes('No Data')) {
+        subStatus = status.substr(status.search(/[0-9]/)).split(' ')[0] + ' Hr +';
         status = "Issue";
-        subStatus = "12 Hr +";
       } else if (status == "Undetected") {
         status = "Issue";
         subStatus = "Undetected";
@@ -454,10 +468,8 @@ export class ConciseComponent implements OnInit {
 
       this.kpis = this.allKpis.filter(kpi => {
         let value = kpi[this.viewType].split('-').map(k => k.split('#')[0]).join(' - ');
-        if (value == filterKey) {
-          return true;
-        }
-        return false;
+        return value == filterKey;
+
       });
 
 
@@ -585,11 +597,12 @@ export class ConciseComponent implements OnInit {
     const location = {
       lat: kpi.x_tlat,
       lng: kpi.x_tlong,
+      angle: kpi.x_angle,
       name: "",
       time: ""
     };
-    this.common.params = { location, title: "Vehicle Location" };
-    const activeModal = this.modalService.open(LocationMarkerComponent, {
+    this.common.params = { location, title: "Vehicle Location : " + kpi.x_showveh };
+    this.modalService.open(LocationMarker, {
       size: "lg",
       container: "nb-layout"
     });
@@ -618,7 +631,7 @@ export class ConciseComponent implements OnInit {
 
   showDetails(kpi) {
     this.common.params = { kpi };
-    const activeModal = this.modalService.open(KpisDetailsComponent, {
+    const activeModal = this.modalService.open(KpisDetails, {
       size: "lg",
       container: "nb-layout"
     });
@@ -656,7 +669,7 @@ export class ConciseComponent implements OnInit {
       }
     ];
     this.common.params = { images, title: "LR Details" };
-    const activeModal = this.modalService.open(ImageViewComponent, {
+    this.modalService.open(ImageView, {
       size: "lg",
       container: "nb-layout"
     });
@@ -686,7 +699,7 @@ export class ConciseComponent implements OnInit {
 
   reportIssue(kpi) {
     this.common.params = { refPage: "db" };
-    const activeModal = this.modalService.open(ReportIssueComponent, {
+    const activeModal = this.modalService.open(ReportIssue, {
       size: "sm",
       container: "nb-layout"
     });
@@ -777,7 +790,7 @@ export class ConciseComponent implements OnInit {
       ref_page: "consView"
     };
     this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
-    this.modalService.open(VehicleReportComponent, {
+    this.modalService.open(VehicleReport, {
       size: "lg",
       container: "nb-layout",
       backdrop: "static",
@@ -799,13 +812,14 @@ export class ConciseComponent implements OnInit {
       fromTime: fromTime,
       toTime: toTime
     };
-    const activeModal = this.modalService.open(RouteMapperComponent, {
+    this.modalService.open(RouteMapper, {
       size: "lg",
       container: "nb-layout",
       windowClass: "myCustomModalClass"
     });
 
   }
+
   openTripDetails(kpi) {
     let today, startday, fromDate;
     today = new Date();
@@ -820,7 +834,7 @@ export class ConciseComponent implements OnInit {
       toTime: toTime
     };
     this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
-    const activeModal = this.modalService.open(TripDetailsComponent, {
+    this.modalService.open(TripDetails, {
       size: "lg",
       container: "nb-layout",
       windowClass: "myCustomModalClass"
@@ -830,7 +844,7 @@ export class ConciseComponent implements OnInit {
   vehicleOnMap() {
     this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
     this.common.params = { vehicles: this.kpis };
-    const activeModal = this.modalService.open(VehiclesOnMapComponent, {
+    this.modalService.open(VehiclesOnMap, {
       size: "lg",
       container: "nb-layout"
     });
@@ -852,10 +866,9 @@ export class ConciseComponent implements OnInit {
 
     this.mapService.clearAll();
     for (let index = 0; index < this.kpis.length; index++) {
-      if (this.kpis[index].showprim_status == "No Data 12 Hr" || this.kpis[index].showprim_status == "Undetected" || this.kpis[index].showprim_status == "No GPS Data") {
+      if (this.kpis[index].showprim_status.includes('No Data') || this.kpis[index].showprim_status == "Undetected" || this.kpis[index].showprim_status == "No GPS Data") {
         this.kpis[index].color = "ff0000";
-      }
-      else if ((this.kpis[index].x_idle_time / 60) > 0) {
+      } else if ((this.kpis[index].x_idle_time / 60) > 0) {
         this.kpis[index].color = "ffff00";
       } else {
         this.kpis[index].color = "00ff00";
@@ -883,6 +896,7 @@ export class ConciseComponent implements OnInit {
       }
     }, 1000);
   }
+
   setMarkerLabels() {
     if (this.mapService.markers.length != 0) {
       for (const zoomMarker of this.mapService.markers) {
@@ -928,7 +942,6 @@ export class ConciseComponent implements OnInit {
       this.mapService.createLatLng(event.x_tlat, event.x_tlong)
     ); // or evt.latLng
     this.infoWindow.open(this.mapService.map);
-    let bound = this.mapService.getMapBounds();
   }
 
   unsetEventInfo() {
@@ -952,7 +965,6 @@ export class ConciseComponent implements OnInit {
     }, 1000);
   }
 
-  rotate = '';
   rotateBounce(kpi, i?, isToggle = true) {
     this.rotate = 'rotate(' + kpi.x_angle + 'deg)';
     if (isToggle) {
@@ -967,8 +979,7 @@ export class ConciseComponent implements OnInit {
 
     }
     this.common.params = { tripDetils: tripDetails, ref_page: 'kpi' };
-    const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-
+    this.modalService.open(VehicleTripUpdate, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
   getZoomAndaddShortTarget(kpi) {
@@ -980,7 +991,7 @@ export class ConciseComponent implements OnInit {
   }
 
   getZoom(kpi) {
-    if (this.isMapView, kpi) {
+    if (this.isMapView && kpi) {
       let latLng = this.mapService.getLatLngValue(kpi);
       let latLong = this.mapService.createLatLng(latLng.lat, latLng.lng)
       this.mapService.zoomAt(latLong);
@@ -989,10 +1000,9 @@ export class ConciseComponent implements OnInit {
   }
 
   actionIcons() {
-    let icons = [
+    return [
       {
-        class: "icon fa fa-chart-pie",
-        action: '',
+        class: "icon fa fa-chart-pie", action: '',
       },
       {
         class: "icon fa fa-star",
@@ -1035,14 +1045,8 @@ export class ConciseComponent implements OnInit {
         class: "icon fa fa-phone",
         action: ''
       },
-
     ]
-    // if (this.user._loggedInBy != "admin") {
-    //   icons.shift();
-    // }
-    return icons;
   }
-
 
   openChangeStatusModal(trip) {
     let ltime = new Date();
@@ -1064,13 +1068,11 @@ export class ConciseComponent implements OnInit {
     this.common.ref_page = 'tsfl';
     this.common.params = VehicleStatusData;
     if (this.user._loggedInBy != "admin") {
-      this.modalService.open(ChangeVehicleStatusByCustomerComponent, { size: 'lg', container: 'nb-layout' });
-    }
-    else {
-      this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
+      this.modalService.open(ChangeVehicleStatusByCustomer, { size: 'lg', container: 'nb-layout' });
+    } else {
+      this.modalService.open(ChangeVehicleStatus, { size: 'lg', container: 'nb-layout' });
     }
   }
-
 
   openVehicleStates(values) {
     this.common.params = {
@@ -1081,13 +1083,13 @@ export class ConciseComponent implements OnInit {
       vregno: values.x_showveh
 
     };
-    const activeModal = this.modalService.open(VehicleStatesComponent, {
+    this.modalService.open(VehicleStates, {
       size: "lg",
       container: "nb-layout"
     });
   }
 
-  onMouseMove(e) {
+  onMouseMove() {
     let now = moment(new Date()); //todays date
     let lastRefreshTime = moment(this.lastRefreshTime); // another date
     let duration = moment.duration(now.diff(lastRefreshTime));
@@ -1096,24 +1098,26 @@ export class ConciseComponent implements OnInit {
       this.getKPIS(true);
     }
   }
+
   addShortTarget(target) {
     this.common.params = {
       vehicleId: target.x_vehicle_id,
       vehicleRegNo: target.x_showveh
 
     };
-    const activeModal = this.modalService.open(AddShortTargetComponent, {
+    this.modalService.open(AddShortTarget, {
       size: "sm",
       container: "nb-layout"
     });
   }
+
   openStations(kpi) {
     this.common.params = {
       lat: kpi.x_tlat,
       long: kpi.x_tlong
 
     };
-    const activeModal = this.modalService.open(PoliceStationComponent, {
+    this.modalService.open(PoliceStation, {
       size: "lg",
       container: "nb-layout"
     });
@@ -1125,16 +1129,20 @@ export class ConciseComponent implements OnInit {
     let vehicleId = kpi.x_vehicle_id;
     let regno = kpi.x_showveh;
     this.common.params = { vehicleId, regno };
-    const activeModal = this.modalService.open(OdoMeterComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-
+    this.modalService.open(OdoMeter, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
+
   openentityFlag(kpi) {
     this.common.handleModalSize('class', 'modal-lg', '800');
     let vehicleId = kpi.x_vehicle_id;
     let regno = kpi.x_showveh;
     this.common.params = { title: 'Entity Flag ', vehicleId, regno };
-    this.modalService.open(EntityFlagsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
-
+    this.modalService.open(EntityFlags, {
+      size: 'lg',
+      container: 'nb-layout',
+      backdrop: 'static',
+      windowClass: 'print-lr'
+    });
   }
 
   openVehicleWiseOrders(data) {
@@ -1144,10 +1152,9 @@ export class ConciseComponent implements OnInit {
 
     }
     this.common.params = { vehicle: vehicle };
-    const activeModal = this.modalService.open(VehicleOrdersComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-
-
+    this.modalService.open(VehicleOrders, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
+
   callNotification(data) {
     if (data['x_mobileno']) {
       let params = {
@@ -1366,4 +1373,26 @@ export class ConciseComponent implements OnInit {
     });
   }
 
+  getGpsStatus() {
+    this.gpsStatus = _.groupBy(this.allKpis, 'x_gps_state');
+    this.gpsStatusKeys = Object.keys(this.gpsStatus)
+    console.log("this.gpsStatus=", this.gpsStatus);
+    console.log("this.gpsStatusKeys=", this.gpsStatusKeys);
+  }
+
+  filterByGpsData(filterKey) {
+    this.kpis = this.allKpis.filter(kpi => {
+      if (kpi['x_gps_state'] == filterKey) {
+        return true;
+      }
+      return false;
+    });
+    console.log("filterKey", this.kpis);
+    this.table = this.setTable();
+  }
+
+  setIsHidePie() {
+    this.isHidePie = !this.isHidePie;
+    localStorage.setItem('isHidePie', this.isHidePie.toString());
+  }
 }

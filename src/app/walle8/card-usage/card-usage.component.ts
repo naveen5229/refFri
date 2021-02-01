@@ -8,6 +8,9 @@ import { getUrlScheme } from '@angular/compiler';
 import { CardusageComponent } from '../../modals/cardusage/cardusage.component';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'card-usage',
   templateUrl: './card-usage.component.html',
@@ -29,7 +32,8 @@ export class CardUsageComponent implements OnInit {
       columns: []
     },
     settings: {
-      hideHeader: true
+      hideHeader: true,
+      tableHeight:"38vh"
     }
   };
 
@@ -65,7 +69,8 @@ export class CardUsageComponent implements OnInit {
     
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

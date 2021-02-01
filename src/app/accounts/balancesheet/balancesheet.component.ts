@@ -10,6 +10,8 @@ import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 import { AccountService } from '../../services/account.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
 @Component({
   selector: 'balance-sheet-tree',
   templateUrl: './balancesheet.tree.html',
@@ -85,6 +87,8 @@ export class BalanceSheetTreeComponent {
   }
 }
 
+
+@AutoUnsubscribe()
 @Component({
   selector: 'balancesheet',
   templateUrl: './balancesheet.component.html',
@@ -139,7 +143,8 @@ export class BalancesheetComponent implements OnInit {
     this.common.currentPage = 'Balance Sheet';
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getBalanceSheet() {

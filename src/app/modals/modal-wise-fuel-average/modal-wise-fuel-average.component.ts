@@ -3,6 +3,9 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'modal-wise-fuel-average',
   templateUrl: './modal-wise-fuel-average.component.html',
@@ -33,7 +36,8 @@ export class ModalWiseFuelAverageComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   
 closeModal(data){

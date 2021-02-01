@@ -6,6 +6,9 @@ import { AccountService } from '../services/account.service';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ngx-pages',
   styleUrls: ['./pages.component.css'],
@@ -35,6 +38,10 @@ export class PagesComponent {
       alert("Select Fo Admin First");
       this.router.navigate(['/admin']);
     }
+  }
+
+  ngOnDestroy(){
+    
   }
 
   ngAfterViewInit() {

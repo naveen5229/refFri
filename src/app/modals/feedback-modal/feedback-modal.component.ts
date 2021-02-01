@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { ReminderComponent } from '../reminder/reminder.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'feedback-modal',
   templateUrl: './feedback-modal.component.html',
@@ -33,7 +36,8 @@ export class FeedbackModalComponent implements OnInit {
       }
      }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal(data){

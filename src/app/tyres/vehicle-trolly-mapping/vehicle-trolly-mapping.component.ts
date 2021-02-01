@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VehicleSearchComponent } from '../../modals/vehicle-search/vehicle-search.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-trolly-mapping',
   templateUrl: './vehicle-trolly-mapping.component.html',
@@ -26,7 +29,8 @@ export class VehicleTrollyMappingComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){

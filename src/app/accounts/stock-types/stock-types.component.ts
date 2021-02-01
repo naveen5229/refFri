@@ -6,6 +6,9 @@ import { StockTypeComponent } from '../../acounts-modals/stock-type/stock-type.c
 import { UserService } from '../../@core/data/users.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'stock-types',
   templateUrl: './stock-types.component.html',
@@ -30,7 +33,8 @@ export class StockTypesComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     console.log('Refresh');

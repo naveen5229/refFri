@@ -5,6 +5,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { ConfirmComponent } from '../confirm/confirm.component';
 // import { UserService } from '../../../services/user.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'driver-vehicle-remapping',
   templateUrl: './driver-vehicle-remapping.component.html',
@@ -56,7 +59,8 @@ export class DriverVehicleRemappingComponent implements OnInit {
     console.log('primarydriver:', this.maping.primary, 'mobileno:', this.maping.pdriverMobile);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     console.log('primarydriver:', this.maping.primary, 'mobileno:', this.maping.pdriverMobile);
 
   }

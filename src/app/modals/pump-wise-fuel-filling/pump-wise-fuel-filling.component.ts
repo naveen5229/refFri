@@ -7,6 +7,9 @@ import { DatePipe, NumberFormatStyle } from '@angular/common';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { MapService } from '../../services/map.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'pump-wise-fuel-filling',
   templateUrl: './pump-wise-fuel-filling.component.html',
@@ -42,7 +45,8 @@ export class PumpWiseFuelFillingComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

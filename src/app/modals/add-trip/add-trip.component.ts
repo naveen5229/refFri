@@ -13,6 +13,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AddDriverCompleteComponent } from '../DriverModals/add-driver-complete/add-driver-complete.component';
 
 declare var google: any;
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-trip',
   templateUrl: './add-trip.component.html',
@@ -74,7 +77,8 @@ export class AddTripComponent implements OnInit {
   }
 
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   ngAfterViewInit(): void {
     setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_starttrip'), 3000);

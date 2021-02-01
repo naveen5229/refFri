@@ -10,16 +10,25 @@ import { encode } from 'punycode';
   providedIn: 'root'
 })
 export class ApiService {
-  // URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
-    URL: string = 'https://dev.elogist.in/booster_webservices/'; // Dev : http://elogist.in/testing/dos
-    // URL: string = 'http://localhost/booster_webservices/'; // Local
+  /************************** PROD SERVER ********** */
+  // URL: string = 'https://elogist.in/booster_webservices/';
+  // UrlPrime: string = 'https://elogist.in/itrm_webservices/';
+  // UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
+
+  /********************** DEV SERVER ***************** */
+  URL: string = 'https://dev.elogist.in/booster_webservices/';
+  UrlPrime: string = 'https://dev.elogist.in/itrm_webservices/';
   UrlTranstruckNew: string = 'http://dev.elogist.in/transtrucknew/';
-  // UrlTranstruckNew: string = 'http://192.168.1.101/webservices/';
-  // URL: string = 'https://dev.elogist.in/booster_webservices/'; // Dev : http://elogist.in/testing/dos
 
+  /********************* Common ***************** */
   URL2 = 'http://elogist.in/transtruck/';
-  URLJava: string = 'http://13.126.162.170:7070/'; // Dev Server
+  URLJava: string = 'http://13.126.162.170:7070/';
 
+  /********************** Local Server ************* */
+  // URL: string= 'http://107.6.151.122:8081/airtel'
+  // URL: string = 'http://localhost/booster_webservices/'; 
+  //  UrlPrime:string='http://192.168.0.111/itrm_webservices/';
+  // UrlTranstruckNew: string = 'http://192.168.1.101/webservices/';
 
   constructor(private http: HttpClient,
     public router: Router,
@@ -241,6 +250,31 @@ export class ApiService {
 
   walle8Get(subURL: string, params?: any) {
     return this.http.get(this.UrlTranstruckNew + subURL, { headers: this.setWalle8Headers() })
+  }
+
+  primePost(subURL: string, body: any, option?) {
+    return this.http.post(this.UrlPrime + subURL, body, { headers: this.setPrimeHeaders() })
+  }
+
+  primeGet(subURL: string, params?: any) {
+    return this.http.get(this.UrlPrime + subURL, { headers: this.setPrimeHeaders() })
+  }
+
+  setPrimeHeaders() {
+    const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
+    const authKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTYzLCJmb2lkIjoiMCIsIm5hbWUiOiJIZW1hbnQgU2lzb2RpYSIsIm1vYmlsZW5vIjo5NzcyNzUzNDc2LCJlbWFpbCI6bnVsbCwidGltZSI6IjIwMjAtMTItMTdUMTI6MTM6MTArMDU6MzAifQ.TPwK9WlypiWnY_NrUhtsJBvWIHbdz49hCtlwV1AX0Ww';
+    const version = '1.0';
+
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'version': version,
+      'entrymode': entryMode,
+      'authkey': authKey,
+      'apptype': 'dashboard',
+      'token': '8e3ff0d7-5fde-2266-e999-00dbb2a9e5fd'
+    });
+
+    return headers;
   }
 
 

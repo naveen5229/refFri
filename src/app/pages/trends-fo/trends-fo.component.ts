@@ -10,6 +10,9 @@ import { LoginComponent } from '../login/login.component';
 import { MapService } from '../../services/map.service';
 import { slideToRight, slideToLeft } from '../../services/animation';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trends-fo',
   templateUrl: './trends-fo.component.html',
@@ -65,7 +68,8 @@ export class TrendsFoComponent implements OnInit {
     this.refresh();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

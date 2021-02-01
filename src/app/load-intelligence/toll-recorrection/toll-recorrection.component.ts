@@ -6,6 +6,9 @@ import { MapService } from '../../services/map.service';
 declare let google: any;
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'toll-recorrection',
   templateUrl: './toll-recorrection.component.html',
@@ -47,7 +50,8 @@ export class TollRecorrectionComponent implements OnInit {
       this.showData();
     }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {

@@ -7,6 +7,9 @@ import * as _ from 'lodash';
 import { DateService } from '../../services/date/date.service';
 import { GeometryService } from '../../services/geometry/geometry.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fuel-filling-timetable',
   templateUrl: './fuel-filling-timetable.component.html',
@@ -58,7 +61,8 @@ export class FuelFillingTimetableComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {

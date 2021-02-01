@@ -6,6 +6,9 @@ import { UserService } from '../../services/user.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { OdoMeterComponent } from '../../modals/odo-meter/odo-meter.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-odometer',
   templateUrl: './vehicle-odometer.component.html',
@@ -39,7 +42,8 @@ export class VehicleOdometerComponent implements OnInit {
     this.changeState();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

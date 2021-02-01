@@ -7,6 +7,9 @@ import { MapService } from '../../services/map.service';
 
 declare var google: any;
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicles-on-map',
   templateUrl: './vehicles-on-map.component.html',
@@ -23,7 +26,8 @@ export class VehiclesOnMapComponent implements OnInit {
    console.log("vehicles",this.vehicles);
    }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {

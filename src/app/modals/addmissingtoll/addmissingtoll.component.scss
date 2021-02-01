@@ -1,0 +1,77 @@
+:host::ng-deep .blue{
+  color:blue!important;
+}
+
+
+fieldset {
+    display: block;
+    margin-inline-start: 2px;
+    margin-inline-end: 2px;
+    padding-block-start: 0.35em;
+    padding-inline-start: 0.75em;
+    padding-inline-end: 0.75em;
+    padding-block-end: 0.625em;
+    min-inline-size: min-content;
+    border-width: 1px;
+    border-style: solid;
+    border-color: lightgray;
+    border-image: initial;
+    margin-top:20px;
+  }
+  
+  legend {
+    display: block;
+    padding-inline-start: 2px;
+    padding-inline-end: 2px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: lightgray;
+    padding: 10px;
+    border-image: initial;
+    color:black;
+    font-weight: bold;
+  }
+
+  .mrgn{
+    margin-top:10px;
+  }
+
+  .tabs_style li.active {
+    background-color: #fff;
+    color: #263238;
+    position: relative;
+}
+
+  .tabs_style {
+    width: 100%;
+    margin: 0 0 10px;
+    border-bottom: 2px solid #263238;
+    padding-left: 5px!important;
+}
+
+.tabs_style li.active::after {
+  content: "";
+  display: block;
+  background-color: #fff;
+  height: 10px;
+  width: 100%;
+  position: absolute;
+  left: 0;
+}
+
+
+
+.tabs_style li {
+  padding: 5px 6px;
+  list-style: none;
+  margin-right: 5px;
+  background-color: #263238;
+  border: 2px solid #263238;
+  color: #fff;
+  border-bottom: 0;
+  display: inline-block;
+  border-radius: 5px 5px 0 0;
+  font-size: 12px;
+  font-weight: 400;
+  cursor: pointer;
+}

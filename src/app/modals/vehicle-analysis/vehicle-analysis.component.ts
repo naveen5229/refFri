@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MapService } from '../../services/map.service';
 import { CommonService } from '../../services/common.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-analysis',
   templateUrl: './vehicle-analysis.component.html',
@@ -18,7 +21,8 @@ export class VehicleAnalysisComponent implements OnInit {
     this.getdata();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

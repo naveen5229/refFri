@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { CsvErrorReportComponent } from '../../modals/csv-error-report/csv-error-report.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'zone-details',
   templateUrl: './zone-details.component.html',
@@ -38,7 +41,8 @@ export class ZoneDetailsComponent implements OnInit {
     public api: ApiService) {
       this.getSpecialArea();
   }
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getSpecialArea() {

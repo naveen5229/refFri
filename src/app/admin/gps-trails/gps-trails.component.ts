@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'gps-trails',
   templateUrl: './gps-trails.component.html',
@@ -9,7 +12,8 @@ export class GpsTrailsComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 }

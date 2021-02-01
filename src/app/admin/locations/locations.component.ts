@@ -7,6 +7,9 @@ import { LocationSelectionComponent } from '../../modals/location-selection/loca
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { FoSiteAliasComponent } from '../../modals/fo-site-alias/fo-site-alias.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'locations',
   templateUrl: './locations.component.html',
@@ -26,7 +29,8 @@ export class LocationsComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){

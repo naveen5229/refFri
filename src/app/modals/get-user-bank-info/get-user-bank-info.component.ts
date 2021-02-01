@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { Api2Service } from '../../services/api2.service';
 import { ApiService } from '../../services/api.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'get-user-bank-info',
   templateUrl: './get-user-bank-info.component.html',
@@ -47,7 +50,8 @@ fuelData=null;
     console.log("Bank data-->",this.bankData);
    }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   closeModal() {
     this.activeModal.close();

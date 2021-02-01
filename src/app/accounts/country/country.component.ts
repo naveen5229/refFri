@@ -6,6 +6,9 @@ import { UserService } from '../../services/user.service';
 import { AddCountryComponent } from '../../acounts-modals/add-country/add-country.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { from } from 'rxjs';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'country',
   templateUrl: './country.component.html',
@@ -42,7 +45,8 @@ export class CountryComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     console.log('Refresh');

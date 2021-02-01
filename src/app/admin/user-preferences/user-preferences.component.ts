@@ -8,6 +8,9 @@ import * as _ from 'lodash';
 import { RouteGuard } from '../../guards/route.guard';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { group } from '@angular/animations';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'user-preferences',
   templateUrl: './user-preferences.component.html',
@@ -52,7 +55,8 @@ export class UserPreferencesComponent implements OnInit {
   }
 
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   ngDestroy() {
 

@@ -10,6 +10,9 @@ import { UserService } from '../../../services/user.service';
 import { UploadDocsComponent } from '../../upload-docs/upload-docs.component';
 import { DatePickerComponent } from '../../date-picker/date-picker.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-driver-complete',
   templateUrl: './add-driver-complete.component.html',
@@ -66,7 +69,8 @@ export class AddDriverCompleteComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     this.driverForm = this.formbuilder.group({
       name: ['', [Validators.required]],
       mobileno: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],

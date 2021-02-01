@@ -3,6 +3,9 @@ import { CommonService } from '../../services/common.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ticket-trails',
   templateUrl: './ticket-trails.component.html',
@@ -63,7 +66,8 @@ export class TicketTrailsComponent implements OnInit {
   }
 }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
  

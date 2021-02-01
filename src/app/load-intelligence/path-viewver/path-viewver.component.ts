@@ -8,6 +8,9 @@ import { Location } from '@angular/common';
 // import { LoadDetailsComponent } from '../load-details/load-details.component';
 
 declare var google: any;
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'path-viewver',
   templateUrl: './path-viewver.component.html',
@@ -89,7 +92,8 @@ export class PathViewverComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     console.log('onInit', this.common.params);
     this.source = this.common.params['routes'][0].origin;
     this.destination = this.common.params['routes'][0].destination;

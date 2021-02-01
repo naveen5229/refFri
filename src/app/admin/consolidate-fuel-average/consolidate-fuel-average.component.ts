@@ -10,6 +10,9 @@ import { GenericModelComponent } from '../../modals/generic-modals/generic-model
 
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'consolidate-fuel-average',
   templateUrl: './consolidate-fuel-average.component.html',
@@ -57,7 +60,8 @@ export class ConsolidateFuelAverageComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

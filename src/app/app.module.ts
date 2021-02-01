@@ -302,6 +302,11 @@ import { FoSiteAliasComponent } from './modals/fo-site-alias/fo-site-alias.compo
 import { TripKmRepairViewComponent } from './modals/trip-km-repair-view/trip-km-repair-view.component';
 import { AdhocRouteComponent } from './modals/adhoc-route/adhoc-route.component';
 import { TollpaymentmanagementComponent } from './modals/tollpaymentmanagement/tollpaymentmanagement.component';
+import { AddmissingtollComponent } from './modals/addmissingtoll/addmissingtoll.component';
+import { TicketFormFieldComponent } from './modals/ticket-form-field/ticket-form-field.component';
+import { FormDataTableComponent } from './modals/form-data-table/form-data-table.component';
+import { AtSitesComponent } from './modals/at-sites/at-sites.component';
+import { OpenRejectTripsComponent } from './modals/open-reject-trips/open-reject-trips.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -559,7 +564,10 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   UploadFileComponent,
   FoSiteAliasComponent,
   AdhocRouteComponent,
-  TollpaymentmanagementComponent
+  TollpaymentmanagementComponent,
+  AddmissingtollComponent,
+  TicketFormFieldComponent,
+  FormDataTableComponent
 ];
 
 @NgModule({
@@ -577,6 +585,9 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     CheckloginandredirectComponent,
     TripKmRepairViewComponent,
     TollpaymentmanagementComponent,
+    AddmissingtollComponent,
+    AtSitesComponent,
+    OpenRejectTripsComponent,
   ],
   entryComponents: [
     ...COMMON_COMPONENT,

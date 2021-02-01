@@ -6,6 +6,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { TollpaymentmanagementComponent } from '../../modals/tollpaymentmanagement/tollpaymentmanagement.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trip-status-feedback',
   templateUrl: './trip-status-feedback.component.html',
@@ -37,7 +40,8 @@ export class TripStatusFeedbackComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {
@@ -83,12 +87,13 @@ export class TripStatusFeedbackComponent implements OnInit {
     
   }
 
-  tollPaymentManagement(){
-    const activeModal = this.modalService.open(TollpaymentmanagementComponent, {
-      size: "lg",
-      container: "nb-layout"
-    });
-  }
+  // tollPaymentManagement(){
+  //   this.common.params={}
+  //   const activeModal = this.modalService.open(TollpaymentmanagementComponent, {
+  //     size: "lg",
+  //     container: "nb-layout"
+  //   });
+  // }
 
   selectAllCheck(){
     if(this.allSelected){

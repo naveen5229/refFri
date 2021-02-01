@@ -7,6 +7,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'toll-usage-summary',
   templateUrl: './toll-usage-summary.component.html',
@@ -23,7 +26,7 @@ export class TollUsageSummaryComponent implements OnInit {
   data = [];
   total = null;
   table = null;
-  startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  startDate = new Date(new Date().setDate(new Date().getDate() - 7));
   endDate = new Date();
   constructor(
     public api: ApiService,
@@ -46,7 +49,8 @@ export class TollUsageSummaryComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){
@@ -87,6 +91,7 @@ export class TollUsageSummaryComponent implements OnInit {
     this.api.walle8Get('TollSummary/getTollUsageSummary.json?' + params)
       .subscribe(res => {
         this.common.loading--;
+        this.total=null;
         console.log('Res:', res['data']);
         this.data = res['data'];
         if (this.data == null) {

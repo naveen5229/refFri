@@ -6,6 +6,9 @@ import { UserService } from '../../services/user.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'card-balance',
   templateUrl: './card-balance.component.html',
@@ -14,6 +17,7 @@ import { CsvService } from '../../services/csv/csv.service';
 export class CardBalanceComponent implements OnInit {
   data = [];
   total = 0;
+  tollTotal=0;
   sum = {
     bpcl: 0,
     hpcl: 0,
@@ -42,7 +46,8 @@ export class CardBalanceComponent implements OnInit {
     //  this.dates.start = today.setDate(today.getDate() - 1);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){
@@ -79,6 +84,8 @@ export class CardBalanceComponent implements OnInit {
 
 
         }
+        this.tollTotal=0;
+       this.tollTotal= this.data.reduce((a, b) => +a + +b.tolls, 0);
         this.total = this.total + this.sum.bpcl + this.sum.hpcl + this.sum.atm;
         console.log('card', this.total);
         // this.table=this.setTable();

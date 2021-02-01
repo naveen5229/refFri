@@ -3,6 +3,9 @@ import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'lr-assign',
   templateUrl: './lr-assign.component.html',
@@ -50,7 +53,8 @@ export class LrAssignComponent implements OnInit {
     this.viewlrData();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   closeModal() {
     this.activeModal.close();

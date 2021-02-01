@@ -25,6 +25,10 @@ import { MapService } from '../../services/map.service';
 import { UploadFileComponent } from '../../modals/generic-modals/upload-file/upload-file.component';
 import { AccountService } from '../../services/account.service';
 import { CsvErrorReportComponent } from '../../modals/csv-error-report/csv-error-report.component';
+import { TollpaymentmanagementComponent } from '../../modals/tollpaymentmanagement/tollpaymentmanagement.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-trip',
   templateUrl: './vehicle-trip.component.html',
@@ -75,7 +79,8 @@ export class VehicleTripComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {
@@ -229,7 +234,8 @@ export class VehicleTripComponent implements OnInit {
       { class: 'fa fa-question-circle report-btn', action: this.reportIssue.bind(this, trip) },
       { class: " fa fa-route route-mapper", action: this.openRouteMapper.bind(this, trip) },
       { class: 'fa fa-star  vehicle-report', action: this.vehicleReport.bind(this, trip) },
-      { class: 'fa fa-chart-bar status', action: this.vehicleStates.bind(this, trip) },
+      // { class: 'fa fa-chart-bar status', action: this.vehicleStates.bind(this, trip) },
+      { class: 'fa fa-chart-bar status', action: this.tollPaymentManagement.bind(this, trip) },
       { class: 'fa fa-handshake-o trip-settlement', action: this.tripSettlement.bind(this, trip) },
       { class: 'fa fa-road route-view', action: this.vehicleInfo.bind(this, trip) },
     ];
@@ -326,7 +332,6 @@ export class VehicleTripComponent implements OnInit {
     this.common.params = { vehicleTrip: vehicleTrip };
     const activeModal = this.modalService.open(UpdateTripDetailComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' })
     activeModal.result.then(data => {
-
     });
   }
 
@@ -383,6 +388,17 @@ export class VehicleTripComponent implements OnInit {
     this.common.handleModalHeightWidth('class', 'modal-lg', '200', '1500');
     this.modalService.open(VehicleTripStagesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "mycustomModalClass" });
 
+  }
+
+  tollPaymentManagement(trip){
+    console.log("trip------", trip);
+    let fromTime = trip._startdate;
+    let toTime = trip._enddate;
+    console.log("trip------", fromTime, toTime);
+    this.common.params = { vehId: trip._vid, vehRegNo: trip.Vehicle, startDate: fromTime, endDate: toTime,startDatedis:trip['Start Date'],endDatedis:trip['End Date'] };
+    this.common.openType = "modal";
+    // this.common.handleModalHeightWidth('class', 'modal-lg', '200', '1500');
+    this.modalService.open(TollpaymentmanagementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "mycustomModalClass" });
   }
 
 

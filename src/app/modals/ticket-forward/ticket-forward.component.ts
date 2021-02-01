@@ -3,6 +3,9 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ticket-forward',
   templateUrl: './ticket-forward.component.html',
@@ -32,7 +35,8 @@ export class TicketForwardComponent implements OnInit {
     console.log('ionViewDidLoad ForwardTicketPage');
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   searchUser() {

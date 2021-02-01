@@ -2,6 +2,9 @@ import { Component, OnInit, EventEmitter, ChangeDetectionStrategy, Input, Output
 import { CommonService } from '../../services/common.service';
 import { type } from 'os';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'smart-table',
   templateUrl: './smart-table.component.html',
@@ -41,7 +44,8 @@ export class SmartTableComponent implements OnInit {
   constructor(private cdr: ChangeDetectorRef,
     public common: CommonService) { }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngOnChanges(changes) {
@@ -147,7 +151,7 @@ export class SmartTableComponent implements OnInit {
     const timePattern = new RegExp(/^([0-9])*(\:)([0-9])*$/);
 
     this.columns.forEach(column => {
-      let value = column[key].value
+      let value = column[key].sortBy || column[key].value
       if (datePattern.test(value)) counts.date++
       else if (numberPattern.test(value)) counts.number++;
       else if (timePattern.test(value)) counts.time++;
@@ -158,20 +162,23 @@ export class SmartTableComponent implements OnInit {
 
     console.info('Sort Counts:', counts);
     this.columns.sort((a, b) => {
+      let aValue = a[key].sortBy || a[key].value;
+      let bValue = b[key].sortBy || b[key].value;
+
       if (this.headings[key].type === 'date') {
-        let firstDate = a[key].value ? this.common.dateFormatter(a[key].value) : 0;
-        let secondDate = b[key].value ? this.common.dateFormatter(b[key].value) : 0;
+        let firstDate = aValue ? this.common.dateFormatter(aValue) : 0;
+        let secondDate = bValue ? this.common.dateFormatter(bValue) : 0;
         return firstDate > secondDate ? 1 : -1;
       } else if (counts.time > counts.number) {
-        let firstValue = a[key].value ? parseFloat(a[key].value.replace(':', '.')) : 0;
-        let secondValue = b[key].value ? parseFloat(b[key].value.replace(':', '.')) : 0;
+        let firstValue = aValue ? parseFloat(aValue.replace(':', '.')) : 0;
+        let secondValue = bValue ? parseFloat(bValue.replace(':', '.')) : 0;
         return firstValue - secondValue;
       } else if (!counts.number) {
         let firstValue = '';
         let secondValue = ''
-        if (typeof a[key].value === 'string') {
-          firstValue = a[key].value ? a[key].value.toLowerCase() : '';
-          secondValue = b[key].value ? b[key].value.toLowerCase() : '';
+        if (typeof aValue === 'string') {
+          firstValue = aValue ? aValue.toLowerCase() : '';
+          secondValue = bValue ? bValue.toLowerCase() : '';
         }
         if (firstValue < secondValue) //sort string ascending
           return -1
@@ -179,7 +186,7 @@ export class SmartTableComponent implements OnInit {
           return 1
         return 0
       } else {
-        return a[key].value - b[key].value;
+        return aValue - bValue;
       }
     });
 
