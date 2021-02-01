@@ -2,3 +2,11 @@
     font-size: 30px;
     color: #217346;
 }
+:host ::ng-deep.remove{
+    padding: 5px;
+    color: red;
+}
+:host ::ng-deep.edit{
+    padding: 5px;
+    color:black;
+}

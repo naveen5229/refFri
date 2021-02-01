@@ -5,6 +5,22 @@
   </button>
 </div>
 <div class="modal-body">
+  <div>
+    <ul class="tabs_style">
+      <li [ngClass]="dis_all == 's' ? 'active' : ''" id="dis-all" (click)="dis_all = 's'">
+        Simple
+      </li>
+      <li [ngClass]="dis_all == 'vp' ? 'active' : ''" (click)="dis_all = 'vp'">
+        Via Points
+      </li>
+      <!-- <li [ngClass]="dis_all == 'vr' ? 'active' : ''" (click)="dis_all = 'vr'" id="dis-pen">
+        Via Route
+      </li> -->
+      <li [ngClass]="dis_all == 'rbt' ? 'active' : ''" (click)="dis_all = 'rbt';getRoutes();" id="dis-pen">
+        Route Base Trip
+      </li>
+    </ul>
+  </div>
   <div class="row">
     <div class="col-7">
       <div class="row" style="margin-top:5px" *ngIf="prevehicleId == -1">
@@ -16,6 +32,8 @@
             placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
         </div>
       </div>
+
+
       <div class="row" style="margin-top:5px" *ngIf="prevehicleId != -1">
         <div class="col-md-4 pr-0">
           <label> Vehicle Regno</label>
@@ -24,7 +42,21 @@
           <label>{{common.params.vehclename}}</label>
         </div>
       </div>
-      <div class="row" style="margin-top:5px">
+      <div class="row" style="margin-top:5px" *ngIf="prevehicleId == -1">
+        <div class="col-md-4">
+          <label> Driver</label>
+        </div>
+        <div class="col-md-6" style="margin-top:5px">
+          <auto-suggestion (onSelected)="getDriverInfo($event)" url="Booster/getDrivers" display="display"
+            placeholder="Select Driver" placeholder="Search Driver">
+          </auto-suggestion>
+        </div>
+        <div class="col-md-2" style="margin-top:5px">
+          <i class="fa fa-plus add " (click)="addDriver()"></i>
+        </div>
+
+      </div>
+      <div class="row" style="margin-top:5px" *ngIf="dis_all == 's'|| dis_all == 'vp'">
         <div class="col-md-4">
           <label>Start Loc type</label>
         </div>
@@ -37,7 +69,7 @@
           </label>
         </div>
       </div>
-      <div class="row" style="margin-top:5px">
+      <div class="row" style="margin-top:5px" *ngIf="dis_all == 's'|| dis_all == 'vp'">
         <div class="col-md-4 pr-0">
           <label> Start Location </label>
         </div>
@@ -60,11 +92,13 @@
           <label> Start Time </label>
         </div>
         <div class="col-md-8" style="margin-top:5px">
-          <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')"
-            placeholder="Select Date" [value]="startTime | date: 'dd MMM yyyy'" name="date" readonly>
+          <uj-date-time-picker (onChanged)="startTime = $event" [dateTimeValue]="startTime" [isTime]='true'>
+          </uj-date-time-picker>
+          <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')"
+            placeholder="Select Date" [value]="startTime | date: 'dd MMM yyyy'" name="date" readonly> -->
         </div>
       </div>
-      <div class="row" style="margin-top:5px">
+      <div class="row" style="margin-top:5px" *ngIf="dis_all == 's'|| dis_all == 'vp'">
         <div class="col-md-4">
           <label>Dest Loc type</label>
         </div>
@@ -77,7 +111,7 @@
           </label>
         </div>
       </div>
-      <div class="row" style="margin-top:5px">
+      <div class="row" style="margin-top:5px" *ngIf="dis_all == 's'|| dis_all == 'vp'">
         <div class="col-md-4 pr-0">
           <label>Destination</label>
         </div>
@@ -95,19 +129,20 @@
             <input id="vehicleTrip_end_long" name="endLong" class="form-control" style="text-align: left" placeholder="End lng" type="hidden" readonly [(ngModel)]="vehicleTrip.endLng"> -->
         </div>
       </div>
-      <div class="row" style="margin-top:5px">
+      <div class="row" style="margin-top:5px" *ngIf="dis_all == 's'|| dis_all == 'vp'">
         <div class="col-md-4 pr-0">
           <label>End Time</label>
         </div>
         <div class="col-md-8">
-          <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
-            placeholder="Select Date" [value]="targetTime | date: 'dd MMM yyyy'" name="date" readonly>
-
-
+          <uj-date-time-picker (onChanged)="targetTime = $event" [dateTimeValue]="targetTime" [isTime]='true'
+            [isStart]="false">
+          </uj-date-time-picker>
+          <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
+            placeholder="Select Date" [value]="targetTime | date: 'dd MMM yyyy'" name="date" readonly> -->
         </div>
       </div>
 
-      <div class="row" style="margin-top:5px">
+      <div class="row" style="margin-top:5px" *ngIf="dis_all == 's'|| dis_all == 'vp'">
         <div class="col-md-4 pr-0">
           <label>Trip Type</label>
         </div>
@@ -121,60 +156,74 @@
 
         </div>
       </div>
-      <div class="row" style="margin-top:5px">
-        <div class="col-md-4 pr-0">
-          <label>Route</label>
-        </div>
-        <div class="col-md-8">
-          <input class="form-control" type="text" list="routeList" name="routeList-type" [(ngModel)]="routeName"
-            (change)="getRouteDetail(routeName)">
-          <datalist id="routeList">
-            <option *ngFor="let route of routes;" [value]="route.name">
-            </option>
-          </datalist>
-        </div>
-      </div>
+
     </div>
     <div class="col-5">
-      <label>Via Points</label>
-      <div *ngFor="let vp of viaPoints; let i=index" class="row" style="margin-bottom: 6px;">
-        <div class="row">
-          <div class="col-4">
-            <label>Type</label>
+      <div *ngIf="dis_all == 'vp'">
+        <label>Via Points</label>
+        <div *ngFor="let vp of viaPoints; let i=index" class="row" style="margin-bottom: 6px;">
+          <div class="row">
+            <div class="col-4">
+              <label>Type</label>
+            </div>
+            <div class="col-8">
+              <label>
+                <input type="radio" [(ngModel)]="vp.locType" value="site" [name]="'locType-'+i"> Site
+              </label>
+              <label class="radio2">
+                <input type="radio" [(ngModel)]="vp.locType" value="city" [name]="'locType-'+i"> City
+              </label>
+            </div>
           </div>
-          <div class="col-8">
-            <label>
-              <input type="radio" [(ngModel)]="vp.locType" value="site" [name]="'locType-'+i"> Site
-            </label>
-            <label class="radio2">
-              <input type="radio" [(ngModel)]="vp.locType" value="city" [name]="'locType-'+i"> City
-            </label>
-          </div>
-        </div>
 
-        <div class="row">
-          <div class="col-10">
-            <auto-suggestion (onSelected)="selectSite($event,i)" url="Suggestion/getSites?typeId=1&isFoid=true"
-              display="name" placeholder="Search Site" inputId="site" [preSelected]="{name:vp.name}" *ngIf="vp.locType=='site'">
-            </auto-suggestion>
-            <auto-suggestion (onSelected)="selectSite($event,i)" url="Location/getPlaceFromRedis" display="location"
-              inputId="location" placeholder="Location" [preSelected]='{location:vp.name}' *ngIf="vp.locType=='city'">
-            </auto-suggestion>
-            <!-- <auto-suggestion (onSelected)="selectSite($event,i)" url="Suggestion/getSites?typeId=1&isFoid=true"
+          <div class="row">
+            <div class="col-10">
+              <auto-suggestion (onSelected)="selectSite($event,i)" url="Suggestion/getSites?typeId=1&isFoid=true"
+                display="name" placeholder="Search Site" inputId="site" [preSelected]="{name:vp.name}"
+                *ngIf="vp.locType=='site'">
+              </auto-suggestion>
+              <auto-suggestion (onSelected)="selectSite($event,i)" url="Location/getPlaceFromRedis" display="location"
+                inputId="location" placeholder="Location" [preSelected]='{location:vp.name}' *ngIf="vp.locType=='city'">
+              </auto-suggestion>
+              <!-- <auto-suggestion (onSelected)="selectSite($event,i)" url="Suggestion/getSites?typeId=1&isFoid=true"
             display="name" placeholder="Search Site" inputId="site" [preSelected]="{name:vp.name}">
           </auto-suggestion> -->
+            </div>
+            <div class="col-2">
+              <i class="fa fa-trash remove" (click)="viaPoints.splice(i,1)" *ngIf="i !== 0"></i>
+              <i class="fa fa-plus add" (click)="addNew()" *ngIf="i == viaPoints.length-1"></i>
+            </div>
           </div>
-          <div class="col-2">
-            <i class="fa fa-trash remove" (click)="viaPoints.splice(i,1)" *ngIf="i !== 0"></i>
-            <i class="fa fa-plus add" (click)="addNew()" *ngIf="i == viaPoints.length-1"></i>
-          </div>
+
         </div>
       </div>
       <div>
-        <!-- <span *ngIf="travellingDistance">Total Travelling Distance = {{travellingDistance}}</span><br> -->
-        <span (click)="openShowRoute()" style="cursor: pointer; color: blue; margin-right: 15px;"><u>Show
+        <span *ngIf="dis_all == 'vp'" (click)="openShowRoute()"
+          style="cursor: pointer; color: blue; margin-right: 15px;"><u>Show
             Route</u></span>
-        <button [class]="isReorder?'btn btn-primary':'btn btn-danger'" (click)="reordering()">{{btnText}}</button>
+        <button *ngIf="dis_all == 'vp'" [class]="isReorder?'btn btn-primary':'btn btn-danger'"
+          (click)="reordering()">{{btnText}}</button>
+        <div class="row" style="margin-top:5px" *ngIf="dis_all=='vr' || dis_all=='rbt'">
+          <div class="col-md-9 pr-0">
+            <label>Route</label>
+          </div>
+          <div class="col-md-3 pr-0" *ngIf="dis_all == 'vr'">
+            <span (click)="getRoutes()"><i class="fa fa-eye"></i></span>
+          </div>
+        </div>
+        <div class="row" style="margin-top:5px" *ngIf="dis_all=='vr' || dis_all=='rbt'">
+          <div class="col-md-8">
+            <input class="form-control" type="text" list="routeList" name="routeList-type" [(ngModel)]="routeName"
+              (change)="getRouteDetail(routeName)">
+            <datalist id="routeList">
+              <option *ngFor="let route of routes;" [value]="route.route_name">
+              </option>
+            </datalist>
+          </div>
+          <div class="col-md-4" *ngIf="dis_all=='vr'">
+            <button class="btn btn-info" (click)="addRoute()" style="font-size: 12px;">Add Route</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

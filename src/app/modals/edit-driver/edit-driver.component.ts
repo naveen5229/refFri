@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Driver } from 'selenium-webdriver/edge';
 import { CommonService } from '../../services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -12,10 +12,12 @@ import { dateFieldName } from '@progress/kendo-angular-intl';
   styleUrls: ['./edit-driver.component.scss']
 })
 export class EditDriverComponent implements OnInit {
+ 
   submitted = false;
+  base64Data=null;
   isLCType = [];
   driverForm: FormGroup;
-  dlTypesData=null;
+  dlTypesData = null;
   dlTypes = [];
   driver = {
     name: null,
@@ -30,10 +32,11 @@ export class EditDriverComponent implements OnInit {
     // dlExpiryDate: null,
     dlType: null,
     bankName: null,
+    accountHolderName:null,
     accountNo: null,
     ifscCode: null,
-    driverImg:null,
-    driverId:null
+    driverImg: null,
+    driverId: null
   }
 
   bGConditions = [
@@ -43,13 +46,14 @@ export class EditDriverComponent implements OnInit {
       isExist: true
     }
   ];
-
+  selectedDLType = [];
 
 
   constructor(private apiservice: ApiService,
     public common: CommonService,
     public modalService: NgbModal,
     private formbuilder: FormBuilder,
+    private cdr: ChangeDetectorRef,
     private activeModal: NgbActiveModal) {
     this.isLCType = [
       { name: 'HGMV', id: 'HGMV' },
@@ -64,18 +68,24 @@ export class EditDriverComponent implements OnInit {
 
     if (this.common.params.driver.doj) {
       this.driver.date = new Date(this.common.params.driver.doj);
-      console.log("DriverDate:",this.driver.date);
+      console.log("DriverDate:", this.driver.date);
     }
-    // if(this.common.params.driver.expiry_date){
-    //   this.driver.dlExpiryDate=this.common.dateFormatter1(this.common.params.driver.expiry_date);
-    // }
-    if(this.common.params.driver.dob){
-      this.driver.dateofbirth=new Date(this.common.params.driver.dob);
+    if (this.common.params.driver.photo) {
+      this.driver.driverImg = this.common.params.driver.photo;
     }
+    if (this.common.params.driver.dob) {
+      this.driver.dateofbirth = new Date(this.common.params.driver.dob);
+    }
+    console.log('common.params.driver.licence_type:', this.common.params.driver.licence_type);
+    // setTimeout(() => {
+      this.selectedDLType = [{ name: this.common.params.driver.licence_type }];
+    //   console.log('selectedDLType:', this.selectedDLType);
+    //   this.cdr.detectChanges();
+    // }, 10000);
   }
 
   ngOnInit() {
-    console.log("Driver:",this.common.params.driver);
+    console.log("Driver:", this.common.params.driver);
     this.driverForm = this.formbuilder.group({
       name: [this.common.params.driver.empname],
       mobileno: [this.common.params.driver.mobileno, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
@@ -85,26 +95,34 @@ export class EditDriverComponent implements OnInit {
       guranter: [this.common.params.driver.guarantor_name],
       date: [this.driver.date],
       dateofbirth: [this.driver.dateofbirth],
-      address: [this.common.params.driver.address?this.common.params.driver.address:this.driver.address],
+      address: [this.common.params.driver.address ? this.common.params.driver.address : this.driver.address],
       // dlExpiryDate: [this.driver.dlExpiryDate],
-      dlType: [this.common.params.driver.licence_type?this.common.params.driver.licence_type: this.dlTypesData],
-      bankName: [this.common.params.driver.bank_name?this.common.params.driver.bank_name:this.driver.bankName],
-      accountNo: [this.common.params.driver.bank_acno?this.common.params.driver.bank_acno:this.driver.accountNo],
-      ifscCode:[this.common.params.driver.ifsc_code?this.common.params.driver.ifsc_code:this.driver.ifscCode
-      ],
-      driverImg:[this.common.params.driver.photo?this.common.params.driver.photo:this.driver.driverImg],
-      driverId:[this.common.params.driver.id?this.common.params.driver.id:null]
+      dlType: [this.common.params.driver.licence_type ? this.common.params.driver.licence_type : this.dlTypesData],
+      bankName: [this.common.params.driver.bank_name ? this.common.params.driver.bank_name : this.driver.bankName],
+      accountHolderName:[this.common.params.driver.account_holder_name ? this.common.params.driver.account_holder_name:this.driver.accountHolderName],
+      accountNo: [this.common.params.driver.bank_acno ? this.common.params.driver.bank_acno : this.driver.accountNo],
+      ifscCode: [this.common.params.driver.ifsc_code ? this.common.params.driver.ifsc_code : this.driver.ifscCode],
+      driverImg: [this.driver.driverImg],
+      driverId: [this.common.params.driver.id ? this.common.params.driver.id : null]
     });
+ 
+    if(this.driver.driverImg){
+      this. toDataUrl(this.driver.driverImg, myBase64  => {
+          console.log("MyBase64:",myBase64);
+          // console.log("driverImg:",this.driver.driverImg)
+          this.base64Data=myBase64;
+          console.log("baseData:",this.base64Data);
+     });  
+     
+     }
     console.log("driverForm", this.driverForm);
   }
 
-  get f() { return this.driverForm.controls;}
+  get f() { return this.driverForm.controls; }
 
   closeModal() {
     this.activeModal.close({ response: true });
   }
-
-  
 
   selectDLTypes(dlTypes) {
     this.dlTypes = dlTypes;
@@ -112,6 +130,7 @@ export class EditDriverComponent implements OnInit {
 
   handleFileSelection(event) {
     this.common.loading++;
+    console.log("EVENT:",event.target.files[0]);
     this.common.getBase64(event.target.files[0])
       .then(res => {
         this.common.loading--;
@@ -127,8 +146,8 @@ export class EditDriverComponent implements OnInit {
           this.common.showError("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
           return false;
         }
-          this.driver.driverImg = res;
-          console.log('Base 64 index 1: ', this.driver.driverImg);
+        this.driver.driverImg = res;
+        console.log('Base 64 index 1: ', this.driver.driverImg);
       }, err => {
         this.common.loading--;
         console.error('Base Err: ', err);
@@ -136,13 +155,30 @@ export class EditDriverComponent implements OnInit {
   }
 
 
-  Updatedriver() {
-    if(this.dlTypes){
-    this.dlTypesData = this.dlTypes.map(dltype => dltype.id).join(',');
-    }else{
-      this.dlTypesData='';
-    }
+  toDataUrl(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            callback(reader.result);
+        }
+        reader.readAsDataURL(xhr.response);
+    };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+}
 
+
+
+  Updatedriver() {
+    let base64Data='';
+    if (this.dlTypes) {
+      this.dlTypesData = this.dlTypes.map(dltype => dltype.id).join(',');
+    } else {
+      this.dlTypesData = '';
+    }
+    
     let params = {
       name: this.driverForm.controls.name.value,
       doj: this.common.dateFormatter(this.driver.date),
@@ -151,22 +187,22 @@ export class EditDriverComponent implements OnInit {
       salary: this.driverForm.controls.Salary.value,
       guarantorName: this.driverForm.controls.guranter.value,
       guarantorMobile: this.driverForm.controls.guranterno.value,
-      dob:this.common.dateFormatter(this.driver.dateofbirth),
+      dob: this.common.dateFormatter(this.driver.dateofbirth),
       address: this.driverForm.controls.address.value,
       // dlexpdt:this.driver.dlExpiryDate,
       dltype: this.dlTypesData,
-      bankName:this.driverForm.controls.bankName.value,
+      bankName: this.driverForm.controls.bankName.value,
+      accHolName:this.driverForm.controls.accountHolderName.value,
       accNumber: this.driverForm.controls.accountNo.value,
       ifscCode: this.driverForm.controls.ifscCode.value,
-      driverImg:this.driver.driverImg,
-      driverId:this.driverForm.controls.driverId.value
+      driverImg: this.driver.driverImg ? this.base64Data:this.driver.driverImg,
+      driverId: this.driverForm.controls.driverId.value
     };
-    console.log("params:",params);
+    console.log("params:", params);
     this.common.loading++;
     this.apiservice.post('Drivers/addEditDriverInfo', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res:', res['data']);
         this.common.showToast(res['msg']);
         this.closeModal();
       }, err => {

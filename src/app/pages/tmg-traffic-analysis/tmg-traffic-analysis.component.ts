@@ -237,18 +237,18 @@ export class TmgTrafficAnalysisComponent implements OnInit {
     }
   }
 
-  getDetials(url, params, days = 0) {
+  getDetials(url, params, value = 0,type='days') {
     let dataparams = {
       view: {
         api: url,
         param: params,
         type: 'post'
       },
-
+  
       title: 'Details'
     }
-    if (days) {
-      let startDate = new Date(new Date().setDate(new Date().getDate() - days));
+    if (value) {
+      let startDate = type == 'months'? new Date(new Date().setMonth(new Date().getMonth() - value)): new Date(new Date().setDate(new Date().getDate() - value));
       let endDate = new Date();
       dataparams.view.param['fromdate'] = this.common.dateFormatter(startDate);
       dataparams.view.param['todate'] = this.common.dateFormatter(endDate);
