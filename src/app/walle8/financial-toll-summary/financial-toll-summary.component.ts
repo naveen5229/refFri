@@ -13,11 +13,8 @@ import { CsvService } from '../../services/csv/csv.service';
   styleUrls: ['./financial-toll-summary.component.scss']
 })
 export class FinancialTollSummaryComponent implements OnInit {
-  dates = {
-    start: null,
-
-    end: this.common.dateFormatter(new Date()),
-  };
+  startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  endDate = new Date();
   table = null;
   data = [];
   balance = [];
@@ -33,15 +30,9 @@ export class FinancialTollSummaryComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
   ) {
-
-    //this.getdoubleTollReport();
-    // this.getBalance();
-    let today = new Date();
-    this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 30)));
     this.getfinancialTollReport();
     this.common.refresh = this.refresh.bind(this);
-
-  }
+    }
 
   ngOnInit() {
   }
@@ -49,58 +40,12 @@ export class FinancialTollSummaryComponent implements OnInit {
   refresh(){
     this.getfinancialTollReport();
   }
-  getDate(date) {
-    this.common.params = { ref_page: "card usage" };
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log('Date:', this.dates);
-    });
-  }
-
-
-  // printPDF(tblEltId) {
-  //   this.common.loading++;
-  //   let userid = this.user._customer.id;
-  //   if (this.user._loggedInBy == "customer")
-  //     userid = this.user._details.id;
-  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       let fodata = res['data'];
-  //       let left_heading = fodata['name'];
-  //       let center_heading = "Financial Report";
-  //       this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
-  // }
-
-  // printCSV(tblEltId) {
-  //   this.common.loading++;
-  //   let userid = this.user._customer.id;
-  //   if (this.user._loggedInBy == "customer")
-  //     userid = this.user._details.id;
-  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       let fodata = res['data'];
-  //       let left_heading = fodata['name'];
-  //       let center_heading = "Financial Report";
-  //       this.common.getCSVFromTableId(tblEltId, left_heading, center_heading);
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
-  // }
-
-
+  
   printPDF(){
     let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
     console.log("Name:",name);
     let details = [
-      ['Name: ' + name,'Start Date: '+this.common.dateFormatter1(this.dates.start),'End Date: '+this.common.dateFormatter1(this.dates.end),  'Report: '+'Financial-Toll-Summary']
+      ['Name: ' + name,'Start Date: '+this.common.dateFormatter(new Date(this.startDate)),'End Date: '+this.common.dateFormatter(new Date(this.endDate)),  'Report: '+'Financial-Toll-Summary']
     ];
     this.pdfService.jrxTablesPDF(['FinancialReport'], 'financial-toll-summary', details);
   }
@@ -108,7 +53,7 @@ export class FinancialTollSummaryComponent implements OnInit {
   printCSV(){
     let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
     let details = [
-      { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter1(this.dates.start),enddate:'End Date:'+this.common.dateFormatter1(this.dates.end), report:"Report:Financial-Toll-Summary"}
+      { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter(new Date(this.startDate)),enddate:'End Date:'+this.common.dateFormatter(new Date(this.endDate)), report:"Report:Financial-Toll-Summary"}
     ];
     this.csvService.byMultiIds(['FinancialReport'], 'financial-toll-summary', details);
   }
@@ -144,16 +89,14 @@ export class FinancialTollSummaryComponent implements OnInit {
         amount: { value: req.amount == null ? "-" : req.amount },
         balance: { value: req.balance == null ? "-" : req.balance },
         entry_type: { value: req.entry_type == null ? "-" : req.entry_type },
-
-
       };
       columns.push(column);
     });
     return columns;
   }
   getfinancialTollReport() {
-    let params = "startDate=" + this.dates.start + "&endDate=" + this.dates.end;
-    // console.log("api hit");
+    let foid=this.user._loggedInBy=='admin' ? this.user._customer.foid : this.user._details.foid;
+    let params = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate))+"&mobileno=" + this.user._details.fo_mobileno+"&foid="+foid;
     this.common.loading++;
     this.api.walle8Get('FinancialAccountSummary/getOpeningAndClosingBalance.json?' + params)
       .subscribe(res => {
@@ -170,7 +113,7 @@ export class FinancialTollSummaryComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
-    let param = "startDate=" + this.dates.start + "&endDate=" + this.dates.end;
+    let param = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate))+"&mobileno=" + this.user._details.fo_mobileno+"&foid="+foid;;
     this.common.loading++;
     this.api.walle8Get('FinancialAccountSummary/getFinancialAccountSummary.json?' + param)
       .subscribe(Res => {
@@ -189,20 +132,4 @@ export class FinancialTollSummaryComponent implements OnInit {
         console.log(err);
       });
   }
-  // getdoubleTollReport() {
-  //   let params = "&startDate=" + this.dates.start + "&endDate=" + this.dates.end;
-  //   // console.log("api hit");
-  //   this.common.loading++;
-  //   this.api.walle8Get('FinancialAccountSummary/getOpeningAndClosingBalance.json?' + params)
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       console.log('Res:', res);
-  //       this.data = res['data'];
-
-
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
-  // }
 }

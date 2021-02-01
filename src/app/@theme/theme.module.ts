@@ -36,7 +36,6 @@ import {
   NbIconModule,
 } from '@nebular/theme';
 
-import { NbSecurityModule } from '@nebular/security';
 
 import {
   FooterComponent,
@@ -81,7 +80,6 @@ const NB_MODULES = [
   NbPopoverModule,
   NbContextMenuModule,
   NgbModule,
-  NbSecurityModule, // *nbIsGranted directive,
   NbProgressBarModule,
   NbCalendarModule,
   NbCalendarRangeModule,

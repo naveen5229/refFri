@@ -97,15 +97,8 @@ import { SupervisorUserAssociationComponent } from './supervisor-user-associatio
 import { TripsComponent } from './trips/trips.component';
 import { IssuesReportComponent } from './issues-report/issues-report.component';
 import { VehicleStatesComponent } from './vehicle-states/vehicle-states.component';
-import { TmgChallanComponent } from './tmg-challan/tmg-challan.component';
-import { TmgTripComponent } from './tmg-trip/tmg-trip.component';
-import { TmgTrafficComponent } from './tmg-traffic/tmg-traffic.component';
-import { TmgComponent } from './tmg/tmg.component';
-import { TmgCallsComponent } from './tmg-calls/tmg-calls.component';
-import { TmgAlertsComponent } from './tmg-alerts/tmg-alerts.component';
-import { TmgDocumentsComponent } from './tmg-documents/tmg-documents.component';
-
-
+import { GraphicalReportsComponent } from './graphical-reports/graphical-reports.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const PAGES_COMPONENTS = [
   PagesComponent
@@ -128,6 +121,7 @@ const PAGES_COMPONENTS = [
     LorryReceiptModule,
     SharedModule,
     DriverModule,
+    DragDropModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -202,15 +196,7 @@ const PAGES_COMPONENTS = [
     TripsComponent,
     IssuesReportComponent,
     VehicleStatesComponent,
-    TmgChallanComponent,
-    TmgTripComponent,
-    TmgTrafficComponent,
-    TmgComponent,
-    TmgCallsComponent,
-    TmgAlertsComponent,
-    TmgDocumentsComponent,
-
-
+    GraphicalReportsComponent,
   ],
   exports: [
     FuelAverageAnalysisComponent,

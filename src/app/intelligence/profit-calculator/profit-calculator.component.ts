@@ -1,18 +1,10 @@
-// import { Component, NgZone, ElementRef, ViewChild } from '@angular/core';
-// import { IonicPage, NavController, NavParams, ModalController, Platform, LoadingController } from 'ionic-angular';
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { DataService } from '../../services/data.service';
-import { routes } from '@nebular/auth';
-// import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { LocationSelectionComponent } from '../../modals/location-selection/location-selection.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Route } from '@angular/compiler/src/core';
 import { Router } from '@angular/router';
-//import { FirebaseAnalytics } from '@ionic-native/firebase-analytics';
-
-
 declare var google: any;
 
 @Component({

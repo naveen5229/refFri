@@ -11,19 +11,15 @@ import { ActivityService } from '../../services/Activity/activity.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
-  userType='1';
-
+  userType = '1';
   userDetails = {
     mobile: '',
     otp: '',
   };
-
-  users={
-    username:'',
-    password:''
-  }
-
+  users = {
+    username: '',
+    password: ''
+  };
   iswallet = '0';
   isConsignerLogin = '0';
   listenOTP = false;
@@ -34,7 +30,7 @@ export class LoginComponent implements OnInit {
   elementType: 'url' | 'canvas' | 'img' = 'url';
   interval = null;
   loginType = 1;
-
+  loading: number = 0;
   constructor(public router: Router,
     private route: ActivatedRoute,
     public common: CommonService,
@@ -53,13 +49,11 @@ export class LoginComponent implements OnInit {
       this.user._loggedInBy = 'walle8customer';
       this.button = 'Send';
       return;
-    }
-    else if (this.isConsignerLogin == '1') {
+    } else if (this.isConsignerLogin == '1') {
       this.user._loggedInBy = 'consigner';
       this.button = 'Send';
       return;
-    }
-    else {
+    } else {
       this.route.params.subscribe(params => {
         if (params.type && (params.type.toLowerCase() == 'admin' || params.type.toLowerCase() == 'partner')) {
           this.button = 'Generate Qr-Code';
@@ -78,39 +72,40 @@ export class LoginComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.removeDummy();
+    // this.removeDummy();
+    document.getElementById('nb-global-spinner').style.display = 'none';
   }
 
-  userLogin(){
+  userLogin() {
     const params = {
       username: this.users.username,
       password: this.users.password,
     };
-    this.common.loading++;
+    this.loading++;
     this.api.post('Login/loginApi', params)
       .subscribe(res => {
-        this.common.loading--;
+        this.loading--;
         console.log("res:", res);
-          if (res['code'] == 1) {
+        if (res['code'] == 1) {
           clearInterval(this.interval);
-          this.common.showToast(res['msg']);
+          // this.common.showToast(res['msg']);
           localStorage.setItem('USER_TOKEN', res['data']['authkey']);
           localStorage.setItem('USER_DETAILS', JSON.stringify(res['data']));
           localStorage.setItem('iswallet', this.iswallet);
           this.user._details = res['data'];
-          
           this.user._token = res['data']['authkey'];
           console.log('Login Type: ', this.user._loggedInBy);
           localStorage.setItem('LOGGED_IN_BY', this.user._loggedInBy);
           if (res['data'].axesToken && this.user._loggedInBy === 'customer') {
-          localStorage.setItem('DOST_axesToken', res['data'][0].axesToken);
+            localStorage.setItem('DOST_axesToken', res['data'][0].axesToken);
           }
           this.getUserPagesList();
-          }else {
-          this.common.showError(res['msg']);
+        } else {
+          // this.common.showError(res['msg']);
+          alert(res['msg'])
         }
       }, err => {
-        this.common.loading--;
+        this.loading--;
         this.common.showError();
       });
   }
@@ -170,10 +165,10 @@ export class LoginComponent implements OnInit {
       mobileno: this.userDetails.mobile,
       qrcode: this.qrCode
     };
-    this.common.loading++;
+    this.loading++;
     this.api.post('Login/login', params)
       .subscribe(res => {
-        this.common.loading--;
+        this.loading--;
         console.log(res);
         if (res['success']) {
           this.loginType = res['data'].loginType;
@@ -186,13 +181,14 @@ export class LoginComponent implements OnInit {
           }
           this.otpResendActive();
           this.formSubmit = false;
-          this.common.showToast(res['msg']);
+          // this.common.showToast(res['msg']);
 
         } else {
-          this.common.showError(res['msg']);
+          // this.common.showError(res['msg']);
+          alert(res['msg']);
         }
       }, err => {
-        this.common.loading--;
+        this.loading--;
         this.common.showError();
         console.log("rrrrrr", err);
       });
@@ -242,13 +238,13 @@ export class LoginComponent implements OnInit {
         }
         if (res['success']) {
           clearInterval(this.interval);
-          this.common.showToast(res['msg']);
+          // this.common.showToast(res['msg']);
           localStorage.setItem('USER_TOKEN', res['data'][0]['authkey']);
           localStorage.setItem('USER_DETAILS', JSON.stringify(res['data'][0]));
           localStorage.setItem('iswallet', this.iswallet);
           this.user._details = res['data'][0];
-         
-          console.log("isWallet:",this.user._details);
+
+          console.log("isWallet:", this.user._details);
           this.user._token = res['data'][0]['authkey'];
           console.log('Login Type: ', this.user._loggedInBy);
           localStorage.setItem('LOGGED_IN_BY', this.user._loggedInBy);
@@ -259,7 +255,7 @@ export class LoginComponent implements OnInit {
           this.getUserPagesList();
         }
       }, err => {
-        // --this.common.loading;
+        // --this.loading;
         this.common.showError();
       });
   }
@@ -267,8 +263,7 @@ export class LoginComponent implements OnInit {
   otpResendActive() {
     if (this.otpCount > 0) {
       setTimeout(this.otpResendActive.bind(this, --this.otpCount), 1000);
-    }
-    else {
+    } else {
       return this.common.showError("Session Expired & Login Again");
     }
   }
@@ -281,11 +276,18 @@ export class LoginComponent implements OnInit {
       userType: userTypeId,
       iswallet: this.iswallet
     };
-    this.common.loading++;
+    this.loading++;
     this.api.post('UserRoles/getAllPages', params)
       .subscribe(res => {
-        this.common.loading--;
+        this.loading--;
         this.user._pages = res['data'].filter(page => {
+          if (this.user._details.tag_model_type != 1 && page.route == '/walle8/tag-summary') {
+            return false;
+          } else if (this.user._details.tag_model_type == 1 && page.route == '/walle8/tag-summary') {
+            return true;
+          }
+          if (localStorage.getItem('iswallet') === '1')
+            return true;
           return page.userid;
         });
 
@@ -311,7 +313,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/pages']);
         }
       }, err => {
-        this.common.loading--;
+        this.loading--;
         console.log('Error: ', err);
       })
   }

@@ -44,8 +44,19 @@ export class GenericModelComponent implements OnInit {
     public api: ApiService,
     public modalService: NgbModal) {
     if (this.common.params && this.common.params.data) {
+      console.log()
       this.title = this.common.params.data.title ? this.common.params.data.title : '';
-      if (this.common.params.data.view) {
+
+      //post api call
+      if (this.common.params.data.view && this.common.params.data.view.type && (this.common.params.data.view.type) == 'post') {
+
+        this.viewObj = this.common.params.data.view;
+        this.viewPost();
+
+      }
+
+      //get api call
+      else if (this.common.params.data.view) {
         let str = "?";
         Object.keys(this.common.params.data.view.param).forEach(element => {
           if (str == '?')
@@ -55,7 +66,11 @@ export class GenericModelComponent implements OnInit {
         });
         this.viewObj = this.common.params.data.view;
         this.viewObj.api += str;
+        this.view();
+
       }
+
+
       if (this.common.params.data.delete) {
         this.deleteObj = this.common.params.data.delete;
       }
@@ -64,7 +79,6 @@ export class GenericModelComponent implements OnInit {
       }
 
     }
-    this.view();
   }
 
   ngOnInit() {
@@ -87,6 +101,47 @@ export class GenericModelComponent implements OnInit {
 
     this.common.loading++;
     this.api.get(this.viewObj.api)
+      .subscribe(res => {
+        this.common.loading--;
+        this.data = res['data'];
+
+        if (this.data == null) {
+          this.data = [];
+          this.table = null;
+          return;
+        }
+        let first_rec = this.data[0];
+        for (var key in first_rec) {
+          if (key.charAt(0) != "_") {
+            this.headings.push(key);
+            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            this.table.data.headings[key] = headerObj;
+          }
+        }
+        this.table.data.columns = this.getTableColumns();
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
+
+  viewPost() {
+    this.data = [];
+    this.table = {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true
+      }
+    };
+
+    this.headings = [];
+    this.valobj = {};
+
+    this.common.loading++;
+    this.api.post(this.viewObj.api, this.viewObj.param)
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];

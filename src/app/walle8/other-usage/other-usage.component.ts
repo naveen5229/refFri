@@ -14,10 +14,12 @@ import { CsvService } from '../../services/csv/csv.service';
 })
 export class OtherUsageComponent implements OnInit {
   data = [];
-  dates = {
-    start: null,
-    end: this.common.dateFormatter(new Date())
-  };
+  // dates = {
+  //   start: null,
+  //   end: this.common.dateFormatter(new Date())
+  // };
+  startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  endDate = new Date();
   total = null;
   // mobileno = 9812929999;
   //userId=946;
@@ -30,7 +32,7 @@ export class OtherUsageComponent implements OnInit {
     public modalService: NgbModal,
     public user: UserService) {
     // this.mobileno=this.user._details.mobile;
-    this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 30)));
+    // this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 30)));
 
     this.getOtherUsageDetail();
     this.common.refresh = this.refresh.bind(this);
@@ -45,8 +47,8 @@ export class OtherUsageComponent implements OnInit {
   }
   getOtherUsageDetail() {
     // this.userId=this.user
-
-    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
+    let foid=this.user._loggedInBy=='admin' ? this.user._customer.foid : this.user._details.foid;
+    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.common.dateFormatter(new Date(this.startDate)) + "&enddate=" + this.common.dateFormatter(new Date(this.endDate))+"&foid="+ foid;
     //console.log("api hit");
     this.common.loading++;
     this.api.walle8Get('AccountSummaryApi/ViewOtherUsages.json?' + params)
@@ -69,17 +71,17 @@ export class OtherUsageComponent implements OnInit {
   }
 
 
-  getDate(date) {
-    this.common.params = { ref_page: 'other-usage' };
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-        this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
-        console.log('Date:', this.dates[date]);
-      }
+  // getDate(date) {
+  //   this.common.params = { ref_page: 'other-usage' };
+  //   const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+  //   activeModal.result.then(data => {
+  //     if (data.date) {
+  //       this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
+  //       console.log('Date:', this.dates[date]);
+  //     }
 
-    });
-  }
+  //   });
+  // }
   // printPDF(tblEltId) {
   //   this.common.loading++;
   //   let userid = this.user._customer.id;
@@ -120,7 +122,7 @@ export class OtherUsageComponent implements OnInit {
     let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
     console.log("Name:",name);
     let details = [
-      ['Name: ' + name,'Start Date: '+this.common.dateFormatter1(this.dates.start),'End Date: '+this.common.dateFormatter1(this.dates.end),  'Report: '+'Other-Usage']
+      ['Name: ' + name,'Start Date: '+this.common.dateFormatter(new Date(this.startDate)),'End Date: '+this.common.dateFormatter(new Date(this.endDate)),  'Report: '+'Other-Usage']
     ];
     this.pdfService.jrxTablesPDF(['otherUsage'], 'other-usage', details);
   }
@@ -128,7 +130,7 @@ export class OtherUsageComponent implements OnInit {
   printCSV(){
     let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
     let details = [
-      { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter1(this.dates.start),enddate:'End Date:'+this.common.dateFormatter1(this.dates.end), report:"Report:Other-Usage"}
+      { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter(new Date(this.endDate)),enddate:'End Date:'+this.common.dateFormatter(new Date(this.endDate)), report:"Report:Other-Usage"}
     ];
     this.csvService.byMultiIds(['otherUsage'], 'other-usage', details);
   }

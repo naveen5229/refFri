@@ -85,7 +85,6 @@ export class CommonService {
     let message = msg || 'Something went wrong! try again.';
     message += err ? ' Error Code: ' + err.status : '';
     this.showToast(message, "danger");
-    //alert(message);
   }
 
   ucWords(str) {
@@ -102,7 +101,6 @@ export class CommonService {
   }
 
   showToast(body, type?, duration?, title?) {
-    // toastTypes = ["success", "info", "warning", "primary", "danger", "default"]
     const config = {
       status: type || "success",
       destroyByClick: true,
@@ -111,8 +109,6 @@ export class CommonService {
       position: NbGlobalPhysicalPosition.TOP_RIGHT,
       preventDuplicates: false
     };
-
-    //alert(body);
     this.toastrService.show(body, title || "Alert", config);
   }
 
@@ -276,48 +272,6 @@ export class CommonService {
     }
     return currentDate;
   }
-
-  // pieChart(chartLabels, chartdatas, charColors) {
-  //   this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
-  //     console.log('Config: ', config);
-  //     const colors: any = config.variables;
-  //     const chartjs: any = config.variables.chartjs;
-
-  //     this.chartData = {
-  //       labels: chartLabels,
-  //       datasets: [{
-  //         data: chartdatas,
-  //         backgroundColor: charColors
-  //       }],
-  //     };
-
-  //     this.chartOptions = {
-  //       maintainAspectRatio: false,
-  //       responsive: true,
-  //       scales: {
-  //         xAxes: [
-  //           {
-  //             display: false,
-  //           },
-  //         ],
-  //         yAxes: [
-  //           {
-  //             display: false,
-  //           },
-  //         ],
-  //       },
-  //       legend: false,
-  //     };
-  //   });
-
-  //   setTimeout(() => {
-  //     console.log(document.getElementsByTagName('canvas')[0]);
-
-  //     document.getElementsByTagName('canvas')[0].style.width = "100px";
-  //     document.getElementsByTagName('canvas')[0].style.height = "220px";
-
-  //   }, 10);
-  // }
 
   pieChart(labels, data, colors) {
     let chartData = {
@@ -1991,22 +1945,67 @@ export class CommonService {
     return chartObj;
   }
 
-  imageDownloadFromUrl(url, fileName){
-    console.log("url, fileName",url, fileName);
+  imageDownloadFromUrl(url, fileName) {
+    console.log("url, fileName", url, fileName);
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
     xhr.responseType = "blob";
-    xhr.onload = function(){
-        var urlCreator = window.URL;
-        var imageUrl = urlCreator.createObjectURL(this.response);
-        var tag = document.createElement('a');
-        tag.href = imageUrl;
-        tag.download = fileName;
-        document.body.appendChild(tag);
-        tag.click();
-        document.body.removeChild(tag);
+    xhr.onload = function () {
+      var urlCreator = window.URL;
+      var imageUrl = urlCreator.createObjectURL(this.response);
+      var tag = document.createElement('a');
+      tag.href = imageUrl;
+      tag.download = fileName;
+      document.body.appendChild(tag);
+      tag.click();
+      document.body.removeChild(tag);
     }
     xhr.send();
-}
+  }
+
+  resetCommonService() {
+    this.params = null;
+    this.loading = 0;
+    this.chartData;
+    this.chartOptions;
+    this.themeSubscription;
+    this.searchId = null;
+    this.refresh = null;
+    this.passedVehicleId = null;
+    this.changeHaltModal = null;
+    this.ref_page = null;
+    this.openType = 'page';
+    this.primaryType = {
+      1: { page: "HomePage", title: "Home" },
+      2: { page: "HomePage", title: "Home" },
+      100: { page: "/ticket-details", title: "Ticket Details" },
+      200: { page: "/pages/ticket-site-details", title: "Vehicle Halt" },
+      201: { page: "VehicleHaltPage", title: "Change Vehicle Halt" },
+      300: { page: "/pages/ticket-site-details", title: "Vehicle Halt" },
+      301: { page: "VehicleHaltPage", title: "Change Site Halt" }
+    };
+
+    this.secondaryType = {
+      201: {
+        page: "VehicleHaltPage",
+        btnTxt: "Change Halt",
+        title: "Change Vehicle Halt"
+      },
+      301: {
+        page: "VehicleHaltPage",
+        btnTxt: "Change Halt",
+        title: "Change Site Halt"
+      }
+    };
+
+    this.pages = {
+      100: { title: "Home", page: "HomePage" },
+      200: { title: "Vehicle KPIs", page: "VehicleKpisPage" },
+      201: { title: "KPI Details", page: "VehicleKpiDetailsPage" }
+    };
+
+    this.currentPage = "";
+    this.isComponentActive = false;
+  }
 
 }

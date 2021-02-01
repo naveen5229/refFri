@@ -90,7 +90,8 @@ export class LatestRechargeComponent implements OnInit {
   //     });
   // }
   getLatestRecharge() {
-    let params = "mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
+    let foid=this.user._loggedInBy=='admin' ? this.user._customer.foid : this.user._details.foid;
+    let params = "mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end+"&foid="+foid;
     this.common.loading++;
     let response;
     this.api.walle8Get('CardRechargeApi/FoCardRechargeView.json?' + params)
@@ -103,7 +104,6 @@ export class LatestRechargeComponent implements OnInit {
         }
         if (this.data == null) {
           this.common.showToast('NO DATA FOUND');
-
         }
 
       }, err => {
@@ -111,7 +111,6 @@ export class LatestRechargeComponent implements OnInit {
         console.log(err);
       });
     return response;
-
   }
   // setTable() {
   //   let headings = {

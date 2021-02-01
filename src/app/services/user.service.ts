@@ -124,4 +124,37 @@ export class UserService {
     }
   }
 
+  resetUserService(){
+    this._token = '';
+    this._details = null;
+    this._customer = {
+      name: '',
+      id: '',
+      mobileNo: null,
+      foid:null
+    };
+  
+    this._loggedInBy = '';
+    this._pages = null;
+    this._menu = {
+      admin: [],
+      pages: [],
+      tyres: [],
+      battery: [],
+      vehicleMaintenance: [],
+      wareHouse: [],
+      account: [],
+      challan: [],
+      walle8: [],
+      bidSystem: [],
+      loadIntelligence: [],
+    };
+  
+    this.permission = {
+      add: false,
+      edit: false,
+      delete: false,
+    };
+  }
+
 }

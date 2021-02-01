@@ -1,109 +1,138 @@
-.exel-icon{
+.exel-icon {
     font-size: 24px;
     color: #217346;
 }
-.pdf-icon{
+.pdf-icon {
     font-size: 24px;
-    color: #9F0001;
+    color: #9f0001;
 }
-nb-card-header{
+nb-card-header {
     padding: 10px 15px;
     border: 1px solid #efefef;
     margin-bottom: 10px;
 }
 
-table{
-    thead{
+table {
+    thead {
         display: table;
         width: 100%;
         table-layout: fixed;
         background-color: #263238;
         color: #fff;
-        tr{
-            th{
+        tr {
+            th {
                 width: 100px;
             }
-            th:nth-child(1){
+            th:nth-child(1) {
                 width: 30px;
             }
             th:nth-child(2),
-            th:nth-child(3){
+            th:nth-child(3) {
                 width: 90px;
             }
-            th:nth-child(6){
+            th:nth-child(6) {
                 width: 150px;
             }
-            th:last-child{
+            th:last-child {
                 width: auto;
             }
-
         }
     }
-    tr{
-        th{
+    tr {
+        th {
             padding: 5px 10px;
             font-weight: normal;
         }
-        td{
-            .btn-success{
+        td {
+            .btn-success {
                 font-size: 12px;
                 text-transform: capitalize;
                 padding: 7px 6px;
                 height: auto;
             }
-            
         }
     }
-    tbody{
+    tbody {
         overflow-y: auto;
         display: block;
         width: 100%;
         table-layout: fixed;
         overflow: auto;
         max-height: calc(100vh - 220px);
-        tr{
+        tr {
             display: table;
             table-layout: fixed;
             width: 100%;
-            td:nth-child(1){
+            td:nth-child(1) {
                 width: 30px;
             }
             td:nth-child(2),
-            td:nth-child(3){
+            td:nth-child(3) {
                 width: 90px;
             }
-            td:nth-child(6){
+            td:nth-child(6) {
                 width: 150px;
             }
-            td:last-child{
+            td:last-child {
                 width: auto;
                 text-align: left;
             }
-            td{
+            td {
                 width: 100px;
                 text-align: center;
-                span{
-                    input{
+                span {
+                    input {
                         margin-right: 5px;
                         margin-bottom: 5px;
                         width: 100px;
                     }
-                    select{
+                    select {
                         height: 30px !important;
                         padding: 3px !important;
                     }
-                    button{
+                    button {
                         margin-top: 2px;
                         text-transform: capitalize;
                     }
                 }
             }
         }
-        tr:nth-child(odd){
+        tr:nth-child(odd) {
             background-color: #fff;
         }
-        tr:nth-child(even){
+        tr:nth-child(even) {
             background-color: #e4e4e4;
         }
     }
-} 
+}
+.pagination {
+    margin-top: 10px;
+    margin-bottom: 0px;
+
+    .pagination_links {
+        button {
+            position: relative;
+            display: block;
+            padding: 5px 7px;
+            color: #007bff;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            float: left;
+            cursor: pointer;
+        }
+
+        button:hover,
+        button:active,
+        button.active-page {
+            z-index: 1;
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        span:focus {
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+    }
+}

@@ -17,9 +17,6 @@
           maxlength="64" placeholder="Driver Name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" required>
         <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
           <div *ngIf="f.name.errors.required">Driver Name is required</div>
-
-
-
         </div>
       </div>
 
@@ -35,7 +32,6 @@
           <div *ngIf="f.mobileno.errors.minlength ">mobile Number minlength 10</div>
           <div *ngIf="f.mobileno.errors.maxlength ">mobile Number maxlength 10</div>
         </div>
-
       </div>
     </div>
 
@@ -56,13 +52,13 @@
         <label>Date of Joining</label>
       </div>
       <div class="col-3">
-        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate()"
-          placeholder="Select Date" [value]="driver.doj | date: 'dd MMM yyyy'" formControlName="dateofJoin">
+        <uj-date-time-picker (onChanged)="driver.doj=$event" [dateTimeValue]="driver.doj"[isTime]="false"></uj-date-time-picker>
+        <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('doj')"
+          placeholder="Select Date" [value]="driver.doj | date: 'dd MMM yyyy'" formControlName="dateofJoin"> -->
       </div>
     </div>
 
     <div class="row margin-top-15">
-
       <div class="col-3">
         <label>Salary</label>
       </div>
@@ -91,6 +87,78 @@
           <div *ngIf="f.guranterno.errors.maxlength ">mobile Number maxlength 10</div>
         </div>
 
+      </div>
+
+      <div class="col-3">
+        <label>Date Of Birth</label>
+      </div>
+      <div class="col-3">
+        <uj-date-time-picker (onChanged)="driver.dateofbirth=$event" [dateTimeValue]="driver.dateofbirth"[isTime]="false"></uj-date-time-picker>
+          <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('dtbrth')"
+          placeholder="Select Date" [value]="driver.dateofbirth | date: 'dd MMM yyyy'" formControlName="dateofbirth" name="dateofbirth"> -->
+      </div>
+
+    </div>
+
+
+    <div class="row margin-top-15">
+      <div class="col-3">
+        <label>DL Type</label>
+      </div>
+
+      <div class="col-3">
+        <auto-suggestion [data]="isLCType" display="name" seperator="-" placeholder="Select DL Type"
+         (onSelected)="selectDLTypes($event)" inputId="dlType" name="dlType" 
+         isMultiSelect="true" [bGConditions]="bGConditions"></auto-suggestion>
+      </div>
+
+
+      <div class="col-3">
+        <label>Address</label>
+      </div>
+      <div class="col-3">
+        <input type="text"  class="form-control" id="address" autocomplete="off" formControlName="address"
+          placeholder="Address">
+      </div>
+      
+    </div>
+    
+    <div class="row margin-top-15">
+      <div class="col-3">
+        <label>Bank Name</label>
+      </div>
+      <div class="col-3">
+        <input type="text"  class="form-control" id="bankName" autocomplete="off" formControlName="bankName"
+          placeholder="Bank Name">
+      </div>
+
+      <div class="col-3">
+        <label>Account No.</label>
+      </div>
+
+      <div class="col-3">
+        <input type="text"  class="form-control" id="accountNo" autocomplete="off" formControlName="accountNo"
+          placeholder="Account No">
+      </div>
+
+    </div>
+    
+    <div class="row margin-top-15">
+      <div class="col-3">
+        <label>IFSC Code</label>
+      </div>
+
+      <div class="col-3">
+        <input type="text"  class="form-control" id="ifscCode" autocomplete="off" formControlName="ifscCode"
+          placeholder="IFSC Code">
+      </div>
+
+      <div class="col-3">
+        <label>Driver Image</label>
+      </div>
+
+      <div class="col-3">
+        <input type="file" class="form-control" id="driverImg" (change)="handleFileSelection($event) ">
       </div>
     </div>
 

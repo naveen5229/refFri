@@ -105,6 +105,8 @@ import { TmgTrafficComponent } from './tmg-traffic/tmg-traffic.component';
 import { TmgComponent } from './tmg/tmg.component';
 import { TmgCallsComponent } from './tmg-calls/tmg-calls.component';
 import { TmgAlertsComponent } from './tmg-alerts/tmg-alerts.component';
+import { GraphicalReportsComponent } from './graphical-reports/graphical-reports.component';
+import { OnSideImagesComponent } from '../driver/on-side-images/on-side-images.component';
 
 
 const routes: Routes = [{
@@ -455,6 +457,11 @@ const routes: Routes = [{
     component: DriverDocumentComponent,
     canActivate: [AuthGuard, RouteGuard]
 
+  },{
+    path: 'driver-on-side-images',
+    component: OnSideImagesComponent,
+    canActivate: [AuthGuard, RouteGuard]
+
   },
 
 
@@ -652,6 +659,11 @@ const routes: Routes = [{
   component: TmgAlertsComponent,
   canActivate: [AuthGuard,RouteGuard]
 },
+{
+  path: 'graphical-reports',
+  component: GraphicalReportsComponent,
+  canActivate: [AuthGuard,RouteGuard]
+}
 
 
 

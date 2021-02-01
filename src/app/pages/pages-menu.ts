@@ -30,6 +30,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/trip',
       },
       {
+        title: 'Business Analytics',
+        icon: 'fa-home',
+        link: '/pages/graphical-reports',
+      },
+      {
         title: 'Trip Status FeedBack',
         icon: 'fa-comment-alt',
         link: '/pages/trip-status-feedback',
@@ -523,7 +528,13 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
       icon: 'fa-list',
       link: '/pages/driver-list',
       home: true,
-    },
+    },{
+
+      title: 'Driver On Side Images',
+      icon: 'fa-map-marker',
+      link: '/pages/driver-on-side-images',
+      home: true,
+  },
 
     {
 

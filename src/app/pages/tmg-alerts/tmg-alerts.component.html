@@ -1,5 +1,5 @@
 <div class="contentsection">
-    <div class="row mb-2 mr-0 mb-0">
+    <div class="row mb-3 mr-0 pt-2">
       <div class="col-4 pl-0">
         <div class="outer">
           <h6 style="text-align:center"><b class="charthead">Alert Ack TAT in Last 7 Days</b></h6>
@@ -25,11 +25,14 @@
         </div>
       </div>
     </div>
-    <div class="row mb-2 mr-0 mb-0">
+    <div class="row mb-3 mr-0">
       <div class="col-4 pl-0">
         <div class="outer" style="min-height: 170px;">
           <h6 style="text-align:center"><b class="charthead">Longest Alert Not Ack</b></h6>
-          <table class="table table-bordered">
+          <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetAlertNotAck',{totalrecord: 3,stepno: -1},7)"><i title="More Details" class="fa fa-list"></i>
+        </p>
+          <table class="table">
             <thead class="thead">
               <th>Executive</th>
               <th>Alert Name</th>
@@ -48,7 +51,10 @@
       <div class="col-4 pl-0">
         <div class="outer" style="min-height: 170px;">
           <h6 style="text-align:center"><b class="charthead">Longest Alert Not Called </b></h6>
-          <table class="table table-bordered">
+          <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetAlertNotCall',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+        </p>
+          <table class="table">
             <thead class="thead">
               <th>Executive</th>
               <th>Alert Name</th>
@@ -67,7 +73,10 @@
       <div class="col-4 pl-0 pr-0">
         <div class="outer" style="min-height: 170px;">
           <h6 style="text-align:center"><b class="charthead">Longest Pending VSC TAT </b></h6>
-          <table class="table table-bordered">
+          <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetAlertVscPending',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+        </p>
+          <table class="table">
             <thead class="thead">
               <td>Executive</td>
               <th>TAT (Hrs)</th>
@@ -85,11 +94,14 @@
         </div>
       </div>
     </div>
-    <div class="row mb-2 mr-0 mb-0">
+    <div class="row mb-3 mr-0">
       <div class="col-4 pl-0">
         <div class="outer" style="min-height: 100px;">
           <h6 style="text-align:center"><b class="charthead">Longest Open Alert</b></h6>
-          <table class="table table-bordered">
+          <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetAlertOpen',{totalrecord: 3,stepno: -1},7)"><i title="More Details" class="fa fa-list"></i>
+        </p>
+          <table class="table">
             <thead class="thead">
               <th>Executive</th>
               <th>Alert Name</th>
@@ -108,7 +120,10 @@
       <div class="col-4 pl-0">
         <div class="outer" style="min-height: 100px;">
           <h6 style="text-align:center"><b class="charthead">Worst Call TAT in Last 7 Days</b></h6>
-          <table class="table table-bordered">
+          <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetAlertWorstCallTat',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+        </p>
+          <table class="table">
             <thead class="thead">
               <th>Executive</th>
               <th>Alert Name</th>
@@ -127,7 +142,10 @@
       <div class="col-4 pl-0 pr-0">
         <div class="outer" style="min-height: 100px;">
           <h6 style="text-align:center"><b class="charthead">Worst VSC TAT in Last 7 Days </b></h6>
-          <table class="table table-bordered">
+          <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetAlertVscWorst',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+        </p>
+          <table class="table">
             <thead class="thead">
               <th>Executive</th>
               <th>TAT (Hrs)</th>

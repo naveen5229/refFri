@@ -10,14 +10,15 @@ import { encode } from 'punycode';
   providedIn: 'root'
 })
 export class ApiService {
-  URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
-   // URL: string = 'https://dev.elogist.in/booster_webservices/'; // Dev : http://elogist.in/testing/dos
+  // URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
+  URL: string = 'https://dev.elogist.in/booster_webservices/'; // Dev : http://elogist.in/testing/dos
   //  URL: string = 'http://localhost/booster_webservices/'; // Local
-  UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
-    // URL: string = 'https://dev.elogist.in/booster_webservices/'; // Dev : http://elogist.in/testing/dos
-   
+  UrlTranstruckNew: string = 'http://dev.elogist.in/transtrucknew/';
+  // UrlTranstruckNew: string = 'http://192.168.1.101/webservices/';
+  // URL: string = 'https://dev.elogist.in/booster_webservices/'; // Dev : http://elogist.in/testing/dos
+
   URL2 = 'http://elogist.in/transtruck/';
-  URLJava : string = 'http://13.126.162.170:7070/'; // Dev Server
+  URLJava: string = 'http://13.126.162.170:7070/'; // Dev Server
 
 
   constructor(private http: HttpClient,
@@ -27,7 +28,7 @@ export class ApiService {
   }
 
 
-  postJava(endpoint: string, body: any, ) {
+  postJava(endpoint: string, body: any,) {
     console.log('test');
     let reqOpts = {
       headers: {
@@ -202,11 +203,11 @@ export class ApiService {
     return this.http.put(this.URL + subURL, body, { headers: this.setHeaders() })
   }
 
-  delete(subURL: string, ) {
+  delete(subURL: string,) {
     return this.http.delete(this.URL + subURL, { headers: this.setHeaders() })
   }
 
-  patch(subURL: string, body: any, ) {
+  patch(subURL: string, body: any,) {
     return this.http.patch(this.URL + subURL, body, { headers: this.setHeaders() })
   }
 

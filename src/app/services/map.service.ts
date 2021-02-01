@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CommonService } from './common.service';
-import MarkerClusterer from "@google/markerclusterer"
 declare let google: any;
 declare let MarkerClusterer: any;
 
