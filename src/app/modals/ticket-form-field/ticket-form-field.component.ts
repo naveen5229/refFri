@@ -168,6 +168,7 @@ ngOnInit() {}
         this.common.loading--;
         if (res['code'] == 1) {
             this.common.showToast(res['msg']);
+            this.dismiss(true,true);
         } else {
           this.common.showError(res['msg']);
         }
