@@ -154,6 +154,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         icon: 'fa-home',
         link: '/pages/tmg-trip',
       },
+      {
+        title: 'Unloading Heat Map',
+        icon: 'fa-home',
+        link: '/pages/ulheatmap',
+      },
     ]
   },
   {

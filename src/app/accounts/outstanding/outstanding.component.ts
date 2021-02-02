@@ -18,7 +18,6 @@ import { ServiceComponent } from '../service/service.component';
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 
-@AutoUnsubscribe()
 @Component({
   selector: 'out-standing-tree',
   template: `
@@ -48,7 +47,7 @@ import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
     </div>
   </div>
   `,
-  styleUrls: ['./outstanding.component.scss'], 
+  styleUrls: ['./outstanding.component.scss'],
   host: {
     '(document:keydown)': 'keyHandler($event)'
   }
@@ -60,17 +59,18 @@ export class outStandingTreeComponent {
   @Input() action: any;
   @Input() isExpandAll: boolean;
   @Input() color: number = 0;
-  @Input() getaction:any;
+  @Input() getaction: any;
 
   activeIndex: boolean = false;
   selectedRow: number = -1;
   colors = ['#5d6e75', '#6f8a96', '#8DAAB8', '#a8a5ad'];
   deletedId = 0;
   constructor(public common: CommonService,
-    public modalService: NgbModal,  
+    public modalService: NgbModal,
     public user: UserService,
     public accountService: AccountService) {
-    }
+  }
+  ngOnDestory() { }
   keyHandler(event) {
     const key = event.key.toLowerCase();
 
@@ -80,7 +80,7 @@ export class outStandingTreeComponent {
       else if (this.selectedRow != this.data.length - 1 && key === 'arrowdown') this.selectedRow++;
     }
     if ((event.ctrlKey && key === 'd') && (this.data.length && this.selectedRow != -1)) {
-      ((this.data[this.selectedRow].y_voucher_type_name.toLowerCase().includes('voucher')) ? (this.data[this.selectedRow].y_voucher_type_name.toLowerCase().includes('trip')) ? '' : this.openVoucherEdit(this.data[this.selectedRow].y_voucherid, 6, this.data[this.selectedRow].y_vouchertype_id) : (this.data[this.selectedRow].y_voucher_type_name.toLowerCase().includes('invoice')) ? this.openinvoicemodeledit(this.data[this.selectedRow].y_voucherid,this.data[this.selectedRow].y_vouchertype_id,1) :'' )
+      ((this.data[this.selectedRow].y_voucher_type_name.toLowerCase().includes('voucher')) ? (this.data[this.selectedRow].y_voucher_type_name.toLowerCase().includes('trip')) ? '' : this.openVoucherEdit(this.data[this.selectedRow].y_voucherid, 6, this.data[this.selectedRow].y_vouchertype_id) : (this.data[this.selectedRow].y_voucher_type_name.toLowerCase().includes('invoice')) ? this.openinvoicemodeledit(this.data[this.selectedRow].y_voucherid, this.data[this.selectedRow].y_vouchertype_id, 1) : '')
       event.preventDefault();
       return;
     }
@@ -99,25 +99,25 @@ export class outStandingTreeComponent {
         console.log('Data: ', data);
         if (data.delete) {
           this.getaction();
-        } 
+        }
         // this.common.showToast('Voucher updated');
 
       });
     }
   }
-  openinvoicemodeledit(invoiceid,ordertypeid,create=0) {
+  openinvoicemodeledit(invoiceid, ordertypeid, create = 0) {
     this.common.params = {
       invoiceid: invoiceid,
       delete: 0,
       newid: create,
       ordertype: ordertypeid,
-      isModal:true
+      isModal: true
     };
     const activeModal = this.modalService.open(ServiceComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
     activeModal.result.then(data => {
       console.log('Data: invoice ', data);
-        if (data.msg) {
-          this.getaction();
+      if (data.msg) {
+        this.getaction();
       }
     });
     // this.common.params = {
@@ -140,7 +140,6 @@ export class outStandingTreeComponent {
 }
 
 
-@AutoUnsubscribe()
 @Component({
   selector: 'outstanding',
   templateUrl: './outstanding.component.html',
@@ -148,14 +147,14 @@ export class outStandingTreeComponent {
 })
 export class OutstandingComponent implements OnInit {
   vouchertypedata = [];
-  fuelFilings=[];
+  fuelFilings = [];
   branchdata = [];
   activedateid = '';
   selectedName = '';
   secondarygroup = [];
   outStanding = {
     endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
-    startDate:  ((((new Date()).getMonth()) + 1) > 3) ? this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-') : this.common.dateFormatternew(((new Date().getFullYear()) - 1) + '-04-01', 'ddMMYYYY', false, '-'),
+    startDate: ((((new Date()).getMonth()) + 1) > 3) ? this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-') : this.common.dateFormatternew(((new Date().getFullYear()) - 1) + '-04-01', 'ddMMYYYY', false, '-'),
     ledger: {
       name: 'All',
       id: 0
@@ -197,9 +196,9 @@ export class OutstandingComponent implements OnInit {
     public csvService: CsvService,
     public accountService: AccountService,
     public modalService: NgbModal) {
-    this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.outStanding.startDate;
-    this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.outStanding.endDate;
-        
+    this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate : this.outStanding.startDate;
+    this.accountService.todate = (this.accountService.todate) ? this.accountService.todate : this.outStanding.endDate;
+
     this.common.refresh = this.refresh.bind(this);
     this.getLedgerList();
     this.setFoucus('ledger');
@@ -210,8 +209,8 @@ export class OutstandingComponent implements OnInit {
 
   activeGroup = [];
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() { }
+  ngOnInit() {
   }
   refresh() {
     this.getLedgerList();
@@ -272,8 +271,8 @@ ngOnInit() {
   }
 
   getLedgerView() {
-    this.outStanding.startDate= this.accountService.fromdate;
-    this.outStanding.endDate= this.accountService.todate;
+    this.outStanding.startDate = this.accountService.fromdate;
+    this.outStanding.endDate = this.accountService.todate;
     console.log('Ledger:', this.outStanding);
     let params = {
       startdate: this.outStanding.startDate,
@@ -350,8 +349,8 @@ ngOnInit() {
   //     });
   //   }
   // }
-  openinvoicemodel(voucherId, code, type,vocherdata) {
-    if((type.toLowerCase().includes('purchase')) || (type.toLowerCase().includes('sales')) || (type.toLowerCase().includes('debit')) || (type.toLowerCase().includes('credit'))){
+  openinvoicemodel(voucherId, code, type, vocherdata) {
+    if ((type.toLowerCase().includes('purchase')) || (type.toLowerCase().includes('sales')) || (type.toLowerCase().includes('debit')) || (type.toLowerCase().includes('credit'))) {
       // console.log('invoice edit');
       // this.common.params = {
       //   invoiceid: voucherId,
@@ -371,110 +370,110 @@ ngOnInit() {
         delete: 0,
         newid: 0,
         ordertype: vocherdata.y_vouchertype_id,
-        isModal:true
+        isModal: true
       };
       const activeModal = this.modalService.open(ServiceComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
       activeModal.result.then(data => {
         console.log('Data: invoice ', data);
-          if (data.msg) {
+        if (data.msg) {
         }
       });
-    }else if(type.toLowerCase().includes('fuel')){
+    } else if (type.toLowerCase().includes('fuel')) {
       this.openFuelEdit(vocherdata);
-}  else if(type.toLowerCase().includes('trip')){
-  this.openConsignmentVoucherEdit(vocherdata)
-} else{
+    } else if (type.toLowerCase().includes('trip')) {
+      this.openConsignmentVoucherEdit(vocherdata)
+    } else {
 
-  this.common.params = {
-    voucherId: voucherId,
-    delete: 0,
-    addvoucherid: 0,
-    voucherTypeId: vocherdata.y_vouchertype_id,
-  };
-  const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
-  activeModal.result.then(data => {
-    console.log('Data: ', data);
-    if (data.delete) {
-     // this.getDayBook();
-    } 
-    // this.common.showToast('Voucher updated');
+      this.common.params = {
+        voucherId: voucherId,
+        delete: 0,
+        addvoucherid: 0,
+        voucherTypeId: vocherdata.y_vouchertype_id,
+      };
+      const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+      activeModal.result.then(data => {
+        console.log('Data: ', data);
+        if (data.delete) {
+          // this.getDayBook();
+        }
+        // this.common.showToast('Voucher updated');
 
-  });
-// this.common.params={
+      });
+      // this.common.params={
 
-//   vchid :voucherId,
-//   vchcode:vouhercode
-// }
-// const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
-// activeModal.result.then(data => {
-//   // console.log('Data: ', data);
-//   if (data.response) {
-//     return;
-  
-//   }
-// });
-}
+      //   vchid :voucherId,
+      //   vchcode:vouhercode
+      // }
+      // const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      // activeModal.result.then(data => {
+      //   // console.log('Data: ', data);
+      //   if (data.response) {
+      //     return;
+
+      //   }
+      // });
+    }
   }
-  openFuelEdit(vchData){
-    console.log('vch data new ##',vchData);
+  openFuelEdit(vchData) {
+    console.log('vch data new ##', vchData);
     let promises = [];
     console.log('testing issue solved');
     promises.push(this.getVocherEditTime(vchData['y_voucherid']));
-    promises.push(this.getDataFuelFillingsEdit(vchData['y_vehicle_id'],vchData['y_refid'],vchData['y_voucherid']));
+    promises.push(this.getDataFuelFillingsEdit(vchData['y_vehicle_id'], vchData['y_refid'], vchData['y_voucherid']));
 
     Promise.all(promises).then(result => {
-    this.common.params = {
-      vehId: vchData['y_vehicle_id'],
-      lastFilling: this.outStanding.startDate,
-      currentFilling: this.outStanding.endDate,
-      fuelstationid: vchData['y_refid'],
-      fuelData:this.fuelFilings,
-      voucherId:vchData['y_voucherid'],
-      voucherData:this.VoucherEditTime,
-      //vehname:this.trips[0].y_vehicle_name
-    };
+      this.common.params = {
+        vehId: vchData['y_vehicle_id'],
+        lastFilling: this.outStanding.startDate,
+        currentFilling: this.outStanding.endDate,
+        fuelstationid: vchData['y_refid'],
+        fuelData: this.fuelFilings,
+        voucherId: vchData['y_voucherid'],
+        voucherData: this.VoucherEditTime,
+        //vehname:this.trips[0].y_vehicle_name
+      };
 
-    const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-       console.log('Data return: ', data);
-      if (data.success) {
-     //   this.getDayBook();
-      }
-    });
-  }).catch(err => {
-    console.log(err);
-    this.common.showError('There is some technical error occured. Please Try Again!');
-  })
-  }
-  getDataFuelFillingsEdit(vehcleID,fuelStationId,vchrID) {
-    return new Promise((resolve, reject) => {
-    const params = {
-      vehId: vehcleID,
-      lastFilling: this.outStanding.startDate,
-      currentFilling:this.outStanding.endDate,
-      fuelstationid: fuelStationId,
-      voucherId:vchrID
-    };
-    this.common.loading++;
-    this.api.post('Fuel/getFeulfillings', params)
-      .subscribe(res => {
-      //  console.log('fuel data', res['data']);
-        this.common.loading--;
-        if(res['data'].length){
-        this.fuelFilings = res['data'];
-        resolve();
-        }else {
-          this.common.showError('please Select Correct date');
+      const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        console.log('Data return: ', data);
+        if (data.success) {
+          //   this.getDayBook();
         }
-        // this.getHeads();
-      }, err => {
-        console.log(err);
-        this.common.loading--;
-        this.common.showError();
-        reject();
       });
+    }).catch(err => {
+      console.log(err);
+      this.common.showError('There is some technical error occured. Please Try Again!');
     })
-   
+  }
+  getDataFuelFillingsEdit(vehcleID, fuelStationId, vchrID) {
+    return new Promise((resolve, reject) => {
+      const params = {
+        vehId: vehcleID,
+        lastFilling: this.outStanding.startDate,
+        currentFilling: this.outStanding.endDate,
+        fuelstationid: fuelStationId,
+        voucherId: vchrID
+      };
+      this.common.loading++;
+      this.api.post('Fuel/getFeulfillings', params)
+        .subscribe(res => {
+          //  console.log('fuel data', res['data']);
+          this.common.loading--;
+          if (res['data'].length) {
+            this.fuelFilings = res['data'];
+            resolve();
+          } else {
+            this.common.showError('please Select Correct date');
+          }
+          // this.getHeads();
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+          reject();
+        });
+    })
+
   }
   pdfFunction() {
     let params = {
@@ -672,24 +671,24 @@ ngOnInit() {
           }
           info.push(details);
         } else {
-         // info.push(...groups[group]);
-         let details = {
-          name: group,
-          ledgerName: group,
-          data: groups[group].map(ledger => {
-            ledger.y_ledger_name = '';
-            return ledger;
-          }),
-          debit: groups[group].reduce((a, b) => {
-            a += parseFloat(b.y_dramunt);
-            return a;
-          }, 0),
-          credit: groups[group].reduce((a, b) => {
-            a += parseFloat(b.y_cramunt);
-            return a;
-          }, 0)
-        }
-        info.push(details);
+          // info.push(...groups[group]);
+          let details = {
+            name: group,
+            ledgerName: group,
+            data: groups[group].map(ledger => {
+              ledger.y_ledger_name = '';
+              return ledger;
+            }),
+            debit: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_dramunt);
+              return a;
+            }, 0),
+            credit: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_cramunt);
+              return a;
+            }, 0)
+          }
+          info.push(details);
         }
       }
       return info;
@@ -711,7 +710,7 @@ ngOnInit() {
     //   this.activedateid = this.lastActiveId;
     //   return;
     // } else
-     if ((key == 'enter' && this.showDateModal)) {
+    if ((key == 'enter' && this.showDateModal)) {
       this.showDateModal = false;
       console.log('Last Ac: ', this.lastActiveId);
       this.handleVoucherDateOnEnter(this.activeId);

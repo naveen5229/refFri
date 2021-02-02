@@ -332,6 +332,7 @@ export class RouteMapperComponent implements OnInit {
       <b>Start Time:</b> ${event.start_time} <br>
       <b>End Time:</b>${event.end_time} <br>
       <b>Duration:</b>${event.duration} <br>
+      <b>Distance:</b>${event.odo} ( ${event.grand} )<br>
       `
     );
     this.infoWindow.setPosition(this.mapService.createLatLng(event.lat, event.long)); // or evt.latLng

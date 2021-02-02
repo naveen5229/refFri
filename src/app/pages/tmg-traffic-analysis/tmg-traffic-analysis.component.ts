@@ -270,7 +270,12 @@ ngOnInit() {
   }
 
   hideLoader(index) {
-    let outers = document.getElementsByClassName("outer");
-    outers[index].lastChild.remove();
+    try {
+      let outers = document.getElementsByClassName("outer");
+      let ele = outers[index].getElementsByClassName('loader')[0];
+      outers[index].removeChild(ele);
+    } catch (e) {
+      console.log('Exception', e);
+    }
   }
 }

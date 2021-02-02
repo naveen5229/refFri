@@ -1902,10 +1902,12 @@ export class CommonService {
       gridSize: null,
       minValue: 0
     }
-    var max = arr.reduce(function (a, b) {
-      return Math.max(a, b);
-    });
-    console.log("max", arr, max);
+    var max = 0;
+    if (arr.length) {
+      max = arr.reduce(function (a, b) {
+        return Math.max(a, b);
+      });
+    }
     //--y axis scale data
     if (max > 1000 && max < 90000) {
       chartObj.scaleData = arr.map(a => {

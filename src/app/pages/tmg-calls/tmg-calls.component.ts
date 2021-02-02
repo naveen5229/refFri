@@ -90,7 +90,7 @@ ngOnInit() {
     this.api.post('Tmgreport/GetCallsDrivar', params)
       .subscribe(res => {
         console.log('callsDrivar:', res);
-        this.callsDrivar = res['data'];
+        this.callsDrivar = res['data'] || [];
         if (this.callsDrivar.length > 0) this.handleChart1();
         this.hideLoader(index);;
       }, err => {
@@ -137,7 +137,7 @@ ngOnInit() {
     this.api.post('Tmgreport/GetCallsNotRespod', params)
       .subscribe(res => {
         console.log('tripUnLoadindTime:', res);
-        this.callsNotRespod = res['data'];
+        this.callsNotRespod = res['data'] || [];
         if (this.callsNotRespod.length > 0) this.handleChart2();
         this.hideLoader(index);
       }, err => {
@@ -184,7 +184,7 @@ ngOnInit() {
     this.api.post('Tmgreport/GetCallsSupervisorLoadingTat', params)
       .subscribe(res => {
         console.log('callsSupervisorLoadingTat:', res);
-        this.callsSupervisorLoadingTat = res['data'];
+        this.callsSupervisorLoadingTat = res['data'] || [];
         if (this.callsSupervisorLoadingTat.length > 0) this.handleChart3();
         this.hideLoader(index);
       }, err => {
@@ -208,7 +208,7 @@ ngOnInit() {
     this.api.post('Tmgreport/GetCallsSupervisorUnLoadingTat', params)
       .subscribe(res => {
         console.log('callsSupervisorUnLoadingTat:', res);
-        this.callsSupervisorUnLoadingTat = res['data'];
+        this.callsSupervisorUnLoadingTat = res['data'] || [];
         if (this.callsSupervisorUnLoadingTat.length > 0) this.handleChart5();
         this.hideLoader(index);
       }, err => {
@@ -231,7 +231,7 @@ ngOnInit() {
     this.api.post('Tmgreport/GetCallOnwardKmd', params)
       .subscribe(res => {
         console.log('callsSupervisorUnLoadingTat:', res);
-        this.callOnwardKmd = res['data'];
+        this.callOnwardKmd = res['data'] || [];
         if (this.callOnwardKmd.length > 0) this.handleChart4();
         this.hideLoader(index);
       }, err => {
@@ -254,7 +254,7 @@ ngOnInit() {
     this.api.post('Tmgreport/GetAlertWorstCallTat', params)
       .subscribe(res => {
         console.log('tripUnLoadindTime:', res);
-        this.callsSupervisorUnLoadingTat = res['data'];
+        this.callsSupervisorUnLoadingTat = res['data'] || [];
         if (this.callsSupervisorUnLoadingTat.length > 0) this.handleChart5();
         this.hideLoader(index);
       }, err => {
@@ -570,8 +570,13 @@ ngOnInit() {
   }
 
   hideLoader(index) {
-    let outers = document.getElementsByClassName("outer");
-    outers[index].lastChild.remove();
+    try {
+      let outers = document.getElementsByClassName("outer");
+      let ele = outers[index].getElementsByClassName('loader')[0];
+      outers[index].removeChild(ele);
+    } catch (e) {
+      console.log('Exception', e);
+    }
   }
 
 }
