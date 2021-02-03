@@ -800,7 +800,7 @@ ngOnInit() {
   }
 
   openRejMulTrips(vehicleEvent) {
-    this.common.params = { vehicleId: this.VehicleStatusData.vehicle_id, vehicleRegNo: this.VehicleStatusData.regno }
+    this.common.params = { vehicleId: this.VehicleStatusData.vehicle_id, vehicleRegNo: this.VehicleStatusData.regno, endDate : this.toTime, startDate : this.lTime }
     const activeModal = this.modalService.open(OpenRejectTripsComponent, { size: 'md', container: 'nb-layout' });
     activeModal.result.then(data =>
       this.reloadData());

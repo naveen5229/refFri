@@ -34,8 +34,8 @@ export class TmgTrafficComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() { }
+  ngOnInit() {
   }
 
   ngAfterViewInit() {
@@ -46,7 +46,7 @@ ngOnInit() {
   refresh() {
     this.getTrafficLiveStatus(0);
     this.getTrafficLongestDriverUnavailable(1);
-    this.getTrafficLongestVehicleGpsIssue (2);
+    this.getTrafficLongestVehicleGpsIssue(2);
     this.getTrafficTopRmb(3);
     this.getTrafficLongestLoadingSites(4);
     this.getTrafficLongestUnloadingSite(5);
@@ -56,9 +56,9 @@ ngOnInit() {
 
   getTrafficLiveStatus(index) {
     this.trafficLiveStatus = [];
-     this.showLoader(index);
+    this.showLoader(index);
     let params = {
-     totalrecord :7
+      totalrecord: 7
     };
     this.api.post('Tmgreport/GetTrafficLiveStatus', params)
       .subscribe(res => {
@@ -67,14 +67,14 @@ ngOnInit() {
         this.handleChart(this.trafficLiveStatus);
         this.hideLoader(index);
       }, err => {
-         this.hideLoader(index);
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
   getTrafficLongestDriverUnavailable(index) {
     this.trafficLongestDriverUnavailable = [];
-     this.showLoader(index);
+    this.showLoader(index);
     let params = { totalrecord: 5 };
     this.api.post('Tmgreport/GetTrafficLongestDriverUnavailable', params)
       .subscribe(res => {
@@ -82,16 +82,16 @@ ngOnInit() {
         this.trafficLongestDriverUnavailable = res['data'];
         this.hideLoader(index);
       }, err => {
-         this.hideLoader(index);
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTrafficLongestVehicleGpsIssue (index) {
-    this.trafficLongestVehicleGpsIssue  = [];
-     this.showLoader(index);
+  getTrafficLongestVehicleGpsIssue(index) {
+    this.trafficLongestVehicleGpsIssue = [];
+    this.showLoader(index);
     let params = {
-      totalrecord : 5
+      totalrecord: 5
     };
     this.api.post('Tmgreport/GetTrafficLongestVehicleGpsIssue', params)
       .subscribe(res => {
@@ -99,7 +99,7 @@ ngOnInit() {
         this.trafficLongestVehicleGpsIssue = res['data'];
         this.hideLoader(index);
       }, err => {
-         this.hideLoader(index);
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
@@ -107,29 +107,29 @@ ngOnInit() {
   getTrafficTopRmb(index) {
     this.trafficTopRmb = [];
     let params = { totalrecord: 10 };
-     this.showLoader(index);
+    this.showLoader(index);
     this.api.post('Tmgreport/GetTrafficTopRmb', params)
       .subscribe(res => {
         console.log('trafficTopRmb:', res);
         this.trafficTopRmb = res['data'];
         this.hideLoader(index);
       }, err => {
-         this.hideLoader(index);
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
- getTrafficLongestLoadingSites(index) {
+  getTrafficLongestLoadingSites(index) {
     this.trafficLongestLoadingSites = [];
     let params = { totalrecord: 3 };
-     this.showLoader(index);
+    // this.showLoader(index);
     this.api.post('Tmgreport/GetTrafficLongestLoadingSites', params)
       .subscribe(res => {
         console.log('trafficLongestLoadingSites:', res);
         this.trafficLongestLoadingSites = res['data'];
-        this.hideLoader(index);
+        // this.hideLoader(index);
       }, err => {
-         this.hideLoader(index);
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
@@ -137,23 +137,23 @@ ngOnInit() {
   getTrafficLongestUnloadingSite(index) {
     this.trafficLongestUnloadingSite = [];
     let params = { totalrecord: 3 };
-     this.showLoader(index);
+    this.showLoader(index);
     this.api.post('Tmgreport/GetTrafficLongestUnloadingSite', params)
       .subscribe(res => {
         console.log('trafficLongestUnloadingSite:', res);
         this.trafficLongestUnloadingSite = res['data'];
         this.hideLoader(index);
       }, err => {
-         this.hideLoader(index);
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTrafficSlowestOnwardVehicles(index) { 
+  getTrafficSlowestOnwardVehicles(index) {
     this.trafficSlowestOnwardVehicles = [];
-     this.showLoader(index);
+    this.showLoader(index);
     let params = {
-      totalrecord : 3
+      totalrecord: 3
     };
     this.api.post('Tmgreport/GetTrafficSlowestOnwardVehicles', params)
       .subscribe(res => {
@@ -161,16 +161,16 @@ ngOnInit() {
         this.trafficSlowestOnwardVehicles = res['data'];
         this.hideLoader(index);
       }, err => {
-         this.hideLoader(index);
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTrafficLongestVehicleEmpty(index) { 
+  getTrafficLongestVehicleEmpty(index) {
     this.trafficLongestVehicleEmpty = [];
-     this.showLoader(index);
+    this.showLoader(index);
     let params = {
-      totalrecord : 3
+      totalrecord: 3
     };
     this.api.post('Tmgreport/GetTrafficLongestVehicleEmpty', params)
       .subscribe(res => {
@@ -178,12 +178,12 @@ ngOnInit() {
         this.trafficLongestVehicleEmpty = res['data'];
         this.hideLoader(index);
       }, err => {
-         this.hideLoader(index);
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  
+
 
   handleChart(data) {
     let label = []
@@ -193,7 +193,7 @@ ngOnInit() {
         label.push(ele.split_part);
         dt.push(ele.totalvehicle);
       });
-      console.log("label",label,"data",dt);
+      console.log("label", label, "data", dt);
       this.chart.type = 'pie';
       this.chart.data = {
         labels: label,
@@ -213,9 +213,9 @@ ngOnInit() {
           display: true,
           position: 'right',
           labels: {
-          fontSize : dt.length>8?11:12,
-          padding : dt.length>8?3:8,
-          boxWidth : 10
+            fontSize: dt.length > 8 ? 11 : 12,
+            padding: dt.length > 8 ? 3 : 8,
+            boxWidth: 10
           }
         },
         // tooltips: { enabled: false },
@@ -224,18 +224,18 @@ ngOnInit() {
 
     }
   }
-  getDetials(url, params, value = 0,type='days') {
+  getDetials(url, params, value = 0, type = 'days') {
     let dataparams = {
       view: {
         api: url,
         param: params,
         type: 'post'
       },
-  
+
       title: 'Details'
     }
     if (value) {
-      let startDate = type == 'months'? new Date(new Date().setMonth(new Date().getMonth() - value)): new Date(new Date().setDate(new Date().getDate() - value));
+      let startDate = type == 'months' ? new Date(new Date().setMonth(new Date().getMonth() - value)) : new Date(new Date().setDate(new Date().getDate() - value));
       let endDate = new Date();
       dataparams.view.param['fromdate'] = this.common.dateFormatter(startDate);
       dataparams.view.param['todate'] = this.common.dateFormatter(endDate);
@@ -256,8 +256,13 @@ ngOnInit() {
   }
 
   hideLoader(index) {
-    let outers = document.getElementsByClassName("outer");
-    outers[index].lastChild.remove();
+    try {
+      let outers = document.getElementsByClassName("outer");
+      let ele = outers[index].getElementsByClassName('loader')[0];
+      outers[index].removeChild(ele);
+    } catch (e) {
+      console.log('Exception', e);
+    }
   }
 }
 

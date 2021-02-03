@@ -12,15 +12,14 @@ import { OrderdetailComponent } from '../../acounts-modals/orderdetail/orderdeta
 import { TripdetailComponent } from '../../acounts-modals/tripdetail/tripdetail.component';
 import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { PdfService } from '../../services/pdf/pdf.service';
-import {AdvanceComponent } from '../../acounts-modals/advance/advance.component';
+import { AdvanceComponent } from '../../acounts-modals/advance/advance.component';
 import { OrderComponent } from '../../acounts-modals/order/order.component';
 import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
 import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
 import { ServiceComponent } from '../service/service.component';
- 
+
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 
-@AutoUnsubscribe()
 @Component({
   selector: 'ledger-register-tree',
   template: `
@@ -93,40 +92,42 @@ export class ledgerRegisterTreeComponent {
   @Input() action: any;
   @Input() isExpandAll: boolean;
   @Input() color: number = 0;
-  @Input() getaction:any;
+  @Input() getaction: any;
   activeIndex: boolean = false;
   selectedRow: number = -1;
-  colors = ['#5d6e75', '#6f8a96', '#8DAAB8', '#a4bbca','bfcfd9'];
+  colors = ['#5d6e75', '#6f8a96', '#8DAAB8', '#a4bbca', 'bfcfd9'];
   deletedId = 0;
   search = '';
   searchedData = [];
 
   constructor(public common: CommonService,
-    public modalService: NgbModal,  
+    public modalService: NgbModal,
     public user: UserService,
     public cdr: ChangeDetectorRef,
     public accountService: AccountService) {
+  }
+
+  ngOnDestroy() { }
+  ngOnChanges(changes) {
+    if (changes.data) {
+      this.data = changes.data.currentValue;
+      this.searchedData = this.data;
     }
-    ngOnChanges(changes) {
-      if (changes.data) {
-        this.data = changes.data.currentValue;
-        this.searchedData = this.data;
+  }
+  searchValues() {
+    this.searchedData = this.data.filter(x => {
+      if (x.name) {
+        return x.name.toLowerCase().includes(this.search.toLowerCase())
+      } else if (x.ledgerName) {
+        return x.ledgerName.toLowerCase().includes(this.search.toLowerCase())
       }
-    }
-    searchValues() {
-      this.searchedData = this.data.filter(x => {
-        if (x.name) {
-          return x.name.toLowerCase().includes(this.search.toLowerCase())
-        } else if (x.ledgerName) {
-          return x.ledgerName.toLowerCase().includes(this.search.toLowerCase())
-        }
-        return false;
-      });
-      this.cdr.detectChanges();
-    }
+      return false;
+    });
+    this.cdr.detectChanges();
+  }
   keyHandler(event) {
     const key = event.key.toLowerCase();
-    console.log('ctrl + d pressed',this.data[this.selectedRow]);  
+    console.log('ctrl + d pressed', this.data[this.selectedRow]);
 
     if ((key.includes('arrowup') || key.includes('arrowdown')) && this.data.length) {
       /************************ Handle Table Rows Selection ********************** */
@@ -134,7 +135,7 @@ export class ledgerRegisterTreeComponent {
       else if (this.selectedRow != this.data.length - 1 && key === 'arrowdown') this.selectedRow++;
     }
     if ((event.ctrlKey && key === 'd') && (this.data.length && this.selectedRow != -1)) {
-      ((this.data[this.selectedRow].y_voucher_type_name.toLowerCase().includes('voucher')) ? (this.data[this.selectedRow].y_voucher_type_name.toLowerCase().includes('trip')) ? '' : this.openVoucherEdit(this.data[this.selectedRow].y_voucherid, 6, this.data[this.selectedRow].y_vouchertype_id) : (this.data[this.selectedRow].y_voucher_type_name.toLowerCase().includes('invoice')) ? this.openinvoicemodeledit(this.data[this.selectedRow].y_voucherid,this.data[this.selectedRow].y_vouchertype_id,1) :'' )
+      ((this.data[this.selectedRow].y_voucher_type_name.toLowerCase().includes('voucher')) ? (this.data[this.selectedRow].y_voucher_type_name.toLowerCase().includes('trip')) ? '' : this.openVoucherEdit(this.data[this.selectedRow].y_voucherid, 6, this.data[this.selectedRow].y_vouchertype_id) : (this.data[this.selectedRow].y_voucher_type_name.toLowerCase().includes('invoice')) ? this.openinvoicemodeledit(this.data[this.selectedRow].y_voucherid, this.data[this.selectedRow].y_vouchertype_id, 1) : '')
       event.preventDefault();
       return;
     }
@@ -153,26 +154,26 @@ export class ledgerRegisterTreeComponent {
         console.log('Data: ', data);
         if (data.delete) {
           this.getaction();
-        } 
+        }
         // this.common.showToast('Voucher updated');
 
       });
     }
   }
-  openinvoicemodeledit(invoiceid,ordertypeid,create=0) {
-   
+  openinvoicemodeledit(invoiceid, ordertypeid, create = 0) {
+
     this.common.params = {
       invoiceid: invoiceid,
       delete: 0,
       newid: create,
       ordertype: ordertypeid,
-      isModal:true
+      isModal: true
     };
     const activeModal = this.modalService.open(ServiceComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
     activeModal.result.then(data => {
       console.log('Data: invoice ', data);
-        if (data.msg) {
-          this.getaction();
+      if (data.msg) {
+        this.getaction();
       }
     });
 
@@ -205,14 +206,14 @@ export class ledgerRegisterTreeComponent {
 })
 export class LedgerregidterComponent implements OnInit {
   activeTree = -1;
-  fuelFilings=[];
+  fuelFilings = [];
   Ledgerregister = [];
   selectedName = '';
   deletedId = 0;
   pageName = "";
   sizeledger = 0;
   voucherEntries = [];
-  flag=0;
+  flag = 0;
   ledgerRegister = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startdate: ((((new Date()).getMonth()) + 1) > 3) ? this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-') : this.common.dateFormatternew(((new Date().getFullYear()) - 1) + '-04-01', 'ddMMYYYY', false, '-'),
@@ -265,8 +266,8 @@ export class LedgerregidterComponent implements OnInit {
     public pdfService: PdfService,
     public accountService: AccountService,
     public modalService: NgbModal) {
-    this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate: this.ledgerRegister.startdate;
-    this.accountService.todate = (this.accountService.todate)? this.accountService.todate: this.ledgerRegister.enddate;
+    this.accountService.fromdate = (this.accountService.fromdate) ? this.accountService.fromdate : this.ledgerRegister.startdate;
+    this.accountService.todate = (this.accountService.todate) ? this.accountService.todate : this.ledgerRegister.enddate;
     this.common.refresh = this.refresh.bind(this);
 
 
@@ -284,8 +285,9 @@ export class LedgerregidterComponent implements OnInit {
     this.getSecondaryGoup();
   }
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() { }
+
+  ngOnInit() {
   }
   refresh() {
     this.GetLedger();
@@ -367,8 +369,8 @@ ngOnInit() {
   }
 
   getDetail() {
-    this.ledgerRegister.startdate= this.accountService.fromdate;
-    this.ledgerRegister.enddate= this.accountService.todate
+    this.ledgerRegister.startdate = this.accountService.fromdate;
+    this.ledgerRegister.enddate = this.accountService.todate
     let params = {
       ledgerid: this.ledgerRegister.ledger.id,
       vouchertyid: this.ledgerRegister.vouchertype.id,
@@ -498,7 +500,7 @@ ngOnInit() {
     } else {
       let info = [];
       let groups = _.groupBy(data, 'y_ledger_name');
-     // console.log('Groups:', groups);
+      // console.log('Groups:', groups);
       for (let group in groups) {
         if (groups[group].length > 1) {
           let details = {
@@ -519,24 +521,24 @@ ngOnInit() {
           }
           info.push(details);
         } else {
-         // info.push(...groups[group]);
-         let details = {
-          name: group,
-          ledgerName: group,
-          data: groups[group].map(ledger => {
-            ledger.y_ledger_name = '';
-            return ledger;
-          }),
-          debit: groups[group].reduce((a, b) => {
-            a += parseFloat(b.y_dramunt);
-            return a;
-          }, 0),
-          credit: groups[group].reduce((a, b) => {
-            a += parseFloat(b.y_cramunt);
-            return a;
-          }, 0)
-        }
-        info.push(details);
+          // info.push(...groups[group]);
+          let details = {
+            name: group,
+            ledgerName: group,
+            data: groups[group].map(ledger => {
+              ledger.y_ledger_name = '';
+              return ledger;
+            }),
+            debit: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_dramunt);
+              return a;
+            }, 0),
+            credit: groups[group].reduce((a, b) => {
+              a += parseFloat(b.y_cramunt);
+              return a;
+            }, 0)
+          }
+          info.push(details);
         }
       }
       return info;
@@ -702,21 +704,21 @@ ngOnInit() {
     });
   }
 
-  openinvoicemodel(voucherId, code, type,vocherdata) {
-    if((type.toLowerCase().includes('purchase')) || (type.toLowerCase().includes('sales')) || (type.toLowerCase().includes('debit')) || (type.toLowerCase().includes('credit'))){
+  openinvoicemodel(voucherId, code, type, vocherdata) {
+    if ((type.toLowerCase().includes('purchase')) || (type.toLowerCase().includes('sales')) || (type.toLowerCase().includes('debit')) || (type.toLowerCase().includes('credit'))) {
       console.log('invoice edit');
-     
+
       this.common.params = {
         invoiceid: voucherId,
         delete: 0,
         newid: 0,
         ordertype: vocherdata.y_vouchertype_id,
-        isModal:true
+        isModal: true
       };
       const activeModal = this.modalService.open(ServiceComponent, { size: 'lg', container: 'nb-layout', windowClass: 'page-as-modal', });
       activeModal.result.then(data => {
         console.log('Data: invoice ', data);
-          if (data.msg) {
+        if (data.msg) {
         }
       });
 
@@ -733,106 +735,106 @@ ngOnInit() {
       //     console.log('open succesfull');
       //   }
       // });
-     
-    }else if(type.toLowerCase().includes('fuel')){
+
+    } else if (type.toLowerCase().includes('fuel')) {
       this.openFuelEdit(vocherdata);
-}  else if(type.toLowerCase().includes('trip')){
-  this.openConsignmentVoucherEdit(vocherdata)
-} else{
+    } else if (type.toLowerCase().includes('trip')) {
+      this.openConsignmentVoucherEdit(vocherdata)
+    } else {
 
-  this.common.params = {
-    voucherId: voucherId,
-    delete: 0,
-    addvoucherid: 0,
-    voucherTypeId: vocherdata.y_vouchertype_id,
-  };
-  const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
-  activeModal.result.then(data => {
-    console.log('Data: ', data);
-    if (data.delete) {
-     // this.getDayBook();
-    } 
-    // this.common.showToast('Voucher updated');
+      this.common.params = {
+        voucherId: voucherId,
+        delete: 0,
+        addvoucherid: 0,
+        voucherTypeId: vocherdata.y_vouchertype_id,
+      };
+      const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+      activeModal.result.then(data => {
+        console.log('Data: ', data);
+        if (data.delete) {
+          // this.getDayBook();
+        }
+        // this.common.showToast('Voucher updated');
 
-  });
-// this.common.params={
+      });
+      // this.common.params={
 
-//   vchid :voucherId,
-//   vchcode:vouhercode
-// }
-// const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
-// activeModal.result.then(data => {
-//   // console.log('Data: ', data);
-//   if (data.response) {
-//     return;
-  
-//   }
-// });
-}
-this.common.currentPage = 'Ledger Register';
+      //   vchid :voucherId,
+      //   vchcode:vouhercode
+      // }
+      // const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      // activeModal.result.then(data => {
+      //   // console.log('Data: ', data);
+      //   if (data.response) {
+      //     return;
+
+      //   }
+      // });
+    }
+    this.common.currentPage = 'Ledger Register';
   }
-  openFuelEdit(vchData){
-    console.log('vch data new ##',vchData);
+  openFuelEdit(vchData) {
+    console.log('vch data new ##', vchData);
     let promises = [];
     console.log('testing issue solved');
     promises.push(this.getVocherEditTime(vchData['y_voucherid']));
-    promises.push(this.getDataFuelFillingsEdit(vchData['y_vehicle_id'],vchData['y_refid'],vchData['y_voucherid']));
+    promises.push(this.getDataFuelFillingsEdit(vchData['y_vehicle_id'], vchData['y_refid'], vchData['y_voucherid']));
 
     Promise.all(promises).then(result => {
-    this.common.params = {
-      vehId: vchData['y_vehicle_id'],
-      lastFilling: this.ledgerRegister.startdate,
-      currentFilling: this.ledgerRegister.enddate,
-      fuelstationid: vchData['y_refid'],
-      fuelData:this.fuelFilings,
-      voucherId:vchData['y_voucherid'],
-      voucherData:this.VoucherEditTime,
-      //vehname:this.trips[0].y_vehicle_name
-    };
+      this.common.params = {
+        vehId: vchData['y_vehicle_id'],
+        lastFilling: this.ledgerRegister.startdate,
+        currentFilling: this.ledgerRegister.enddate,
+        fuelstationid: vchData['y_refid'],
+        fuelData: this.fuelFilings,
+        voucherId: vchData['y_voucherid'],
+        voucherData: this.VoucherEditTime,
+        //vehname:this.trips[0].y_vehicle_name
+      };
 
-    const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-       console.log('Data return: ', data);
-      if (data.success) {
-     //   this.getDayBook();
-      }
-    });
-  }).catch(err => {
-    console.log(err);
-    this.common.showError('There is some technical error occured. Please Try Again!');
-  })
-  }
-  getDataFuelFillingsEdit(vehcleID,fuelStationId,vchrID) {
-    return new Promise((resolve, reject) => {
-    const params = {
-      vehId: vehcleID,
-      lastFilling: this.ledgerRegister.startdate,
-      currentFilling:this.ledgerRegister.enddate,
-      fuelstationid: fuelStationId,
-      voucherId:vchrID
-    };
-    this.common.loading++;
-    this.api.post('Fuel/getFeulfillings', params)
-      .subscribe(res => {
-      //  console.log('fuel data', res['data']);
-        this.common.loading--;
-        if(res['data'].length){
-        this.fuelFilings = res['data'];
-        resolve();
-        }else {
-          this.common.showError('please Select Correct date');
+      const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        console.log('Data return: ', data);
+        if (data.success) {
+          //   this.getDayBook();
         }
-        // this.getHeads();
-      }, err => {
-        console.log(err);
-        this.common.loading--;
-        this.common.showError();
-        reject();
       });
+    }).catch(err => {
+      console.log(err);
+      this.common.showError('There is some technical error occured. Please Try Again!');
     })
-   
   }
-  
+  getDataFuelFillingsEdit(vehcleID, fuelStationId, vchrID) {
+    return new Promise((resolve, reject) => {
+      const params = {
+        vehId: vehcleID,
+        lastFilling: this.ledgerRegister.startdate,
+        currentFilling: this.ledgerRegister.enddate,
+        fuelstationid: fuelStationId,
+        voucherId: vchrID
+      };
+      this.common.loading++;
+      this.api.post('Fuel/getFeulfillings', params)
+        .subscribe(res => {
+          //  console.log('fuel data', res['data']);
+          this.common.loading--;
+          if (res['data'].length) {
+            this.fuelFilings = res['data'];
+            resolve();
+          } else {
+            this.common.showError('please Select Correct date');
+          }
+          // this.getHeads();
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+          reject();
+        });
+    })
+
+  }
+
 
   openConsignmentVoucherEdit(voucherData) {
     const params = {
@@ -976,23 +978,23 @@ this.common.currentPage = 'Ledger Register';
     })
   }
 
-  addvance(){
-    this.common.params = { 'isamount':this.ledgerRegister.isamount,'remarks':this.ledgerRegister.remarks,'vouchercustcode':this.ledgerRegister.vouchercustcode,'vouchercode':this.ledgerRegister.vouchercode,'frmamount':this.ledgerRegister.frmamount,'toamount':this.ledgerRegister.toamount };
+  addvance() {
+    this.common.params = { 'isamount': this.ledgerRegister.isamount, 'remarks': this.ledgerRegister.remarks, 'vouchercustcode': this.ledgerRegister.vouchercustcode, 'vouchercode': this.ledgerRegister.vouchercode, 'frmamount': this.ledgerRegister.frmamount, 'toamount': this.ledgerRegister.toamount };
     const activeModal = this.modalService.open(AdvanceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-       console.log('Data: ', data);
+      console.log('Data: ', data);
       if (data.response) {
-        this.ledgerRegister.isamount=data.ledger.isamount;
-        this.ledgerRegister.remarks=data.ledger.remarks;
-        this.ledgerRegister.vouchercustcode=data.ledger.vouchercustcode;
-        this.ledgerRegister.vouchercode=data.ledger.vouchercode;
-        this.ledgerRegister.frmamount=data.ledger.frmamount;
-        this.ledgerRegister.toamount=data.ledger.toamount;
+        this.ledgerRegister.isamount = data.ledger.isamount;
+        this.ledgerRegister.remarks = data.ledger.remarks;
+        this.ledgerRegister.vouchercustcode = data.ledger.vouchercustcode;
+        this.ledgerRegister.vouchercode = data.ledger.vouchercode;
+        this.ledgerRegister.frmamount = data.ledger.frmamount;
+        this.ledgerRegister.toamount = data.ledger.toamount;
 
 
-        if(data.ledger.toamount !=0 || data.ledger.frmamount !=0 ||data.ledger.vouchercode !='' ||data.ledger.vouchercustcode !='' ||data.ledger.remarks !='' ||data.ledger.isamount !=0){
+        if (data.ledger.toamount != 0 || data.ledger.frmamount != 0 || data.ledger.vouchercode != '' || data.ledger.vouchercustcode != '' || data.ledger.remarks != '' || data.ledger.isamount != 0) {
           this.flag = 1;
-        }else{
+        } else {
           this.flag = 0;
         }
       }
@@ -1101,6 +1103,6 @@ this.common.currentPage = 'Ledger Register';
     return json;
   }
 
-  
+
 }
 
