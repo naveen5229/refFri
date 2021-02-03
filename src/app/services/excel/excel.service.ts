@@ -51,17 +51,54 @@ export class ExcelService {
     let workbook = new Workbook();
     let worksheet = workbook.addWorksheet(filename);
 
-    let titleRow = worksheet.getCell('A1');
+    let firstRow = worksheet.getCell('A1');
+    let secondRow = worksheet.getCell('A2');
+    let thirdRow = worksheet.getCell('A3');
+    let fourthRow = worksheet.getCell('A4');
 
-    titleRow.value = title +"    " +"Name : "+headerDetail[2]['name']+"    "+"Start Date : "+headerDetail[0]['sDate'] +"    "+"End Date : "+headerDetail[1]['eDate'];;
-    titleRow.font = {
+    firstRow.value = "Report Name :"+" "+title ;
+    firstRow.font = {
       name: 'Calibri',
       size: 16,
       bold: true,
-      color: { argb: '0085A3' }
+      color: { argb: '000000' }
     }
 
-    worksheet.addRow([]);
+    secondRow.value = "Customer Name: "+headerDetail[2]['name'];
+    secondRow.font = {
+      name: 'Calibri',
+      size: 16,
+      bold: true,
+      color: { argb: '000000' }
+    }
+
+    thirdRow.value = "Start Date : "+headerDetail[0]['sDate'];
+    thirdRow.font = {
+      name: 'Calibri',
+      size: 16,
+      bold: true,
+      color: { argb: '000000' }
+    }
+
+    fourthRow.value = "End Date : "+headerDetail[1]['eDate'];
+    fourthRow.font = {
+      name: 'Calibri',
+      size: 16,
+      bold: true,
+      color: { argb: '000000' }
+    }
+
+    // let titleRow1 = worksheet.getCell('A2');
+
+    // titleRow1.value = "Start Date : "+headerDetail[0]['sDate'] +"    "+"End Date : "+headerDetail[1]['eDate'];;
+    // titleRow1.font = {
+    //   name: 'Calibri',
+    //   size: 16,
+    //   bold: true,
+    //   color: { argb: '0085A3' }
+    // }
+
+    // worksheet.addRow([]);
 
     this.jrxExcelHeader(worksheet, headers);
     this.jrxExcelData(worksheet, json, headers);
