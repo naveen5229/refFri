@@ -33,6 +33,7 @@ export class AddTripComponent implements OnInit {
   invoiceNo: string;
   endLocationType = 'site';
   startLocationType = 'site';
+  regno: string;
   dis_all = 's';
   vehicleTrip = {
     endLat: null,
@@ -54,7 +55,7 @@ export class AddTripComponent implements OnInit {
     siteId: null,
     type: 1,
     radius: 200,
-    time: new Date()
+    time: null
   }]
   lr = {
     //branch:"Jaipur",
@@ -132,7 +133,7 @@ export class AddTripComponent implements OnInit {
       siteId: [''],
       type: ['site'],
       radius: [''],
-      time: [new Date()]
+      time: ['']
     })
   }
 
@@ -276,6 +277,7 @@ export class AddTripComponent implements OnInit {
       invoiceNo: this.invoiceNo,
       consignorId: this.lr.consignorId,
       consigneeId: this.lr.consigneeId,
+      regno: this.regno
 
     }
     console.log("params", params);
@@ -294,6 +296,8 @@ export class AddTripComponent implements OnInit {
 
   getViaPointsParams() {
     let items = this.registerForm.get('viaPoints') as FormArray;
+    console.log("items params", items.controls);
+    
     let data = [];
     for (let i = 0; i < items.controls.length; i++) {
       let formBuilder = items.controls[i];
@@ -305,7 +309,7 @@ export class AddTripComponent implements OnInit {
         siteId: formBuilder.get('siteId').value,
         type: formBuilder.get('type').value,
         radius: formBuilder.get('radius').value,
-        time: this.common.dateFormatter(formBuilder.get('time').value) 
+        time: formBuilder.get('time').value == '' ? null : this.common.dateFormatter(formBuilder.get('time').value) 
       })
     }
     return data;
@@ -314,6 +318,7 @@ export class AddTripComponent implements OnInit {
   getvehicleData(vehicle) {
     console.log("vehicle", vehicle);
     this.VehicleId = vehicle.id;
+    this.regno = vehicle.regno;
   }
 
   getRoutes() {

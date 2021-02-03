@@ -135,10 +135,12 @@
           </div>
           <div style="margin-left:15px">
             <label>
-              <input type="radio" formControlName="endLocationType" value="site" name="endLocationType"> Site
+              <input type="radio" formControlName="endLocationType" [(ngModel)]="endLocationType"
+              [ngModelOptions]="{standalone: true}" value="site" name="endLocationType"> Site
             </label>
             <label class="radio2">
-              <input type="radio" formControlName="endLocationType" value="city" name="endLocationType"> City
+              <input type="radio" formControlName="endLocationType" [(ngModel)]="endLocationType"
+              [ngModelOptions]="{standalone: true}" value="city" name="endLocationType"> City
             </label>
           </div>
         </div>
@@ -268,10 +270,10 @@
             </div>
             
             <div class="row" style="margin-top:5px">
-              <div class="col-md-4 pr-0">
+              <div class="row ml-3 mt-2">
                 <label> Time </label>
               </div>
-              <div class="col-md-8" style="margin-top:5px">
+              <div class="row ml-3" style="margin-top:5px">
                 <uj-date-time-picker (onChanged)="setViaPointsTime($event, viaPoint)"
                   [dateTimeValue]="viaPoint.controls.time.value" [isTime]='true'>
                 </uj-date-time-picker>
