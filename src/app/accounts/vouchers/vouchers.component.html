@@ -2,7 +2,7 @@
   <!-- <nb-card-header>
   <h4 class="modal-title"> Add Voucher ({{this.voucherName}})</h4>
 </nb-card-header> -->
-  <nb-card-body >
+  <nb-card-body>
     <div class="row">
       <div class="col-9 pl-0  pr-0">
         <div class="row">
@@ -54,7 +54,7 @@
                       <span>{{detail.amount}}</span>
                     </div>
                     <span *ngIf="ledgerbalance[i]"><i>Cur Bal: </i>
-                    {{ ledgerbalance[i] }}</span>
+                      {{ ledgerbalance[i] }}</span>
                   </div>
                 </td>
                 <td>
@@ -67,8 +67,7 @@
                     {{findBalance(i)}})</span> -->
                 </td>
                 <td>
-                  <button (click)="deleterow(i)" class="btn btn-danger"><i
-                      class="fa fa-trash"></i></button>
+                  <button (click)="deleterow(i)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                 </td>
                 <!-- <td *ngIf="i == 0">
             <button class="plustransparent" (click)="addAmountDetails()"> <i class="fa fa-plus text-primary"
@@ -111,19 +110,24 @@
         <div class="row">
           <div class="col text-right">
             <input type="checkbox" name="print" id="print" [(ngModel)]="voucher.print"> Print
-            <span *ngIf="mannual"><input type="checkbox" name="mannual" id="mannual" [(ngModel)]="voucher.ismanual"> Is Mannual Approval</span>
+            <span *ngIf="mannual"><input type="checkbox" name="mannual" id="mannual" [(ngModel)]="voucher.ismanual"> Is
+              Mannual Approval</span>
             <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
               style="cursor: pointer;">Submit
             </button>
           </div>
         </div>
       </div>
-      <div class="col-3 pl-0 pr-0"> 
+      <div class="col-3 pl-0 pr-0">
         <div class="ledger-container" id="ledger-container">
-          <div *lazyFor="let ledger of getActiveLedgerType(ledgers); let i = index;" class="ledger-option"
+          <!-- <div *ngFor="let ledger of getActiveLedgerType(ledgers); let i = index;" class="ledger-option"
             [ngClass]="activeLedgerIndex == i ? 'active-ledger' : ''" (click)='selectLedger(ledger)'>
             <span>{{ledger.y_ledger_name}}</span>
-          </div>
+          </div> -->
+
+          <auto-suggetion-in-side *ngIf="lastActiveId.includes('ledger-')"
+            [data]="ledgers[voucher.amountDetails[lastActiveId.split('-')[1]].transactionType]"
+            [targetId]="lastActiveId" display="y_ledger_name" (select)="selectLedger($event)"></auto-suggetion-in-side>
         </div>
       </div>
     </div>

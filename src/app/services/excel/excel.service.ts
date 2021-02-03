@@ -46,32 +46,26 @@ export class ExcelService {
 
 
 
-  jrxExcel(title:string,headerDetail:any[], headers: any[], json: any[], filename: string): void {
+  jrxExcel(title:string,headerDetail:any[], headers: any[], json: any[], filename: string, autoWidth = true): void {
     console.log("HeaderDetails:",headerDetail);
     let workbook = new Workbook();
     let worksheet = workbook.addWorksheet(filename);
 
-    // worksheet.mergeCells('A1', 'D1');
     let titleRow = worksheet.getCell('A1');
 
     titleRow.value = title +"    " +"Name : "+headerDetail[2]['name']+"    "+"Start Date : "+headerDetail[0]['sDate'] +"    "+"End Date : "+headerDetail[1]['eDate'];;
-    // titleRow.font = { name: 'Comic Sans MS', family: 4, size: 16, underline: 'double', bold: true };
     titleRow.font = {
       name: 'Calibri',
       size: 16,
-      // underline: 'single',
       bold: true,
       color: { argb: '0085A3' }
     }
 
     worksheet.addRow([]);
-    worksheet.addRow([]);
-    worksheet.addRow([]);
-    // titleRow.alignment = { vertical: 'middle', horizontal: 'left' }
 
     this.jrxExcelHeader(worksheet, headers);
     this.jrxExcelData(worksheet, json, headers);
-    this.jrxExcelCellAutoWidth(worksheet);
+    autoWidth && this.jrxExcelCellAutoWidth(worksheet);
 
     //Generate Excel File with given name
     workbook.xlsx.writeBuffer().then((data) => {

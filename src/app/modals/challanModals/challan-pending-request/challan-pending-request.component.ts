@@ -105,7 +105,5 @@ ngOnInit() {
         this.challanPayRequest();  
       }
     });
-
-
   }
 }
