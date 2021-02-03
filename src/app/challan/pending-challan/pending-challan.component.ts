@@ -279,7 +279,7 @@ ngOnInit() {
         };
       });
   
-      this.excelService.jrxExcel("pending Challan",headerDetails,headersArray, json, 'Pending Challan', false);
+      this.excelService.jrxExcel("Pending Challan",headerDetails,headersArray, json, 'Pending Challan', false);
     }
 
 }

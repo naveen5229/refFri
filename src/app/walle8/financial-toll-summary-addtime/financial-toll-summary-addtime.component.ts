@@ -204,8 +204,8 @@ ngOnInit() {
     doc.text(30, 53, 'Support: 8081604455');
     doc.text(30, 60, 'Website: www.walle8.com');
 
-    let image = this.getImgTagToBase64('logo');
-    doc.addImage(image, 'PNG', 550, 15, 40, 40);
+    // let image = this.getImgTagToBase64('logo');
+    // doc.addImage(image, 'PNG', 550, 15, 40, 40);
 
     return doc;
   }
