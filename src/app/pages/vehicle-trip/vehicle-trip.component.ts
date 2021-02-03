@@ -298,6 +298,7 @@ ngOnInit() {
     this.common.params = { vehId: -1 };
     //console.log("open add trip maodal", this.common.params.vehId);
     const activeModal = this.modalService.open(AddTripComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' })
+    this.common.handleModalSize('class', 'modal-lg', '1000');
     activeModal.result.then(data => {
       this.getVehicleTrips();
 
