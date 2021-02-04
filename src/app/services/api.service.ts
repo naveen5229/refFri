@@ -11,15 +11,15 @@ import { encode } from 'punycode';
 })
 export class ApiService {
   /************************** PROD SERVER ********** */
-  // URL: string = 'https://elogist.in/booster_webservices/';
-  // UrlPrime: string = 'https://elogist.in/itrm_webservices/';
-  // UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
+  URL: string = 'https://elogist.in/booster_webservices/';
+  UrlPrime: string = 'https://elogist.in/itrm_webservices/';
+  UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
+  verifyHaltsUrl: string = 'http://elogist.in:8081/';
 
   /********************** DEV SERVER ***************** */
-  URL: string = 'https://dev.elogist.in/booster_webservices/';
-  UrlPrime: string = 'https://dev.elogist.in/itrm_webservices/';
-  UrlTranstruckNew: string = 'http://dev.elogist.in/transtrucknew/';
-  verifyHaltsUrl: string = 'http://elogist.in:8081/';
+  // URL: string = 'https://dev.elogist.in/booster_webservices/';
+  // UrlPrime: string = 'https://dev.elogist.in/itrm_webservices/';
+  // UrlTranstruckNew: string = 'http://dev.elogist.in/transtrucknew/';
 
   /********************* Common ***************** */
   URL2 = 'http://elogist.in/transtruck/';

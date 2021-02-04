@@ -13,26 +13,28 @@ import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
   styleUrls: ['./tmg-documents.component.scss']
 })
 export class TmgDocumentsComponent implements OnInit {
-currentStatus = [];
+  currentStatus = [];
   constructor(public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal) {
-    this.getCurrentStatus();
+    setTimeout(() => this.getCurrentStatus());
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() { }
+  ngOnInit() {
+  }
+
+  ngAfterViewInit() {
   }
 
   refresh() {
     this.getCurrentStatus();
-  
   }
 
-  getCurrentStatus(){
+  getCurrentStatus() {
     this.currentStatus = [];
-    ++this.common.loading;
+    this.common.loading++;
     let params = { totalrecord: 3 };
     this.api.post('Tmgreport/GetDocsDetails', params)
       .subscribe(res => {
@@ -44,18 +46,18 @@ ngOnInit() {
         console.log('Err:', err);
       });
   }
-  getDetials(url, params, value = 0,type='days') {
+  getDetials(url, params, value = 0, type = 'days') {
     let dataparams = {
       view: {
         api: url,
         param: params,
         type: 'post'
       },
-  
+
       title: 'Details'
     }
     if (value) {
-      let startDate = type == 'months'? new Date(new Date().setMonth(new Date().getMonth() - value)): new Date(new Date().setDate(new Date().getDate() - value));
+      let startDate = type == 'months' ? new Date(new Date().setMonth(new Date().getMonth() - value)) : new Date(new Date().setDate(new Date().getDate() - value));
       let endDate = new Date();
       dataparams.view.param['fromdate'] = this.common.dateFormatter(startDate);
       dataparams.view.param['todate'] = this.common.dateFormatter(endDate);
