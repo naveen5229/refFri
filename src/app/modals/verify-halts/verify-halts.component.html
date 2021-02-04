@@ -1,0 +1,70 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Verify Halts</h5>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <form class="" id="verfiyHalts" name="verfiyHalts">
+            <div class="col-8">
+                <div class="row" style="margin-top:5px">
+                    <div class="col-md-4">
+                      <label> Vehicle</label>
+                    </div>
+                    <div class="col-md-8" style="margin-top:5px">
+                      <div class="form-group mb-0">
+                        <auto-suggestion  
+                          url="Vehicles/getVehicleListForFoid"  placeholder="Enter Vehicle Number"
+                          style="width:60%;"></auto-suggestion>
+                        <!-- <span class="text-danger alert-message"
+                          *ngIf="(registerFormControl.regNo.touched) && registerFormControl.regNo.errors?.required">
+                          * Vehicle No is required
+                        </span> -->
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" style="margin-top:5px">
+                    <div class="col-md-4 pr-0">
+                      <label> Start Time </label>
+                    </div>
+                    <div class="col-md-8" style="margin-top:5px">
+                      <uj-date-time-picker >
+                      </uj-date-time-picker>
+                    </div>
+                  </div>
+
+                  <div class="row" style="margin-top:5px">
+                    <div class="col-md-4 pr-0">
+                      <label> End Time </label>
+                    </div>
+                    <div class="col-md-8" style="margin-top:5px">
+                      <uj-date-time-picker >
+                      </uj-date-time-picker>
+                    </div>
+                  </div>
+
+                  <button class="btn btn-primary" type="submit" (click)="getVerifyHaltsFilterData()" style="cursor:pointer;">Submit</button>
+            </div>
+        </form>
+    </div>
+    <div class="tableFixHead">
+        <table class="table table-bordered table-hover ">
+          <thead class="thead">
+            <tr>
+              <th>Vehicle Id</th>
+              <th>Id</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>abc</td>
+              <td>bcd</td>
+              <td>abcd</td>
+              <td>bchd</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+</div>

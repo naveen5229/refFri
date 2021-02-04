@@ -19,6 +19,7 @@ export class ApiService {
   URL: string = 'https://dev.elogist.in/booster_webservices/';
   UrlPrime: string = 'https://dev.elogist.in/itrm_webservices/';
   UrlTranstruckNew: string = 'http://dev.elogist.in/transtrucknew/';
+  verifyHaltsUrl: string = 'http://elogist.in:8081/';
 
   /********************* Common ***************** */
   URL2 = 'http://elogist.in/transtruck/';
@@ -111,6 +112,13 @@ export class ApiService {
 
     return this.http.get(this.URL + subURL, { headers: this.setHeaders() })
   }
+
+  verifyHaltsGet(subURL: string, params?: any) {
+    console.log("param data", params);
+
+    return this.http.get(this.verifyHaltsUrl + subURL + params, { headers: this.setHeaders() })
+  }
+
   getEncrypt(subURL: string, params?: any) {
     let url = subURL.split("?");
     let dataBase64 = null;

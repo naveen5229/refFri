@@ -10,6 +10,7 @@ import { ChangeVehicleStatusByCustomerComponent } from '../../modals/change-vehi
 import { UserService } from '../../services/user.service';
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+import { VerifyHaltsComponent } from '../../modals/verify-halts/verify-halts.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -60,6 +61,10 @@ ngOnInit() {
         console.error(err);
         this.common.showError();
       });
+  }
+
+  getHaltsDetails() {
+    const activeModal = this.modalService.open(VerifyHaltsComponent, { size: 'lg', container: 'nb-layout' });
   }
 
   getPendingStatusDetails() {

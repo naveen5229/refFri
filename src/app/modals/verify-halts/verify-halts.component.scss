@@ -1,0 +1,10 @@
+.tableFixHead {
+    overflow-y: auto;
+    height: calc(100vh - 225px);
+}
+
+.tableFixHead th {
+    position: sticky;
+    top: 0;
+    background: #37474F;
+}
