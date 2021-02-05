@@ -25,12 +25,14 @@ export class ApiService {
   /********************* Common ***************** */
   
   URLJava: string = 'http://13.126.162.170:7070/';
-
+  verifyHaltsUrl: string = 'https://elogist.in:8081/';
+  
   /********************** Local Server ************* */
   // URL: string= 'http://107.6.151.122:8081/airtel'
   // URL: string = 'http://localhost/booster_webservices/'; 
   //  UrlPrime:string='http://192.168.0.111/itrm_webservices/';
   // UrlTranstruckNew: string = 'http://192.168.1.101/webservices/';
+  // verifyHaltsUrl: string = 'http://192.168.0.166:8081/';
 
   constructor(private http: HttpClient,
     public router: Router,
@@ -113,6 +115,13 @@ export class ApiService {
 
     return this.http.get(this.URL + subURL, { headers: this.setHeaders() })
   }
+
+  verifyHaltsGet(subURL: string, params?: any) {
+    console.log("param data", params);
+
+    return this.http.get(this.verifyHaltsUrl + subURL + params, { headers: this.setHeaders() })
+  }
+
   getEncrypt(subURL: string, params?: any) {
     let url = subURL.split("?");
     let dataBase64 = null;

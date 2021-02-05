@@ -286,7 +286,7 @@ export class MapService {
         let latLng = this.getLatLngValue(markers[index]);
         let lat = latLng.lat;
         let lng = latLng.lng;
-        let title = markers[index]["title"] ? markers[index]["title"] : "Untitled";
+        let title = markers[index]["title"] ? markers[index]["title"] : "";
         let latlng = new google.maps.LatLng(lat, lng);
         let pinImage;
         //pin Image
