@@ -14,14 +14,16 @@ export class ApiService {
   // URL: string = 'https://elogist.in/booster_webservices/';
   // UrlPrime: string = 'https://elogist.in/itrm_webservices/';
   // UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
+  // URL2 = 'http://elogist.in/transtruck/';
 
   /********************** DEV SERVER ***************** */
   URL: string = 'https://dev.elogist.in/booster_webservices/';
   UrlPrime: string = 'https://dev.elogist.in/itrm_webservices/';
   UrlTranstruckNew: string = 'http://dev.elogist.in/transtrucknew/';
+  URL2 = 'http://dev.elogist.in/transtruck/';
 
   /********************* Common ***************** */
-  URL2 = 'http://elogist.in/transtruck/';
+  
   URLJava: string = 'http://13.126.162.170:7070/';
   verifyHaltsUrl: string = 'https://elogist.in:8081/';
   
