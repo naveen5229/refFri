@@ -64,7 +64,7 @@ ngOnInit() {
   }
 
   getHaltsDetails() {
-    const activeModal = this.modalService.open(VerifyHaltsComponent, { size: 'lg', container: 'nb-layout' });
+    const activeModal = this.modalService.open(VerifyHaltsComponent, { size: 'xl', container: 'nb-layout' });
   }
 
   getPendingStatusDetails() {

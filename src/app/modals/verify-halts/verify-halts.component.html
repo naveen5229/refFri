@@ -3,51 +3,30 @@
 </div>
 
 <div class="modal-body">
-    <div class="row">
-        <form class="" id="verfiyHalts" name="verfiyHalts">
-            <div class="col-8">
-                <div class="row" style="margin-top:5px">
-                    <div class="col-md-4">
-                      <label> Vehicle</label>
-                    </div>
-                    <div class="col-md-8" style="margin-top:5px">
-                      <div class="form-group mb-0">
-                        <auto-suggestion  
-                          url="Vehicles/getVehicleListForFoid"  placeholder="Enter Vehicle Number"
-                          style="width:60%;"></auto-suggestion>
-                        <!-- <span class="text-danger alert-message"
-                          *ngIf="(registerFormControl.regNo.touched) && registerFormControl.regNo.errors?.required">
-                          * Vehicle No is required
-                        </span> -->
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row" style="margin-top:5px">
-                    <div class="col-md-4 pr-0">
-                      <label> Start Time </label>
-                    </div>
-                    <div class="col-md-8" style="margin-top:5px">
-                      <uj-date-time-picker >
-                      </uj-date-time-picker>
-                    </div>
-                  </div>
-
-                  <div class="row" style="margin-top:5px">
-                    <div class="col-md-4 pr-0">
-                      <label> End Time </label>
-                    </div>
-                    <div class="col-md-8" style="margin-top:5px">
-                      <uj-date-time-picker >
-                      </uj-date-time-picker>
-                    </div>
-                  </div>
-
-                  <button class="btn btn-primary" type="submit" (click)="getVerifyHaltsFilterData()" style="cursor:pointer;">Submit</button>
-            </div>
-        </form>
+  <div class="row mt-1">
+    <div class="col-md-4">
+      <label> Vehicle</label>
+      <auto-suggestion (onSelected)="getVehicleData($event)" display="regno" url="Vehicles/getVehicleListForFoid"
+        placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
     </div>
-    <div class="tableFixHead">
+    <div class="col-md-4 pr-0">
+      <label> Start Time </label>
+      <uj-date-time-picker (onChanged)="startTime = $event" [dateTimeValue]="filterVar.startTime" [isTime]='true'>
+      </uj-date-time-picker>
+    </div>
+    <div class="col-md-4 pr-0">
+      <label> End Time </label>
+      <uj-date-time-picker (onChanged)="endTime = $event" [dateTimeValue]="filterVar.endTime" [isTime]='true' [isStart]="false">
+      </uj-date-time-picker>
+    </div>
+
+    <div class="mt-2 mb-2 text-right"> <button class="btn btn-primary" type="submit" style="cursor:pointer;"
+        (click)="getVerifyHaltsFilterData()">Submit</button></div>
+
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <div class="tableFixHead table-responsive">
         <table class="table table-bordered table-hover ">
           <thead class="thead">
             <tr>
@@ -58,13 +37,37 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>abc</td>
-              <td>bcd</td>
-              <td>abcd</td>
-              <td>bchd</td>
+            <tr *ngFor="let haltExisting of haltExisting">
+              <td>{{haltExisting.vehicleId}}</td>
+              <td>{{haltExisting.siteId}}</td>
+              <td>{{haltExisting.startTime | date:'M/d/yyyy HH:mm'}}</td>
+              <td>{{haltExisting.endTime | date:'M/d/yyyy HH:mm'}}</td>
             </tr>
           </tbody>
         </table>
       </div>
+    </div>
+    <div class="col-6">
+      <div class="tableFixHead table-responsive">
+        <table class="table table-bordered table-hover ">
+          <thead class="thead">
+            <tr>
+              <th>Vehicle Id</th>
+              <th>Id</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let haltNew of haltNew">
+              <td>{{haltNew.vehicleId}}</td>
+              <td>{{haltNew.siteId}}</td>
+              <td>{{haltNew.startTime | date:'M/d/yyyy HH:mm'}}</td>
+              <td>{{haltNew.endTime | date:'M/d/yyyy HH:mm'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

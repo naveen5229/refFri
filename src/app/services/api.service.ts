@@ -14,7 +14,7 @@ export class ApiService {
   URL: string = 'https://elogist.in/booster_webservices/';
   UrlPrime: string = 'https://elogist.in/itrm_webservices/';
   UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
-  verifyHaltsUrl: string = 'http://elogist.in:8081/';
+  verifyHaltsUrl: string = 'http://192.168.0.166:8081/';
 
   /********************** DEV SERVER ***************** */
   // URL: string = 'https://dev.elogist.in/booster_webservices/';
