@@ -83,6 +83,7 @@ import { ChangeHaltComponent } from './modals/change-halt/change-halt.component'
 import { UpdateTicketPropertiesComponent } from './modals/update-ticket-properties/update-ticket-properties.component';
 import { EditLorryDetailsComponent } from './modals/edit-lorry-details/edit-lorry-details.component';
 import { AddTripComponent } from './modals/add-trip/add-trip.component';
+import { VerifyHaltsComponent } from './modals/verify-halts/verify-halts.component';
 import { ManualHaltComponent } from './modals/manual-halt/manual-halt.component';
 import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
@@ -567,7 +568,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   TollpaymentmanagementComponent,
   AddmissingtollComponent,
   TicketFormFieldComponent,
-  FormDataTableComponent
+  FormDataTableComponent,
+  VerifyHaltsComponent
 ];
 
 @NgModule({
