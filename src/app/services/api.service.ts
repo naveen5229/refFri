@@ -9,21 +9,21 @@ import { AccountService } from './account.service';
 })
 export class ApiService {
   /************************** PROD SERVER ********** */
-  URL: string = 'https://elogist.in/booster_webservices/';
-  UrlPrime: string = 'https://elogist.in/itrm_webservices/';
-  UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
-  URL2 = 'http://elogist.in/transtruck/';
+  // URL: string = 'https://elogist.in/booster_webservices/';
+  // UrlPrime: string = 'https://elogist.in/itrm_webservices/';
+  // UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
+  // URL2 = 'http://elogist.in/transtruck/';
 
   /********************** DEV SERVER ***************** */
-  // URL: string = 'https://dev.elogist.in/booster_webservices/';
-  // UrlPrime: string = 'https://dev.elogist.in/itrm_webservices/';
-  // UrlTranstruckNew: string = 'http://dev.elogist.in/transtrucknew/';
-  // URL2 = 'http://dev.elogist.in/transtruck/';
+  URL: string = 'https://dev.elogist.in/booster_webservices/';
+  UrlPrime: string = 'https://dev.elogist.in/itrm_webservices/';
+  UrlTranstruckNew: string = 'http://dev.elogist.in/transtrucknew/';
+  URL2 = 'http://dev.elogist.in/transtruck/';
 
   /********************* Common ***************** */
   
   URLJava: string = 'http://13.126.162.170:7070/';
-  verifyHaltsUrl: string = 'https://elogist.in:8081/';
+  verifyHaltsUrl: string = 'http://elogist.in:8081/';
   
   /********************** Local Server ************* */
   // URL: string= 'http://107.6.151.122:8081/airtel'
