@@ -80,13 +80,13 @@
             <label>Start Loc type</label>
           </div>
           <div style="margin-left:15px">
-            <label>
-              <input type="radio" formControlName="startLocationType" [(ngModel)]="startLocationType"
-                [ngModelOptions]="{standalone: true}" value="site" name="startLocationType"> Site
-            </label>
             <label class="radio2">
               <input type="radio" formControlName="startLocationType" [ngModelOptions]="{standalone: true}"
                 [(ngModel)]="startLocationType" value="city" name="startLocationType"> City
+            </label>
+            <label>
+              <input type="radio" formControlName="startLocationType" [(ngModel)]="startLocationType"
+                [ngModelOptions]="{standalone: true}" value="site" name="startLocationType"> Site
             </label>
           </div>
         </div>
@@ -134,13 +134,13 @@
             <label>Dest Loc type</label>
           </div>
           <div style="margin-left:15px">
-            <label>
-              <input type="radio" formControlName="endLocationType" [(ngModel)]="endLocationType"
-              [ngModelOptions]="{standalone: true}" value="site" name="endLocationType"> Site
-            </label>
             <label class="radio2">
               <input type="radio" formControlName="endLocationType" [(ngModel)]="endLocationType"
               [ngModelOptions]="{standalone: true}" value="city" name="endLocationType"> City
+            </label>
+            <label>
+              <input type="radio" formControlName="endLocationType" [(ngModel)]="endLocationType"
+              [ngModelOptions]="{standalone: true}" value="site" name="endLocationType"> Site
             </label>
           </div>
         </div>
