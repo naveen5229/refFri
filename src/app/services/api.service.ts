@@ -3,8 +3,6 @@ import { UserService } from './user.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AccountService } from './account.service';
-import { encode } from 'punycode';
-// import { CommonService } from '../services/common.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +23,7 @@ export class ApiService {
   /********************* Common ***************** */
   
   URLJava: string = 'http://13.126.162.170:7070/';
-  verifyHaltsUrl: string = 'https://elogist.in:8081/';
+  verifyHaltsUrl: string = 'http://elogist.in:8081/';
   
   /********************** Local Server ************* */
   // URL: string= 'http://107.6.151.122:8081/airtel'

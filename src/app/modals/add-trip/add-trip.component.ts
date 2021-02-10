@@ -5,9 +5,7 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
-import { ReminderComponent } from '../../modals/reminder/reminder.component';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
-import { IframeModalComponent } from '../iframe-modal/iframe-modal.component';
 import { MapService } from '../../services/map.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AddDriverCompleteComponent } from '../DriverModals/add-driver-complete/add-driver-complete.component';
@@ -15,7 +13,7 @@ import { AddDriverCompleteComponent } from '../DriverModals/add-driver-complete/
 declare var google: any;
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { AddConsigneeComponent } from '../LRModals/add-consignee/add-consignee.component';
+import { BasicPartyDetailsComponent } from '../basic-party-details/basic-party-details.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -80,7 +78,8 @@ export class AddTripComponent implements OnInit {
     remark: null,
     date: null,
     amount: 0,
-    gstPer: 0
+    gstPer: 0,
+    lrType: 1
   };
 
   routes = [];
@@ -176,12 +175,14 @@ export class AddTripComponent implements OnInit {
     google.maps.event.addListener(autocomplete, 'place_changed', this.updateLocation.bind(this, elementId, autocomplete));
   }
 
-  addConsignee() {
-    console.log("open material modal")
-    const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
+  addAssociation(assType) {
+    console.log("open Association modal")
+    this.common.params = {
+      assType: assType
+    };
+    const activeModal = this.modalService.open(BasicPartyDetailsComponent, { size: 'lg', container: 'nb-layout',windowClass: 'add-consige-veiw'});
     activeModal.result.then(data => {
       console.log('Data:', data);
-
     });
   }
 
@@ -198,7 +199,7 @@ export class AddTripComponent implements OnInit {
     this.lr.consignorName = consignor.name;
     this.lr.consignorId = consignor.id;
   }
-
+  
   updateLocation(elementId, autocomplete) {
     console.log('tets');
     let place = autocomplete.getPlace();
