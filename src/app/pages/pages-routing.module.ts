@@ -108,6 +108,7 @@ import { TmgAlertsComponent } from './tmg-alerts/tmg-alerts.component';
 import { GraphicalReportsComponent } from './graphical-reports/graphical-reports.component';
 import { OnSideImagesComponent } from '../driver/on-side-images/on-side-images.component';
 import { UlheatmapComponent } from './ulheatmap/ulheatmap.component';
+import { TicketsReportComponent } from './tickets-report/tickets-report.component';
 
 
 const routes: Routes = [{
@@ -180,6 +181,12 @@ const routes: Routes = [{
 
     path: 'tickets-all',
     component: TicketsAllComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+
+    path: 'tickets-report',
+    component: TicketsReportComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
   {
