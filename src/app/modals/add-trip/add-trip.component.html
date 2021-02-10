@@ -80,13 +80,13 @@
             <label>Start Loc type</label>
           </div>
           <div style="margin-left:15px">
-            <label>
-              <input type="radio" formControlName="startLocationType" [(ngModel)]="startLocationType"
-                [ngModelOptions]="{standalone: true}" value="site" name="startLocationType"> Site
-            </label>
             <label class="radio2">
               <input type="radio" formControlName="startLocationType" [ngModelOptions]="{standalone: true}"
                 [(ngModel)]="startLocationType" value="city" name="startLocationType"> City
+            </label>
+            <label>
+              <input type="radio" formControlName="startLocationType" [(ngModel)]="startLocationType"
+                [ngModelOptions]="{standalone: true}" value="site" name="startLocationType"> Site
             </label>
           </div>
         </div>
@@ -134,13 +134,13 @@
             <label>Dest Loc type</label>
           </div>
           <div style="margin-left:15px">
-            <label>
-              <input type="radio" formControlName="endLocationType" [(ngModel)]="endLocationType"
-              [ngModelOptions]="{standalone: true}" value="site" name="endLocationType"> Site
-            </label>
             <label class="radio2">
               <input type="radio" formControlName="endLocationType" [(ngModel)]="endLocationType"
               [ngModelOptions]="{standalone: true}" value="city" name="endLocationType"> City
+            </label>
+            <label>
+              <input type="radio" formControlName="endLocationType" [(ngModel)]="endLocationType"
+              [ngModelOptions]="{standalone: true}" value="site" name="endLocationType"> Site
             </label>
           </div>
         </div>
@@ -208,11 +208,11 @@
           </div>
           <div class="col-md-6" style="margin-top:5px">
             <auto-suggestion class="auto-suggest" (onSelected)="getConsigneeDetail($event)"
-              url="Suggestion/GetCompanies2?type=ALL" display="name" placeholder="Consignee">
+              url="Suggestion/GetCompanies2?type=CNEE&lrType={{lr.lrType}}" display="name" placeholder="Consignee">
             </auto-suggestion>
           </div>
           <div>
-            <i class="fa fa-plus  add col-md-2" (click)="addConsignee()"></i>
+            <i class="fa fa-plus  add col-md-2" (click)="addAssociation(-44)"></i>
           </div>
         </div>
 
@@ -221,12 +221,12 @@
             <label> Consignor </label>
           </div>
           <div class="col-md-6" style="margin-top:5px">
-            <auto-suggestion (onSelected)="getConsignorDetail($event)" url="Suggestion/GetCompanies2?type=ALL"
+            <auto-suggestion (onSelected)="getConsignorDetail($event)" url="Suggestion/GetCompanies2?type=FRCUST"
               display="name" placeholder="Consignor">
             </auto-suggestion>
           </div>
           <div>
-            <i class="fa fa-plus  add col-md-2" (click)="addConsignee()"></i>
+            <i class="fa fa-plus  add col-md-2" (click)="addAssociation(-41)"></i>
           </div>
         </div>
 
