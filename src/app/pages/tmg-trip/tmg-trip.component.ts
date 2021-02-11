@@ -479,6 +479,15 @@ ngOnInit() {
       xaxis.push(tlt['Period']);
       yaxis.push(tlt['Loading Duration(hrs)']);
     });
+
+    yaxis = yaxis.map(item => {
+      item = item * 60;
+      return item
+    })
+
+    console.log('trip loading time : ', this.tripLoadindTime);
+    console.log('y axis data:', yaxis);
+    
     let yaxisObj = this.common.chartScaleLabelAndGrid(yaxis);
     console.log("handleChart1", xaxis, yaxis);
     this.chart1.type = 'line'
@@ -486,7 +495,7 @@ ngOnInit() {
       labels: xaxis,
       datasets: [
         {
-          label: 'Time (in Hrs.)',
+          label: 'Time (in Min)',
           data: yaxisObj.scaleData,
           borderColor: '#3d6fc9',
           backgroundColor: '#3d6fc9',
@@ -517,7 +526,7 @@ ngOnInit() {
           yAxes: [{
             scaleLabel: {
               display: true,
-              labelString: 'Time (in Hrs.)' + yaxisObj.yaxisLabel
+              labelString: 'Time (in Min)' + yaxisObj.yaxisLabel
             },
             ticks: { stepSize: yaxisObj.gridSize },//beginAtZero: true,min:0,
             suggestedMin: yaxisObj.minValue,
@@ -547,7 +556,6 @@ ngOnInit() {
       };
 
   }
-
 
   handleChart2() {
     let yaxis = [];
