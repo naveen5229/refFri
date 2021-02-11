@@ -270,7 +270,7 @@ ngOnInit() {
         labelString: 'Count of Challans'+this.yaxisObj1.yaxisLabel,
         fontSize: 16
       },
-      ticks: { stepSize: this.yaxisObj1.gridSize}, //beginAtZero: true,min:0,
+      ticks: { stepSize: (this.yaxisObj1.gridSize)- 1}, //beginAtZero: true,min:0,
       suggestedMin : this.yaxisObj1.minValue,
       type: 'linear',
       display: true,
@@ -284,7 +284,7 @@ ngOnInit() {
         labelString: 'Challan Amount '+this.yaxisObj2.yaxisLabel,
         fontSize: 16,
       },
-           ticks: { stepSize: this.yaxisObj2.gridSize}, //beginAtZero: true,min:0,
+           ticks: { stepSize: (this.yaxisObj2.gridSize) - 1}, //beginAtZero: true,min:0,
           suggestedMin : this.yaxisObj2.minValue,
           // max : 100
       type: 'linear',

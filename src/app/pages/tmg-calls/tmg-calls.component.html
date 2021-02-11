@@ -61,15 +61,15 @@
         </p>
           <table class="table">
             <thead class="thead">
-              <th>Executive Name</th>
+              <th>Driver Name</th>
               <th>Yesterday % </th>
               <th>Last 30 Days %</th>
             </thead>
             <tbody class="tbody">
               <tr *ngFor="let wdc of callsSupervisorWiseTopWorstDriverCalls">
-                <td>{{wdc['foadmin_name']}}</td>
-                <td>{{wdc['yesterday_per']}}</td>
-                <td>{{wdc['last30_days_per']}}</td>
+                <td>{{wdc['Driver']}}</td>
+                <td>{{wdc['Yesterday(%)']}}</td>
+                <td>{{wdc['Last 30 Days (%)']}}</td>
               </tr>
             </tbody>
           </table>
