@@ -26,7 +26,7 @@ import { AutoSuggestionComponent } from '../directives/auto-suggestion/auto-sugg
 import { DirectiveModule } from '../directives/directives.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime-ex';
 import { VehicleSearchComponent } from '../modals/vehicle-search/vehicle-search.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ImageProcessingComponent } from './image-processing/image-processing.component';
 import { RouteMapperComponent } from './route-mapper/route-mapper.component';
 import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
@@ -100,6 +100,7 @@ import { VehicleStatesComponent } from './vehicle-states/vehicle-states.componen
 import { GraphicalReportsComponent } from './graphical-reports/graphical-reports.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { UlheatmapComponent } from './ulheatmap/ulheatmap.component';
+import { TicketsReportComponent } from './tickets-report/tickets-report.component';
 
 const PAGES_COMPONENTS = [
   PagesComponent
@@ -123,6 +124,7 @@ const PAGES_COMPONENTS = [
     SharedModule,
     DriverModule,
     DragDropModule,
+    FormsModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -146,6 +148,8 @@ const PAGES_COMPONENTS = [
     UserCallSummaryComponent,
     PlacementsDashBoardComponent,
     TripStatusFeedbackComponent,
+    TicketsReportComponent,
+
     // UserActivityStatusComponent,
     PlacementDelayFaultsComponent,
     VehicleGpsDetailComponent,
