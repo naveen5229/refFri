@@ -82,7 +82,6 @@ export class ApiService {
       // console.log(body['foAdminId']);
       // console.log("foAdminId", body);
       console.log("Encrypted Params-->", body);
-
     }
 
     if (this.router.url.includes('accounts') && this.accountService.selected.branch) body['branch'] = this.accountService.selected.branch.id;
