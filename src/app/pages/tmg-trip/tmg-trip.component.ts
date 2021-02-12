@@ -480,11 +480,6 @@ ngOnInit() {
       yaxis.push(tlt['Loading Duration(hrs)']);
     });
 
-    yaxis = yaxis.map(item => {
-      item = item * 60;
-      return item
-    })
-
     console.log('trip loading time : ', this.tripLoadindTime);
     console.log('y axis data:', yaxis);
     
@@ -495,7 +490,7 @@ ngOnInit() {
       labels: xaxis,
       datasets: [
         {
-          label: 'Time (in Min)',
+          label: 'Time (in Hrs.)',
           data: yaxisObj.scaleData,
           borderColor: '#3d6fc9',
           backgroundColor: '#3d6fc9',
@@ -526,7 +521,7 @@ ngOnInit() {
           yAxes: [{
             scaleLabel: {
               display: true,
-              labelString: 'Time (in Min)' + yaxisObj.yaxisLabel
+              labelString: 'Time (in Hrs.)' + yaxisObj.yaxisLabel
             },
             ticks: { stepSize: yaxisObj.gridSize },//beginAtZero: true,min:0,
             suggestedMin: yaxisObj.minValue,
