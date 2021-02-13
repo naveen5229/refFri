@@ -19,7 +19,7 @@ import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 export class TripStatusFeedbackComponent implements OnInit {
   today = new Date();
   dateData=[];
-  tripStatusDate=null;
+  tripStatusDate=0;
   trips = [];
   allTrips = [];
   states = [];
