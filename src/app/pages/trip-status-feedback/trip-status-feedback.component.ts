@@ -17,6 +17,9 @@ import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 
 })
 export class TripStatusFeedbackComponent implements OnInit {
+  today = new Date();
+  dateData=[];
+  tripStatusDate=0;
   trips = [];
   allTrips = [];
   states = [];
@@ -28,8 +31,8 @@ export class TripStatusFeedbackComponent implements OnInit {
     limit: 50
   }
 
-  selected={
-    trip:false
+  selected = {
+    trip: false
   }
   constructor(public api: ApiService,
     public common: CommonService, private cdr: ChangeDetectorRef,
@@ -38,16 +41,27 @@ export class TripStatusFeedbackComponent implements OnInit {
     this.getTrips();
     this.getStates();
     this.common.refresh = this.refresh.bind(this);
+    // new Date(today.setDate(today.getDate() - 4)),
+    
+      this.dateData = [
+      { id: 0, name: 'Today' },
+      { id: 1, name: '-1 Days' },
+      { id: 2, name: '-2 Days' },
+      { id: 3, name: '-3 Days' },
+      { id: 4, name: '-4 Days' },
+      { id: 5, name: '-5 Days' },
+    ]
+    console.log("DateFormate:", this.dateData);
   }
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() { }
+  ngOnInit() {
   }
 
   refresh() {
     this.getTrips();
     this.getStates();
-    this.allSelected=false;
+    this.allSelected = false;
     this.trips = [];
     this.allTrips = [];
     this.states = [];
@@ -59,32 +73,32 @@ ngOnInit() {
       limit: 50
     }
 
-    this.selected={
-      trip:false
+    this.selected = {
+      trip: false
     }
   }
 
-  selectOneCheck(trip){
-    if(trip.selected){
+  selectOneCheck(trip) {
+    if (trip.selected) {
       this.showVerify = true;
     }
 
-    let firstSelected = this.trips.find((e)=>{
+    let firstSelected = this.trips.find((e) => {
       return e.selected;
     });
-    let firstDeselected = this.trips.find((e)=>{
+    let firstDeselected = this.trips.find((e) => {
       return !e.selected;
     })
-    if(!firstSelected){
+    if (!firstSelected) {
       this.showVerify = false;
     }
-    if(firstDeselected){
+    if (firstDeselected) {
       this.allSelected = false;
-    }else{
+    } else {
       this.allSelected = true;
     }
     // console.log("trip.selected",trip.selected);
-    
+
   }
 
   // tollPaymentManagement(){
@@ -95,10 +109,10 @@ ngOnInit() {
   //   });
   // }
 
-  selectAllCheck(){
-    if(this.allSelected){
+  selectAllCheck() {
+    if (this.allSelected) {
       this.showVerify = true;
-    }else{
+    } else {
       this.showVerify = false;
     }
     for (let index = 0; index < this.trips.length; index++) {
@@ -107,19 +121,19 @@ ngOnInit() {
     }
   }
 
-  verifyAll(){
+  verifyAll() {
     let promises = [];
     for (let i = 0; i < this.trips.length; i++) {
-        if(this.trips[i].selected){
-          let p = this.tripVerified(this.trips[i],'true',i,false);
-          if(p){
-            promises.push(p);
-          }
+      if (this.trips[i].selected) {
+        let p = this.tripVerified(this.trips[i], 'true', i, false);
+        if (p) {
+          promises.push(p);
         }
+      }
     }
-    console.log("Promises",promises);
-    
-    Promise.all(promises).then((values)=>{
+    console.log("Promises", promises);
+
+    Promise.all(promises).then((values) => {
       this.refresh();
     })
   }
@@ -145,8 +159,13 @@ ngOnInit() {
   }
 
   getTrips() {
+    console.log("TripStatusDate:",this.tripStatusDate);
     this.common.loading++;
-    let subscription = this.api.get('TripsOperation/tripDetailsForVerification')
+    let param='';
+    if(this.tripStatusDate>=1){
+      param=this.common.dateFormatternew(new Date(this.today.setDate(this.today.getDate() - this.tripStatusDate))).toString();
+    }
+    let subscription = this.api.get('TripsOperation/tripDetailsForVerification?date='+param)
       .subscribe(res => {
         this.common.loading--;
         this.allTrips = res['data'];
@@ -164,12 +183,12 @@ ngOnInit() {
       });
   }
 
-  tripVerified(trip, action, i,isTrimFirst = true) {
+  tripVerified(trip, action, i, isTrimFirst = true) {
     let promise = null;
     if (action == "true") {
-      promise = this.changeVerification(trip, action, i,isTrimFirst);
-    } else if ((action == 'false') && ((trip.status) || (trip.trips) )) {
-      promise = this.changeVerification(trip, action, i,isTrimFirst);
+      promise = this.changeVerification(trip, action, i, isTrimFirst);
+    } else if ((action == 'false') && ((trip.status) || (trip.trips))) {
+      promise = this.changeVerification(trip, action, i, isTrimFirst);
     } else {
       this.common.showError("One Input Field is Mandatory");
     }
@@ -177,7 +196,7 @@ ngOnInit() {
     return promise;
   }
 
-  changeVerification(trip, action, i?,isTrimFirst = true) {
+  changeVerification(trip, action, i?, isTrimFirst = true) {
     let params = {
       vehicleId: trip.r_vid,
       verifyFlag: action,
@@ -194,7 +213,7 @@ ngOnInit() {
     };
     console.log("params", params);
     // return;
-    if(isTrimFirst){
+    if (isTrimFirst) {
       let index = (i) + ((this.pages.active - 1) * this.pages.limit)
       this.allTrips.splice(index, 1);
       this.setData();
@@ -239,7 +258,7 @@ ngOnInit() {
   }
 
 
-  
+
 
 
   printPDF(tblEltId) {
