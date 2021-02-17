@@ -18,6 +18,7 @@ import { TemplatePreviewComponent } from '../../modals/template-preview/template
 import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
 import { AccountService } from '../../services/account.service';
 import { ServiceComponent } from '../../accounts/service/service.component';
+import * as localforage from 'localforage';
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 

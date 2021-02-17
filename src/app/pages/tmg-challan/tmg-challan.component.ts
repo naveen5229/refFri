@@ -115,7 +115,15 @@ ngOnInit() {
 
   getChallansdrivarcount(index) {
     this.challansdrivarcount = [];
-    let params = { totalrecord: 3 };
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 15));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord: 3 
+    };
+
+   
      this.showLoader(index);
     this.api.post('Tmgreport/GetChallansdrivarcount', params)
       .subscribe(res => {
