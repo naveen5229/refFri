@@ -46,32 +46,63 @@ export class ExcelService {
 
 
 
-  jrxExcel(title:string,headerDetail:any[], headers: any[], json: any[], filename: string): void {
+  jrxExcel(title:string,headerDetail:any[], headers: any[], json: any[], filename: string, autoWidth = true): void {
     console.log("HeaderDetails:",headerDetail);
     let workbook = new Workbook();
     let worksheet = workbook.addWorksheet(filename);
 
-    // worksheet.mergeCells('A1', 'D1');
-    let titleRow = worksheet.getCell('A1');
+    let firstRow = worksheet.getCell('A1');
+    let secondRow = worksheet.getCell('A2');
+    let thirdRow = worksheet.getCell('A3');
+    let fourthRow = worksheet.getCell('A4');
 
-    titleRow.value = title +"    " +"Name : "+headerDetail[2]['name']+"    "+"Start Date : "+headerDetail[0]['sDate'] +"    "+"End Date : "+headerDetail[1]['eDate'];;
-    // titleRow.font = { name: 'Comic Sans MS', family: 4, size: 16, underline: 'double', bold: true };
-    titleRow.font = {
+    firstRow.value = "Report Name :"+" "+title ;
+    firstRow.font = {
       name: 'Calibri',
       size: 16,
-      // underline: 'single',
       bold: true,
-      color: { argb: '0085A3' }
+      color: { argb: '000000' }
     }
 
-    worksheet.addRow([]);
-    worksheet.addRow([]);
-    worksheet.addRow([]);
-    // titleRow.alignment = { vertical: 'middle', horizontal: 'left' }
+    secondRow.value = "Customer Name: "+headerDetail[2]['name'];
+    secondRow.font = {
+      name: 'Calibri',
+      size: 16,
+      bold: true,
+      color: { argb: '000000' }
+    }
+
+    thirdRow.value = "Start Date : "+headerDetail[0]['sDate'];
+    thirdRow.font = {
+      name: 'Calibri',
+      size: 16,
+      bold: true,
+      color: { argb: '000000' }
+    }
+
+    fourthRow.value = "End Date : "+headerDetail[1]['eDate'];
+    fourthRow.font = {
+      name: 'Calibri',
+      size: 16,
+      bold: true,
+      color: { argb: '000000' }
+    }
+
+    // let titleRow1 = worksheet.getCell('A2');
+
+    // titleRow1.value = "Start Date : "+headerDetail[0]['sDate'] +"    "+"End Date : "+headerDetail[1]['eDate'];;
+    // titleRow1.font = {
+    //   name: 'Calibri',
+    //   size: 16,
+    //   bold: true,
+    //   color: { argb: '0085A3' }
+    // }
+
+    // worksheet.addRow([]);
 
     this.jrxExcelHeader(worksheet, headers);
     this.jrxExcelData(worksheet, json, headers);
-    this.jrxExcelCellAutoWidth(worksheet);
+    autoWidth && this.jrxExcelCellAutoWidth(worksheet);
 
     //Generate Excel File with given name
     workbook.xlsx.writeBuffer().then((data) => {

@@ -264,14 +264,17 @@ ngOnInit() {
       }
     }
 
+    console.log('this.yaxisObj1.minValue',this.yaxisObj1.minValue);
+    console.log('this.yaxisObj2.minValue',this.yaxisObj2.minValue);
+
     options.scales.yAxes.push({
       scaleLabel: {
         display: true,
         labelString: 'Count of Challans'+this.yaxisObj1.yaxisLabel,
         fontSize: 16
       },
-      ticks: { stepSize: this.yaxisObj1.gridSize}, //beginAtZero: true,min:0,
-      suggestedMin : this.yaxisObj1.minValue,
+      ticks: { stepSize: (this.yaxisObj1.gridSize), min: this.yaxisObj1.minValue - this.yaxisObj1.gridSize > 0 ? this.yaxisObj1.minValue - this.yaxisObj1.gridSize : 0 }, //beginAtZero: true,min:0,
+      // suggestedMin : this.yaxisObj1.minValue,
       type: 'linear',
       display: true,
       position: 'left',
@@ -284,7 +287,7 @@ ngOnInit() {
         labelString: 'Challan Amount '+this.yaxisObj2.yaxisLabel,
         fontSize: 16,
       },
-           ticks: { stepSize: this.yaxisObj2.gridSize}, //beginAtZero: true,min:0,
+           ticks: { stepSize: (this.yaxisObj2.gridSize) ,  beginAtZero: true}, //beginAtZero: true,min:0,
           suggestedMin : this.yaxisObj2.minValue,
           // max : 100
       type: 'linear',
@@ -330,7 +333,12 @@ ngOnInit() {
   }
 
   hideLoader(index) {
-    let outers = document.getElementsByClassName("outer");
-    outers[index].lastChild.remove();
+    try {
+      let outers = document.getElementsByClassName("outer");
+      let ele = outers[index].getElementsByClassName('loader')[0];
+      outers[index].removeChild(ele);
+    } catch (e) {
+      console.log('Exception', e);
+    }
   }
 }
