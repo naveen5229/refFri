@@ -44,6 +44,7 @@ export class TripStatusFeedbackLogsComponent implements OnInit {
     this.getTripLogs();
     this.common.refresh = this.refresh.bind(this);
 
+    
   }
 
   ngOnDestroy(){}
@@ -55,7 +56,6 @@ ngOnInit() {
   }
 
   getDate(type) {
-
     this.common.params = { ref_page: 'trip status feedback log' }
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {

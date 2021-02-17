@@ -3,8 +3,6 @@ import { UserService } from './user.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AccountService } from './account.service';
-import { encode } from 'punycode';
-// import { CommonService } from '../services/common.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,21 +12,25 @@ export class ApiService {
   // URL: string = 'https://elogist.in/booster_webservices/';
   // UrlPrime: string = 'https://elogist.in/itrm_webservices/';
   // UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
+  // URL2 = 'http://elogist.in/transtruck/';
 
   /********************** DEV SERVER ***************** */
-  //URL: string = 'https://dev.elogist.in/booster_webservices/';
+  URL: string = 'https://dev.elogist.in/booster_webservices/';
   UrlPrime: string = 'https://dev.elogist.in/itrm_webservices/';
   UrlTranstruckNew: string = 'http://dev.elogist.in/transtrucknew/';
+  URL2 = 'http://dev.elogist.in/transtruck/';
 
   /********************* Common ***************** */
-  URL2 = 'http://elogist.in/transtruck/';
+  
   URLJava: string = 'http://13.126.162.170:7070/';
-
+  verifyHaltsUrl: string = 'http://elogist.in:8081/';
+  
   /********************** Local Server ************* */
   // URL: string= 'http://107.6.151.122:8081/airtel'
-   URL: string = 'http://localhost/booster_webservices/'; 
-  //  UrlPrime:string='http://192.168.0.111/itrm_webservices/';
+  // URL: string = 'http://localhost/booster_webservices/'; 
+  // UrlPrime:string='http://192.168.0.111/itrm_webservices/';
   // UrlTranstruckNew: string = 'http://192.168.1.101/webservices/';
+  // verifyHaltsUrl: string = 'http://192.168.0.166:8081/';
 
   constructor(private http: HttpClient,
     public router: Router,
@@ -80,7 +82,6 @@ export class ApiService {
       // console.log(body['foAdminId']);
       // console.log("foAdminId", body);
       console.log("Encrypted Params-->", body);
-
     }
 
     if (this.router.url.includes('accounts') && this.accountService.selected.branch) body['branch'] = this.accountService.selected.branch.id;
@@ -111,6 +112,13 @@ export class ApiService {
 
     return this.http.get(this.URL + subURL, { headers: this.setHeaders() })
   }
+
+  verifyHaltsGet(subURL: string, params?: any) {
+    console.log("param data", params);
+
+    return this.http.get(this.verifyHaltsUrl + subURL + params, { headers: this.setHeaders() })
+  }
+
   getEncrypt(subURL: string, params?: any) {
     let url = subURL.split("?");
     let dataBase64 = null;

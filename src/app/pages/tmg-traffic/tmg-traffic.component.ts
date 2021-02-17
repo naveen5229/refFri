@@ -122,12 +122,12 @@ export class TmgTrafficComponent implements OnInit {
   getTrafficLongestLoadingSites(index) {
     this.trafficLongestLoadingSites = [];
     let params = { totalrecord: 3 };
-    this.showLoader(index);
+    // this.showLoader(index);
     this.api.post('Tmgreport/GetTrafficLongestLoadingSites', params)
       .subscribe(res => {
         console.log('trafficLongestLoadingSites:', res);
         this.trafficLongestLoadingSites = res['data'];
-        this.hideLoader(index);
+        // this.hideLoader(index);
       }, err => {
         this.hideLoader(index);
         console.log('Err:', err);
@@ -201,7 +201,7 @@ export class TmgTrafficComponent implements OnInit {
           {
             label: 'Zones',
             data: dt,
-            backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#39CCCC", "#01FF70", "#8B008B", "#FFD700", "#D2B48C"]
+            backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#39CCCC", "#01FF70", "#8B008B", "#FFD700", "#D2B48C","#A569BD","#F0B27A","#CD6155","#2E86C1","#95A5A6","#45B39D"]
           },
         ]
       };
@@ -258,7 +258,8 @@ export class TmgTrafficComponent implements OnInit {
   hideLoader(index) {
     try {
       let outers = document.getElementsByClassName("outer");
-      outers[index].lastChild.remove();
+      let ele = outers[index].getElementsByClassName('loader')[0];
+      outers[index].removeChild(ele);
     } catch (e) {
       console.log('Exception', e);
     }

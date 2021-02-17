@@ -198,6 +198,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         home: true,
       },
       {
+        title: 'Tickets Reports',
+        icon: 'fa-ticket-alt',
+        link: '/pages/tickets-report',
+        home: true,
+      },
+      {
         title: 'Supervisor View',
         icon: 'fa-ticket-alt',
         link: '/pages/tickets-kpi',

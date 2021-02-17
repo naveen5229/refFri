@@ -1,10 +1,16 @@
 <nb-card>
   <nb-card-header>
     <div class="row">
-      <div class="col-sm-8">
+      <div class="col-sm-6">
         <h5>Trip Status FeedBack</h5>
       </div>
-      <div class="col-sm-4" style="text-align:right">
+      <div class="col-sm-3">
+        <select name="tripStatusDate" class="form-control" (change)='getTrips()' [(ngModel)]="tripStatusDate">
+          <option *ngFor="let data of dateData" [value]="data.id">{{data.name}}</option>
+        </select>
+        <!-- <button class="btn btn-success"  (click)="">Submit</button> -->
+      </div>
+      <div class="col-sm-3" style="text-align:right">
         <span class="pdf-icon" title="PDF Export" (click)="printPDF('trip-feedback');" style="cursor: pointer;"><i
             class="fa fa-file-pdf"></i></span>
         <span class="exel-icon" title="CSV Export" (click)="printCsv('trip-feedback')"

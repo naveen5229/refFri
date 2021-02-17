@@ -39,3 +39,21 @@
       cursor: pointer;
   }
 }
+
+.form-group
+{
+position: relative;
+}
+
+.alert-message{
+  display: block;
+  margin: 5px 0;
+  margin-bottom: 0;
+
+}
+
+.tripform{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
