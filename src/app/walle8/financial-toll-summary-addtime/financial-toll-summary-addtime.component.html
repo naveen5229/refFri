@@ -142,6 +142,7 @@
         <table class="table table-bordered" id="tblData">
           <thead style="background-color:#E5F3F9;">
             <tr>
+              <th>#</th>
               <th>Vehicle</th>
               <th>Accounting Time</th>
               <th>Transaction Time</th>
@@ -154,7 +155,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let dt of data ">
+            <tr *ngFor="let dt of data ;let i = index">
+              <td>{{i+1}}</td>
               <td>{{dt.vehid}}</td>
               <td>{{dt.addtime}}</td>
               <td>{{dt.transtime}}</td>
