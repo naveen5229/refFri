@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, Pipe, PipeTransform } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -53,6 +53,7 @@ import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
     <div>
             <input type="text" class="form-control" name="search" [(ngModel)]="search" (click)="$event.stopPropagation()" (ngModelChange)="searchValues()" placeholder="Search ledger...">
         </div>
+        <cdk-virtual-scroll-viewport itemSize="50" style="height: 240px;">
     <div *ngFor="let d of searchedData let i = index">
       <div style="cursor:pointer"  *ngIf="d.name"  class="row x-sub-stocktype" (click)="activeIndex = activeIndex !== i ? i : -1" [style.background]="colors[color]">
           <div class="col x-col" *ngIf="d.name">&nbsp;&nbsp;{{labels}} {{d.name}} </div>
@@ -76,8 +77,8 @@ import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
         <div class="col x-col" style="text-align:right;">{{d.y_cramunt | number : '1.2-2'}}</div>
       </div>
     </div>
+    </cdk-virtual-scroll-viewport>
     </div>
-
   </div>
   `,
   styleUrls: ['./ledgerregidter.component.scss'],
@@ -255,10 +256,11 @@ export class LedgerregidterComponent implements OnInit {
   lastActiveId = '';
   selectedRow = -1;
 
+
   isExpandMainGroup: boolean = false;
   isExpandAll: boolean = false;
   isExpand: string = '';
-
+  
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -288,9 +290,13 @@ export class LedgerregidterComponent implements OnInit {
   ngOnDestroy() { }
 
   ngOnInit() {
+    //this.urlSafe= this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
   }
   refresh() {
     this.GetLedger();
+  }
+  ngAfterOnInit(){
+  
   }
   getAllLedger() {
     let params = {
