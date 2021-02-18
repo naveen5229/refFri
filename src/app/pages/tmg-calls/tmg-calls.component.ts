@@ -85,7 +85,7 @@ export class TmgCallsComponent implements OnInit {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
       groupdays: 7,
-      isfo: true,
+      isfo: false,
       isadmin: true
     };
     this.api.post('Tmgreport/GetCallsDrivar', params)
@@ -343,8 +343,8 @@ export class TmgCallsComponent implements OnInit {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
       groupdays: 7,
-      isfo: true,
       isadmin: true,
+      isfo:false,
       id : id
     };
     // this.api.post('Tmgreport/GetCallsDrivar', params)
@@ -585,6 +585,7 @@ export class TmgCallsComponent implements OnInit {
 
   getDetials(url, params, value = 0, type = 'days', isDateFilter = false) {
     let dataparams = {
+      ref: 'tmg-calls',
       view: {
         api: url,
         param: params,
