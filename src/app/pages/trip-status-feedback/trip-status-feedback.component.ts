@@ -18,8 +18,8 @@ import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 })
 export class TripStatusFeedbackComponent implements OnInit {
   today = new Date();
-  dateData=[];
-  tripStatusDate=0;
+  dateData = [];
+  tripStatusDate = 0;
   trips = [];
   allTrips = [];
   states = [];
@@ -42,8 +42,8 @@ export class TripStatusFeedbackComponent implements OnInit {
     this.getStates();
     this.common.refresh = this.refresh.bind(this);
     // new Date(today.setDate(today.getDate() - 4)),
-    
-      this.dateData = [
+
+    this.dateData = [
       { id: 0, name: 'Today' },
       { id: 1, name: '-1 Days' },
       { id: 2, name: '-2 Days' },
@@ -159,13 +159,15 @@ export class TripStatusFeedbackComponent implements OnInit {
   }
 
   getTrips() {
-    console.log("TripStatusDate:",this.tripStatusDate);
+    console.log("TripStatusDate:", this.tripStatusDate);
     this.common.loading++;
-    let param='';
-    if(this.tripStatusDate>=1){
-      param=this.common.dateFormatter1(new Date(this.today.setDate(this.today.getDate() - this.tripStatusDate))).toString();
+    let param = '';
+    if (this.tripStatusDate >= 1) {
+      // param = this.common.dateFormatternew(new Date(this.today.setDate(this.today.getDate() - this.tripStatusDate))).toString();
+      param = this.common.getDate(- Math.abs(this.tripStatusDate), 'YYYYMMDD').split(' ')[0];
     }
-    let subscription = this.api.get('TripsOperation/tripDetailsForVerification?date='+param)
+    console.log('params:', param);
+    let subscription = this.api.get('TripsOperation/tripDetailsForVerification?date=' + param)
       .subscribe(res => {
         this.common.loading--;
         this.allTrips = res['data'];
