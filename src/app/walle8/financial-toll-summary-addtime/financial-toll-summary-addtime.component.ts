@@ -60,7 +60,7 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
       console.log("this.user._details.",this.user._details);
       this.fo.id = this.user._loggedInBy == 'admin' ? this.user._customer.foid:this.user._details.foid;
       this.fo.mobileNo = this.user._details.fo_mobileno;
-      this.fo.name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.name;
+      this.fo.name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.foName;
       console.log("FoName:",this.user._details.username);
       this.common.refresh = this.refresh.bind(this);
       
