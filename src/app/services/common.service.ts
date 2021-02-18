@@ -486,7 +486,6 @@ export class CommonService {
       }
       if (unit == "Mt") {
         dist = dist * 1.609344 * 1000;
-        dist = this.odoMultiplierWithMeter(dist);
       }
       if (unit == "N") {
         dist = dist * 0.8684;
