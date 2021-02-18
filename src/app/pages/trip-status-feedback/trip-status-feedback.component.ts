@@ -163,7 +163,7 @@ export class TripStatusFeedbackComponent implements OnInit {
     this.common.loading++;
     let param='';
     if(this.tripStatusDate>=1){
-      param=this.common.dateFormatternew(new Date(this.today.setDate(this.today.getDate() - this.tripStatusDate))).toString();
+      param=this.common.dateFormatter1(new Date(this.today.setDate(this.today.getDate() - this.tripStatusDate))).toString();
     }
     let subscription = this.api.get('TripsOperation/tripDetailsForVerification?date='+param)
       .subscribe(res => {

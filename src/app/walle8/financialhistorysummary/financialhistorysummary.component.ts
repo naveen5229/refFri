@@ -58,7 +58,7 @@ export class FinancialhistorysummaryComponent implements OnInit {
   ) { 
       this.fo.id = this.user._loggedInBy == 'admin' ? this.user._customer.foid:this.user._details.foid;
       this.fo.mobileNo = this.user._details.fo_mobileno;
-      this.fo.name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.name;
+      this.fo.name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.foName;
       console.log("FoName:",this.user._details.username);
       this.common.refresh = this.refresh.bind(this);
       // this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 15)));
