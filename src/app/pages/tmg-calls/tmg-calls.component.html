@@ -9,7 +9,7 @@
           (click)="getDetials('Tmgreport/GetCallsDrivar',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <chart [type]="chart1.type" [data]="chart1.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
-            [options]="chart1.options">
+            [options]="chart1.options" (clickElement)="chart1Clicked($event)">
           </chart>
         </div>
       </div>
