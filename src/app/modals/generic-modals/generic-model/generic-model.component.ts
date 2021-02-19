@@ -204,7 +204,7 @@ export class GenericModelComponent implements OnInit {
             icons.push({ class: 'fa fa-eye', action: this.viewModal.bind(this, doc) });
           if (icons.length != 0)
             this.valobj[this.headings[i]] = { value: "", action: null, icons: icons };
-        } else if (this.params && this.params.ref === 'tmg-calls' && (this.headings.length - 1 === i)) {
+        } else if (this.params && this.params.ref === 'tmg-calls' && (this.headings.length - 2 === i)) {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black link', action: this.actionHandler.bind(this, doc) };
         } else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
@@ -262,6 +262,8 @@ export class GenericModelComponent implements OnInit {
     console.log('jrx:', this.params);
     this.common.handleModalSize('class', 'modal-lg', '1100');
     this.common.params = { data: this.params };
+    console.log('this.common.params :', this.common.params);
+    
     const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 }

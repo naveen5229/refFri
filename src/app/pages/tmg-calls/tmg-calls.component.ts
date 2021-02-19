@@ -23,6 +23,7 @@ export class TmgCallsComponent implements OnInit {
   callOnwardKmd = []
   callsSupervisorUnLoadingTat = [];
   xAxisData = [];
+  driverIdArr;
 
   chart1 = {
     type: '',
@@ -92,10 +93,16 @@ export class TmgCallsComponent implements OnInit {
       .subscribe(res => {
         console.log('callsDrivar:', res);
         this.callsDrivar = res['data'] || [];
+        // this.driverIdArr = res['data'].map(element => {
+        //     element = element._id;
+        //   return element
+        // });
+        console.log('driver array :', this.driverIdArr);
+        
         if (this.callsDrivar.length > 0) this.handleChart1();
         this.hideLoader(index);;
       }, err => {
-        this.hideLoader(index);;
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
@@ -330,9 +337,8 @@ export class TmgCallsComponent implements OnInit {
 
 
   chart1Clicked(event) {
-    console.log('click index :', event[0]._index);
-    let id = event[0]._index;
-    this.passingIdChart1Data(id);
+    let driverId = this.callsDrivar[event[0]._index]._id;
+    this.passingIdChart1Data(driverId);
   }
 
   passingIdChart1Data(id){
