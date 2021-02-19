@@ -98,7 +98,7 @@ export class TmgCallsComponent implements OnInit {
         //   return element
         // });
         console.log('driver array :', this.driverIdArr);
-        
+
         if (this.callsDrivar.length > 0) this.handleChart1();
         this.hideLoader(index);;
       }, err => {
@@ -324,14 +324,14 @@ export class TmgCallsComponent implements OnInit {
         }
       };
   }
-  
+
 
   // chartClicked(event) {
   //   console.log('event:', event[0]._index);
   //   let id = event[0]._index;
   //   this.api.post('Tmgreport/GetCallsDrivar:', id).subscribe(res=> {
   //     console.log(JSON.stringify(res));
-      
+
   //   })
   // }
 
@@ -341,7 +341,7 @@ export class TmgCallsComponent implements OnInit {
     this.passingIdChart1Data(driverId);
   }
 
-  passingIdChart1Data(id){
+  passingIdChart1Data(id) {
     //   this.showLoader(id);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
@@ -350,8 +350,9 @@ export class TmgCallsComponent implements OnInit {
       todate: this.common.dateFormatter(endDate),
       groupdays: 7,
       isadmin: true,
-      isfo:false,
-      id : id
+      isfo: false,
+      id: id,
+      ref: 'tmg-calls'
     };
     // this.api.post('Tmgreport/GetCallsDrivar', params)
     //   .subscribe(res => {
@@ -591,7 +592,6 @@ export class TmgCallsComponent implements OnInit {
 
   getDetials(url, params, value = 0, type = 'days', isDateFilter = false) {
     let dataparams = {
-      ref: 'tmg-calls',
       view: {
         api: url,
         param: params,
@@ -601,6 +601,11 @@ export class TmgCallsComponent implements OnInit {
       title: 'Details',
       isDateFilter: isDateFilter
     }
+    if (params.ref) {
+      dataparams['ref'] = params.ref;
+      delete params.ref;
+    }
+    
     if (value) {
       let startDate = type == 'months' ? new Date(new Date().setMonth(new Date().getMonth() - value)) : new Date(new Date().setDate(new Date().getDate() - value));
       let endDate = new Date();
