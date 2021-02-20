@@ -113,7 +113,7 @@ export class TmgCallsComponent implements OnInit {
     let endDate = new Date();
     let params = {
       totalrecord: 7,
-      isfo: true,
+      isfo: false,
       isadmin: true,
       fromdate: startDate,
       todate: endDate,
@@ -139,7 +139,7 @@ export class TmgCallsComponent implements OnInit {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
       groupdays: 7,
-      isfo: true,
+      isfo: false,
       isadmin: true
     };
     this.api.post('Tmgreport/GetCallsNotRespod', params)
@@ -364,6 +364,37 @@ export class TmgCallsComponent implements OnInit {
     //     console.log('Err:', err);
     //   });
     this.getDetials('Tmgreport/GetCallsDrivar', params)
+  }
+
+  chart3Clicked(event){
+    let driverId = this.callsDrivar[event[0]._index]._id;
+    this.passingIdChart3Data(driverId);
+  }
+
+  passingIdChart3Data(id) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      groupdays: 7,
+      isadmin: true,
+      isfo: false,
+      id: id,
+      ref: 'Not-Responded-Calls'
+    };
+    console.log('params :', params);
+    // this.api.post('Tmgreport/GetCallsDrivar', params)
+    //   .subscribe(res => {
+    //     console.log('callsDrivar 111 :', res);
+
+    //     this.hideLoader(id);;
+    //   }, err => {
+    //     this.hideLoader(id);;
+    //     console.log('Err:', err);
+    //   });
+    this.getDetials('Tmgreport/GetCallsNotRespod', params)
   }
 
 
