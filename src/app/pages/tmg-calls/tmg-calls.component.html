@@ -28,7 +28,7 @@
             </thead>
             <tbody class="tbody">
               <tr *ngFor="let csnr of callsSupervisorWiseNotRespod" >
-                <td class="link" (click)="getDetials('Tmgreport/GetCallsSupervisorWiseNotRespod',{totalrecord: 3,stepno: -1, isfo: csnr['_foadmin_id'],isadmin: true},30,'days')">{{csnr['Executive Name']}}</td>
+                <td class="link" (click)="getDetials('Tmgreport/GetCallsSupervisorWiseNotRespod',{totalrecord: 3,stepno: 1, isfo: csnr['_foadmin_id'],isadmin: true},30,'days')">{{csnr['Executive Name']}}</td>
                 <td>{{csnr['vehiclecount']}}</td>
                 <td>{{csnr['yesterday_per']}}</td>
                 <td>{{csnr['last30_days_per']}}</td>
@@ -57,19 +57,23 @@
         <div  class="outer" style="border:1px solid #7c94bf;min-height:120px">
           <h6 style="text-align: center;"><b class="charthead"> Worst 3 Driver Calls % </b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetCallsSupervisorWiseTopWorstDriverCalls',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true},7,'days')"><i title="More Details" class="fa fa-list"></i>
+          (click)="getDetials('Tmgreport/GetCallsSupervisorWiseTopWorstDriverCalls',{totalrecord: 3,stepno: -1, isfo: false,isadmin: true},7,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <table class="table">
             <thead class="thead">
               <th>Driver Name</th>
               <th>Yesterday % </th>
               <th>Last 30 Days %</th>
+              <th>Last 30 Days Total Calls</th>
+              <th>Last 30 Days Total Respond Calls</th>
             </thead>
             <tbody class="tbody">
               <tr *ngFor="let wdc of callsSupervisorWiseTopWorstDriverCalls">
-                <td>{{wdc['Driver']}}</td>
+                <td class="link" (click)="getDetials('Tmgreport/GetCallsSupervisorWiseTopWorstDriverCalls',{totalrecord: 3,stepno: 1, isfo: false,isadmin: true, x_driverid: wdc['_driverid']},7,'days')">{{wdc['Driver']}}</td>
                 <td>{{wdc['Yesterday(%)']}}</td>
                 <td>{{wdc['Last 30 Days (%)']}}</td>
+                <td>{{wdc['Last 30 Days Total Calls']}}</td>
+                <td>{{wdc['Last 30 Days Total Respond Calls']}}</td>
               </tr>
             </tbody>
           </table>
