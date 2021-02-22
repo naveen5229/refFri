@@ -1,41 +1,45 @@
 <nb-card>
   <nb-card-header>
-    <div style="border-bottom-left-radius:5px;border-bottom-right-radius:5px; box-shadow: 5px 10px 54px 0px whitesmoke;" class="ml-4 mr-4 pb-4">
-    <div class="row m-0" style="width:100%;background-color: #E5F3F9;border-top-right-radius: 5px; border-top-left-radius:5px;display:inline-block">
-      <h5 class="p-2" style="font-weight:bold; display: inline-block;">Financial Toll Summary (Add Time)</h5>
+    <div style="border-bottom-left-radius:5px;border-bottom-right-radius:5px; box-shadow: 5px 10px 54px 0px whitesmoke;"
+      class="ml-4 mr-4 pb-4">
+      <div class="row m-0"
+        style="width:100%;background-color: #E5F3F9;border-top-right-radius: 5px; border-top-left-radius:5px;display:inline-block">
+        <h5 class="p-2" style="font-weight:bold; display: inline-block;">Financial Toll Summary (Add Time)</h5>
 
-      <div style="display:inline-block;" class="p-2 float">
-        <span style="display: block;">
-          <span class="pdf-icon" title="PDF Export" (click)="generatePDF();" style="cursor: pointer;"><i
-              class="fa fa-file-pdf"></i></span>
-              <span class="exel-icon" title="CSV Export" (click)="printCsv('account','tblData')"
-            style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
-        </span>
+        <div style="display:inline-block;" class="p-2 float">
+          <span style="display: block;">
+            <span class="pdf-icon" title="PDF Export" (click)="generatePDF();" style="cursor: pointer;"><i
+                class="fa fa-file-pdf"></i></span>
+            <span class="exel-icon" title="CSV Export" (click)="printCsv()"
+              style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+          </span>
+        </div>
       </div>
-    </div>
 
-    <div class="row m-0 p-3" style="background-color:white;">
-      <div class="col-3 pl-3">
-        <uj-date-time-picker (onChanged)="startDate=$event;" [mind]="minDate" [dateTimeValue]="startDate"  [isTime]="false"></uj-date-time-picker>
-        <!-- <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('start')"
+      <div class="row m-0 p-3" style="background-color:white;">
+        <div class="col-3 pl-3">
+          <uj-date-time-picker (onChanged)="startDate=$event;" [mind]="minDate" [dateTimeValue]="startDate"
+            [isTime]="false"></uj-date-time-picker>
+          <!-- <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('start')"
           placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly> -->
-      </div>
-      <div class="col-3">
-        <uj-date-time-picker (onChanged)="endDate = $event;" [mind]="minDate" [dateTimeValue]="endDate" [isTime]=false [isStart]="false"></uj-date-time-picker>
-        <!-- <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('end')"
+        </div>
+        <div class="col-3">
+          <uj-date-time-picker (onChanged)="endDate = $event;" [mind]="minDate" [dateTimeValue]="endDate" [isTime]=false
+            [isStart]="false"></uj-date-time-picker>
+          <!-- <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('end')"
           placeholder="End Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly> -->
-      </div>
+        </div>
 
-      <div class="col-3">
-        <auto-suggestion (keyup)="filterData($event)" [(ngModel)]='typedKey' (onSelected)="selectVehicle($event)"
-          url="Suggestion/getFoVehicleList.json?foid=' + foid" display="regno" placeholder="search vehicle" style="width:60%;" value="yes"
-          aria-disabled="true">
-        </auto-suggestion>
+        <div class="col-3">
+          <auto-suggestion (keyup)="filterData($event)" [(ngModel)]='typedKey' (onSelected)="selectVehicle($event)"
+            url="Suggestion/getFoVehicleList.json?foid=' + foid" display="regno" placeholder="search vehicle"
+            style="width:60%;" value="yes" aria-disabled="true">
+          </auto-suggestion>
+        </div>
+        <div class="col-3">
+          <button class="btn customButton" type="button" (click)="getaddTimeFinancialTollReport();"> Submit</button>
+        </div>
       </div>
-      <div class="col-3">
-        <button class="btn customButton" type="button" (click)="getaddTimeFinancialTollReport()">Submit</button>
-      </div>
-    </div>
     </div>
   </nb-card-header>
 
@@ -52,8 +56,8 @@
         </div>
         <div class="col-3"></div>
         <div class="col-3">
-          <img [src]="api.URL2+'admindashboard/assets/images/left-logo.png'"
-            style="width:150px;height:120px;" id="logo" crossorigin="anonymous">
+          <img [src]="api.URL2+'admindashboard/assets/images/left-logo.png'" style="width:150px;height:120px;" id="logo"
+            crossorigin="anonymous">
         </div>
       </div>
 
@@ -97,7 +101,7 @@
                 <td>Customer Id</td>
                 <td>{{fo.id}}</td>
               </tr>
-              
+
               <tr>
                 <td>Name</td>
                 <td>{{fo.name}}</td>
@@ -137,38 +141,9 @@
         </div>
       </div>
     </div>
-    <div class="row" *ngIf="data.length>0">
+    <div class="row">
       <div class="col-12">
-        <table class="table table-bordered" id="tblData">
-          <thead style="background-color:#E5F3F9;">
-            <tr>
-              <th>#</th>
-              <th>Vehicle</th>
-              <th>Accounting Time</th>
-              <th>Transaction Time</th>
-              <th>Toll Plaza</th>
-              <th>Amount(CR)</th>
-              <th>Amount(DR)</th>
-              <th>Transaction Type</th>
-              <th>Balance</th>
-              <th>Transaction ID</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let dt of data ;let i = index">
-              <td>{{i+1}}</td>
-              <td>{{dt.vehid}}</td>
-              <td>{{dt.addtime}}</td>
-              <td>{{dt.transtime}}</td>
-              <td>{{dt.remark}}</td>
-              <td>{{dt.amount_credit}}</td>
-              <td>{{dt.amount_debit}}</td>
-              <td>{{dt.entry_type}}</td>
-              <td>{{dt.balance}}</td>
-              <td>{{dt.txn_id}}</td>
-            </tr>
-          </tbody>
-        </table>
+        <smart-table *ngIf=" data && data.length" [data]="table.data" [settings]="table.settings" id="tblData"></smart-table>
       </div>
     </div>
   </nb-card-body>
