@@ -257,7 +257,7 @@ export class GenericModelComponent implements OnInit {
   }
 
   actionHandler(event) {
-    this.params.view.param.date = (this.params.ref.includes('Not-Responded-Calls') || this.params.ref.includes('tmg-calls'))?event['Call Date']:'';
+    this.params.view.param.date = (this.params.ref == 'Not-Responded-Calls' || this.params.ref == 'tmg-calls')?event['Call Date']:'';
     delete this.params.ref;
     this.params.view.param.isfo = event._aduserid;
     console.log('jrx:', this.params);
