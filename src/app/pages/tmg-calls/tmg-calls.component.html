@@ -6,10 +6,10 @@
         <div class="outer">
           <h6 style="text-align:center"><b class="charthead">Driver Calls % </b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetCallsDrivar',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
+          (click)="getDetials('Tmgreport/GetCallsDrivar',{totalrecord: 3,stepno: -1, isfo: false,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <chart [type]="chart1.type" [data]="chart1.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
-            [options]="chart1.options">
+            [options]="chart1.options" (clickElement)="chart1Clicked($event)">
           </chart>
         </div>
       </div>
@@ -17,7 +17,7 @@
         <div class="outer" style="min-height:265px">
           <h6 style="text-align:center"><b class="charthead">Supervisor Wise % Not Responded Calls</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetCallsSupervisorWiseNotRespod',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true},30,'days')"><i title="More Details" class="fa fa-list"></i>
+          (click)="getDetials('Tmgreport/GetCallsSupervisorWiseNotRespod',{totalrecord: 3,stepno: -1, isfo: false,isadmin: true},30,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <table class="table">
             <thead class="thead">
@@ -27,8 +27,8 @@
               <th>Last 30 Days %</th>
             </thead>
             <tbody class="tbody">
-              <tr *ngFor="let csnr of callsSupervisorWiseNotRespod">
-                <td>{{csnr['Executive Name']}}</td>
+              <tr *ngFor="let csnr of callsSupervisorWiseNotRespod" >
+                <td class="link" (click)="getDetials('Tmgreport/GetCallsSupervisorWiseNotRespod',{totalrecord: 3,stepno: -1, isfo: csnr['_foadmin_id'],isadmin: true},30,'days')">{{csnr['Executive Name']}}</td>
                 <td>{{csnr['vehiclecount']}}</td>
                 <td>{{csnr['yesterday_per']}}</td>
                 <td>{{csnr['last30_days_per']}}</td>
@@ -41,10 +41,10 @@
         <div class="outer">
           <h6 style="text-align:center"><b class="charthead">% Not Responded Calls</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetCallsNotRespod',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
+          (click)="getDetials('Tmgreport/GetCallsNotRespod',{totalrecord: 3,stepno: -1, isfo: false,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <chart [type]="chart2.type" [data]="chart2.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
-            [options]="chart2.options">
+            [options]="chart2.options" (clickElement)="chart3Clicked($event)">
           </chart>
         </div>
       </div>
