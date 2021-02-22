@@ -162,7 +162,7 @@ export class TmgCallsComponent implements OnInit {
       totalrecord: 3,
       fromdate: startDate,
       todate: endDate,
-      isfo: true,
+      isfo: false,
       isadmin: true
     };
     this.showLoader(index);
