@@ -477,6 +477,10 @@ export class CommonService {
       dist = Math.acos(dist);
       dist = (dist * 180) / Math.PI;
       dist = dist * 60 * 1.1515;
+      dist = dist * 1.609344 * 1000;
+      dist = this.odoMultiplierWithMeter(dist);
+      dist /= 1.609344 * 1000;
+
       if (unit == "K") {
         dist = dist * 1.609344;
       }
@@ -486,8 +490,26 @@ export class CommonService {
       if (unit == "N") {
         dist = dist * 0.8684;
       }
+
       return parseInt(dist.toFixed(0));
     }
+  }
+
+  odoMultiplierWithMeter(distance: number) {
+    if (distance < 200) {
+      distance = distance * 1.02;
+    } else if (distance > 200 && distance < 1000) {
+      distance = distance * 1.03;
+    } else if (distance > 1000 && distance < 10000) {
+      distance = distance * 1.05;
+    } else if (distance > 10000 && distance < 50000) {
+      distance = distance * 1.06;
+    } else if (distance > 50000 && distance < 200000) {
+      distance = distance * 1.10;
+    } else {
+      distance = distance * 1.15;
+    }
+    return distance;
   }
 
   differenceBtwT1AndT2(date1, date2) {

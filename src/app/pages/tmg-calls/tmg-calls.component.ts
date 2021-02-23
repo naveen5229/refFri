@@ -6,6 +6,7 @@ import * as _ from "lodash";
 import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+import { ChartComponent } from 'angular2-chartjs';
 
 @AutoUnsubscribe()
 @Component({
@@ -22,6 +23,7 @@ export class TmgCallsComponent implements OnInit {
   callOnwardKmd = []
   callsSupervisorUnLoadingTat = [];
   xAxisData = [];
+  driverIdArr;
 
   chart1 = {
     type: '',
@@ -56,8 +58,8 @@ export class TmgCallsComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() { }
+  ngOnInit() {
   }
 
   ngAfterViewInit() {
@@ -84,17 +86,23 @@ ngOnInit() {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
       groupdays: 7,
-      isfo: true,
+      isfo: false,
       isadmin: true
     };
     this.api.post('Tmgreport/GetCallsDrivar', params)
       .subscribe(res => {
         console.log('callsDrivar:', res);
         this.callsDrivar = res['data'] || [];
+        // this.driverIdArr = res['data'].map(element => {
+        //     element = element._id;
+        //   return element
+        // });
+        console.log('driver array :', this.driverIdArr);
+
         if (this.callsDrivar.length > 0) this.handleChart1();
         this.hideLoader(index);;
       }, err => {
-         this.hideLoader(index);;
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
@@ -105,33 +113,33 @@ ngOnInit() {
     let endDate = new Date();
     let params = {
       totalrecord: 7,
-      isfo: true,
+      isfo: false,
       isadmin: true,
       fromdate: startDate,
       todate: endDate,
     };
-     this.showLoader(index);
+    this.showLoader(index);
     this.api.post('Tmgreport/GetCallsSupervisorWiseNotRespod', params)
       .subscribe(res => {
         console.log('callsSupervisorWiseNotRespod:', res);
         this.callsSupervisorWiseNotRespod = res['data'];
         this.hideLoader(index);
       }, err => {
-         this.hideLoader(index);
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
   getCallsNotRespod(index) {
     this.callsNotRespod = [];
-     this.showLoader(index);
+    this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
       groupdays: 7,
-      isfo: true,
+      isfo: false,
       isadmin: true
     };
     this.api.post('Tmgreport/GetCallsNotRespod', params)
@@ -141,7 +149,7 @@ ngOnInit() {
         if (this.callsNotRespod.length > 0) this.handleChart2();
         this.hideLoader(index);
       }, err => {
-         this.hideLoader(index);
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
@@ -157,21 +165,21 @@ ngOnInit() {
       isfo: true,
       isadmin: true
     };
-     this.showLoader(index);
+    this.showLoader(index);
     this.api.post('Tmgreport/GetCallsSupervisorWiseTopWorstDriverCalls', params)
       .subscribe(res => {
         console.log('callsSupervisorWiseTopWorstDriverCalls:', res);
         this.callsSupervisorWiseTopWorstDriverCalls = res['data'];
         this.hideLoader(index);
       }, err => {
-         this.hideLoader(index);
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
   getCallsSupervisorLoadingTat(index) {
     this.callsSupervisorLoadingTat = [];
-     this.showLoader(index);
+    this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
@@ -188,7 +196,7 @@ ngOnInit() {
         if (this.callsSupervisorLoadingTat.length > 0) this.handleChart3();
         this.hideLoader(index);
       }, err => {
-         this.hideLoader(index);
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
@@ -204,7 +212,7 @@ ngOnInit() {
       isfo: true,
       isadmin: true
     };
-     this.showLoader(index);
+    this.showLoader(index);
     this.api.post('Tmgreport/GetCallsSupervisorUnLoadingTat', params)
       .subscribe(res => {
         console.log('callsSupervisorUnLoadingTat:', res);
@@ -212,7 +220,7 @@ ngOnInit() {
         if (this.callsSupervisorUnLoadingTat.length > 0) this.handleChart5();
         this.hideLoader(index);
       }, err => {
-         this.hideLoader(index);
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
@@ -227,7 +235,7 @@ ngOnInit() {
       isfo: true,
       isadmin: true
     };
-     this.showLoader(index);
+    this.showLoader(index);
     this.api.post('Tmgreport/GetCallOnwardKmd', params)
       .subscribe(res => {
         console.log('callsSupervisorUnLoadingTat:', res);
@@ -235,13 +243,13 @@ ngOnInit() {
         if (this.callOnwardKmd.length > 0) this.handleChart4();
         this.hideLoader(index);
       }, err => {
-         this.hideLoader(index);
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
   getAlertWorstCallTat(index) {
     this.callsSupervisorUnLoadingTat = [];
-     this.showLoader(index);
+    this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
@@ -258,7 +266,7 @@ ngOnInit() {
         if (this.callsSupervisorUnLoadingTat.length > 0) this.handleChart5();
         this.hideLoader(index);
       }, err => {
-         this.hideLoader(index);
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
@@ -315,6 +323,78 @@ ngOnInit() {
           }]
         }
       };
+  }
+
+
+  // chartClicked(event) {
+  //   console.log('event:', event[0]._index);
+  //   let id = event[0]._index;
+  //   this.api.post('Tmgreport/GetCallsDrivar:', id).subscribe(res=> {
+  //     console.log(JSON.stringify(res));
+
+  //   })
+  // }
+
+
+  chart1Clicked(event) {
+    let driverId = this.callsDrivar[event[0]._index]._id;
+    this.passingIdChart1Data(driverId);
+  }
+
+  passingIdChart1Data(id) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      groupdays: 7,
+      isadmin: true,
+      isfo: false,
+      id: id,
+      ref: 'tmg-calls'
+    };
+    // this.api.post('Tmgreport/GetCallsDrivar', params)
+    //   .subscribe(res => {
+    //     console.log('callsDrivar 111 :', res);
+
+    //     this.hideLoader(id);;
+    //   }, err => {
+    //     this.hideLoader(id);;
+    //     console.log('Err:', err);
+    //   });
+    this.getDetials('Tmgreport/GetCallsDrivar', params)
+  }
+
+  chart3Clicked(event){
+    let driverId = this.callsDrivar[event[0]._index]._id;
+    this.passingIdChart3Data(driverId);
+  }
+
+  passingIdChart3Data(id) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      groupdays: 7,
+      isadmin: true,
+      isfo: false,
+      id: id,
+      ref: 'Not-Responded-Calls'
+    };
+    console.log('params :', params);
+    // this.api.post('Tmgreport/GetCallsDrivar', params)
+    //   .subscribe(res => {
+    //     console.log('callsDrivar 111 :', res);
+
+    //     this.hideLoader(id);;
+    //   }, err => {
+    //     this.hideLoader(id);;
+    //     console.log('Err:', err);
+    //   });
+    this.getDetials('Tmgreport/GetCallsNotRespod', params)
   }
 
 
@@ -415,10 +495,11 @@ ngOnInit() {
         }
       },
       scales: {
-        yAxes: [{scaleLabel: {
-          display: true,
-          labelString: 'TAT (in Hrs.)'+chartobj.yaxisLabel
-        },        
+        yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'TAT (in Hrs.)' + chartobj.yaxisLabel
+          },
           ticks: { stepSize: chartobj.gridSize },
           suggestedMin: chartobj.minValue
         }]
@@ -444,7 +525,7 @@ ngOnInit() {
           data: this.common.chartScaleLabelAndGrid(periods[period].map(item => item['Onward KMs'])).scaleData
         }
       });
-  
+
     this.chart4.type = 'bar'
     this.chart4.data = {
       labels: Object.keys(executives),
@@ -471,10 +552,11 @@ ngOnInit() {
         }
       },
       scales: {
-        yAxes: [{scaleLabel: {
-          display: true,
-          labelString: 'KM'+chartobj.yaxisLabel
-        },        
+        yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'KM' + chartobj.yaxisLabel
+          },
           ticks: { stepSize: chartobj.gridSize },
           suggestedMin: chartobj.minValue
         }]
@@ -527,10 +609,11 @@ ngOnInit() {
         }
       },
       scales: {
-        yAxes: [{scaleLabel: {
-          display: true,
-          labelString: 'TAT (in Hrs.)'+chartobj.yaxisLabel
-        },        
+        yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'TAT (in Hrs.)' + chartobj.yaxisLabel
+          },
           ticks: { stepSize: chartobj.gridSize },
           suggestedMin: chartobj.minValue
         }]
@@ -538,19 +621,24 @@ ngOnInit() {
     };
   }
 
-  getDetials(url, params, value = 0,type='days',isDateFilter=false) {
+  getDetials(url, params, value = 0, type = 'days', isDateFilter = false) {
     let dataparams = {
       view: {
         api: url,
         param: params,
         type: 'post'
       },
-  
+
       title: 'Details',
-      isDateFilter : isDateFilter
+      isDateFilter: isDateFilter
     }
+    if (params.ref) {
+      dataparams['ref'] = params.ref;
+      delete params.ref;
+    }
+    
     if (value) {
-      let startDate = type == 'months'? new Date(new Date().setMonth(new Date().getMonth() - value)): new Date(new Date().setDate(new Date().getDate() - value));
+      let startDate = type == 'months' ? new Date(new Date().setMonth(new Date().getMonth() - value)) : new Date(new Date().setDate(new Date().getDate() - value));
       let endDate = new Date();
       dataparams.view.param['fromdate'] = this.common.dateFormatter(startDate);
       dataparams.view.param['todate'] = this.common.dateFormatter(endDate);
@@ -559,7 +647,7 @@ ngOnInit() {
     this.common.handleModalSize('class', 'modal-lg', '1100');
     this.common.params = { data: dataparams };
     const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-  } 
+  }
   showLoader(index) {
     setTimeout(() => {
       let outers = document.getElementsByClassName("outer");
