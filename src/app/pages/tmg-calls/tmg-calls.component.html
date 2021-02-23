@@ -44,7 +44,7 @@
           (click)="getDetials('Tmgreport/GetCallsNotRespod',{totalrecord: 3,stepno: -1, isfo: false,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <chart [type]="chart2.type" [data]="chart2.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
-            [options]="chart2.options" (clickElement)="chart3Clicked($event)">
+            [options]="chart2.options" (clickElement)="chart2Clicked($event)">
           </chart>
         </div>
       </div>
@@ -88,10 +88,10 @@
         <div class="outer">
           <h6 style="text-align:center"><b class="charthead">Longest Loading TAT</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetCallsSupervisorLoadingTat',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
+          (click)="getDetials('Tmgreport/GetCallsSupervisorLoadingTat',{totalrecord: 3,stepno: -1, isfo: false,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <chart [type]="chart3.type" [data]="chart3.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
-            [options]="chart3.options">
+            [options]="chart3.options" (clickElement)="chart3Clicked($event)">
           </chart>
         </div>
       </div>
@@ -99,10 +99,10 @@
         <div class="outer">
           <h6 style="text-align:center"><b class="charthead">Onward KMPD </b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetCallOnwardKmd',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true,groupdays: 7},30,'days',true)"><i title="More Details" class="fa fa-list"></i>
+          (click)="getDetials('Tmgreport/GetCallOnwardKmd',{totalrecord: 3,stepno: -1, isfo: false,isadmin: true,groupdays: 7},30,'days',true)"><i title="More Details" class="fa fa-list"></i>
         </p>
           <chart [type]="chart4.type" [data]="chart4.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
-            [options]="chart4.options">
+            [options]="chart4.options" (clickElement)="chart4Clicked($event)">
           </chart>
         </div>
       </div>
@@ -110,10 +110,10 @@
         <div class="outer">
           <h6 style="text-align:center"><b class="charthead">Worst Unloading TAT</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetCallsSupervisorUnLoadingTat',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
+          (click)="getDetials('Tmgreport/GetCallsSupervisorUnLoadingTat',{totalrecord: 3,stepno: -1, isfo: false,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <chart [type]="chart5.type" [data]="chart5.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
-            [options]="chart5.options">
+            [options]="chart5.options" (clickElement)="chart5Clicked($event)">
           </chart>
         </div>
       </div>
