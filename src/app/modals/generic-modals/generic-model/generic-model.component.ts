@@ -205,7 +205,7 @@ export class GenericModelComponent implements OnInit {
             icons.push({ class: 'fa fa-eye', action: this.viewModal.bind(this, doc) });
           if (icons.length != 0)
             this.valobj[this.headings[i]] = { value: "", action: null, icons: icons };
-        } else if ((this.params && ((this.params.ref ===  'tmg-calls') || (this.params.ref === 'Not-Responded-Calls'))) && (this.headings.length - 2 === i)) {
+        } else if ((this.params &&  (this.params.ref === 'Not-Responded-Calls')) && (this.headings.length - 2 === i)) {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black link', action: this.actionHandler.bind(this, doc) };
         } else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
@@ -257,7 +257,7 @@ export class GenericModelComponent implements OnInit {
   }
 
   actionHandler(event) {
-    this.params.view.param.date = (this.params.ref == 'Not-Responded-Calls' || this.params.ref == 'tmg-calls')?event['Call Date']:'';
+    this.params.view.param.date = (this.params.ref == 'Not-Responded-Calls') ? event['Call Date'] : '';
     delete this.params.ref;
     this.params.view.param.isfo = event._aduserid;
     console.log('jrx:', this.params);
