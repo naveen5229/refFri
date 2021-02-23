@@ -7,3 +7,9 @@
     width: 24px;
     height: 24px;
   }
+  :host ::ng-deep{
+    .link{
+    color: blue;
+    text-decoration: underline;
+  }
+}
