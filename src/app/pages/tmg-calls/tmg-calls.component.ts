@@ -663,7 +663,7 @@ export class TmgCallsComponent implements OnInit {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 7,
+      groupdays: 15,
       isadmin: true,
       isfo: isFoId,
       xid: id,
