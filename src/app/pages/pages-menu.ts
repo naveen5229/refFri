@@ -545,10 +545,9 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
       icon: 'fa-map-marker',
       link: '/pages/driver-on-side-images',
       home: true,
-  },
+    },
 
     {
-
       title: 'Vehicle Driver Mapping',
       icon: 'fa-street-view',
       link: '/pages/vehicle-driver-mapping',
@@ -562,7 +561,6 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
       home: true,
     },
     {
-
       title: 'Driver Document',
       icon: 'fa-book',
       link: '/pages/driver-document',

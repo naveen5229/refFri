@@ -7,6 +7,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { UserCallHistoryComponent } from '../../modals/user-call-history/user-call-history.component';
 import { CsvService } from '../../services/csv/csv.service';
 import { PdfService } from '../../services/pdf/pdf.service';
+import { ExcelService } from '../../services/excel/excel.service';
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 
@@ -38,6 +39,7 @@ export class UserCallSummaryComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal,
+    private excelService: ExcelService,
     private csvService:CsvService,
     private pdfService:PdfService) {
 
@@ -189,11 +191,38 @@ ngOnInit() {
   }
 
   printCSV(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
-    let details = [
-      { name: 'Name:' + name,startdate:"Start Date:"+this.fromDate,enddate:"End Date: "+this.endDate, report:"Report:User Call Summary"}
-    ];
-    this.csvService.byMultiIds(['userCallSummary'], 'User Call Summary', details);
-  }
+    // let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    // let details = [
+    //   { name: 'Name:' + name,startdate:"Start Date:"+this.fromDate,enddate:"End Date: "+this.endDate, report:"Report:User Call Summary"}
+    // ];
+    // this.csvService.byMultiIds(['userCallSummary'], 'User Call Summary', details);
 
+
+    let foName =   this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let headerDetails=[];
+    headerDetails=[
+        {sDate:''},
+        {eDate:''},
+        {name:foName}
+    ]
+    let headersArray = ["User Name", "Driver Incoming (Duration)", "Driver Outgoing (Duration)", "Employee Incoming (Duration)", "Employee Outgoing (Duration)",
+     "Customer Incoming (Duration)", "Customer Outgoing (Duration)","Others Incoming (Duration)","Others Outgoing (Duration)","Unanswered (Count)","Missed Call (Count)","Total Call (Duration)"];
+    let json = this.data.map(calhistory => {
+      return {
+        "User Name": calhistory['User Name'],
+        "Driver Incoming (Duration)":calhistory['Driver Incoming (Duration)'],
+        "Driver Outgoing (Duration)": calhistory['Driver Outgoing (Duration)'],
+        "Employee Incoming (Duration)": calhistory['Employee Incoming (Duration)'],
+        "Employee Outgoing (Duration)": calhistory['Employee Outgoing (Duration)'],
+        "Customer Incoming (Duration)": calhistory['Customer Incoming (Duration)'],
+        "Customer Outgoing (Duration)": calhistory['Customer Outgoing (Duration)'],
+        "Others Incoming (Duration)": calhistory['Others Incoming (Duration)'],
+        "Others Outgoing (Duration)": calhistory['Others Outgoing (Duration)'],
+        "Unanswered (Count)": calhistory['Unanswered (Count)'],
+        "Missed Call (Count)": calhistory['Missed Call (Count)'],
+        "Total Call (Duration)": calhistory['Total Call (Duration)'],
+      };
+    });
+    this.excelService.jrxExcel("User Call Summary",headerDetails,headersArray, json, 'userCallSummary', false);
+  }
 }
