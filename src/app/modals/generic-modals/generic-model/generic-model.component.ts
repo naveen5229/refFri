@@ -22,7 +22,8 @@ export class GenericModelComponent implements OnInit {
       columns: []
     },
     settings: {
-      hideHeader: true
+      hideHeader: true,
+
     }
   };
 
@@ -45,19 +46,21 @@ export class GenericModelComponent implements OnInit {
   isDateFilter = false;
   startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
   endDate = new Date();
+  params: any = null;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     private commonService: CommonService,
     public api: ApiService,
     public modalService: NgbModal) {
     if (this.common.params && this.common.params.data) {
+      this.params = this.common.params.data;
       console.log()
       this.title = this.common.params.data.title ? this.common.params.data.title : '';
       this.isDateFilter = this.common.params.data.isDateFilter ? this.common.params.data.isDateFilter : this.isDateFilter;
       this.common.params.data.view.param['fromdate'] = this.common.params.data.view.param['fromdate'] ? this.common.params.data.view.param['fromdate'] : this.common.dateFormatter1(this.startDate);
       this.common.params.data.view.param['todate'] = this.common.params.data.view.param['todate'] ? this.common.params.data.view.param['todate'] : this.common.dateFormatter1(this.endDate);
       this.getData();
-    
+
 
       if (this.common.params.data.delete) {
         this.deleteObj = this.common.params.data.delete;
@@ -69,33 +72,33 @@ export class GenericModelComponent implements OnInit {
     }
   }
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() { }
+  ngOnInit() {
   }
 
-  getData(){
-      //post api call
-      if (this.common.params.data.view && this.common.params.data.view.type && (this.common.params.data.view.type) == 'post') {
+  getData() {
+    //post api call
+    if (this.common.params.data.view && this.common.params.data.view.type && (this.common.params.data.view.type) == 'post') {
 
-        this.viewObj = this.common.params.data.view;
-        this.viewPost();
+      this.viewObj = this.common.params.data.view;
+      this.viewPost();
 
-      }
+    }
 
-      //get api call
-      else if (this.common.params.data.view) {
-        let str = "?";
-        Object.keys(this.common.params.data.view.param).forEach(element => {
-          if (str == '?')
-            str += element + "=" + this.common.params.data.view.param[element];
-          else
-            str += "&" + element + "=" + this.common.params.data.view.param[element];
-        });
-        this.viewObj = this.common.params.data.view;
-        this.viewObj.api += str;
-        this.view();
+    //get api call
+    else if (this.common.params.data.view) {
+      let str = "?";
+      Object.keys(this.common.params.data.view.param).forEach(element => {
+        if (str == '?')
+          str += element + "=" + this.common.params.data.view.param[element];
+        else
+          str += "&" + element + "=" + this.common.params.data.view.param[element];
+      });
+      this.viewObj = this.common.params.data.view;
+      this.viewObj.api += str;
+      this.view();
 
-      }
+    }
 
   }
 
@@ -107,7 +110,8 @@ ngOnInit() {
         columns: []
       },
       settings: {
-        hideHeader: true
+        hideHeader: true,
+
       }
     };
 
@@ -148,7 +152,8 @@ ngOnInit() {
         columns: []
       },
       settings: {
-        hideHeader: true
+        hideHeader: true,
+
       }
     };
 
@@ -156,8 +161,8 @@ ngOnInit() {
     this.valobj = {};
 
     this.common.loading++;
-    this.viewObj.param['fromdate'] = this.isDateFilter?this.common.dateFormatter1(this.startDate):this.viewObj.param['fromdate'] ?this.viewObj.param['fromdate'] : this.common.dateFormatter1(this.startDate);
-    this.viewObj.param['todate'] = this.isDateFilter?this.common.dateFormatter1(this.endDate):this.viewObj.param['todate'] ?this.viewObj.param['todate'] : this.common.dateFormatter1(this.endDate);
+    this.viewObj.param['fromdate'] = this.isDateFilter ? this.common.dateFormatter1(this.startDate) : this.viewObj.param['fromdate'] ? this.viewObj.param['fromdate'] : this.common.dateFormatter1(this.startDate);
+    this.viewObj.param['todate'] = this.isDateFilter ? this.common.dateFormatter1(this.endDate) : this.viewObj.param['todate'] ? this.viewObj.param['todate'] : this.common.dateFormatter1(this.endDate);
     this.api.post(this.viewObj.api, this.viewObj.param)
       .subscribe(res => {
         this.common.loading--;
@@ -185,8 +190,10 @@ ngOnInit() {
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1)
   }
+
   getTableColumns() {
     let columns = [];
+    console.log('params.ref ',this.params.ref);
     this.data.map(doc => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
@@ -198,6 +205,8 @@ ngOnInit() {
             icons.push({ class: 'fa fa-eye', action: this.viewModal.bind(this, doc) });
           if (icons.length != 0)
             this.valobj[this.headings[i]] = { value: "", action: null, icons: icons };
+        } else if ((this.params && ((this.params.ref ===  'tmg-calls') || (this.params.ref === 'Not-Responded-Calls'))) && (this.headings.length - 2 === i)) {
+          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black link', action: this.actionHandler.bind(this, doc) };
         } else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         }
@@ -245,5 +254,17 @@ ngOnInit() {
 
   closeModal() {
     this.activeModal.close();
+  }
+
+  actionHandler(event) {
+    this.params.view.param.date = (this.params.ref == 'Not-Responded-Calls' || this.params.ref == 'tmg-calls')?event['Call Date']:'';
+    delete this.params.ref;
+    this.params.view.param.isfo = event._aduserid;
+    console.log('jrx:', this.params);
+    this.common.handleModalSize('class', 'modal-lg', '1100');
+    this.common.params = { data: this.params };
+    console.log('this.common.params :', this.common.params);
+    
+    const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 }

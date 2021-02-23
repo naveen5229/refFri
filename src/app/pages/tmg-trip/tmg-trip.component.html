@@ -117,14 +117,12 @@
           <thead class="thead">
             <th>Driver Name </th>
             <th>Vehicle No.</th>
-            <th>Trip</th>
             <th>Avg KMPD</th>
           </thead>
           <tbody class="tbody">
             <tr *ngFor="let tso of tripSlowestOnward">
               <td>{{tso['Driver Name']}}</td>
               <td>{{tso['Vehicle Name']}}</td>
-              <td>{{tso['Trip']}}</td>
               <td>{{tso['Avg Speed KM\/Hrs']}}</td>
             </tr>
           </tbody>
