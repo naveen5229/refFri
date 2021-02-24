@@ -47,6 +47,7 @@ export class GenericModelComponent implements OnInit {
   startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
   endDate = new Date();
   params: any = null;
+  reference: string;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     private commonService: CommonService,
@@ -193,7 +194,7 @@ export class GenericModelComponent implements OnInit {
 
   getTableColumns() {
     let columns = [];
-    console.log('params.ref ',this.params.ref);
+    console.log('params.ref ', this.params.ref);
     this.data.map(doc => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
@@ -205,7 +206,7 @@ export class GenericModelComponent implements OnInit {
             icons.push({ class: 'fa fa-eye', action: this.viewModal.bind(this, doc) });
           if (icons.length != 0)
             this.valobj[this.headings[i]] = { value: "", action: null, icons: icons };
-        } else if ((this.params &&  (this.params.ref === 'Not-Responded-Calls')) && (this.headings.length - 2 === i)) {
+        } else if ((this.params && (this.params.ref === 'Not-Responded-Calls')) && (this.headings.length - 2 === i)) {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black link', action: this.actionHandler.bind(this, doc) };
         } else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
@@ -257,14 +258,18 @@ export class GenericModelComponent implements OnInit {
   }
 
   actionHandler(event) {
-    this.params.view.param.date = (this.params.ref == 'Not-Responded-Calls') ? event['Call Date'] : '';
-    delete this.params.ref;
+    if (!this.reference) {
+      this.reference = this.params.ref;
+      delete this.params.ref;
+    }
+
+    this.params.view.param.date = (this.reference == 'Not-Responded-Calls') ? event['Call Date'] : '';
     this.params.view.param.isfo = event._aduserid;
     console.log('jrx:', this.params);
     this.common.handleModalSize('class', 'modal-lg', '1100');
     this.common.params = { data: this.params };
     console.log('this.common.params :', this.common.params);
-    
+
     const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 }
