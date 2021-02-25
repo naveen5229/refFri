@@ -351,7 +351,6 @@ export class TmgCallsComponent implements OnInit {
       isadmin: true,
       isfo: false,
       id: id,
-      ref: 'tmg-calls'
     };
     this.getDetials('Tmgreport/GetCallsDrivar', params)
   }
