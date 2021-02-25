@@ -7,6 +7,7 @@ import { GenericModelComponent } from '../../modals/generic-modals/generic-model
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 import { ChartComponent } from 'angular2-chartjs';
+import { DatePipe } from '@angular/common';
 
 @AutoUnsubscribe()
 @Component({
@@ -54,7 +55,8 @@ export class TmgCallsComponent implements OnInit {
 
   constructor(public api: ApiService,
     public common: CommonService,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    public datepipe: DatePipe) {
     this.common.refresh = this.refresh.bind(this);
   }
 
@@ -77,6 +79,36 @@ export class TmgCallsComponent implements OnInit {
     this.getCallsSupervisorUnLoadingTat(6);
   }
 
+  // getCallsDrivar(index) {
+  //   this.callsDrivar = [];
+  //   this.showLoader(index);
+  //   let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+  //   let endDate = new Date();
+  //   let params = {
+  //     fromdate: this.common.dateFormatter(startDate),
+  //     todate: this.common.dateFormatter(endDate),
+  //     groupdays: 7,
+  //     isfo: false,
+  //     isadmin: true
+  //   };
+  //   this.api.post('Tmgreport/GetCallsDrivar', params)
+  //     .subscribe(res => {
+  //       console.log('callsDrivar:', res);
+  //       this.callsDrivar = res['data'] || [];
+  //       // this.driverIdArr = res['data'].map(element => {
+  //       //     element = element._id;
+  //       //   return element
+  //       // });
+  //       console.log('driver array :', this.driverIdArr);
+
+  //       if (this.callsDrivar.length > 0) this.handleChart1();
+  //       this.hideLoader(index);;
+  //     }, err => {
+  //       this.hideLoader(index);
+  //       console.log('Err:', err);
+  //     });
+  // }
+
   getCallsDrivar(index) {
     this.callsDrivar = [];
     this.showLoader(index);
@@ -89,7 +121,7 @@ export class TmgCallsComponent implements OnInit {
       isfo: false,
       isadmin: true
     };
-    this.api.post('Tmgreport/GetCallsDrivar', params)
+    this.api.post('Tmgreport/GetCallsDriverDaywise', params)
       .subscribe(res => {
         console.log('callsDrivar:', res);
         this.callsDrivar = res['data'] || [];
@@ -275,7 +307,7 @@ export class TmgCallsComponent implements OnInit {
     let yaxis = [];
     let xaxis = [];
     this.callsDrivar.map(tlt => {
-      xaxis.push(tlt['Period']);
+      xaxis.push(this.datepipe.transform(tlt['Date'], 'dd') );
       yaxis.push(tlt['Calls Percent']);
     });
     let yaxisObj = this.common.chartScaleLabelAndGrid(yaxis);
@@ -337,13 +369,15 @@ export class TmgCallsComponent implements OnInit {
 
 
   chart1Clicked(event) {
-    let driverId = this.callsDrivar[event[0]._index]._id;
-    this.passingIdChart1Data(driverId);
+
+    let Date = this.callsDrivar[event[0]._index].Date;
+    console.log('event[0]._index',event[0]._index,event[0],Date);
+    this.passingIdChart1Data(Date);
   }
 
-  passingIdChart1Data(id) {
+  passingIdChart1Data(Date) {
     //   this.showLoader(id);
-    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let startDate =  new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -351,7 +385,7 @@ export class TmgCallsComponent implements OnInit {
       groupdays: 7,
       isadmin: true,
       isfo: false,
-      id: id,
+      date: Date,
       ref: 'tmg-calls'
     };
     // this.api.post('Tmgreport/GetCallsDrivar', params)
@@ -363,7 +397,7 @@ export class TmgCallsComponent implements OnInit {
     //     this.hideLoader(id);;
     //     console.log('Err:', err);
     //   });
-    this.getDetials('Tmgreport/GetCallsDrivar', params)
+    this.getDetials('Tmgreport/GetCallsDriverDaywise', params)
   }
 
   chart3Clicked(event){
