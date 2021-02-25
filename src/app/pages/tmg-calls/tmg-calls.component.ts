@@ -7,7 +7,6 @@ import { GenericModelComponent } from '../../modals/generic-modals/generic-model
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 import { ChartComponent } from 'angular2-chartjs';
-import { DatePipe } from '@angular/common';
 
 @AutoUnsubscribe()
 @Component({
@@ -55,8 +54,7 @@ export class TmgCallsComponent implements OnInit {
 
   constructor(public api: ApiService,
     public common: CommonService,
-    private modalService: NgbModal,
-    public datepipe: DatePipe) {
+    private modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
   }
 
@@ -307,7 +305,7 @@ export class TmgCallsComponent implements OnInit {
     let yaxis = [];
     let xaxis = [];
     this.callsDrivar.map(tlt => {
-      xaxis.push(this.datepipe.transform(tlt['Date'], 'dd') );
+      xaxis.push(this.common.changeDateformat(tlt['Date'], 'dd'));
       yaxis.push(tlt['Calls Percent']);
     });
     let yaxisObj = this.common.chartScaleLabelAndGrid(yaxis);
@@ -375,9 +373,9 @@ export class TmgCallsComponent implements OnInit {
     this.passingIdChart1Data(Date);
   }
 
-  passingIdChart1Data(Date) {
+  passingIdChart1Data(parseDate) {
     //   this.showLoader(id);
-    let startDate =  new Date(new Date().setDate(new Date().getDate() - 30));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -385,7 +383,7 @@ export class TmgCallsComponent implements OnInit {
       groupdays: 7,
       isadmin: true,
       isfo: false,
-      date: Date,
+      date: parseDate,
       ref: 'tmg-calls'
     };
     // this.api.post('Tmgreport/GetCallsDrivar', params)
