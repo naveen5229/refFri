@@ -81,7 +81,7 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
       },
 
 
-     
+
       {
         title: 'Trip Diagnosis',
         icon: 'fa-arrows-alt',
@@ -92,6 +92,12 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         title: 'VSC Diagnosis',
         icon: 'fa-arrows-alt',
         link: '/admin/vsc-diagnosis',
+        home: true,
+      },
+      {
+        title: 'Placement Optimization',
+        icon: 'fa-home',
+        link: '/pages/placementoptimization',
         home: true,
       },
     ]

@@ -1,0 +1,47 @@
+<nb-card style="border: 0px;">
+    <nb-card-header>
+        <div class="row">
+            <div class="col-sm-6">
+                <h5>Placement Optimization</h5>
+            </div>
+            
+        </div>
+    </nb-card-header> 
+    <nb-card-body>
+        <div class="row mb-2">
+            <div class="col-sm-2">
+                <div class="search_vehicle_input">
+                    <auto-suggestion (onSelected)="selectplnt($event)" url="suggestion/getSites"
+                        display="name" placeholder="Search Plant" [preSelected]="null"></auto-suggestion>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="search_vehicle_input">
+                    <input type="text" [(ngModel)]="weighttime" class="form control" placeholder="Weight Time">
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="search_vehicle_input">
+                    <input type="text" [(ngModel)]="minqty" class="form control" placeholder="Min Qty">
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="search_vehicle_input">
+                    <input type="text" [(ngModel)]="maxqty" class="form control" placeholder="Max Qty">
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="search_vehicle_input">
+                    <input type="text" [(ngModel)]="minpanalty" class="form control" placeholder="Min Panalty">
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="search_vehicle_input">
+                    <input type="text" [(ngModel)]="maxpanalty" class="form control" placeholder="Max Panalty">
+                </div>
+            </div>
+        </div>
+       
+        <br>
+    </nb-card-body>
+</nb-card>

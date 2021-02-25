@@ -159,6 +159,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         icon: 'fa-home',
         link: '/pages/ulheatmap',
       },
+      {
+        title: 'Placement Optimization',
+        icon: 'fa-home',
+        link: '/pages/placementoptimization',
+      },
     ]
   },
   {
