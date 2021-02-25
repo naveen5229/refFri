@@ -202,7 +202,7 @@ const PAGES_COMPONENTS = [
     IssuesReportComponent,
     VehicleStatesComponent,
     GraphicalReportsComponent,
-    UlheatmapComponent,
+    UlheatmapComponent
   ],
   exports: [
     FuelAverageAnalysisComponent,
