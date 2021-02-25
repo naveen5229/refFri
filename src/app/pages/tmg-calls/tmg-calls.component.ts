@@ -384,7 +384,7 @@ export class TmgCallsComponent implements OnInit {
       isadmin: true,
       isfo: false,
       date: parseDate,
-      ref: 'tmg-calls'
+     // ref: 'tmg-calls'
     };
     // this.api.post('Tmgreport/GetCallsDrivar', params)
     //   .subscribe(res => {
