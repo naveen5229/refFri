@@ -109,6 +109,7 @@ import { GraphicalReportsComponent } from './graphical-reports/graphical-reports
 import { OnSideImagesComponent } from '../driver/on-side-images/on-side-images.component';
 import { UlheatmapComponent } from './ulheatmap/ulheatmap.component';
 import { TicketsReportComponent } from './tickets-report/tickets-report.component';
+import { PlacementoptimizationComponent } from './placementoptimization/placementoptimization.component';
 
 
 const routes: Routes = [{
@@ -678,7 +679,11 @@ const routes: Routes = [{
   component: UlheatmapComponent,
   canActivate: [AuthGuard, RouteGuard],
 },
-
+{
+  path: 'placementoptimization',
+  component: PlacementoptimizationComponent,
+  canActivate: [AuthGuard, RouteGuard],
+},
 
   
   ],
