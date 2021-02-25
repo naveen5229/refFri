@@ -9,16 +9,16 @@ import { AccountService } from './account.service';
 })
 export class ApiService {
   /************************** PROD SERVER ********** */
-  // URL: string = 'https://elogist.in/booster_webservices/';
-  // UrlPrime: string = 'https://elogist.in/itrm_webservices/';
-  // UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
-  // URL2 = 'http://elogist.in/transtruck/';
+  URL: string = 'https://elogist.in/booster_webservices/';
+  UrlPrime: string = 'https://elogist.in/itrm_webservices/';
+  UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
+  URL2 = 'http://elogist.in/transtruck/';
 
   /********************** DEV SERVER ***************** */
-  URL: string = 'https://dev.elogist.in/booster_webservices/';
-  UrlPrime: string = 'https://dev.elogist.in/itrm_webservices/';
-  UrlTranstruckNew: string = 'http://dev.elogist.in/transtrucknew/';
-  URL2 = 'http://dev.elogist.in/transtruck/';
+  // URL: string = 'https://dev.elogist.in/booster_webservices/';
+  // UrlPrime: string = 'https://dev.elogist.in/itrm_webservices/';
+  // UrlTranstruckNew: string = 'http://dev.elogist.in/transtrucknew/';
+  // URL2 = 'http://dev.elogist.in/transtruck/';
 
   /********************* Common ***************** */
   

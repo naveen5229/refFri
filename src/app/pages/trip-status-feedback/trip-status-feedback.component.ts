@@ -211,7 +211,8 @@ export class TripStatusFeedbackComponent implements OnInit {
       newTrip: trip.trips || '',
       newState: trip.status,
       location: trip.r_location,
-      remark: trip.remark
+      remark: trip.remark,
+      arch_date: this.common.getDate(- Math.abs(this.tripStatusDate), 'YYYYMMDD').split(' ')[0]
     };
     console.log("params", params);
     // return;
