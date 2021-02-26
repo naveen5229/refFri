@@ -679,22 +679,16 @@ const routes: Routes = [{
   component: UlheatmapComponent,
   canActivate: [AuthGuard, RouteGuard],
 },
-<<<<<<< HEAD
-
 {
   path: 'tripmasterreport',
   component: TripmasterreportComponent,
   canActivate: [AuthGuard, RouteGuard],
 },
-
-=======
 {
   path: 'placementoptimization',
   component: PlacementoptimizationComponent,
   canActivate: [AuthGuard, RouteGuard],
 },
->>>>>>> 8466cf802816820127ec08b93909b370ca8e5083
-
   
   ],
 }];
