@@ -40,6 +40,7 @@ import { TmgTrafficAnalysisComponent } from './pages/tmg-traffic-analysis/tmg-tr
 import { TmgLoadingAnalysisComponent } from './pages/tmg-loading-analysis/tmg-loading-analysis.component';
 import { TmgTransporterAnalysisComponent } from './pages/tmg-transporter-analysis/tmg-transporter-analysis.component';
 import { TmgUnloadingAnalysisComponent } from './pages/tmg-unloading-analysis/tmg-unloading-analysis.component';
+import { PlacementoptimizationComponent } from './pages/placementoptimization/placementoptimization.component';
 
 
 const PAGES_COMPONENTS = [
@@ -76,6 +77,7 @@ const PAGES_COMPONENTS = [
     TmgLoadingAnalysisComponent,
     TmgTransporterAnalysisComponent,
     TmgUnloadingAnalysisComponent,
+    PlacementoptimizationComponent
 ];
 
 

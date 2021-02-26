@@ -162,7 +162,7 @@ export class TmgCallsComponent implements OnInit {
       totalrecord: 3,
       fromdate: startDate,
       todate: endDate,
-      isfo: true,
+      isfo: false,
       isadmin: true
     };
     this.showLoader(index);
@@ -186,7 +186,7 @@ export class TmgCallsComponent implements OnInit {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
       groupdays: 7,
-      isfo: true,
+      isfo: false,
       isadmin: true
     };
     this.api.post('Tmgreport/GetCallsSupervisorLoadingTat', params)
@@ -209,7 +209,7 @@ export class TmgCallsComponent implements OnInit {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
       groupdays: 15,
-      isfo: true,
+      isfo: false,
       isadmin: true
     };
     this.showLoader(index);
@@ -232,7 +232,7 @@ export class TmgCallsComponent implements OnInit {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
       groupdays: 7,
-      isfo: true,
+      isfo: false,
       isadmin: true
     };
     this.showLoader(index);
@@ -342,7 +342,6 @@ export class TmgCallsComponent implements OnInit {
   }
 
   passingIdChart1Data(id) {
-    //   this.showLoader(id);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
@@ -352,27 +351,16 @@ export class TmgCallsComponent implements OnInit {
       isadmin: true,
       isfo: false,
       id: id,
-      ref: 'tmg-calls'
     };
-    // this.api.post('Tmgreport/GetCallsDrivar', params)
-    //   .subscribe(res => {
-    //     console.log('callsDrivar 111 :', res);
-
-    //     this.hideLoader(id);;
-    //   }, err => {
-    //     this.hideLoader(id);;
-    //     console.log('Err:', err);
-    //   });
     this.getDetials('Tmgreport/GetCallsDrivar', params)
   }
 
-  chart3Clicked(event){
+  chart2Clicked(event){
     let driverId = this.callsDrivar[event[0]._index]._id;
-    this.passingIdChart3Data(driverId);
+    this.passingIdChart2Data(driverId);
   }
 
-  passingIdChart3Data(id) {
-    //   this.showLoader(id);
+  passingIdChart2Data(id) {
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
@@ -385,15 +373,6 @@ export class TmgCallsComponent implements OnInit {
       ref: 'Not-Responded-Calls'
     };
     console.log('params :', params);
-    // this.api.post('Tmgreport/GetCallsDrivar', params)
-    //   .subscribe(res => {
-    //     console.log('callsDrivar 111 :', res);
-
-    //     this.hideLoader(id);;
-    //   }, err => {
-    //     this.hideLoader(id);;
-    //     console.log('Err:', err);
-    //   });
     this.getDetials('Tmgreport/GetCallsNotRespod', params)
   }
 
@@ -508,6 +487,31 @@ export class TmgCallsComponent implements OnInit {
     };
   }
 
+  chart3Clicked(event){
+    console.log('chart 3 event is: ', event,event[0]._datasetIndex);
+    let xid = event[0]._datasetIndex+1;
+    let isFoId = this.callsSupervisorLoadingTat[event[0]._index]._adminusers_id;
+    console.log('diff para',this.callsSupervisorLoadingTat[event[0]._index]);
+    this.passingDataInsideChart3Modal(xid, isFoId);
+  }
+
+  passingDataInsideChart3Modal(id, isFoId){
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      groupdays: 7,
+      isadmin: true,
+      isfo: isFoId,
+      xid: id,
+    };
+    console.log('params :', params);
+    this.getDetials('Tmgreport/GetCallsSupervisorLoadingTat', params)
+  }
+
+
+
   handleChart4() {
     let xaxis = [];
     let executives = _.groupBy(this.callOnwardKmd, 'Executive');
@@ -565,6 +569,28 @@ export class TmgCallsComponent implements OnInit {
     console.log(' this.chart4:', this.chart4);
   }
 
+  chart4Clicked(event){
+    console.log('chart 3 event is: ', event);
+    let xid = event[0]._datasetIndex+1;
+    let isFoId = this.callOnwardKmd[event[0]._index]._adminusers_id;
+    this.passingDataInsideChart4Modal(xid, isFoId);
+  }
+
+  passingDataInsideChart4Modal(id, isFoId){
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      groupdays: 7,
+      isadmin: true,
+      isfo: isFoId,
+      xid: id,
+    };
+    console.log('params :', params);
+    this.getDetials('Tmgreport/GetCallOnwardKmd', params)
+  }
+
   handleChart5() {
     let yaxis = [];
     let xaxis = [];
@@ -619,6 +645,30 @@ export class TmgCallsComponent implements OnInit {
         }]
       },
     };
+  }
+
+  chart5Clicked(event){
+    console.log('chart 5 event is: ', event);
+    console.log('passingDataInsideChart5Modal :', this.callsSupervisorUnLoadingTat[event[0]._index]._adminusers_id);
+    let xid = event[0]._datasetIndex+1;
+    //let xid = this.callsSupervisorUnLoadingTat[event[0]._index]._id;
+    let isFoId = this.callsSupervisorUnLoadingTat[event[0]._index]._adminusers_id;
+    this.passingDataInsideChart5Modal(xid, isFoId);
+  }
+
+  passingDataInsideChart5Modal(id, isFoId){
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      groupdays: 15,
+      isadmin: true,
+      isfo: isFoId,
+      xid: id,
+    };
+    console.log('params :', params);
+    this.getDetials('Tmgreport/GetCallsSupervisorUnLoadingTat', params)
   }
 
   getDetials(url, params, value = 0, type = 'days', isDateFilter = false) {

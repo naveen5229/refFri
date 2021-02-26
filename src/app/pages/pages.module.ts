@@ -205,6 +205,7 @@ const PAGES_COMPONENTS = [
     GraphicalReportsComponent,
     UlheatmapComponent,
     TripmasterreportComponent,
+    UlheatmapComponent
   ],
   exports: [
     FuelAverageAnalysisComponent,

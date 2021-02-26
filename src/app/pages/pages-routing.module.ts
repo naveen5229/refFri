@@ -110,6 +110,7 @@ import { OnSideImagesComponent } from '../driver/on-side-images/on-side-images.c
 import { UlheatmapComponent } from './ulheatmap/ulheatmap.component';
 import { TicketsReportComponent } from './tickets-report/tickets-report.component';
 import { TripmasterreportComponent } from './tripmasterreport/tripmasterreport.component';
+import { PlacementoptimizationComponent } from './placementoptimization/placementoptimization.component';
 
 
 const routes: Routes = [{
@@ -678,6 +679,7 @@ const routes: Routes = [{
   component: UlheatmapComponent,
   canActivate: [AuthGuard, RouteGuard],
 },
+<<<<<<< HEAD
 
 {
   path: 'tripmasterreport',
@@ -685,6 +687,13 @@ const routes: Routes = [{
   canActivate: [AuthGuard, RouteGuard],
 },
 
+=======
+{
+  path: 'placementoptimization',
+  component: PlacementoptimizationComponent,
+  canActivate: [AuthGuard, RouteGuard],
+},
+>>>>>>> 8466cf802816820127ec08b93909b370ca8e5083
 
   
   ],
