@@ -160,6 +160,9 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/ulheatmap',
       },
       {
+        title: 'Trip Master Report',
+        icon: 'fa-home',
+        link: '/pages/tripmasterreport',
         title: 'Placement Optimization',
         icon: 'fa-home',
         link: '/pages/placementoptimization',
