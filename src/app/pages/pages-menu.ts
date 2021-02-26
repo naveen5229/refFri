@@ -163,9 +163,6 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         title: 'Trip Master Report',
         icon: 'fa-home',
         link: '/pages/tripmasterreport',
-        title: 'Placement Optimization',
-        icon: 'fa-home',
-        link: '/pages/placementoptimization',
       },
     ]
   },
