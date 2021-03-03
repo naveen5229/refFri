@@ -58,8 +58,8 @@ export class TripsComponent implements OnInit {
 
   }
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() { }
+  ngOnInit() {
   }
 
   refresh() {
@@ -161,8 +161,8 @@ ngOnInit() {
         } else {
           this.valobj[this.headings[j]] = { value: this.vehicleTrips[i][this.headings[j]], class: 'black', action: '' };
         }
-        this.valobj['km'] = { value: this.vehicleTrips[i]['_km'], class: 'blue',action:this.openTripKmRepair.bind(this, this.vehicleTrips[i]) };
-        
+        this.valobj['km'] = { value: this.vehicleTrips[i]['_km'], class: 'blue', action: this.openTripKmRepair.bind(this, this.vehicleTrips[i]) };
+
         this.valobj['googlekm'] = {
           value: this.vehicleTrips[i]['_googlekm'], isHTML: true, action: null,
         }
@@ -191,13 +191,15 @@ ngOnInit() {
     return columns;
   }
 
-  openTripKmRepair(tripInfo){
-    if(!tripInfo['_km']){
+  openTripKmRepair(tripInfo) {
+    console.log('tripInfo:', tripInfo);
+    if (!tripInfo['_km']) {
       this.common.showError('No Data');
       return;
     }
     let tripData = {
-      tripId : tripInfo['Trip Id']
+      tripId: tripInfo['Trip Id'],
+      vId: tripInfo._vid
     };
     this.common.params = tripData;
     console.log("tripData", this.common.params);

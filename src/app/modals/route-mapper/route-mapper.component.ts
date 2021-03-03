@@ -47,7 +47,10 @@ export class RouteMapperComponent implements OnInit {
   infoWindow = null;
   infoStart = null;
   trails = [];
-  subTrails = [];
+  trailsAll = [];
+  redSubTrails = [];
+  blueSubTrails = [];
+
   subTrailsPolyLines = [];
 
   constructor(private mapService: MapService,
@@ -71,7 +74,7 @@ export class RouteMapperComponent implements OnInit {
   ngOnDestroy() {
     this.subTrailsPolyLines.forEach(polyline => polyline.setMap(null));
   }
-  
+
   ngOnInit() {
   }
 
@@ -115,6 +118,30 @@ export class RouteMapperComponent implements OnInit {
         this.mapService.setBounds(this.mapService.createLatLng(element.lat, element.long));
         prevElement = element;
         i++;
+      }
+      if (this.trailsAll && this.trailsAll.length) {
+        i = 0;
+        prevElement = null;
+        let total = 0;
+        this.polypath = [];
+        for (let index = 0; index < this.trailsAll.length; index++) {
+          const element = this.trailsAll[index];
+          if (i) {
+            total += this.commonService.distanceFromAToB(element.lat, element.long, prevElement.lat, prevElement.long, "Mt");
+            this.polypath.push({
+              lat: element.lat, lng: element.long,
+              odo: total, time: element.time
+            });
+          } else {
+            this.polypath = [];
+            this.polypath.push({ lat: element.lat, lng: element.long, odo: 0, time: element.time });
+          }
+
+          // this.mapService.createPolyPathManual(this.mapService.createLatLng(element.lat, element.long), null, false);
+          // this.mapService.setBounds(this.mapService.createLatLng(element.lat, element.long));
+          prevElement = element;
+          i++;
+        }
       }
 
       this.maxOdo = total;
@@ -294,23 +321,14 @@ export class RouteMapperComponent implements OnInit {
           delete point.lng;
           return point;
         });
-        console.timeEnd('getVehicleTrailAll');
-
-        this.subTrails = [];
-        let subTrail = [];
-        let isSubTrail = false;
-        res.withoutSnap.forEach((point, index) => {
-          if (point.dataType == 0 || isSubTrail) {
-            subTrail.push(point);
-            isSubTrail = true;
-          }
-          if (index == res.withoutSnap.length - 1 || (point.dataType == 0 && res.withoutSnap[index + 1].dataType != 0)) {
-            isSubTrail = false;
-            this.subTrails.push(subTrail);
-            subTrail = [];
-          }
+        this.trailsAll = res.withoutSnap.map((point, index) => {
+          point.long = point.lng;
+          delete point.lng;
+          return point;
         });
-        this.drawSubTrails();
+        console.timeEnd('getVehicleTrailAll');
+        this.subTrailsPolyLines.forEach(polyline => polyline.setMap(null));
+        this.generateSubTrails(res);
         resolve(true);
         subscription.unsubscribe();
       }, err => {
@@ -322,8 +340,45 @@ export class RouteMapperComponent implements OnInit {
 
   }
 
+  generateSubTrails(res) {
+
+    this.redSubTrails = [];
+    this.blueSubTrails = [];
+
+    let redSubTrail = [];
+    let blueSubTrail = [];
+
+    let isRedSubTrail = false;
+    let isBlueSubTrail = false;
+
+    res.withoutSnap.forEach((point, index) => {
+      if (point.dataType == 0 || isRedSubTrail) {
+        redSubTrail.push(point);
+        isRedSubTrail = true;
+      }
+
+      if (point.dataType == 2 || isBlueSubTrail) {
+        blueSubTrail.push(point);
+        isBlueSubTrail = true;
+      }
+
+      if (index == res.withoutSnap.length - 1 || (point.dataType == 0 && res.withoutSnap[index + 1].dataType != 0)) {
+        isRedSubTrail = false;
+        this.redSubTrails.push(redSubTrail);
+        redSubTrail = [];
+      }
+
+      if (index == res.withoutSnap.length - 1 || (point.dataType == 2 && res.withoutSnap[index + 1].dataType != 2)) {
+        isBlueSubTrail = false;
+        this.blueSubTrails.push(blueSubTrail);
+        blueSubTrail = [];
+      }
+    });
+    this.drawSubTrails();
+  }
+
   drawSubTrails() {
-    this.subTrails.forEach((subTrail) => {
+    this.redSubTrails.forEach((subTrail) => {
       const coordinates = subTrail.map(trail => {
         return { lat: trail.lat, lng: trail.lng }
       });
@@ -332,6 +387,20 @@ export class RouteMapperComponent implements OnInit {
         strokeOpacity: 1,
         strokeWeight: 3,
         zIndex: 999
+      };
+      const polyline = this.mapService.createPolyline(coordinates, polyOptions);
+      this.subTrailsPolyLines.push(polyline);
+    });
+
+    this.blueSubTrails.forEach((subTrail) => {
+      const coordinates = subTrail.map(trail => {
+        return { lat: trail.lat, lng: trail.lng }
+      });
+      const polyOptions = {
+        strokeColor: 'blue',
+        strokeOpacity: 1,
+        strokeWeight: 3,
+        zIndex: 9999
       };
       const polyline = this.mapService.createPolyline(coordinates, polyOptions);
       this.subTrailsPolyLines.push(polyline);
