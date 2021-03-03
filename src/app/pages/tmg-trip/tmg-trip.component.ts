@@ -479,6 +479,10 @@ ngOnInit() {
       xaxis.push(tlt['Period']);
       yaxis.push(tlt['Loading Duration(hrs)']);
     });
+
+    console.log('trip loading time : ', this.tripLoadindTime);
+    console.log('y axis data:', yaxis);
+    
     let yaxisObj = this.common.chartScaleLabelAndGrid(yaxis);
     console.log("handleChart1", xaxis, yaxis);
     this.chart1.type = 'line'
@@ -547,7 +551,6 @@ ngOnInit() {
       };
 
   }
-
 
   handleChart2() {
     let yaxis = [];

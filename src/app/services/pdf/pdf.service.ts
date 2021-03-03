@@ -130,6 +130,12 @@ export class PdfService {
           let plainText = elthtml.replace(/<[^>]*>/g, "");
           hdgs.push(plainText);
         }
+
+        if (hdgCols[i].colSpan > 1) {
+          for (let j = 1; j < hdgCols[i].colSpan; j++) {
+            hdgs.push('');
+          }
+        }
       }
     }
 

@@ -44,15 +44,20 @@ export class SmartTableComponent implements OnInit {
   constructor(private cdr: ChangeDetectorRef,
     public common: CommonService) { }
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() { }
+  ngOnInit() {
   }
 
   ngOnChanges(changes) {
     console.log('Changes: ', changes);
-    this.data = changes.data.currentValue;
-    if (changes.settings)
+    if (changes.data)
+      this.data = changes.data.currentValue;
+    if (changes.settings) {
       this.settings = changes.settings.currentValue;
+      if (this.settings.pageLimit) {
+        this.pages.limit = this.settings.pageLimit;
+      }
+    }
     console.log('Data', this.data);
     this.setData();
     this.activeRow = -1;

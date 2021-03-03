@@ -2,22 +2,35 @@
 <div class="contentsection">
 
     <div class="row mb-3 mr-0 pt-2">
-      <div class="col-4 pl-0">
+
+      <!-- <div class="col-4 pl-0">
         <div class="outer">
-          <h6 style="text-align:center"><b class="charthead">Driver Calls % </b></h6>
+          <h6 style="text-align:center"><b class="charthead">Driver Contacted % </b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetCallsDrivar',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
+          (click)="getDetials('Tmgreport/GetCallsDrivar',{totalrecord: 3,stepno: -1, isfo: false,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <chart [type]="chart1.type" [data]="chart1.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
-            [options]="chart1.options">
+            [options]="chart1.options" (clickElement)="chart1Clicked($event)">
+          </chart>
+        </div>
+      </div> -->
+      <div class="col-4 pl-0">
+        <div class="outer">
+          <h6 style="text-align:center"><b class="charthead">Driver Contacted % </b></h6>
+          <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetCallsDriverDaywise',{totalrecord: 3,stepno: -1, isfo: false,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
+        </p>
+          <chart [type]="chart1.type" [data]="chart1.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
+            [options]="chart1.options" (clickElement)="chart1Clicked($event)">
           </chart>
         </div>
       </div>
+
       <div class="col-4 pl-0">
         <div class="outer" style="min-height:265px">
-          <h6 style="text-align:center"><b class="charthead">Supervisor Wise % Not Responded Calls</b></h6>
+          <h6 style="text-align:center"><b class="charthead">Supervisor Wise Unresponded Driver Calls %</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetCallsSupervisorWiseNotRespod',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true},30,'days')"><i title="More Details" class="fa fa-list"></i>
+          (click)="getDetials('Tmgreport/GetCallsSupervisorWiseNotRespod',{totalrecord: 3,stepno: -1, isfo: false,isadmin: true},30,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <table class="table">
             <thead class="thead">
@@ -27,8 +40,8 @@
               <th>Last 30 Days %</th>
             </thead>
             <tbody class="tbody">
-              <tr *ngFor="let csnr of callsSupervisorWiseNotRespod">
-                <td>{{csnr['Executive Name']}}</td>
+              <tr *ngFor="let csnr of callsSupervisorWiseNotRespod" >
+                <td class="link" (click)="getDetials('Tmgreport/GetCallsSupervisorWiseNotRespod',{totalrecord: 3,stepno: 1, isfo: csnr['_foadmin_id'],isadmin: true},30,'days')">{{csnr['Executive Name']}}</td>
                 <td>{{csnr['vehiclecount']}}</td>
                 <td>{{csnr['yesterday_per']}}</td>
                 <td>{{csnr['last30_days_per']}}</td>
@@ -39,12 +52,12 @@
       </div>
       <div class="col-4 pl-0 pr-0">
         <div class="outer">
-          <h6 style="text-align:center"><b class="charthead">% Not Responded Calls</b></h6>
+          <h6 style="text-align:center"><b class="charthead">Unresponded Driver Calls %</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetCallsNotRespod',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
+          (click)="getDetials('Tmgreport/GetCallsNotRespod',{totalrecord: 3,stepno: -1, isfo: false,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <chart [type]="chart2.type" [data]="chart2.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
-            [options]="chart2.options">
+            [options]="chart2.options" (clickElement)="chart2Clicked($event)">
           </chart>
         </div>
       </div>
@@ -55,21 +68,25 @@
       
       <div class="col-6">
         <div  class="outer" style="border:1px solid #7c94bf;min-height:120px">
-          <h6 style="text-align: center;"><b class="charthead"> Worst 3 Driver Calls % </b></h6>
+          <h6 style="text-align: center;"><b class="charthead"> Worst 3 Drivers (Unresponded Supervisor Calls %) </b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetCallsSupervisorWiseTopWorstDriverCalls',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true},7,'days')"><i title="More Details" class="fa fa-list"></i>
+          (click)="getDetials('Tmgreport/GetCallsSupervisorWiseTopWorstDriverCalls',{totalrecord: 3,stepno: -1, isfo: false,isadmin: true},7,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <table class="table">
             <thead class="thead">
-              <th>Executive Name</th>
+              <th>Driver Name</th>
               <th>Yesterday % </th>
               <th>Last 30 Days %</th>
+              <th>Last 30 Days Total Calls</th>
+              <th>Last 30 Days Total Respond Calls</th>
             </thead>
             <tbody class="tbody">
               <tr *ngFor="let wdc of callsSupervisorWiseTopWorstDriverCalls">
-                <td>{{wdc['foadmin_name']}}</td>
-                <td>{{wdc['yesterday_per']}}</td>
-                <td>{{wdc['last30_days_per']}}</td>
+                <td class="link" (click)="getDetials('Tmgreport/GetCallsSupervisorWiseTopWorstDriverCalls',{totalrecord: 3,stepno: 1, isfo: false,isadmin: true, x_driverid: wdc['_driverid']},7,'days')">{{wdc['Driver']}}</td>
+                <td>{{wdc['Yesterday(%)']}}</td>
+                <td>{{wdc['Last 30 Days (%)']}}</td>
+                <td>{{wdc['Last 30 Days Total Calls']}}</td>
+                <td>{{wdc['Last 30 Days Total Respond Calls']}}</td>
               </tr>
             </tbody>
           </table>
@@ -82,12 +99,12 @@
     <div class="row mb-3 mr-0">
       <div class="col-4 pl-0">
         <div class="outer">
-          <h6 style="text-align:center"><b class="charthead">Longest Loading TAT</b></h6>
+          <h6 style="text-align:center"><b class="charthead">Average Loading TAT </b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetCallsSupervisorLoadingTat',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
+          (click)="getDetials('Tmgreport/GetCallsSupervisorLoadingTat',{totalrecord: 3,stepno: -1, isfo: false,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <chart [type]="chart3.type" [data]="chart3.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
-            [options]="chart3.options">
+            [options]="chart3.options" (clickElement)="chart3Clicked($event)">
           </chart>
         </div>
       </div>
@@ -95,22 +112,22 @@
         <div class="outer">
           <h6 style="text-align:center"><b class="charthead">Onward KMPD </b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetCallOnwardKmd',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true,groupdays: 7},30,'days',true)"><i title="More Details" class="fa fa-list"></i>
+          (click)="getDetials('Tmgreport/GetCallOnwardKmd',{totalrecord: 3,stepno: -1, isfo: false,isadmin: true,groupdays: 7},30,'days',true)"><i title="More Details" class="fa fa-list"></i>
         </p>
           <chart [type]="chart4.type" [data]="chart4.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
-            [options]="chart4.options">
+            [options]="chart4.options" (clickElement)="chart4Clicked($event)">
           </chart>
         </div>
       </div>
       <div class="col-4 pl-0 pr-0">
         <div class="outer">
-          <h6 style="text-align:center"><b class="charthead">Worst Unloading TAT</b></h6>
+          <h6 style="text-align:center"><b class="charthead">Average Unloading TAT</b></h6>
           <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetCallsSupervisorUnLoadingTat',{totalrecord: 3,stepno: -1, isfo: true,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
+          (click)="getDetials('Tmgreport/GetCallsSupervisorUnLoadingTat',{totalrecord: 3,stepno: -1, isfo: false,isadmin: true,groupdays: 15},30,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <chart [type]="chart5.type" [data]="chart5.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
-            [options]="chart5.options">
-          </chart>
+            [options]="chart5.options" (clickElement)="chart5Clicked($event)">
+          </chart> 
         </div>
       </div>
     </div>

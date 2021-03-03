@@ -159,6 +159,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         icon: 'fa-home',
         link: '/pages/ulheatmap',
       },
+      {
+        title: 'Trip Master Report',
+        icon: 'fa-home',
+        link: '/pages/tripmasterreport',
+      },
     ]
   },
   {
@@ -195,6 +200,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         title: 'Tickets All',
         icon: 'fa-ticket-alt',
         link: '/pages/tickets-all',
+        home: true,
+      },
+      {
+        title: 'Tickets Reports',
+        icon: 'fa-ticket-alt',
+        link: '/pages/tickets-report',
         home: true,
       },
       {
@@ -539,10 +550,9 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
       icon: 'fa-map-marker',
       link: '/pages/driver-on-side-images',
       home: true,
-  },
+    },
 
     {
-
       title: 'Vehicle Driver Mapping',
       icon: 'fa-street-view',
       link: '/pages/vehicle-driver-mapping',
@@ -556,7 +566,6 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
       home: true,
     },
     {
-
       title: 'Driver Document',
       icon: 'fa-book',
       link: '/pages/driver-document',

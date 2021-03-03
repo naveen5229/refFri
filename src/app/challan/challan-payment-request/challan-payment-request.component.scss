@@ -1,6 +1,23 @@
 .fa-edit {
     color: blue;
   }
+
+  :host ::ng-deep{
+    .make-me-gray{
+        background: #d9d3d3 !important;
+    }
+}
+
+:host ::ng-deep{
+  .make-me-white{
+    background:white!important;
+  }
+}
+
+// :host ::ng-deep .red{
+//   color:red!important;
+//   font-weight:bold;
+// }
   
   :host ::ng-deep td i.fa-file-alt {
     background-color: #04a9f5;
@@ -24,6 +41,12 @@
     top: -28px;
     font-family: Roboto;
     z-index: 999;
+  }
+
+  :host ::ng-deep .make-me-red{
+    background:#d9d3d3!important;
+    color:red!important;
+    font-weight:bold!important;
   }
   
   :host ::ng-deep td i.fa-file-alt span::before {

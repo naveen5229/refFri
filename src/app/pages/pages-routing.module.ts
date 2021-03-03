@@ -108,6 +108,9 @@ import { TmgAlertsComponent } from './tmg-alerts/tmg-alerts.component';
 import { GraphicalReportsComponent } from './graphical-reports/graphical-reports.component';
 import { OnSideImagesComponent } from '../driver/on-side-images/on-side-images.component';
 import { UlheatmapComponent } from './ulheatmap/ulheatmap.component';
+import { TicketsReportComponent } from './tickets-report/tickets-report.component';
+import { TripmasterreportComponent } from './tripmasterreport/tripmasterreport.component';
+import { PlacementoptimizationComponent } from './placementoptimization/placementoptimization.component';
 
 
 const routes: Routes = [{
@@ -180,6 +183,12 @@ const routes: Routes = [{
 
     path: 'tickets-all',
     component: TicketsAllComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+
+    path: 'tickets-report',
+    component: TicketsReportComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
   {
@@ -666,13 +675,20 @@ const routes: Routes = [{
   canActivate: [AuthGuard,RouteGuard]
 },
 {
-
   path: 'ulheatmap',
   component: UlheatmapComponent,
   canActivate: [AuthGuard, RouteGuard],
 },
-
-
+{
+  path: 'tripmasterreport',
+  component: TripmasterreportComponent,
+  canActivate: [AuthGuard, RouteGuard],
+},
+{
+  path: 'placementoptimization',
+  component: PlacementoptimizationComponent,
+  canActivate: [AuthGuard, RouteGuard],
+},
   
   ],
 }];

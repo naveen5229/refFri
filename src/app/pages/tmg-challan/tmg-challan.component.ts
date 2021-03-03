@@ -115,7 +115,15 @@ ngOnInit() {
 
   getChallansdrivarcount(index) {
     this.challansdrivarcount = [];
-    let params = { totalrecord: 3 };
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 15));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord: 3 
+    };
+
+   
      this.showLoader(index);
     this.api.post('Tmgreport/GetChallansdrivarcount', params)
       .subscribe(res => {
@@ -264,14 +272,17 @@ ngOnInit() {
       }
     }
 
+    console.log('this.yaxisObj1.minValue',this.yaxisObj1.minValue);
+    console.log('this.yaxisObj2.minValue',this.yaxisObj2.minValue);
+
     options.scales.yAxes.push({
       scaleLabel: {
         display: true,
         labelString: 'Count of Challans'+this.yaxisObj1.yaxisLabel,
         fontSize: 16
       },
-      ticks: { stepSize: this.yaxisObj1.gridSize}, //beginAtZero: true,min:0,
-      suggestedMin : this.yaxisObj1.minValue,
+      ticks: { stepSize: (this.yaxisObj1.gridSize), min: this.yaxisObj1.minValue - this.yaxisObj1.gridSize > 0 ? this.yaxisObj1.minValue - this.yaxisObj1.gridSize : 0 }, //beginAtZero: true,min:0,
+      // suggestedMin : this.yaxisObj1.minValue,
       type: 'linear',
       display: true,
       position: 'left',
@@ -284,7 +295,7 @@ ngOnInit() {
         labelString: 'Challan Amount '+this.yaxisObj2.yaxisLabel,
         fontSize: 16,
       },
-           ticks: { stepSize: this.yaxisObj2.gridSize}, //beginAtZero: true,min:0,
+           ticks: { stepSize: (this.yaxisObj2.gridSize) ,  beginAtZero: true}, //beginAtZero: true,min:0,
           suggestedMin : this.yaxisObj2.minValue,
           // max : 100
       type: 'linear',

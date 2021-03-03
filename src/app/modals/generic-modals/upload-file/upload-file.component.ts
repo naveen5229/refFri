@@ -19,7 +19,9 @@ sampleURL = null;
   constructor(public api: ApiService,
     public common: CommonService,
     private activeModal: NgbActiveModal) {
+      if(this.common.params){
       this.sampleURL =  this.common.params.sampleURL?this.common.params.sampleURL:null;
+      }
   }
 
   ngOnDestroy(){}
@@ -27,8 +29,11 @@ ngOnInit() {
   }
   
   ngAfterViewInit(){
-    console.log("this.common.params.sampleURL",this.common.params.sampleURL)
+    
+    if(this.common.params){
+      console.log("this.common.params.sampleURL",this.common.params.sampleURL);
     this.sampleURL =  this.common.params.sampleURL?this.common.params.sampleURL:null;
+    }
   }
   closeModal(response) {
     this.activeModal.close({ response: response,file:this.file,fileType:this.fileType });
