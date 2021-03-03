@@ -679,7 +679,6 @@ const routes: Routes = [{
   component: UlheatmapComponent,
   canActivate: [AuthGuard, RouteGuard],
 },
-<<<<<<< HEAD
 
 {
   path: 'tripmasterreport',
@@ -687,16 +686,13 @@ const routes: Routes = [{
   canActivate: [AuthGuard, RouteGuard],
 },
 
-=======
 {
   path: 'placementoptimization',
   component: PlacementoptimizationComponent,
   canActivate: [AuthGuard, RouteGuard],
 },
->>>>>>> 8466cf802816820127ec08b93909b370ca8e5083
 
-  
-  ],
+],
 }];
 
 @NgModule({

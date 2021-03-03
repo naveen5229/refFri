@@ -1,47 +1,107 @@
 <nb-card style="border: 0px;">
-    <nb-card-header>
-        <div class="row">
-            <div class="col-sm-6">
-                <h5>Placement Optimization</h5>
-            </div>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-sm-6 p-0">
+        <h5>Placement Optimization</h5>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-sm-12 p-0">
+        <div class="col-sm-2 p-0">
+          <label>Name</label>
+          <input type="text" [(ngModel)]="name" class="form control" placeholder="Name">
+        </div>
+
+        <div class="col-sm-3">
+          <label>Placement Date</label>
+          <uj-date-time-picker (onChanged)="placementDate = $event" [isTime]='false' [dateTimeValue]="placementDate">
+          </uj-date-time-picker>
+        </div>
+
+        <div class="col-sm-3 mt-4">
+          <label><input name="time" [(ngModel)]="select" type="radio" [value]="0">Include All</label>
+          <label><input name="time" type="radio" [(ngModel)]="select" [value]="1">Include Allocated</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-sm-12 p-0">
+        <table class="table table-bordered">
+          <tbody>
+            <tr *ngFor="let item of items; let j= index">
+              <td>
+                <auto-suggestion (onSelected)="selectplnt($event, j)" url="suggestion/getSites" display="name"
+                  placeholder="Search Plant" [preSelected]=null></auto-suggestion>
+              </td>
+              <td>
+                <input type="number" [(ngModel)]="item.waitingTime" min=0 oninput="validity.valid||(value='');" class="form control" placeholder="Weight Time">
+              </td>
+
+              <td>
+                <input type="number" [(ngModel)]="item.minQuantity" min=0 oninput="validity.valid||(value='');" class="form control" placeholder="Min Qty">
+              </td>
+
+              <td>
+                <input type="number" [(ngModel)]="item.maxQuantity" min=0 oninput="validity.valid||(value='');"  class="form control" placeholder="Max Qty">
+              </td>
+
+              <td>
+                <input type="number" [(ngModel)]="item.penaltyMin" min=0  oninput="validity.valid||(value='');" class="form control" placeholder="Min Panalty">
+              </td>
+
+              <td>
+                <input type="number" [(ngModel)]="item.penaltyMax" min=0  oninput="validity.valid||(value='');" class="form control" placeholder="Max Panalty">
+              </td>
+              <td style="padding: 0px;">
+                <span><i class="fa fa-plus add" (click)="addMoreItems(i)" *ngIf="j == items.length-1" style="padding: 1px;
+                                color: green;"></i>
+                  <i class="fa fa-minus minus" (click)="items.splice(j,1)" *ngIf="j !== 0" style="padding: 1px;
+                              color: red;"></i>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="col-sm-2">
+          <button class="btn btn-primary" (click)="savePlacementOptimization()">submit</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="row">
+      <table class="table table-bordered">
+          <tr *ngFor="let data of placementOPT; index i">
+            <td>{{data['siteAllocationDetails'][i]['name']}}</td>
             
-        </div>
-    </nb-card-header> 
-    <nb-card-body>
-        <div class="row mb-2">
-            <div class="col-sm-2">
-                <div class="search_vehicle_input">
-                    <auto-suggestion (onSelected)="selectplnt($event)" url="suggestion/getSites"
-                        display="name" placeholder="Search Plant" [preSelected]="null"></auto-suggestion>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="search_vehicle_input">
-                    <input type="text" [(ngModel)]="weighttime" class="form control" placeholder="Weight Time">
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="search_vehicle_input">
-                    <input type="text" [(ngModel)]="minqty" class="form control" placeholder="Min Qty">
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="search_vehicle_input">
-                    <input type="text" [(ngModel)]="maxqty" class="form control" placeholder="Max Qty">
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="search_vehicle_input">
-                    <input type="text" [(ngModel)]="minpanalty" class="form control" placeholder="Min Panalty">
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="search_vehicle_input">
-                    <input type="text" [(ngModel)]="maxpanalty" class="form control" placeholder="Max Panalty">
-                </div>
-            </div>
-        </div>
-       
-        <br>
-    </nb-card-body>
+            <table>
+              <tr *ngFor="let data1 of placementOPT; index j" >
+                <td>{{data1['siteVehicleCostPackets'][j]['vehicleCostPacket'][j]['vehicleId']}}</td>
+                <td>{{data1['siteVehicleCostPackets'][j]['vehicleCostPacket'][j]['truckRegno']}}</td>
+                <td>{{data1['siteVehicleCostPackets'][j]['vehicleCostPacket'][j]['cost']}}</td>
+              </tr>
+            </table>
+          </tr>
+      </table>
+    </div> -->
+  
+    <!-- <div class="row">
+      <div class="col-sm-12" >
+        <div class="col-12" *ngFor="let data of placementOPT; index i">{{data['siteAllocationDetails'][i]['name']}}
+      <div class="col-sm-12" *ngFor="let data1 of placementOPT; index j">
+        <span class="col-4">data1['siteVehicleCostPackets'][j]['vehicleCostPacket'][j]['vehicleId']</span>
+        <span class="col-4">data1['siteVehicleCostPackets'][j]['vehicleCostPacket'][j]['truckRegno']</span>
+        <span class="col-4">data1['siteVehicleCostPackets'][j]['vehicleCostPacket'][j]['cost']</span>
+      </div>
+    </div>
+      </div>
+    </div> -->
+  
+  </nb-card-body>
 </nb-card>
