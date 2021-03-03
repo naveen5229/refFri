@@ -8,7 +8,7 @@
             class="fa fa-list"></i>
         </p>
         <chart [type]="chart.type" [data]="chart.data"
-          style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;" [options]="chart.options">
+          style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;" [options]="chart.options" (clickElement)="chart2Clicked($event)">
         </chart>
       </div>
     </div>
@@ -20,7 +20,7 @@
             class="fa fa-list"></i>
         </p>
         <chart [type]="chart1.type" [data]="chart1.data"
-          style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;" [options]="chart1.options">
+          style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;" [options]="chart1.options"  (clickElement)="chart1Clicked($event)">
         </chart>
       </div>
     </div>
@@ -32,7 +32,7 @@
             class="fa fa-list"></i>
         </p>
         <chart [type]="chart2.type" [data]="chart2.data"
-          style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;" [options]="chart2.options">
+          style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;" [options]="chart2.options" (clickElement)="chart3Clicked($event)">
         </chart>
       </div>
     </div>

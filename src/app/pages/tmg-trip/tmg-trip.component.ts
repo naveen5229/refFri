@@ -94,7 +94,9 @@ ngOnInit() {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 7
+      groupdays: 7,
+      isfo: false,
+      isadmin: true
     };
     this.api.post('Tmgreport/GetTripOnwardKmd', params)
       .subscribe(res => {
@@ -115,7 +117,9 @@ ngOnInit() {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 7
+      groupdays: 7,
+      isfo: false,
+      isadmin: true
     };
     this.showLoader(index);
     this.api.post('Tmgreport/GetTripLoadindTime', params)
@@ -653,4 +657,98 @@ ngOnInit() {
     outers[index].lastChild.remove();
   }
 
+
+  chart1Clicked(event) {
+
+    let Date = this.tripLoadindTime[event[0]._index]._id;
+    console.log('event[0]._index 1', event[0]._index, event[0], Date);
+    this.passingIdChart1Data(Date);
+  }
+
+  passingIdChart1Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      groupdays: 7,
+      isadmin: false,
+      isfo: false,
+      xid: parseDate,
+     // ref: 'tmg-calls'
+    };
+    // this.api.post('Tmgreport/GetCallsDrivar', params)
+    //   .subscribe(res => {
+    //     console.log('callsDrivar 111 :', res);
+
+    //     this.hideLoader(id);;
+    //   }, err => {
+    //     this.hideLoader(id);;
+    //     console.log('Err:', err);
+    //   });
+    this.getDetials('Tmgreport/GetTripLoadindTime', params)
+  }
+  chart2Clicked(event) {
+
+    let Date = this.tripOnwardKmd[event[0]._index]._id;
+    console.log('event[0]._index 2', event[0]._index, event[0], Date);
+    this.passingIdChart2Data(Date);
+  }
+
+  passingIdChart2Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      groupdays: 7,
+      isadmin: false,
+      isfo: false,
+      xid: parseDate,
+     // ref: 'tmg-calls'
+    };
+    // this.api.post('Tmgreport/GetCallsDrivar', params)
+    //   .subscribe(res => {
+    //     console.log('callsDrivar 111 :', res);
+
+    //     this.hideLoader(id);;
+    //   }, err => {
+    //     this.hideLoader(id);;
+    //     console.log('Err:', err);
+    //   });
+    this.getDetials('Tmgreport/GetTripOnwardKmd', params)
+  }
+  chart3Clicked(event) {
+
+    let Date = this.tripUnLoadindTime[event[0]._index]._id;
+    console.log('event[0]._index 1', event[0]._index, event[0], Date);
+    this.passingIdChart3Data(Date);
+  }
+
+  passingIdChart3Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      groupdays: 7,
+      isadmin: false,
+      isfo: false,
+      xid: parseDate,
+     // ref: 'tmg-calls'
+    };
+    // this.api.post('Tmgreport/GetCallsDrivar', params)
+    //   .subscribe(res => {
+    //     console.log('callsDrivar 111 :', res);
+
+    //     this.hideLoader(id);;
+    //   }, err => {
+    //     this.hideLoader(id);;
+    //     console.log('Err:', err);
+    //   });
+    this.getDetials('Tmgreport/GetTripUnLoadindTime', params)
+  }
 }
