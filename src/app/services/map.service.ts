@@ -851,4 +851,19 @@ export class MapService {
     return markers;
   }
 
+  createPolyline(coordinates, options?) {
+    const defaultOptions = {
+      strokeColor: 'red',
+      strokeOpacity: 1,
+      strokeWeight: 3,
+    };
+
+    const polyline = new google.maps.Polyline({
+      path: coordinates,
+      ...(options || defaultOptions)
+    });
+    polyline.setMap(this.map);
+    return polyline;
+  }
+
 }
