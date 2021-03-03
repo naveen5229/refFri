@@ -31,67 +31,94 @@
             </div>
         </div>
         <div  class="row" style="margin-top:15px;" *ngIf="tripMasterReportData && tripMasterReportData.length>0">
-            <div class="col-sm-12">
+            <div class="col-sm-12" style="height: 70vh;width: 100%;overflow: auto;">
                 <table class="table table-bordered">
                     <thead>
-                    <tr>
+                    <tr style="background-color:#a6e2f4;">
+                            <th rowspan="2">#</th>
+                            <th rowspan="2">Trip Id</th>
+                            <th rowspan="2">RegNo</th>
+                            <th rowspan="2">INV Start Time</th>
+                            <th rowspan="2">Receipt No</th>
+                            <th rowspan="2">Product Date</th>
+                            <th rowspan="2">Route Id</th>
+                            <th rowspan="2">Route Name</th>
+                            <th rowspan="2">Route KM</th>
                             <th rowspan="2">Consignee</th>
                             <th rowspan="2">Consignor</th>
-                            <th rowspan="2">Driver Mobile</th>
-                            <th rowspan="2">Driver Name</th>
-                            <th rowspan="2">INV Start Time</th>
-                            <th rowspan="2">Product Date</th>
-                            <th rowspan="2">Receipt No</th>
-                            <th rowspan="2">RegNo</th>
-                            <th rowspan="2">Route Id</th>
-                            <th rowspan="2">Route KM</th>
-                            <th rowspan="2">Route Name</th>
-                            <th rowspan="2">Toll Count</th>
-                            <th rowspan="2">Trip Id</th>
-                            <th colspan="3">Origin</th>
-                            <th colspan="3">Via</th>
-                            <th colspan='3'>Destination</th>
-                            <th rowspan="2">VId</th>
+                            <th colspan="5" style="text-align:center;">Origin</th>
+                            <th colspan="5" style="text-align:center;">Via</th>
+                            <th colspan='5' style="text-align:center;">Destination</th>
+                            <th rowspan='2'>Total Trip Time</th>
                             <th rowspan="2">Weight</th>
+                            <th rowspan="2">Toll Count</th>
+                            <th rowspan='2'>Stoppage</th>
+                            <th rowspan="2">Driver Name</th>
+                            <th rowspan="2">Driver Mobile</th>
+                            <th rowspan="2">VId</th>
+                            <th rowspan='2'>Any expiry Doc</th>
+                            <th rowspan='2'>Challan date/Amount</th>
                     </tr>
-                    <tr>
+                    <tr style="background-color:#a6e2f4;">
                         <th>Location</th>
+                        <th>Origin Transit Time</th>
                         <th> In</th>
                         <th> Out</th>
+                        <th> Origin Duration</th>
+                        
+                        
                         <th>Location</th>
+                        <th>Via Transit Time</th>
                         <th> In</th>
                         <th> Out</th>
+                        <th> Via Duration</th>
+
                         <th>Location</th>
+                        <th>Destination Transit Time</th>
                         <th> In</th>
                         <th> Out</th>
+                        <th> Destination Duration</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of tripData;let i = index;">
+                        <td>{{i+1}}</td>
+                        <td>{{data['trip_id']}}</td>
+                        <td>{{data['regno']}}</td>
+                        <td>{{data['inv_start_time']}}</td>
+                        <td>{{data['receipt_no']}}</td>
+                        <td>{{data['product_name']}}</td>
+                        <td>{{data['route_id']}}</td>
+                        <td>{{data['route_name']}}</td>
+                        <td>{{data['route_kms']}}</td>
                         <td>{{data['cnee']}}</td>
                         <td>{{data['cnor']}}</td>
-                        <td>{{data['driver_mobile']}}</td>
-                        <td>{{data['driver_name']}}</td>
-                        <td>{{data['inv_start_time']}}</td>
-                        <td>{{data['product_name']}}</td>
-                        <td>{{data['receipt_no']}}</td>
-                        <td>{{data['regno']}}</td>
-                        <td>{{data['route_id']}}</td>
-                        <td>{{data['route_kms']}}</td>
-                        <td>{{data['route_name']}}</td>
-                        <td>{{data['toll_count']}}</td>
-                        <td>{{data['trip_id']}}</td>
                         <td>{{data['origin']['loc_name'] !='' ? data['origin']['loc_name'] : ''}}</td>
+                        <td>{{data['origin']['trans_time'] !='' ? data['origin']['trans_time'] : ''}}</td>
                         <td>{{data['origin']['act_start_time'] !='' ? data['origin']['act_start_time'] : null}}</td>
                         <td>{{data['origin']['act_end_time'] !='' ? data['origin']['act_end_time'] : null }}</td>
+                        <td>{{data['load_time'] !='' ? data['load_time'] : ''}}</td>
+
                         <td>{{data['via']['loc_name'] !='' ? data['via']['loc_name'] : ''}}</td>
+                        <td>{{data['via']['trans_time'] !='' ? data['via']['trans_time'] : ''}}</td>
                         <td>{{data['via']['act_start_time'] !='' ? data['via']['act_start_time'] : null}}</td>
                         <td>{{data['via']['act_end_time'] !='' ? data['via']['act_end_time'] : null }}</td>
+                        <td>0</td>
                         <td>{{data['destination']['loc_name'] !='' ? data['destination']['loc_name'] : ''}}</td>
+                        <td>{{data['destination']['trans_time'] !='' ? data['destination']['trans_time'] : ''}}</td>
                         <td>{{data['destination']['act_start_time'] !='' ? data['destination']['act_start_time'] : null}}</td>
                         <td>{{data['destination']['act_end_time'] !='' ? data['destination']['act_end_time'] : null }}</td>
-                        <td>{{data['vid']}}</td>
+                        <td>{{data['unload_time'] !='' ? data['unload_time'] : null }}</td>
+
+                        <td>{{data['trip_time']}}</td>
                         <td>{{data['weight']}}</td>
+                        <td>{{data['toll_count']}}</td>
+                        <td>{{data['stoppagecount']}}</td>
+                        <td>{{data['driver_name']}}</td>
+                        <td>{{data['driver_mobile']}}</td>
+                        <td>{{data['vid']}}</td>
+                        <td>{{data['expire_veh_count']}}</td>
+                        <td>{{data['challan_amount']}}</td>
                     </tr>
                 </tbody>
                 </table>
