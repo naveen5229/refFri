@@ -21,16 +21,18 @@ export class ApiService {
   URL2 = 'http://dev.elogist.in/transtruck/';
 
   /********************* Common ***************** */
-  
   URLJava: string = 'http://13.126.162.170:7070/';
+  URLJavaPortDost: string = 'http:/elogist.in';
   verifyHaltsUrl: string = 'http://elogist.in:8081/';
-  
+
   /********************** Local Server ************* */
   // URL: string= 'http://107.6.151.122:8081/airtel'
   // URL: string = 'http://localhost/booster_webservices/'; 
   // UrlPrime:string='http://192.168.0.111/itrm_webservices/';
   // UrlTranstruckNew: string = 'http://192.168.1.101/webservices/';
   // verifyHaltsUrl: string = 'http://192.168.0.166:8081/';
+  // URLJavaPortDost: string = 'http://192.168.0.135';
+
 
   constructor(private http: HttpClient,
     public router: Router,
@@ -53,11 +55,45 @@ export class ApiService {
     return this.http.post(this.URLJava + endpoint, body, reqOpts);
   }
 
+  getJavaPortDost(port: number, endpoint: string) {
+    const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
+    let reqOpts = {
+      headers: {
+        'Content-Type': 'application/json',
+        'version': '0.1.0',
+        'foAdminId': this.user._customer.id.toString(),
+        'entryMode': entryMode
+      }
+    };
+    if (localStorage.getItem('USER_TOKEN')) {
+      reqOpts.headers['authkey'] = localStorage.getItem('USER_TOKEN');
+    }
+    console.log("headers:", reqOpts);
+    return this.http.get(this.URLJavaPortDost + ":" + port + "/" + endpoint, reqOpts);
+  }
+
+  postJavaPortDost(port: number, endpoint: string, body: any,) {
+    console.log('test');
+    const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
+    let reqOpts = {
+      headers: {
+        'Content-Type': 'application/json',
+        'version': '0.1.0',
+        'foAdminId': this.user._customer.id.toString(),
+        'entryMode': entryMode
+      }
+    };
+    if (localStorage.getItem('USER_TOKEN')) {
+      reqOpts.headers['authkey'] = localStorage.getItem('USER_TOKEN');
+    }
+    console.log("headers:", reqOpts);
+    return this.http.post(this.URLJavaPortDost + ":" + port + "/" + endpoint, body, reqOpts);
+  }
+
   post(subURL: string, body: any, options?) {
     if (this.user._customer.id) {
       body['foAdminId'] = this.user._customer.id;
       body['multipleAccounts'] = this.user._details.multipleAccounts ? this.user._details.multipleAccounts : 0;
-      // console.log(body['foAdminId']);
       console.log("foAdminId", body);
     }
 
@@ -69,7 +105,6 @@ export class ApiService {
     } else {
       return this.http.post(this.URL + subURL, body, { headers: this.setHeaders() })
     }
-    // console.log('BODY: ', body);
   }
   postEncrypt(subURL: string, body: any, options?) {
     if (this.user._customer.id) {
