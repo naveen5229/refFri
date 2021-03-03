@@ -47,6 +47,12 @@ export class RouteMapperComponent implements OnInit {
   infoWindow = null;
   infoStart = null;
   trails = [];
+  trailsAll = [];
+  redSubTrails = [];
+  blueSubTrails = [];
+
+  subTrailsPolyLines = [];
+
   constructor(private mapService: MapService,
     private apiService: ApiService, private cdr: ChangeDetectorRef,
     private activeModal: NgbActiveModal,
@@ -55,6 +61,7 @@ export class RouteMapperComponent implements OnInit {
     this.startDate = new Date(this.commonService.params.fromTime);
     this.endDate = new Date(this.commonService.params.toTime);
     this.vehicleSelected = this.commonService.params.vehicleId;
+    console.log('vehicleSelected:', this.vehicleSelected);
     this.vehicleRegNo = this.commonService.params.vehicleRegNo;
     this.orderId = this.commonService.params.orderId;
     this.orderType = this.commonService.params.orderType;
@@ -64,7 +71,10 @@ export class RouteMapperComponent implements OnInit {
     this.initFunctionality();
   }
 
-  ngOnDestroy() { }
+  ngOnDestroy() {
+    this.subTrailsPolyLines.forEach(polyline => polyline.setMap(null));
+  }
+
   ngOnInit() {
   }
 
@@ -108,6 +118,30 @@ export class RouteMapperComponent implements OnInit {
         this.mapService.setBounds(this.mapService.createLatLng(element.lat, element.long));
         prevElement = element;
         i++;
+      }
+      if (this.trailsAll && this.trailsAll.length) {
+        i = 0;
+        prevElement = null;
+        let total = 0;
+        this.polypath = [];
+        for (let index = 0; index < this.trailsAll.length; index++) {
+          const element = this.trailsAll[index];
+          if (i) {
+            total += this.commonService.distanceFromAToB(element.lat, element.long, prevElement.lat, prevElement.long, "Mt");
+            this.polypath.push({
+              lat: element.lat, lng: element.long,
+              odo: total, time: element.time
+            });
+          } else {
+            this.polypath = [];
+            this.polypath.push({ lat: element.lat, lng: element.long, odo: 0, time: element.time });
+          }
+
+          // this.mapService.createPolyPathManual(this.mapService.createLatLng(element.lat, element.long), null, false);
+          // this.mapService.setBounds(this.mapService.createLatLng(element.lat, element.long));
+          prevElement = element;
+          i++;
+        }
       }
 
       this.maxOdo = total;
@@ -230,6 +264,11 @@ export class RouteMapperComponent implements OnInit {
   getVehicleTrailAll() {
     return new Promise((resolve, reject) => {
       console.time('getVehicleTrailAll');
+      if (this.vehicleSelected == 7970) {
+        this.routeRestoreSnapped(resolve);
+        return;
+      }
+
       let params = {
         'vehicleId': this.vehicleSelected,
         'startTime': this.commonService.dateFormatter(this.startDate),
@@ -259,6 +298,113 @@ export class RouteMapperComponent implements OnInit {
         });
 
     })
+  }
+
+  routeRestoreSnapped(resolve) {
+    let params = {
+      'vehicleId': this.vehicleSelected,
+      'startTime': this.commonService.dateFormatter(this.startDate),
+      'toTime': this.commonService.dateFormatter(this.endDate),
+      'orderId': this.orderId,
+      'orderType': this.orderType
+    }
+
+    this.commonService.loading++;
+    // const subscription = this.apiService.postJavaPortDost(8086, 'routerestore/true', params)
+    const subscription = this.apiService.getJavaPortDost(8086, 'routerestore/true')
+      .subscribe((res: any) => {
+        console.log('res:', res);
+        this.commonService.loading--;
+        this.isLite = false;
+        this.trails = res.withSnap.map((point, index) => {
+          point.long = point.lng;
+          delete point.lng;
+          return point;
+        });
+        this.trailsAll = res.withoutSnap.map((point, index) => {
+          point.long = point.lng;
+          delete point.lng;
+          return point;
+        });
+        console.timeEnd('getVehicleTrailAll');
+        this.subTrailsPolyLines.forEach(polyline => polyline.setMap(null));
+        this.generateSubTrails(res);
+        resolve(true);
+        subscription.unsubscribe();
+      }, err => {
+        this.commonService.loading--;
+        console.error(err);
+        resolve(false);
+        subscription.unsubscribe();
+      });
+
+  }
+
+  generateSubTrails(res) {
+
+    this.redSubTrails = [];
+    this.blueSubTrails = [];
+
+    let redSubTrail = [];
+    let blueSubTrail = [];
+
+    let isRedSubTrail = false;
+    let isBlueSubTrail = false;
+
+    res.withoutSnap.forEach((point, index) => {
+      if (point.dataType == 0 || isRedSubTrail) {
+        redSubTrail.push(point);
+        isRedSubTrail = true;
+      }
+
+      if (point.dataType == 2 || isBlueSubTrail) {
+        blueSubTrail.push(point);
+        isBlueSubTrail = true;
+      }
+
+      if (index == res.withoutSnap.length - 1 || (point.dataType == 0 && res.withoutSnap[index + 1].dataType != 0)) {
+        isRedSubTrail = false;
+        this.redSubTrails.push(redSubTrail);
+        redSubTrail = [];
+      }
+
+      if (index == res.withoutSnap.length - 1 || (point.dataType == 2 && res.withoutSnap[index + 1].dataType != 2)) {
+        isBlueSubTrail = false;
+        this.blueSubTrails.push(blueSubTrail);
+        blueSubTrail = [];
+      }
+    });
+    this.drawSubTrails();
+  }
+
+  drawSubTrails() {
+    this.redSubTrails.forEach((subTrail) => {
+      const coordinates = subTrail.map(trail => {
+        return { lat: trail.lat, lng: trail.lng }
+      });
+      const polyOptions = {
+        strokeColor: 'red',
+        strokeOpacity: 1,
+        strokeWeight: 3,
+        zIndex: 999
+      };
+      const polyline = this.mapService.createPolyline(coordinates, polyOptions);
+      this.subTrailsPolyLines.push(polyline);
+    });
+
+    this.blueSubTrails.forEach((subTrail) => {
+      const coordinates = subTrail.map(trail => {
+        return { lat: trail.lat, lng: trail.lng }
+      });
+      const polyOptions = {
+        strokeColor: 'blue',
+        strokeOpacity: 1,
+        strokeWeight: 3,
+        zIndex: 9999
+      };
+      const polyline = this.mapService.createPolyline(coordinates, polyOptions);
+      this.subTrailsPolyLines.push(polyline);
+    });
   }
 
   clearAll() {
