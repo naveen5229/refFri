@@ -751,4 +751,36 @@ ngOnInit() {
     //   });
     this.getDetials('Tmgreport/GetTripUnLoadindTime', params)
   }
+
+  chart4Clicked(event) {
+
+    let Date = event._vid;
+    console.log('event[0]._index 1', event);
+    this.passingIdChart4Data(Date);
+  }
+
+  passingIdChart4Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord: 3,
+      stepno: 1,
+      vehid: parseDate,
+     // ref: 'tmg-calls'
+    };
+    // this.api.post('Tmgreport/GetCallsDrivar', params)
+    //   .subscribe(res => {
+    //     console.log('callsDrivar 111 :', res);
+
+    //     this.hideLoader(id);;
+    //   }, err => {
+    //     this.hideLoader(id);;
+    //     console.log('Err:', err);
+    //   });
+    this.getDetials('Tmgreport/GetTripLoadindHalt', params)
+  }
+
 }

@@ -53,7 +53,7 @@
           </thead>
           <tbody class="tbody">
             <tr *ngFor="let tlh of tripLongHalt">
-              <td>{{tlh['Vehicle Name']}}</td>
+              <td (click)="chart4Clicked(tlh)" class="link">{{tlh['Vehicle Name']}}</td>
               <td>{{tlh['Breakdown + Maintenance(in Hrs)']}}</td>
             </tr>
           </tbody>
