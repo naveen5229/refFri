@@ -188,7 +188,7 @@ export class TripKmRepairViewComponent implements OnInit {
     this.map.polygonPath = null;
     let polyPath = null;
     data.forEach(rd => {
-      polyPath = this.map.createPolyPathManual(this.map.createLatLng(rd.lat, rd.long | rd.lng), options);
+      polyPath = this.map.createPolyPathManual(this.map.createLatLng(rd.lat, rd.long?rd.long:rd.lng), options);
     });
     let boundData = data.map(e => { return { lat: parseFloat(e.lat), lng: e.long ? parseFloat(e.long) : parseFloat(e.lng) }; });
     this.map.setMultiBounds(boundData, true);
