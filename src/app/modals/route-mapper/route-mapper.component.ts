@@ -323,7 +323,6 @@ export class RouteMapperComponent implements OnInit {
         });
         this.trailsAll = res.withoutSnap.map((point, index) => {
           point.long = point.lng;
-          delete point.lng;
           return point;
         });
         console.timeEnd('getVehicleTrailAll');
@@ -352,6 +351,7 @@ export class RouteMapperComponent implements OnInit {
     let isBlueSubTrail = false;
 
     res.withoutSnap.forEach((point, index) => {
+      console.log(typeof point.lat, typeof point.lng);
       if (point.dataType == 0 || isRedSubTrail) {
         redSubTrail.push(point);
         isRedSubTrail = true;
