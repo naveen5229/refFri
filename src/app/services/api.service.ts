@@ -10,22 +10,19 @@ import { AccountService } from './account.service';
 export class ApiService {
   /************************** PROD SERVER ********** */
   // URL: string = 'https://elogist.in/booster_webservices/';
-  UrlPrime: string = 'https://elogist.in/itrm_webservices/';
-  UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
-  URL2 = 'http://elogist.in/transtruck/';
+  // UrlPrime: string = 'https://elogist.in/itrm_webservices/';
+  // UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
+  // URL2 = 'http://elogist.in/transtruck/';
 
   /********************** DEV SERVER ***************** */
   URL: string = 'https://dev.elogist.in/booster_webservices/';
-  // UrlPrime: string = 'https://dev.elogist.in/itrm_webservices/';
-  // UrlTranstruckNew: string = 'http://dev.elogist.in/transtrucknew/';
-  // URL2 = 'http://dev.elogist.in/transtruck/';
+  UrlPrime: string = 'https://dev.elogist.in/itrm_webservices/';
+  UrlTranstruckNew: string = 'http://dev.elogist.in/transtrucknew/';
+  URL2 = 'http://dev.elogist.in/transtruck/';
 
   /********************* Common ***************** */
-
   URLJava: string = 'http://13.126.162.170:7070/';
   URLJavaPortDost: string = 'http://elogist.in';
-  
-   
   verifyHaltsUrl: string = 'http://elogist.in:8081/';
 
   /********************** Local Server ************* */
@@ -57,7 +54,7 @@ export class ApiService {
     return this.http.post(this.URLJava + endpoint, body, reqOpts);
   }
 
-  getJavaPortDost(port:number,endpoint:string){
+  getJavaPortDost(port: number, endpoint: string) {
     const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
     let reqOpts = {
       headers: {

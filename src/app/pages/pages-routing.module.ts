@@ -133,34 +133,34 @@ const routes: Routes = [{
   },
   {
     path: 'vehiclestatuschange',
-    component: VehicleStatusChangeByUserComponent ,
+    component: VehicleStatusChangeByUserComponent,
     canActivate: [AuthGuard, RouteGuard],
-},
-{
-  path: 'vehicle-states',
-  component: VehicleStatesComponent ,
-  canActivate: [AuthGuard, RouteGuard],
-},
-{
-  path: 'tripissues',
-  component: TripissuesComponent ,
-  canActivate: [AuthGuard, RouteGuard],
-},
-{
-  path: 'tmg-trip',
-  component: TmgTripComponent ,
-  canActivate: [AuthGuard, RouteGuard],
-},
-{
-  path: 'tmg-traffic',
-  component: TmgTrafficComponent ,
-  canActivate: [AuthGuard, RouteGuard],
-},
-{
-  path: 'issues-report',
-  component: IssuesReportComponent ,
-  canActivate: [AuthGuard, RouteGuard],
-},
+  },
+  {
+    path: 'vehicle-states',
+    component: VehicleStatesComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'tripissues',
+    component: TripissuesComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'tmg-trip',
+    component: TmgTripComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'tmg-traffic',
+    component: TmgTrafficComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'issues-report',
+    component: IssuesReportComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
   {
 
     path: 'vehicle-kpis',
@@ -232,7 +232,7 @@ const routes: Routes = [{
     component: CardMappingComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
- 
+
   {
 
     path: 'fuel-average-analysis',
@@ -467,7 +467,7 @@ const routes: Routes = [{
     component: DriverDocumentComponent,
     canActivate: [AuthGuard, RouteGuard]
 
-  },{
+  }, {
     path: 'driver-on-side-images',
     component: OnSideImagesComponent,
     canActivate: [AuthGuard, RouteGuard]
@@ -652,47 +652,44 @@ const routes: Routes = [{
   {
     path: 'tmg-challan',
     component: TmgChallanComponent,
-    canActivate: [AuthGuard,RouteGuard]
-},
-{
-  path: 'tmg-dashboard',
-  component: TmgComponent,
-  canActivate: [AuthGuard,RouteGuard]
-},
-{
-  path: 'tmg-calls',
-  component: TmgCallsComponent,
-  canActivate: [AuthGuard,RouteGuard]
-},
-{
-  path: 'tmg-alerts',
-  component: TmgAlertsComponent,
-  canActivate: [AuthGuard,RouteGuard]
-},
-{
-  path: 'graphical-reports',
-  component: GraphicalReportsComponent,
-  canActivate: [AuthGuard,RouteGuard]
-},
-{
-  path: 'ulheatmap',
-  component: UlheatmapComponent,
-  canActivate: [AuthGuard, RouteGuard],
-},
-
-{
-  path: 'tripmasterreport',
-  component: TripmasterreportComponent,
-  canActivate: [AuthGuard, RouteGuard],
-},
-
-{
-  path: 'placementoptimization',
-  component: PlacementoptimizationComponent,
-  canActivate: [AuthGuard, RouteGuard],
-},
-
-],
+    canActivate: [AuthGuard, RouteGuard]
+  },
+  {
+    path: 'tmg-dashboard',
+    component: TmgComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  },
+  {
+    path: 'tmg-calls',
+    component: TmgCallsComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  },
+  {
+    path: 'tmg-alerts',
+    component: TmgAlertsComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  },
+  {
+    path: 'graphical-reports',
+    component: GraphicalReportsComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  },
+  {
+    path: 'ulheatmap',
+    component: UlheatmapComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'tripmasterreport',
+    component: TripmasterreportComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'placementoptimization',
+    component: PlacementoptimizationComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  ],
 }];
 
 @NgModule({
