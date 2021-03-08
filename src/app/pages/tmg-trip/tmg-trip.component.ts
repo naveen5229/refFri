@@ -539,7 +539,7 @@ ngOnInit() {
             label: function (tooltipItems, data) {
               console.log("tooltipItems", tooltipItems, "data", data);
               let tti = ('' + tooltipItems.yLabel).split(".");
-              let min = tti[1] ? parseInt(tti[1]) * 6 : '00';
+              let min = tti[1] ? String(parseInt(tti[1]) * 6).substring(0,2) : '00';
               return tooltipItems.xLabel + " ( " + tti[0] + ":" + min + " Hrs. )";
             }
           }
@@ -614,7 +614,7 @@ ngOnInit() {
             label: function (tooltipItems, data) {
               console.log("tooltipItems", tooltipItems, "data", data);
               let tti = ('' + tooltipItems.yLabel).split(".");
-              let min = tti[1] ? parseInt(tti[1]) * 6 : '00';
+              let min = tti[1] ? (String(parseInt(tti[1]) * 6)).substring(0,2) : '00';
               return tooltipItems.xLabel + " ( " + tti[0] + ":" + min + " Hrs. )";
             }
           }
