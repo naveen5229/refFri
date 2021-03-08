@@ -433,7 +433,7 @@ export class MapService {
   }
 
   toggleBounceMF(id, evtype = 1) {
-    console.log("id=", id);
+    // console.log("id=", id);
     if (this.markers[id]) {
       if (this.markers[id].getAnimation() == null && evtype == 1) {
         this.markers[id].setAnimation(google.maps.Animation.BOUNCE);

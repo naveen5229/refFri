@@ -52,6 +52,7 @@ export class RouteMapperComponent implements OnInit {
   blueSubTrails = [];
 
   subTrailsPolyLines = [];
+  vehicleTrailEvents = [];
 
   constructor(private mapService: MapService,
     private apiService: ApiService, private cdr: ChangeDetectorRef,
@@ -90,6 +91,12 @@ export class RouteMapperComponent implements OnInit {
   initFunctionality() {
     let promises = [this.getHaltTrails(), this.getVehicleTrailAll()]
     Promise.all(promises).then((result) => {
+      console.log('vehicleEvents', this.vehicleEvents);
+      console.log('vehicleEvents', this.vehicleTrailEvents);
+      this.vehicleEvents.push(...this.vehicleTrailEvents);
+      this.vehicleEvents = this.vehicleEvents.sort((a, b) => a.start_time < b.start_time ? -1 : 1);
+      this.getPlaceName(this.vehicleEvents);
+
       console.timeEnd('api time');
       console.time('execution');
       this.mapService.clearAll();
@@ -247,7 +254,6 @@ export class RouteMapperComponent implements OnInit {
         .subscribe(res => {
           this.commonService.loading--;
           this.vehicleEvents = res['data'].reverse();
-          this.getPlaceName(this.vehicleEvents);
           console.timeEnd('getHaltTrails');
           resolve(true);
           subscription.unsubscribe();
@@ -264,7 +270,8 @@ export class RouteMapperComponent implements OnInit {
   getVehicleTrailAll() {
     return new Promise((resolve, reject) => {
       console.time('getVehicleTrailAll');
-      if (this.vehicleSelected == 7970) {
+      const ids = [28124, 16295, 28116, 28115, 29033];
+      if (ids.includes(this.vehicleSelected)) {
         this.routeRestoreSnapped(resolve);
         return;
       }
@@ -311,9 +318,10 @@ export class RouteMapperComponent implements OnInit {
 
     this.commonService.loading++;
     // const subscription = this.apiService.postJavaPortDost(8086, 'routerestore/true', params)
-    const subscription = this.apiService.getJavaPortDost(8086, 'routerestore/true')
+    const subscription = this.apiService.getJavaPortDost(8086, 'routerestore/' + this.vehicleSelected)
       .subscribe((res: any) => {
         console.log('res:', res);
+        this.vehicleTrailEvents = res.events || [];
         this.commonService.loading--;
         this.isLite = false;
         this.trails = res.withSnap.map((point, index) => {
@@ -321,7 +329,7 @@ export class RouteMapperComponent implements OnInit {
           delete point.lng;
           return point;
         });
-        this.trailsAll = res.withoutSnap.map((point, index) => {
+        this.trailsAll = res.raw.map((point, index) => {
           point.long = point.lng;
           return point;
         });
@@ -350,8 +358,7 @@ export class RouteMapperComponent implements OnInit {
     let isRedSubTrail = false;
     let isBlueSubTrail = false;
 
-    res.withoutSnap.forEach((point, index) => {
-      console.log(typeof point.lat, typeof point.lng);
+    res.raw.forEach((point, index) => {
       if (point.dataType == 0 || isRedSubTrail) {
         redSubTrail.push(point);
         isRedSubTrail = true;
@@ -362,13 +369,13 @@ export class RouteMapperComponent implements OnInit {
         isBlueSubTrail = true;
       }
 
-      if (index == res.withoutSnap.length - 1 || (point.dataType == 0 && res.withoutSnap[index + 1].dataType != 0)) {
+      if (index == res.raw.length - 1 || (point.dataType == 0 && res.raw[index + 1].dataType != 0)) {
         isRedSubTrail = false;
         this.redSubTrails.push(redSubTrail);
         redSubTrail = [];
       }
 
-      if (index == res.withoutSnap.length - 1 || (point.dataType == 2 && res.withoutSnap[index + 1].dataType != 2)) {
+      if (index == res.raw.length - 1 || (point.dataType == 2 && res.raw[index + 1].dataType != 2)) {
         isBlueSubTrail = false;
         this.blueSubTrails.push(blueSubTrail);
         blueSubTrail = [];
