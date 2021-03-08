@@ -33,7 +33,6 @@ export class ApiService {
   // verifyHaltsUrl: string = 'http://192.168.0.166:8081/';
   // URLJavaPortDost: string = 'http://192.168.0.135';
 
-
   constructor(private http: HttpClient,
     public router: Router,
     public accountService: AccountService,
