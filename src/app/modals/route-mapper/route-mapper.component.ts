@@ -381,6 +381,7 @@ export class RouteMapperComponent implements OnInit {
         blueSubTrail = [];
       }
     });
+    console.log(' this.redSubTrails',  this.redSubTrails);
     this.drawSubTrails();
   }
 
