@@ -38,7 +38,8 @@ export class TripKmRepairViewComponent implements OnInit {
   ngOnInit(): void {
   }
   ngAfterViewInit(): void {
-    if (this.vId == 7970) {
+    const ids = [28124, 16295, 28116, 28115, 29033];
+    if (ids.includes(this.vId)) {
       this.routeRestoreSnapped();
       return;
     }
@@ -76,16 +77,16 @@ export class TripKmRepairViewComponent implements OnInit {
   routeRestoreSnapped() {
     ++this.common.loading
     // const subscription = this.apiService.postJavaPortDost(8086, 'routerestore/true', params)
-    const subscription = this.api.getJavaPortDost(8086, 'routerestore/true')
+    const subscription = this.api.getJavaPortDost(8086, 'routerestore/' + this.vId)
       .subscribe((res: any) => {
         console.log('res:', res);
         --this.common.loading;
-        this.GPSData = res.withSnap;
-        this.GPSDis = this.calculateDistance(res.withSnap);
+        this.GPSData = res.raw;
+        this.GPSDis = this.calculateDistance(res.raw);
         this.GoogleData = res.google;
         this.GoogleDis = this.calculateDistance(res.google);
-        this.RepairData = res.withoutSnap;
-        this.RequiredDis = this.calculateDistance(res.withoutSnap);
+        this.RepairData = res.withSnap;
+        this.RequiredDis = this.calculateDistance(res.withSnap);
 
         subscription.unsubscribe();
       }, err => {
@@ -188,7 +189,7 @@ export class TripKmRepairViewComponent implements OnInit {
     this.map.polygonPath = null;
     let polyPath = null;
     data.forEach(rd => {
-      polyPath = this.map.createPolyPathManual(this.map.createLatLng(rd.lat, rd.long?rd.long:rd.lng), options);
+      polyPath = this.map.createPolyPathManual(this.map.createLatLng(rd.lat, rd.long ? rd.long : rd.lng), options);
     });
     let boundData = data.map(e => { return { lat: parseFloat(e.lat), lng: e.long ? parseFloat(e.long) : parseFloat(e.lng) }; });
     this.map.setMultiBounds(boundData, true);
