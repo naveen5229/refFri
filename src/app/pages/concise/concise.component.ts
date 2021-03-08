@@ -219,7 +219,7 @@ ngOnInit() {
       columns.push({
         _id: kpi.x_showveh,
         vehicle: {
-          value: this._sanitizer.bypassSecurityTrustHtml(`<span><div style='float:left;'>${kpi.x_showveh}</div><div class="${kpi.x_gps_state == 'Offline' ? 'ball red' : kpi.x_gps_state == 'Online' ? 'ball bgreen' : 'ball byellow'}" title=${kpi.x_gps_state}></div></span>`),
+          value: this._sanitizer.bypassSecurityTrustHtml(`<span><div style='float:left;'>${kpi.x_showveh}</div><div class="${kpi.x_gps_state == 'Offline' ? 'ball red' : kpi.x_gps_state == 'Online' ? 'ball bgreen' : kpi.x_gps_state == 'SIM' ? 'ball bgblue' : 'ball byellow'}" title=${kpi.x_gps_state}></div></span>`),
           action: '',
           isHTML: true,
           colActions: {

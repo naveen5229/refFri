@@ -10,7 +10,7 @@
                     <h4>Trip dashboard</h4>
                 </div>
                 <div class="col-2 right-status"> 
-                    <div *ngFor="let gs of gpsStatusKeys" style="float:left">
+                    <div *ngFor="let gs of gpsStatusKeys" style="float:left" [title]="gs">
                         <div [class]="gs=='Offline'?'ball red':gs=='Online'?'ball bgreen': gs=='SIM'? 'ball bgblue' :'ball byellow'" style="margin-left: 8px;" >     
                         </div>
                         <u (click)="filterByGpsData(gs)">
