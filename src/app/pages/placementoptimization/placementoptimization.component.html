@@ -8,6 +8,11 @@
   </nb-card-header>
   <nb-card-body>
     <div class="row">
+      <label  style="float: right;" [ngClass]="isVisible ? 'red' : 'green'" [(ngModel)]="showHides" (click)="showHide(isVisible)">{{showHides}}</label>
+    </div>
+    
+    <div *ngIf="isVisible">
+    <div class="row">
       <div class="col-sm-12 p-0">
         <div class="col-sm-2 p-0">
           <label>Name</label>
@@ -19,7 +24,6 @@
           <uj-date-time-picker (onChanged)="placementDate = $event" [isTime]='false' [dateTimeValue]="placementDate">
           </uj-date-time-picker>
         </div>
-
         <div class="col-sm-3 mt-4">
           <label><input name="time" [(ngModel)]="select" type="radio" [value]="0">Include All</label>
           <label><input name="time" type="radio" [(ngModel)]="select" [value]="1">Include Allocated</label>
@@ -37,23 +41,28 @@
                   placeholder="Search Plant" [preSelected]=null></auto-suggestion>
               </td>
               <td>
-                <input type="number" [(ngModel)]="item.waitingTime" min=0 oninput="validity.valid||(value='');" class="form control" placeholder="Weight Time">
+                <input type="number" [(ngModel)]="item.waitingTime" min=0 oninput="validity.valid||(value='');"
+                  class="form control" placeholder="Weight Time">
               </td>
 
               <td>
-                <input type="number" [(ngModel)]="item.minQuantity" min=0 oninput="validity.valid||(value='');" class="form control" placeholder="Min Qty">
+                <input type="number" [(ngModel)]="item.minQuantity" min=0 oninput="validity.valid||(value='');"
+                  class="form control" placeholder="Min Qty">
               </td>
 
               <td>
-                <input type="number" [(ngModel)]="item.maxQuantity" min=0 oninput="validity.valid||(value='');"  class="form control" placeholder="Max Qty">
+                <input type="number" [(ngModel)]="item.maxQuantity" min=0 oninput="validity.valid||(value='');"
+                  class="form control" placeholder="Max Qty">
               </td>
 
               <td>
-                <input type="number" [(ngModel)]="item.penaltyMin" min=0  oninput="validity.valid||(value='');" class="form control" placeholder="Min Panalty">
+                <input type="number" [(ngModel)]="item.penaltyMin" min=0 oninput="validity.valid||(value='');"
+                  class="form control" placeholder="Min Panalty">
               </td>
 
               <td>
-                <input type="number" [(ngModel)]="item.penaltyMax" min=0  oninput="validity.valid||(value='');" class="form control" placeholder="Max Panalty">
+                <input type="number" [(ngModel)]="item.penaltyMax" min=0 oninput="validity.valid||(value='');"
+                  class="form control" placeholder="Max Panalty">
               </td>
               <td style="padding: 0px;">
                 <span><i class="fa fa-plus add" (click)="addMoreItems(i)" *ngIf="j == items.length-1" style="padding: 1px;
@@ -74,23 +83,65 @@
         </div>
       </div>
     </div>
-
-    <!-- <div class="row">
-      <table class="table table-bordered">
-          <tr *ngFor="let data of placementOPT; index i">
-            <td>{{data['siteAllocationDetails'][i]['name']}}</td>
-            
-            <table>
-              <tr *ngFor="let data1 of placementOPT; index j" >
-                <td>{{data1['siteVehicleCostPackets'][j]['vehicleCostPacket'][j]['vehicleId']}}</td>
-                <td>{{data1['siteVehicleCostPackets'][j]['vehicleCostPacket'][j]['truckRegno']}}</td>
-                <td>{{data1['siteVehicleCostPackets'][j]['vehicleCostPacket'][j]['cost']}}</td>
-              </tr>
-            </table>
-          </tr>
+  </div>
+    <div class="row mt-3">
+      <table *ngIf="placementOPT" class="table table-bordered">
+        <tr style="background-color:#78cfea;">
+          <th>#</th>
+          <th>Site Id</th>
+          <th>Name</th>
+          <th>Min Quantity</th>
+          <th>Max Quantity</th>
+          <th>Allocated Vehicle</th>
+        </tr>
+        <tr *ngFor="let packet of placementOPT.siteAllocationDetails;let i=index">
+          <td>{{i+1}}</td>
+          <td>{{packet.siteId}}</td>
+          <td>{{packet.name}}</td>
+          <td>{{packet.minQuantity}}</td>
+          <td>{{packet.maxQuantity}}</td>
+          <td>{{packet.allocatedVehicles}}</td>
+        </tr>
       </table>
+    </div>
+
+    <!-- <div *ngIf="placementOPT">
+      <div class="row" *ngFor="let packet of placementOPT.siteVehicleCostPackets ;let i = index;">
+        <div class="col-sm-12">
+          <label>{{packet.siteName}}</label>
+        </div>
+        <div class="col-sm-12" *ngFor="let costPacket of packet.vehicleCostPacket;let j = index;">
+          <div class="row">
+            <div class="col-6">{{costPacket.truckRegno}}</div>
+            <div class="col-6">{{costPacket.cost}}</div>
+          </div>
+        </div>
+      </div>
     </div> -->
-  
+
+
+    <div *ngIf="placementOPT">
+    <div class="row" style="height:60vh;overflow-y:auto;">
+      <table class="table table-bordered"  *ngFor="let packet of placementOPT.siteVehicleCostPackets;">
+          <tr>
+            <td colspan='4' class="col-sm-12" style="text-align:center;font-size:16px;font-weight:bold;background-color:lightgrey;">{{packet.siteName}}</td>
+          </tr>
+          <tr style="background-color:#78cfea;">
+            <th style="width:10%;">#</th>
+            <th style="width:30%;">Vehicle Id</th>
+            <th style="width:30%;">Reg No</th>
+            <th style="width:30%;">Cost</th>
+          </tr>
+              <tr *ngFor="let costPacket of packet.vehicleCostPacket;let i = index;">
+                <td style="width:10%;">{{i+1}}</td>
+                <td style="width:30%;">{{costPacket.vehicleId}}</td>
+                <td style="width:30%;">{{costPacket.truckRegno}}</td>
+                <td style="width:30%;">{{costPacket.cost}}</td>
+              </tr>
+      </table>
+    </div>
+  </div>
+
     <!-- <div class="row">
       <div class="col-sm-12" >
         <div class="col-12" *ngFor="let data of placementOPT; index i">{{data['siteAllocationDetails'][i]['name']}}
@@ -102,6 +153,6 @@
     </div>
       </div>
     </div> -->
-  
+
   </nb-card-body>
 </nb-card>

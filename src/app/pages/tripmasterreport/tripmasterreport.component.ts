@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { TripKmRepairViewComponent } from '../../modals/trip-km-repair-view/trip-km-repair-view.component';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -33,6 +35,7 @@ export class TripmasterreportComponent implements OnInit {
 
   constructor(public api:ApiService,
     public common:CommonService,
+    private modalService: NgbModal,
     public user:UserService) {
     let today = new Date();
     this.startTime = new Date(today.setDate(today.getDate() - 1));
@@ -86,6 +89,24 @@ export class TripmasterreportComponent implements OnInit {
         this.common.loading--;
         this.common.showError();
       })
+  }
+
+  openTripKmRepair(data){
+    console.log("KMdata:",data);
+    if(!data['route_kms']){
+      this.common.showError('No Data');
+      return;
+    }
+    let tripData = {
+      tripId : data['trip_id']
+    };
+    this.common.params = tripData;
+    console.log("tripData", this.common.params);
+
+    const activeModal = this.modalService.open(TripKmRepairViewComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data => {
+      // this.getVehicleTrips();
+    });
   }
 
 }

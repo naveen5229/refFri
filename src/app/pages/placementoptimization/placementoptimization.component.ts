@@ -14,6 +14,8 @@ import { AccountService } from '../../services/account.service';
 })
 export class PlacementoptimizationComponent implements OnInit {
 
+  isVisible=true;
+  showHides='-';
   table = {
     data: {
       headings: {},
@@ -28,8 +30,9 @@ export class PlacementoptimizationComponent implements OnInit {
   headings = [];
   valobj = {};
 
-  placementId=null;
-  placementOPT=[];
+  placementId = null;
+  placementOPT = null;
+  optimizeArray = [];
   select = 0;
   name = '';
   placementDate = new Date();
@@ -45,70 +48,8 @@ export class PlacementoptimizationComponent implements OnInit {
     }
   ];
 
-  
-  siteData={"siteVehicleCostPackets": [
-        {
-            "siteId": 51561,
-            "siteName": "Dynamic Cables Limited",
-            "vehicleCostPacket": [
-                {
-                    "vehicleId": 32731,
-                    "truckRegno": "RJ14GE1590",
-                    "cost": null
-                },
-                {
-                    "vehicleId": 10403,
-                    "truckRegno": "RJ14GH8554",
-                    "cost": null
-                },
-                {
-                    "vehicleId": 10407,
-                    "truckRegno": "RJ14GH8556",
-                    "cost": null
-                },
-              ]
-            },
-            {
-                "siteId": 18831,
-                "siteName": "Ajmera Marble Industries",
-                "vehicleCostPacket": [
-                    {
-                        "vehicleId": 11186,
-                        "truckRegno": "RJ14GG8045",
-                        "cost": null
-                    },
-                    {
-                        "vehicleId": 32674,
-                        "truckRegno": "RJ14GD7540",
-                        "cost": null
-                    },
-                    {
-                        "vehicleId": 10349,
-                        "truckRegno": "RJ14GH5821",
-                        "cost": null
-                    },
-                  ]
-                }
-  ]
 
-  ,
-    "siteAllocationDetails": [
-        {
-            "siteId": 51561,
-            "name": "Dynamic Cables Limited",
-            "minQuantity": 44,
-            "maxQuantity": 66,
-            "allocatedVehicles": 66
-        },
-        {
-            "siteId": 51484,
-            "name": "balaji poly pet",
-            "minQuantity": 46,
-            "maxQuantity": 50,
-            "allocatedVehicles": 13
-        }
-    ]
-  }
+
 
 
   constructor(
@@ -123,14 +64,24 @@ export class PlacementoptimizationComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  showHide(isvisible){
+    if(isvisible){
+      this.isVisible=false;
+      this.showHides='+';
+    }else{
+      this.isVisible=true;
+      this.showHides='-'
+    }
+  }
+
   selectplnt(plant, index) {
     this.items[index]['siteId'] = plant['id'];
-    console.log("----------",this.items[index]['siteId'])
+    console.log("----------", this.items[index]['siteId'])
   }
 
 
   addMoreItems(index) {
-    console.log("addmore items on ", index);
+    // console.log("addmore items on ", index);
     this.items.push({
       siteId: 0,
       waitingTime: null,
@@ -144,21 +95,21 @@ export class PlacementoptimizationComponent implements OnInit {
 
   savePlacementOptimization() {
     console.log("jsonData:", JSON.stringify(this.items))
-    let params={
-      name:this.name,
-      allocType:this.select,
-      placementDate:this.placementDate,
-      placementProblemDetailsDTO:(this.items)
+    let params = {
+      name: this.name,
+      allocType: this.select,
+      placementDate: this.placementDate,
+      placementProblemDetailsDTO: (this.items)
     }
-    console.log("param:",params);
+    console.log("param:", params);
     // console.log("siteData:",this.siteData);
 
 
     this.common.loading++;
-    this.api.postJavaPortDost(8084,'addPlacement', params)
+    this.api.postJavaPortDost(8084, 'addPlacement', params)
       .subscribe(res => {
         this.common.loading--;
-        if(res['success']){
+        if (res['success']) {
           this.common.showToast(res['msg']);
           this.showData(res['data']);
         }
@@ -169,17 +120,18 @@ export class PlacementoptimizationComponent implements OnInit {
   }
 
 
-  showData(placementId){
-    
-      
-    console.log("param:",placementId);
+  showData(placementId) {
+    console.log("param:", placementId);
     this.common.loading++;
-    this.api.getJavaPortDost(8084,'placementOP/'+placementId)
+    this.api.getJavaPortDost(8084, 'placementOP/' + placementId)
       .subscribe(res => {
         this.common.loading--;
-        if(res['success']){
-          this.placementOPT=res['data'];
-          console.log("siteData:",this.placementOPT);
+        if (res['success']) {
+          this.placementOPT = res['data'];
+          // this.optimizeArray=this.placementOPT.map(o => {return { name: o.name, courseid: o.courseid };
+          // });
+
+          console.log("siteData:", this.placementOPT);
         }
       }, err => {
         this.common.loading--;

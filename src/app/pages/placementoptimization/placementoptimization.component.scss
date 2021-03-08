@@ -470,3 +470,26 @@ nb-card-body{
     font-size: 30px;
     color: #217346;
 }
+
+
+:host ::ng-deep .green{
+    background:green;
+    color:white;
+    font-size: 20px;
+    border-radius: 5px;
+    padding-top:2px;
+    padding-bottom:2px;
+    padding-left:4px;
+    padding-right:4px;
+}
+
+:host ::ng-deep .red{
+    background:red;
+    color:white;
+    font-size:20px;
+    border-radius:5px;
+    padding-top:2px;
+    padding-bottom:2px;
+    padding-left:4px;
+    padding-right:4px;
+}
