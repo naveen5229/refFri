@@ -66,6 +66,7 @@ export class TripsComponent implements OnInit {
 
     this.getVehicleTrips(this.type);
   }
+  
   getVehicleTrips(type) {
     this.type = type;
     this.vehicleTrips = [];

@@ -80,9 +80,11 @@ export class TripKmRepairViewComponent implements OnInit {
       .subscribe((res: any) => {
         console.log('res:', res);
         --this.common.loading;
+        this.GPSData = res.withSnap;
         this.GPSDis = this.calculateDistance(res.withSnap);
-        if (res.google)
-          this.GoogleDis = this.calculateDistance(res.google);
+        this.GoogleData = res.google;
+        this.GoogleDis = this.calculateDistance(res.google);
+        this.RepairData = res.withoutSnap;
         this.RequiredDis = this.calculateDistance(res.withoutSnap);
 
         subscription.unsubscribe();
@@ -186,9 +188,9 @@ export class TripKmRepairViewComponent implements OnInit {
     this.map.polygonPath = null;
     let polyPath = null;
     data.forEach(rd => {
-      polyPath = this.map.createPolyPathManual(this.map.createLatLng(rd.lat, rd.long), options);
+      polyPath = this.map.createPolyPathManual(this.map.createLatLng(rd.lat, rd.long?rd.long:rd.lng), options);
     });
-    let boundData = data.map(e => { return { lat: parseFloat(e.lat), lng: parseFloat(e.long) }; });
+    let boundData = data.map(e => { return { lat: parseFloat(e.lat), lng: e.long ? parseFloat(e.long) : parseFloat(e.lng) }; });
     this.map.setMultiBounds(boundData, true);
     return polyPath;
   }
