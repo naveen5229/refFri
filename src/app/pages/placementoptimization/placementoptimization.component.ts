@@ -133,7 +133,6 @@ export class PlacementoptimizationComponent implements OnInit {
       placementProblemDetailsDTO: (this.items)
     }
     console.log("param:", params);
-    // console.log("siteData:",this.siteData);
 
 
     this.common.loading++;
