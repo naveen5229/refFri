@@ -10,11 +10,15 @@
 :host ::ng-deep table thead tr th{
     vertical-align:middle!important;
     border:1px solid #b2adad!important;
+    text-align:center;
 }
 
 :host ::ng-deep table tbody tr td{
     vertical-align:middle!important;
     border:1px solid #b2adad!important;
+    text-align:center;
 }
+
+
 
 

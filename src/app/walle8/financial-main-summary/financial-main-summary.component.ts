@@ -129,17 +129,18 @@ ngOnInit() {
     let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     console.log("Name:",name);
     let details = [
-      ['Name: ' + name,'Start Date: '+this.common.dateFormatter(new Date(this.startDate)),'End Date: '+this.common.dateFormatter(new Date(this.endDate)),  'Report: '+'Financial-Main-Summary']
+      ['Name: ' + name, 'Report: '+'Customer Receipt & Toll Recharges'],
+      ['Start Date: '+this.common.dateFormatter(new Date(this.startDate)),'End Date: '+this.common.dateFormatter(new Date(this.endDate))]
     ];
-    this.pdfService.jrxTablesPDF(['FinancialReport'], 'financial-main-summary', details);
+    this.pdfService.jrxTablesPDF(['FinancialReport'], 'Customer Receipt & Toll Recharges', details);
   }
 
   printCSV(){
     let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     let details = [
-      { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter(new Date(this.startDate)),enddate:'End Date:'+this.common.dateFormatter(new Date(this.endDate)), report:"Report:Financial-Main-Summary"}
+      { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter(new Date(this.startDate)),enddate:'End Date:'+this.common.dateFormatter(new Date(this.endDate)), report:"Report:Customer Receipt & Toll Recharges"}
     ];
-    this.csvService.byMultiIds(['FinancialReport'], 'financial-main-summary', details);
+    this.csvService.byMultiIds(['FinancialReport'], 'Customer Receipt & Toll Recharges', details);
   }
 
 }
