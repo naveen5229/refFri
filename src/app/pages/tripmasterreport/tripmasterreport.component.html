@@ -105,25 +105,25 @@
                         <td>{{data['origin']['act_start_time'] !='' ? data['origin']['act_start_time'] : null}}</td>
                         <td>{{data['origin']['act_end_time'] !='' ? data['origin']['act_end_time'] : null }}</td>
                         <td>{{data['load_time'] !='' ? data['load_time'] : ''}}</td>
-                        <td>{{data['origin']['origin_delay'] !='' ? data['origin']['origin_delay'] : null}}</td>
+                        <td>{{data['origin']['delay'] !='' ? data['origin']['delay'] : null}}</td>
 
                         <td>{{data['via']['loc_name'] !='' ? data['via']['loc_name'] : ''}}</td>
                         <td>{{data['via']['trans_time'] !='' ? data['via']['trans_time'] : ''}}</td>
                         <td>{{data['via']['act_start_time'] !='' ? data['via']['act_start_time'] : null}}</td>
                         <td>{{data['via']['act_end_time'] !='' ? data['via']['act_end_time'] : null }}</td>
-                        <td>0</td>
-                        <td>{{data['via']['via_delay'] !='' ? data['via']['via_delay'] : null }}</td>
+                        <td>{{data['via']['loc_name']!='' ? data['via']['loc_name']:null}}</td>
+                        <td>{{data['via']['delay'] !='' ? data['via']['delay'] : null }}</td>
                         <td>{{data['destination']['loc_name'] !='' ? data['destination']['loc_name'] : ''}}</td>
                         <td>{{data['destination']['trans_time'] !='' ? data['destination']['trans_time'] : ''}}</td>
                         <td>{{data['destination']['act_start_time'] !='' ? data['destination']['act_start_time'] : null}}</td>
                         <td>{{data['destination']['act_end_time'] !='' ? data['destination']['act_end_time'] : null }}</td>
                         <td>{{data['unload_time'] !='' ? data['unload_time'] : null }}</td>
-                        <td>{{data['destination']['destination_delay'] !='' ? data['destination']['destination_delay'] : null }}</td>
+                        <td>{{data['destination']['delay'] !='' ? data['destination']['delay'] : null }}</td>
 
                         <td>{{data['trip_time']}}</td>
                         <td>{{data['trip_delay']}}</td>
                         <td>{{data['weight']}}</td>
-                        <td>{{data['toll_count']}}</td>
+                        <td (click)="tollPaymentManagement(data)" style="color:blue;cursor:pointer;">{{data['toll_count']}}</td>
                         <td>{{data['stoppagecount']}}</td>
                         <td>{{data['driver_name']}}</td>
                         <td>{{data['driver_mobile']}}</td>

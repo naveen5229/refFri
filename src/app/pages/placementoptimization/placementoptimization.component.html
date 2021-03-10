@@ -21,9 +21,10 @@
 
         <div class="col-sm-3">
           <label>Placement Date</label>
-          <uj-date-time-picker (onChanged)="placementDate = $event" [isTime]='false' [dateTimeValue]="placementDate">
+          <uj-date-time-picker (onChanged)="getDate($event);" [isTime]='false' [dateTimeValue]="placementDate">
           </uj-date-time-picker>
         </div>
+
         <div class="col-sm-3 mt-4">
           <label><input name="time" [(ngModel)]="select" type="radio" [value]="0">Include All</label>
           <label><input name="time" type="radio" [(ngModel)]="select" [value]="1">Include Allocated</label>
@@ -35,10 +36,11 @@
       <div class="col-sm-12 p-0">
         <table class="table table-bordered">
           <tbody>
+            
             <tr *ngFor="let item of items; let j= index">
               <td>
                 <auto-suggestion (onSelected)="selectplnt($event, j)" url="suggestion/getSites" display="name"
-                  placeholder="Search Plant" [preSelected]=null></auto-suggestion>
+                  placeholder="Search Plant" [preSelected]="(item.siteId>0) ? {'name':item.siteName} : {'name':null}"></auto-suggestion>
               </td>
               <td>
                 <input type="number" [(ngModel)]="item.waitingTime" min=0 oninput="validity.valid||(value='');"
@@ -56,7 +58,7 @@
               </td>
 
               <td>
-                <input type="number" [(ngModel)]="item.penaltyMin" min=0 oninput="validity.valid||(value='');"
+                <input type="number"   [(ngModel)]="item.penaltyMin" min=0 oninput="validity.valid||(value='');"
                   class="form control" placeholder="Min Panalty">
               </td>
 
@@ -123,8 +125,10 @@
     <div *ngIf="placementOPT">
     <div class="row" style="height:60vh;overflow-y:auto;">
       <table class="table table-bordered"  *ngFor="let packet of placementOPT.siteVehicleCostPackets;">
+        
           <tr>
-            <td colspan='4' class="col-sm-12" style="text-align:center;font-size:16px;font-weight:bold;background-color:lightgrey;">{{packet.siteName}}</td>
+            <td colspan='4' class="col-sm-12" style="text-align:center;font-size:16px;font-weight:bold;background-color:lightgrey;">{{packet.siteName}} 
+            </td>
           </tr>
           <tr style="background-color:#78cfea;">
             <th style="width:10%;">#</th>

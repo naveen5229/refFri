@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TollpaymentmanagementComponent } from '../../modals/tollpaymentmanagement/tollpaymentmanagement.component';
 
 
 
@@ -91,6 +92,24 @@ export class TripmasterreportComponent implements OnInit {
       })
   }
 
+
+
+  tollPaymentManagement(trip){
+    console.log("trip------", trip);
+    let fromTime = trip._startdate;
+    let toTime = trip._enddate;
+    console.log("trip------", fromTime, toTime);
+    this.common.params = { vehId: trip.vid, vehRegNo: trip.regno, startDate: trip['origin']['act_start_time'], endDate: trip['destination']['act_end_time'],startDatedis:trip['origin']['act_start_time'],endDatedis:trip['destination']['act_end_time'] };
+    this.common.openType = "modal";
+    // this.common.handleModalHeightWidth('class', 'modal-lg', '200', '1500');
+    this.modalService.open(TollpaymentmanagementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "mycustomModalClass" });
+  }
+
+
+
+
+
+
   openTripKmRepair(data){
     console.log("KMdata:",data);
     if(!data['route_kms']){
@@ -98,7 +117,8 @@ export class TripmasterreportComponent implements OnInit {
       return;
     }
     let tripData = {
-      tripId : data['trip_id']
+      tripId : data['trip_id'],
+      vId:data['vid']
     };
     this.common.params = tripData;
     console.log("tripData", this.common.params);
