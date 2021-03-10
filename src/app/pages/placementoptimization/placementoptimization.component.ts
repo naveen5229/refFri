@@ -14,6 +14,7 @@ import { AccountService } from '../../services/account.service';
 })
 export class PlacementoptimizationComponent implements OnInit {
 
+  placementProblemDTO=[];
   isVisible=true;
   showHides='-';
   table = {
@@ -40,6 +41,7 @@ export class PlacementoptimizationComponent implements OnInit {
   items = [
     {
       siteId: 0,
+      siteName:'',
       waitingTime: null,
       minQuantity: null,
       maxQuantity: null,
@@ -59,7 +61,9 @@ export class PlacementoptimizationComponent implements OnInit {
     public dateService: DateService,
     public accountService: AccountService,
     public user: UserService,
-    public map: MapService) { }
+    public map: MapService) {
+      this.getPreviousData(null);
+     }
 
   ngOnInit(): void {
   }
@@ -74,8 +78,34 @@ export class PlacementoptimizationComponent implements OnInit {
     }
   }
 
+  getDate(event) {
+    this.placementDate=event;
+    this.getPreviousData(this.placementDate);
+ }
+
+
+  getPreviousData(date?){
+    if(date){
+      this.placementDate=date;
+    }
+    this.common.loading++;
+    this.api.getJavaPortDost(8084, 'getPreviousData/'+ this.common.dateFormatter1(this.placementDate))
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("getPreviousData:",res['placementProblemDetailsDTO']);
+        if(res['placementProblemDetailsDTO']){
+        this.items=res['placementProblemDetailsDTO'];
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
   selectplnt(plant, index) {
     this.items[index]['siteId'] = plant['id'];
+    this.items[index]['siteName']=plant['name'];
+    
     console.log("----------", this.items[index]['siteId'])
   }
 
@@ -84,6 +114,7 @@ export class PlacementoptimizationComponent implements OnInit {
     // console.log("addmore items on ", index);
     this.items.push({
       siteId: 0,
+      siteName:'',
       waitingTime: null,
       minQuantity: null,
       maxQuantity: null,
@@ -102,7 +133,6 @@ export class PlacementoptimizationComponent implements OnInit {
       placementProblemDetailsDTO: (this.items)
     }
     console.log("param:", params);
-    // console.log("siteData:",this.siteData);
 
 
     this.common.loading++;
