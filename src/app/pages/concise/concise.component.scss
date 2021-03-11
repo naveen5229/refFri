@@ -30,10 +30,7 @@
     color: black; // display: none;
 }
 
-:host ::ng-deep.red {
-    background: red;
-    color: #fff;
-}
+
 :host ::ng-deep.byellow {
     background: yellow;
     color: #fff;
@@ -41,6 +38,12 @@
 :host ::ng-deep.bgreen {
     background: green;
     color: black;
+}
+
+
+:host ::ng-deep.bgblue {
+    background: rgb(26, 1, 247);
+    color: rgb(38, 0, 255);
 }
 
 :host ::ng-deep.pink {
@@ -51,6 +54,10 @@
 :host ::ng-deep.green {
     background: #96ec11;
     color: black;
+}
+:host ::ng-deep.red {
+    background: red;
+    color: #fff;
 }
 
 .loc-icon {

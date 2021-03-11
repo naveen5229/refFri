@@ -160,10 +160,15 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/ulheatmap',
       },
       {
+        title: 'Trip Master Report',
+        icon: 'fa-home',
+        link: '/pages/tripmasterreport',
+      },
+      {
         title: 'Placement Optimization',
         icon: 'fa-home',
         link: '/pages/placementoptimization',
-      },
+      }
     ]
   },
   {
@@ -190,7 +195,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/tickets',
         home: true,
       },
-    
+
       // {
       //   title: 'Finance Recovery',
       //   icon: 'fa-tachometer-alt',
@@ -435,7 +440,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/vehicle-performance',
         home: true,
       },
-      
+
 
     ]
   },
@@ -450,7 +455,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/fuel-fillings',
         home: true,
       },
-      
+
       {
         title: 'Fuel Mileage',
         icon: 'fa-tachometer-alt',
@@ -544,7 +549,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
       icon: 'fa-list',
       link: '/pages/driver-list',
       home: true,
-    },{
+    }, {
 
       title: 'Driver On Side Images',
       icon: 'fa-map-marker',
@@ -622,7 +627,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     icon: 'fa-chalkboard-teacher',
     link: '/challan/pending-challan'
   },
- 
+
   {
     title: 'TMG Challan',
     icon: 'fa-home',

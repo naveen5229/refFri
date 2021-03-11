@@ -13,12 +13,51 @@ import { AccountService } from '../../services/account.service';
   styleUrls: ['./placementoptimization.component.scss']
 })
 export class PlacementoptimizationComponent implements OnInit {
-  planid= 0;
-  weighttime:any;
-  maxqty:any;
-  minqty:any;
-  minpanalty:any;
-  maxpanalty:any;
+
+  placementProblemDTO=[];
+ 
+  isTblActive=false;
+  isVisible=true;
+  isActive=true;
+  tblshowhide='-';
+  showHides='-';
+  table = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true,
+      tableHeight: "68vh",
+    }
+  };
+
+  headings = [];
+  valobj = {};
+
+  placementId = null;
+  placementOPT = null;
+  optimizeArray = [];
+  select = 0;
+  name = '';
+  placementDate = new Date();
+
+  items = [
+    {
+      siteId: 0,
+      siteName:'',
+      waitingTime: null,
+      minQuantity: null,
+      maxQuantity: null,
+      penaltyMin: null,
+      penaltyMax: null
+    }
+  ];
+
+
+
+
+
   constructor(
     private datePipe: DatePipe,
     public api: ApiService,
@@ -26,11 +65,123 @@ export class PlacementoptimizationComponent implements OnInit {
     public dateService: DateService,
     public accountService: AccountService,
     public user: UserService,
-    public map : MapService) { }
+    public map: MapService) {
+      this.getPreviousData(null);
+     }
 
   ngOnInit(): void {
   }
-  selectplnt(value){
-    this.planid = value.id;
+
+  tblShowHides(data){
+    if(data){
+      this.isActive=false;
+      this.tblshowhide='+'
+    }else{
+      this.isActive=true;
+      this.tblshowhide='-';
+    }
+  }
+
+  showHide(isvisible){
+    if(isvisible){
+      this.isVisible=false;
+      this.showHides='+';
+    }else{
+      this.isVisible=true;
+      this.showHides='-'
+    }
+  }
+
+  getDate(event) {
+    this.placementDate=event;
+    this.getPreviousData(this.placementDate);
+ }
+
+
+  getPreviousData(date?){
+    if(date){
+      this.placementDate=date;
+    }
+    this.common.loading++;
+    this.api.getJavaPortDost(8084, 'getPreviousData/'+ this.common.dateFormatter1(this.placementDate))
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("getPreviousData:",res['placementProblemDetailsDTO']);
+        if(res['placementProblemDetailsDTO']){
+          this.name=res['name'];
+          this.select=res['allocType'];
+          this.items=res['placementProblemDetailsDTO'];
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  selectplnt(plant, index) {
+    this.items[index]['siteId'] = plant['id'];
+    this.items[index]['siteName']=plant['name'];
+    
+    console.log("----------", this.items[index]['siteId'])
+  }
+
+
+  addMoreItems(index) {
+    // console.log("addmore items on ", index);
+    this.items.push({
+      siteId: 0,
+      siteName:'',
+      waitingTime: null,
+      minQuantity: null,
+      maxQuantity: null,
+      penaltyMin: null,
+      penaltyMax: null
+    }
+    );
+  }
+
+  savePlacementOptimization() {
+    console.log("jsonData:", JSON.stringify(this.items))
+    let params = {
+      name: this.name,
+      allocType: this.select,
+      placementDate: this.placementDate,
+      placementProblemDetailsDTO: (this.items)
+    }
+    console.log("param:", params);
+
+
+    this.common.loading++;
+    this.api.postJavaPortDost(8084, 'addPlacement', params)
+      .subscribe(res => {
+        this.common.loading--;
+        if (res['success']) {
+          this.common.showToast(res['msg']);
+          this.showData(res['data']);
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+
+  showData(placementId) {
+    console.log("param:", placementId);
+    this.common.loading++;
+    this.api.getJavaPortDost(8084, 'placementOP/' + placementId)
+      .subscribe(res => {
+        this.common.loading--;
+        if (res['success']) {
+          this.placementOPT = res['data'];
+          // this.optimizeArray=this.placementOPT.map(o => {return { name: o.name, courseid: o.courseid };
+          // });
+
+          console.log("siteData:", this.placementOPT);
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
 }
