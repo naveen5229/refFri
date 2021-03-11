@@ -526,6 +526,18 @@ export class TmgCallsComponent implements OnInit {
           suggestedMin: chartobj.minValue
         }]
       },
+      tooltips: {
+        enabled: true,
+        mode: 'single',
+        callbacks: {
+          label: function (tooltipItems, data) {
+            console.log("tooltipItems", tooltipItems, "data", data);
+            let tti = ('' + tooltipItems.yLabel).split(".");
+            let min = tti[1] ? String(parseInt(tti[1]) * 6).substring(0,2) : '00';
+            return tooltipItems.xLabel + " ( " + tti[0] + ":" + min + " Hrs. )";
+          }
+        }
+      },
 
     };
   }
@@ -686,6 +698,18 @@ export class TmgCallsComponent implements OnInit {
           ticks: { stepSize: chartobj.gridSize },
           suggestedMin: chartobj.minValue
         }]
+      },
+      tooltips: {
+        enabled: true,
+        mode: 'single',
+        callbacks: {
+          label: function (tooltipItems, data) {
+            console.log("tooltipItems", tooltipItems, "data", data);
+            let tti = ('' + tooltipItems.yLabel).split(".");
+            let min = tti[1] ? String(parseInt(tti[1]) * 6).substring(0,2) : '00';
+            return tooltipItems.xLabel + " ( " + tti[0] + ":" + min + " Hrs. )";
+          }
+        }
       },
     };
   }
