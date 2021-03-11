@@ -76,7 +76,8 @@ ngOnInit() {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 1
+      groupdays: 1,
+      stepno:0
     };
     this.api.post('Tmgreport/GetAlertAckTat', params)
       .subscribe(res => {
@@ -97,7 +98,8 @@ ngOnInit() {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 1
+      groupdays: 1,
+      stepno:0
     };
      this.showLoader(index);
     this.api.post('Tmgreport/GetAlertCallTat', params)
@@ -120,7 +122,8 @@ ngOnInit() {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 1
+      groupdays: 1,
+      stepno:0
     };
     this.api.post('Tmgreport/GetAlertVscTat', params)
       .subscribe(res => {
@@ -317,7 +320,7 @@ ngOnInit() {
     let xaxis = [];
     this.alertCallTat.map(tlt=>{
       xaxis.push(tlt['Period']);
-      yaxis.push(tlt['Call TAT(Hrs)']);
+      yaxis.push(((tlt['Call TAT(HH:MM)']) ? tlt['Call TAT(HH:MM)'] : 0));
     });
     console.log("handleChart1",xaxis,yaxis);
     this.chart1.type = 'line'
@@ -369,7 +372,7 @@ ngOnInit() {
     let xaxis = [];
     this.alertVscTat.map(tlt=>{
       xaxis.push(tlt['Period']);
-      yaxis.push(tlt['TAT(Hrs)']);
+      yaxis.push((tlt['TAT(Hrs)']) ? tlt['TAT(Hrs)'] :0);
     });
     console.log("handleChart2",xaxis,yaxis);
     this.chart2.type = 'line'
@@ -452,6 +455,98 @@ hideLoader(index) {
   } catch (e) {
     console.log('Exception', e);
   }
+}
+
+chart1Clicked(event) {
+
+  let Date = this.alertAckTat[event[0]._index].Date;
+  console.log('event[0]._index', event[0]._index, event[0], Date);
+  this.passingIdChart1Data(Date);
+}
+
+passingIdChart1Data(parseDate) {
+  //   this.showLoader(id);
+  let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+  let endDate = new Date();
+  let params = {
+    fromdate: this.common.dateFormatter(startDate),
+    todate: this.common.dateFormatter(endDate),
+    groupdays: 1,
+    date: parseDate,
+    stepno:1
+   // ref: 'tmg-calls'
+  };
+  // this.api.post('Tmgreport/GetCallsDrivar', params)
+  //   .subscribe(res => {
+  //     console.log('callsDrivar 111 :', res);
+
+  //     this.hideLoader(id);;
+  //   }, err => {
+  //     this.hideLoader(id);;
+  //     console.log('Err:', err);
+  //   });
+  this.getDetials('Tmgreport/GetAlertAckTat', params)
+}
+chart2Clicked(event) {
+
+  let Date = this.alertCallTat[event[0]._index].Date;
+  console.log('event[0]._index', event[0]._index, event[0], Date);
+  this.passingIdChart2Data(Date);
+}
+
+passingIdChart2Data(parseDate) {
+  //   this.showLoader(id);
+  let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+  let endDate = new Date();
+  let params = {
+    fromdate: this.common.dateFormatter(startDate),
+    todate: this.common.dateFormatter(endDate),
+    groupdays: 1,
+    date: parseDate,
+    stepno:1
+   // ref: 'tmg-calls'
+  };
+  // this.api.post('Tmgreport/GetCallsDrivar', params)
+  //   .subscribe(res => {
+  //     console.log('callsDrivar 111 :', res);
+
+  //     this.hideLoader(id);;
+  //   }, err => {
+  //     this.hideLoader(id);;
+  //     console.log('Err:', err);
+  //   });
+  this.getDetials('Tmgreport/GetAlertCallTat', params)
+}
+
+chart3Clicked(event) {
+
+  let Date = this.alertVscTat[event[0]._index].Date;
+  console.log('event[0]._index', event[0]._index, event[0], Date);
+  this.passingIdChart3Data(Date);
+}
+
+passingIdChart3Data(parseDate) {
+  //   this.showLoader(id);
+  let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+  let endDate = new Date();
+  let params = {
+    fromdate: this.common.dateFormatter(startDate),
+    todate: this.common.dateFormatter(endDate),
+    groupdays: 1,
+    date: parseDate,
+    stepno:1
+   // ref: 'tmg-calls'
+  };
+  // this.api.post('Tmgreport/GetCallsDrivar', params)
+  //   .subscribe(res => {
+  //     console.log('callsDrivar 111 :', res);
+
+  //     this.hideLoader(id);;
+  //   }, err => {
+  //     this.hideLoader(id);;
+  //     console.log('Err:', err);
+  //   });
+  this.getDetials('Tmgreport/GetAlertVscTat', params)
 }
 }
 
