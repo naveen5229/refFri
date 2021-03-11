@@ -126,7 +126,7 @@
                         <td>{{data['trip_delay']}}</td>
                         <td>{{data['weight']}}</td>
                         <td (click)="tollPaymentManagement(data)" style="color:blue;cursor:pointer;">{{data['toll_count']}}</td>
-                        <td>{{data['stoppagecount']}}</td>
+                        <td> <span (click)="showRouteMapper(data)" style="color:blue;cursor:pointer;">{{data['stoppagecount']}}</span> </td>
                         <td>{{data['driver_name']}}</td>
                         <td>{{data['driver_mobile']}}</td>
                         <!-- <td>{{data['vid']}}</td> -->
