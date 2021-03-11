@@ -15,7 +15,11 @@ import { AccountService } from '../../services/account.service';
 export class PlacementoptimizationComponent implements OnInit {
 
   placementProblemDTO=[];
+ 
+  isTblActive=false;
   isVisible=true;
+  isActive=true;
+  tblshowhide='-';
   showHides='-';
   table = {
     data: {
@@ -68,6 +72,16 @@ export class PlacementoptimizationComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  tblShowHides(data){
+    if(data){
+      this.isActive=false;
+      this.tblshowhide='+'
+    }else{
+      this.isActive=true;
+      this.tblshowhide='-';
+    }
+  }
+
   showHide(isvisible){
     if(isvisible){
       this.isVisible=false;
@@ -94,7 +108,9 @@ export class PlacementoptimizationComponent implements OnInit {
         this.common.loading--;
         console.log("getPreviousData:",res['placementProblemDetailsDTO']);
         if(res['placementProblemDetailsDTO']){
-        this.items=res['placementProblemDetailsDTO'];
+          this.name=res['name'];
+          this.select=res['allocType'];
+          this.items=res['placementProblemDetailsDTO'];
         }
       }, err => {
         this.common.loading--;
