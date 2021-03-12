@@ -43,7 +43,7 @@
                             <th rowspan="2" style="min-width: 108px;">Product Name</th>
                             <!-- <th rowspan="2" style="min-width: 70px;">Route Id</th> -->
                             <th rowspan="2" style="min-width: 95px;">Route Name</th>
-                            <th rowspan="2" style="min-width: 130px;">Target Distance</th>
+                            <th rowspan="2" style="min-width: 130px;">Lead Distance</th>
                             <th rowspan="2" style="min-width: 140px;">Travelled Distance</th>
                             <th rowspan="2">Consignee</th>
                             <th rowspan="2">Consignor</th>
@@ -97,7 +97,7 @@
                         <td>{{data['product_name']}}</td>
                         <!-- <td>{{data['route_id']}}</td> -->
                         <td>{{data['route_name']}}</td>
-                        <td>0</td>
+                        <td>{{data.lead_dis}}</td>
                         <td (click)="openTripKmRepair(data)" style="color:blue;cursor:pointer;">{{data['route_kms']}}</td>
                         <td>{{data['cnee']}}</td>
                         <td>{{data['cnor']}}</td>
