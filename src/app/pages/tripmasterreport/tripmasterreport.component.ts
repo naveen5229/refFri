@@ -126,12 +126,8 @@ export class TripmasterreportComponent implements OnInit {
 
   showRouteMapper(trip) {
     console.log('trip', trip);
-    let today, startday, fromDate;
-    today = new Date();
-    startday = this.common.dateFormatter(trip.inv_start_time);
-    fromDate = this.common.dateFormatter(startday);
-    let fromTime = this.common.dateFormatter(fromDate);
-    let toTime = this.common.dateFormatter(new Date());
+    let fromTime = this.common.dateFormatter(trip.start_time);
+    let toTime = this.common.dateFormatter(trip.end_time);
     this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
     this.common.params = {
       vehicleId: trip.vid,
