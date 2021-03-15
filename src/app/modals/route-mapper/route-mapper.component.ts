@@ -97,7 +97,7 @@ export class RouteMapperComponent implements OnInit {
       this.commonService.showError('Route mapper time cannot be > 15 days !');
       return false;
     } else if (diff < 0) {
-      this.commonService.showError('End time cannot < Start Time !');
+      this.commonService.showError('End time cannot < Start time !');
       return false;
     }
     return true;
