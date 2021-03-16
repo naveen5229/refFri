@@ -1,137 +1,137 @@
-.modal-header{
-    padding: 10px 15px !important;
+.modal-header {
+  padding: 10px 15px !important;
 }
-table{
-    margin: 0px;
+table {
+  margin: 0px;
 }
-.tbl{
-    overflow: auto;
-    height: 60vh;
-    display: block;
-    border: 0px;
-    margin: 0px;
+.tbl {
+  overflow: auto;
+  height: 60vh;
+  display: block;
+  border: 0px;
+  margin: 0px;
 }
 .table table tbody tr {
-    height: 100%;
-    width: 100%;
-    max-width: 160px;
+  height: 100%;
+  width: 100%;
+  max-width: 160px;
 }
-.slide-bar{
-    display: -moz-inline-stack;
-    vertical-align: middle;
-    display: inline-block;
-    height: 68px;
-    border: 2px solid #909090;
-    position: relative;
-    width: 100%;
-    margin-top: 10px;
+.slide-bar {
+  display: -moz-inline-stack;
+  vertical-align: middle;
+  display: inline-block;
+  height: 68px;
+  border: 2px solid #909090;
+  position: relative;
+  width: 100%;
+  margin-top: 10px;
 }
-.time-line-event{
-    position: absolute;
-    width: 100%;
+.time-line-event {
+  position: absolute;
+  width: 100%;
 }
-.time-line-event .time-line-scale{
-    position: relative;
-    width: 98%;
-    border-bottom: 1px solid black;
-    top: 4px;
+.time-line-event .time-line-scale {
+  position: relative;
+  width: 98%;
+  border-bottom: 1px solid black;
+  top: 4px;
 }
-.time-line-event .time-line-circle{
-    position: absolute;
-    height: 10px;
-    top:50%;
-    background-color: aqua;
+.time-line-event .time-line-circle {
+  position: absolute;
+  height: 10px;
+  top: 50%;
+  background-color: aqua;
 }
-.slide-bar .player_inner{
-    position: absolute;
-    width: 100%;
-    top: 50%;
-    -webkit-transform: translate(0px, -50%);
-    transform: translate(0px, -50%);
-    height: auto;
-    margin: 0px;
-    padding: 0px 15px;
+.slide-bar .player_inner {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  -webkit-transform: translate(0px, -50%);
+  transform: translate(0px, -50%);
+  height: auto;
+  margin: 0px;
+  padding: 0px 15px;
 }
-.player_inner button{
-    display: inline-block;
-    background-color: #000;
-    border: 0px;
-    color: #fff;
-    font-size: 12px;
-    padding: 8px 10px;
-    border-radius: 5px;
-    outline: none !important;
+.player_inner button {
+  display: inline-block;
+  background-color: #000;
+  border: 0px;
+  color: #fff;
+  font-size: 12px;
+  padding: 8px 10px;
+  border-radius: 5px;
+  outline: none !important;
 }
-.player_inner span{
-    color: #868686;
+.player_inner span {
+  color: #868686;
 }
-.player_inner .road{
-    float:right;
-    margin-top: 5px;
+.player_inner .road {
+  float: right;
+  margin-top: 5px;
 }
-.player_inner span.clock{
-    display: block;
-    text-align: right;
-    margin-top: 0px;
+.player_inner span.clock {
+  display: block;
+  text-align: right;
+  margin-top: 0px;
 }
-.player_inner input{
-    display: inline-block;
+.player_inner input {
+  display: inline-block;
 }
 .tooltip {
-    position: relative;
-    display: inline-block;
-  }
-  
-  /* Tooltip text */
-  .tooltip .tooltiptext {
-    // visibility: hidden;
-    width: 120px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    padding: 5px 0;
-    border-radius: 6px;
-    margin: 0 !important;
-  
-    /* Position the tooltip text */
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -60px;
-  
-    /* Fade in tooltip */
-    opacity: 0;
-    transition: opacity 0.5s;
-  }
-  
-  /* Tooltip arrow */
-  .tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-  }
-  
-  /* Show the tooltip text when you mouse over the tooltip container */
-  .tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-  }
-  .btn-primary.form-control{
-    border: 0px;
-    color: #fff;
-    padding: 5px 0px;
-  }
-  .close{
-    font-size: 36px;
-    padding: 8px 16px;
-    outline: none;
-  }
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  // visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  margin: 0 !important;
+
+  /* Position the tooltip text */
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+
+  /* Fade in tooltip */
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+.btn-primary.form-control {
+  border: 0px;
+  color: #fff;
+  padding: 5px 0px;
+}
+.close {
+  font-size: 36px;
+  padding: 8px 16px;
+  outline: none;
+}
 table {
   thead {
     background-color: #263238;
@@ -151,7 +151,7 @@ table {
       width: 150px !important;
       word-break: break-all;
     }
-    .go_btn{
+    .go_btn {
       width: 50px !important;
     }
   }
@@ -161,12 +161,15 @@ table {
   }
 }
 
-.lite{
+.lite {
   margin-left: 50vh !important;
   font-weight: 1000;
   color: darkmagenta;
- }
-.star{
- font-size: 16px;
- color: black;
+}
+.star {
+  font-size: 16px;
+  color: black;
+}
+.bg-yellow {
+  background: yellow;
 }

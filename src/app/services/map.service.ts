@@ -433,7 +433,7 @@ export class MapService {
   }
 
   toggleBounceMF(id, evtype = 1) {
-    console.log("id=", id);
+    // console.log("id=", id);
     if (this.markers[id]) {
       if (this.markers[id].getAnimation() == null && evtype == 1) {
         this.markers[id].setAnimation(google.maps.Animation.BOUNCE);
@@ -849,6 +849,21 @@ export class MapService {
       this.map.fitBounds(bounds);
     }
     return markers;
+  }
+
+  createPolyline(coordinates, options?) {
+    const defaultOptions = {
+      strokeColor: 'red',
+      strokeOpacity: 1,
+      strokeWeight: 3,
+    };
+
+    const polyline = new google.maps.Polyline({
+      path: coordinates,
+      ...(options || defaultOptions)
+    });
+    polyline.setMap(this.map);
+    return polyline;
   }
 
 }
