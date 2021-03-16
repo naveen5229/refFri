@@ -7,8 +7,8 @@
           (click)="getDetials('Tmgreport/GetAlertAckTat',{totalrecord: 3,stepno: -1,groupdays: 1},7,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <chart [type]="chart.type" [data]="chart.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
-            [options]="chart.options">
-          </chart>
+            [options]="chart.options"  (clickElement)="chart1Clicked($event)">
+          </chart> 
         </div>
       </div>
       <div class="col-4 pl-0">
@@ -18,7 +18,7 @@
           (click)="getDetials('Tmgreport/GetAlertCallTat',{totalrecord: 3,stepno: -1,groupdays: 1},7,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <chart [type]="chart1.type" [data]="chart1.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
-            [options]="chart1.options">
+            [options]="chart1.options" (clickElement)="chart2Clicked($event)">
           </chart>
         </div>
       </div>
@@ -29,7 +29,7 @@
           (click)="getDetials('Tmgreport/GetAlertVscTat',{totalrecord: 3,stepno: -1,groupdays: 1},7,'days')"><i title="More Details" class="fa fa-list"></i>
         </p>
           <chart [type]="chart2.type" [data]="chart2.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
-            [options]="chart2.options">
+            [options]="chart2.options" (clickElement)="chart3Clicked($event)">
           </chart>
         </div>
       </div>
@@ -48,8 +48,8 @@
               <th>Alert Date</th>
             </thead>
             <tbody class="tbody">
-              <tr *ngFor="let ana of alertNotAck">
-                <td>{{ana['Executive']}}</td>
+              <tr *ngFor="let ana of alertNotAck" >
+                <td class="link" (click)="getDetials('Tmgreport/GetAlertNotAck',{totalrecord: 3,stepno: 1,isfo: ana['_adminusers_id'] },7,'days')">{{ana['Executive']}}</td>
                 <td>{{ana['Alert Name']}}</td>
                 <td>{{ana['Alert Date']}}</td>
               </tr>
