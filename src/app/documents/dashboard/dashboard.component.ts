@@ -3,8 +3,13 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EditDocumentComponent } from '../../documents/documentation-modals/edit-document/edit-document.component';
+import { DocumentIssuesComponent } from '../../documents/documentation-modals/document-issues/document-issues.component';
+import { AddDocumentComponent } from '../documentation-modals/add-document/add-document.component';
 import { DocumentReportComponent } from '../documentation-modals/document-report/document-report.component';
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+
 
 @AutoUnsubscribe()
 @Component({
@@ -14,113 +19,214 @@ import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 })
 export class DocumentDashboardComponent implements OnInit {
 
-  documentData = [];
-  headings = [];
-  table = {
-    data: {
-      headings: {
-      },
-      columns: []
-    },
-    settings: {
-      hideHeader: true
-    }
+  data = { result: [], summary: [] };
+  docdata = [];
+  columns = [];
+  vehicle_info = [];
+  total_recs = 0;
+  fodata = [];
+  pages = {
+    count: 0,
+    active: 1,
+    limit: 250,
   };
 
-  constructor(public api: ApiService,
+  constructor(
+    public api: ApiService,
     public common: CommonService,
-    public user: UserService,
-    private modalService: NgbModal) {
-    this.getDocumentData();
+    private modalService: NgbModal,
+    public user: UserService) {
+
     this.common.refresh = this.refresh.bind(this);
+    this.getDocumentMatrixData();
   }
 
   ngOnDestroy(){}
 ngOnInit() {
   }
 
-  formatTitle(strval) {
-    let pos = strval.indexOf('_');
-    if (pos > 0) {
-      return strval.toLowerCase().split('_').map(x => x[0].toUpperCase() + x.slice(1)).join(' ')
-    } else {
-      return strval.charAt(0).toUpperCase() + strval.substr(1);
-    }
+  ngAfterViewInit() {
   }
+
 
   refresh() {
-    this.getDocumentData();
+    console.log('Refresh');
+    this.getDocumentMatrixData();
   }
 
-  getDocumentData() {
+  getDocumentMatrixData() {
+    this.columns = [];
     this.common.loading++;
     let user_id = this.user._details.id;
     if (this.user._loggedInBy == 'admin')
       user_id = this.user._customer.id;
-    this.api.post('Vehicles/getDocumentsStatisticsnew', { x_user_id: user_id })
+    this.api.post('Vehicles/getDocumentMatrixDataWeb', { x_user_id: user_id })
       .subscribe(res => {
         this.common.loading--;
-        this.documentData = res['data'];
-        let first_rec = this.documentData[0];
-        this.table.data.headings = {};
-        for (var key in first_rec) {
-          if (key.charAt(0) != "_") {
-            this.headings.push(key);
-            let hdgobj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-            this.table.data.headings[key] = hdgobj;
+        this.data = res['data'];
+        this.pages.count = Math.ceil(this.data.result.length / this.pages.limit);
+        this.total_recs = this.data.result.length;
+        this.handlePagination(this.pages.active);
+
+        if (this.data.result.length) {
+          for (var key in this.data.result[0]) {
+            if (key.charAt(0) != "_")
+              this.columns.push(key);
           }
+
         }
-        this.table.data.columns = this.getTableColumns();
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
+ 
 
-  getTableColumns() {
-    let columns = [];
-    this.documentData.map(doc => {
-      let valobj = {};
-      let total = {};
-      let docobj = { document_type_id: 0 };
-      for (var i = 0; i < this.headings.length; i++) {
-        let strval = doc[this.headings[i]];
-        let status = '';
-        let val = 0;
-        if (strval.indexOf('_') > 0) {
-          let arrval = strval.split('_');
-          status = arrval[0];
-          val = arrval[1];
-        } else {
-          val = strval;
+  getDocumentType(strval) {
+    if (strval) {
+      if (strval.indexOf('_') > -1) {
+        return strval.split('_')[0];
+      } else {
+        return 99;
+      }
+    } else {
+      return 0;
+    }
+  }
+
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1);
+  }
+
+  resetRowsVisibility() {
+    let tblelt = document.getElementById('tbldocs');
+    var rows = tblelt.querySelectorAll('tr');
+    if (rows.length > 1) {
+      for (var i = 1; i < rows.length; i++) {
+        rows[i].classList.remove('cls-hide');
+      }
+    }
+  }
+
+  showAllRecords() {
+    this.resetRowsVisibility();
+    this.resetSerialNo();
+  }
+
+  resetSerialNo() {
+    let tblelt = document.getElementById('tbldocs');
+    var rows = tblelt.querySelectorAll('tr');
+    if (rows.length > 1) {
+      let ctr = 1;
+      for (var i = 1; i < rows.length; i++) {
+        if (!rows[i].classList.contains('cls-hide')) {
+          rows[i].cells[0].innerHTML = "" + ctr;
+          ctr++;
         }
-        docobj.document_type_id = doc['_doctypeid'];
-        valobj[this.headings[i]] = { value: val, class: (val > 0) ? 'blue' : 'black', action: val > 0 ? this.openData.bind(this, docobj, status) : '' };
-
       }
-
-      columns.push(valobj);
-    });
-    return columns;
+    }
   }
 
-  openData(docReoprt, status) {
-    this.common.params = { docReoprt, status, title: 'Document Report' };
-    const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.response) {
-        this.getDocumentData();
-        window.location.reload();
+  filterRows(status) {
+    this.resetRowsVisibility();
+    let tblelt = document.getElementById('tbldocs');
+    var rows = tblelt.querySelectorAll('tr');
+    if (rows.length > 1) {
+
+      for (var i = 1; i < rows.length; i++) {
+        let classlst = rows[i].classList;
+        if (classlst.length) {
+          let flag = 0;
+          if (classlst.length == 1 && classlst[0] != ("" + status)) {
+            rows[i].classList.add('cls-hide');
+          } else {
+            for (var j = 0; j < classlst.length; j++) {
+              if (classlst[j].indexOf('--') > -1) {
+                let arrclass = classlst[j].split('--');
+
+                if (arrclass.indexOf("" + status) == -1) {
+
+                  rows[i].classList.add('cls-hide');
+                  flag = 1;
+                  continue;
+                }
+              } else if (classlst[j].length == 1 && classlst[j] != ("" + status)) {
+                rows[i].classList.add('cls-hide');
+                flag = 1;
+                continue;
+              }
+            }
+          }
+        }
       }
-    });
+    }
+    this.resetSerialNo();
   }
 
-  getSum(key) {
-    let total = 0;
-    this.documentData.map(data => {
-      total += data[key];
-    });
-    return total;
+  getDocClasses(row) {
+    let docclass = [];
+    let strclass = "";
+
+    for (var i = 0; i < this.columns.length; i++) {
+      let colval = row[this.columns[i]];
+      if (colval) {
+        if (colval.indexOf('_') > -1) {
+          let status = colval.split('_')[0];
+          docclass.push(status);
+        }
+      } else if (colval == null) {
+        docclass.push(0);
+      }
+    }
+    if (docclass.length == 0) {
+      docclass.push(0);
+    }
+    strclass = docclass.join('--');
+
+    return strclass;
+  }
+
+  fetchDocumentData(row, col, colval) {
+
+    if (colval) {
+      let arrval = colval.split('_');
+      let docid = arrval[1];
+      let regno = row['vehicle'];
+      this.common.loading++;
+      this.api.post('Vehicles/getPendingDocDetailsById', { x_document_id: docid })
+        .subscribe(res => {
+          this.common.loading--;
+          this.docdata = res['data'];
+
+          let documentData = [{
+            regNumber: this.docdata[0].regno,
+            id: this.docdata[0].id,
+            vehicleId: this.docdata[0].vehicle_id,
+            documentType: this.docdata[0].type,
+            documentId: this.docdata[0].type_id,
+            issueDate: this.docdata[0].issue_date,
+            wefDate: this.docdata[0].wef_date,
+            expiryDate: this.docdata[0].expiry_date,
+            agentId: this.docdata[0].document_agent_id,
+            agentName: this.docdata[0].agent,
+            documentNumber: this.docdata[0].document_number,
+            docUpload: this.docdata[0].img_url,
+            docUpload2: this.docdata[0].img_url2,
+            docUpload3: this.docdata[0].img_url3,
+            remark: this.docdata[0].remarks,
+            rto: this.docdata[0].rto,
+            amount: this.docdata[0].amount,
+          }];
+          this.common.params = { documentData, title: 'Document Details', canUpdate: 0, vehicleId: this.docdata[0].vehicle_id };
+          this.common.handleModalSize('class', 'modal-lg', '1200');
+          const activeModal = this.modalService.open(EditDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+          activeModal.result.then(mdldata => {
+          });
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });
+    }
   }
 
   printPDF(tblEltId) {
@@ -131,13 +237,48 @@ ngOnInit() {
     this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
       .subscribe(res => {
         this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "Document Summary";
+        this.fodata = res['data'];
+        let left_heading = this.fodata['name'];
+        let center_heading = "Document Status";
         this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
+
+  showIssues() {
+    this.common.params = { title: 'Documents Issues', status: 'pendingAll', docReoprt: { document_type_id: 0 } };
+    const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+  noRecordDocumentData(norecordData, col, colval) {
+    colval = colval.split("_")[2];
+    this.common.params = { norecordData, col, colval };
+    const activeModal = this.modalService.open(AddDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.getDocumentMatrixData();
+      }
+    });
+  }
+  dr = [];
+  handlePagination(page) {
+    this.pages.active = page;
+    let startIndex = this.pages.limit * (this.pages.active - 1);
+    let lastIndex = (this.pages.limit * this.pages.active);
+    console.log('this.data.result', this.data.result)
+    this.dr = this.data.result.slice(startIndex, lastIndex);
+    console.log("dr", this.dr);
+  }
+
+  settings:any;
+  setData() {
+      this.handlePagination(this.pages.active);
+      this.pages.count = Math.floor(this.data.result.length / this.pages.limit);
+      if (this.data.result.length % this.pages.limit) {
+        this.pages.count++;
+      }
+      console.log("this.pages.count",this.pages.count,this.data.result.length,this.pages.limit)
+  }
+
 }
