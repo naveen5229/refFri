@@ -4,8 +4,9 @@ import { MapService } from '../../services/map.service';
 import { ApiService } from "../../services/api.service";
 import { CommonService } from '../../services/common.service';
 import { DateService } from '../../services/date.service';
-
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+import * as moment from 'moment';
+import { ThrowStmt } from '@angular/compiler';
 
 @AutoUnsubscribe()
 @Component({
@@ -88,7 +89,23 @@ export class RouteMapperComponent implements OnInit {
     // }, 500);
   }
 
+  validateDates() {
+    const startDate = moment(this.startDate);
+    const endDate = moment(this.endDate);
+    const diff = endDate.diff(startDate, 'days');
+    if (diff > 15) {
+      this.commonService.showError('Route mapper time cannot be > 15 days !');
+      return false;
+    } else if (diff < 0) {
+      this.commonService.showError('End time cannot < Start time !');
+      return false;
+    }
+    return true;
+  }
+
   initFunctionality() {
+    if (!this.validateDates()) return;
+
     let promises = [this.getHaltTrails(), this.getVehicleTrailAll()]
     Promise.all(promises).then((result) => {
       console.log('vehicleEvents', this.vehicleEvents);
@@ -381,7 +398,7 @@ export class RouteMapperComponent implements OnInit {
         blueSubTrail = [];
       }
     });
-    console.log(' this.redSubTrails',  this.redSubTrails);
+    console.log(' this.redSubTrails', this.redSubTrails);
     this.drawSubTrails();
   }
 
