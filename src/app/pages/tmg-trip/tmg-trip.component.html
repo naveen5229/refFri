@@ -75,7 +75,8 @@
           </thead>
           <tbody class="tbody">
             <tr *ngFor="let lls of longestLoadindSites">
-              <td>{{lls['Site Name']}}</td>
+              <td class="link"
+              (click)="getDetials('Tmgreport/GetLongestLoadindSites',{totalrecord: 3,stepno: 1,isfo: lls['Site Name']},7,'days')">{{lls['Site Name']}}</td>
               <td>{{lls['Avg Loading Time(in Hrs)']}}</td>
             </tr>
           </tbody>
@@ -97,7 +98,7 @@
           </thead>
           <tbody class="tbody">
             <tr *ngFor="let lud of longestUnLoadindDriver">
-              <td>{{lud['Driver Name']}}</td>
+              <td class="link" (click)="getDetials('Tmgreport/GetLongestUnLoadindDriver',{totalrecord: 3,stepno: 1,isfo: lud['Driver Name'] },30,'days')">{{lud['Driver Name']}}</td>
               <td>{{lud['Avg Unloading Time(in Hr:Mi)']}}</td>
             </tr>
           </tbody>
@@ -121,7 +122,7 @@
           </thead>
           <tbody class="tbody">
             <tr *ngFor="let tso of tripSlowestOnward">
-              <td>{{tso['Driver Name']}}</td>
+              <td class="link" (click)="getDetials('Tmgreport/GetTripSlowestOnward',{totalrecord: 3,stepno: 1,isfo: tso['_vehicleid'] },7,'days')">{{tso['Driver Name']}}</td>
               <td>{{tso['Vehicle Name']}}</td>
               <td>{{tso['Avg Speed KM\/Hrs']}}</td>
             </tr>
@@ -143,7 +144,8 @@
           </thead>
           <tbody class="tbody">
             <tr *ngFor="let lus of longestUnLoadindSites">
-              <td>{{lus['Site Name']}}</td>
+              <td class="link"
+              (click)="getDetials('Tmgreport/GetLongestUnLoadindSites',{totalrecord: 3,stepno: 1,isfo: lus['Site Name']},7,'days')">{{lus['Site Name']}}</td>
               <td>{{lus['Avg Unloading Time(in Hrs)']}}</td>
             </tr>
           </tbody>
