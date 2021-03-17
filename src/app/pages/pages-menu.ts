@@ -522,13 +522,13 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     {
       title: 'Document Dashboard',
       icon: 'fa-table',
-      link: '/pages/documents-summary',
+      link: '/pages/document-dashboard',
       home: true,
     },
     {
       title: 'Document Summary',
       icon: 'fa-file-text',
-      link: '/pages/document-dashboard',
+      link: '/pages/documents-summary',
       home: true,
     },
     ]

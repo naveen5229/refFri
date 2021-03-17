@@ -1,14 +1,139 @@
-<nb-card style="border:0px;">
-  <!-- <nb-card-header>
-    <h4> Vehicle Documents Summary</h4>
-  </nb-card-header> -->
+<nb-card style="border: 0px;">
+  <nb-card-body style="padding-bottom: 0px; padding-top: 5px;">
+    <div class="document-dash-contnet">
+      <div class="row pdg-ltrt-none document-heading_box">
+        <div class="col-sm-12">
+          <span>
+            <span class="pdf-icon" title="PDF Export" (click)="printPDF('tbldocs')" style="cursor: pointer;"><i
+                class="fa fa-file-pdf"></i></span>
+            <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('tbldocs')"
+              style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+          </span>
+          <div class="" style="float:right;">
+            <button class="btn btn-primary" name="btn-issues" style="cursor:pointer;margin-bottom: 10px; margin:0px;"
+              (click)="showIssues()">
+              Document Issues
+            </button>
+          </div>
+        </div>
 
-  <nb-card-body style="padding-top:0px; ">
-      <span style="margin-bottom: 10px; display: block;"> 
-          <span class="pdf-icon" title="PDF Export" (click)="printPDF('tblsummary');" style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
-          <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('tblsummary')" style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
-      </span>
-    <smart-table *ngIf="documentData.length" [data]="table.data" [settings]="table.settings" id="tblsummary"></smart-table>
-    <br>
+        <div class="col-sm-12">
+          <table class="table table-bordered table-hover">
+            <tr>
+              <td *ngFor="let statusrow of this.data.summary; ">
+                <span *ngIf="statusrow.status == 0"><i class="fa fa-times-circle i-red-cross"
+                    title="NoRecord"></i><input type='radio' name='rdostatus' value='0'
+                    (click)="filterRows(statusrow.status)"> No Record <span>({{statusrow.total}})</span></span>
+                <span *ngIf="statusrow.status == 1"><i class="fa fa-times i-black"></i><input type='radio'
+                    name='rdostatus' value='1' (click)="filterRows(statusrow.status)"> No Image/Upload
+                  <span>({{statusrow.total}})</span></span>
+                <span *ngIf="statusrow.status == 2"><i class="fa fa-check i-red"></i><input type='radio'
+                    name='rdostatus' value='2' (click)="filterRows(statusrow.status)"> Expired
+                  <span>({{statusrow.total}})</span></span>
+                <span *ngIf="statusrow.status == 3"><i class="fa fa-check i-black"></i> <input type='radio'
+                    name='rdostatus' value='3' (click)="filterRows(statusrow.status)"> Unverified
+                  <span>({{statusrow.total}})</span></span>
+                <span *ngIf="statusrow.status == 4"><i class="fa fa-check i-green"></i><input type='radio'
+                    name='rdostatus' value='4' (click)="filterRows(statusrow.status)"> Normal
+                  <span>({{statusrow.total}})</span></span>
+                <span *ngIf="statusrow.status == 5"><i class="fa fa-check i-yellow"></i><input type='radio'
+                    name='rdostatus' value='5' (click)="filterRows(statusrow.status)"> Near Expiring
+                  <span>({{statusrow.total}})</span></span>
+                <span *ngIf="statusrow.status == 9"><i class="fa fa-minus"></i><input type='radio' name='rdostatus'
+                    value="9" (click)="filterRows(statusrow.status)"> Ignore
+                  <span>({{statusrow.total}})</span></span>
+
+                <span *ngIf="!(statusrow.status >=0 && statusrow.status <= 9)">
+                  <input type='radio' name='rdostatus' (click)="filterRows(statusrow.status)"> Other
+                  <span>({{statusrow.total}})</span>
+                </span>
+              </td>
+              <td class="btn-all" style="position: relative;padding:8px 0px !important; text-align: center;"><input
+                  type='radio' name='rdostatus' value='-1' (click)="showAllRecords()">Show All</td>
+            </tr>
+          </table>
+
+        </div>
+      </div>
+
+      <div class="document-dashboard-tabel">
+        <table class="table table-bordered table-hover table-scroll" id="tbldocs">
+          <thead class="thead">
+            <tr>
+              <th>SN</th>
+              <th *ngFor="let col of columns" class="text-center">{{formatTitle(col)}}</th>
+            </tr>
+          </thead>
+
+          <tbody class="">
+            <ng-container *ngIf="total_recs">
+              <tr *ngFor="let row of dr; let i=index;" class="{{getDocClasses(row)}}">
+
+                <td style='width: 40px;'> <span>{{((pages.active-1)*pages.limit)+(i+1)}}</span></td>
+
+                <td *ngFor="let col of columns; " class="text-center">
+
+                  <span *ngIf="col.toUpperCase() == 'VEHICLE'">
+                    {{row[col]}}
+                  </span>
+                  <span *ngIf="getDocumentType(row[col]) == 3 && col.toUpperCase() != 'VEHICLE'">
+                    <i class="fa fa-check icon-black" (click)="fetchDocumentData(row, col, row[col])"
+                      title="Unverified"></i>
+                  </span>
+                  <span *ngIf="getDocumentType(row[col]) == 1 && col.toUpperCase() != 'VEHICLE'">
+
+                    <i class="fa fa-times icon-black" (click)="fetchDocumentData(row, col, row[col])"
+                      title="No Image"></i>
+                  </span>
+                  <span *ngIf="getDocumentType(row[col]) == 2 && col.toUpperCase() != 'VEHICLE'">
+
+                    <i class="fa fa-check icon-red" (click)="fetchDocumentData(row, col, row[col])" title="Expired"></i>
+                  </span>
+                  <span *ngIf="getDocumentType(row[col]) == 4 && col.toUpperCase() != 'VEHICLE'">
+
+                    <i class="fa fa-check icon-green" (click)="fetchDocumentData(row, col, row[col])" title="OK"></i>
+                  </span>
+                  <span *ngIf="getDocumentType(row[col]) == 5 && col.toUpperCase() != 'VEHICLE'">
+
+                    <i class="fa fa-check icon-yellow" (click)="fetchDocumentData(row, col, row[col])"
+                      title="Near Expiring"></i>
+                  </span>
+                  <span *ngIf="getDocumentType(row[col]) == 9 && col.toUpperCase() != 'VEHICLE'">
+
+                    <i class="fa fa-minus" (click)="fetchDocumentData(row, col, row[col])" title="ignore"></i>
+                  </span>
+                  <span *ngIf="getDocumentType(row[col]) > 9 && col.toUpperCase() != 'VEHICLE'" title="{{row[col]}}">
+                    {{row[col]}}
+                  </span>
+                  <span *ngIf="row[col].startsWith('0_0') && col.toUpperCase() != 'VEHICLE'">
+                    <i class="fa fa-times-circle icon-red-cross" (click)="noRecordDocumentData(row, col, row[col])"
+                      title="No Record"></i>
+                  </span>
+                </td>
+              </tr>
+            </ng-container>
+
+          </tbody>
+        </table>
+       
+      </div>
+      <div class="row">
+        <div class="pagination " *ngIf="pages.count > 1">
+          <!-- Page Count -->
+          <div class="pagination_links col-10">
+              <button (click)="handlePagination(pages.active - 1)" [disabled]="pages.active == 1">Pre</button>
+              <button *ngFor="let page of common.generateArray(pages.count)" (click)="handlePagination(page)"
+                  [ngClass]="page == pages.active ? 'active-page' : ''">{{page}}</button>
+              <button (click)="handlePagination(pages.active + 1)" [disabled]="pages.active == pages.count">Next</button>
+          <!-- Page Count END -->
+      </div>
+      <div class="numer_list ml-1 col-2">
+        <input type="text" class="customPage form-control" name="customPageNo" (keyup.enter)="setData();"
+              [(ngModel)]="pages.limit">
+            </div>
+    </div>
+    
+    </div>
+    </div>
   </nb-card-body>
 </nb-card>
