@@ -19,13 +19,14 @@ export class RouteTimeTableDetailsComponent implements OnInit {
   routeTime = null;
   routeName = null;
   routeTimeName = null;
+  timeType: 'DAY_HRS' | 'HRS' = 'DAY_HRS';
 
   constructor(public api: ApiService,
     public common: CommonService,
     public activeModal: NgbActiveModal,
     public modalService: NgbModal) {
     if (this.common.params && this.common.params.route) {
-      console.log("this.common.params.route",this.common.params.route)
+      console.log("this.common.params.route", this.common.params.route)
       this.routeId = this.common.params.route._route_id;
       this.routeName = this.common.params.route._route_name;
       this.routeTimeName = this.common.params.route._rtt_name;
@@ -44,8 +45,8 @@ export class RouteTimeTableDetailsComponent implements OnInit {
     this.getRoutes();
   }
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() { }
+  ngOnInit() {
   }
 
   closeModal() {
@@ -106,9 +107,11 @@ ngOnInit() {
           route.Arrival_Day = route.Arrival_Day || 1;
           route.Arrival_Time = new Date(this.common.dateFormatter(new Date(), 'YYYYMMDD', false) + ' ' + (route.Arrival_Time || '00:00:00'));
           route.Halt_Time = new Date(this.common.dateFormatter(new Date(), 'YYYYMMDD', false) + ' ' + (route.Halt_Time || '00:00:00'));
-
+          route.hrsArivalTime = route.hrsArivalTime || 1;
+          route.hrsHaltTime = route.hrsHaltTime || 1;
           return route;
         });
+        console.log('routesData', this.routesData);
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -141,11 +144,16 @@ ngOnInit() {
 
   setArrivalTime() {
     let isError = false;
+    let timeHrs = 0;
     this.routesData.map(route => {
       route.Arr_Time = this.common.timeFormatter(route.Arrival_Time);
       route.Hlt_Time = this.common.timeFormatter(route.Halt_Time);
+      timeHrs += route.hrsArivalTime;
+      route.totalHrs = timeHrs;
+      timeHrs += route.hrsHaltTime;
       if (route.errorMsg) isError = true;
     });
+    console.log('routesData', this.routesData);
     if (isError) {
       this.common.showError('Please enter valid values:)');
       return;
@@ -155,27 +163,26 @@ ngOnInit() {
       routeId: this.routeId,
       routeTimeTableId: this.routeTime
     }
-    this.common.loading++;
-    this.api.post('ViaRoutes/SaveTimeTableDetails', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log("res", res);
+    console.log('params:', params);
 
-        let id = res['data'][0].y_id;
-        if (id > 0) {
-          this.common.showToast(res['data'][0].y_msg);
-        }
-        else {
-          this.common.showError(res['data'][0].y_msg);
+    // this.common.loading++;
+    // this.api.post('ViaRoutes/SaveTimeTableDetails', params)
+    //   .subscribe(res => {
+    //     this.common.loading--;
+    //     console.log("res", res);
 
-        }
+    //     let id = res['data'][0].y_id;
+    //     if (id > 0) {
+    //       this.common.showToast(res['data'][0].y_msg);
+    //     }
+    //     else {
+    //       this.common.showError(res['data'][0].y_msg);
 
-
-
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
+    //     }
+    //   }, err => {
+    //     this.common.loading--;
+    //     console.log(err);
+    //   });
   }
 
 

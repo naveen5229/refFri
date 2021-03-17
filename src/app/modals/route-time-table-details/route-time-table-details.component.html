@@ -14,13 +14,22 @@
         [preSelected]="routeName ? {name:routeName,id:routeId}: {name: '',id:''}" seperator="-"
         (onSelected)="changeRouteType($event)" inputId="routeId"></auto-suggestion>
     </div>
-    <div class="col-3 mt-1" *ngIf="routeId">
+    <div class="col-2 mt-1" *ngIf="routeId" style="padding:0px;">
       <label>Route Time Table</label>
     </div>
     <div class="col-3" *ngIf="routeId">
       <auto-suggestion [data]="routeTimes" [display]="['name','id']"
         [preSelected]="routeTimeName ? {name:routeTimeName,id:routeTime}: {name: '',id:''}" seperator="-"
         (onSelected)="changeRouteTime($event)" inputId="routeTime"></auto-suggestion>
+
+    </div>
+    <div class="col-3 time-type" style="padding:0px;">
+      <span>
+        <input type="radio" name="time-type" value="DAY_HRS" [(ngModel)]="timeType"><label>Day Hrs</label>
+      </span>
+      <span>
+        <input type="radio" name="time-type" value="HRS" [(ngModel)]="timeType"><label>Hrs</label>
+      </span>
     </div>
   </div>
 
@@ -45,17 +54,29 @@
           <td>{{data.kms}}</td>
           <td>{{data.Type}}</td>
           <td>
-            <input type="number" class="day" [(ngModel)]="data.Arrival_Day" min="1" max="100"
-              (ngModelChange)="arrivalTimeChecker()" *ngIf="i!=0">
-            <uj-date-time-picker class="day-time" [isDate]="false" *ngIf="i!=0"
-              (onChanged)="handleArrivalTimeSelection($event, data, i)" [dateTimeValue]="data.Arrival_Time">
-            </uj-date-time-picker>
-            <span *ngIf="data.errorMsg" class="error">{{data.errorMsg}}</span>
+            <div *ngIf="timeType === 'DAY_HRS'">
+              <input type="number" class="day" [(ngModel)]="data.Arrival_Day" min="1" max="100"
+                (ngModelChange)="arrivalTimeChecker()" *ngIf="i!=0">
+              <uj-date-time-picker class="day-time" [isDate]="false" *ngIf="i!=0"
+                (onChanged)="handleArrivalTimeSelection($event, data, i)" [dateTimeValue]="data.Arrival_Time">
+              </uj-date-time-picker>
+              <span *ngIf="data.errorMsg" class="error">{{data.errorMsg}}</span>
+            </div>
+            <div *ngIf="timeType === 'HRS'">
+              <input type="number" class="day" [(ngModel)]="data.hrsArivalTime" min="1" max="100"
+                 *ngIf="i!=0">
+            </div>
           </td>
           <td>
-            <uj-date-time-picker [isDate]="false" (onChanged)="handleHaltTimeSelection($event,data)"
-              [dateTimeValue]="data.Halt_Time">
-            </uj-date-time-picker>
+            <div *ngIf="timeType === 'DAY_HRS'">
+              <uj-date-time-picker [isDate]="false" (onChanged)="handleHaltTimeSelection($event,data)"
+                [dateTimeValue]="data.Halt_Time">
+              </uj-date-time-picker>
+            </div>
+            <div *ngIf="timeType === 'HRS'">
+              <input type="number" class="day" [(ngModel)]="data.hrsHaltTime" min="1" max="100"
+                >
+            </div>
           </td>
           <td></td>
         </tr>

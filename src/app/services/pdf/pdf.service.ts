@@ -27,6 +27,7 @@ export class PdfService {
      * @param details In Format = [['Customer: Elogist']]
      */
   jrxTablesPDF(tableIds: string[], fileName: string = 'report', details?: any, options?: jrxPdfOptions) {
+    this.common.loading++;
     let tablesHeadings = [];
     let tablesRows = [];
     tableIds.map(tableId => {
@@ -95,7 +96,13 @@ export class PdfService {
       doc = this.addTableInDoc(doc, tableHeadings, tablesRows[index]);
     });
 
-    doc.save(fileName + '.pdf');
+    doc.save(fileName + '.pdf', { returnPromise: true })
+      .then(res => {
+        console.log('res', res);
+        this.common.loading--;
+      }, err => {
+        this.common.loading--;
+      })
   }
 
   findTableHeadings(tableId) {

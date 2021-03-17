@@ -8,3 +8,12 @@
     width: calc(100% - 42px);
     vertical-align: middle;
 }
+.time-type{
+    span{
+        margin-right: 5px;
+    }
+    label{
+        vertical-align: middle;
+        margin-left: 4px;
+    }
+}
