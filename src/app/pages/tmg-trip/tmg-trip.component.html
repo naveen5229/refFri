@@ -167,7 +167,8 @@
           </thead>
           <tbody class="tbody">
             <tr *ngFor="let tgp of tripGpsPerformance">
-              <td>{{tgp['Vendor Name']}}</td>
+              <td class="link"
+              (click)="getDetials('Tmgreport/GetTripGpsPerformance',{totalrecord: 3,stepno: 1,isfo: tgp['Vendor Name']},30,'days')">{{tgp['Vendor Name']}}</td>
               <td>{{tgp['Total GPS']}}</td>
               <td>{{tgp['% Offline GPS']}}</td>
             </tr>
