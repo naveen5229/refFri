@@ -27,13 +27,13 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
             {
                 title: 'Document Dashboard',
                 icon: 'fa-table',
-                link: '/documents/documents-summary',
+                link: '/documents/dashboard',
                 home: true,
             },
             {
                 title: 'Document Summary',
                 icon: 'fa-file-text',
-                link: '/documents/dashboard',
+                link: '/documents/documents-summary',
                 home: true,
             },
 
