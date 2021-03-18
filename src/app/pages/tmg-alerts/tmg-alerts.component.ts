@@ -311,6 +311,29 @@ ngOnInit() {
           }
         }]
       } ,
+      tooltips: {
+        enabled: true,
+        mode: 'single',
+        callbacks: {
+          label: function (tooltipItems, data) {
+            console.log('tooltipItems', tooltipItems);
+            // let tti = ('' + tooltipItems.yLabel).split(".");
+            // console.log('tooltipItems:s', tooltipItems.yLabel * 0.6);
+            // let min = tti[1] ? String(parseInt(tti[1]) * .60).substring(0, 2) : '00';
+            // console.log("tooltipItems", min, parseInt(tti[1]) + .0, parseInt("0" + (tti[1])));
+            let x = tooltipItems.yLabel;
+          // let z = (parseFloat(x.toFixed()) + parseFloat((x % 1).toFixed(10)) * 0.6).toString();
+          // z = z.slice(0, z.indexOf('.') + 3).split('.').join(':');
+          //   return tooltipItems.xLabel + " ( " + z + " Hrs. )";
+          let z = (parseFloat((x % 1).toFixed(10)) * 0.6).toString();
+          z = z.slice(0, z.indexOf('.') + 3).split('.').join(':') ;
+            let final = x.toString().split('.')[0] +':'+ z.split(':')[1];
+
+            return tooltipItems.xLabel + " ( " + final + " Hrs. )";
+          }
+        }
+      },
+
     };
   }
  
@@ -363,6 +386,27 @@ ngOnInit() {
           }
         }]
       } ,
+      tooltips: {
+        enabled: true,
+        mode: 'single',
+        callbacks: {
+          label: function (tooltipItems, data) {
+            console.log("tooltipItems", tooltipItems, "data", data);
+            // let tti = ('' + tooltipItems.yLabel).split(".");
+            // let min = tti[1] ? String(parseInt(tti[1]) * 6).substring(0, 2) : '00';
+            // return tooltipItems.xLabel + " ( " + tti[0] + ":" + min + " Hrs. )";
+            let x = tooltipItems.yLabel;
+            // let z = (parseFloat(x.toFixed()) + parseFloat((x % 1).toFixed(10)) * 0.6).toString();
+            // z = z.slice(0, z.indexOf('.') + 3).split('.').join(':');
+
+            let z = (parseFloat((x % 1).toFixed(10)) * 0.6).toString();
+            z = z.slice(0, z.indexOf('.') + 3).split('.').join(':') ;
+              let final = x.toString().split('.')[0] +':'+ z.split(':')[1];
+
+              return tooltipItems.xLabel + " ( " + final + " Hrs. )";
+          }
+        }
+      },
     };
   }
   
@@ -415,6 +459,27 @@ ngOnInit() {
         }
       }]
     } ,
+    tooltips: {
+      enabled: true,
+      mode: 'single',
+      callbacks: {
+        label: function (tooltipItems, data) {
+          console.log('tooltipItems', tooltipItems);
+          // let tti = ('' + tooltipItems.yLabel).split(".");
+          // console.log('tooltipItems:s', tooltipItems.yLabel * 0.6);
+          // let min = tti[1] ? String(parseInt(tti[1]) * .60).substring(0, 2) : '00';
+          // console.log("tooltipItems", min, parseInt(tti[1]) + .0, parseInt("0" + (tti[1])));
+          let x = tooltipItems.yLabel;
+         // let z = (parseFloat(x.toFixed()) + parseFloat((x % 1).toFixed(10)) * 0.6).toString();
+         // z = z.slice(0, z.indexOf('.') + 3).split('.').join(':');
+         //   return tooltipItems.xLabel + " ( " + z + " Hrs. )";
+          let z = (parseFloat((x % 1).toFixed(10)) * 0.6).toString();
+          z = z.slice(0, z.indexOf('.') + 3).split('.').join(':') ;
+          let final = x.toString().split('.')[0] +':'+ z.split(':')[1];
+          return tooltipItems.xLabel + " ( " + final + " Hrs. )";
+        }
+      }
+    },
   };
 }
 getDetials(url, params, value = 0,type='days') {
