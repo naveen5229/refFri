@@ -35,7 +35,7 @@
         </div>
       </div>
 
-      <div class="row mt-3">
+      <div class="row mt-3" style="width:100%;overflow-x:scroll;">
         <div class="col-sm-12 p-0">
           <table class="table table-bordered">
             <thead>
@@ -46,22 +46,23 @@
                 <th><label>Max Quantity</label></th>
                 <th><label>Min Penalty</label></th>
                 <th><label>Max Penalty</label></th>
+                <th><label>Onwards 24 Hours</label></th>
+                <th><label>At Plant</label></th>
+                <th><label>Towards</label></th>
                 <th><label>Action</label></th>
               </tr>
             </thead>
             <tbody>
 
               <tr *ngFor="let item of items; let j= index">
-                <td>
-
+                <td style="min-width: 250px;">
                   <auto-suggestion (onSelected)="selectplnt($event, j)" url="suggestion/getSites" display="name"
                     placeholder="Search Plant" [preSelected]="(item.siteId>0) ? {'name':item.siteName} : {'name':null}">
                   </auto-suggestion>
                 </td>
                 <td>
-
                   <input type="number" [(ngModel)]="item.waitingTime" min=0 oninput="validity.valid||(value='');"
-                    class="form control" placeholder="Weight Time">
+                    class="form control" placeholder="Waiting Time">
                 </td>
 
                 <td>
@@ -83,10 +84,25 @@
                 </td>
 
                 <td>
-
                   <input type="number" [(ngModel)]="item.penaltyMax" min=0 oninput="validity.valid||(value='');"
                     class="form control" placeholder="Max Panalty">
                 </td>
+
+                <td>
+                  <input type="number" [(ngModel)]="item.onward24Hrs" min=0 oninput="validity.valid||(value='');"
+                    class="form control" placeholder="Onwards 24 Hrs">
+                </td>
+
+                <td>
+                  <input type="number" [(ngModel)]="item.atPlant" min=0 oninput="validity.valid||(value='');"
+                    class="form control" placeholder="At Plant">
+                </td>
+
+                <td>
+                  <input type="number" [(ngModel)]="item.towards" min=0 oninput="validity.valid||(value='');"
+                    class="form control" placeholder="Towards">
+                </td>
+
                 <td style="padding: 0px;">
                   <span><i class="fa fa-plus add" (click)="addMoreItems(i)" *ngIf="j == items.length-1" style="padding: 1px;
                                 color: green;"></i>
@@ -98,14 +114,15 @@
             </tbody>
           </table>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12 mb-2">
           <div class="col-sm-2">
             <button class="btn btn-primary" (click)="savePlacementOptimization()">submit</button>
           </div>
         </div>
       </div>
+      <!-- <div class="row">
+        
+      </div> -->
     </div>
     <div class="row mt-3">
       <div class="col-sm-12" style="text-align:center;" *ngIf="placementOPT">
@@ -121,6 +138,7 @@
           <th>Max Quantity</th>
           <th>Allocated Vehicle</th>
           <th> Onwards 24 Hrs</th>
+          <th> At Parking </th>
           <th> Towards</th>
         </tr>
         <tr *ngFor="let packet of placementOPT.siteAllocationDetails;let i=index">
@@ -130,23 +148,37 @@
           <td>{{packet.minQuantity}}</td>
           <td>{{packet.maxQuantity}}</td>
           <td>{{packet.allocatedVehicles}}</td>
-          <td>{{packet.onward24Hrs}}</td>
-          <td>{{packet.towards}}</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
         </tr>
       </table>
     
     </div>
 
     <div *ngIf="placementOPT">
+      <table class="table table-bordered">
+        <thead>
+          <tr><th class="ttl">Total Cost</th><th class="ttl grn">{{totalCost}}</th><th class="ttl">Total penalty</th><th class="ttl grn">{{totalPanelty}}</th></tr>
+        </thead>
+      </table>
       <div class="row" style="height:60vh;overflow-y:auto;">
         <table class="table table-bordered" *ngFor="let packet of placementOPT.siteVehicleCostPackets;let i = index; let active = false">
           <thead>
             <tr>
-              <th colspan='4' class="col-sm-12"
-                style="text-align:center;font-size:16px;font-weight:bold;background-color:lightgrey;">
-                <span>{{packet.siteName}} </span>
-                <i class="fa fa-plus" *ngIf="!packet.active" (click)="packet.active = !packet.active"></i>
-                <i class="fa fa-minus" *ngIf="packet.active" (click)="packet.active = !packet.active"></i>
+              <th colspan='3' class="col-sm-11 hdStyle"
+                >
+                <span>Plant:</span><span class="ml-2 grn">{{packet.siteName}} </span>
+                
+               <span class="ml-4">Cost:</span> 
+               <span class="ml-2 grn">{{packet.totalCost}}</span>
+               <span class="ml-4">Penalty:</span>
+               <span class="ml-2 grn">{{packet.totalPenalty}}</span>
+              </th>
+              <th class="col-sm-1 hdStyle">
+                <i class="fa fa-map grn"  (click)="showDataOnMap(packet.vehicleCostPacket)"></i>
+                <i class="fa fa-plus ml-3 grn" *ngIf="!packet.active" (click)="packet.active = !packet.active"></i>
+                <i class="fa fa-minus ml-3 rd"  *ngIf="packet.active" (click)="packet.active = !packet.active"></i>
               </th>
             </tr>
             <tr style="background-color:#78cfea;">
@@ -167,8 +199,7 @@
           </tbody>
           <tbody *ngIf="!packet.vehicleCostPacket.length">
             <tr>
-              <td colspan="4" style="color:red;font-size:20px;font-weight:bold;text-align:center;padding:15px;">No
-                Record Found!</td>
+              <td colspan="4" class="noRecord">No Record Found!</td>
             </tr>
           </tbody>
         </table>
