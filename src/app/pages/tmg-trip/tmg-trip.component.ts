@@ -65,8 +65,8 @@ export class TmgTripComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() { }
+  ngOnInit() {
   }
 
   ngAfterViewInit() {
@@ -142,7 +142,9 @@ ngOnInit() {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 7
+      groupdays: 7,
+      isfo: false,
+      isadmin: true
     };
     this.api.post('Tmgreport/GetTripUnLoadindTime', params)
       .subscribe(res => {
@@ -486,7 +488,7 @@ ngOnInit() {
 
     console.log('trip loading time : ', this.tripLoadindTime);
     console.log('y axis data:', yaxis);
-    
+
     let yaxisObj = this.common.chartScaleLabelAndGrid(yaxis);
     console.log("handleChart1", xaxis, yaxis);
     this.chart1.type = 'line'
@@ -538,9 +540,18 @@ ngOnInit() {
           callbacks: {
             label: function (tooltipItems, data) {
               console.log("tooltipItems", tooltipItems, "data", data);
-              let tti = ('' + tooltipItems.yLabel).split(".");
-              let min = tti[1] ? String(parseInt(tti[1]) * 6).substring(0,2) : '00';
-              return tooltipItems.xLabel + " ( " + tti[0] + ":" + min + " Hrs. )";
+              // let tti = ('' + tooltipItems.yLabel).split(".");
+              // let min = tti[1] ? String(parseInt(tti[1]) * 6).substring(0, 2) : '00';
+              // return tooltipItems.xLabel + " ( " + tti[0] + ":" + min + " Hrs. )";
+              let x = tooltipItems.yLabel;
+              // let z = (parseFloat(x.toFixed()) + parseFloat((x % 1).toFixed(10)) * 0.6).toString();
+              // z = z.slice(0, z.indexOf('.') + 3).split('.').join(':');
+              //   return tooltipItems.xLabel + " ( " + z + " Hrs. )";
+              let z = (parseFloat((x % 1).toFixed(10)) * 0.6).toString();
+              z = z.slice(0, z.indexOf('.') + 3).split('.').join(':') ;
+                let final = x.toString().split('.')[0] +':'+ z.split(':')[1];
+  
+                return tooltipItems.xLabel + " ( " + final + " Hrs. )";
             }
           }
         },
@@ -612,10 +623,20 @@ ngOnInit() {
           mode: 'single',
           callbacks: {
             label: function (tooltipItems, data) {
-              console.log("tooltipItems", tooltipItems, "data", data);
-              let tti = ('' + tooltipItems.yLabel).split(".");
-              let min = tti[1] ? (String(parseInt(tti[1]) * 6)).substring(0,2) : '00';
-              return tooltipItems.xLabel + " ( " + tti[0] + ":" + min + " Hrs. )";
+              console.log('tooltipItems', tooltipItems);
+              // let tti = ('' + tooltipItems.yLabel).split(".");
+              // console.log('tooltipItems:s', tooltipItems.yLabel * 0.6);
+              // let min = tti[1] ? String(parseInt(tti[1]) * .60).substring(0, 2) : '00';
+              // console.log("tooltipItems", min, parseInt(tti[1]) + .0, parseInt("0" + (tti[1])));
+              let x = tooltipItems.yLabel;
+            // let z = (parseFloat(x.toFixed()) + parseFloat((x % 1).toFixed(10)) * 0.6).toString();
+            // z = z.slice(0, z.indexOf('.') + 3).split('.').join(':');
+            //   return tooltipItems.xLabel + " ( " + z + " Hrs. )";
+            let z = (parseFloat((x % 1).toFixed(10)) * 0.6).toString();
+            z = z.slice(0, z.indexOf('.') + 3).split('.').join(':') ;
+              let final = x.toString().split('.')[0] +':'+ z.split(':')[1];
+
+              return tooltipItems.xLabel + " ( " + final + " Hrs. )";
             }
           }
         },
@@ -651,7 +672,7 @@ ngOnInit() {
       outers[index].appendChild(loader);
     }, 50);
   }
-  
+
   hideLoader(index) {
     let outers = document.getElementsByClassName("outer");
     outers[index].lastChild.remove();
@@ -676,7 +697,7 @@ ngOnInit() {
       isadmin: false,
       isfo: false,
       xid: parseDate,
-     // ref: 'tmg-calls'
+      // ref: 'tmg-calls'
     };
     // this.api.post('Tmgreport/GetCallsDrivar', params)
     //   .subscribe(res => {
@@ -707,7 +728,7 @@ ngOnInit() {
       isadmin: false,
       isfo: false,
       xid: parseDate,
-     // ref: 'tmg-calls'
+      // ref: 'tmg-calls'
     };
     // this.api.post('Tmgreport/GetCallsDrivar', params)
     //   .subscribe(res => {
@@ -738,7 +759,7 @@ ngOnInit() {
       isadmin: false,
       isfo: false,
       xid: parseDate,
-     // ref: 'tmg-calls'
+      // ref: 'tmg-calls'
     };
     // this.api.post('Tmgreport/GetCallsDrivar', params)
     //   .subscribe(res => {
@@ -769,7 +790,7 @@ ngOnInit() {
       totalrecord: 3,
       stepno: 1,
       vehid: parseDate,
-     // ref: 'tmg-calls'
+      // ref: 'tmg-calls'
     };
     // this.api.post('Tmgreport/GetCallsDrivar', params)
     //   .subscribe(res => {
