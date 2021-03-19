@@ -11,43 +11,43 @@ import { MapService } from "../../services/map.service";
   styleUrls: ['./Placementoptimize.component.scss']
 })
 export class PlacementoptimizeComponent implements OnInit {
-
   map: any;
-  placementData=[];
+  placementData = [];
   infoWindow = null;
   infoStart = null;
   isZoomed = false;
-  filterData=[];
+  filterData = [];
 
   constructor(
     public mapService: MapService,
     public api: ApiService,
     public common: CommonService,
-    public user: UserService,    
-    private activeModal: NgbActiveModal
-  ) {
-    this.placementData=this.common.params.data;
+    public user: UserService,
+    private activeModal: NgbActiveModal) {
+    this.placementData = this.common.params.data.map(vehicle => {
+      vehicle.title = vehicle.truckRegno;
+      return vehicle;
+    });
+    console.log('placementData', this.placementData);
     this.filteringData();
-   }
-
-   filteringData(){
-    //  this.filterData=this.placementData.map(x=>)
-   }
+  }
 
   ngOnInit(): void {
   }
 
-  closeModal(event){
+  closeModal(event) {
 
   }
 
 
+  filteringData() {
+
+  }
+
   ngAfterViewInit() {
-    console.log("test");
-    
-    this.mapService.mapIntialize("placement-map",10);
+    this.mapService.mapIntialize("placement-map", 10);
     this.mapService.clearAll();
-    
+
     setTimeout(() => {
       this.mapService.setMapType(0);
       this.mapService.createMarkers(this.placementData);
@@ -68,6 +68,7 @@ export class PlacementoptimizeComponent implements OnInit {
         );
         markerIndex++;
       }
+      this.mapService.createCluster(this.mapService.markers, true);
     }, 1000);
   }
 
@@ -97,10 +98,10 @@ export class PlacementoptimizeComponent implements OnInit {
        <b>Vehicle:</b>${event.truckRegno}
        `
     );
-    
+
     this.infoWindow.setPosition(
       this.mapService.createLatLng(event.latitude, event.longitude)
-    ); 
+    );
     this.infoWindow.open(this.mapService.map);
     let bound = this.mapService.getMapBounds();
   }
