@@ -23,6 +23,7 @@ export class RouteTimeTableComponent implements OnInit {
   assocType = null;
   edit = 0;
   rowId = null;
+  isNull: boolean = true;
 
   routeTimeTable = [];
   table = {
@@ -48,7 +49,7 @@ export class RouteTimeTableComponent implements OnInit {
     this.getRoutes();
   }
 
-ngOnInit() {
+  ngOnInit() {
   }
   ngOnDestroy() {
     this.common.params = null;
@@ -85,10 +86,11 @@ ngOnInit() {
   }
 
   addrouteTime() {
+    let startTime = this.startTime && this.isNull ? this.common.timeFormatter(this.startTime) : null;
     let params = {
       rowId: this.rowId ? this.rowId : null,
       routeId: this.routeId,
-      startTime: this.startTime ? this.common.timeFormatter(this.startTime) : null,
+      startTime,
       assType: this.assocType,
     }
     console.log("Params:", params);
@@ -209,6 +211,11 @@ ngOnInit() {
     this.routeId = route._route_id;
     this.routeName = route._route_name;
     this.startTime = route._start_time ? new Date(route._start_time) : null;
+    if(this.startTime){
+      this.isNull = true;
+    }else{
+      this.isNull = false;
+    }
     console.log("start Time", this.startTime);
     this.assocType = route._ass_type;
     this.rowId = route._rtt_id;
@@ -266,6 +273,15 @@ ngOnInit() {
             });
         }
       });
+    }
+  }
+
+  handleTime() {
+    console.log('event', this.isNull);
+    if (!this.isNull) {
+      this.startTime = null;
+    } else {
+      this.startTime = new Date();
     }
   }
 

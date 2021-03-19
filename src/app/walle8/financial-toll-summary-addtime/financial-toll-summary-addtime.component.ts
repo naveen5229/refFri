@@ -233,26 +233,30 @@ export class FinancialTollSummaryAddtimeComponent implements OnInit {
   }
 
   generatePDF() {
-    this.table.settings = {
-      pagination: true,
-      hideHeader: true,
-      tableHeight: "70vh",
-      pageLimit: this.data.length
-    }
+    this.common.loading++;
     setTimeout(() => {
-      this.common.loading++;
-      let name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.foName;
-      let details = [
-        ['Name: ' + name, 'Start Date: ' + this.common.dateFormatter1(this.startDate), 'End Date: ' + this.common.dateFormatter1(this.endDate), 'Report: ' + 'Financial Toll Summary Add Time']
-      ];
-      this.pdfService.jrxTablesPDF(['provider', 'customer', 'account', 'tblData'], 'Financial Toll Summary Add Time', details);
       this.table.settings = {
         pagination: true,
         hideHeader: true,
         tableHeight: "70vh",
-        pageLimit: 200
+        pageLimit: this.data.length
       }
-    }, 2000);
-    this.common.loading--;
+      setTimeout(() => {
+        let name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.foName;
+        let details = [
+          ['Name: ' + name, 'Start Date: ' + this.common.dateFormatter1(this.startDate), 'End Date: ' + this.common.dateFormatter1(this.endDate), 'Report: ' + 'Financial Toll Summary Add Time']
+        ];
+        this.pdfService.jrxTablesPDF(['provider', 'customer', 'account', 'tblData'], 'Financial Toll Summary Add Time', details);
+        setTimeout(() => {
+          this.table.settings = {
+            pagination: true,
+            hideHeader: true,
+            tableHeight: "70vh",
+            pageLimit: 200
+          }
+          this.common.loading--;
+        }, 2000);
+      }, 2000);
+    }, 1000)
   }
 }
