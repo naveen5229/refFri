@@ -164,25 +164,26 @@ export class RouteTimeTableDetailsComponent implements OnInit {
       routeTimeTableId: this.routeTime
     }
     console.log('params:', params);
+    return;
 
-    // this.common.loading++;
-    // this.api.post('ViaRoutes/SaveTimeTableDetails', params)
-    //   .subscribe(res => {
-    //     this.common.loading--;
-    //     console.log("res", res);
+    this.common.loading++;
+    this.api.post('ViaRoutes/SaveTimeTableDetails', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("res", res);
 
-    //     let id = res['data'][0].y_id;
-    //     if (id > 0) {
-    //       this.common.showToast(res['data'][0].y_msg);
-    //     }
-    //     else {
-    //       this.common.showError(res['data'][0].y_msg);
+        let id = res['data'][0].y_id;
+        if (id > 0) {
+          this.common.showToast(res['data'][0].y_msg);
+        }
+        else {
+          this.common.showError(res['data'][0].y_msg);
 
-    //     }
-    //   }, err => {
-    //     this.common.loading--;
-    //     console.log(err);
-    //   });
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
 
 

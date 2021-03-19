@@ -6,6 +6,8 @@ import { DatePipe } from '@angular/common';
 import { DateService } from '../../services/date.service';
 import { MapService } from '../../services/map.service';
 import { AccountService } from '../../services/account.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PlacementoptimizeComponent } from '../../modals/placementoptimize/placementoptimize.component';
 
 @Component({
   selector: 'placementoptimization',
@@ -15,6 +17,8 @@ import { AccountService } from '../../services/account.service';
 export class PlacementoptimizationComponent implements OnInit {
 
   placementProblemDTO=[];
+  totalCost=null;
+  totalPanelty=null;
  
   isTblActive=false;
   isVisible=true;
@@ -41,6 +45,7 @@ export class PlacementoptimizationComponent implements OnInit {
   select = 0;
   name = '';
   placementDate = new Date();
+  plcId=-1;
 
   items = [
     {
@@ -50,7 +55,10 @@ export class PlacementoptimizationComponent implements OnInit {
       minQuantity: null,
       maxQuantity: null,
       penaltyMin: null,
-      penaltyMax: null
+      penaltyMax: null,
+      onward24Hrs:null,
+      atPlant:null,
+      towards:null
     }
   ];
 
@@ -64,9 +72,10 @@ export class PlacementoptimizationComponent implements OnInit {
     public common: CommonService,
     public dateService: DateService,
     public accountService: AccountService,
+    public modalService: NgbModal,
     public user: UserService,
     public map: MapService) {
-      this.getPreviousData(null);
+      // this.getPreviousData(null);
      }
 
   ngOnInit(): void {
@@ -97,6 +106,12 @@ export class PlacementoptimizationComponent implements OnInit {
     this.getPreviousData(this.placementDate);
  }
 
+ showDataOnMap(event){
+   console.log(event);
+   this.common.params = { data: event }
+    const activeModal = this.modalService.open(PlacementoptimizeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+ }
+
 
   getPreviousData(date?){
     if(date){
@@ -107,10 +122,29 @@ export class PlacementoptimizationComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log("getPreviousData:",res['placementProblemDetailsDTO']);
-        if(res['placementProblemDetailsDTO']){
+        if(res['placementProblemDetailsDTO'] && res['placementProblemDetailsDTO'].length>0){
           this.name=res['name'];
           this.select=res['allocType'];
           this.items=res['placementProblemDetailsDTO'];
+          this.plcId=res['id'];
+        }else{
+          console.log("Test");
+          this.plcId=res['id'];
+          this.placementOPT=null;
+          this.items=[];
+          this.items.push({
+            siteId: 0,
+            siteName:'',
+            waitingTime: null,
+            minQuantity: null,
+            maxQuantity: null,
+            penaltyMin: null,
+            penaltyMax: null,
+            onward24Hrs:null,
+            atPlant:null,
+            towards:null
+          });
+          
         }
       }, err => {
         this.common.loading--;
@@ -121,6 +155,8 @@ export class PlacementoptimizationComponent implements OnInit {
   selectplnt(plant, index) {
     this.items[index]['siteId'] = plant['id'];
     this.items[index]['siteName']=plant['name'];
+
+    this.getSiteDetails(plant['id'],index);
     
     console.log("----------", this.items[index]['siteId'])
   }
@@ -135,9 +171,29 @@ export class PlacementoptimizationComponent implements OnInit {
       minQuantity: null,
       maxQuantity: null,
       penaltyMin: null,
-      penaltyMax: null
+      penaltyMax: null,
+      onward24Hrs:null,
+      atPlant:null,
+      towards:null
     }
     );
+  }
+
+  getSiteDetails(event,index){
+    console.log("siteDetails:",event);
+
+    this.common.loading++;
+    this.api.getJavaPortDost(8084, 'getSiteDetails/'+ event)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("siteDet:",res);
+        this.items[index].onward24Hrs=res['onward24Hrs'];
+        this.items[index].atPlant=res['atPlant'];
+        this.items[index].towards=res['towards'];
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
 
   savePlacementOptimization() {
@@ -145,8 +201,9 @@ export class PlacementoptimizationComponent implements OnInit {
     let params = {
       name: this.name,
       allocType: this.select,
-      placementDate: this.placementDate,
-      placementProblemDetailsDTO: (this.items)
+      placementDate: this.common.dateFormatter1(this.placementDate),
+      placementProblemDetailsDTO: (this.items),
+      id:this.plcId
     }
     console.log("param:", params);
 
@@ -176,6 +233,9 @@ export class PlacementoptimizationComponent implements OnInit {
           this.placementOPT = res['data'];
           // this.optimizeArray=this.placementOPT.map(o => {return { name: o.name, courseid: o.courseid };
           // });
+          this.totalCost=this.placementOPT['completeCost'];
+          this.totalPanelty=this.placementOPT['completePenalty'];
+          
 
           console.log("siteData:", this.placementOPT);
         }
