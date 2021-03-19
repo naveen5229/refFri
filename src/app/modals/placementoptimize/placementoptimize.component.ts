@@ -27,12 +27,9 @@ export class PlacementoptimizeComponent implements OnInit {
     private activeModal: NgbActiveModal
   ) {
     this.placementData=this.common.params.data;
-    this.filteringData();
    }
 
-   filteringData(){
-    //  this.filterData=this.placementData.map(x=>)
-   }
+   
 
   ngOnInit(): void {
   }
@@ -43,9 +40,8 @@ export class PlacementoptimizeComponent implements OnInit {
 
 
   ngAfterViewInit() {
-    console.log("test");
     
-    this.mapService.mapIntialize("placement-map",10);
+    this.mapService.mapIntialize("placement-map");
     this.mapService.clearAll();
     
     setTimeout(() => {
