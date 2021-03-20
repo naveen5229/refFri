@@ -393,6 +393,7 @@ export class MapService {
       infoWindows.push(infoWindow);
       infoWindow.opened = false;
       google.maps.event.addListener(this.cluster, 'clusterclick', (cluster) => {
+        
         let infoStr = '';
         cluster.markers_.map(mrk => {
           infoStr += mrk.title + ', '

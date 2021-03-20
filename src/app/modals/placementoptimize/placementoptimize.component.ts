@@ -11,67 +11,75 @@ import { MapService } from "../../services/map.service";
   styleUrls: ['./Placementoptimize.component.scss']
 })
 export class PlacementoptimizeComponent implements OnInit {
+
   map: any;
   placementData = [];
+  headingData=[];
   infoWindow = null;
   infoStart = null;
   isZoomed = false;
-  filterData = [];
+  selected = {
+    markerCluster: false
+  };
+  markerCluster: any;
+  markers = [];
 
   constructor(
     public mapService: MapService,
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    private activeModal: NgbActiveModal) {
-    this.placementData = this.common.params.data.map(vehicle => {
-      vehicle.title = vehicle.truckRegno;
-      return vehicle;
-    });
-    console.log('placementData', this.placementData);
-    this.filteringData();
+    private activeModal: NgbActiveModal
+  ) {
+    this.placementData = this.common.params.data;
+    this.headingData=[{
+      latitude:this.common.params.latitude,
+      longitude:this.common.params.longitude,
+      title:this.common.params.regno,
+      type:'site',
+      color:'00FF00'
+    }]
   }
+
+
 
   ngOnInit(): void {
   }
 
-  closeModal(event) {
-
+  closeModal(response) {
+    this.activeModal.close({ response: response });
   }
 
-
-  filteringData() {
-
+  handleMarkerCluster() {
+    console.log('this.selected.markerCluster', this.selected.markerCluster);
+    if (this.selected.markerCluster) {
+      this.showclustering();
+    } else {
+      this.clearCluster();
+      this.markers= this.mapService.createMarkers(this.placementData);
+    }
   }
+
 
   ngAfterViewInit() {
-    this.mapService.mapIntialize("placement-map", 10);
+    this.mapService.mapIntialize("placement-map");
     this.mapService.clearAll();
-
     setTimeout(() => {
       this.mapService.setMapType(0);
-      this.mapService.createMarkers(this.placementData);
-      this.mapService.addListerner(this.mapService.map, "center_changed", () => {
-        this.setMarkerLabels();
-      });
-      this.mapService.addListerner(this.mapService.map, "zoom_changed", () => {
-        this.setMarkerLabels();
-      });
-      let markerIndex = 0;
-      for (const marker of this.mapService.markers) {
-        let event = this.placementData[markerIndex];
-        this.mapService.addListerner(marker, "mouseover", () =>
-          this.setEventInfo(event)
-        );
-        this.mapService.addListerner(marker, "mouseout", () =>
-          this.unsetEventInfo()
-        );
-        markerIndex++;
-      }
-      this.mapService.createCluster(this.mapService.markers, true);
+      this.placementData.map(e=>{return e.title = e.truckRegno;});
+      this.markers = this.mapService.createMarkers(this.placementData);
     }, 1000);
+    this.mapService.createMarkers(this.headingData);
   }
 
+  showclustering() {
+    this.markerCluster = this.mapService.createCluster(this.markers, true);
+  }
+
+  clearCluster() {
+    if (this.markerCluster)
+      this.markerCluster.clearMarkers();
+  }
 
   setMarkerLabels() {
     if (this.mapService.markers.length != 0) {
