@@ -144,16 +144,36 @@ export class RouteTimeTableDetailsComponent implements OnInit {
 
   setArrivalTime() {
     let isError = false;
-    let timeHrs = 0;
-    this.routesData.map(route => {
-      route.Arr_Time = this.common.timeFormatter(route.Arrival_Time);
-      route.Hlt_Time = this.common.timeFormatter(route.Halt_Time);
-      timeHrs += route.hrsArivalTime;
-      route.totalHrs = timeHrs;
-      timeHrs += route.hrsHaltTime;
-      if (route.errorMsg) isError = true;
-    });
+    if (this.timeType === 'DAY_HRS') {
+      this.routesData.map(route => {
+        route.Arr_Time = this.common.timeFormatter(route.Arrival_Time);
+        route.Hlt_Time = this.common.timeFormatter(route.Halt_Time);
+        if (route.errorMsg) isError = true;
+      });
+    } else if (this.timeType === 'HRS') {
+      console.log('inside HRS');
+      let day = 1;
+      let arrHrs = 0;
+      let hltTime = 0;
+      this.routesData.map((route, index) => {
+        if (index) {
+          arrHrs += route.hrsArivalTime + hltTime;
+        }
+        hltTime = route.hrsHaltTime;
+
+        if (arrHrs / 24 > 1) {
+          day += Math.trunc(arrHrs / 24);
+          arrHrs = arrHrs % 24;
+        }
+        route.Arrival_Day = day;
+        route.Arr_Time = (arrHrs > 9 ? arrHrs : '0' + arrHrs) + ':00:00';
+        route.Hlt_Time = (hltTime > 9 ? hltTime : '0' + hltTime) + ':00:00';
+        if (route.errorMsg) isError = true;
+      });
+    }
     console.log('routesData', this.routesData);
+
+
     if (isError) {
       this.common.showError('Please enter valid values:)');
       return;
@@ -165,24 +185,24 @@ export class RouteTimeTableDetailsComponent implements OnInit {
     }
     console.log('params:', params);
 
-    // this.common.loading++;
-    // this.api.post('ViaRoutes/SaveTimeTableDetails', params)
-    //   .subscribe(res => {
-    //     this.common.loading--;
-    //     console.log("res", res);
+    this.common.loading++;
+    this.api.post('ViaRoutes/SaveTimeTableDetails', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("res", res);
 
-    //     let id = res['data'][0].y_id;
-    //     if (id > 0) {
-    //       this.common.showToast(res['data'][0].y_msg);
-    //     }
-    //     else {
-    //       this.common.showError(res['data'][0].y_msg);
+        let id = res['data'][0].y_id;
+        if (id > 0) {
+          this.common.showToast(res['data'][0].y_msg);
+        }
+        else {
+          this.common.showError(res['data'][0].y_msg);
 
-    //     }
-    //   }, err => {
-    //     this.common.loading--;
-    //     console.log(err);
-    //   });
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
 
 
