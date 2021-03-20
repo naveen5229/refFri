@@ -106,9 +106,9 @@ export class PlacementoptimizationComponent implements OnInit {
     this.getPreviousData(this.placementDate);
  }
 
- showDataOnMap(event){
-   console.log(event);
-   this.common.params = { data: event }
+ showDataOnMap(event,latitude,longitude,name){
+   console.log(event,latitude,longitude,name);
+   this.common.params = { data: event,latitude:latitude,longitude:longitude,regno:name }
     const activeModal = this.modalService.open(PlacementoptimizeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
  }
 
@@ -121,7 +121,7 @@ export class PlacementoptimizationComponent implements OnInit {
     this.api.getJavaPortDost(8084, 'getPreviousData/'+ this.common.dateFormatter1(this.placementDate))
       .subscribe(res => {
         this.common.loading--;
-        console.log("getPreviousData:",res['placementProblemDetailsDTO']);
+        // console.log("getPreviousData:",res['placementProblemDetailsDTO']);
         if(res['placementProblemDetailsDTO'] && res['placementProblemDetailsDTO'].length>0){
           this.name=res['name'];
           this.select=res['allocType'];
