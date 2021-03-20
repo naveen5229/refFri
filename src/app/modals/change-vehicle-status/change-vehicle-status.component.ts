@@ -1228,6 +1228,18 @@ ngOnInit() {
         this.common.showError(err);
       });
   }
+
+  sendDetails(){
+   this.common.loading++;
+   this.api.get('VehicleKpi/createM1AndM2Vehicle?vId=' + this.VehicleStatusData.vehicle_id)
+   .subscribe(res=>{
+     this.common.loading--;
+     console.log('Res:', res);
+   }, err=>{
+    this.common.loading--;
+    console.error('err:', err);
+   })
+  }
 }
 
 
