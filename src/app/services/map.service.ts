@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { CommonService } from './common.service';
 declare let google: any;
 declare let MarkerClusterer: any;
@@ -7,7 +8,7 @@ declare let MarkerClusterer: any;
   providedIn: 'root'
 })
 export class MapService {
-
+  events: Subject<any> = new Subject();
   poly = null;
   test = null;
   elevator = null;
@@ -157,35 +158,42 @@ export class MapService {
     return marker;
   }
 
-  mapIntialize(div = "map", zoom = 18, lat = 25, long = 75, showUI = false) {
-    if (this.isMapLoaded) {
-      // document.getElementById(div).innerHTML="";
-      // document.getElementById(div).append(this.mapLoadDiv.innerHTML);
-      // this.setMapType(0);
-      // return;
-    }
+  mapIntialize(div = "map", zoom = 18, lat = 25, long = 75, showUI = false, usePrevious = false, options?: any) {
+    let latLng = new google.maps.LatLng(lat, long);
     this.mapDiv = document.getElementById(div);
-    let latlng = new google.maps.LatLng(lat, long);
-    let opt =
-    {
-      center: latlng,
-      zoom: zoom,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      scaleControl: true,
-      disableDefaultUI: showUI,
-      styles: [{
-        featureType: 'all',
-        elementType: 'labels',
-        stylers: [{
-          visibility: 'on'
+    if (this.mapLoadDiv && usePrevious) {
+      this.clearAll();
+      this.map.panTo(latLng);
+      this.mapDiv.appendChild(this.mapLoadDiv);
+      console.log('JRx: map not re-initialized!');
+    } else {
+      let opt = {
+        center: latLng,
+        zoom: zoom,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        scaleControl: true,
+        disableDefaultUI: showUI,
+        styles: [{
+          featureType: 'all',
+          elementType: 'labels',
+          stylers: [{
+            visibility: 'on'
+          }]
         }]
-      }]
-    };
-    //let ("#"+mapId).heigth(height);
-    this.map = new google.maps.Map(this.mapDiv, opt);
-    this.mapLoadDiv = this.map.getDiv();
-    this.bounds = new google.maps.LatLngBounds();
-    this.isMapLoaded = true;
+      };
+
+      opt = Object.assign({}, opt, options);
+      const mapElement = document.createElement('div');
+      mapElement.classList.add('google-map');
+
+      this.map = new google.maps.Map(mapElement,);
+      this.mapLoadDiv = this.map.getDiv();
+      this.mapDiv.appendChild(this.mapLoadDiv);
+      this.bounds = new google.maps.LatLngBounds();
+      this.isMapLoaded = true;
+    }
+    this.events.next({ type: 'initialize' });
+    return this.map;
   }
 
   createLatLng(lat, lng) {
@@ -393,7 +401,7 @@ export class MapService {
       infoWindows.push(infoWindow);
       infoWindow.opened = false;
       google.maps.event.addListener(this.cluster, 'clusterclick', (cluster) => {
-        
+
         let infoStr = '';
         cluster.markers_.map(mrk => {
           infoStr += mrk.title + ', '
