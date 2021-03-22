@@ -184,6 +184,7 @@ export class RouteTimeTableDetailsComponent implements OnInit {
       routeTimeTableId: this.routeTime
     }
     console.log('params:', params);
+    return;
 
     this.common.loading++;
     this.api.post('ViaRoutes/SaveTimeTableDetails', params)
