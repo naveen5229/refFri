@@ -169,6 +169,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         icon: 'fa-home',
         link: '/pages/placementoptimization',
       }
+      ,
+      {
+        title: 'Traffic',
+        icon: 'fa-home',
+        link: '/pages/traffic',
+      }
     ]
   },
   {

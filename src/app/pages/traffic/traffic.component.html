@@ -1,0 +1,44 @@
+<nb-card style="border: 0px;">
+    <nb-card-header>
+      <div class="row">
+        <div class="col-sm-6 p-0">
+          <h5>Traffic</h5>
+        </div>
+      </div>
+    </nb-card-header>
+    <nb-card-body> 
+          <div class="row">
+            <div class="col-sm-12 p-0">
+              <div class="col-sm-3">
+                <label>Start Date</label>
+                <uj-date-time-picker (onChanged)="selectstartDate($event);" [isTime]='false' [dateTimeValue]="startDate">
+                </uj-date-time-picker>
+              </div>
+              <div class="col-sm-3">
+                <label>End Date</label>
+                <uj-date-time-picker (onChanged)="selectendDate($event);" [isTime]='false' [dateTimeValue]="endDate">
+                </uj-date-time-picker>
+              </div>
+              <div class="col-3">
+                <label>Start Time</label>
+                <uj-date-time-picker (onChanged)="startTime = $event" [dateTimeValue]="startTime" [isStart]="false">
+                </uj-date-time-picker>
+            </div>
+            <div class="col-3">
+                <label>End Time</label>
+                <uj-date-time-picker (onChanged)="endTime = $event" [dateTimeValue]="endTime" [isStart]="false">
+                </uj-date-time-picker>
+            </div>
+            <div class="col-3">
+                <button class="btn btn-primary form-control" (click)="getData()" style="margin: 0px; border: 0px;"> Submit</button>
+            </div>
+            
+            </div>
+          </div>
+          <div class="row" style="height:60vh;overflow-y:auto;">
+            <smart-table *ngIf="traficdata && traficdata.length" id="trafic" [data]="table.data"
+            [settings]="table.settings">
+        </smart-table>
+            </div>
+        </nb-card-body>
+    </nb-card>

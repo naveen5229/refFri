@@ -111,6 +111,7 @@ import { UlheatmapComponent } from './ulheatmap/ulheatmap.component';
 import { TicketsReportComponent } from './tickets-report/tickets-report.component';
 import { TripmasterreportComponent } from './tripmasterreport/tripmasterreport.component';
 import { PlacementoptimizationComponent } from './placementoptimization/placementoptimization.component';
+import { TrafficComponent } from './traffic/traffic.component';
 
 
 const routes: Routes = [{
@@ -687,6 +688,11 @@ const routes: Routes = [{
   {
     path: 'placementoptimization',
     component: PlacementoptimizationComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'traffic',
+    component: TrafficComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
   ],

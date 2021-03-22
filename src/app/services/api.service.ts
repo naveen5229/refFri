@@ -22,7 +22,7 @@ export class ApiService {
 
   /********************* Common ***************** */
   URLJava: string = 'http://13.126.162.170:7070/';
-  URLJavaPortDost: string = 'http://elogist.in';
+  //URLJavaPortDost: string = 'http://elogist.in';
   verifyHaltsUrl: string = 'http://elogist.in:8081/';
 
   /********************** Local Server ************* */
@@ -31,7 +31,7 @@ export class ApiService {
   // UrlPrime:string='http://192.168.0.111/itrm_webservices/';
   // UrlTranstruckNew: string = 'http://192.168.1.101/webservices/';
   // verifyHaltsUrl: string = 'http://192.168.0.166:8081/';
-  // URLJavaPortDost: string = 'http://192.168.0.135';
+   URLJavaPortDost: string = 'http://192.168.0.129';
 
   constructor(private http: HttpClient,
     public router: Router,
