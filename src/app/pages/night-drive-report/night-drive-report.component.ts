@@ -6,11 +6,11 @@ import { DatePipe } from '@angular/common';
 import { DateService } from '../../services/date.service';
 
 @Component({
-  selector: 'traffic',
-  templateUrl: './traffic.component.html',
-  styleUrls: ['./traffic.component.scss']
+  selector: 'night-drive-report',
+  templateUrl: './night-drive-report.component.html',
+  styleUrls: ['./night-drive-report.component.scss']
 })
-export class TrafficComponent implements OnInit {
+export class NightDriveReportComponent implements OnInit {
   startDate = new Date();
   endDate = new Date();
   startTime = new Date();

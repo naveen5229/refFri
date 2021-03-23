@@ -111,7 +111,7 @@ import { UlheatmapComponent } from './ulheatmap/ulheatmap.component';
 import { TicketsReportComponent } from './tickets-report/tickets-report.component';
 import { TripmasterreportComponent } from './tripmasterreport/tripmasterreport.component';
 import { PlacementoptimizationComponent } from './placementoptimization/placementoptimization.component';
-import { TrafficComponent } from './traffic/traffic.component';
+import { NightDriveReportComponent } from './night-drive-report/night-drive-report.component';
 
 
 const routes: Routes = [{
@@ -691,8 +691,8 @@ const routes: Routes = [{
     canActivate: [AuthGuard, RouteGuard],
   },
   {
-    path: 'traffic',
-    component: TrafficComponent,
+    path: 'night-drive-report',
+    component: NightDriveReportComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
   ],
