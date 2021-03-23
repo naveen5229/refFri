@@ -8,31 +8,30 @@
     </nb-card-header>
     <nb-card-body> 
           <div class="row">
-            <div class="col-sm-12 p-0">
-              <div class="col-sm-3">
+            
+              <div class="col-2">
                 <label>Start Date</label>
                 <uj-date-time-picker (onChanged)="selectstartDate($event);" [isTime]='false' [dateTimeValue]="startDate">
                 </uj-date-time-picker>
               </div>
-              <div class="col-sm-3">
+              <div class="col-2">
                 <label>End Date</label>
                 <uj-date-time-picker (onChanged)="selectendDate($event);" [isTime]='false' [dateTimeValue]="endDate">
                 </uj-date-time-picker>
               </div>
-              <div class="col-3">
+              <div class="col-2">
                 <label>Start Time</label>
-                <uj-date-time-picker (onChanged)="startTime = $event" [dateTimeValue]="startTime" [isStart]="false">
+                <uj-date-time-picker (onChanged)="startTime = $event" [dateTimeValue]="startTime" [isStart]="false" [isDate]="false">
                 </uj-date-time-picker>
             </div>
-            <div class="col-3">
+            <div class="col-2">
                 <label>End Time</label>
-                <uj-date-time-picker (onChanged)="endTime = $event" [dateTimeValue]="endTime" [isStart]="false">
+                <uj-date-time-picker (onChanged)="endTime = $event" [dateTimeValue]="endTime" [isStart]="false" [isDate]="false">
                 </uj-date-time-picker>
             </div>
-            <div class="col-3">
+            <div class="col-2">
+              <label>&nbsp;</label>
                 <button class="btn btn-primary form-control" (click)="getData()" style="margin: 0px; border: 0px;"> Submit</button>
-            </div>
-            
             </div>
           </div>
           <div class="row" style="height:60vh;overflow-y:auto;">

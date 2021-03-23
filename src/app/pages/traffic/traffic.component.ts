@@ -88,8 +88,6 @@ export class TrafficComponent implements OnInit {
           }
           let action = { title: 'Action', placeholder: 'Action' };
           this.table.data.headings['action'] = action;
-
-
           this.table.data.columns = this.getTableColumns();
           console.log("table:");
           console.log(this.table);
@@ -118,14 +116,15 @@ export class TrafficComponent implements OnInit {
     let columns = [];
     for (var i = 0; i < this.traficdata.length; i++) {
       this.valobj = {};
+      console.log('headings',this.traficdata,this.headings);
       for (let j = 0; j < this.headings.length; j++) {
         // this.valobj['action'] = {
         //   value: '', isHTML: true, action: null,
         //   icons: this.actionIcons(this.traficdata[i])
         // }
         
-          this.valobj[this.headings[i]] = { value: this.traficdata[this.headings[i]], class: 'black', action: '',isHTML: true, };
-        
+      this.valobj[this.headings[j]] = { value: this.traficdata[i][this.headings[j]], class: 'black', action: '',isHTML: true, };
+      console.log('valobj',this.traficdata,this.headings[j]);
       }
       this.valobj['style'] = { background: this.traficdata[i]._rowcolor };
       columns.push(this.valobj);
