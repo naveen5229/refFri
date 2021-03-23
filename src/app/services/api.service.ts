@@ -31,7 +31,7 @@ export class ApiService {
   // UrlPrime:string='http://192.168.0.111/itrm_webservices/';
   // UrlTranstruckNew: string = 'http://192.168.1.101/webservices/';
   // verifyHaltsUrl: string = 'http://192.168.0.166:8081/';
-  // URLJavaPortDost: string = 'http://192.168.0.135';
+   //URLJavaPortDost: string = 'http://192.168.0.160';
 
   constructor(private http: HttpClient,
     public router: Router,

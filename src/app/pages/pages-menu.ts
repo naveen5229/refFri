@@ -440,7 +440,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/vehicle-performance',
         home: true,
       },
-
+      {
+        title: 'Night Drive Report',
+        icon: 'fa-home',
+        link: '/pages/night-drive-report',
+      }
 
     ]
   },
