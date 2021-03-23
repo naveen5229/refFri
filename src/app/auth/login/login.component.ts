@@ -92,6 +92,7 @@ ngOnInit() {
         console.log("res:", res);
         if (res['code'] == 1) {
           clearInterval(this.interval);
+          console.log("ResData123:",res['data']);
           // this.common.showToast(res['msg']);
           localStorage.setItem('USER_TOKEN', res['data']['authkey']);
           localStorage.setItem('USER_DETAILS', JSON.stringify(res['data']));
@@ -100,8 +101,9 @@ ngOnInit() {
           this.user._token = res['data']['authkey'];
           console.log('Login Type: ', this.user._loggedInBy);
           localStorage.setItem('LOGGED_IN_BY', this.user._loggedInBy);
+
           if (res['data'].axesToken && this.user._loggedInBy === 'customer') {
-            localStorage.setItem('DOST_axesToken', res['data'][0].axesToken);
+            localStorage.setItem('DOST_axesToken', res['data'].axesToken);
           }
           this.getUserPagesList();
         } else {
