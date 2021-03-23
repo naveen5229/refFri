@@ -73,7 +73,7 @@
             </thead>
             <tbody class="tbody">
               <tr *ngFor="let ttrmb of trafficTopRmb">
-                <td>{{ttrmb['Vehicle Name']}}</td>
+                <td (click)="chart6Clicked(ttrmb)" class="link">{{ttrmb['Vehicle Name']}}</td>
                 <td>{{ttrmb['R + M + B (HH:MM)']}}</td>
                 <td>{{ttrmb['RMB Type']}}</td>
               </tr>
@@ -96,7 +96,7 @@
               </thead>
               <tbody class="tbody">
                 <tr *ngFor="let tlls of trafficLongestLoadingSites">
-                  <td>{{tlls['Location']}}</td>
+                  <td (click)="chart7Clicked(tlls)" class="link">{{tlls['Location']}}</td>
                   <td>{{tlls['Duration (HH:MM)']}}</td>
                 </tr>
               </tbody>
@@ -116,7 +116,7 @@
                 </thead>
                 <tbody class="tbody">
                   <tr *ngFor="let tlus of trafficLongestUnloadingSite">
-                    <td>{{tlus['Vehicle Name']}}</td>
+                    <td (click)="chart8Clicked(tlus)" class="link">{{tlus['Vehicle Name']}}</td>
                     <td>{{tlus['Duration (HH:MM)']}}</td>
 
                   </tr>
@@ -141,7 +141,7 @@
               </thead>
               <tbody class="tbody">
                 <tr *ngFor="let tsov of trafficSlowestOnwardVehicles">
-                  <td>{{tsov['Vehicle Name']}}</td>
+                  <td  (click)="chart9Clicked(tsov)" class="link">{{tsov['Vehicle Name']}}</td>
                   <td>{{tsov['Driver Name']}}</td>
                   <td>{{tsov['Trip']}}</td>
                   <td>{{tsov['KM\/Hrs']}}</td>
@@ -164,7 +164,7 @@
                 </thead>
                 <tbody class="tbody">
                   <tr *ngFor="let tlve of trafficLongestVehicleEmpty">
-                    <td>{{tlve['Vehicle Name']}}</td>
+                    <td (click)="chart10Clicked(tlve)">{{tlve['Vehicle Name']}}</td>
                     <td>{{tlve['Duration (HH:MM)']}}</td>
                     <td>{{tlve['Location']}}</td>
                   </tr>

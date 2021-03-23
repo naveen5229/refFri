@@ -331,6 +331,111 @@ export class TmgTrafficComponent implements OnInit {
     };
     this.getDetials('Tmgreport/GetTrafficLongestVehicleGpsIssue', params)
   }
+  chart6Clicked(event) {
+
+    let Date = event._vid;
+    console.log('event[0]._index 1', event);
+    this.passingIdChart6Data(Date);
+  }
+
+  passingIdChart6Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord: 3,
+      stepno: 1,
+      vehid: parseDate,
+      // ref: 'tmg-calls'
+    };
+    this.getDetials('Tmgreport/GetTrafficTopRmb', params)
+  }
+  chart7Clicked(event) {
+
+    let Date = event.Location;
+    console.log('event[0]._index 1', event);
+    this.passingIdChart7Data(Date);
+  }
+
+  passingIdChart7Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord: 3,
+      stepno: 1,
+      vehid: parseDate,
+      // ref: 'tmg-calls'
+    };
+    this.getDetials('Tmgreport/GetTrafficLongestLoadingSites', params)
+  }
+  chart8Clicked(event) {
+
+    let Date = event._vid;
+    console.log('event[0]._index 1', event);
+    this.passingIdChart8Data(Date);
+  }
+
+  passingIdChart8Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord: 3,
+      stepno: 1,
+      vehid: parseDate,
+      // ref: 'tmg-calls'
+    };
+    this.getDetials('Tmgreport/GetTrafficLongestUnloadingSite', params)
+  }
+  chart9Clicked(event) {
+
+    let Date = event._vid;
+    console.log('event[0]._index 1', event);
+    this.passingIdChart9Data(Date);
+  }
+
+  passingIdChart9Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord: 3,
+      stepno: 1,
+      vehid: parseDate,
+      // ref: 'tmg-calls'
+    };
+    this.getDetials('Tmgreport/GetTrafficSlowestOnwardVehicles', params)
+  }
+  chart10Clicked(event) {
+
+    let Date = event._vid;
+    console.log('event[0]._index 1', event);
+    this.passingIdChart10Data(Date);
+  }
+
+  passingIdChart10Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord: 3,
+      stepno: 1,
+      vehid: parseDate,
+      // ref: 'tmg-calls'
+    };
+    this.getDetials('Tmgreport/GetTrafficLongestVehicleEmpty', params)
+  }
 }
 
 

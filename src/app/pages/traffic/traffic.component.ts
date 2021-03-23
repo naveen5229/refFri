@@ -60,7 +60,7 @@ export class TrafficComponent implements OnInit {
     let endDate = this.common.dateFormatter(this.endDate);
     let foid=512;
     ++this.common.loading;
-    const subscription = this.api.getJavaPortDost(8085, 'report/' + foid+'/'+startDate+'/'+endDate+'/'+this.startTime+'/'+this.endTime)
+    const subscription = this.api.getJavaPortDost(8082, 'report/' + foid+'/'+startDate+'/'+endDate+'/'+this.startTime+'/'+this.endTime)
     .subscribe((res: any) => {
         --this.common.loading;
         console.log('Res:',res,res['reports']);
@@ -87,7 +87,7 @@ export class TrafficComponent implements OnInit {
 
           }
           let action = { title: 'Action', placeholder: 'Action' };
-          this.table.data.headings['action'] = action;
+          //this.table.data.headings['action'] = action;
           this.table.data.columns = this.getTableColumns();
           console.log("table:");
           console.log(this.table);

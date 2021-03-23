@@ -34,6 +34,7 @@
                 <button class="btn btn-primary form-control" (click)="getData()" style="margin: 0px; border: 0px;"> Submit</button>
             </div>
           </div>
+          <div class="row"></div>
           <div class="row" style="height:60vh;overflow-y:auto;">
             <smart-table *ngIf="traficdata && traficdata.length" id="trafic" [data]="table.data"
             [settings]="table.settings">
