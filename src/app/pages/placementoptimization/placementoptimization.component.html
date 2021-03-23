@@ -151,9 +151,9 @@
           <td>{{packet.minQuantity}}</td>
           <td>{{packet.maxQuantity}}</td>
           <td>{{packet.allocatedVehicles}}</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
+          <td>{{packet.onward24Hrs}}</td>
+          <td>{{packet.atPlant}}</td>
+          <td>{{packet.towards}}</td>
         </tr>
       </table>
     
@@ -162,7 +162,9 @@
     <div *ngIf="placementOPT">
       <table class="table table-bordered">
         <thead>
-          <tr><th class="ttl">Total Cost</th><th class="ttl grn">{{totalCost}}</th><th class="ttl">Total penalty</th><th class="ttl grn">{{totalPanelty}}</th></tr>
+          <tr><th class="ttl">Total Cost</th><th class="ttl grn">{{totalCost}}</th><th class="ttl">Total penalty</th><th class="ttl grn">{{totalPanelty}}</th>
+            <!-- <th><i class="fa fa-map grn"  (click)="showAllData(placementOPT)"></i></th> -->
+          </tr>
         </thead>
       </table>
       <div class="row" style="height:60vh;overflow-y:auto;">

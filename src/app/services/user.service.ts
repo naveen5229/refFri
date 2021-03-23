@@ -117,7 +117,7 @@ export class UserService {
     if (type === 'pages' && localStorage.getItem('DOST_axesToken')) {
       console.log('test');
       this._menu[type].push({
-        title: 'Vehicle Tracking',
+        title: 'GPS',
         icon: 'fa-chalkboard-teacher',
         link: '#'
       })
