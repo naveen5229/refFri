@@ -498,7 +498,8 @@ export class MapService {
     try {
       let actualMarker = markers || this.markers;
       for (let i = 0; i < actualMarker.length; i++) {
-        actualMarker[i].setMap(null);
+        if (actualMarker[i])
+          actualMarker[i].setMap(null);
       }
       if (reset)
         actualMarker = [];
