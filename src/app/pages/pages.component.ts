@@ -45,18 +45,25 @@ export class PagesComponent {
   }
 
   ngAfterViewInit() {
+    console.log("testing");
     document.getElementsByTagName('nb-sidebar')[0]['onclick'] = event => {
+      console.log("testing147");
       let srcElement = event.srcElement;
-      if (srcElement.className === 'menu-title' && srcElement.tagName === 'SPAN') {
+      console.log("srcElement",srcElement);
+      console.log("class:", srcElement.className);
+      console.log("tag:",srcElement.tagName);
+      if (srcElement.className.includes('menu-title') && srcElement.tagName === 'SPAN') {
+        console.log("testig44");
         this.handleMenuClick(srcElement.parentElement.text, srcElement.parentElement.hash.replace(/#\//, ''));
       }
     }
   }
 
   handleMenuClick(title: string, link: string) {
-    if (title === 'Vehicle Tracking') {
+    console.log("Test");
+    if (title === 'GPS') {
       let url = 'http://fvts.in/#/auth/checkloginandredirect/?token=' + localStorage.getItem('DOST_axesToken') + '&frompage=' + window.location.href;
-      window.location.href = url;
+      window.open(url,'_blank');
     }
   }
 

@@ -31,7 +31,7 @@ export class VehicleStatusChangeComponent implements OnInit {
     public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal,
-    public user: UserService 
+    public user: UserService
   ) {
 
     this.getVehicleStatusAlerts(this.viewType);
@@ -40,8 +40,8 @@ export class VehicleStatusChangeComponent implements OnInit {
 
   }
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() { }
+  ngOnInit() {
   }
 
   refresh() {
@@ -56,7 +56,7 @@ ngOnInit() {
     this.api.get('HaltOperations/getVehicleStatusAlerts?' + params)
       .subscribe(res => {
         console.log('Res: ', res['data']);
-        this.VehicleStatusAlerts = res['data'];
+        this.VehicleStatusAlerts = res['data'].sort((a, b) => a.fo_name > b.fo_name ? 1 : -1);
       }, err => {
         console.error(err);
         this.common.showError();
@@ -133,7 +133,7 @@ ngOnInit() {
         }
         else {
           if (this.user._loggedInBy == "admin") {
-             this.openChangeStatusModal(VehicleStatusData);
+            this.openChangeStatusModal(VehicleStatusData);
           }
           else {
             this.openChangeStatusCustomerModal(VehicleStatusData);
