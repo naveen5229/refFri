@@ -855,15 +855,7 @@ ngOnInit() {
   }
 
   initialiseMap() {
-    if (
-      !this.mapService.map ||
-      this.mapService.map.__gm.Z.id != "concise-view-map"
-    ) {
-      this.mapService.mapIntialize("concise-view-map");
-    } else {
-      this.mapService.map.__gm.Z = document.getElementById("concise-view-map");
-    }
-
+    this.mapService.mapIntialize("concise-view-map");
     this.mapService.clearAll();
     for (let index = 0; index < this.kpis.length; index++) {
       if (this.kpis[index].showprim_status.includes('No Data') || this.kpis[index].showprim_status == "Undetected" || this.kpis[index].showprim_status == "No GPS Data") {
@@ -972,7 +964,7 @@ ngOnInit() {
     }
   }
 
-  getUpadte(kpi) {
+  getUpdate(kpi) {
     let tripDetails = {
       vehicleId: kpi.x_vehicle_id,
       siteId: kpi.x_hl_site_id
@@ -1324,7 +1316,7 @@ ngOnInit() {
           this.showLocation(this.findKPI(details.column._id));
           break;
         case 'trail':
-          this.getUpadte(this.findKPI(details.column._id));
+          this.getUpdate(this.findKPI(details.column._id));
           break;
       }
     } else if (details.actionLevel === 'icon') {
