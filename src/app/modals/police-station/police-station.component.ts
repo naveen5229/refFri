@@ -55,7 +55,9 @@ export class PoliceStationComponent implements OnInit {
     this.mapService.mapIntialize("police-station-map", 18, 25, 75, true, true);
   }
 
-  ngOnDestroy() { }
+  ngOnDestroy() { 
+    this.mapService.events.next({ type: 'closed' });
+  }
 
   getPoliceStation() {
     let params = "lat=" + this.lat +

@@ -134,7 +134,7 @@ export class ConciseComponent implements OnInit {
   gpsStatus = null;
   gpsStatusKeys = [];
   isHidePie: boolean = !!JSON.parse(localStorage.getItem('isHidePie'));
-
+  subscriptions = [];
   constructor(
     public api: Api,
     public common: Common,
@@ -158,7 +158,7 @@ export class ConciseComponent implements OnInit {
     return this.registerForm.controls;
   }
 
-ngOnInit() {
+  ngOnInit() {
     this.registerForm = this.formBuilder.group({
       firstName: ["", Validators.required],
       lastName: ["", Validators.required],
@@ -168,6 +168,11 @@ ngOnInit() {
 
   ngAfterViewInit() {
     this.common.stopScroll();
+    this.subscriptions.push(this.mapService.events.subscribe(res => {
+      if (res.type === 'closed' && this.isMapView) {
+        this.initialiseMap();
+      }
+    }));
   }
 
   ngOnDestroy() {
@@ -855,7 +860,7 @@ ngOnInit() {
   }
 
   initialiseMap() {
-    this.mapService.mapIntialize("concise-view-map");
+    this.mapService.mapIntialize("concise-view-map", 18, 25, 75, false, true);
     this.mapService.clearAll();
     for (let index = 0; index < this.kpis.length; index++) {
       if (this.kpis[index].showprim_status.includes('No Data') || this.kpis[index].showprim_status == "Undetected" || this.kpis[index].showprim_status == "No GPS Data") {
@@ -869,6 +874,7 @@ ngOnInit() {
     setTimeout(() => {
       this.mapService.setMapType(0);
       this.markers = this.mapService.createMarkers(this.kpis);
+
       this.mapService.addListerner(this.mapService.map, "center_changed", () => {
         //this.setMarkerLabels();
       });

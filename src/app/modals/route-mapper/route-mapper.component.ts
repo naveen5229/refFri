@@ -74,6 +74,7 @@ export class RouteMapperComponent implements OnInit {
 
   ngOnDestroy() {
     this.subTrailsPolyLines.forEach(polyline => polyline.setMap(null));
+    this.mapService.events.next({ type: 'closed' });
   }
 
   ngOnInit() {

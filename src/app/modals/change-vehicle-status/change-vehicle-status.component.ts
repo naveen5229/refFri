@@ -86,6 +86,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   ngOnDestroy() {
     this.clearMap();
+    this.ms.events.next({ type: 'closed' });
   }
   ngOnInit() {
   }

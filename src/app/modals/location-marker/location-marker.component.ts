@@ -46,6 +46,7 @@ export class LocationMarkerComponent implements OnInit {
       this.ms.clearMarkerEvents(this.marker);
       this.marker = null;
     } catch (e) { console.log('Exception:', e) }
+    this.ms.events.next({ type: 'closed' });
   }
   ngOnInit() {
   }
