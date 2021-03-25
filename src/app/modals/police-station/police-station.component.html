@@ -6,24 +6,7 @@
 </div>
 
 <div class="modal-body">
-
-  <!-- <div class="row mb-3">
-        <div class="col-3">
-          <select class="form-control">
-             [(ngModel)]="type" name="type"
-            <option value="1" selected>Police Station</option>
-            <option value="2">Fules</option>
-            <option value="3">tolls</option>
-          </select>  
-        </div>
-
-        <div class="col-1 pl-0">
-            <button class="btn btn-primary" type="button" (click)="getPoliceStation()">OK</button>
-        </div>
-          
-        </div> -->
   <div class="row">
-
     <div class="col-sm-6">
       <table class="table table-bordered table-hover">
         <thead>
@@ -35,21 +18,7 @@
           </tr>
         </thead>
         <tbody>
-
           <tr *ngFor="let value of PoliceStation; let i = index">
-            <!-- <nb-card *ngFor="let value of PoliceStation; let i = index">
-                          <nb-card-body  style="cursor: pointer;">
-                              <div class="col-sm-4">
-                                  {{ value.name  }}
-                                </div>
-                                <div class="col-sm-4">
-                                    {{ value.Vicinity }}
-                                  </div>
-                                  <div class="col-sm-4">
-                                      {{ value.phone }}
-                                    </div>
-                          </nb-card-body>
-                      </nb-card> -->
             <div class="td_box HOVER" style=" cursor: pointer">
               <td (mouseover)="mapService.toggleBounceMF(i)" (mouseout)="mapService.toggleBounceMF(i,2)"
                 (click)="openSmartTool(i,value);">{{value.id}}</td>
@@ -60,7 +29,6 @@
               <td (mouseover)="mapService.toggleBounceMF(i)" (mouseout)="mapService.toggleBounceMF(i,2)"
                 (click)="openSmartTool(i,value);">{{value.phone}}</td>
             </div>
-
           </tr>
         </tbody>
       </table>
@@ -73,7 +41,7 @@
         <span class="zoom-btn" (click)="mapService.zoomMap(15)">4</span>
         <span class="zoom-btn" (click)="mapService.zoomMap(18)">5</span>
       </div>
-      <div class="map" id="map"></div>
+      <div class="map" id="police-station-map"></div>
     </div>
   </div>
 

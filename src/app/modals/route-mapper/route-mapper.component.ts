@@ -6,7 +6,6 @@ import { CommonService } from '../../services/common.service';
 import { DateService } from '../../services/date.service';
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 import * as moment from 'moment';
-import { ThrowStmt } from '@angular/compiler';
 
 @AutoUnsubscribe()
 @Component({
@@ -75,13 +74,14 @@ export class RouteMapperComponent implements OnInit {
 
   ngOnDestroy() {
     this.subTrailsPolyLines.forEach(polyline => polyline.setMap(null));
+    this.mapService.events.next({ type: 'closed' });
   }
 
   ngOnInit() {
   }
 
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map");
+    this.mapService.mapIntialize("map", 18, 25, 75, false, true);
     this.mapService.setMapType(0);
     this.mapService.map.setOptions({ draggableCursor: 'cursor' });
     // setTimeout(() => {

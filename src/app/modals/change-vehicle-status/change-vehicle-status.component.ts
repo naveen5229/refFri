@@ -20,6 +20,7 @@ declare let google: any;
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 import { OpenRejectTripsComponent } from '../open-reject-trips/open-reject-trips.component';
+import { MapService } from '../../services/map.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -68,7 +69,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   zoomLevel = 19;
   constructor(public modalService: NgbModal,
     public common: CommonService,
-    public api: ApiService,
+    public api: ApiService, private ms: MapService,
     private activeModal: NgbActiveModal) {
     this.VehicleStatusData = this.common.params;
     this.lTime = this.VehicleStatusData.latch_time ? new Date(this.VehicleStatusData.latch_time) : this.lTime;
@@ -83,8 +84,11 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.getEvents();
   }
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() {
+    this.clearMap();
+    this.ms.events.next({ type: 'closed' });
+  }
+  ngOnInit() {
   }
   ngAfterViewInit() {
     this.loadMap(this.location.lat, this.location.lng);
@@ -109,7 +113,38 @@ ngOnInit() {
 
     };
 
-    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+    this.map = this.ms.mapIntialize('map1', 8, lat, lng, true, true, mapOptions);
+  }
+
+  clearMap() {
+    try {
+      this.Markers.forEach(marker => marker.setMap(null));
+      this.Markers = [];
+    } catch (e) { console.log('exception:', e) };
+    try {
+      this.siteMarkers.forEach(marker => marker.setMap(null));
+      this.siteMarkers = [];
+    } catch (e) { console.log('exception:', e) };
+    try {
+      this.clusters.forEach(e => e.setMap(null));
+      this.clusters = [];
+    } catch (e) { console.log('exception:', e) };
+    try {
+      this.polygons.forEach(polygon => polygon.setMap(null));
+      this.polygons = [];
+    } catch (e) { console.log('exception:', e) };
+    try {
+      this.polygonPath && this.polygonPath.setMap(null);
+      this.polygonPath = null;
+    } catch (e) { console.log('exception:', e) };
+    try {
+      this.sosMarker.forEach(e => e.setMap(null));
+      this.sosMarker = [];
+    } catch (e) { console.log('exception:', e) };
+    try {
+      this.sosCluster.forEach(e => e.setMap(null));
+      this.sosCluster = [];
+    } catch (e) { console.log('exception:', e) };
   }
 
   openChangeHaltModal(vehicleEvent, type) {
@@ -349,7 +384,7 @@ ngOnInit() {
 
       }
       if (markers[index]['radius'])
-        this.createCirclesOnPostion(latlng, markers[index]['radius'], '#00ff00');
+        this.clusters.push(this.createCirclesOnPostion(latlng, markers[index]['radius'], '#00ff00'));
 
     }
     return thisMarkers;
@@ -800,7 +835,7 @@ ngOnInit() {
   }
 
   openRejMulTrips(vehicleEvent) {
-    this.common.params = { vehicleId: this.VehicleStatusData.vehicle_id, vehicleRegNo: this.VehicleStatusData.regno, endDate : this.toTime, startDate : this.lTime }
+    this.common.params = { vehicleId: this.VehicleStatusData.vehicle_id, vehicleRegNo: this.VehicleStatusData.regno, endDate: this.toTime, startDate: this.lTime }
     const activeModal = this.modalService.open(OpenRejectTripsComponent, { size: 'md', container: 'nb-layout' });
     activeModal.result.then(data =>
       this.reloadData());
@@ -1229,16 +1264,16 @@ ngOnInit() {
       });
   }
 
-  sendDetails(){
-   this.common.loading++;
-   this.api.get('VehicleKpi/createM1AndM2Vehicle?vId=' + this.VehicleStatusData.vehicle_id)
-   .subscribe(res=>{
-     this.common.loading--;
-     console.log('Res:', res);
-   }, err=>{
-    this.common.loading--;
-    console.error('err:', err);
-   })
+  sendDetails() {
+    this.common.loading++;
+    this.api.get('VehicleKpi/createM1AndM2Vehicle?vId=' + this.VehicleStatusData.vehicle_id)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res);
+      }, err => {
+        this.common.loading--;
+        console.error('err:', err);
+      })
   }
 }
 
