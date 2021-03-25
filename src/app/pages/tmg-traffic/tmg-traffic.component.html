@@ -164,7 +164,7 @@
                 </thead>
                 <tbody class="tbody">
                   <tr *ngFor="let tlve of trafficLongestVehicleEmpty">
-                    <td (click)="chart10Clicked(tlve)">{{tlve['Vehicle Name']}}</td>
+                    <td (click)="chart10Clicked(tlve)" class="link">{{tlve['Vehicle Name']}}</td>
                     <td>{{tlve['Duration (HH:MM)']}}</td>
                     <td>{{tlve['Location']}}</td>
                   </tr>
