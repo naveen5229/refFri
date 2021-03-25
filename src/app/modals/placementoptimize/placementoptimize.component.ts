@@ -67,6 +67,7 @@ export class PlacementoptimizeComponent implements OnInit {
     setTimeout(() => {
       this.mapService.setMapType(0);
       this.placementData.map(e=>{return e.title = e.truckRegno;});
+      console.log("Testing-data:",this.placementData);
       this.markers = this.mapService.createMarkers(this.placementData);
     }, 1000);
     this.mapService.createMarkers(this.headingData);

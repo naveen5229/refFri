@@ -711,7 +711,6 @@ export class TmgTripComponent implements OnInit {
     this.getDetials('Tmgreport/GetTripLoadindTime', params)
   }
   chart2Clicked(event) {
-
     let Date = this.tripOnwardKmd[event[0]._index]._id;
     console.log('event[0]._index 2', event[0]._index, event[0], Date);
     this.passingIdChart2Data(Date);

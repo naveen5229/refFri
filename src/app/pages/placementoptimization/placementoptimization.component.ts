@@ -8,6 +8,7 @@ import { MapService } from '../../services/map.service';
 import { AccountService } from '../../services/account.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PlacementoptimizeComponent } from '../../modals/placementoptimize/placementoptimize.component';
+import { PlacementOptimisationOnMapComponent } from '../../modals/placement-optimisation-on-map/placement-optimisation-on-map.component';
 
 @Component({
   selector: 'placementoptimization',
@@ -110,6 +111,12 @@ export class PlacementoptimizationComponent implements OnInit {
    console.log(event,latitude,longitude,name);
    this.common.params = { data: event,latitude:latitude,longitude:longitude,regno:name }
     const activeModal = this.modalService.open(PlacementoptimizeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+ }
+
+ showAllData(data){
+   console.log("All Data:",data);
+   this.common.params = { data:data }
+    const activeModal = this.modalService.open(PlacementOptimisationOnMapComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
  }
 
 
