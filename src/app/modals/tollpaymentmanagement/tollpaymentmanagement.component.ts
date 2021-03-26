@@ -56,7 +56,7 @@ export class TollpaymentmanagementComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map", 10);
+    this.mapService.mapIntialize("tollpaymentmanagement-map", 10);
     this.mapService.setMapType(0);
   }
 

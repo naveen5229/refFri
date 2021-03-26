@@ -62,7 +62,7 @@ export class PlacementoptimizeComponent implements OnInit {
 
 
   ngAfterViewInit() {
-    this.mapService.mapIntialize("placement-map");
+    this.mapService.mapIntialize("placementoptimize-map");
     this.mapService.clearAll();
     setTimeout(() => {
       this.mapService.setMapType(0);

@@ -29,7 +29,7 @@ export class RouteMapperComponent implements OnInit {
 ngOnInit() {
   }
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map");
+    this.mapService.mapIntialize("route-mapper-map");
     this.mapService.setMapType(0);
   }
 

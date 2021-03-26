@@ -40,7 +40,7 @@ ngOnInit() {
   }
 
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map");
+    this.mapService.mapIntialize("pump-station-area-map");
     this.mapService.autoSuggestion("siteLoc", (place, lat, lng, placeF) => {
       this.commonService.loading++;
       this.mapService.zoomAt({ lat: lat, lng: lng }, 10);
