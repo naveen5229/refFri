@@ -29,7 +29,7 @@ export class UlheatmapComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map");
+    this.mapService.mapIntialize("ulheatmap-map");
     this.mapService.setMapType(1);
   }
 

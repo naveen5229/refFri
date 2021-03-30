@@ -31,7 +31,7 @@ ngOnInit() {
   }
 
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map");
+    this.mapService.mapIntialize("vehicles-on-map-map");
     setTimeout(() => {
       this.mapService.createMarkers(this.vehicles);
       let markerIndex = 0;

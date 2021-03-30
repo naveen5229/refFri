@@ -128,7 +128,7 @@ export class TripKmRepairViewComponent implements OnInit {
   setAndShowData(type) {
     console.log('type', type, this.map.map);
     if (!this.map.map) {
-      this.map.mapIntialize("map");
+      this.map.mapIntialize("trip-km-repair-view-map");
       setTimeout(() => {
         this.map.addListerner(this.map.map, 'click', (e) => {
           console.log("latLng", e.latLng.lat() + ',' + e.latLng.lng());

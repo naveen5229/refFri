@@ -68,7 +68,7 @@ ngOnInit() {
   }
 
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map");
+    this.mapService.mapIntialize("buffer-polyline-map");
     this.mapService.zoomAt({ lat: 26.928826486644528, lng: 75.74931625366207 }, 14);
     this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => this.mapService.zoomAt({ lat: lat, lng: lng }, 14));
     this.mapService.createPolygonPath();

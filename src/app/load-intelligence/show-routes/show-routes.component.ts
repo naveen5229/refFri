@@ -66,7 +66,7 @@ ngOnInit() {
   }
   ngAfterViewInit() {
     setTimeout(() => {
-      this.mapService.mapIntialize('map', this.requestData.zoom, this.requestData.lat, this.requestData.long);
+      this.mapService.mapIntialize('show-routes-map', this.requestData.zoom, this.requestData.lat, this.requestData.long);
     }, 200);
 
   }

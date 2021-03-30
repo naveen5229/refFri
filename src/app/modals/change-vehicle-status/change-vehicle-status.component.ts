@@ -113,7 +113,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
     };
 
-    this.map = this.ms.mapIntialize('map1', 8, lat, lng, true, true, mapOptions);
+    this.map = this.ms.mapIntialize('change-vehicle-status-map1', 8, lat, lng, true, true, mapOptions);
   }
 
   clearMap() {
