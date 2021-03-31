@@ -42,7 +42,7 @@ export class NightDriveReportComponent implements OnInit {
       this.startDate=event;
   }
   selectendDate(event) {
-    this.startDate=event;
+    this.endDate=event;
   }
   getData() {
     this.traficdata = [];
@@ -58,9 +58,11 @@ export class NightDriveReportComponent implements OnInit {
     };
     let startDate = this.common.dateFormatter(this.startDate);
     let endDate = this.common.dateFormatter(this.endDate);
-    let foid=512;
+    let sttime = this.common.changeDateformat(this.startTime,'HH:mm:ss');
+    let entime = this.common.changeDateformat(this.endTime,'HH:mm:ss');
+    let foid=this.user._customer.foid;
     ++this.common.loading;
-    const subscription = this.api.getJavaPortDost(8082, 'report/' + foid+'/'+startDate+'/'+endDate+'/'+this.startTime+'/'+this.endTime)
+    const subscription = this.api.getJavaPortDost(8082, 'report/' + foid+'/'+startDate+'/'+endDate+'/'+sttime+'/'+entime)
     .subscribe((res: any) => {
         --this.common.loading;
         console.log('Res:',res,res['reports']);
