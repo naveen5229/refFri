@@ -278,4 +278,29 @@ ngOnInit() {
       console.log('Exception', e);
     }
   }
+  chart2Clicked(event) {
+
+    let Date = this.trafficLiveStatus[event[0]._index].split_part;
+    console.log('event[0]._index 2', event[0]._index, event[0], Date);
+    this.passingIdChart2Data(Date);
+  }
+  passingIdChart2Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      stepno:1,
+      xid: parseDate
+    };
+    // this.api.post('Tmgreport/GetCallsDrivar', params)
+    //   .subscribe(res => {
+    //     console.log('callsDrivar 111 :', res);
+
+    //     this.hideLoader(id);;
+    //   }, err => {
+    //     this.hideLoader(id);;
+    //     console.log('Err:', err);
+    //   });
+    this.getDetials('Tmgreport/GetTrafficLiveStatus', params)
+  }
 }
