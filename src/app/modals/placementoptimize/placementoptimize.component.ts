@@ -31,8 +31,8 @@ export class PlacementoptimizeComponent implements OnInit {
     public user: UserService,
     private activeModal: NgbActiveModal
   ) {
-    this.placementData = this.common.params.data;
-    this.headingData=[{
+      this.placementData = this.common.params.data;
+      this.headingData=[{
       latitude:this.common.params.latitude,
       longitude:this.common.params.longitude,
       title:this.common.params.regno,
@@ -50,15 +50,7 @@ export class PlacementoptimizeComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-  handleMarkerCluster() {
-    console.log('this.selected.markerCluster', this.selected.markerCluster);
-    if (this.selected.markerCluster) {
-      this.showclustering();
-    } else {
-      this.clearCluster();
-      this.markers= this.mapService.createMarkers(this.placementData);
-    }
-  }
+  
 
 
   ngAfterViewInit() {
@@ -66,11 +58,30 @@ export class PlacementoptimizeComponent implements OnInit {
     this.mapService.clearAll();
     setTimeout(() => {
       this.mapService.setMapType(0);
-      this.placementData.map(e=>{return e.title = e.truckRegno;});
-      console.log("Testing-data:",this.placementData);
-      this.markers = this.mapService.createMarkers(this.placementData);
+      // this.placementData.map(e=>{return e.title = e.truckRegno;});
+      // console.log("Testing-data:",this.placementData);
+      this.markers=this.mapService.createMarkers(this.placementData).map((siteMarker,i) =>{
+        const siteDetails=this.placementData[i];
+        siteMarker.setTitle(siteDetails.truckRegno);
+        return {marker:siteMarker};
+      });
     }, 1000);
     this.mapService.createMarkers(this.headingData);
+  }
+
+  handleMarkerCluster() {
+    console.log('this.selected.markerCluster', this.selected.markerCluster);
+    if (this.selected.markerCluster) {
+      this.showclustering();
+    } else {
+      this.clearCluster();
+      this.markers= this.mapService.createMarkers(this.placementData)
+      // .map((siteMarker,i) =>{
+      //   const siteDetails=this.placementData[i];
+      //   siteMarker.setTitle(siteDetails.truckRegno);
+      //   return {marker:siteMarker};
+      // });
+    }
   }
 
   showclustering() {
