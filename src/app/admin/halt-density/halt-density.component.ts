@@ -43,7 +43,7 @@ ngOnInit() {
     console.log("refresh");
   }
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map");
+    this.mapService.mapIntialize("halt-density-map");
     this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => this.mapService.zoomAt({ lat: lat, lng: lng }, this.minZoom));
     this.mapService.map.setOptions({ draggableCursor: 'crosshair' });
     this.getTypeIds();

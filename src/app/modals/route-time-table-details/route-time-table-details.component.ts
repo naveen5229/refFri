@@ -100,15 +100,33 @@ export class RouteTimeTableDetailsComponent implements OnInit {
   getrouteTimeDetails() {
     this.common.loading++;
     this.api.get('ViaRoutes/viewvia?routeId=' + this.routeId + '&routeTimeTableId=' + this.routeTime)
-
       .subscribe(res => {
         this.common.loading--;
-        this.routesData = res['data'].map(route => {
+        let hrs = 0;
+        this.routesData = res['data'].map((route, index) => {
+          console.log('Routes', JSON.parse(JSON.stringify(route)));
           route.Arrival_Day = route.Arrival_Day || 1;
+          try {
+            route.hrsHaltTime = Number(route.Halt_Time.split(':')[0]) || 0;
+          } catch (e) {
+            route.hrsHaltTime = 0;
+          }
+          try {
+            let time = Number(route.Arrival_Time.split(':')[0]) || 0;
+            if (index) {
+              time += (route.Arrival_Day - 1) * 24;
+              time -= hrs;
+            }
+            route.hrsArivalTime = time;
+            hrs += route.hrsHaltTime;
+            hrs += time;
+          } catch (e) {
+            route.hrsArivalTime = 0;
+          }
+
+
           route.Arrival_Time = new Date(this.common.dateFormatter(new Date(), 'YYYYMMDD', false) + ' ' + (route.Arrival_Time || '00:00:00'));
           route.Halt_Time = new Date(this.common.dateFormatter(new Date(), 'YYYYMMDD', false) + ' ' + (route.Halt_Time || '00:00:00'));
-          route.hrsArivalTime = route.hrsArivalTime || 1;
-          route.hrsHaltTime = route.hrsHaltTime || 1;
           return route;
         });
         console.log('routesData', this.routesData);
@@ -160,7 +178,6 @@ export class RouteTimeTableDetailsComponent implements OnInit {
           arrHrs += route.hrsArivalTime + hltTime;
         }
         hltTime = route.hrsHaltTime;
-
         if (arrHrs / 24 > 1) {
           day += Math.trunc(arrHrs / 24);
           arrHrs = arrHrs % 24;
@@ -172,8 +189,6 @@ export class RouteTimeTableDetailsComponent implements OnInit {
       });
     }
     console.log('routesData', this.routesData);
-
-
     if (isError) {
       this.common.showError('Please enter valid values:)');
       return;
@@ -184,8 +199,6 @@ export class RouteTimeTableDetailsComponent implements OnInit {
       routeTimeTableId: this.routeTime
     }
     console.log('params:', params);
-    return;
-
     this.common.loading++;
     this.api.post('ViaRoutes/SaveTimeTableDetails', params)
       .subscribe(res => {

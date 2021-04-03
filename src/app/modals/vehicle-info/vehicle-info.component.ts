@@ -43,7 +43,7 @@ ngOnInit() {
   }
 
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map");
+    this.mapService.mapIntialize("vehicle-info-map");
     this.mapService.setMapType(0);
     this.mapService.map.setOptions({ draggableCursor: 'cursor' });
   }

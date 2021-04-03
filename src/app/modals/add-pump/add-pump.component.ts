@@ -65,7 +65,7 @@ ngOnInit() {
 
 
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map");
+    this.mapService.mapIntialize("add-pump-map");
     setTimeout(() => {
       this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => {
         this.mapService.zoomAt({ lat: lat, lng: lng });

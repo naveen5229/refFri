@@ -67,7 +67,7 @@ export class BeehiveComponent implements OnInit {
 ngOnInit() {
   }
   ngAfterViewInit() {
-    this.mapService.mapIntialize();
+    this.mapService.mapIntialize("beehive-map");
   }
   closeModal() {
     this.activeModal.close();

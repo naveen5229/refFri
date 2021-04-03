@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { CommonService } from './common.service';
 declare let google: any;
 declare let MarkerClusterer: any;
@@ -7,7 +8,7 @@ declare let MarkerClusterer: any;
   providedIn: 'root'
 })
 export class MapService {
-
+  events: Subject<any> = new Subject();
   poly = null;
   test = null;
   elevator = null;
@@ -30,7 +31,8 @@ export class MapService {
   lineSymbolBack = {
     path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW
   };
-
+  customMarkers: any[] = [];
+  infoWindows: any[] = [];
   polygonPath = null;
   polygonPathVertices = [];
   isDrawAllow = false;
@@ -157,45 +159,63 @@ export class MapService {
     return marker;
   }
 
-  mapIntialize(div = "map", zoom = 18, lat = 25, long = 75, showUI = false) {
-    if (this.isMapLoaded) {
-      // document.getElementById(div).innerHTML="";
-      // document.getElementById(div).append(this.mapLoadDiv.innerHTML);
-      // this.setMapType(0);
-      // return;
-    }
+  mapIntialize(div = "map", zoom = 18, lat = 25, long = 75, showUI = false, usePrevious = false, options?: any) {
+    let latLng = new google.maps.LatLng(lat, long);
+    this.clearAll();
     this.mapDiv = document.getElementById(div);
-    let latlng = new google.maps.LatLng(lat, long);
-    let opt =
-    {
-      center: latlng,
-      zoom: zoom,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      scaleControl: true,
-      disableDefaultUI: showUI,
-      styles: [{
-        featureType: 'all',
-        elementType: 'labels',
-        stylers: [{
-          visibility: 'on'
+    if (this.mapLoadDiv) {
+      this.map.panTo(latLng);
+      if (options) {
+        this.map.set(options);
+      }
+      this.mapDiv.appendChild(this.mapLoadDiv);
+      console.log('JRx: map not re-initialized!');
+    } else {
+      let opt = {
+        center: latLng,
+        zoom: zoom,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        scaleControl: true,
+        disableDefaultUI: showUI,
+        styles: [{
+          featureType: 'all',
+          elementType: 'labels',
+          stylers: [{
+            visibility: 'on'
+          }]
         }]
-      }]
-    };
-    //let ("#"+mapId).heigth(height);
-    this.map = new google.maps.Map(this.mapDiv, opt);
-    this.mapLoadDiv = this.map.getDiv();
-    this.bounds = new google.maps.LatLngBounds();
-    this.isMapLoaded = true;
+      };
+
+      opt = Object.assign({}, opt, (options || {}));
+      console.log('------------------opt', opt);
+      const mapElement = document.createElement('div');
+      mapElement.classList.add('google-map');
+
+      this.map = new google.maps.Map(mapElement, opt);
+      this.mapLoadDiv = this.map.getDiv();
+      this.mapDiv.appendChild(this.mapLoadDiv);
+      this.bounds = new google.maps.LatLngBounds();
+      this.isMapLoaded = true;
+    }
+    this.events.next({ type: 'initialize' });
+    return this.map;
   }
 
   createLatLng(lat, lng) {
     return new google.maps.LatLng(lat, lng);
   }
   createInfoWindow() {
-    return new google.maps.InfoWindow();
+    let infoWindow = new google.maps.InfoWindow();
+    this.infoWindows.push(infoWindow);
+    return infoWindow;
   }
 
   createPolygon(latLngs, options?) {// strokeColor = '#', fillColor = '#') {
+    if (this.polygon) {
+      this.polygon.setMap(null);
+      this.polygon = null;
+    }
+
     const defaultOptions = {
       paths: latLngs,
       strokeColor: '#228B22',
@@ -393,7 +413,7 @@ export class MapService {
       infoWindows.push(infoWindow);
       infoWindow.opened = false;
       google.maps.event.addListener(this.cluster, 'clusterclick', (cluster) => {
-        
+
         let infoStr = '';
         cluster.markers_.map(mrk => {
           infoStr += mrk.title + ', '
@@ -450,12 +470,18 @@ export class MapService {
   }
 
   clearAll(reset = true, boundsReset = true, resetParams = { marker: true, polygons: true, polypath: true }) {
-
     resetParams.marker && this.resetMarker(reset, boundsReset);
     resetParams.polygons && this.resetPolygons();
     resetParams.polypath && this.resetPolyPath();
     this.options ? this.options.polypaths && this.resetPolyPaths() : '';
     this.options ? this.options.clearHeat && this.resetHeatMap() : '';
+    this.customMarkers.map(marker => marker.setMap(null));
+    this.customMarkers = [];
+    try {
+      this.infoWindows.map(infoWindow => infoWindow.close());
+      this.infoWindows.map(infoWindow => infoWindow.setMap(null));
+      this.infoWindows = [];
+    } catch (e) { console.log('Exception in clearing info windows : ', e) }
   }
   resetHeatMap() {
     try {
@@ -472,7 +498,8 @@ export class MapService {
     try {
       let actualMarker = markers || this.markers;
       for (let i = 0; i < actualMarker.length; i++) {
-        actualMarker[i].setMap(null);
+        if (actualMarker[i])
+          actualMarker[i].setMap(null);
       }
       if (reset)
         actualMarker = [];
@@ -865,6 +892,34 @@ export class MapService {
     });
     polyline.setMap(this.map);
     return polyline;
+  }
+
+  createMarker(latlng, options?: any) {
+    const defaultOptions = {
+    }
+    const marker = new google.maps.Marker({
+      position: latlng,
+      ...(options || defaultOptions)
+    });
+
+    marker.setMap(this.map);
+    this.customMarkers.push(marker);
+    return marker;
+  }
+
+  clearEvents() {
+    try {
+      google.maps.event.clearListeners(this.map, 'click');
+      google.maps.event.clearListeners(this.map, 'place_changed');
+    } catch (e) {
+    }
+  }
+
+  clearMarkerEvents(marker) {
+    try {
+      google.maps.event.clearListeners(marker, 'click');
+    } catch (e) {
+    }
   }
 
 }

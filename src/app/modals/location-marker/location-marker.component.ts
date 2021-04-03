@@ -5,6 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 declare var google: any;
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+import { MapService } from '../../services/map.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -19,12 +20,12 @@ export class LocationMarkerComponent implements OnInit {
   location = {
     lat: 26.9124336,
     lng: 75.78727090000007,
-    angle:0,
+    angle: 0,
     name: '',
     time: '',
   };
   rotate = null;
-  fence=null;
+  fence = null;
   polygon = null;
   bounds = new google.maps.LatLngBounds();
   marker: any;
@@ -32,22 +33,26 @@ export class LocationMarkerComponent implements OnInit {
 
   constructor(
     public common: CommonService,
-    private activeModal: NgbActiveModal,
+    private activeModal: NgbActiveModal, private ms: MapService,
     private zone: NgZone) {
     this.title = this.common.params.title;
-  }
-
-  ngOnDestroy(){}
-ngOnInit() {
-  }
-
-
-  ngAfterViewInit() {
-    console.log('ionViewDidLoad MarkerLocationPage');
+    this.rotate = this.location.angle ? 'rotate(' + this.location.angle + 'deg)' : null;
     this.location = this.common.params['location'];
     this.fence = this.common.params['fence'];
+  }
+
+  ngOnDestroy() {
+    try {
+      this.ms.clearMarkerEvents(this.marker);
+      this.marker = null;
+    } catch (e) { console.log('Exception:', e) }
+    this.ms.events.next({ type: 'closed' });
+  }
+  ngOnInit() {
+  }
+
+  ngAfterViewInit() {
     this.loadMap(this.location.lat, this.location.lng);
-    this.rotate = this.location.angle ? 'rotate(' + this.location.angle + 'deg)': null;
   }
 
   setBounds(latLng, reset = false) {
@@ -58,51 +63,40 @@ ngOnInit() {
 
   createLatLng(lat, lng) {
     return new google.maps.LatLng(lat, lng);
-  } 
+  }
 
   loadMap(lat = 26.9124336, lng = 75.78727090000007) {
-    let mapOptions = {
-      center: new google.maps.LatLng(lat, lng),
-      zoom: 14,
-      disableDefaultUI: true,
-      mapTypeControl: false,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-    };
-    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+    this.map = this.ms.mapIntialize('location-marker-map', 14, lat, lng, false, true, { mapTypeControl: false });
     this.createMarker(lat, lng);
-    if(this.fence){
+    if (this.fence) {
       this.createPolyGon();
     }
   }
 
-  createPolyGon(){
-      const defaultOptions = {
-        paths: this.fence,
-        strokeColor: '#228B22',
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        clickable: false,
-        fillColor: '#ADFF2F',
-        fillOpacity: 0.35
-      };
-      this.polygon = new google.maps.Polygon(defaultOptions);
-      this.polygon.setMap(this.map);
-      this.fence.forEach(element => {
-      this.setBounds(this.createLatLng(element.lat,element.lng));
-        
-      });
+  createPolyGon() {
+    const defaultOptions = {
+      strokeColor: '#228B22',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      clickable: false,
+      fillColor: '#ADFF2F',
+      fillOpacity: 0.35
+    };
+    this.polygon = this.ms.createPolygon(this.fence, defaultOptions);
+    this.fence.forEach(element => {
+      this.setBounds(this.createLatLng(element.lat, element.lng));
+    });
   }
 
   createMarker(lat = 26.9124336, lng = 75.78727090000007) {
-
-    this.marker = new google.maps.Marker({
-      map: this.map,
+    const latLng = new google.maps.LatLng(lat, lng);
+    const options = {
       animation: google.maps.Animation.DROP,
-      position: new google.maps.LatLng(lat, lng),
       draggable: false
-    });
+    }
+    this.marker = this.ms.createMarker(latLng, options);
     let displayText = '';
-    let infoWindow = this.createInfoWindow();
+    let infoWindow = this.ms.createInfoWindow();
 
     displayText = 'lat' + " : " + this.location.lat + " " + 'long' + " : " + this.location.lng;
     google.maps.event.addListener(this.marker, 'click', function (evt) {
@@ -120,10 +114,6 @@ ngOnInit() {
     } else {
       this.map.setMapTypeId('roadmap')
     }
-  }
-
-  createInfoWindow() {
-    return new google.maps.InfoWindow();
   }
 
   closeModal() {
