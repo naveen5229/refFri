@@ -11,12 +11,12 @@
             
               <div class="col-2">
                 <label>Start Date</label>
-                <uj-date-time-picker (onChanged)="selectstartDate($event);" [dateTimeValue]="startDate">
+                <uj-date-time-picker (onChanged)="selectstartDate($event);" [dateTimeValue]="startDate" [isTime]="false">
                 </uj-date-time-picker>
               </div>
               <div class="col-2">
                 <label>End Date</label>
-                <uj-date-time-picker (onChanged)="selectendDate($event);" [dateTimeValue]="endDate">
+                <uj-date-time-picker (onChanged)="selectendDate($event);" [dateTimeValue]="endDate" [isTime]="false">
                 </uj-date-time-picker>
               </div>
               <div class="col-2">

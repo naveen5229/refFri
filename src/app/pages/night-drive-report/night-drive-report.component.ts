@@ -56,8 +56,8 @@ export class NightDriveReportComponent implements OnInit {
         pagination: true
       }
     };
-    let startDate = this.common.dateFormatter(this.startDate);
-    let endDate = this.common.dateFormatter(this.endDate);
+    let startDate = this.common.changeDateformat(this.startDate,'yyyy-MM-dd');
+    let endDate = this.common.changeDateformat(this.endDate,'yyyy-MM-dd');
     let sttime = this.common.changeDateformat(this.startTime,'HH:mm:ss');
     let entime = this.common.changeDateformat(this.endTime,'HH:mm:ss');
     let foid=this.user._customer.foid;
