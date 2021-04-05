@@ -215,7 +215,7 @@ ngOnInit() {
           {
             label: 'Zones',
             data: dt,
-            backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#39CCCC", "#01FF70", "#8B008B", "#FFD700", "#D2B48C"]
+            backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#39CCCC", "#01FF70", "#8B008B", "#FFD700", "#D2B48C","#A569BD","#F0B27A","#CD6155","#2E86C1","#95A5A6","#45B39D"]
           },
         ]
       };
