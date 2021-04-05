@@ -103,6 +103,7 @@ import { UlheatmapComponent } from './ulheatmap/ulheatmap.component';
 import { TicketsReportComponent } from './tickets-report/tickets-report.component';
 import { TripmasterreportComponent } from './tripmasterreport/tripmasterreport.component';
 
+
 const PAGES_COMPONENTS = [
   PagesComponent
 

@@ -30,7 +30,7 @@ export class VerifyHaltsComponent implements OnInit {
 
   ngOnInit() { }
 
-  getVerifyHaltsFilterData() {
+  XgetVerifyHaltsFilterData() {
     let params = {
       vehicleId: this.filterVar.vehicleId,
       startTime: this.common.dateFormatter(this.filterVar.startTime),
@@ -43,6 +43,29 @@ export class VerifyHaltsComponent implements OnInit {
         this.common.loading--;
         this.haltExisting = res['haltExisting'];
         this.haltNew = res['haltNew'];
+        console.log('halfExisting data :', this.haltExisting);
+        console.log('haltNew data :', this.haltNew);
+      },
+        err => {
+          console.error(err);
+          this.common.showError();
+        });
+  }
+
+  getVerifyHaltsFilterData() {
+    const vid = this.filterVar.vehicleId;
+    const startDate = this.common.dateFormatter(this.filterVar.startTime);
+    const endDate = this.common.dateFormatter(this.filterVar.endTime);
+    const params = `vehId=${vid}&receivedStartTime=${startDate}&receivedEndTime=${endDate}`;
+
+    console.log("params", params);
+    this.common.loading++;
+    this.api.getJavaPortDost(8081, 'halts?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Data', res);
+        this.haltExisting = res['existingHalts'];
+        this.haltNew = res['generatedHalts'];
         console.log('halfExisting data :', this.haltExisting);
         console.log('haltNew data :', this.haltNew);
       },

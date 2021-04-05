@@ -51,7 +51,7 @@ ngOnInit() {
   }
 
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map");
+    this.mapService.mapIntialize("site-fencing-map");
     this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => {
       this.mapService.zoomAt({ lat: lat, lng: lng }, 13);
       this.clearAll();

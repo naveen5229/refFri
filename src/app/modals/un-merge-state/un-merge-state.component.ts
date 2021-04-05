@@ -52,7 +52,7 @@ ngOnInit() {
   }
 
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map");
+    this.mapService.mapIntialize("un-merge-state-map");
     this.mapService.setMapType(0);
     this.mapService.zoomMap(5);
     this.mapService.map.setOptions({ draggableCursor: 'cursor' });

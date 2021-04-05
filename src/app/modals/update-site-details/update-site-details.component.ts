@@ -74,7 +74,7 @@ ngOnInit() {
     this.activeModal.close();
   }
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map");
+    this.mapService.mapIntialize("update-site-details-map");
     setTimeout(() => {
       this.mapService.autoSuggestion("siteLoc", (place, lat, lng) => this.siteLoc = place);
       this.mapService.createMarkers([{ lat: this.common.params.site.lat, long: this.common.params.site.lng, type: 'site' }]);

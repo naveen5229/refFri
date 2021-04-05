@@ -56,7 +56,7 @@ ngOnInit() {
 
   ngAfterViewInit() {
     setTimeout(() => {
-      this.mapService.mapIntialize('map', this.requestData.zoom, this.requestData.lat, this.requestData.long);
+      this.mapService.mapIntialize('toll-recorrection-map', this.requestData.zoom, this.requestData.lat, this.requestData.long);
      
 
     }, 200);
