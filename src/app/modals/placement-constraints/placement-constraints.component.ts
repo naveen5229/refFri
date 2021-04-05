@@ -17,18 +17,23 @@ export class PlacementConstraintsComponent implements OnInit {
   select=0;
   sltVehicle=0;
   activeTab='plant';
+  plantIdForSave=null;
+  vehicleIdForSave=null;
 
-  items = [
+  vehicleIdRegnoPairs = [
     {
       vehicleId: 0,
       regno: null,
     }
   ];
 
-  vehicleItems=[
+ 
+    
+
+  siteIdNamePairs=[
     {
-      plantId:0,
-      name:null
+      siteId:0,
+      siteName:null
     }
 ];
 
@@ -43,7 +48,7 @@ export class PlacementConstraintsComponent implements OnInit {
 
   refreshPlant(){
     this.plantStatus=false;
-    this.items = [
+    this.vehicleIdRegnoPairs = [
       {
         vehicleId: 0,
         regno: null,
@@ -53,10 +58,10 @@ export class PlacementConstraintsComponent implements OnInit {
 
   refreshVehicle(){
     this.vehicleStatus=false;
-    this.vehicleItems=[
+    this.siteIdNamePairs=[
       {
-        plantId:0,
-        name:null
+        siteId:0,
+        siteName:null
       }
   ];
   }
@@ -66,50 +71,132 @@ export class PlacementConstraintsComponent implements OnInit {
   }
 
   selectplnt(event,index){
+    this.plantIdForSave=event['id'];
     this.plantStatus=true;
+    this.getPreviousDataUsingPlant(event['id']);
     console.log("Plant:",event); 
   }
 
+  getPreviousDataUsingPlant(pltId){
+    let siteId=pltId;
+    let constraintType=this.select
+    this.common.loading++;
+    this.api.getJavaPortDost(8084, 'getPreviousConstraintDataUsingPlant/' + siteId+'/'+constraintType)
+      .subscribe(res => {
+        this.common.loading--;
+        if (res['vehicleIdRegnoPairs'] && res['vehicleIdRegnoPairs'].length > 0) {
+          this.vehicleIdRegnoPairs = res['vehicleIdRegnoPairs'];
+        } else {
+          console.log("test");
+          this.vehicleIdRegnoPairs = [];
+          this.vehicleIdRegnoPairs.push({
+              vehicleId: 0,
+              regno: null,
+          });
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
   getVehicleForPlant(event,index){
-    console.log("vehicle:",event);
-    this.items[index]['vehicleId'] = event['id'];
-    this.items[index]['regno'] = event['regno'];
+    this.vehicleIdRegnoPairs[index]['vehicleId'] = event['id'];
+    this.vehicleIdRegnoPairs[index]['regno'] = event['regno'];
   }
 
   addMoreItems(i) {
-    this.items.push({
+    this.vehicleIdRegnoPairs.push({
       vehicleId:0,
       regno:null
     });
-    console.log("items:",this.items)
+    console.log("items:",this.vehicleIdRegnoPairs)
   }
 
   savePlantData(){
-    console.log("data:",this.items);
+    console.log("jsonData:", JSON.stringify(this.vehicleIdRegnoPairs))
+    let params = {
+      constraintType: this.select,
+      siteId: this.plantIdForSave,
+      vehicleIdRegnoPairs:this.vehicleIdRegnoPairs
+    }
+    console.log("savePlantParam:", params);
+    this.common.loading++;
+    this.api.postJavaPortDost(8084, 'saveConstraintSite', params)
+      .subscribe(res => {
+        this.common.loading--;
+        if (res['success']) {
+          this.common.showToast(res['msg']);
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
 
 // Vehicle placement Constraints
 
 selectVehicle(event){
+this.vehicleIdForSave=event['id'];
 this.vehicleStatus=true;
+this.getPreviousDataUsingVehicle(event['id']);
+}
+
+getPreviousDataUsingVehicle(id){
+  let vehId=id;
+  let vehConstraints=this.sltVehicle;
+    this.common.loading++;
+    this.api.getJavaPortDost(8084, 'getPreviousConstraintDataUsingVehicle/' + vehId+'/'+vehConstraints)
+      .subscribe(res => {
+        this.common.loading--;
+        if (res['siteIdNamePairs'] && res['siteIdNamePairs'].length > 0) {
+          this.siteIdNamePairs = res['siteIdNamePairs'];
+        } else {
+          console.log("test");
+          this.siteIdNamePairs = []; 
+          this.siteIdNamePairs.push({
+              siteId: 0,
+              siteName: null,
+          });
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
 }
 
 selectPlantForVehicle(event,index){
   console.log("plantEvent:",event);
-  this.vehicleItems[index]['plantId']=event['id'];
-  this.vehicleItems[index]['name']=event['name'];
+  this.siteIdNamePairs[index]['plantId']=event['id'];
+  this.siteIdNamePairs[index]['name']=event['name'];
 }
 
 addItemsForVehicle(){
-  this.vehicleItems.push({
-    plantId:0,
-    name:null
+  this.siteIdNamePairs.push({
+    siteId:0,
+    siteName:null
   });
 }
 
 saveVehicleData(){
-  console.log("items:",this.vehicleItems)
+  console.log("jsonData:", JSON.stringify(this.vehicleIdRegnoPairs))
+    let params = {
+      constraintType: this.sltVehicle,
+      vehicleId: this.vehicleIdForSave,
+      siteIdNamePairs:this.siteIdNamePairs
+    }
+    console.log("saveVehicleParams:", params);
+    this.common.loading++;
+    this.api.postJavaPortDost(8084, 'saveConstraintVehicle', params)
+      .subscribe(res => {
+        this.common.loading--;
+        if (res['success']) {
+          this.common.showToast(res['msg']);
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
 }
-
 
 }
