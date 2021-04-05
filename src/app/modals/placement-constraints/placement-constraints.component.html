@@ -31,8 +31,8 @@
                     </auto-suggestion>
             </div>
             <div class="col-sm-4 mt-4">
-                <label><input name="time" [(ngModel)]="select" type="radio" [value]="0">Inclusive</label>
-                <label><input name="time" class="ml-3" type="radio" [(ngModel)]="select" [value]="1">Exclusive</label>
+                <label><input name="time12" [(ngModel)]="select" type="radio" [value]="0">Inclusive</label>
+                <label><input name="time12" class="ml-3" type="radio" [(ngModel)]="select" [value]="1">Exclusive</label>
             </div>
             </div>
             <div class="col-sm-12 mt-3" *ngIf="plantStatus">
@@ -46,14 +46,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of items;let j= index">
+                        <tr *ngFor="let item of vehicleIdRegnoPairs;let j= index">
                             <td>{{j+1}}</td>
                             <td><auto-suggestion (onSelected)="getVehicleForPlant($event,j)"
                                 url="Suggestion/getFoVehicleList"
-                                display="regno" placeholder="Vehicle" [preSelected]="null"></auto-suggestion></td>
+                                display="regno" placeholder="Vehicle" [preSelected]="item['vehicleId']>0? {'regno':item.regno} : {'regno':null}"></auto-suggestion></td>
                                 <td>
-                                <span><i class="fa fa-plus add" (click)="addMoreItems(i)" *ngIf="j == items.length-1" style="padding: 1px; color: green;"></i>
-                                <i class="fa fa-minus minus" (click)="items.splice(j,1)" *ngIf="j !== 0" style="padding: 1px; color: red;"></i></span>
+                                <span><i class="fa fa-plus add" (click)="addMoreItems(i)" *ngIf="j == vehicleIdRegnoPairs.length-1" style="padding: 1px; color: green;"></i>
+                                <i class="fa fa-minus minus" (click)="vehicleIdRegnoPairs.splice(j,1)" *ngIf="j !== 0" style="padding: 1px; color: red;"></i></span>
                                 </td>
                         </tr>
                         
@@ -76,8 +76,8 @@
                     display="regno" placeholder="Vehicle" [preSelected]="null"></auto-suggestion>
                 </div>
                 <div class="col-sm-4 mt-4">
-                    <label><input name="time" [(ngModel)]="sltVehicle" type="radio" [value]="0">Inclusive</label>
-                    <label><input name="time" class="ml-3" type="radio" [(ngModel)]="sltVehicle" [value]="1">Exclusive</label>
+                    <label><input name="time1" [(ngModel)]="sltVehicle" type="radio" [value]="0">Inclusive</label>
+                    <label><input name="time1" class="ml-3" type="radio" [(ngModel)]="sltVehicle" [value]="1">Exclusive</label>
                 </div>
                 </div>
                 <div class="col-sm-12 mt-3" *ngIf="vehicleStatus">
@@ -91,14 +91,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of vehicleItems;let j= index">
+                            <tr *ngFor="let item of siteIdNamePairs;let j= index">
                                 <td>{{j+1}}</td>
                                 <td><auto-suggestion (onSelected)="selectPlantForVehicle($event,j);" url="suggestion/getSites" display="name"
-                                    placeholder="Plant">
+                                    placeholder="Plant" [preSelected]="item['siteId']>0? {'name':item.siteName} : {'name':null}">
                                     </auto-suggestion></td>
                                     <td>
-                                    <span><i class="fa fa-plus add" (click)="addItemsForVehicle(i)" *ngIf="j == vehicleItems.length-1" style="padding: 1px; color: green;"></i>
-                                    <i class="fa fa-minus minus" (click)="vehicleItems.splice(j,1)" *ngIf="j !== 0" style="padding: 1px; color: red;"></i></span>
+                                    <span><i class="fa fa-plus add" (click)="addItemsForVehicle(i)" *ngIf="j == siteIdNamePairs.length-1" style="padding: 1px; color: green;"></i>
+                                    <i class="fa fa-minus minus" (click)="siteIdNamePairs.splice(j,1)" *ngIf="j !== 0" style="padding: 1px; color: red;"></i></span>
                                     </td>
                             </tr>
                             
