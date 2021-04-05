@@ -112,6 +112,8 @@ import { TicketsReportComponent } from './tickets-report/tickets-report.componen
 import { TripmasterreportComponent } from './tripmasterreport/tripmasterreport.component';
 import { PlacementoptimizationComponent } from './placementoptimization/placementoptimization.component';
 import { NightDriveReportComponent } from './night-drive-report/night-drive-report.component';
+import { TriptatreportComponent } from './triptatreport/triptatreport.component';
+import { LeadvalidationreportComponent } from './leadvalidationreport/leadvalidationreport.component';
 
 
 const routes: Routes = [{
@@ -693,6 +695,16 @@ const routes: Routes = [{
   {
     path: 'night-drive-report',
     component: NightDriveReportComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'triptatreport',
+    component: TriptatreportComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'leadvalidationreport',
+    component: LeadvalidationreportComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
   ],
