@@ -177,7 +177,8 @@ ngOnInit() {
     });
     activeModal.result.then(
       data => console.log("data", data)
-      // this.reloadData()
+      //  this.reloadData()
+      // this.getCallSummary();
     );
   }
 
