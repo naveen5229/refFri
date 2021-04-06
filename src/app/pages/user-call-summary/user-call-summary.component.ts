@@ -176,9 +176,9 @@ ngOnInit() {
       container: "nb-layout",
     });
     activeModal.result.then(
-      // data => console.log("data", data)
+      data => console.log("data", data)
       //  this.reloadData()
-      this.getCallSummary();
+      // this.getCallSummary();
     );
   }
 
