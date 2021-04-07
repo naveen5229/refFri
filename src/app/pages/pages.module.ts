@@ -102,8 +102,15 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { UlheatmapComponent } from './ulheatmap/ulheatmap.component';
 import { TicketsReportComponent } from './tickets-report/tickets-report.component';
 import { TripmasterreportComponent } from './tripmasterreport/tripmasterreport.component';
+<<<<<<< HEAD
 import { TransporterViewComponent } from './transporter-view/transporter-view.component';
 import { CooperateViewComponent } from './cooperate-view/cooperate-view.component';
+import { TriptatreportComponent } from './triptatreport/triptatreport.component';
+import { LeadvalidationreportComponent } from './leadvalidationreport/leadvalidationreport.component';
+=======
+import { TriptatreportComponent } from './triptatreport/triptatreport.component';
+import { LeadvalidationreportComponent } from './leadvalidationreport/leadvalidationreport.component';
+>>>>>>> ddfd999680e3cc0f509a203fdb8ec800bd856e3a
 
 
 const PAGES_COMPONENTS = [
@@ -210,7 +217,9 @@ const PAGES_COMPONENTS = [
     TripmasterreportComponent,
     UlheatmapComponent,
     TransporterViewComponent,
-    CooperateViewComponent
+    CooperateViewComponent,
+    TriptatreportComponent,
+    LeadvalidationreportComponent
   ],
   exports: [
     FuelAverageAnalysisComponent,
