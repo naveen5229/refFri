@@ -175,6 +175,16 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/leadvalidationreport',
       },
       {
+        title: 'Trip Delivery Complinance Report',
+        icon: 'fa-home',
+        link: '/pages/tripdeliverycomplinancereport',
+      },
+      {
+        title: 'Trip Stoppage Report',
+        icon: 'fa-home',
+        link: '/pages/tripstoppage',
+      },
+      {
         title: 'Placement Optimization',
         icon: 'fa-home',
         link: '/pages/placementoptimization',

@@ -104,6 +104,8 @@ import { TicketsReportComponent } from './tickets-report/tickets-report.componen
 import { TripmasterreportComponent } from './tripmasterreport/tripmasterreport.component';
 import { TriptatreportComponent } from './triptatreport/triptatreport.component';
 import { LeadvalidationreportComponent } from './leadvalidationreport/leadvalidationreport.component';
+import { TripdeliverycomplinancereportComponent } from './tripdeliverycomplinancereport/tripdeliverycomplinancereport.component';
+import { TripstoppageComponent } from './tripstoppage/tripstoppage.component';
 
 
 const PAGES_COMPONENTS = [
@@ -210,7 +212,9 @@ const PAGES_COMPONENTS = [
     TripmasterreportComponent,
     UlheatmapComponent,
     TriptatreportComponent,
-    LeadvalidationreportComponent
+    LeadvalidationreportComponent,
+    TripdeliverycomplinancereportComponent,
+    TripstoppageComponent
   ],
   exports: [
     FuelAverageAnalysisComponent,

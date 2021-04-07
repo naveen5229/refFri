@@ -60,7 +60,7 @@ export class TriptatreportComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.tripData =  res['data']
-        if (res['code'] > 0) {
+        if (res['msg'] == 'success') {
           this.tripData =  res['data'];
 
          console.log('vehicleTrips', this.tripData);
@@ -72,6 +72,7 @@ export class TriptatreportComponent implements OnInit {
             if (key.charAt(0) != "_") {
               this.headings.push(key);
               let headerObj = { title: key, placeholder: this.formatTitle(key) };
+             
               this.table.data.headings[key] = headerObj;
             }
 
@@ -106,9 +107,8 @@ export class TriptatreportComponent implements OnInit {
     for (var i = 0; i < this.tripData.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
-
-     {
-          this.valobj[this.headings[j]] = { value: this.tripData[i][this.headings[j]], class: 'black', action: '' };
+      this.valobj[this.headings[j]] = { value: this.tripData[i][this.headings[j]], class: 'black', action: '',isHTML: true, };
+      console.log('valobj',this.valobj,this.tripData[i][this.headings[j]]);
       }
      // this.valobj['style'] = { background: this.tripData[i]._rowcolor };
       columns.push(this.valobj);
@@ -117,7 +117,7 @@ export class TriptatreportComponent implements OnInit {
     console.log('Columns:', columns);
     return columns;
   }
-}
+
 
   
 }
