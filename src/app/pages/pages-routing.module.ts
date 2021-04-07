@@ -112,6 +112,8 @@ import { TicketsReportComponent } from './tickets-report/tickets-report.componen
 import { TripmasterreportComponent } from './tripmasterreport/tripmasterreport.component';
 import { PlacementoptimizationComponent } from './placementoptimization/placementoptimization.component';
 import { NightDriveReportComponent } from './night-drive-report/night-drive-report.component';
+import { TransporterViewComponent } from './transporter-view/transporter-view.component';
+import { CooperateViewComponent } from './cooperate-view/cooperate-view.component';
 
 
 const routes: Routes = [{
@@ -693,6 +695,18 @@ const routes: Routes = [{
   {
     path: 'night-drive-report',
     component: NightDriveReportComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+
+  {
+    path: 'transporter-view',
+    component: TransporterViewComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+
+  {
+    path: 'cooperate-view',
+    component: CooperateViewComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
   ],

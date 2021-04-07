@@ -38,4 +38,7 @@ nb-card-header{
     float:right;
   }
 
- :host ::ng-deep table tr:last-child  span{ color: black!important; cursor: auto!important;}
+ :host ::ng-deep table tr:last-child  span{ 
+   color: black!important;
+   pointer-events: none!important;
+  }

@@ -183,6 +183,20 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/tmg-dashboard',
         home: true,
       },
+
+      {
+        title: 'Transporter TMG Dashboard',
+        // icon: 'fa-chart-pie',
+        link: '/pages/transporter-view',
+        home: true,
+      },
+
+      {
+        title: 'Cooperate TMG Dashboard',
+        // icon: 'fa-chart-pie',
+        link: '/pages/cooperate-view',
+        home: true,
+      },
       {
         title: 'TMG Alerts',
         icon: 'fa-home',
