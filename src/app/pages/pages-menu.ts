@@ -212,7 +212,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
       },
 
       {
-        title: 'Cooperate TMG Dashboard',
+        title: 'Corporate TMG Dashboard',
         // icon: 'fa-chart-pie',
         link: '/pages/cooperate-view',
         home: true,
