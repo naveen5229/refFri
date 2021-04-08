@@ -165,7 +165,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/tripmasterreport',
       },
       {
-        title: 'Trip Tat Report',
+        title: 'Trip TAT Report',
         icon: 'fa-home',
         link: '/pages/triptatreport',
       },
@@ -173,6 +173,16 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         title: 'Lead Validation Report',
         icon: 'fa-home',
         link: '/pages/leadvalidationreport',
+      },
+      {
+        title: 'Trip Delivery Complinance Report',
+        icon: 'fa-home',
+        link: '/pages/tripdeliverycomplinancereport',
+      },
+      {
+        title: 'Trip Stoppage Report',
+        icon: 'fa-home',
+        link: '/pages/tripstoppage',
       },
       {
         title: 'Placement Optimization',

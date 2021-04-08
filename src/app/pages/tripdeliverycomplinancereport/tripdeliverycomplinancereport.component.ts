@@ -5,11 +5,11 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'leadvalidationreport',
-  templateUrl: './leadvalidationreport.component.html',
-  styleUrls: ['./leadvalidationreport.component.scss']
+  selector: 'tripdeliverycomplinancereport',
+  templateUrl: './tripdeliverycomplinancereport.component.html',
+  styleUrls: ['./tripdeliverycomplinancereport.component.scss']
 })
-export class LeadvalidationreportComponent implements OnInit {
+export class TripdeliverycomplinancereportComponent implements OnInit {
   tripData = [];
   tripMasterReportData = [];
   selectedVehicle = {
@@ -56,7 +56,7 @@ export class LeadvalidationreportComponent implements OnInit {
     const params = "startTime=" + this.common.dateFormatter(this.startTime) +
       "&endTime=" + this.common.dateFormatter(this.endTime);
     this.common.loading++;
-    this.api.get('TripsOperation/getLeadValidationReport?' + params)
+    this.api.get('TripsOperation/getTripDeliveryComplinanceReport?' + params)
       .subscribe(res => {
         this.common.loading--;
         this.tripData =  res['data']
