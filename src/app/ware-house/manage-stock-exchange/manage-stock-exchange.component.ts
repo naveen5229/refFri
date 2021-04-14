@@ -134,8 +134,10 @@ ngOnInit() {
       res => {
         this.dataReceive = res['data']
         console.log("autosugg", this.dataReceive);
-        this.wareHouseId
-       this.getItems();
+        // if(res['success']){
+        
+        // this.getItems(this.wareHouseId);
+        // }
 
       }
     )
@@ -153,7 +155,7 @@ ngOnInit() {
   // }
 
   getItems() {
-    const params=`whId=${this.wareHouseId}`
+    const params='whId='+this.wareHouseId;
     console.log("id",params)
     this.common.loading++;
     this.api.get('WareHouse/getWhStockItem?' + params)
@@ -331,7 +333,7 @@ this.api.post('WareHouse/saveWhStockItemState', params)
 
       this.common.showToast("Sucessfully insert");
     this.getStateData();
-    this.getItems()
+    this.getItems();
     this.StateId=null;
     this.itemId=null;
     this.quantityId=null;
