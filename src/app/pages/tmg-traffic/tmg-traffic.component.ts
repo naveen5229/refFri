@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tmg-traffic',
   templateUrl: './tmg-traffic.component.html',
@@ -28,161 +31,159 @@ export class TmgTrafficComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal) {
-    this.getTrafficLiveStatus();
-    this.getTrafficLongestDriverUnavailable();
-    this.getTrafficLongestVehicleGpsIssue();
-    this.getTrafficTopRmb();
-    this.getTrafficLongestLoadingSites();
-    this.getTrafficLongestUnloadingSite();
-    this.getTrafficLongestVehicleEmpty();
-    this.getTrafficSlowestOnwardVehicles();
     this.common.refresh = this.refresh.bind(this);
   }
 
+  ngOnDestroy() { }
   ngOnInit() {
   }
 
-  refresh() {
-    this.getTrafficLiveStatus();
-    this.getTrafficLongestDriverUnavailable();
-    this.getTrafficLongestVehicleGpsIssue ();
-    this.getTrafficTopRmb();
-    this.getTrafficLongestLoadingSites();
-    this.getTrafficLongestUnloadingSite();
-    this.getTrafficSlowestOnwardVehicles();
-    this.getTrafficLongestVehicleEmpty();
+  ngAfterViewInit() {
+    this.refresh();
   }
 
-  getTrafficLiveStatus() {
+
+  refresh() {
+    this.getTrafficLiveStatus(0);
+    this.getTrafficLongestDriverUnavailable(1);
+    this.getTrafficLongestVehicleGpsIssue(2);
+    this.getTrafficTopRmb(3);
+    this.getTrafficLongestLoadingSites(4);
+    this.getTrafficLongestUnloadingSite(5);
+    this.getTrafficSlowestOnwardVehicles(6);
+    this.getTrafficLongestVehicleEmpty(7);
+  }
+
+  getTrafficLiveStatus(index) {
     this.trafficLiveStatus = [];
-    ++this.common.loading;
+    this.showLoader(index);
     let params = {
-     totalrecord :7
+      totalrecord: 7
     };
     this.api.post('Tmgreport/GetTrafficLiveStatus', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('trafficLiveStatus:', res);
         this.trafficLiveStatus = res['data'];
         this.handleChart(this.trafficLiveStatus);
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTrafficLongestDriverUnavailable() {
+  getTrafficLongestDriverUnavailable(index) {
     this.trafficLongestDriverUnavailable = [];
-    ++this.common.loading;
+    this.showLoader(index);
     let params = { totalrecord: 5 };
     this.api.post('Tmgreport/GetTrafficLongestDriverUnavailable', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('tripSlowestOnward:', res);
         this.trafficLongestDriverUnavailable = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTrafficLongestVehicleGpsIssue () {
-    this.trafficLongestVehicleGpsIssue  = [];
-    ++this.common.loading;
+  getTrafficLongestVehicleGpsIssue(index) {
+    this.trafficLongestVehicleGpsIssue = [];
+    this.showLoader(index);
     let params = {
-      totalrecord : 5
+      totalrecord: 5
     };
     this.api.post('Tmgreport/GetTrafficLongestVehicleGpsIssue', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('trafficLongestVehicleGpsIssue:', res['data']);
         this.trafficLongestVehicleGpsIssue = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTrafficTopRmb() {
+  getTrafficTopRmb(index) {
     this.trafficTopRmb = [];
     let params = { totalrecord: 10 };
-    ++this.common.loading;
+    this.showLoader(index);
     this.api.post('Tmgreport/GetTrafficTopRmb', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('trafficTopRmb:', res);
         this.trafficTopRmb = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
- getTrafficLongestLoadingSites() {
+  getTrafficLongestLoadingSites(index) {
     this.trafficLongestLoadingSites = [];
     let params = { totalrecord: 3 };
-    ++this.common.loading;
+    // this.showLoader(index);
     this.api.post('Tmgreport/GetTrafficLongestLoadingSites', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('trafficLongestLoadingSites:', res);
         this.trafficLongestLoadingSites = res['data'];
+        // this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTrafficLongestUnloadingSite() {
+  getTrafficLongestUnloadingSite(index) {
     this.trafficLongestUnloadingSite = [];
     let params = { totalrecord: 3 };
-    ++this.common.loading;
+    this.showLoader(index);
     this.api.post('Tmgreport/GetTrafficLongestUnloadingSite', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('trafficLongestUnloadingSite:', res);
         this.trafficLongestUnloadingSite = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTrafficSlowestOnwardVehicles() { 
+  getTrafficSlowestOnwardVehicles(index) {
     this.trafficSlowestOnwardVehicles = [];
-    ++this.common.loading;
+    this.showLoader(index);
     let params = {
-      totalrecord : 3
+      totalrecord: 3
     };
     this.api.post('Tmgreport/GetTrafficSlowestOnwardVehicles', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('trafficSlowestOnwardVehicles:', res['data']);
         this.trafficSlowestOnwardVehicles = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTrafficLongestVehicleEmpty() { 
+  getTrafficLongestVehicleEmpty(index) {
     this.trafficLongestVehicleEmpty = [];
-    ++this.common.loading;
+    this.showLoader(index);
     let params = {
-      totalrecord : 3
+      totalrecord: 3
     };
     this.api.post('Tmgreport/GetTrafficLongestVehicleEmpty', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('trafficLongestVehicleEmpty:', res['data']);
         this.trafficLongestVehicleEmpty = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  
+
 
   handleChart(data) {
     let label = []
@@ -192,7 +193,7 @@ export class TmgTrafficComponent implements OnInit {
         label.push(ele.split_part);
         dt.push(ele.totalvehicle);
       });
-      console.log("label",label,"data",dt);
+      console.log("label", label, "data", dt);
       this.chart.type = 'pie';
       this.chart.data = {
         labels: label,
@@ -200,7 +201,7 @@ export class TmgTrafficComponent implements OnInit {
           {
             label: 'Zones',
             data: dt,
-            backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#39CCCC", "#01FF70", "#8B008B", "#FFD700", "#D2B48C"]
+            backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#39CCCC", "#01FF70", "#8B008B", "#FFD700", "#D2B48C","#A569BD","#F0B27A","#CD6155","#2E86C1","#95A5A6","#45B39D"]
           },
         ]
       };
@@ -212,9 +213,9 @@ export class TmgTrafficComponent implements OnInit {
           display: true,
           position: 'right',
           labels: {
-          fontSize : dt.length>8?11:12,
-          padding : dt.length>8?3:8,
-          boxWidth : 10
+            fontSize: dt.length > 8 ? 11 : 12,
+            padding: dt.length > 8 ? 3 : 8,
+            boxWidth: 10
           }
         },
         // tooltips: { enabled: false },
@@ -223,7 +224,7 @@ export class TmgTrafficComponent implements OnInit {
 
     }
   }
-  getDetials(url, params, days = 0) {
+  getDetials(url, params, value = 0, type = 'days') {
     let dataparams = {
       view: {
         api: url,
@@ -233,8 +234,8 @@ export class TmgTrafficComponent implements OnInit {
 
       title: 'Details'
     }
-    if (days) {
-      let startDate = new Date(new Date().setDate(new Date().getDate() - days));
+    if (value) {
+      let startDate = type == 'months' ? new Date(new Date().setMonth(new Date().getMonth() - value)) : new Date(new Date().setDate(new Date().getDate() - value));
       let endDate = new Date();
       dataparams.view.param['fromdate'] = this.common.dateFormatter(startDate);
       dataparams.view.param['todate'] = this.common.dateFormatter(endDate);
@@ -243,6 +244,197 @@ export class TmgTrafficComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1100');
     this.common.params = { data: dataparams };
     const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+
+  showLoader(index) {
+    setTimeout(() => {
+      let outers = document.getElementsByClassName("outer");
+      let loader = document.createElement('div');
+      loader.className = 'loader';
+      outers[index].appendChild(loader);
+    }, 50);
+  }
+
+  hideLoader(index) {
+    try {
+      let outers = document.getElementsByClassName("outer");
+      let ele = outers[index].getElementsByClassName('loader')[0];
+      outers[index].removeChild(ele);
+    } catch (e) {
+      console.log('Exception', e);
+    }
+  }
+  chart2Clicked(event) {
+
+    let Date = this.trafficLiveStatus[event[0]._index].split_part;
+    console.log('event[0]._index 2', event[0]._index, event[0], Date);
+    this.passingIdChart2Data(Date);
+  }
+  passingIdChart2Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      stepno:1,
+      xid: parseDate
+    };
+    // this.api.post('Tmgreport/GetCallsDrivar', params)
+    //   .subscribe(res => {
+    //     console.log('callsDrivar 111 :', res);
+
+    //     this.hideLoader(id);;
+    //   }, err => {
+    //     this.hideLoader(id);;
+    //     console.log('Err:', err);
+    //   });
+    this.getDetials('Tmgreport/GetTrafficLiveStatus', params)
+  }
+  chart4Clicked(event) {
+
+    let Date = event._vid;
+    console.log('event[0]._index 1', event);
+    this.passingIdChart4Data(Date);
+  }
+
+  passingIdChart4Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord: 3,
+      stepno: 1,
+      vehid: parseDate,
+      // ref: 'tmg-calls'
+    };
+    this.getDetials('Tmgreport/GetTrafficLongestDriverUnavailable', params)
+  }
+  chart5Clicked(event) {
+
+    let Date = event._vid;
+    console.log('event[0]._index 1', event);
+    this.passingIdChart5Data(Date);
+  }
+
+  passingIdChart5Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord: 3,
+      stepno: 1,
+      vehid: parseDate,
+      // ref: 'tmg-calls'
+    };
+    this.getDetials('Tmgreport/GetTrafficLongestVehicleGpsIssue', params)
+  }
+  chart6Clicked(event) {
+
+    let Date = event._vid;
+    console.log('event[0]._index 1', event);
+    this.passingIdChart6Data(Date);
+  }
+
+  passingIdChart6Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord: 3,
+      stepno: 1,
+      vehid: parseDate,
+      // ref: 'tmg-calls'
+    };
+    this.getDetials('Tmgreport/GetTrafficTopRmb', params)
+  }
+  chart7Clicked(event) {
+
+    let Date = event.Location;
+    console.log('event[0]._index 1', event);
+    this.passingIdChart7Data(Date);
+  }
+
+  passingIdChart7Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord: 3,
+      stepno: 1,
+      vehid: parseDate,
+      // ref: 'tmg-calls'
+    };
+    this.getDetials('Tmgreport/GetTrafficLongestLoadingSites', params)
+  }
+  chart8Clicked(event) {
+
+    let Date = event._vid;
+    console.log('event[0]._index 1', event);
+    this.passingIdChart8Data(Date);
+  }
+
+  passingIdChart8Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord: 3,
+      stepno: 1,
+      vehid: parseDate,
+      // ref: 'tmg-calls'
+    };
+    this.getDetials('Tmgreport/GetTrafficLongestUnloadingSite', params)
+  }
+  chart9Clicked(event) {
+
+    let Date = event._vid;
+    console.log('event[0]._index 1', event);
+    this.passingIdChart9Data(Date);
+  }
+
+  passingIdChart9Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord: 3,
+      stepno: 1,
+      vehid: parseDate,
+      // ref: 'tmg-calls'
+    };
+    this.getDetials('Tmgreport/GetTrafficSlowestOnwardVehicles', params)
+  }
+  chart10Clicked(event) {
+
+    let Date = event._vid;
+    console.log('event[0]._index 1', event);
+    this.passingIdChart10Data(Date);
+  }
+
+  passingIdChart10Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord: 3,
+      stepno: 1,
+      vehid: parseDate,
+      // ref: 'tmg-calls'
+    };
+    this.getDetials('Tmgreport/GetTrafficLongestVehicleEmpty', params)
   }
 }
 

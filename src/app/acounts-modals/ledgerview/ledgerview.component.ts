@@ -18,6 +18,9 @@ import { OrderComponent } from '../../acounts-modals/order/order.component';
 import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
 import { ServiceComponent } from '../../accounts/service/service.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ledgerview',
   templateUrl: './ledgerview.component.html',
@@ -111,7 +114,8 @@ export class LedgerviewComponent implements OnInit {
     //  this.common.currentPage = 'Ledger View';
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.getVoucherTypeList();

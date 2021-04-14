@@ -6,6 +6,9 @@ import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddVehicleModalServiceComponent } from '../model/add-vehicle-modal-service/add-vehicle-modal-service.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'view-modal-service',
   templateUrl: './view-modal-service.component.html',
@@ -37,7 +40,8 @@ export class ViewModalServiceComponent implements OnInit {
     this.vehicleBrandTypes();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   vehicleBrandTypes() {

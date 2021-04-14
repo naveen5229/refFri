@@ -3,6 +3,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-gps-supplier',
   templateUrl: './add-gps-supplier.component.html',
@@ -15,7 +18,8 @@ export class AddGpsSupplierComponent implements OnInit {
     public common:CommonService,
     public api:ApiService) { }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

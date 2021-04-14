@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'mv-gps-api-history',
   templateUrl: './mv-gps-api-history.component.html',
@@ -27,7 +30,8 @@ export class MvGpsApiHistoryComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.getGpsApiHistory();

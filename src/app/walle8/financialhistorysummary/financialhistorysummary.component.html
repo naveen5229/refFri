@@ -1,0 +1,177 @@
+<nb-card>
+    <nb-card-header>
+      <div style="border-bottom-left-radius:5px;border-bottom-right-radius:5px; box-shadow: 5px 10px 54px 0px whitesmoke;" class="ml-4 mr-4 pb-4">
+      <div class="row m-0" style="width:100%;background-color: #E5F3F9;border-top-right-radius: 5px; border-top-left-radius:5px;display:inline-block">
+        <h5 class="p-2" style="font-weight:bold; display: inline-block;">Financial History Summary (Add Time)</h5>
+  
+        <div style="display:inline-block;" class="p-2 float">
+          <span style="display: block;">
+            <span class="pdf-icon" title="PDF Export" (click)="generatePDF();" style="cursor: pointer;"><i
+                class="fa fa-file-pdf"></i></span>
+                <span class="exel-icon" title="CSV Export" (click)="printCsv('account','tblData')"
+              style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+          </span>
+        </div>
+      </div>
+  
+      <div class="row m-0 p-3" style="background-color:white;">
+        <div class="col-3 pl-3">
+            <uj-date-time-picker (onChanged)="startDate=$event;" [maxd]="maxDate" [dateTimeValue]="startDate"  [isTime]="false"></uj-date-time-picker>
+          <!-- <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('start')"
+            placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly> -->
+        </div>
+        <div class="col-3">
+            <uj-date-time-picker (onChanged)="endDate = $event;" [maxd]="maxDate" [dateTimeValue]="endDate" [isTime]=false [isStart]="false"></uj-date-time-picker>
+          <!-- <input type="text" style="cursor: pointer;" class="form-control customSelect" autocomplete="off" (click)="getDate('end')"
+            placeholder="End Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly> -->
+        </div>
+  
+        <div class="col-3">
+          <auto-suggestion (keyup)="filterData($event)" [(ngModel)]='typedKey' (onSelected)="selectVehicle($event)"
+            url="Suggestion/getFoVehicleList.json?foid=' + foid" display="regno" placeholder="search vehicle" style="width:60%;" value="yes"
+            aria-disabled="true">
+          </auto-suggestion>
+        </div>
+        <div class="col-3">
+          <button class="btn customButton" type="button" (click)="getaddTimeFinancialTollReport()">Submit</button>
+        </div>
+      </div>
+      <div class="col-12">
+        <marquee style="font-weight:bold;font-size:14px;">Use this report for fetching data older than 1 year</marquee>
+      </div>
+      </div>
+      
+    </nb-card-header>
+  
+    <nb-card-body style="width:96%; margin-left:2%;">
+      <div id="financialaccount">
+        <div style="height:40px"></div>
+        <div class="row">
+          <div class="col-6">
+            <b>eLogist Solutions Pvt. Ltd.</b><br>
+            Address: 605-21, Jaipur Electronic Market,<br>
+            Riddhi Siddhi Circle, Gopalpura Bypass, Jaipur, Rajasthan - 302018<br>
+            Support: 8081604455<br>
+            Website: www.walle8.com
+          </div>
+          <div class="col-3"></div>
+          <div class="col-3">
+            <img [src]="api.URL2+'admindashboard/assets/images/left-logo.png'"
+              style="width:150px;height:120px;" id="logo" crossorigin="anonymous">
+          </div>
+        </div>
+  
+        <div class="row" style="margin-top:10px;">
+          <div class="col-6">
+            <table class="table table-bordered" id="provider">
+              <thead>
+                <tr>
+                  <th class="thead" colspan="2">Provider Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Provider Name</td>
+                  <td>eLogist</td>
+                </tr>
+                <tr>
+                  <td>Provider Address</td>
+                  <td>Jaipur</td>
+                </tr>
+                <tr>
+                  <td>GSTIN</td>
+                  <td>08AAECE3933F1ZS</td>
+                </tr>
+                <tr>
+                  <td>Place Of Supply</td>
+                  <td>Rajasthan</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-6">
+            <table class="table table-bordered" id="customer">
+              <thead>
+                <tr>
+                  <th class="thead" colspan="2">Customer Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Customer Id</td>
+                  <td>{{fo.id}}</td>
+                </tr>
+                
+                <tr>
+                  <td>Name</td>
+                  <td>{{fo.name}}</td>
+                </tr>
+                <tr>
+                  <td>Statement Date</td>
+                  <td>{{dates.currentdate}}</td>
+                </tr>
+                <tr>
+                  <td>Statement Period</td>
+                  <td>{{startDate | date : 'dd MMM yyyy'}} To {{endDate |date:'dd MMM yyyy'}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-12">
+            <table class="table table-bordered" id="account">
+              <thead>
+                <tr>
+                  <th class="thead" colspan="2">Account Summary</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Opening Balance(Rs.)</td>
+                  <td>Closing Balance(Rs.)</td>
+                </tr>
+                <tr>
+                  <td>{{openingBalance}}</td>
+                  <td>{{closingBalance}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="data.length>0">
+        <div class="col-12">
+          <table class="table table-bordered" id="tblData">
+            <thead style="background-color:#E5F3F9;">
+              <tr>
+                <th>Vehicle</th>
+                <th>Accounting Time</th>
+                <th>Transaction Time</th>
+                <th>Toll Plaza</th>
+                <th>Amount(CR)</th>
+                <th>Amount(DR)</th>
+                <th>Transaction Type</th>
+                <th>Balance</th>
+                <th>Transaction Id</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let dt of data ">
+                <td>{{dt.vehid}}</td>
+                <td>{{dt.addtime}}</td>
+                <td>{{dt.transtime}}</td>
+                <td>{{dt.remark}}</td>
+                <td>{{dt.amount_credit}}</td>
+                <td>{{dt.amount_debit}}</td>
+                <td>{{dt.entry_type}}</td>
+                <td>{{dt.balance}}</td>
+                <td>{{dt.txn_id}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>

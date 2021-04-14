@@ -16,6 +16,9 @@ import { AddMaterialComponent } from '../add-material/add-material.component';
 import { AddTransportAgentComponent } from '../add-transport-agent/add-transport-agent.component';
 import { BasicPartyDetailsComponent } from '../../../modals/basic-party-details/basic-party-details.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'manifest-generate',
   templateUrl: './manifest-generate.component.html',
@@ -74,7 +77,8 @@ export class ManifestGenerateComponent implements OnInit {
     this.common.formatDynamicData(this.manifestGeneralField);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   ngAfterViewInit(): void {
   }

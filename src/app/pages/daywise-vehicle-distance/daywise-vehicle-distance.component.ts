@@ -7,6 +7,9 @@ import { ApiService } from '../../services/api.service';
 import { DatePipe } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import * as _ from "lodash";
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'daywise-vehicle-distance',
   templateUrl: './daywise-vehicle-distance.component.html',
@@ -53,7 +56,8 @@ export class DaywiseVehicleDistanceComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   getDate(flag) {
     console.log('start', this.startDate);

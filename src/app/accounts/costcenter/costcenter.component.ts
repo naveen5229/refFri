@@ -6,6 +6,9 @@ import { CostCentersComponent } from '../../acounts-modals/cost-centers/cost-cen
 import { UserService } from '../../@core/data/users.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'costcenter',
   templateUrl: './costcenter.component.html',
@@ -25,7 +28,8 @@ export class CostcenterComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

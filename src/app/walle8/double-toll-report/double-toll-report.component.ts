@@ -7,6 +7,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'double-toll-report',
   templateUrl: './double-toll-report.component.html',
@@ -44,7 +47,8 @@ export class DoubleTollReportComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){
@@ -120,7 +124,7 @@ export class DoubleTollReportComponent implements OnInit {
   }
 
   printPDF(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     console.log("Name:",name);
     let details = [
       ['Name: ' + name,'Start Date: '+this.common.dateFormatter(new Date(this.startDate)),'End Date: '+this.common.dateFormatter(new Date(this.endDate)),  'Report: '+'Double-Toll']
@@ -129,7 +133,7 @@ export class DoubleTollReportComponent implements OnInit {
   }
 
   printCSV(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     let details = [
       { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter(new Date(this.startDate)),enddate:'End Date:'+this.common.dateFormatter(new Date(this.endDate)), report:"Report:Double-Toll"}
     ];

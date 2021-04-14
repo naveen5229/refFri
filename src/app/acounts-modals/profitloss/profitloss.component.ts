@@ -6,6 +6,9 @@ import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'profitloss',
   templateUrl: './profitloss.component.html',
@@ -48,7 +51,8 @@ export class ProfitlossComponent implements OnInit {
     this.getBalanceSheet();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getBranchList() {

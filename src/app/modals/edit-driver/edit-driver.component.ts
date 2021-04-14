@@ -6,6 +6,9 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { dateFieldName } from '@progress/kendo-angular-intl';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'edit-driver',
   templateUrl: './edit-driver.component.html',
@@ -84,7 +87,8 @@ export class EditDriverComponent implements OnInit {
     // }, 10000);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     console.log("Driver:", this.common.params.driver);
     this.driverForm = this.formbuilder.group({
       name: [this.common.params.driver.empname],

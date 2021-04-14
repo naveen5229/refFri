@@ -17,6 +17,9 @@ import { AccountComponent} from '../account/account.component';
 import { LedgersComponent } from '../ledgers/ledgers.component';
 import { AccountService } from '../../services/account.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'statics',
   templateUrl: './statics.component.html',
@@ -75,7 +78,8 @@ export class StaticsComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getStaticsSheet() {

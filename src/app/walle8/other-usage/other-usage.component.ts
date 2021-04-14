@@ -7,6 +7,9 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'other-usage',
   templateUrl: './other-usage.component.html',
@@ -39,7 +42,8 @@ export class OtherUsageComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){
@@ -119,7 +123,7 @@ export class OtherUsageComponent implements OnInit {
   // }
 
   printPDF(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     console.log("Name:",name);
     let details = [
       ['Name: ' + name,'Start Date: '+this.common.dateFormatter(new Date(this.startDate)),'End Date: '+this.common.dateFormatter(new Date(this.endDate)),  'Report: '+'Other-Usage']
@@ -128,7 +132,7 @@ export class OtherUsageComponent implements OnInit {
   }
 
   printCSV(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     let details = [
       { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter(new Date(this.endDate)),enddate:'End Date:'+this.common.dateFormatter(new Date(this.endDate)), report:"Report:Other-Usage"}
     ];

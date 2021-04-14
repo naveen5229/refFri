@@ -1,0 +1,51 @@
+    #map {
+      height: 100%;
+    }
+
+    .floating-panel1 {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: "Roboto", "sans-serif";
+        line-height: 30px;
+        padding-left: 10px;
+      }
+  
+      .floating-panel1 {
+        background-color: #fff;
+        border: 1px solid #999;
+        left: 30%;
+        padding: 10px;
+        position: absolute;
+        top: 50px;
+        z-index: 5;
+      }
+
+    .floating-panel {
+      position: absolute;
+      top: 10px;
+      left: 25%;
+      z-index: 5;
+      background-color: #fff;
+      padding: 5px;
+      border: 1px solid #999;
+      text-align: center;
+      font-family: "Roboto", "sans-serif";
+      line-height: 30px;
+      padding-left: 10px;
+    }
+
+    .floating-panel {
+      background-color: #fff;
+      border: 1px solid #999;
+      left: 60%;
+      padding: 10px;
+      position: absolute;
+      top: 50px;
+      z-index: 5;
+    }

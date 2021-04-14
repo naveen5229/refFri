@@ -8,6 +8,9 @@ import { StockSubtypeComponent } from '../../acounts-modals/stock-subtype/stock-
 import { UserService } from '../../services/user.service';
 import { TyreHistoryComponent } from '../../modals/Tyres/tyre-history/tyre-history.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'inventory',
   templateUrl: './inventory.component.html',
@@ -124,7 +127,8 @@ export class InventoryComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

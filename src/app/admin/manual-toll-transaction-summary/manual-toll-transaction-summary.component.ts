@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'manual-toll-transaction-summary',
   templateUrl: './manual-toll-transaction-summary.component.html',
@@ -25,7 +28,8 @@ export class ManualTollTransactionSummaryComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
 
   }
 

@@ -11,6 +11,9 @@ import { AddFieldComponent } from '../../modals/LRModals/add-field/add-field.com
 import { LrInvoiceColumnsComponent } from '../../pages/lr-invoice-columns/lr-invoice-columns.component';
 import { AddReportFormatsComponent } from '../../modals/add-report-formats/add-report-formats.component';
 import { FreightRateRulesComponent } from '../../modals/FreightRate/freight-rate-rules/freight-rate-rules.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'lr-diagnostics',
   templateUrl: './lr-diagnostics.component.html',
@@ -33,7 +36,8 @@ export class LrDiagnosticsComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){

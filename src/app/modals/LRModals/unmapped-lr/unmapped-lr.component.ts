@@ -6,6 +6,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ChangeVehicleStatusComponent } from '../../change-vehicle-status/change-vehicle-status.component';
 import { ImageViewComponent } from '../../image-view/image-view.component';
 import { from } from 'rxjs';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'unmapped-lr',
   templateUrl: './unmapped-lr.component.html',
@@ -36,7 +39,8 @@ export class UnmappedLrComponent implements OnInit {
   }
 
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   // getDate(date) {
   //   this.common.params = { ref_page: "card usage" };

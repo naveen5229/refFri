@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-placement-site-rule',
   templateUrl: './add-placement-site-rule.component.html',
@@ -82,7 +85,8 @@ export class AddPlacementSiteRuleComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   closeModal(response) {
     this.activeModal.close({ response: response });

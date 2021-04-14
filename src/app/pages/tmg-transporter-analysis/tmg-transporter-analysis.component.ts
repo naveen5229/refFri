@@ -4,6 +4,9 @@ import { GenericModelComponent } from '../../modals/generic-modals/generic-model
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tmg-transporter-analysis',
   templateUrl: './tmg-transporter-analysis.component.html',
@@ -56,38 +59,35 @@ export class TmgTransporterAnalysisComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal) {
-    this.getTripOnwardKmd();
-    this.getTransportarLoadingTat();
-    this.getTransportarSlowestUnloadingtat();
-    this.getTransportarSlowestOnward();
-    this.getTransportarSlowestUnload();
-    this.getTransportarSlowestLoad();
-    this.getTransportarSlowestOnward7days();
-    this.getTransportarSlowestUnload7days();
-    this.getTransportarSlowestLoad7days();
+   
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
+    this.refresh();
+  }
+
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {
     this.xAxisData = [];
-    this.getTripOnwardKmd();
-    this.getTransportarLoadingTat();
-    this.getTransportarSlowestUnloadingtat();
-    this.getTransportarSlowestOnward();
-    this.getTransportarSlowestUnload();
-    this.getTransportarSlowestLoad();
-    this.getTransportarSlowestOnward7days();
-    this.getTransportarSlowestUnload7days();
-    this.getTransportarSlowestLoad7days();
+    this.getTripOnwardKmd(0);
+    this.getTransportarLoadingTat(1);
+    this.getTransportarSlowestUnloadingtat(2);
+    this.getTransportarSlowestOnward(3);
+    this.getTransportarSlowestUnload(5);
+    this.getTransportarSlowestLoad(4);
+    this.getTransportarSlowestOnward7days(6);
+    this.getTransportarSlowestUnload7days(8);
+    this.getTransportarSlowestLoad7days(7);
   }
 
-  getTripOnwardKmd() {
+  getTripOnwardKmd(index) {
     this.tripOnwardKmd = [];
-    ++this.common.loading;
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+     this.showLoader(index);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -96,54 +96,48 @@ export class TmgTransporterAnalysisComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetTripOnwardKmd', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('tripOnwardKmd:', res);
         this.tripOnwardKmd = res['data'];
         this.getlabelValue();
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
   getlabelValue() {
-    // if (this.tripOnwardKmd) {
-    //   this.tripOnwardKmd.forEach((cmg) => {
-    //     this.chart.data.line.push(cmg['Amount']);
-    //     this.chart.data.bar.push(cmg['Onward KMS']);
-    //     this.xAxisData.push(cmg['Period']);
-    //   });
-
+   
     this.handleChart();
-    // }
+    
   }
 
-  getTransportarLoadingTat() {
+  getTransportarLoadingTat(index) {
     this.transportarLoadingTat = [];
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
       groupdays: 7
     };
-    ++this.common.loading;
+     this.showLoader(index);
     this.api.post('Tmgreport/GetTransportarLoadingTat', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('GetTransportarLoadingTat:', res);
         this.transportarLoadingTat = res['data'];
+        this.hideLoader(index);
         if (this.transportarLoadingTat.length > 0) this.handleChart1();
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTransportarSlowestUnloadingtat() {
+  getTransportarSlowestUnloadingtat(index) {
     this.transportarSlowestUnloadingtat = [];
-    ++this.common.loading;
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+     this.showLoader(index);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -153,17 +147,17 @@ export class TmgTransporterAnalysisComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetTransportarSlowestUnloadingtat', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('transportarSlowestUnloadingtat:', res);
         this.transportarSlowestUnloadingtat = res['data'];
         if (this.transportarSlowestUnloadingtat.length > 0) this.handleChart2();
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTransportarSlowestOnward() {
+  getTransportarSlowestOnward(index) {
     this.transportarSlowestOnward = [];
     let startDate = new Date(new Date().setDate(new Date().getDate() - 60));
     let endDate = new Date();
@@ -172,22 +166,22 @@ export class TmgTransporterAnalysisComponent implements OnInit {
       todate: this.common.dateFormatter(endDate),
       totalrecord: 3
     };
-    ++this.common.loading;
+     this.showLoader(index);
     this.api.post('Tmgreport/GetTransportarSlowestOnward', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('transportarSlowestOnward:', res);
         this.transportarSlowestOnward = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTransportarSlowestUnload() {
+  getTransportarSlowestUnload(index) {
 
     this.transportarSlowestUnload = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 60));
     let endDate = new Date();
     let params = {
@@ -197,16 +191,16 @@ export class TmgTransporterAnalysisComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetTransportarSlowestUnload', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('transportarSlowestUnload:', res['data']);
         this.transportarSlowestUnload = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTransportarSlowestUnload7days() {
+  getTransportarSlowestUnload7days(index) {
     this.transportarSlowestUnload7days = [];
     let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
@@ -215,21 +209,21 @@ export class TmgTransporterAnalysisComponent implements OnInit {
       todate: this.common.dateFormatter(endDate),
       totalrecord: 3
     };
-    ++this.common.loading;
+     this.showLoader(index);
     this.api.post('Tmgreport/GetTransportarSlowestUnload', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('transportarSlowestUnload7days:', res);
         this.transportarSlowestUnload7days = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTransportarSlowestLoad() {
+  getTransportarSlowestLoad(index) {
     this.transportarSlowestLoad = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 60));
     let endDate = new Date();
     let params = {
@@ -239,18 +233,18 @@ export class TmgTransporterAnalysisComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetTransportarSlowestLoad', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('TransportarSlowestLoad:', res['data']);
         this.transportarSlowestLoad = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTransportarSlowestOnward7days() {
+  getTransportarSlowestOnward7days(index) {
     this.transportarSlowestOnward7days = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
     let params = {
@@ -260,18 +254,18 @@ export class TmgTransporterAnalysisComponent implements OnInit {
     };
     this.api.post('Tmgreport/getTransportarSlowestOnward', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('transportarSlowestOnward7days:', res['data']);
         this.transportarSlowestOnward7days = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getTransportarSlowestLoad7days() {
+  getTransportarSlowestLoad7days(index) {
     this.transportarSlowestLoad7days = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
     let params = {
@@ -281,11 +275,11 @@ export class TmgTransporterAnalysisComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetTransportarSlowestLoad', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('transportarSlowestLoad7days:', res['data']);
         this.transportarSlowestLoad7days = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
@@ -545,18 +539,18 @@ export class TmgTransporterAnalysisComponent implements OnInit {
         }
       };
     }
-    getDetials(url, params, days = 0) {
+    getDetials(url, params, value = 0,type='days') {
       let dataparams = {
         view: {
           api: url,
           param: params,
           type: 'post'
         },
-  
+    
         title: 'Details'
       }
-      if (days) {
-        let startDate = new Date(new Date().setDate(new Date().getDate() - days));
+      if (value) {
+        let startDate = type == 'months'? new Date(new Date().setMonth(new Date().getMonth() - value)): new Date(new Date().setDate(new Date().getDate() - value));
         let endDate = new Date();
         dataparams.view.param['fromdate'] = this.common.dateFormatter(startDate);
         dataparams.view.param['todate'] = this.common.dateFormatter(endDate);
@@ -565,5 +559,24 @@ export class TmgTransporterAnalysisComponent implements OnInit {
       this.common.handleModalSize('class', 'modal-lg', '1100');
       this.common.params = { data: dataparams };
       const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    }
+
+    showLoader(index) {
+      setTimeout(() => {
+        let outers = document.getElementsByClassName("outer");
+        let loader = document.createElement('div');
+        loader.className = 'loader';
+        outers[index].appendChild(loader);
+      }, 50);
+    }
+  
+    hideLoader(index) {
+      try {
+        let outers = document.getElementsByClassName("outer");
+        let ele = outers[index].getElementsByClassName('loader')[0];
+        outers[index].removeChild(ele);
+      } catch (e) {
+        console.log('Exception', e);
+      }
     }
 }

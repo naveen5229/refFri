@@ -4,11 +4,11 @@
       <div class="outer" style="min-height: 200px;">
         <h6 style="text-align:center"><b class="charthead">Onward KMPD Graph</b></h6>
         <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetTripOnwardKmd',{totalrecord: 3,stepno: -1,groupdays: 7},30)"><i title="More Details"
+          (click)="getDetials('Tmgreport/GetTripOnwardKmd',{totalrecord: 3,stepno: -1,groupdays: 7},30,'days')"><i title="More Details"
             class="fa fa-list"></i>
         </p>
         <chart [type]="chart.type" [data]="chart.data"
-          style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;" [options]="chart.options">
+          style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;" [options]="chart.options" (clickElement)="chart2Clicked($event)">
         </chart>
       </div>
     </div>
@@ -16,11 +16,11 @@
       <div class="outer" style="min-height: 200px;">
         <h6 style="text-align:center"><b class="charthead">Avg. Loading Time Graph</b></h6>
         <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetTripLoadindTime',{totalrecord: 3,stepno: -1,groupdays: 7},30)"><i title="More Details"
+          (click)="getDetials('Tmgreport/GetTripLoadindTime',{totalrecord: 3,stepno: -1,groupdays: 7},30,'days')"><i title="More Details"
             class="fa fa-list"></i>
         </p>
         <chart [type]="chart1.type" [data]="chart1.data"
-          style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;" [options]="chart1.options">
+          style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;" [options]="chart1.options"  (clickElement)="chart1Clicked($event)">
         </chart>
       </div>
     </div>
@@ -28,11 +28,11 @@
       <div class="outer" style="min-height: 200px;">
         <h6 style="text-align:center"><b class="charthead">Avg. Unloading Time Graph</b></h6>
         <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetTripUnLoadindTime',{totalrecord: 3,stepno: -1,groupdays: 7},30)"><i title="More Details"
+          (click)="getDetials('Tmgreport/GetTripUnLoadindTime',{totalrecord: 3,stepno: -1,groupdays: 7},30,'days')"><i title="More Details"
             class="fa fa-list"></i>
         </p>
         <chart [type]="chart2.type" [data]="chart2.data"
-          style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;" [options]="chart2.options">
+          style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;" [options]="chart2.options" (clickElement)="chart3Clicked($event)">
         </chart>
       </div>
     </div>
@@ -43,7 +43,7 @@
         <h6 style="text-align:center"><b class="charthead">Worst 3 Vehicles in Last Week(Breakdown + Maintenance)</b>
         </h6>
         <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetTripLoadindHalt',{totalrecord: 3,stepno: -1},7)"><i title="More Details"
+          (click)="getDetials('Tmgreport/GetTripLoadindHalt',{totalrecord: 3,stepno: -1},7,'days')"><i title="More Details"
             class="fa fa-list"></i>
         </p>
         <table class="table">
@@ -53,7 +53,7 @@
           </thead>
           <tbody class="tbody">
             <tr *ngFor="let tlh of tripLongHalt">
-              <td>{{tlh['Vehicle Name']}}</td>
+              <td (click)="chart4Clicked(tlh)" class="link">{{tlh['Vehicle Name']}}</td>
               <td>{{tlh['Breakdown + Maintenance(in Hrs)']}}</td>
             </tr>
           </tbody>
@@ -64,7 +64,7 @@
       <div class="outer" style="min-height: 145px;">
         <h6 style="text-align:center"><b class="charthead">Longest Loading Sites in Last 7 Days</b></h6>
         <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetLongestLoadindSites',{totalrecord: 3,stepno: -1},30)"><i
+          (click)="getDetials('Tmgreport/GetLongestLoadindSites',{totalrecord: 3,stepno: -1},7,'days')"><i
             title="More Details" class="fa fa-list"></i>
         </p>
         <table class="table">
@@ -75,7 +75,8 @@
           </thead>
           <tbody class="tbody">
             <tr *ngFor="let lls of longestLoadindSites">
-              <td>{{lls['Site Name']}}</td>
+              <td class="link"
+              (click)="getDetials('Tmgreport/GetLongestLoadindSites',{totalrecord: 3,stepno: 1,isfo: lls['Site Name']},7,'days')">{{lls['Site Name']}}</td>
               <td>{{lls['Avg Loading Time(in Hrs)']}}</td>
             </tr>
           </tbody>
@@ -87,7 +88,7 @@
         <h6 style="text-align:center"><b class="charthead">Longest Unloading Drivers in Last 30 Days
           </b></h6>
         <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetLongestUnLoadindDriver',{totalrecord: 3,stepno: -1},30)"><i
+          (click)="getDetials('Tmgreport/GetLongestUnLoadindDriver',{totalrecord: 3,stepno: -1},30,'days')"><i
             title="More Details" class="fa fa-list"></i>
         </p>
         <table class="table">
@@ -97,9 +98,8 @@
           </thead>
           <tbody class="tbody">
             <tr *ngFor="let lud of longestUnLoadindDriver">
-              <td>{{lud['Driver Name']}}</td>
+              <td class="link" (click)="getDetials('Tmgreport/GetLongestUnLoadindDriver',{totalrecord: 3,stepno: 1,isfo: lud['Driver Name'] },30,'days')">{{lud['Driver Name']}}</td>
               <td>{{lud['Avg Unloading Time(in Hr:Mi)']}}</td>
-
             </tr>
           </tbody>
         </table>
@@ -111,21 +111,19 @@
       <div class="outer" style="min-height: 145px;">
         <h6 style="text-align:center"><b class="charthead">Slowest 3 Onward Drivers in Last 7 Days</b></h6>
         <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetTripSlowestOnward',{totalrecord: 3,stepno: -1},7)"><i title="More Details"
+          (click)="getDetials('Tmgreport/GetTripSlowestOnward',{totalrecord: 3,stepno: -1},7,'days')"><i title="More Details"
             class="fa fa-list"></i>
         </p>
         <table class="table">
           <thead class="thead">
             <th>Driver Name </th>
             <th>Vehicle No.</th>
-            <th>Trip</th>
             <th>Avg KMPD</th>
           </thead>
           <tbody class="tbody">
             <tr *ngFor="let tso of tripSlowestOnward">
-              <td>{{tso['Driver Name']}}</td>
+              <td class="link" (click)="getDetials('Tmgreport/GetTripSlowestOnward',{totalrecord: 3,stepno: 1,isfo: tso['_vehicleid'] },7,'days')">{{tso['Driver Name']}}</td>
               <td>{{tso['Vehicle Name']}}</td>
-              <td>{{tso['Trip']}}</td>
               <td>{{tso['Avg Speed KM\/Hrs']}}</td>
             </tr>
           </tbody>
@@ -136,7 +134,7 @@
       <div class="outer" style="min-height: 145px;">
         <h6 style="text-align:center"><b class="charthead">Longest Unloading Sites in Last 7 Days</b></h6>
         <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetLongestUnLoadindSites',{totalrecord: 3,stepno: -1},7)"><i
+          (click)="getDetials('Tmgreport/GetLongestUnLoadindSites',{totalrecord: 3,stepno: -1},7,'days')"><i
             title="More Details" class="fa fa-list"></i>
         </p>
         <table class="table">
@@ -146,7 +144,8 @@
           </thead>
           <tbody class="tbody">
             <tr *ngFor="let lus of longestUnLoadindSites">
-              <td>{{lus['Site Name']}}</td>
+              <td class="link"
+              (click)="getDetials('Tmgreport/GetLongestUnLoadindSites',{totalrecord: 3,stepno: 1,isfo: lus['Site Name']},7,'days')">{{lus['Site Name']}}</td>
               <td>{{lus['Avg Unloading Time(in Hrs)']}}</td>
             </tr>
           </tbody>
@@ -157,7 +156,7 @@
       <div class="outer" style="min-height: 145px;">
         <h6 style="text-align:center"><b class="charthead">GPS Performance</b></h6>
         <p style="text-align: right; margin-top: -25px;" class="link"
-          (click)="getDetials('Tmgreport/GetTripGpsPerformance',{totalrecord: 3,stepno: -1},30)"><i title="More Details"
+          (click)="getDetials('Tmgreport/GetTripGpsPerformance',{totalrecord: 3,stepno: -1},30,'days')"><i title="More Details"
             class="fa fa-list"></i>
         </p>
         <table class="table">
@@ -168,7 +167,8 @@
           </thead>
           <tbody class="tbody">
             <tr *ngFor="let tgp of tripGpsPerformance">
-              <td>{{tgp['Vendor Name']}}</td>
+              <td class="link"
+              (click)="getDetials('Tmgreport/GetTripGpsPerformance',{totalrecord: 3,stepno: 1,isfo: tgp['Vendor Name']},30,'days')">{{tgp['Vendor Name']}}</td>
               <td>{{tgp['Total GPS']}}</td>
               <td>{{tgp['% Offline GPS']}}</td>
             </tr>

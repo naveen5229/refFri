@@ -8,6 +8,9 @@ import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status
 import { VehicleTripUpdateComponent } from '../../modals/vehicle-trip-update/vehicle-trip-update.component';
 import { DomSanitizer } from '@angular/platform-browser';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trip-status-feedback-logs',
   templateUrl: './trip-status-feedback-logs.component.html',
@@ -41,9 +44,11 @@ export class TripStatusFeedbackLogsComponent implements OnInit {
     this.getTripLogs();
     this.common.refresh = this.refresh.bind(this);
 
+    
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     console.log('Refresh');
@@ -51,7 +56,6 @@ export class TripStatusFeedbackLogsComponent implements OnInit {
   }
 
   getDate(type) {
-
     this.common.params = { ref_page: 'trip status feedback log' }
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {

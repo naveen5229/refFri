@@ -8,6 +8,9 @@ import { ConfirmComponent } from '../../confirm/confirm.component';
 // import { Row } from 'jspdf-autotable';
 import { setData } from '@telerik/kendo-intl';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-field',
   templateUrl: './add-field.component.html',
@@ -66,7 +69,8 @@ export class AddFieldComponent implements OnInit {
     this.getFieldName();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

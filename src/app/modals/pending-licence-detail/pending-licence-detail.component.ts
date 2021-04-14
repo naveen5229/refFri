@@ -8,6 +8,9 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'pending-licence-detail',
   templateUrl: './pending-licence-detail.component.html',
@@ -65,7 +68,8 @@ export class PendingLicenceDetailComponent implements OnInit {
       }
     }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal(response) {

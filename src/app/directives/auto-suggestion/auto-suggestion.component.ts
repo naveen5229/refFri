@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'auto-suggestion',
   templateUrl: './auto-suggestion.component.html',
@@ -54,6 +57,7 @@ export class AutoSuggestionComponent implements OnInit {
     public common: CommonService) {
   }
 
+  ngOnDestroy() { }
   ngOnInit() {
     this.searchForm = this.formBuilder.group({
       search: ['']
@@ -115,6 +119,7 @@ export class AutoSuggestionComponent implements OnInit {
         }
       });
       this.suggestions.splice(10, this.suggestions.length - 1);
+      this.cdr.detectChanges();
       return;
     }
     if (this.searchText.length < this.apiHitLimit) return;
@@ -133,6 +138,7 @@ export class AutoSuggestionComponent implements OnInit {
       .subscribe(res => {
         this.suggestions = res['data'] || [];
         if (this.isNoDataFoundEmit && !this.suggestions.length) this.noDataFound.emit({ search: this.searchText });
+        this.cdr.detectChanges();
       }, err => {
         console.error(err);
         this.common.showError();

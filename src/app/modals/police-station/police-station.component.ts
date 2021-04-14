@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MapService } from '../../services/map.service';
 import { CommonService } from '../../services/common.service';
-import { Api2Service } from '../../services/api2.service';
+import { ApiService } from '../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'police-station',
   templateUrl: './police-station.component.html',
@@ -27,7 +30,7 @@ export class PoliceStationComponent implements OnInit {
 
   constructor(
     public mapService: MapService,
-    public api2: Api2Service,
+    public api: ApiService,
     private activeModal: NgbActiveModal,
     public common: CommonService) {
     this.common.handleModalSize('class', 'modal-lg', '1000');
@@ -47,32 +50,28 @@ export class PoliceStationComponent implements OnInit {
 
   ngOnInit() {
   }
+
   ngAfterViewInit() {
+    this.mapService.mapIntialize("police-station-map", 18, 25, 75, true, true);
+  }
 
-
-    this.mapService.mapIntialize("map", 18, 25, 75, true);
-
-
+  ngOnDestroy() { 
+    this.mapService.events.next({ type: 'closed' });
   }
 
   getPoliceStation() {
-
     let params = "lat=" + this.lat +
       "&lng=" + this.long +
       "&type=" + this.type;
 
     console.log('params: ', params);
     this.common.loading++;
-    this.api2.get('Location/getNearBy?' + params)
+    this.api.get('Location/getNearBy?' + params)
       .subscribe(res => {
         this.common.loading--;
         console.log(res['data'])
         this.dateVal = res['data'];
-        // let re=JSON.stringify(res['data']);
-        //console.log('json',re);
-        //console.log('dataval',this.dateVal);
         let details = [];
-
         Object.keys(this.dateVal).map(key => {
           let detail = {
             id: key,
@@ -82,42 +81,31 @@ export class PoliceStationComponent implements OnInit {
             Vicinity: this.dateVal[key].Vicinity,
             phone: this.dateVal[key].phone,
             color: 'ADFF2F',
-
-
           };
 
           details.push(detail);
         });
 
         console.log('details', details);
-
-
         if (res['success'])
           this.common.showToast('Success');
         this.PoliceStation = details;
 
         console.log("--------------", this.PoliceStation);
 
-        //this.PoliceStation = res['data'];
         setTimeout(() => {
           this.mapService.clearAll();
           this.mapService.createMarkers(this.PoliceStation, false, true, ["Vicinity", "phone"]);
           this.mapService.createMarkers(this.location, false, true);
           this.mapService.zoomMap(10.5);
-
         }, 2500);
-
-
 
       }, err => {
         this.common.loading--;
         this.common.showError();
       })
-
-
-
-
   }
+
   openSmartTool(i, value) {
     this.PoliceStation.forEach(vEvent => {
       if (vEvent != value)
@@ -126,6 +114,7 @@ export class PoliceStationComponent implements OnInit {
     value.isOpen = !value.isOpen;
     this.zoomFunctionality(i, value);
   }
+
   zoomFunctionality(i, value) {
     console.log("value", value);
     let latLng = this.mapService.getLatLngValue(value);
@@ -133,6 +122,7 @@ export class PoliceStationComponent implements OnInit {
     console.log("latlngggg", googleLatLng);
     this.mapService.zoomAt(googleLatLng);
   }
+
   dismiss() {
     this.activeModal.close();
   }

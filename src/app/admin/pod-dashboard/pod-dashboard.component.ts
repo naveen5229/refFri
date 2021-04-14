@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 import { LrPodDashboardComponent } from '../../modals/LRModals/lr-pod-dashboard/lr-pod-dashboard.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'pod-dashboard',
   templateUrl: './pod-dashboard.component.html',
@@ -52,7 +55,8 @@ export class PodDashboardComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

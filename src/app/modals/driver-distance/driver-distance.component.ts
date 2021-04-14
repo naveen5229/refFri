@@ -7,6 +7,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'driver-distance',
   templateUrl: './driver-distance.component.html',
@@ -36,7 +39,8 @@ export class DriverDistanceComponent implements OnInit {
       this.getDriverDistance();
     }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal(response) {

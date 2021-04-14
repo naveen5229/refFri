@@ -7,6 +7,9 @@ import { DatePipe, NumberFormatStyle } from '@angular/common';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { MapService } from '../../services/map.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-wise-fuel-filling',
   templateUrl: './vehicle-wise-fuel-filling.component.html',
@@ -38,7 +41,8 @@ export class VehicleWiseFuelFillingComponent implements OnInit {
     this.table = this.setTable();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

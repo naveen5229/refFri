@@ -6,6 +6,9 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { AutoSuggestionComponent } from '../../directives/auto-suggestion/auto-suggestion.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-fo-admin-users',
   templateUrl: './add-fo-admin-users.component.html',
@@ -37,7 +40,8 @@ export class AddFoAdminUsersComponent implements OnInit {
     public activeModal: NgbActiveModal,
   ) { this.displayLoginType()}
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     this.foAdminUser = this.formbuilder.group({
 
       name: ['', [Validators.required]],

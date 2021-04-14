@@ -6,6 +6,9 @@ import { ApiService } from '../../../services/api.service';
 import { LRRateCalculatorComponent } from '../lrrate-calculator/lrrate-calculator.component';
 import { TransferReceiptsComponent } from '../../FreightRate/transfer-receipts/transfer-receipts.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'lr-rate',
   templateUrl: './lr-rate.component.html',
@@ -108,7 +111,8 @@ export class LrRateComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   closeModal() {
     this.activeModal.close();

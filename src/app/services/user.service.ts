@@ -37,7 +37,7 @@ export class UserService {
     name: '',
     id: '',
     mobileNo: null,
-    foid:null
+    foid: null
   };
 
   _loggedInBy = '';
@@ -117,23 +117,23 @@ export class UserService {
     if (type === 'pages' && localStorage.getItem('DOST_axesToken')) {
       console.log('test');
       this._menu[type].push({
-        title: 'Vehicle Tracking',
+        title: 'GPS',
         icon: 'fa-chalkboard-teacher',
         link: '#'
       })
     }
   }
 
-  resetUserService(){
+  resetUserService() {
     this._token = '';
     this._details = null;
     this._customer = {
       name: '',
       id: '',
       mobileNo: null,
-      foid:null
+      foid: null
     };
-  
+
     this._loggedInBy = '';
     this._pages = null;
     this._menu = {
@@ -149,12 +149,19 @@ export class UserService {
       bidSystem: [],
       loadIntelligence: [],
     };
-  
+
     this.permission = {
       add: false,
       edit: false,
       delete: false,
     };
+  }
+
+  findPageIdByRoute(route: string) {
+    const page = this._pages.find(page => page.route === route);
+    if (page)
+      return page.id
+    return 0;
   }
 
 }

@@ -1,0 +1,42 @@
+
+<nb-card style="border: 0px;">
+    <!-- <nb-card-header>
+     
+    </nb-card-header> -->
+    <nb-card-body style="background: #f5f3f7;padding: 1rem 1rem;">
+      <div class="out-topnav">
+      <!-- <div>
+        <p class="dirbtn"><i class="fa fa-backward" (click)="backwardMove()"></i></p>
+      </div> -->
+      <div class="toptab">
+        <div class="hiddenby">
+          <p [class]="selectedDashboard=='Tmg-Vehicle-Analysis'?'active':'default'" (click)="selectedDashboard='Tmg-Vehicle-Analysis'">
+          <b>Live Analysis</b>
+          </p>
+        </div>
+        <div class="hiddenby">
+          <p [class]="selectedDashboard=='Tmg-Loading-Analysis'?'active':'default'" (click)="selectedDashboard='Tmg-Loading-Analysis'">
+          <b>Loading Analysis</b>
+          </p>
+        </div>
+        <div class="hiddenby">
+          <p [class]="selectedDashboard=='Tmg-Unloading-Analysis'?'active':'default'" (click)="selectedDashboard='Tmg-Unloading-Analysis'">
+          <b>Unloading Analysis</b>
+          </p>
+        </div>
+        <div class="hiddenby">
+          <p [class]="selectedDashboard=='Tmg-Transporter-Analysis'?'active':'default'" (click)="selectedDashboard='Tmg-Transporter-Analysis'">
+          <b>Transporter Analysis</b>
+          </p>
+        </div>
+      </div>
+      <!-- <div>
+        <p class="dirbtn"><i class="fa fa-forward" (click)="forwardMove()"></i></p>
+      </div> -->
+     </div>
+     <tmg-traffic-analysis *ngIf="selectedDashboard=='Tmg-Vehicle-Analysis'"></tmg-traffic-analysis>
+     <tmg-loading-analysis *ngIf="selectedDashboard=='Tmg-Loading-Analysis'"></tmg-loading-analysis>
+     <tmg-unloading-analysis *ngIf="selectedDashboard=='Tmg-Unloading-Analysis'"></tmg-unloading-analysis>
+     <tmg-transporter-analysis *ngIf="selectedDashboard=='Tmg-Transporter-Analysis'"></tmg-transporter-analysis>
+    </nb-card-body>
+  </nb-card>

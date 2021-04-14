@@ -58,6 +58,12 @@
       <input
         type="button"
         id="statusPending"
+        (click)="getHaltsDetails()"
+        value="Verify Halts"
+      />
+      <input
+        type="button"
+        id="statusPending"
         (click)="getPendingStatusDetails()"
         value="Pending Alerts"
       />

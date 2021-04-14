@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-fuel-indent',
   templateUrl: './add-fuel-indent.component.html',
@@ -101,7 +104,7 @@ export class AddFuelIndentComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+ngOnInit() {
     if (!this.fuelIndentData.rowId && !this.refData.id) {
       console.log("simple add");
       this.fuelIndent = this.formBuilder.group({

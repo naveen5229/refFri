@@ -6,6 +6,9 @@ import { CommonService } from '../../services/common.service';
 import { ViewListComponent } from '@progress/kendo-angular-dateinputs';
 import { GenericInputTypeComponent } from '../../modals/generic-modals/generic-input-type/generic-input-type.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'finance-recovery',
   templateUrl: './finance-recovery.component.html',
@@ -30,7 +33,8 @@ export class FinanceRecoveryComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

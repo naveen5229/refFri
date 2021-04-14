@@ -9,6 +9,9 @@ import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-rec
 import { SaveAdvicesComponent } from '../../modals/save-advices/save-advices.component';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'freight-expenses',
   templateUrl: './freight-expenses.component.html',
@@ -95,7 +98,8 @@ export class FreightExpensesComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

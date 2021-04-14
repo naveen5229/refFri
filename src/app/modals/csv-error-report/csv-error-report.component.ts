@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'csv-error-report',
   templateUrl: './csv-error-report.component.html',
@@ -44,7 +47,8 @@ export class CsvErrorReportComponent implements OnInit {
     this.columnSperate();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

@@ -7,6 +7,9 @@ import "jspdf-autotable";
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tag-summary',
   templateUrl: './tag-summary.component.html',
@@ -19,7 +22,7 @@ export class TagSummaryComponent implements OnInit {
   typedKey = '';
   result = [];
 
-  startTime = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  startTime = new Date(new Date().setDate(new Date().getDate() - 7));
   endTime = new Date();
   vehId=null;
   regno=null;
@@ -37,7 +40,8 @@ export class TagSummaryComponent implements OnInit {
       this.foid = this.user._loggedInBy == 'admin' ? this.user._customer.foid:this.user._details.foid;
     }
 
-  ngOnInit(): void {
+  ngOnDestroy(){}
+ngOnInit(): void {
   }
 
   selectVehicle(vehData) {
@@ -116,7 +120,7 @@ export class TagSummaryComponent implements OnInit {
   }
 
   printPDF(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     console.log("Name:",name);
     let details = [
       ['Name: ' + name,'Start Date: '+this.common.dateFormatter1(this.startTime),'End Date: '+this.common.dateFormatter1(this.endTime),  'Report: '+'Tag-Summary']
@@ -125,7 +129,7 @@ export class TagSummaryComponent implements OnInit {
   }
 
   printCSV(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     let details = [
       { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter1(this.startTime),enddate:'End Date:'+this.common.dateFormatter1(this.endTime), report:"Report:Tag-Summary"}
     ];

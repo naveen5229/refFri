@@ -13,6 +13,9 @@ import { EditFillingComponent } from '../../../app/modals/edit-filling/edit-fill
 import { PrintService } from '../../services/print/print.service';
 import { DateService } from '../../services/date/date.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'voucher-summary',
   templateUrl: './voucher-summary.component.html',
@@ -195,7 +198,8 @@ export class VoucherSummaryComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getcreditLedgers(transactionType) {
@@ -927,7 +931,7 @@ export class VoucherSummaryComponent implements OnInit {
 
     console.log('vech id first', vehId);
     this.common.params = { vehId, vehclename };
-    const activeModal = this.modalService.open(AddTripComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddTripComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log('Data5555555: ', data);
       if (data) {

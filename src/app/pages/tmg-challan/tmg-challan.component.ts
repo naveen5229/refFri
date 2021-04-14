@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tmg-challan',
   templateUrl: './tmg-challan.component.html',
@@ -37,32 +40,31 @@ export class TmgChallanComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal) {
-    this.getChallansMonthGraph();
-    this.getChallansMostAged();
-    this.getChallansLatest();
-    this.getChallansdrivarcount();
-    this.getChallansdrivaramount();
-    this.getChallansstatewize();
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
+  ngAfterViewInit() {
+    this.refresh();
+  }
+
 
   refresh() {
     this.xAxisData = [];
-    this.getChallansMonthGraph();
-    this.getChallansMostAged();
-    this.getChallansLatest();
-    this.getChallansdrivarcount();
-    this.getChallansdrivaramount();
-    this.getChallansstatewize();
+    this.getChallansMonthGraph(0);
+    this.getChallansMostAged(1);
+    this.getChallansLatest(2);
+    this.getChallansdrivarcount(4);
+    this.getChallansdrivaramount(5);
+    this.getChallansstatewize(3);
   }
 
-  getChallansMonthGraph() {
+  getChallansMonthGraph(index) {
     this.challansMonthGraph = [];
-    ++this.common.loading;
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 6));
+     this.showLoader(index);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 180));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -70,62 +72,71 @@ export class TmgChallanComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetChallansMonthGraph', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('challansMonthGraph:', res);
         this.challansMonthGraph = res['data'];
+        this.hideLoader(index);
         this.getlabelValue();
+        
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getChallansMostAged() {
+  getChallansMostAged(index) {
     this.challansMostAged = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let params = { totalrecord: 3 };
     this.api.post('Tmgreport/GetChallansMostAged', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('challansMostAged:', res);
         this.challansMostAged = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getChallansLatest() {
+  getChallansLatest(index) {
     this.challansLatest = [];
     let params = { totalrecord: 3 };
-    ++this.common.loading;
+     this.showLoader(index);
     this.api.post('Tmgreport/GetChallansLatestChallans', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('challansLatest:', res);
         this.challansLatest = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getChallansdrivarcount() {
+  getChallansdrivarcount(index) {
     this.challansdrivarcount = [];
-    let params = { totalrecord: 3 };
-    ++this.common.loading;
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 15));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord: 3 
+    };
+
+   
+     this.showLoader(index);
     this.api.post('Tmgreport/GetChallansdrivarcount', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('challansdrivarcount:', res);
         this.challansdrivarcount = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getChallansdrivaramount() {
+  getChallansdrivaramount(index) {
     this.challansdrivaramount = [];
     let startDate = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
     let endDate = new Date();
@@ -134,34 +145,34 @@ export class TmgChallanComponent implements OnInit {
       fromdate:this.common.dateFormatter1(startDate),
       todate: this.common.dateFormatter1(endDate)
     };
-    ++this.common.loading;
+     this.showLoader(index);
     this.api.post('Tmgreport/GetChallansdrivaramount', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('challansdrivaramount:', res);
         this.challansdrivaramount = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getChallansstatewize() {
+  getChallansstatewize(index) {
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     this.challanStateWise = [];
-    ++this.common.loading;
+     this.showLoader(index);
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate)
     };
     this.api.post('Tmgreport/getChallansstatewize', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('Res:', res['data']);
         this.challanStateWise = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+         this.hideLoader(index);
         console.log('Err:', err);
       });
   }
@@ -234,10 +245,11 @@ export class TmgChallanComponent implements OnInit {
         position: 'bottom',
         display: true
       },
-      tooltips: {
-        mode: 'index',
-        intersect: 'true'
-      },
+      // tooltips: {
+      //   mode: 'index',
+      //   intersect: 'true'
+      // },
+     
       maintainAspectRatio: false,
       title: {
         display: true,
@@ -260,14 +272,17 @@ export class TmgChallanComponent implements OnInit {
       }
     }
 
+    console.log('this.yaxisObj1.minValue',this.yaxisObj1.minValue);
+    console.log('this.yaxisObj2.minValue',this.yaxisObj2.minValue);
+
     options.scales.yAxes.push({
       scaleLabel: {
         display: true,
         labelString: 'Count of Challans'+this.yaxisObj1.yaxisLabel,
         fontSize: 16
       },
-      ticks: { stepSize: this.yaxisObj1.gridSize},
-      suggestedMin : this.yaxisObj1.minValue,
+      ticks: { stepSize: (this.yaxisObj1.gridSize), min: this.yaxisObj1.minValue - this.yaxisObj1.gridSize > 0 ? this.yaxisObj1.minValue - this.yaxisObj1.gridSize : 0 }, //beginAtZero: true,min:0,
+      // suggestedMin : this.yaxisObj1.minValue,
       type: 'linear',
       display: true,
       position: 'left',
@@ -280,7 +295,7 @@ export class TmgChallanComponent implements OnInit {
         labelString: 'Challan Amount '+this.yaxisObj2.yaxisLabel,
         fontSize: 16,
       },
-           ticks: { stepSize: this.yaxisObj2.gridSize},
+           ticks: { stepSize: (this.yaxisObj2.gridSize) ,  beginAtZero: true}, //beginAtZero: true,min:0,
           suggestedMin : this.yaxisObj2.minValue,
           // max : 100
       type: 'linear',
@@ -294,18 +309,18 @@ export class TmgChallanComponent implements OnInit {
     return options;
   }
 
-  getDetials(url, params, days = 0) {
+  getDetials(url, params, value = 0,type='days') {
     let dataparams = {
       view: {
         api: url,
         param: params,
         type: 'post'
       },
-
+  
       title: 'Details'
     }
-    if (days) {
-      let startDate = new Date(new Date().setDate(new Date().getDate() - days));
+    if (value) {
+      let startDate = type == 'months'? new Date(new Date().setMonth(new Date().getMonth() - value)): new Date(new Date().setDate(new Date().getDate() - value));
       let endDate = new Date();
       dataparams.view.param['fromdate'] = this.common.dateFormatter(startDate);
       dataparams.view.param['todate'] = this.common.dateFormatter(endDate);
@@ -314,5 +329,24 @@ export class TmgChallanComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1100');
     this.common.params = { data: dataparams };
     const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+
+  showLoader(index) {
+    setTimeout(() => {
+      let outers = document.getElementsByClassName("outer");
+      let loader = document.createElement('div');
+      loader.className = 'loader';
+      outers[index].appendChild(loader);
+    }, 50);
+  }
+
+  hideLoader(index) {
+    try {
+      let outers = document.getElementsByClassName("outer");
+      let ele = outers[index].getElementsByClassName('loader')[0];
+      outers[index].removeChild(ele);
+    } catch (e) {
+      console.log('Exception', e);
+    }
   }
 }

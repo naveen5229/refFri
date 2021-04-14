@@ -1,0 +1,15 @@
+
+.model-handler {
+    position: absolute;
+    left: 5px;
+    color: #ccc;
+    cursor: move;
+    width: 24px;
+    height: 24px;
+  }
+  :host ::ng-deep{
+    .link{
+    color: blue;
+    text-decoration: underline;
+  }
+}

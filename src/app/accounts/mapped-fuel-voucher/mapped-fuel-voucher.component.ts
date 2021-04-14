@@ -8,6 +8,9 @@ import { AccountService } from '../../services/account.service';
 import { UserService } from '../../services/user.service';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'mapped-fuel-voucher',
   templateUrl: './mapped-fuel-voucher.component.html',
@@ -53,7 +56,8 @@ export class MappedFuelVoucherComponent implements OnInit {
     this.getFuelVoucher();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getFuelVoucher() {

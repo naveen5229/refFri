@@ -8,6 +8,9 @@ import { DatePipe } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { VehicleDistanceCoveredCompactFormComponent } from '../../modals/vehicle-distance-covered-compact-form/vehicle-distance-covered-compact-form.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-covered-distance',
   templateUrl: './vehicle-covered-distance.component.html',
@@ -42,7 +45,8 @@ export class VehicleCoveredDistanceComponent implements OnInit {
     this.getData();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

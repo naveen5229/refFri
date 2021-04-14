@@ -3,6 +3,9 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-next-service-detail',
   templateUrl: './vehicle-next-service-detail.component.html',
@@ -25,7 +28,8 @@ export class VehicleNextServiceDetailComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   getNextServiceEntry() {
     this.common.loading++;

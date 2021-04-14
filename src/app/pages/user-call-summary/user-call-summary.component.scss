@@ -24,3 +24,21 @@ nb-card-header{
     max-height: calc(100vh - 170px);
     height: auto !important;
 }
+
+.pdf-icon{
+    font-size: 20px;
+    color: #9F0001;
+  }
+  .exel-icon{
+    font-size: 20px;
+    color: #217346;
+  }
+
+  .float{
+    float:right;
+  }
+
+ :host ::ng-deep table tr:last-child  span{ 
+   color: black!important;
+   pointer-events: none!important;
+  }

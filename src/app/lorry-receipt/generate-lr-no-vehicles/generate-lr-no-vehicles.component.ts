@@ -14,6 +14,9 @@ import { ChangeDriverComponent } from '../../modals/DriverModals/change-driver/c
 import { LrGenerateComponent } from '../../modals/LRModals/lr-generate/lr-generate.component';
 import { AddFieldComponent } from '../../modals/LRModals/add-field/add-field.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'generate-lr-no-vehicles',
   templateUrl: './generate-lr-no-vehicles.component.html',
@@ -98,7 +101,8 @@ export class GenerateLrNoVehiclesComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     // this.getBranches();
 
   }

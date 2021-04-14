@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'report-issue',
   templateUrl: './report-issue.component.html',
@@ -27,7 +30,8 @@ export class ReportIssueComponent implements OnInit {
     this.getIssues();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getIssues() {

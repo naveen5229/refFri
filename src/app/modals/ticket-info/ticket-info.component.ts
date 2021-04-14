@@ -11,6 +11,9 @@ import { TicketForwardComponent } from '../ticket-forward/ticket-forward.compone
 import { TicketTrailsComponent } from '../ticket-trails/ticket-trails.component';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ticket-info',
   templateUrl: './ticket-info.component.html',
@@ -38,7 +41,8 @@ export class TicketInfoComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   findRemainingTime(time) {

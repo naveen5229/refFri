@@ -10,7 +10,7 @@
     height: 340px;
     position: relative;
 }
-#map {
+#location-marker-map {
     height: 100%;
     width: 100%;
     z-index: 1;
@@ -65,4 +65,15 @@
 .zoom-btn:active{
     background: #fff;
     color: orange;
+}
+.tracker_img {
+    position: absolute;
+    bottom: 10px;
+    z-index: 999;
+    width: 40px;
+    left: 12px;
+
+    img {
+        width: 100%;
+    }
 }

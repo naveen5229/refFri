@@ -1,10 +1,16 @@
 <nb-card>
   <nb-card-header>
     <div class="row">
-      <div class="col-sm-8">
+      <div class="col-sm-6">
         <h5>Trip Status FeedBack</h5>
       </div>
-      <div class="col-sm-4" style="text-align:right">
+      <div class="col-sm-3">
+        <select name="tripStatusDate" class="form-control" (change)='getTrips()' [(ngModel)]="tripStatusDate">
+          <option *ngFor="let data of dateData" [value]="data.id">{{data.name}}</option>
+        </select>
+        <!-- <button class="btn btn-success"  (click)="">Submit</button> -->
+      </div>
+      <div class="col-sm-3" style="text-align:right">
         <span class="pdf-icon" title="PDF Export" (click)="printPDF('trip-feedback');" style="cursor: pointer;"><i
             class="fa fa-file-pdf"></i></span>
         <span class="exel-icon" title="CSV Export" (click)="printCsv('trip-feedback')"
@@ -14,10 +20,12 @@
   </nb-card-header>
   <nb-card-body>
     <div>
+      <button class="btn btn-success" *ngIf="showVerify" (click)="verifyAll()">Verified</button>
       <table class="table table-bordered table-hover m-0" id="trip-feedback">
         <thead class="thead">
           <tr style="text-align:center">
             <th>#</th>
+            <th><input type="checkbox" class="anycheck" name="allselect" [(ngModel)]="allSelected" (change)="selectAllCheck()"></th>
             <th>Vehicle No</th>
             <th>Driver</th>
             <th>Trip</th>
@@ -31,6 +39,7 @@
         <tbody *ngIf="trips.length!=0">
           <tr *ngFor="let trip of trips; let i = index">
             <td> {{(i + 1) + ((pages.active - 1) * pages.limit)}}</td>
+            <td><input type="checkbox" class="anycheck" [name]="'allselect'+i" [(ngModel)]="trip.selected" (change)="selectOneCheck(trip)"></td>
             <td>{{trip.r_regno}}</td>
             <td>
               <div style="word-wrap: break-word;">{{trip.r_driver}}</div>

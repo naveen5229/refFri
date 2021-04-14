@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'maintenanace-dashboard',
   templateUrl: './maintenanace-dashboard.component.html',
@@ -25,7 +28,8 @@ export class MaintenanaceDashboardComponent implements OnInit {
     this.getMaintenanceMatrix();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getMaintenanceMatrix() {

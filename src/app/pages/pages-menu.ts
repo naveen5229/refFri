@@ -154,6 +154,41 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         icon: 'fa-home',
         link: '/pages/tmg-trip',
       },
+      {
+        title: 'Unloading Heat Map',
+        icon: 'fa-home',
+        link: '/pages/ulheatmap',
+      },
+      {
+        title: 'Trip Master Report',
+        icon: 'fa-home',
+        link: '/pages/tripmasterreport',
+      },
+      {
+        title: 'Trip TAT Report',
+        icon: 'fa-home',
+        link: '/pages/triptatreport',
+      },
+      {
+        title: 'Lead Validation Report',
+        icon: 'fa-home',
+        link: '/pages/leadvalidationreport',
+      },
+      {
+        title: 'Trip Delivery Complinance Report',
+        icon: 'fa-home',
+        link: '/pages/tripdeliverycomplinancereport',
+      },
+      {
+        title: 'Trip Stoppage Report',
+        icon: 'fa-home',
+        link: '/pages/tripstoppage',
+      },
+      {
+        title: 'Placement Optimization',
+        icon: 'fa-home',
+        link: '/pages/placementoptimization',
+      }
     ]
   },
   {
@@ -168,6 +203,20 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/tmg-dashboard',
         home: true,
       },
+
+      {
+        title: 'Transporter TMG Dashboard',
+        // icon: 'fa-chart-pie',
+        link: '/pages/transporter-view',
+        home: true,
+      },
+
+      {
+        title: 'Corporate TMG Dashboard',
+        // icon: 'fa-chart-pie',
+        link: '/pages/cooperate-view',
+        home: true,
+      },
       {
         title: 'TMG Alerts',
         icon: 'fa-home',
@@ -180,7 +229,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/tickets',
         home: true,
       },
-    
+
       // {
       //   title: 'Finance Recovery',
       //   icon: 'fa-tachometer-alt',
@@ -190,6 +239,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         title: 'Tickets All',
         icon: 'fa-ticket-alt',
         link: '/pages/tickets-all',
+        home: true,
+      },
+      {
+        title: 'Tickets Reports',
+        icon: 'fa-ticket-alt',
+        link: '/pages/tickets-report',
         home: true,
       },
       {
@@ -419,7 +474,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/vehicle-performance',
         home: true,
       },
-      
+      {
+        title: 'Night Drive Report',
+        icon: 'fa-home',
+        link: '/pages/night-drive-report',
+      }
 
     ]
   },
@@ -434,7 +493,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/fuel-fillings',
         home: true,
       },
-      
+
       {
         title: 'Fuel Mileage',
         icon: 'fa-tachometer-alt',
@@ -501,13 +560,13 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     {
       title: 'Document Dashboard',
       icon: 'fa-table',
-      link: '/pages/documents-summary',
+      link: '/pages/document-dashboard',
       home: true,
     },
     {
       title: 'Document Summary',
       icon: 'fa-file-text',
-      link: '/pages/document-dashboard',
+      link: '/pages/documents-summary',
       home: true,
     },
     ]
@@ -528,16 +587,15 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
       icon: 'fa-list',
       link: '/pages/driver-list',
       home: true,
-    },{
+    }, {
 
       title: 'Driver On Side Images',
       icon: 'fa-map-marker',
       link: '/pages/driver-on-side-images',
       home: true,
-  },
+    },
 
     {
-
       title: 'Vehicle Driver Mapping',
       icon: 'fa-street-view',
       link: '/pages/vehicle-driver-mapping',
@@ -551,7 +609,6 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
       home: true,
     },
     {
-
       title: 'Driver Document',
       icon: 'fa-book',
       link: '/pages/driver-document',
@@ -608,7 +665,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     icon: 'fa-chalkboard-teacher',
     link: '/challan/pending-challan'
   },
- 
+
   {
     title: 'TMG Challan',
     icon: 'fa-home',
@@ -618,7 +675,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
   {
     title: 'Walle8',
     icon: 'fa-wallet',
-    link: '/walle8/card-balance'
+    link: '/walle8/card-mapping'
   },
   {
     title: 'Bid-System',

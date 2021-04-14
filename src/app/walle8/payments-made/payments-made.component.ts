@@ -7,6 +7,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'payments-made',
   templateUrl: './payments-made.component.html',
@@ -31,7 +34,8 @@ export class PaymentsMadeComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){
@@ -71,7 +75,7 @@ export class PaymentsMadeComponent implements OnInit {
   }
 
   printPDF(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     console.log("Name:",name);
     let details = [
       ['Name: ' + name,'Start Date: '+this.common.dateFormatter1(this.startTime),'End Date: '+this.common.dateFormatter1(this.endTime),  'Report: '+'Payment-Made']
@@ -80,7 +84,7 @@ export class PaymentsMadeComponent implements OnInit {
   }
 
   printCSV(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     let details = [
       { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter1(this.startTime),enddate:'End Date:'+this.common.dateFormatter1(this.endTime), report:"Report:Payment-Made"}
     ];

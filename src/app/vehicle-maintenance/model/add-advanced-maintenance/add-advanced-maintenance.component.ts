@@ -5,6 +5,9 @@ import { DateService } from '../../../services/date.service';
 import { UserService } from '../../../services/user.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-advanced-maintenance',
   templateUrl: './add-advanced-maintenance.component.html',
@@ -89,7 +92,8 @@ export class AddAdvancedMaintenanceComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

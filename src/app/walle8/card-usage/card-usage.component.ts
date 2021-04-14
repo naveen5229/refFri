@@ -8,6 +8,9 @@ import { getUrlScheme } from '@angular/compiler';
 import { CardusageComponent } from '../../modals/cardusage/cardusage.component';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'card-usage',
   templateUrl: './card-usage.component.html',
@@ -29,7 +32,8 @@ export class CardUsageComponent implements OnInit {
       columns: []
     },
     settings: {
-      hideHeader: true
+      hideHeader: true,
+      tableHeight:"38vh"
     }
   };
 
@@ -65,7 +69,8 @@ export class CardUsageComponent implements OnInit {
     
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {
@@ -166,20 +171,6 @@ export class CardUsageComponent implements OnInit {
     return columns;
   }
 
-
-  // actionIcons(details) {
-  //   let icons = [];
-  //   icons.push(
-  //     {
-  //       class: "fa fa-edit",
-  //       // action: this.openAddIssueModel.bind(this, details)
-
-  //     }
-  //   )
-  //   console.log("details-------:", details)
-  //   return icons;
-  // }
-
   formatTitle(title) {
     if (title.length <= 4) {
       return title.toUpperCase()
@@ -240,7 +231,7 @@ export class CardUsageComponent implements OnInit {
   // }
 
   printPDF(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     console.log("Name:",name);
     let details = [
       ['Name: ' + name, 'Start Date: '+this.startDate,'End Date: '+this.endDate,  'Report: '+'Card-Usage']
@@ -249,7 +240,7 @@ export class CardUsageComponent implements OnInit {
   }
 
   printCSV(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     let details = [
       { name: 'Name:' + name,startdate:"Start Date:"+this.startDate,enddate:"End Date: "+this.endDate, report:"Report:Card-Usage"}
     ];

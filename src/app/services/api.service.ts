@@ -3,23 +3,35 @@ import { UserService } from './user.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AccountService } from './account.service';
-import { encode } from 'punycode';
-// import { CommonService } from '../services/common.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  // URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
-    URL: string = 'https://dev.elogist.in/booster_webservices/'; // Dev : http://elogist.in/testing/dos
-    // URL: string = 'http://localhost/booster_webservices/'; // Local
+  /************************** PROD SERVER ********** */
+  // URL: string = 'https://elogist.in/booster_webservices/';
+  // UrlPrime: string = 'https://elogist.in/itrm_webservices/';
+  // UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
+  // URL2 = 'http://elogist.in/transtruck/';
+
+  /********************** DEV SERVER ***************** */
+  URL: string = 'https://dev.elogist.in/booster_webservices/';
+  UrlPrime: string = 'https://dev.elogist.in/itrm_webservices/';
   UrlTranstruckNew: string = 'http://dev.elogist.in/transtrucknew/';
+  URL2 = 'http://dev.elogist.in/transtruck/';
+
+  /********************* Common ***************** */
+  URLJava: string = 'http://13.126.162.170:7070/';
+  URLJavaPortDost: string = 'http://elogist.in';
+  verifyHaltsUrl: string = 'http://elogist.in:8081/';
+
+  /********************** Local Server ************* */
+  // URL: string= 'http://107.6.151.122:8081/airtel'
+  //URL: string = 'http://192.168.0.109/booster_webservices/'; 
+  // UrlPrime:string='http://192.168.0.111/itrm_webservices/';
   // UrlTranstruckNew: string = 'http://192.168.1.101/webservices/';
-  // URL: string = 'https://dev.elogist.in/booster_webservices/'; // Dev : http://elogist.in/testing/dos
-
-  URL2 = 'http://elogist.in/transtruck/';
-  URLJava: string = 'http://13.126.162.170:7070/'; // Dev Server
-
+  // verifyHaltsUrl: string = 'http://192.168.0.166:8081/';
+  //URLJavaPortDost: string = 'http://192.168.0.160';
 
   constructor(private http: HttpClient,
     public router: Router,
@@ -36,17 +48,64 @@ export class ApiService {
         'version': '0.1.0'
       }
     };
+    if (this.user._details && this.user._details.isDemo) {
+      reqOpts.headers['pageId'] = this.user.findPageIdByRoute(this.router.url);
+    }
     if (localStorage.getItem('TOKEN')) {
       reqOpts.headers['authkey'] = localStorage.getItem('TOKEN');
     }
     return this.http.post(this.URLJava + endpoint, body, reqOpts);
   }
 
+  getJavaPortDost(port: number, endpoint: string) {
+    const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
+    let reqOpts = {
+      headers: {
+        'Content-Type': 'application/json',
+        'version': '0.1.0',
+        'foAdminId': this.user._customer.id.toString(),
+        'entryMode': entryMode
+      }
+    };
+
+    if (this.user._details && this.user._details.isDemo) {
+      reqOpts.headers['pageId'] = this.user.findPageIdByRoute(this.router.url);
+    }
+
+    if (localStorage.getItem('USER_TOKEN')) {
+      reqOpts.headers['authkey'] = localStorage.getItem('USER_TOKEN');
+    }
+    console.log("headers:", reqOpts);
+    return this.http.get(this.URLJavaPortDost + ":" + port + "/" + endpoint, reqOpts);
+  }
+
+  postJavaPortDost(port: number, endpoint: string, body: any,) {
+    console.log('test');
+    const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
+    let reqOpts = {
+      headers: {
+        'Content-Type': 'application/json',
+        'version': '0.1.0',
+        'foAdminId': this.user._customer.id.toString(),
+        'entryMode': entryMode
+      }
+    };
+
+    if (this.user._details && this.user._details.isDemo) {
+      reqOpts.headers['pageId'] = this.user.findPageIdByRoute(this.router.url);
+    }
+
+    if (localStorage.getItem('USER_TOKEN')) {
+      reqOpts.headers['authkey'] = localStorage.getItem('USER_TOKEN');
+    }
+    console.log("headers:", reqOpts);
+    return this.http.post(this.URLJavaPortDost + ":" + port + "/" + endpoint, body, reqOpts);
+  }
+
   post(subURL: string, body: any, options?) {
     if (this.user._customer.id) {
       body['foAdminId'] = this.user._customer.id;
       body['multipleAccounts'] = this.user._details.multipleAccounts ? this.user._details.multipleAccounts : 0;
-      // console.log(body['foAdminId']);
       console.log("foAdminId", body);
     }
 
@@ -58,7 +117,6 @@ export class ApiService {
     } else {
       return this.http.post(this.URL + subURL, body, { headers: this.setHeaders() })
     }
-    // console.log('BODY: ', body);
   }
   postEncrypt(subURL: string, body: any, options?) {
     if (this.user._customer.id) {
@@ -71,7 +129,6 @@ export class ApiService {
       // console.log(body['foAdminId']);
       // console.log("foAdminId", body);
       console.log("Encrypted Params-->", body);
-
     }
 
     if (this.router.url.includes('accounts') && this.accountService.selected.branch) body['branch'] = this.accountService.selected.branch.id;
@@ -102,6 +159,13 @@ export class ApiService {
 
     return this.http.get(this.URL + subURL, { headers: this.setHeaders() })
   }
+
+  verifyHaltsGet(subURL: string, params?: any) {
+    console.log("param data", params);
+
+    return this.http.get(this.verifyHaltsUrl + subURL + params, { headers: this.setHeaders() })
+  }
+
   getEncrypt(subURL: string, params?: any) {
     let url = subURL.split("?");
     let dataBase64 = null;
@@ -176,6 +240,9 @@ export class ApiService {
       'authkey': this.user._token || ''
     });
 
+    if (this.user._details && this.user._details.isDemo) {
+      headers['pageId'] = this.user.findPageIdByRoute(this.router.url);
+    }
     return this.http.post(this.UrlTranstruckNew + subURL, body, { headers: headers })
   }
 
@@ -195,7 +262,9 @@ export class ApiService {
       'entrymode': entryMode,
       'authkey': this.user._token || ''
     });
-
+    if (this.user._details && this.user._details.isDemo) {
+      headers['pageId'] = this.user.findPageIdByRoute(this.router.url);
+    }
     return this.http.get(this.UrlTranstruckNew + subURL, { headers: headers })
   }
 
@@ -220,6 +289,12 @@ export class ApiService {
       'apptype': 'dashboard',
       'authkey': this.user._token || ''
     });
+    if (this.user._details && this.user._details.isDemo) {
+      headers['pageId'] = this.user.findPageIdByRoute(this.router.url);
+    }
+    if (this.user._details && this.user._details.isDemo) {
+      headers['pageId'] = this.user.findPageIdByRoute(this.router.url);
+    }
     return headers;
   }
 
@@ -243,6 +318,33 @@ export class ApiService {
     return this.http.get(this.UrlTranstruckNew + subURL, { headers: this.setWalle8Headers() })
   }
 
+  primePost(subURL: string, body: any, option?) {
+    return this.http.post(this.UrlPrime + subURL, body, { headers: this.setPrimeHeaders() })
+  }
+
+  primeGet(subURL: string, params?: any) {
+    return this.http.get(this.UrlPrime + subURL, { headers: this.setPrimeHeaders() })
+  }
+
+  setPrimeHeaders() {
+    const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
+    const authKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTYzLCJmb2lkIjoiMCIsIm5hbWUiOiJIZW1hbnQgU2lzb2RpYSIsIm1vYmlsZW5vIjo5NzcyNzUzNDc2LCJlbWFpbCI6bnVsbCwidGltZSI6IjIwMjAtMTItMTdUMTI6MTM6MTArMDU6MzAifQ.TPwK9WlypiWnY_NrUhtsJBvWIHbdz49hCtlwV1AX0Ww';
+    const version = '1.0';
+
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'version': version,
+      'entrymode': entryMode,
+      'authkey': authKey,
+      'apptype': 'dashboard',
+      'token': '8e3ff0d7-5fde-2266-e999-00dbb2a9e5fd'
+    });
+    if (this.user._details && this.user._details.isDemo) {
+      headers['pageId'] = this.user.findPageIdByRoute(this.router.url);
+    }
+    return headers;
+  }
+
 
   setWalle8Headers() {
     const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
@@ -255,7 +357,9 @@ export class ApiService {
       'entrymode': entryMode,
       'authkey': authKey
     });
-
+    if (this.user._details && this.user._details.isDemo) {
+      headers['pageId'] = this.user.findPageIdByRoute(this.router.url);
+    }
     return headers;
   }
   getBranches() {

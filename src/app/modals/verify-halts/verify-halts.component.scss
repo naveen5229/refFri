@@ -1,0 +1,19 @@
+.tableFixHead {
+    overflow-y: auto;
+    height: calc(100vh - 225px);
+}
+
+.tableFixHead th {
+    position: sticky;
+    top: 0;
+    background: #37474F;
+}
+.submit-btn{
+    padding: 9px 16px;
+    font-size: 12px;
+}
+.thead{
+    color: white;
+    font-size: 12px;
+    background-color: #263238;
+}

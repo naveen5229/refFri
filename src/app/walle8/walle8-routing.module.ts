@@ -22,6 +22,7 @@ import { CardBalanceComponent } from './card-balance/card-balance.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { RouteGuard } from '../guards/route.guard';
 import { TagSummaryComponent } from './tag-summary/tag-summary.component';
+import { FinancialhistorysummaryComponent } from './financialhistorysummary/financialhistorysummary.component';
 const routes: Routes = [{
     path: '',
     component: Walle8Component,
@@ -113,6 +114,11 @@ const routes: Routes = [{
         {
             path: 'tag-summary',
             component: TagSummaryComponent,
+            // canActivate: [AuthGuard, RouteGuard]
+        },
+        {
+            path: 'financialhistorysummary',
+            component: FinancialhistorysummaryComponent,
             // canActivate: [AuthGuard, RouteGuard]
         },
 

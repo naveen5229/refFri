@@ -9,7 +9,10 @@ import { GenericModelComponent } from '../../modals/generic-modals/generic-model
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 import { UserService } from '../../services/user.service';
+import { ExcelService } from '../../services/excel/excel.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 
+@AutoUnsubscribe()
 @Component({
   selector: 'pending-challan',
   templateUrl: './pending-challan.component.html',
@@ -39,11 +42,13 @@ export class PendingChallanComponent implements OnInit {
     private csvService: CsvService,
     public user: UserService,
     public api: ApiService,
+    private excelService: ExcelService,
     private modalService: NgbModal,) {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 
@@ -142,7 +147,7 @@ export class PendingChallanComponent implements OnInit {
       for (let key in this.generateHeadings(chHeadings)) {
         if (key == "Action") {
           column[key] = {
-            value: "", action: null, icons: [{ class: item._ch_doc_id ? 'far fa-file-alt' : 'far fa-file-alt text-color', action: this.paymentDocImage.bind(this, item._ch_doc_id) }, { class: item._payment_doc_id ? 'far fa-file-pdf' : 'far far fa-file-pdf text-color', action: this.paymentDocImage.bind(this, item._payment_doc_id) },
+            value: "", action: null, icons: [{ class: item._ch_doc_id ? 'far fa-file-alt' : 'far fa-file-alt text-color', action: this.paymentDocImage.bind(this, item._ch_doc_id) }, { class: item._payment_doc_id ? 'far fa-file-pdf' : 'far far fa-file-pdf text-color', action: this.paymentDocImage.bind(this, item['_payment_doc_id1']?item['_payment_doc_id1']:item['_payment_doc_id']) },
             { class: item['Payment Type'] == 'Pending' && item._ch_doc_id && item._req_status == 0 ? 'far fa-money-bill-alt' : '', action: this.challanPendingRequest.bind(this, item) },]
           };
         } else if (key == "Challan Date") {
@@ -236,12 +241,45 @@ export class PendingChallanComponent implements OnInit {
       this.pdfService.jrxTablesPDF(['pendingChallan'], 'challan', details);
     }
   
-    printCSV(){
-      let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
-      let details = [
-        { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter1(this.startDate),enddate:'End Date:'+this.common.dateFormatter1(this.endDate), report:"Report:Challan"}
-      ];
-      this.csvService.byMultiIds(['pendingChallan'], 'challan', details);
+    // printCSV(tblEltId){
+    //   let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    //   let details = [
+    //     { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter1(this.startDate),enddate:'End Date:'+this.common.dateFormatter1(this.endDate), report:"Report:Challan"}
+    //   ];
+    //   this.csvService.byMultiIds(['pendingChallan'], 'challan', details);
+    //   this.common.getCSVFromTableId(tblEltId, details, '', '', '');
+    // }
+
+    generateExcel() {
+      
+      let startDate= this.common.dateFormatter1(this.startDate);
+      let endDate=   this.common.dateFormatter1(this.endDate);
+      let foName =   this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+      let headerDetails=[];
+      headerDetails=[
+        {sDate:startDate},
+        {eDate:endDate},
+        {name:foName}
+      ]
+      let headersArray = ["RegNo", "Challan Date", "Challan No", "Dl Rc No", "Payment", "Payment Source", "State", "Payment Type","Amount","Transaction Id","Violator Name","Driver"];
+      let json = this.challan.map(challan => {
+        return {
+          "RegNo": challan['Regno'],
+          "Challan Date":challan['Challan Date'],
+          "Challan No": challan['Challan No'],
+          "Dl Rc No": challan['Dl Rc No'],
+          "Payment": challan['Payment'],
+          "Payment Source": challan['Payment Source'],
+          "State": challan['State'],
+          "Payment Type": challan['Payment Type'],
+          "Amount": challan['Amount'],
+          "Transaction Id":challan['Transaction Id'],
+          "Violator Name":challan['Violator Name'],
+          "Driver":challan['Driver'],
+        };
+      });
+  
+      this.excelService.jrxExcel("Pending Challan",headerDetails,headersArray, json, 'Pending Challan', false);
     }
 
 }

@@ -228,6 +228,8 @@ export class CommonService {
   changeDateformat(date, format = "dd-MMM-yyyy hh:mm:ss a") {
     return this.datePipe.transform(date, format);
   }
+
+
   changeDateformat4(date) {
     let d = new Date(date);
     return this.datePipe.transform(date, "dd-MMM-yyyy hh:mm");
@@ -475,6 +477,10 @@ export class CommonService {
       dist = Math.acos(dist);
       dist = (dist * 180) / Math.PI;
       dist = dist * 60 * 1.1515;
+      dist = dist * 1.609344 * 1000;
+      dist = this.odoMultiplierWithMeter(dist);
+      dist /= 1.609344 * 1000;
+
       if (unit == "K") {
         dist = dist * 1.609344;
       }
@@ -484,8 +490,26 @@ export class CommonService {
       if (unit == "N") {
         dist = dist * 0.8684;
       }
+
       return parseInt(dist.toFixed(0));
     }
+  }
+
+  odoMultiplierWithMeter(distance: number) {
+    if (distance < 200) {
+      distance = distance * 1.02;
+    } else if (distance > 200 && distance < 1000) {
+      distance = distance * 1.03;
+    } else if (distance > 1000 && distance < 10000) {
+      distance = distance * 1.05;
+    } else if (distance > 10000 && distance < 50000) {
+      distance = distance * 1.06;
+    } else if (distance > 50000 && distance < 200000) {
+      distance = distance * 1.10;
+    } else {
+      distance = distance * 1.15;
+    }
+    return distance;
   }
 
   differenceBtwT1AndT2(date1, date2) {
@@ -1900,10 +1924,12 @@ export class CommonService {
       gridSize: null,
       minValue: 0
     }
-    var max = arr.reduce(function (a, b) {
-      return Math.max(a, b);
-    });
-    console.log("max", arr, max);
+    var max = 0;
+    if (arr.length) {
+      max = arr.reduce(function (a, b) {
+        return Math.max(a, b);
+      });
+    }
     //--y axis scale data
     if (max > 1000 && max < 90000) {
       chartObj.scaleData = arr.map(a => {
@@ -1962,7 +1988,6 @@ export class CommonService {
     }
     xhr.send();
   }
-
   resetCommonService() {
     this.params = null;
     this.loading = 0;
@@ -2008,4 +2033,84 @@ export class CommonService {
     this.isComponentActive = false;
   }
 
+  async handleFileSelection(event, format) {
+    let result = { name: null, file: null };
+    this.loading++;
+    await this.getBase64(event.target.files[0]).then((res: any) => {
+      this.loading--;
+      let file = event.target.files[0];
+      console.log("Type:", file, res);
+      var ext = file.name.split('.').pop();
+      let formats = (format && format.length) ? format : ["jpeg", "jpg", "png", 'xlsx', 'xls', 'docx', 'doc', 'pdf', 'csv'];
+      if (formats.includes(ext)) {
+        result.name = file.name;
+        result.file = res;
+      } else {
+        this.showError("Valid Format Are : jpeg, png, jpg, xlsx, xls, docx, doc, pdf,csv");
+        return false;
+      }
+      console.log("attachmentFile:", file);
+    }, err => {
+      this.loading--;
+      this.showError(err);
+      console.error('Base Err: ', err);
+    })
+    return result;
+  }
+  HSLToHex(h, s, l) {
+    s /= 100;
+    l /= 100;
+
+    let c = (1 - Math.abs(2 * l - 1)) * s,
+      x = c * (1 - Math.abs((h / 60) % 2 - 1)),
+      m = l - c / 2,
+      r = 0,
+      g = 0,
+      b = 0;
+
+    if (0 <= h && h < 60) {
+      r = c; g = x; b = 0;
+    } else if (60 <= h && h < 120) {
+      r = x; g = c; b = 0;
+    } else if (120 <= h && h < 180) {
+      r = 0; g = c; b = x;
+    } else if (180 <= h && h < 240) {
+      r = 0; g = x; b = c;
+    } else if (240 <= h && h < 300) {
+      r = x; g = 0; b = c;
+    } else if (300 <= h && h < 360) {
+      r = c; g = 0; b = x;
+    }
+    // Having obtained RGB, convert channels to hex
+    let rs = Math.round((r + m) * 255).toString(16);
+    let gs = Math.round((g + m) * 255).toString(16);
+    let bs = Math.round((b + m) * 255).toString(16);
+
+    // Prepend 0s, if necessary
+    if (rs.length == 1)
+      rs = "0" + rs;
+    if (gs.length == 1)
+      gs = "0" + gs;
+    if (bs.length == 1)
+      bs = "0" + bs;
+
+    return "#" + rs + gs + bs;
+  }
+  shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+  }
 }

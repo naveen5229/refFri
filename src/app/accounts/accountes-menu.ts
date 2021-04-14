@@ -8,6 +8,12 @@ export const ACCOUNTS_MENU_ITEMS = JSON.stringify([
         home: true,
     },
     {
+        title: 'Dl Details',
+        icon: 'fa-home',
+        link: 'anotherPageOpen()',
+        home: true,
+    },
+    {
         title: 'Accounts Master',
         icon: 'fa-user-circle',
 

@@ -3,6 +3,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../../services/api.service';
 import { CommonService } from '../../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tyre-history',
   templateUrl: './tyre-history.component.html',
@@ -26,7 +29,8 @@ export class TyreHistoryComponent implements OnInit {
       this.gettyreHistory();
      }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   gettyreHistory() {

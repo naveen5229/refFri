@@ -6,6 +6,9 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LrInvoiceColumnsComponent } from '../../pages/lr-invoice-columns/lr-invoice-columns.component';
 import { ConfirmComponent } from '../confirm/confirm.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-report-formats',
   templateUrl: './add-report-formats.component.html',
@@ -98,7 +101,8 @@ export class AddReportFormatsComponent implements OnInit {
 
 
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

@@ -5,28 +5,38 @@
         <h5>User Call Summary</h5>
       </div>
       <div class="col-6">
+        <div style="display:inline-block;" class="p-2 float">
+          <span style="display: block;">
+            <span class="pdf-icon" title="PDF Export" (click)="printPDF();" style="cursor: pointer;"><i
+                class="fa fa-file-pdf"></i></span>
+            <span class="exel-icon" title="CSV Export" (click)="printCSV();"
+              style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
+          </span>
+        </div>
+      </div>
+    </div>
+    
         <div class="row">
-          <div class="form-group" class="col-sm-4">
+          <div class="form-group" class="col-sm-3">
             <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off"
               (click)="getDate('startdate')" placeholder="Select Start Date" [value]="fromDate | date: 'dd MMM yyyy'"
               name="startdate" readonly>
           </div>
-          <div class="form-group" class="col-sm-5">
+          <div class="form-group" class="col-sm-3">
             <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off"
               (click)="getDate('enddate')" placeholder="Select End Date" [value]="endDate | date: 'dd MMM yyyy' "
               name="enddate" readonly>
           </div>
-          <div class="form-group" class="col-sm-3">
+          <div class="form-group" class="col-sm-2">
             <button type="submit" class="btn btn-primary " style=" cursor: pointer;"
               (click)="getCallSummary()">Submit</button>
           </div>
         </div>
-      </div>
-    </div>
+     
 
   </nb-card-header>
   <nb-card-body>
-    <div>
+    <div id='userCallSummary'>
       <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings"></smart-table>
     </div>
     <!-- <div class="no-data alert alert-danger" role="alert" *ngIf="data=='null'">

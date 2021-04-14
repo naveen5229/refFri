@@ -3,6 +3,9 @@ import { WAREHOUSE_MENU_ITEMS } from './ware-house-menu';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ngx-pages',
   template: `
@@ -21,4 +24,6 @@ export class WareHouseComponent {
     // }
 
   }
+  ngOnDestroy() { }
+
 }

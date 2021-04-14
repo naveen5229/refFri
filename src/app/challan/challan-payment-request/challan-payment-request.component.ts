@@ -6,6 +6,9 @@ import { PayChallanPaymentComponent } from '../../modals/challanModals/pay-chall
 import { PdfViewerComponent } from '../../generic/pdf-viewer/pdf-viewer.component';
 import { UploadFileComponent } from '../../modals/generic-modals/upload-file/upload-file.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'challan-payment-request',
   templateUrl: './challan-payment-request.component.html',
@@ -31,6 +34,7 @@ export class ChallanPaymentRequestComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
+  ngOnDestroy() { }
   ngOnInit() {
   }
 
@@ -88,15 +92,25 @@ export class ChallanPaymentRequestComponent implements OnInit {
     challanList.map(item => {
       let column = {};
       for (let key in this.generateHeadings(chHeadings)) {
+        // console.log("testing:",item['_req_status']);
         if (key == "Action") {
-          column[key] = {
-            value: "", action: null, icons: [
-              { class: item._req_status==1?'fas fa-edit mr-2':null, action: this.payChallanPayment.bind(this, item) },
-              { class: item._ch_doc_id ? 'far fa-file-alt mr-2' : 'far fa-file-alt text-color', action: this.paymentDocImage.bind(this, item._ch_doc_id) },
-              { class: item._req_status==2? 'fa fa-upload mr-2' : null, action: this.confirmation.bind(this, item) },
-              
-            ]
+          if (item['_status'] == 1 || item['_status'] == 2) {
+            column[key] = {
+              value: "", action: null, icons: [
+                { class: item._req_status == 1 ? 'fas fa-edit mr-2' : null, action: this.payChallanPayment.bind(this, item) },
+                { class: item._ch_doc_id ? 'far fa-file-alt mr-2' : 'far fa-file-alt text-color', action: this.paymentDocImage.bind(this, item._ch_doc_id) },
+                { class: item._req_status == 2 ? 'fa fa-upload mr-2' : null, action: this.confirmation.bind(this, item) },
+              ]
+            };
+            column['class'] = 'make-me-white';
+          } else if (item['_status'] == -1) {
+            console.log("Testing");
+            column[key] = { value: item[key], action: ''};
+            column['class'] = "make-me-red";
           }
+        } else if ((item['_status']) == 3) {
+          column['class'] = "make-me-gray";
+          column[key] = { value: item[key], class: 'black', action: '' };
         } else {
           column[key] = { value: item[key], class: 'black', action: '' };
         }
@@ -105,6 +119,10 @@ export class ChallanPaymentRequestComponent implements OnInit {
     });
     return columns;
   }
+
+  // uploadDocument(data){
+  //   console.log("UploadData:",data);
+  // }
 
   paymentDocImage(paymentId) {
     let pdfUrl = '';
@@ -117,6 +135,7 @@ export class ChallanPaymentRequestComponent implements OnInit {
           this.common.loading--;
           console.log(res['data']);
           if (res['data']) {
+            console.log("ImagesData:", res['data']);
             pdfUrl = res['data'][0]['url'];
             this.common.params = { pdfUrl: pdfUrl, title: "Challan" };
             console.log("params", this.common.params);
@@ -130,7 +149,7 @@ export class ChallanPaymentRequestComponent implements OnInit {
   }
 
 
-  payChallanPayment(challanDetails, ) {
+  payChallanPayment(challanDetails,) {
     this.common.params = {
       regNo: challanDetails.Regno,
       vehicleId: challanDetails._vehid,
@@ -140,7 +159,7 @@ export class ChallanPaymentRequestComponent implements OnInit {
       rowId: challanDetails._id,
       mainBalance: 0
     }
-    const activeModal = this.modalService.open(PayChallanPaymentComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(PayChallanPaymentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
 
       console.log("false", data.response);
@@ -167,31 +186,31 @@ export class ChallanPaymentRequestComponent implements OnInit {
     const activeModal = this.modalService.open(UploadFileComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {
       if (data.response) {
-        console.log("data",data);
-        this.uploadImg(dt,data.file,data.fileType) 
+        console.log("data", data);
+        this.uploadImg(dt, data.file, data.fileType)
       }
     });
   }
 
 
-  uploadImg(dt,file,filetype) {
-    console.log('file',filetype);
+  uploadImg(dt, file, filetype) {
+    console.log('file', filetype);
     if (filetype == "image/jpeg" || filetype == "image/jpg" ||
-    filetype == "image/png" || filetype == "application/pdf" ||
-    filetype == "application/msword" || filetype == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
-    filetype == "application/vnd.ms-excel" || filetype == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-    this.common.showToast("SuccessFull File Selected");
-  }
-  else {
-    this.common.showError("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
-    return false;
-  }
-  let params ={
-  challanId: dt._id,
-  vehId: dt._vehid,
-  status: 3,
-  doc1:file
-  }
+      filetype == "image/png" || filetype == "application/pdf" ||
+      filetype == "application/msword" || filetype == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+      filetype == "application/vnd.ms-excel" || filetype == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+      this.common.showToast("SuccessFull File Selected");
+    }
+    else {
+      this.common.showError("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
+      return false;
+    }
+    let params = {
+      challanId: dt._id,
+      vehId: dt._vehid,
+      status: 3,
+      doc1: file
+    }
     this.common.loading++;
     this.api.post('Challans/completeChallanPayment', params)
       .subscribe(res => {

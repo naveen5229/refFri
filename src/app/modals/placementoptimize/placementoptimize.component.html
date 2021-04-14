@@ -1,0 +1,16 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Placement Optimisation</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<nb-card>
+  <nb-card-body>
+    <div class="col-12 mrgn">
+      <input type="checkbox" style="position: absolute;z-index: 9999;margin-left:52%;margin-top:0.5%;" [(ngModel)]="selected.markerCluster" (ngModelChange)="handleMarkerCluster()">
+                <span>Density Cluster</span>
+      </div>
+    <div id="placementoptimize-map" style="height:500px;"></div>
+  </nb-card-body>
+</nb-card>

@@ -4,6 +4,9 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { PartyLedgerMappingComponent } from '../party-ledger-mapping/party-ledger-mapping.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-company-association',
   templateUrl: './add-company-association.component.html',
@@ -43,7 +46,8 @@ export class AddCompanyAssociationComponent implements OnInit {
     this.getSelfBranch();
    }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getAssociationType() {

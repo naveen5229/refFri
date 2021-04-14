@@ -7,6 +7,9 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'inputs',
   templateUrl: './inputs.component.html',
@@ -50,7 +53,8 @@ export class InputsComponent implements OnInit {
     //this.axels = this.common.generateArray(6)
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   resetVehDetails() {

@@ -3,6 +3,9 @@ import { MapService } from '../../services/map.service';
 import { ApiService } from "../../services/api.service";
 import { CommonService } from '../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'special-area',
   templateUrl: './special-area.component.html',
@@ -29,14 +32,15 @@ export class SpecialAreaComponent implements OnInit {
       this.commonService.refresh = this.refresh.bind(this);
     }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){
     console.log('Refresh');
   }
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map");
+    this.mapService.mapIntialize("special-area-map");
     this.mapService.autoSuggestion("siteLoc", (place, lat, lng,placeF) => {
       this.commonService.loading++;
       this.mapService.zoomAt({lat:lat,lng:lng},10);

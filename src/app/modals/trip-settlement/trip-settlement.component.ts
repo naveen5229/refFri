@@ -6,6 +6,9 @@ import { AddFuelIndentComponent } from '../add-fuel-indent/add-fuel-indent.compo
 import { SaveAdvicesComponent } from '../save-advices/save-advices.component';
 import { TransferReceiptsComponent } from '../FreightRate/transfer-receipts/transfer-receipts.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trip-settlement',
   templateUrl: './trip-settlement.component.html',
@@ -39,7 +42,8 @@ export class TripSettlementComponent implements OnInit {
     this.printInvoice();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { FeedbackModalComponent } from '../feedback-modal/feedback-modal.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fo-user-state',
   templateUrl: './fo-user-state.component.html',
@@ -38,7 +41,8 @@ export class FoUserStateComponent implements OnInit {
 
      }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

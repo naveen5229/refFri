@@ -7,6 +7,9 @@ import { SiteTripDetailsComponent } from '../../modals/site-trip-details/site-tr
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'placements-dash-board',
   templateUrl: './placements-dash-board.component.html',
@@ -37,7 +40,8 @@ export class PlacementsDashBoardComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
 
@@ -64,11 +68,12 @@ export class PlacementsDashBoardComponent implements OnInit {
     let columns = [];
     this.placements.map(placement => {
       let column = {
-        siteName: { value: placement.r_sitename, action: this.siteTripModal.bind(this, placement, 'site') },
-        onward: { value: placement.r_todayonwards, action: this.siteTripModal.bind(this, placement, 'onward') },
+        siteName:{ value: placement.r_sitename, action: this.siteTripModal.bind(this, placement, 'site') },
+        onward:  { value: placement.r_todayonwards, action: this.siteTripModal.bind(this, placement, 'onward') },
         loading: { value: placement.r_loadings, action: this.siteTripModal.bind(this, placement, 'loading') },
         towards: { value: placement.r_intransits, action: this.siteTripModal.bind(this, placement, 'towards') },
         waiting: { value: placement.r_waitingtime, },
+        type:    {value:placement.r_type}
       };
 
       columns.push(column);
@@ -81,9 +86,10 @@ export class PlacementsDashBoardComponent implements OnInit {
     let headings = {
       siteName: { title: 'Site Name', placeholder: 'Site Name' },
       onward: { title: 'Onward 24 Hrs', placeholder: 'Onward 24 Hrs' },
-      loading: { title: 'At Loading', placeholder: 'At Loading' },
+      loading: { title: 'At Parking', placeholder: 'At Parking' },
       towards: { title: 'Towards', placeholder: 'Towards' },
       waiting: { title: 'Waiting Time', placeholder: 'Waiting Time' },
+      type:{title:'Sub Category',placeholder:'Sub Category'}
 
     };
     return {
