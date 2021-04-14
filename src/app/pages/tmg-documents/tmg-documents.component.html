@@ -5,7 +5,9 @@
     <div class="col-12 pl-0 pr-0">
       <div class="outer">
         <h6 style="text-align:center"><b class="charthead">Current Status</b></h6>
-        <table class="table">
+        <smart-table *ngIf="documentData.length" [data]="table.data" [settings]="table.settings" id="tblsummary"></smart-table>
+        <br>
+        <!-- <table class="table">
           <thead class="thead">
             <th></th>
             <th>Total</th>
@@ -26,7 +28,7 @@
               <td><b>{{cs['Expired On Trips']}}</b></td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
       </div>
     </div>
   </div>
