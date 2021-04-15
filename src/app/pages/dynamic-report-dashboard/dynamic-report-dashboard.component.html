@@ -1,0 +1,31 @@
+<nb-card style="border:0px;">
+    <nb-card-header>
+        <h5>Dynamic Report Dashboard</h5>
+    </nb-card-header>
+
+    <nb-card-body>
+        <div class="row">
+            <div style="width: 100%">
+                <input type="text" [(ngModel)]="reportName">
+                <button class="btn btn-primary">Save</button>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 5px;">
+            <div class="col-4">
+                <div class="holdContainer">
+                    <div class="dataelements" *ngFor="let data of dataHolderContainer;let i = index" draggable="true"
+                        (dragstart)="dragstart(i)">
+                        {{data.text}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-8">
+                <div class="placeContainer" id="canvas-container">
+                    <canvas id="c" width="652" height="600" style="z-index: 99;"></canvas>
+                </div>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>
