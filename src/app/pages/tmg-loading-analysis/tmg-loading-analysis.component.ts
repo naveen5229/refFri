@@ -84,9 +84,11 @@ ngOnInit() {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 7
+      groupdays: 7,
+      isfo: false,
+      isadmin: true
     };
-    this.api.post('Tmgreport/GetLoadingtat', params)
+    this.api.post('Tmgreport/GetTripLoadindTime', params)
       .subscribe(res => {
         console.log('GetLoadingtat:', res);
         this.loadingtat = res['data'];
@@ -182,7 +184,7 @@ ngOnInit() {
     let ids = [];
     this.loadingtat.map(tlt => {
       xaxis.push(tlt['Period']);
-      yaxis.push(tlt['Avg hrs']);
+      yaxis.push(tlt['Loading Duration(hrs)']);
       ids.push(tlt['_id']);
     });
     let yaxisObj = this.common.chartScaleLabelAndGrid(yaxis);
