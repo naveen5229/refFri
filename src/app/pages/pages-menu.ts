@@ -165,6 +165,26 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/tripmasterreport',
       },
       {
+        title: 'Trip TAT Report',
+        icon: 'fa-home',
+        link: '/pages/triptatreport',
+      },
+      {
+        title: 'Lead Validation Report',
+        icon: 'fa-home',
+        link: '/pages/leadvalidationreport',
+      },
+      {
+        title: 'Trip Delivery Complinance Report',
+        icon: 'fa-home',
+        link: '/pages/tripdeliverycomplinancereport',
+      },
+      {
+        title: 'Trip Stoppage Report',
+        icon: 'fa-home',
+        link: '/pages/tripstoppage',
+      },
+      {
         title: 'Placement Optimization',
         icon: 'fa-home',
         link: '/pages/placementoptimization',
@@ -181,6 +201,26 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         title: 'TMG Dashboard',
         // icon: 'fa-chart-pie',
         link: '/pages/tmg-dashboard',
+        home: true,
+      },
+      {
+        title: 'Dynamic Report Dashboard',
+        // icon: 'fa-chart-pie',
+        link: '/pages/dynamic-report-dashboard',
+        home: true,
+      },
+
+      {
+        title: 'Transporter TMG Dashboard',
+        // icon: 'fa-chart-pie',
+        link: '/pages/transporter-view',
+        home: true,
+      },
+
+      {
+        title: 'Corporate TMG Dashboard',
+        // icon: 'fa-chart-pie',
+        link: '/pages/cooperate-view',
         home: true,
       },
       {

@@ -11,9 +11,25 @@
           <div class="col-sm-12">
               <div class="col-sm-4">
                   <table class="table table-bordered">
-                      <tbody>
+                      <thead>
                           <tr>
-                              <td></td>
+                              <th>#</th>
+                              <th>Site Name</th>
+                              <th>Cluster</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <!-- <tr>
+                            <td>1</td>
+                            <td>All</td>
+                            <td><input type="checkbox" [name]="all" [id]="all" [(ngModel)]="selected.markerCluster" (ngModelChange)="handleMarkerCluster(selected.markerCluster,0,placementData)" >
+                              <span>Density Cluster</span></td>
+                          </tr> -->
+                          <tr *ngFor="let data of headingData;let i=index">
+                              <td>{{i+1}}</td>
+                              <td>{{data['siteName']}}</td>
+                              <td><input type="checkbox" [name]="'density-' + i" [id]="'density-' + i" [(ngModel)]="data.markerCluster" (ngModelChange)="handleMarkerCluster(data.markerCluster,i,data)" >
+                              <span>Density Cluster</span></td>
                           </tr>
                       </tbody>
                   </table>

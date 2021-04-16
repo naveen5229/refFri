@@ -2,7 +2,7 @@
   [class.right]="position === 'inverse'">
   <div class="logo-containter">
     <!-- <div class="logo" (click)="goToHome()"><b style="color: #ff421a;">eLogist</b></div> -->
-    <div class="logo" (click)="goToHome()"><img src="assets\images\logos-08.png" style="object-fit: cover; height:40px;" /></div>
+    <div class="logo" (click)="goToHome()"><img [src]="user._details['logo']?user._details['logo']:'assets/images/logos-08.png'" style="object-fit: cover; height:40px;margin-top:4px;" /></div>
     <a (click)="toggleSidebar()" href="#" class="navigation" style="color: #9fa2ab;font-size:18px"><i class="fa fa-list"
         aria-hidden="true"></i></a>
   </div>

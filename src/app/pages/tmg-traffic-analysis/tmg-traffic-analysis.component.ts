@@ -215,7 +215,7 @@ ngOnInit() {
           {
             label: 'Zones',
             data: dt,
-            backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#39CCCC", "#01FF70", "#8B008B", "#FFD700", "#D2B48C"]
+            backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#39CCCC", "#01FF70", "#8B008B", "#FFD700", "#D2B48C","#A569BD","#F0B27A","#CD6155","#2E86C1","#95A5A6","#45B39D"]
           },
         ]
       };
@@ -277,5 +277,30 @@ ngOnInit() {
     } catch (e) {
       console.log('Exception', e);
     }
+  }
+  chart2Clicked(event) {
+
+    let Date = this.trafficLiveStatus[event[0]._index].split_part;
+    console.log('event[0]._index 2', event[0]._index, event[0], Date);
+    this.passingIdChart2Data(Date);
+  }
+  passingIdChart2Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      stepno:1,
+      xid: parseDate
+    };
+    // this.api.post('Tmgreport/GetCallsDrivar', params)
+    //   .subscribe(res => {
+    //     console.log('callsDrivar 111 :', res);
+
+    //     this.hideLoader(id);;
+    //   }, err => {
+    //     this.hideLoader(id);;
+    //     console.log('Err:', err);
+    //   });
+    this.getDetials('Tmgreport/GetTrafficLiveStatus', params)
   }
 }

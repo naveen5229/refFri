@@ -112,6 +112,13 @@ import { TicketsReportComponent } from './tickets-report/tickets-report.componen
 import { TripmasterreportComponent } from './tripmasterreport/tripmasterreport.component';
 import { PlacementoptimizationComponent } from './placementoptimization/placementoptimization.component';
 import { NightDriveReportComponent } from './night-drive-report/night-drive-report.component';
+import { TransporterViewComponent } from './transporter-view/transporter-view.component';
+import { CooperateViewComponent } from './cooperate-view/cooperate-view.component';
+import { TriptatreportComponent } from './triptatreport/triptatreport.component';
+import { LeadvalidationreportComponent } from './leadvalidationreport/leadvalidationreport.component';
+import { TripdeliverycomplinancereportComponent } from './tripdeliverycomplinancereport/tripdeliverycomplinancereport.component';
+import { TripstoppageComponent } from './tripstoppage/tripstoppage.component';
+import { DynamicReportDashboardComponent } from './dynamic-report-dashboard/dynamic-report-dashboard.component';
 
 
 const routes: Routes = [{
@@ -693,6 +700,41 @@ const routes: Routes = [{
   {
     path: 'night-drive-report',
     component: NightDriveReportComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+
+  {
+    path: 'transporter-view',
+    component: TransporterViewComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+
+  {
+    path: 'cooperate-view',
+    component: CooperateViewComponent
+  },
+  {
+    path: 'triptatreport',
+    component: TriptatreportComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'leadvalidationreport',
+    component: LeadvalidationreportComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'tripdeliverycomplinancereport',
+    component: TripdeliverycomplinancereportComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'tripstoppage',
+    component: TripstoppageComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },{
+    path: 'dynamic-report-dashboard',
+    component: DynamicReportDashboardComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
   ],

@@ -310,6 +310,8 @@ import { AtSitesComponent } from './modals/at-sites/at-sites.component';
 import { OpenRejectTripsComponent } from './modals/open-reject-trips/open-reject-trips.component';
 import { PlacementoptimizeComponent } from './modals/placementoptimize/placementoptimize.component';
 import { PlacementOptimisationOnMapComponent } from './modals/placement-optimisation-on-map/placement-optimisation-on-map.component';
+import { PlacementConstraintsComponent } from './modals/placement-constraints/placement-constraints.component';
+import { PlacementRequirementComponent } from './modals/placement-requirement/placement-requirement.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -573,7 +575,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   FormDataTableComponent,
   VerifyHaltsComponent,
   PlacementoptimizeComponent,
-  PlacementOptimisationOnMapComponent
+  PlacementOptimisationOnMapComponent,
+  PlacementConstraintsComponent
 ];
 
 @NgModule({
@@ -596,6 +599,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     OpenRejectTripsComponent,
     PlacementoptimizeComponent,
     PlacementOptimisationOnMapComponent,
+    PlacementConstraintsComponent,
+    PlacementRequirementComponent,
   ],
   entryComponents: [
     ...COMMON_COMPONENT,

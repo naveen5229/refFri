@@ -4,6 +4,8 @@
       <div class="col-sm-6 p-0">
         <h5>Placement Optimization</h5>
       </div>
+
+      <div class="col-sm-2 col-sm-offset-4 constraints"  (click)="constraints()">Placement Constraints</div>
     </div>
   </nb-card-header>
   <nb-card-body>
@@ -27,6 +29,17 @@
             <uj-date-time-picker (onChanged)="getDate($event);" [isTime]='false' [dateTimeValue]="placementDate">
             </uj-date-time-picker>
           </div>
+          
+          <div class="col-sm-2">
+            <label>Select Days</label><br>
+            <select [(ngModel)]="days" change="selectDays();" style="width:100%">
+              <option value="1">Today</option>
+              <option value="2">(Today+1)</option>
+              <option value="3">(Today+2)</option>
+              <option value="4">(Today+3)</option>
+              <option value="5">(Today+4)</option>
+            </select>
+          </div>
 
           <div class="col-sm-3 mt-4">
             <label><input name="time" [(ngModel)]="select" type="radio" [value]="0">Include All</label>
@@ -41,13 +54,14 @@
             <thead>
               <tr>
                 <th><label>Plant</label></th>
+                <th><label>Day</label></th>
                 <th><label>Waiting Time</label></th>
                 <th><label>Min Quantity</label></th>
                 <th><label>Max Quantity</label></th>
                 <th><label>Min Penalty</label></th>
                 <th><label>Max Penalty</label></th>
-                <th><label>Onwards 24 Hours</label></th>
-                <th><label>At Plant</label></th>
+                <th style="min-width:140px;"><label>Onwards 24 Hours</label></th>
+                <th style="min-width:80px;"><label >At Plant</label></th>
                 <th><label>Towards</label></th>
                 <th><label>Action</label></th>
               </tr>
@@ -56,9 +70,13 @@
 
               <tr *ngFor="let item of items; let j= index">
                 <td style="min-width: 250px;">
-                  <auto-suggestion (onSelected)="selectplnt($event, j)" url="suggestion/getSites" display="name"
+                  <auto-suggestion (onSelected)="selectplnt($event, j);" url="suggestion/getSites" display="name"
                     placeholder="Search Plant" [preSelected]="(item.siteId>0) ? {'name':item.siteName} : {'name':null}">
                   </auto-suggestion>
+                </td>
+                <td style="min-width:154px;">
+                  <span [ngStyle]="{'color':item['dayIndex']==1 ? 'green':(item['dayIndex']==2?'red':(item['dayIndex']==3?'blue':(item['dayIndex']== 4 ?'orange':'black')))}">
+                    {{item['dayIndex']==1 ? "(Today)":(item['dayIndex']==2 ? "(Today+1)":(item['dayIndex']==3 ? "(Today+2)":(item['dayIndex']== 4 ? "(Today+3)":"(Today+4)")))}}</span>
                 </td>
                 <td>
                   <input type="number" [(ngModel)]="item.waitingTime" min=0 oninput="validity.valid||(value='');"
@@ -72,7 +90,6 @@
                 </td>
 
                 <td>
-
                   <input type="number" [(ngModel)]="item.maxQuantity" min=0 oninput="validity.valid||(value='');"
                     class="form control" placeholder="Max Qty">
                 </td>
@@ -163,7 +180,7 @@
       <table class="table table-bordered">
         <thead>
           <tr><th class="ttl">Total Cost</th><th class="ttl grn">{{totalCost}}</th><th class="ttl">Total penalty</th><th class="ttl grn">{{totalPanelty}}</th>
-            <!-- <th><i class="fa fa-map grn"  (click)="showAllData(placementOPT)"></i></th> -->
+            <th><i class="fa fa-map grn"  (click)="showAllData(placementOPT)"></i></th>
           </tr>
         </thead>
       </table>

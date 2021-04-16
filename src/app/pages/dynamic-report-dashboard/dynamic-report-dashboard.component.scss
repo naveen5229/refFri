@@ -1,0 +1,18 @@
+.holdContainer{
+    height: calc(100vh - 180px);
+    border: groove;
+    padding: 20px;
+    overflow: auto;
+}
+.placeContainer{
+    height: calc(100vh - 180px);
+    border: groove;
+    padding: 20px;
+}
+
+.dataelements{
+    background: lightgray;
+    padding: 15px;
+    text-align: center;
+    margin-top: 2px;
+}

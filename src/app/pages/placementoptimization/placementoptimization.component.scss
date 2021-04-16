@@ -518,4 +518,15 @@ nb-card-body{
     color:red;font-size:20px;font-weight:bold;text-align:center;padding:15px;
 }
 
+:host ::ng-deep .constraints 
+{
+    cursor: pointer;
+    color: blue;
+    background: black;
+    color: white!important;
+    padding-top: 3px;
+    font-size: 14px;
+    border-radius:35px;
+   }
+
 

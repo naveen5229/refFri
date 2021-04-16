@@ -92,7 +92,7 @@ ngOnInit() {
 
 
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map", 10);
+    this.mapService.mapIntialize("sites-map", 10);
     setTimeout(() => {
       this.mapService.setMapType(0);
     }, 2000);

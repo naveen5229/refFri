@@ -81,7 +81,7 @@ export class RouteMapperComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map", 18, 25, 75, false, true);
+    this.mapService.mapIntialize("route-mapper-map", 18, 25, 75, false, true);
     this.mapService.setMapType(0);
     this.mapService.map.setOptions({ draggableCursor: 'cursor' });
     // setTimeout(() => {

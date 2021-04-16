@@ -144,7 +144,7 @@
                   <td  (click)="chart9Clicked(tsov)" class="link">{{tsov['Vehicle Name']}}</td>
                   <td>{{tsov['Driver Name']}}</td>
                   <td>{{tsov['Trip']}}</td>
-                  <td>{{tsov['KM\/Hrs']}}</td>
+                  <td>{{tsov['_KMPD_int']}}</td>
                 </tr>
               </tbody>
             </table>
@@ -164,7 +164,7 @@
                 </thead>
                 <tbody class="tbody">
                   <tr *ngFor="let tlve of trafficLongestVehicleEmpty">
-                    <td (click)="chart10Clicked(tlve)">{{tlve['Vehicle Name']}}</td>
+                    <td (click)="chart10Clicked(tlve)" class="link">{{tlve['Vehicle Name']}}</td>
                     <td>{{tlve['Duration (HH:MM)']}}</td>
                     <td>{{tlve['Location']}}</td>
                   </tr>

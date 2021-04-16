@@ -93,7 +93,7 @@ ngOnInit() {
     console.log("here");
 
 
-    this.mapService.mapIntialize("map", 18, 25, 75, true);
+    this.mapService.mapIntialize("vehicle-states-map", 18, 25, 75, true);
     setTimeout(() => {
       this.mapService.createMarkers(this.vehicle, false, true, ["vregno"]);
       this.mapService.zoomMap(9);
@@ -358,7 +358,7 @@ ngOnInit() {
       document.getElementById('foo').className = 'col-sm-12';
 
       this.mapService.clearAll();
-      this.mapService.mapIntialize("map", 18, 25, 75, true);
+      this.mapService.mapIntialize("vehicle-states-1-map", 18, 25, 75, true);
       setTimeout(() => {
         this.mapService.createMarkers(this.vehicle, false, true, ["vregno"]);
         this.mapService.zoomMap(7);
