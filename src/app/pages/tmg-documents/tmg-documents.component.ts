@@ -79,27 +79,27 @@ export class TmgDocumentsComponent implements OnInit {
         console.log('Err:', err);
       });
   }
-  getDetials(url, params, value = 0, type = 'days') {
-    let dataparams = {
-      view: {
-        api: url,
-        param: params,
-        type: 'post'
-      },
+  // getDetials(url, params, value = 0, type = 'days') {
+  //   let dataparams = {
+  //     view: {
+  //       api: url,
+  //       param: params,
+  //       type: 'post'
+  //     },
 
-      title: 'Details'
-    }
-    if (value) {
-      let startDate = type == 'months' ? new Date(new Date().setMonth(new Date().getMonth() - value)) : new Date(new Date().setDate(new Date().getDate() - value));
-      let endDate = new Date();
-      dataparams.view.param['fromdate'] = this.common.dateFormatter(startDate);
-      dataparams.view.param['todate'] = this.common.dateFormatter(endDate);
-    }
-    console.log("dataparams=", dataparams);
-    this.common.handleModalSize('class', 'modal-lg', '1100');
-    this.common.params = { data: dataparams };
-    const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-  }
+  //     title: 'Details'
+  //   }
+  //   if (value) {
+  //     let startDate = type == 'months' ? new Date(new Date().setMonth(new Date().getMonth() - value)) : new Date(new Date().setDate(new Date().getDate() - value));
+  //     let endDate = new Date();
+  //     dataparams.view.param['fromdate'] = this.common.dateFormatter(startDate);
+  //     dataparams.view.param['todate'] = this.common.dateFormatter(endDate);
+  //   }
+  //   console.log("dataparams=", dataparams);
+  //   this.common.handleModalSize('class', 'modal-lg', '1100');
+  //   this.common.params = { data: dataparams };
+  //   const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  // }
 
   
   getTableColumns() {
@@ -120,7 +120,7 @@ export class TmgDocumentsComponent implements OnInit {
           val = strval;
         }
         docobj.document_type_id = doc['_doctypeid'];
-        valobj[this.headings[i]] = { value: val, class: (val > 0) ? 'blue' : 'black', action: val > 0 ? this.openData.bind(this, docobj, status) : '' };
+        valobj[this.headings[i]] = { value: val, class: (val > 0) ? 'blue' : 'black', action: val > 0 ? this.getDetials.bind(this, 'Tmgreport/GetDocsSumaryDetails',{doctypeid: docobj,status: status}) : '' };
 
       }
 
@@ -128,7 +128,7 @@ export class TmgDocumentsComponent implements OnInit {
     });
     return columns;
   }
-
+ 
   openData(docReoprt, status) {
     this.common.params = { docReoprt, status, title: 'Document Report' };
     const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
@@ -146,5 +146,27 @@ export class TmgDocumentsComponent implements OnInit {
       total += data[key];
     });
     return total;
+  }
+
+  getDetials(url, params, value = 0,type='days') {
+    let dataparams = {
+      view: {
+        api: url,
+        param: params,
+        type: 'post'
+      },
+  
+      title: 'Details'
+    }
+    if (value) {
+      let startDate = type == 'months'? new Date(new Date().setMonth(new Date().getMonth() - value)): new Date(new Date().setDate(new Date().getDate() - value));
+      let endDate = new Date();
+      dataparams.view.param['fromdate'] = this.common.dateFormatter(startDate);
+      dataparams.view.param['todate'] = this.common.dateFormatter(endDate);
+    }
+    console.log("dataparams=", dataparams);
+    this.common.handleModalSize('class', 'modal-lg', '1100');
+    this.common.params = { data: dataparams };
+    const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 }
