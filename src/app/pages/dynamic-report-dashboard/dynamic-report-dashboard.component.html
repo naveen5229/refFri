@@ -18,8 +18,10 @@
             <div class="col-10 reports-container">
                 <div class="report draggable" *ngFor="let report of reports;let i = index" [hidden]="!report.isUsed"
                     [id]="'report-' + report._id">
-                    <dynamic-report [savedReportSelect]="report"></dynamic-report>
-                    <i class="fa fa-close" (click)="report.isUsed = false"></i>
+                    <div class="report-container">
+                        <dynamic-report [savedReportSelect]="report"></dynamic-report>
+                        <i class="fa fa-window-close report-close" (click)="report.isUsed = false"></i>
+                    </div>
                 </div>
             </div>
         </div>

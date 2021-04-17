@@ -30,5 +30,16 @@
         cursor: move;
         width: 300px;
         height: 300px;
+        .report-container{
+            position: relative;
+            .report-close{
+                position: absolute;
+                right: -1px;
+                top: -2px;
+                background: #fff;
+                z-index: 99999;
+                font-size: 20px;
+            }
+        }
     }
 }
