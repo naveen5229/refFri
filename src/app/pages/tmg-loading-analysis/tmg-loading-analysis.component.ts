@@ -165,7 +165,7 @@ ngOnInit() {
       .subscribe(res => {
         console.log('loadingAged:', res['data']);
         if (res['data']) {
-          this.loadingAged = res['data'].filter(aged => aged.site_name);
+          this.loadingAged = res['data'].filter(aged => aged.Location);
         }
         if (this.loadingAged.length > 0) this.handleChart2(params.fromdate, params.todate);
         this.hideLoader(index);
@@ -421,12 +421,12 @@ ngOnInit() {
     let xaxis = [];
     let Periods = _.groupBy(this.loadingAged, 'Period');
     console.log('Periods ', Periods);
-    let site_names = _.groupBy(this.loadingAged, 'site_name');
+    let site_names = _.groupBy(this.loadingAged, 'Location');
     let yaxis = [];
     let datasets = Object.keys(site_names)
       .map(site_name => {
         let color = '#' + Math.floor(Math.random() * 16777215).toString(16);
-        yaxis.push(...site_names[site_name].map(item => item['loadcount']))
+        yaxis.push(...site_names[site_name].map(item => item['Loading Count']))
         return {
           label: site_name,
           backgroundColor: color,
@@ -434,7 +434,7 @@ ngOnInit() {
           fill: false,
           pointHoverRadius: 8,
           borderWidth: 3,
-          data: this.common.chartScaleLabelAndGrid(site_names[site_name].map(item => item['loadcount'])).scaleData
+          data: this.common.chartScaleLabelAndGrid(site_names[site_name].map(item => item['Loading Count'])).scaleData
         }
       });
     // let datasets = Object.keys(sites)
