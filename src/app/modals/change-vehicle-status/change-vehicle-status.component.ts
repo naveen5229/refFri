@@ -78,8 +78,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
     if (this.ref_page != 'vsc') {
       this.toTime = new Date(this.VehicleStatusData.tTime)
     }
-    this.common.handleModalSize('class', 'modal-lg', '1600', 'px', 0);
-    this.common.handleModalSize('class', 'modal-lg', '1600', 'px', 1);
+    // this.common.handleModalSize('class', 'modal-lg', '1600', 'px', 0);
+    this.common.handleModalHeightWidth('class', 'modal-lg', '1600', '2000', 'px', 0);
     this.getLastIndDetails();
     this.getEvents();
   }
