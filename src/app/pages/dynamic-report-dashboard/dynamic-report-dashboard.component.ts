@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { fabric } from 'fabric';
+import { ApiService } from '../../services/api.service';
+import interact from 'interactjs';
 
 @Component({
   selector: 'dynamic-report-dashboard',
@@ -7,100 +8,76 @@ import { fabric } from 'fabric';
   styleUrls: ['./dynamic-report-dashboard.component.scss']
 })
 export class DynamicReportDashboardComponent implements OnInit {
-  reportName = '';
-  draggedEle = null;
-  freeCanvas: any = null;
-  dataHolderContainer = [
-    { text: 'test-1', x: 100, y: 200, width: 50, height: 300 },
-    { text: 'test-2', x: 150, y: 200, width: 50, height: 50 },
-    { text: 'test-3', x: 200, y: 200, width: 50, height: 50 },
-    { text: 'test-4', x: 250, y: 200, width: 50, height: 50 },
-    { text: 'test-5', x: 300, y: 200, width: 50, height: 50 }
-  ];
+  reports = [];
 
-  dataDrawContainer = [];
-
-  constructor() { }
+  constructor(private api: ApiService) {
+    this.getSavedReports();
+  }
 
   ngOnInit(): void {
   }
 
-  ngAfterViewInit() {
-    this.freeCanvas = new fabric.Canvas('c', { selection: false });
-    var canvasContainer = document.getElementById("canvas-container");
-    console.log("for width height", canvasContainer)
-    this.freeCanvas.setHeight(canvasContainer.clientHeight);
-    this.freeCanvas.setWidth(canvasContainer.clientWidth);
-    setTimeout(() => this.handleEvents(), 2000);
-    this.drawFree();
-  }
+  getSavedReports() {
+    this.api.get(`GraphicalReport/getGraphicalReportList`)
+      .subscribe((res: any) => {
+        console.log('Res:', res);
+        this.reports = res.data.map(report => {
+          report.isUsed = false;
+          let style = {
+            width: "300px",
+            height: "300px",
+            x: 0,
+            y: 0,
+          }
+          report.style = style;
+          return report;
 
-  drawFree() {
-    this.freeCanvas.on("object:modified", (e) => {
-      console.log("modified", e);
-      this.manageText(e);
-    });
-  }
-
-  manageText(updatePointer) {
-    var targetCanvas = updatePointer.target;
-    if (this.dataDrawContainer.length && targetCanvas) {
-      this.dataDrawContainer.forEach(ele => {
-        if (ele.x === targetCanvas.data.x && ele.y === targetCanvas.data.y) {
-          ele.x = targetCanvas.left;
-          ele.y = targetCanvas.top;
-          ele.width = (targetCanvas.scaleX) ? (Math.abs(ele.width * targetCanvas.scaleX)) : ele.width;
-          ele.height = (targetCanvas.scaleY) ? (Math.abs(ele.height * targetCanvas.scaleY)) : ele.height;
-        }
-      })
-    }
-    console.log('dataDrawContainer Edited', this.dataDrawContainer);
-    this.drawCanwas();
-  }
-
-  drawCanwas() {
-    console.log('data in draw canvas',this.dataDrawContainer)
-    this.freeCanvas.clear();
-    if (this.dataDrawContainer.length > 0) {
-      this.dataDrawContainer.map(content => {
-        var textbox = new fabric.Textbox(content.text, {
-          height: content.height,
-          width: content.width,
-          originX: 'center',
-          originY: 'center',
-          // editable: true,
-          selectable: true,
-          top: content.y,
-          left: content.x,
-          fontSize: 16,
-          textAlign: 'center',
-          backgroundColor: 'lightgray',
-          data: content,
         });
-        this.freeCanvas.add(textbox);
-      });
-    }
+        setTimeout(() => this.jrxDragAndResize(), 1000);
+      })
   }
 
-  dragstart(i) {
-    this.draggedEle = i;
+  ngAfterViewInit() {
+
   }
 
-  handleEvents() {
-    var canvasContainer = document.getElementById("canvas-container");
-    canvasContainer.addEventListener("drop", this.dragEndEle.bind(this), false);
+
+  jrxDragAndResize() {
+    interact('.draggable')
+      .draggable({ onmove: this.jrxDragger.bind(this) })
+      .resizable({
+        preserveAspectRatio: true,
+        edges: { left: true, right: true, bottom: true, top: true }
+      })
+      .on('resizemove', this.jrxResizer.bind(this));
   }
 
-  dragEndEle(event) {
-    console.log("event", this.draggedEle);
-    var data = null;
-    data = JSON.parse(JSON.stringify(this.dataHolderContainer[this.draggedEle]));
-    console.log('dragend', event, data);
-    data.x = event.layerX;
-    data.y = event.layerY
-    this.dataDrawContainer.push(data);
-    console.log('data inserted', this.dataDrawContainer);
-    this.drawCanwas()
+
+
+  jrxDragger(event) {
+    const target = event.target;
+    const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+    const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+    target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+    target.setAttribute('data-x', x);
+    target.setAttribute('data-y', y);
+  }
+
+  jrxResizer(event) {
+    const target = event.target;
+    let x = (parseFloat(target.getAttribute('data-x')) || 0);
+    let y = (parseFloat(target.getAttribute('data-y')) || 0);
+
+    target.style.width = event.rect.width + 'px';
+    target.style.height = event.rect.height + 'px';
+
+    x += event.deltaRect.left;
+    y += event.deltaRect.top;
+
+    target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+    target.setAttribute('data-x', x);
+    target.setAttribute('data-y', y);
   }
 
 }

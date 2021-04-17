@@ -4,26 +4,22 @@
     </nb-card-header>
 
     <nb-card-body>
-        <div class="row">
-            <div style="width: 100%">
-                <input type="text" [(ngModel)]="reportName">
-                <button class="btn btn-primary">Save</button>
-            </div>
-        </div>
 
         <div class="row" style="margin-top: 5px;">
-            <div class="col-4">
+            <div class="col-2">
                 <div class="holdContainer">
-                    <div class="dataelements" *ngFor="let data of dataHolderContainer;let i = index" draggable="true"
-                        (dragstart)="dragstart(i)">
-                        {{data.text}}
+                    <div class="dataelements" *ngFor="let report of reports;let i = index" [hidden]="report.isUsed">
+                        <span>{{report.name}}</span>
+                        <i class="fa fa-plus" (click)="report.isUsed = true"></i>
                     </div>
                 </div>
             </div>
 
-            <div class="col-8">
-                <div class="placeContainer" id="canvas-container">
-                    <canvas id="c" width="652" height="600" style="z-index: 99;"></canvas>
+            <div class="col-10 reports-container">
+                <div class="report draggable" *ngFor="let report of reports;let i = index" [hidden]="!report.isUsed"
+                    [id]="'report-' + report._id">
+                    <dynamic-report [savedReportSelect]="report"></dynamic-report>
+                    <i class="fa fa-close" (click)="report.isUsed = false"></i>
                 </div>
             </div>
         </div>
