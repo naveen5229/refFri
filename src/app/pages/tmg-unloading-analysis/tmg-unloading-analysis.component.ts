@@ -81,9 +81,11 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 7
+      groupdays: 7,
+      isfo: false,
+      isadmin: true
     };
-    this.api.post('Tmgreport/GetUnLoadingtat', params)
+    this.api.post('Tmgreport/GetTripUnLoadindTime', params)
       .subscribe(res => {
         console.log('getUnloadingtat:', res);
         this.unloadingtat = res['data'];
@@ -218,7 +220,7 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
     let ids = [];
     this.unloadingtat.map(tlt => {
       xaxis.push(tlt['Period']);
-      yaxis.push(tlt['Avg hrs']);
+      yaxis.push(tlt['Unloading Duration(hrs)']);
       ids.push(tlt['_id']);
     });
     if (!yaxis.length) return;
