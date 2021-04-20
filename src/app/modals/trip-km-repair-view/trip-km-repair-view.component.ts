@@ -44,6 +44,7 @@ export class TripKmRepairViewComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('response of getJavaPortDost is: ', res);
+
         res = res['data'];
         if (res['loc_data_type'] === 'is_single') {
           console.log('res loc_data_type :', res['loc_data_type']);
@@ -91,6 +92,15 @@ export class TripKmRepairViewComponent implements OnInit {
     const subscription = this.api.getJavaPortDost(8083, `getrawdatafromtrip/${this.common.params.tripId}`)
       .subscribe((res: any) => {
         console.log('res:', res);
+        res = res['data'];
+        if (!res.withSnap) {
+          res = {
+            withSnap: res.rawData,
+            raw: res.rawData,
+            events: res.eventList || [],
+            google: res.rawData
+          }
+        }
         --this.common.loading;
         this.GPSData = res.raw;
         this.GPSDis = this.calculateDistance(res.raw);
