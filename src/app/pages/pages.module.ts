@@ -108,12 +108,16 @@ import { TriptatreportComponent } from './triptatreport/triptatreport.component'
 import { LeadvalidationreportComponent } from './leadvalidationreport/leadvalidationreport.component';
 import { TripdeliverycomplinancereportComponent } from './tripdeliverycomplinancereport/tripdeliverycomplinancereport.component';
 import { TripstoppageComponent } from './tripstoppage/tripstoppage.component';
+import { DynamicReportDashboardComponent } from './dynamic-report-dashboard/dynamic-report-dashboard.component';
+import { DynamicReportComponent } from './dynamic-report-dashboard/dynamic-report/dynamic-report';
+import { ReportViewComponent } from './dynamic-report-dashboard/report-view/report-view.component';
+import { ReportEditComponent } from './dynamic-report-dashboard/report-edit/report-edit.component';
 
 
 
 const PAGES_COMPONENTS = [
-  PagesComponent
-
+  PagesComponent,
+  DynamicReportComponent
 ];
 
 @NgModule({
@@ -219,7 +223,10 @@ const PAGES_COMPONENTS = [
     TriptatreportComponent,
     LeadvalidationreportComponent,
     TripdeliverycomplinancereportComponent,
-    TripstoppageComponent
+    TripstoppageComponent,
+    DynamicReportDashboardComponent,
+    ReportViewComponent,
+    ReportEditComponent
   ],
   exports: [
     FuelAverageAnalysisComponent,
