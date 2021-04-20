@@ -20,14 +20,14 @@
 .reports-container {
     position: relative;
     overflow: hidden;
-    // border: 2px solid black;
-    height: 80vh;
+    border: 2px solid black;
     .report {
         // resize: both;
         position: absolute;
         overflow: hidden;
-        // border: 2px solid black;
+        border: 2px solid black;
         background: #fefefe;
+        cursor: move;
         width: 300px;
         height: 300px;
         .report-container{

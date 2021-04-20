@@ -110,6 +110,8 @@ import { TripdeliverycomplinancereportComponent } from './tripdeliverycomplinanc
 import { TripstoppageComponent } from './tripstoppage/tripstoppage.component';
 import { DynamicReportDashboardComponent } from './dynamic-report-dashboard/dynamic-report-dashboard.component';
 import { DynamicReportComponent } from './dynamic-report-dashboard/dynamic-report/dynamic-report';
+import { ReportViewComponent } from './dynamic-report-dashboard/report-view/report-view.component';
+import { ReportEditComponent } from './dynamic-report-dashboard/report-edit/report-edit.component';
 
 
 
@@ -222,7 +224,9 @@ const PAGES_COMPONENTS = [
     LeadvalidationreportComponent,
     TripdeliverycomplinancereportComponent,
     TripstoppageComponent,
-    DynamicReportDashboardComponent
+    DynamicReportDashboardComponent,
+    ReportViewComponent,
+    ReportEditComponent
   ],
   exports: [
     FuelAverageAnalysisComponent,

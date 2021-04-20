@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import interact from 'interactjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ReportEditComponent } from './report-edit/report-edit.component';
+import { CommonService } from '../../services/common.service';
 
 @Component({
   selector: 'dynamic-report-dashboard',
@@ -9,13 +12,26 @@ import interact from 'interactjs';
 })
 export class DynamicReportDashboardComponent implements OnInit {
   reports = [];
+  startDate = this.common.getDate(-15);
+  endDate = new Date();
+  assign = {
+    startDate: this.startDate,
+    endDate: this.endDate,
+  };
+  dynamicReports = [];
 
-  constructor(private api: ApiService) {
-    this.getSavedReports();
+  constructor(private api: ApiService, private modalService: NgbModal, private common: CommonService) {
+    this.getDynamicReports();
+
   }
 
   ngOnInit(): void {
   }
+
+  ngAfterViewInit() {
+  }
+
+
 
   getSavedReports() {
     this.api.get(`GraphicalReport/getGraphicalReportList`)
@@ -23,61 +39,53 @@ export class DynamicReportDashboardComponent implements OnInit {
         console.log('Res:', res);
         this.reports = res.data.map(report => {
           report.isUsed = false;
-          let style = {
-            width: "300px",
-            height: "300px",
-            x: 0,
-            y: 0,
+          let info = this.dynamicReports.find(d => d.rpt_name == report.name);
+          if (info) {
+            let style = {
+              width: info.rpt_width + "px",
+              height: info.rpt_height + "px",
+              x: info.x_pos + 'px',
+              y: info.y_pos + 'px',
+            }
+            report.style = style;
           }
-          report.style = style;
           return report;
-
-        });
-        setTimeout(() => this.jrxDragAndResize(), 1000);
+        }).filter(report => report.style)
       })
   }
 
-  ngAfterViewInit() {
+  getDynamicReports() {
+    const params = {
+      'rpttype': 'DB',
+      'rptname': ''
+    };
+    this.common.loading++;
+    this.api.post('tmgreport/GetDynamicReportMaster', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('GetDynamicReportMaster:', res);
+        this.dynamicReports = res['data'];
+        localStorage.setItem('dynamic-report', JSON.stringify(this.dynamicReports));
+        this.getSavedReports();
 
-  }
-
-
-  jrxDragAndResize() {
-    interact('.draggable')
-      .draggable({ onmove: this.jrxDragger.bind(this) })
-      .resizable({
-        preserveAspectRatio: true,
-        edges: { left: true, right: true, bottom: true, top: true }
+      }, err => {
+        console.log(err);
+        this.common.loading--;
       })
-      .on('resizemove', this.jrxResizer.bind(this));
   }
 
-
-
-  jrxDragger(event) {
-    const target = event.target;
-    const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
-    const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
-    target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
-    target.setAttribute('data-x', x);
-    target.setAttribute('data-y', y);
+  editReport() {
+    let modal = this.modalService.open(ReportEditComponent, { size: 'lg', container: 'nb-layout' });
+    modal.result.then(data => {
+      this.getDynamicReports();
+    })
   }
 
-  jrxResizer(event) {
-    const target = event.target;
-    let x = (parseFloat(target.getAttribute('data-x')) || 0);
-    let y = (parseFloat(target.getAttribute('data-y')) || 0);
-
-    target.style.width = event.rect.width + 'px';
-    target.style.height = event.rect.height + 'px';
-
-    x += event.deltaRect.left;
-    y += event.deltaRect.top;
-
-    target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
-    target.setAttribute('data-x', x);
-    target.setAttribute('data-y', y);
+  getReport() {
+    this.assign = {
+      startDate: this.startDate,
+      endDate: this.endDate,
+    }
   }
 
 }

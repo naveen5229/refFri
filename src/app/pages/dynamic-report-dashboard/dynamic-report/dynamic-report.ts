@@ -111,6 +111,28 @@ export class DynamicReportComponent implements OnInit {
     this.openPreviewModal();
   }
 
+  ngOnChanges(changes) {
+    let isChanged = false;
+    if (changes.savedReportSelect) {
+      this.savedReportSelect = changes.savedReportSelect.currentValue;
+      isChanged = true;
+    }
+
+    if (changes.startDate) {
+      this.startDate = changes.startDate.currentValue;
+      isChanged = true;
+
+    }
+
+    if (changes.endDate) {
+      this.endDate = changes.endDate.currentValue;
+      isChanged = true;
+
+    }
+    if (isChanged)
+      this.openPreviewModal();
+  }
+
 
   getSideBarList() {
     this.common.loading++;
