@@ -28,7 +28,7 @@
                     [id]="'report-' + report._id">
                     <div class="report-container">
                         <dynamic-report [savedReportSelect]="report"></dynamic-report>
-                        <i class="fa fa-window-close report-close" (click)="report.isUsed = false"></i>
+                        <i class="fa fa-window-close report-close" (click)="deleteReport(report)"></i>
                     </div>
                 </div>
             </div>
