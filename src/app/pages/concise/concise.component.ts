@@ -176,7 +176,7 @@ export class ConciseComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.mapService.map = null;
+    // this.mapService.map = null;
     this.common.continuoueScroll();
   }
 

@@ -269,7 +269,12 @@ export class RouteMapperComponent implements OnInit {
       }
       let subscription = this.apiService.post('HaltOperations/getvehicleEvents', params)
         .subscribe(res => {
+          console.log('response data : ', res['data']);
+          
           this.commonService.loading--;
+          if(!res['data']){
+            res['data'] = [];
+          }
           this.vehicleEvents = res['data'].reverse();
           console.timeEnd('getHaltTrails');
           resolve(true);
@@ -301,6 +306,7 @@ export class RouteMapperComponent implements OnInit {
         .subscribe(res => {
           this.commonService.loading--;
           console.log('response of getJavaPortDost is: ', res);
+          res = res['data'];
           if (res['loc_data_type'] === 'is_single') {
             console.log('res loc_data_type :', res['loc_data_type']);
 
@@ -351,14 +357,16 @@ export class RouteMapperComponent implements OnInit {
     }
 
     this.commonService.loading++;
-    const subscription = this.apiService.getJavaPortDost(8083, `getrawdata/${params.vehicleId}/${params.startTime}/${params.toTime}`)
+    const subscription = this.apiService.getJavaPortDost(8083, `getrawdataevents/${params.vehicleId}/${params.startTime}/${params.toTime}`)
       .subscribe((res: any) => {
         console.log('res:', res);
+        res = res['data'];
+
         if(!res.withSnap){
           res = {
-            withSnap: res,
-            raw: res,
-            events: []
+            withSnap: res.rawData,
+            raw: res.rawData,
+            events: res.eventList || []
           }
         }
         this.vehicleTrailEvents = res.events || [];
