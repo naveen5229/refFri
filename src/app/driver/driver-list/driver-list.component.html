@@ -1,14 +1,15 @@
 <nb-card>
   <nb-card-header>
     <div class="row">
-      <div class="col-6">
+      <div class="col-4">
         <h5>Drivers List</h5>
       </div>
-      <div class="col-4 text-right">
+      <div class="col-6 text-right">
 
         <button class="btn btn-primary" *ngIf="this.user._loggedInBy=='admin'" type="submit" (click)="importDriverCsv()"
           name="button">Import Csv</button>
         <button class="btn btn-primary" id="button" (click)="addDriver();" name="button">ADD</button>
+        <button class="btn btn-primary" id="button" (click)="checkSimConsent();" name="button">Check SIM Consent</button>
       </div>
       <div class="col-2 text-right">
         <span style="display: block;">

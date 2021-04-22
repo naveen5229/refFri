@@ -37,12 +37,11 @@ const routes: Routes = [{
         {
             path: 'driver-document',
             component: DriverDocumentComponent,
-        },{
+        },
+        {
             path: 'driver-on-side-images',
             component: OnSideImagesComponent,
-        },
-
-
+        }
     ],
 }];
 
