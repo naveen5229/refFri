@@ -201,4 +201,18 @@ export class ReportEditComponent implements OnInit {
     }, 1000);
   }
 
+  deleteReport(report) {
+    report.isUsed = false;
+    const params = {
+      rptname: report.name,
+      rpttype: 'DB'
+    };
+    this.api.post('Tmgreport/deletereport', params)
+      .subscribe(res => {
+        console.log('res:', res);
+      }, err => {
+        console.log('err:', err);
+      })
+  }
+
 }
