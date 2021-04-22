@@ -25,17 +25,24 @@ export class DriverConsentListComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private common: CommonService,
-    private api: ApiService) { 
-      this.getDriverConsentList();
-    }
+    private api: ApiService) {
+    this.getDriverConsentList();
+    this.common.refresh = this.refresh.bind(this);
+
+  }
 
   ngOnInit(): void {
   }
 
+  refresh() {
+    this.getDriverConsentList();
+  }
+
+
   closeModal() {
     this.activeModal.close({ response: true });
   }
-  
+
   getDriverConsentList() {
     this.driverConsentList = [];
     let response;
@@ -62,11 +69,11 @@ export class DriverConsentListComponent implements OnInit {
 
   generateHeadingsNormal() {
     let headings = {
-          empName: { title: 'Driver', placeholder: 'Driver' },
-          mobileNo: { title: 'Mobile No', placeholder: 'Mobile No' },
-          status: { title: 'Status', placeholder: 'Status' },
-          action: { title: 'Action ', placeholder: 'Action', hideSearch: true, class: 'tag' },
-        };
+      empName: { title: 'Driver', placeholder: 'Driver' },
+      mobileNo: { title: 'Mobile No', placeholder: 'Mobile No' },
+      status: { title: 'Status', placeholder: 'Status' },
+      action: { title: 'Action ', placeholder: 'Action', hideSearch: true, class: 'tag' },
+    };
     return headings;
   }
 
@@ -76,46 +83,46 @@ export class DriverConsentListComponent implements OnInit {
       let column = {};
       let consentStatus = [];
       consentStatus = consent['status'];
-      let actionIcon= this.statusActionIcons(consentStatus, consent);
+      let actionIcon = this.statusActionIcons(consentStatus, consent);
       for (let key in this.generateHeadingsNormal()) {
-          if(key === 'empName'){
-            column[key] = { value: consent[key], class: "black", action: "" };
-          }else if(key === 'mobileNo'){
-            column[key] = { value: consent[key], class: "black", action: "" };
-          }else if(key === 'status'){
-            column[key] = { value: consent[key], class: "black", action: "" };
-          }else {
-            column['action'] = {value: "",isHTML: true,action: null,icons: actionIcon};
-          }
+        if (key === 'empName') {
+          column[key] = { value: consent[key], class: "black", action: "" };
+        } else if (key === 'mobileNo') {
+          column[key] = { value: consent[key], class: "black", action: "" };
+        } else if (key === 'status') {
+          column[key] = { value: consent[key], class: "black", action: "" };
+        } else {
+          column['action'] = { value: "", isHTML: true, action: null, icons: actionIcon };
+        }
       }
       columns.push(column);
     });
     return columns;
   }
 
-  statusActionIcons(type, consent){
-    if(type === 'PENDING'){
+  statusActionIcons(type, consent) {
+    if (type === 'PENDING') {
       return this.actionIconsPending(consent);
-    } else if(type === 'ALLOWED'){
+    } else if (type === 'ALLOWED') {
       return
-    } else{
+    } else {
       return this.actionIconNull(consent);
     }
   }
 
-  actionIconsPending(consent){
-      let icons = [
-        {
-          class: "fas fa-user-check",
-          action: this.simDataConsentVerify.bind(this, consent),
-          txt: "",
-          title: null,
-        },
-      ]
-      return icons;
+  actionIconsPending(consent) {
+    let icons = [
+      {
+        class: "fas fa-user-check",
+        action: this.simDataConsentVerify.bind(this, consent),
+        txt: "",
+        title: null,
+      },
+    ]
+    return icons;
   }
 
-  actionIconNull(consent){
+  actionIconNull(consent) {
     let icons = [
       {
         class: "fas fa-share-square",
@@ -127,33 +134,36 @@ export class DriverConsentListComponent implements OnInit {
     return icons;
   }
 
-  simDataConsentVerify(consent){
-   this.common.loading ++;
-   this.api.getJavaPortDost(8083, `simdataconsent/verify/${consent['id']}`)
-   .subscribe((res) => {
-     this.common.loading --;
-     console.log('response is: ', res);
-     
-   },
-   err => {
-     this.common.loading --;
-     console.log('error is:', err);
-     
-   });
+  simDataConsentVerify(consent) {
+    this.common.loading++;
+    this.api.getJavaPortDost(8083, `simdataconsent/verify/${consent['id']}`)
+      .subscribe((res) => {
+        this.common.loading--;
+        console.log('response is: ', res);
+        this.common.showToast(res['message']);
+        this.refresh();
+      },
+        err => {
+          this.common.loading--;
+          console.log('error is:', err);
+
+        });
   }
 
-  simDataConsentSend(consent){
-    console.log('consent is :',consent);
-    
-    this.common.loading ++ ;
+  simDataConsentSend(consent) {
+    console.log('consent is :', consent);
+
+    this.common.loading++;
     this.api.getJavaPortDost(8083, `simdataconsent/send/${consent['driverId']}`)
-    .subscribe(res => {
-      this.common.loading --;
-      console.log('response is :', res);
-    }, err => {
-      this.common.loading--;
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('response is :', res);
+        this.common.showToast(res['message'])
+        this.refresh();
+      }, err => {
+        this.common.loading--;
         console.log(err);
-    });
+      });
   }
-  
+
 }
