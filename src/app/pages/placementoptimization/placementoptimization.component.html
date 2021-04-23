@@ -5,7 +5,8 @@
         <h5>Placement Optimization</h5>
       </div>
 
-      <div class="col-sm-2 col-sm-offset-4 constraints"  (click)="constraints()">Placement Constraints</div>
+      <div class="col-sm-2 col-sm-offset-1 constraints" (click)="placementReq()">Placement Requirement</div>
+      <div class="col-sm-2 col-sm-offset-1 constraints"  (click)="constraints()">Placement Constraints</div>
     </div>
   </nb-card-header>
   <nb-card-body>
@@ -19,10 +20,10 @@
     <div *ngIf="isVisible">
       <div class="row">
         <div class="col-sm-12 p-0">
-          <div class="col-sm-2 p-0">
+          <!-- <div class="col-sm-2 p-0">
             <label>Name</label>
             <input type="text" [(ngModel)]="name" class="form control" placeholder="Name">
-          </div>
+          </div> -->
 
           <div class="col-sm-3">
             <label>Placement Date</label>
@@ -32,7 +33,7 @@
           
           <div class="col-sm-2">
             <label>Select Days</label><br>
-            <select [(ngModel)]="days" change="selectDays();" style="width:100%">
+            <select [(ngModel)]="days" (change)="selectDays($event);" style="width:100%">
               <option value="1">Today</option>
               <option value="2">(Today+1)</option>
               <option value="3">(Today+2)</option>
@@ -44,6 +45,14 @@
           <div class="col-sm-3 mt-4">
             <label><input name="time" [(ngModel)]="select" type="radio" [value]="0">Include All</label>
             <label><input name="time" class="ml-3" type="radio" [(ngModel)]="select" [value]="1">Only Available</label>
+          </div>
+
+          <div class="col-sm-2">
+            <label>Quantity Type:</label>
+                <select [(ngModel)]="quantityType" style="width:100%;padding:4.5px!important;border: 1px solid lightgrey!important;border-radius:5px;">
+                    <option [value]="0">Capacity</option>
+                    <option [value]='1'>Vehicle</option>
+                </select> 
           </div>
         </div>
       </div>
@@ -188,8 +197,7 @@
         <table class="table table-bordered" *ngFor="let packet of placementOPT.siteVehicleCostPackets;let i = index; let active = false">
           <thead>
             <tr>
-              <th colspan='4' class="col-sm-11 hdStyle"
-                >
+              <th colspan='4' class="col-sm-11 hdStyle">
                 <span>Plant:</span><span class="ml-2 grn">{{packet.siteName}} </span>
                 
                <span class="ml-4">Cost:</span> 
