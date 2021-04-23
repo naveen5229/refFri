@@ -313,6 +313,7 @@ import { PlacementOptimisationOnMapComponent } from './modals/placement-optimisa
 import { PlacementConstraintsComponent } from './modals/placement-constraints/placement-constraints.component';
 import { PlacementRequirementComponent } from './modals/placement-requirement/placement-requirement.component';
 import { DriverConsentListComponent } from './modals/driver-consent-list/driver-consent-list.component';
+import { NearByVehiclesComponent } from './modals/near-by-vehicles/near-by-vehicles.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -603,6 +604,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     PlacementOptimisationOnMapComponent,
     PlacementConstraintsComponent,
     PlacementRequirementComponent,
+    NearByVehiclesComponent,
   ],
   entryComponents: [
     ...COMMON_COMPONENT,
