@@ -14,6 +14,7 @@ import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 })
 export class GenericModelComponent implements OnInit {
   title = '';
+  loader = false;
   data = [];
   response = [];
   table = {
@@ -161,12 +162,13 @@ export class GenericModelComponent implements OnInit {
     this.headings = [];
     this.valobj = {};
 
-    this.common.loading++;
+    this.loader = true;
     this.viewObj.param['fromdate'] = this.isDateFilter ? this.common.dateFormatter1(this.startDate) : this.viewObj.param['fromdate'] ? this.viewObj.param['fromdate'] : this.common.dateFormatter1(this.startDate);
     this.viewObj.param['todate'] = this.isDateFilter ? this.common.dateFormatter1(this.endDate) : this.viewObj.param['todate'] ? this.viewObj.param['todate'] : this.common.dateFormatter1(this.endDate);
     this.api.post(this.viewObj.api, this.viewObj.param)
       .subscribe(res => {
-        this.common.loading--;
+        this.loader = false;
+
         this.data = res['data'];
 
         if (this.data == null) {
@@ -184,7 +186,7 @@ export class GenericModelComponent implements OnInit {
         }
         this.table.data.columns = this.getTableColumns();
       }, err => {
-        this.common.loading--;
+        this.loader = false;
         this.common.showError();
       });
   }

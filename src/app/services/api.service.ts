@@ -32,7 +32,7 @@ export class ApiService {
   // UrlPrime:string='http://192.168.0.111/itrm_webservices/';
   // UrlTranstruckNew: string = 'http://192.168.1.101/webservices/';
   // verifyHaltsUrl: string = 'http://192.168.0.166:8081/';
-   //URLJavaPortDost: string = 'http://192.168.0.160';
+  //URLJavaPortDost: string = 'http://192.168.0.160';
 
   constructor(private http: HttpClient,
     public router: Router,
@@ -49,6 +49,9 @@ export class ApiService {
         'version': '0.1.0'
       }
     };
+    if (this.user._details && this.user._details.isDemo) {
+      reqOpts.headers['pageId'] = this.user.findPageIdByRoute(this.router.url);
+    }
     if (localStorage.getItem('TOKEN')) {
       reqOpts.headers['authkey'] = localStorage.getItem('TOKEN');
     }
@@ -65,6 +68,11 @@ export class ApiService {
         'entryMode': entryMode
       }
     };
+
+    if (this.user._details && this.user._details.isDemo) {
+      reqOpts.headers['pageId'] = this.user.findPageIdByRoute(this.router.url);
+    }
+
     if (localStorage.getItem('USER_TOKEN')) {
       reqOpts.headers['authkey'] = localStorage.getItem('USER_TOKEN');
     }
@@ -83,6 +91,11 @@ export class ApiService {
         'entryMode': entryMode
       }
     };
+
+    if (this.user._details && this.user._details.isDemo) {
+      reqOpts.headers['pageId'] = this.user.findPageIdByRoute(this.router.url);
+    }
+
     if (localStorage.getItem('USER_TOKEN')) {
       reqOpts.headers['authkey'] = localStorage.getItem('USER_TOKEN');
     }
@@ -228,6 +241,9 @@ export class ApiService {
       'authkey': this.user._token || ''
     });
 
+    if (this.user._details && this.user._details.isDemo) {
+      headers['pageId'] = this.user.findPageIdByRoute(this.router.url);
+    }
     return this.http.post(this.UrlTranstruckNew + subURL, body, { headers: headers })
   }
 
@@ -247,7 +263,9 @@ export class ApiService {
       'entrymode': entryMode,
       'authkey': this.user._token || ''
     });
-
+    if (this.user._details && this.user._details.isDemo) {
+      headers['pageId'] = this.user.findPageIdByRoute(this.router.url);
+    }
     return this.http.get(this.UrlTranstruckNew + subURL, { headers: headers })
   }
 
@@ -272,6 +290,12 @@ export class ApiService {
       'apptype': 'dashboard',
       'authkey': this.user._token || ''
     });
+    if (this.user._details && this.user._details.isDemo) {
+      headers['pageId'] = this.user.findPageIdByRoute(this.router.url);
+    }
+    if (this.user._details && this.user._details.isDemo) {
+      headers['pageId'] = this.user.findPageIdByRoute(this.router.url);
+    }
     return headers;
   }
 
@@ -316,7 +340,9 @@ export class ApiService {
       'apptype': 'dashboard',
       'token': '8e3ff0d7-5fde-2266-e999-00dbb2a9e5fd'
     });
-
+    if (this.user._details && this.user._details.isDemo) {
+      headers['pageId'] = this.user.findPageIdByRoute(this.router.url);
+    }
     return headers;
   }
 
@@ -332,7 +358,9 @@ export class ApiService {
       'entrymode': entryMode,
       'authkey': authKey
     });
-
+    if (this.user._details && this.user._details.isDemo) {
+      headers['pageId'] = this.user.findPageIdByRoute(this.router.url);
+    }
     return headers;
   }
   getBranches() {

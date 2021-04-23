@@ -312,7 +312,10 @@ import { PlacementoptimizeComponent } from './modals/placementoptimize/placement
 import { PlacementOptimisationOnMapComponent } from './modals/placement-optimisation-on-map/placement-optimisation-on-map.component';
 import { PlacementConstraintsComponent } from './modals/placement-constraints/placement-constraints.component';
 import { PlacementRequirementComponent } from './modals/placement-requirement/placement-requirement.component';
+
 import { PlacementProblemGenerationComponent } from './modals/placement-problem-generation/placement-problem-generation.component';
+import { DriverConsentListComponent } from './modals/driver-consent-list/driver-consent-list.component';
+import { NearByVehiclesComponent } from './modals/near-by-vehicles/near-by-vehicles.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -578,6 +581,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   PlacementoptimizeComponent,
   PlacementOptimisationOnMapComponent,
   PlacementConstraintsComponent,
+  DriverConsentListComponent,
   PlacementProblemGenerationComponent
 ];
 
@@ -604,11 +608,12 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     PlacementConstraintsComponent,
     PlacementRequirementComponent,
     PlacementProblemGenerationComponent,
+    NearByVehiclesComponent,
   ],
   entryComponents: [
     ...COMMON_COMPONENT,
     VehicleInfoComponent,
-    
+
   ],
   imports: [
     BrowserModule,

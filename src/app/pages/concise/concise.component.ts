@@ -28,6 +28,7 @@ import {
 } from "../../modals";
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+import { NearByVehiclesComponent } from "../../modals/near-by-vehicles/near-by-vehicles.component";
 
 @AutoUnsubscribe()
 @Component({
@@ -135,6 +136,8 @@ export class ConciseComponent implements OnInit {
   gpsStatusKeys = [];
   isHidePie: boolean = !!JSON.parse(localStorage.getItem('isHidePie'));
   subscriptions = [];
+  markersWithId = [];
+
   constructor(
     public api: Api,
     public common: Common,
@@ -176,7 +179,7 @@ export class ConciseComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.mapService.map = null;
+    // this.mapService.map = null;
     this.common.continuoueScroll();
   }
 
@@ -269,7 +272,7 @@ export class ConciseComponent implements OnInit {
           value: "",
           isHTML: false,
           action: null,
-          icons: this.actionIcons()
+          icons: this.actionIcons(kpi.x_icons || [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
         }
       });
     });
@@ -874,6 +877,10 @@ export class ConciseComponent implements OnInit {
     setTimeout(() => {
       this.mapService.setMapType(0);
       this.markers = this.mapService.createMarkers(this.kpis);
+      // x_vehicle_id
+      this.markersWithId = this.markers.map((marker, index) => {
+        return { marker, id: this.kpis[index].x_showveh }
+      })
 
       this.mapService.addListerner(this.mapService.map, "center_changed", () => {
         //this.setMarkerLabels();
@@ -997,8 +1004,8 @@ export class ConciseComponent implements OnInit {
     }
   }
 
-  actionIcons() {
-    return [
+  actionIcons(xIcons) {
+    let icons = [
       {
         class: "icon fa fa-chart-pie", action: '',
       },
@@ -1043,7 +1050,18 @@ export class ConciseComponent implements OnInit {
         class: "icon fa fa-phone",
         action: ''
       },
-    ]
+      {
+        class: "icon fa fa-map-marker",
+        action: ''
+      },
+    ];
+
+    return icons.filter((icon, index) => {
+      if (xIcons.indexOf(index) != -1) {
+        return true;
+      }
+      return false;
+    })
   }
 
   openChangeStatusModal(trip) {
@@ -1360,6 +1378,9 @@ export class ConciseComponent implements OnInit {
         case 'icon fa fa-phone':
           this.callNotification(this.findKPI(details.column._id))
           break;
+        case 'icon fa fa-map-marker':
+          this.jrxFindNearBy(this.findKPI(details.column._id))
+          break;
       }
     }
   }
@@ -1392,5 +1413,55 @@ export class ConciseComponent implements OnInit {
   setIsHidePie() {
     this.isHidePie = !this.isHidePie;
     localStorage.setItem('isHidePie', this.isHidePie.toString());
+  }
+
+  jrxFiltered(vehicles) {
+    this.markersWithId.forEach(marker => {
+      let vehicle = vehicles.find(vehicle => vehicle._id == marker.id);
+      if (vehicle && marker.marker) {
+        marker.marker.setMap(this.mapService.map);
+      } else if (marker.marker) {
+        marker.marker.setMap(null);
+      }
+    });
+  }
+
+  jrxFindNearBy(kpi) {
+    if (!kpi.x_tlat || !kpi.x_tlong) {
+      this.common.showError('Location Not Available!');
+      return;
+    }
+
+    const location = {
+      lat: kpi.x_tlat,
+      lng: kpi.x_tlong,
+      angle: kpi.x_angle,
+      name: kpi.x_showveh,
+      time: ""
+    };
+
+    let locations = this.allKpis.filter(vehicle => {
+      if (!vehicle.x_tlat || !vehicle.x_tlong) {
+        return false;
+      }
+
+      let distance = this.common.distanceFromAToB(kpi.x_tlat, kpi.x_tlong, vehicle.x_tlat, vehicle.x_tlong, 'K');
+      if (distance <= 50)
+        return true;
+      return false;
+    }).map(vehicle => {
+      return {
+        lat: vehicle.x_tlat,
+        lng: vehicle.x_tlong,
+        name: vehicle.x_showveh,
+      }
+    });
+
+    this.common.params = { location, title: "Near By Vehicles : " + kpi.x_showveh, locations };
+    this.modalService.open(NearByVehiclesComponent, {
+      size: "lg",
+      container: "nb-layout"
+    });
+
   }
 }

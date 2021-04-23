@@ -203,6 +203,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/tmg-dashboard',
         home: true,
       },
+      {
+        title: 'Dynamic Report Dashboard',
+        // icon: 'fa-chart-pie',
+        link: '/pages/dynamic-report-dashboard',
+        home: true,
+      },
 
       {
         title: 'Transporter TMG Dashboard',

@@ -38,13 +38,25 @@ export class TripKmRepairViewComponent implements OnInit {
   ngOnInit(): void {
   }
   ngAfterViewInit(): void {
-    const ids = [28124, 16295, 28116, 28115, 29033];
-    if (ids.includes(this.vId)) {
-      this.routeRestoreSnapped();
-      return;
-    }
-    this.getTripKmData();
+    const ids = [28124, 16295, 28116, 28115, 29033, 88634];
+    this.common.loading++;
+    const subscription1 = this.api.getJavaPortDost(8083, `switchesfromtrip/${this.common.params.tripId}`)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('response of getJavaPortDost is: ', res);
 
+        res = res['data'];
+        if (res['loc_data_type'] === 'is_single') {
+          console.log('res loc_data_type :', res['loc_data_type']);
+          this.getTripKmData();
+        } else {
+          this.routeRestoreSnapped();
+          return;
+        }
+      }, err => {
+        this.common.loading--;
+        console.error(err);
+      });
   }
 
   getTripKmData() {
@@ -77,9 +89,18 @@ export class TripKmRepairViewComponent implements OnInit {
   routeRestoreSnapped() {
     ++this.common.loading
     // const subscription = this.apiService.postJavaPortDost(8086, 'routerestore/true', params)
-    const subscription = this.api.getJavaPortDost(8086, 'routerestore/' + this.vId)
+    const subscription = this.api.getJavaPortDost(8083, `getrawdatafromtrip/${this.common.params.tripId}`)
       .subscribe((res: any) => {
         console.log('res:', res);
+        res = res['data'];
+        if (!res.withSnap) {
+          res = {
+            withSnap: res.rawData,
+            raw: res.rawData,
+            events: res.eventList || [],
+            google: res.rawData
+          }
+        }
         --this.common.loading;
         this.GPSData = res.raw;
         this.GPSDis = this.calculateDistance(res.raw);

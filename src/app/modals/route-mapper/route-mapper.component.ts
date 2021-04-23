@@ -269,7 +269,12 @@ export class RouteMapperComponent implements OnInit {
       }
       let subscription = this.apiService.post('HaltOperations/getvehicleEvents', params)
         .subscribe(res => {
+          console.log('response data : ', res['data']);
+          
           this.commonService.loading--;
+          if(!res['data']){
+            res['data'] = [];
+          }
           this.vehicleEvents = res['data'].reverse();
           console.timeEnd('getHaltTrails');
           resolve(true);
@@ -285,46 +290,64 @@ export class RouteMapperComponent implements OnInit {
 
 
   getVehicleTrailAll() {
+    let params = {
+      'vehicleId': this.vehicleSelected,
+      'startTime': this.commonService.dateFormatter(this.startDate),
+      'toTime': this.commonService.dateFormatter(this.endDate),
+      'orderId': this.orderId,
+      'orderType': this.orderType
+    }
     return new Promise((resolve, reject) => {
       console.time('getVehicleTrailAll');
       const ids = [28124, 16295, 28116, 28115, 29033];
-      if (ids.includes(this.vehicleSelected)) {
-        this.routeRestoreSnapped(resolve);
-        return;
-      }
-
-      let params = {
-        'vehicleId': this.vehicleSelected,
-        'startTime': this.commonService.dateFormatter(this.startDate),
-        'toTime': this.commonService.dateFormatter(this.endDate),
-        'orderId': this.orderId,
-        'orderType': this.orderType
-      }
 
       this.commonService.loading++;
-      const subscription = this.apiService.post('VehicleTrail/getVehicleTrailAll', params)
+      const subscription1 = this.apiService.getJavaPortDost(8083, `switches/${params.vehicleId}/${params.startTime}/${params.toTime}`)
         .subscribe(res => {
           this.commonService.loading--;
-          if (res['code'] == 2)
-            this.isLite = true;
-          else
-            this.isLite = false;
-          this.trails = res['data'];
-          console.timeEnd('getVehicleTrailAll');
+          console.log('response of getJavaPortDost is: ', res);
+          res = res['data'];
+          if (res['loc_data_type'] === 'is_single') {
+            console.log('res loc_data_type :', res['loc_data_type']);
 
-          resolve(true);
-          subscription.unsubscribe();
+            this.commonService.loading++;
+            const subscription = this.apiService.post('VehicleTrail/getVehicleTrailAll', params)
+              .subscribe(res => {
+                this.commonService.loading--;
+                if (res['code'] == 2)
+                  this.isLite = true;
+                else
+                  this.isLite = false;
+                this.trails = res['data'];
+                console.timeEnd('getVehicleTrailAll');
+
+                resolve(true);
+                subscription.unsubscribe();
+              }, err => {
+                this.commonService.loading--;
+                console.error(err);
+                resolve(false);
+                subscription.unsubscribe();
+              });
+
+          } else {
+            this.routeRestoreSnapped(resolve);
+            return;
+          }
+          // resolve(true);
+          // subscription1.unsubscribe();
         }, err => {
           this.commonService.loading--;
           console.error(err);
           resolve(false);
-          subscription.unsubscribe();
+          subscription1.unsubscribe();
         });
-
     })
   }
 
   routeRestoreSnapped(resolve) {
+    console.log('inside routeRestoreSnapped');
+
     let params = {
       'vehicleId': this.vehicleSelected,
       'startTime': this.commonService.dateFormatter(this.startDate),
@@ -334,16 +357,24 @@ export class RouteMapperComponent implements OnInit {
     }
 
     this.commonService.loading++;
-    // const subscription = this.apiService.postJavaPortDost(8086, 'routerestore/true', params)
-    const subscription = this.apiService.getJavaPortDost(8086, 'routerestore/' + this.vehicleSelected)
+    const subscription = this.apiService.getJavaPortDost(8083, `getrawdataevents/${params.vehicleId}/${params.startTime}/${params.toTime}`)
       .subscribe((res: any) => {
         console.log('res:', res);
+        res = res['data'];
+
+        if(!res.withSnap){
+          res = {
+            withSnap: res.rawData,
+            raw: res.rawData,
+            events: res.eventList || []
+          }
+        }
         this.vehicleTrailEvents = res.events || [];
         this.commonService.loading--;
         this.isLite = false;
         this.trails = res.withSnap.map((point, index) => {
           point.long = point.lng;
-          delete point.lng;
+          // delete point.lng;
           return point;
         });
         this.trailsAll = res.raw.map((point, index) => {
