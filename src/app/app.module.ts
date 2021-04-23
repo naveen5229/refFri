@@ -312,6 +312,7 @@ import { PlacementoptimizeComponent } from './modals/placementoptimize/placement
 import { PlacementOptimisationOnMapComponent } from './modals/placement-optimisation-on-map/placement-optimisation-on-map.component';
 import { PlacementConstraintsComponent } from './modals/placement-constraints/placement-constraints.component';
 import { PlacementRequirementComponent } from './modals/placement-requirement/placement-requirement.component';
+import { DriverConsentListComponent } from './modals/driver-consent-list/driver-consent-list.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -576,7 +577,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   VerifyHaltsComponent,
   PlacementoptimizeComponent,
   PlacementOptimisationOnMapComponent,
-  PlacementConstraintsComponent
+  PlacementConstraintsComponent,
+  DriverConsentListComponent
 ];
 
 @NgModule({
