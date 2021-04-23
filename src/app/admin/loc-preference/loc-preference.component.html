@@ -1,0 +1,107 @@
+
+<nb-card style="border: 0px;">
+    <nb-card-header>
+      <div class="row">
+        <div class="col-12">
+          <h5>LOC Preference</h5>
+        </div>
+      </div>
+    </nb-card-header>
+    <nb-card-body style="padding-bottom: 0px;min-height:500;">
+        <div class="row">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Vehicle</th>
+                    <th>P1</th>
+                    <th>P2</th>
+                    <th>P3</th>
+                    <th>P4</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items; let j= index">
+                    <td>1</td>
+                    <td>
+                        <auto-suggestion (onSelected)="selectVehicle($event,j)"
+                        url="Suggestion/getFoVehicleList"
+                        display="regno" placeholder="Vehicle" [preSelected]="null">
+                        </auto-suggestion>
+                    </td>
+                    <td>
+                        <select [(ngModel)]="item.p1" disabled style="width:66.5%;">
+                            <option *ngFor="let data of p1Data" [value]="data.value">{{data.name}}</option>
+                        </select>
+                        <input type="number" class="second" [(ngModel)]="item.p1Second" placeholder="sec">
+                    </td>
+                    <td>
+                        <select [(ngModel)]="item.p2" class="select">
+                            <option value="">Select</option>
+                            <option *ngFor="let data of pData" [value]="data.value">{{data.name}}</option>
+                        </select>
+                        <input type="number" class="second" placeholder="sec" [(ngModel)]="item.p2Second">
+                    </td>
+                    <td>
+                        <select [(ngModel)]="item.p3" class="select">
+                            <option value="">Select</option>
+                            <option *ngFor="let data of pData" [value]="data.value">{{data.name}}</option>
+                        </select>
+                        <input type="number" class="second" placeholder="sec" [(ngModel)]="item.p3Second">
+                    </td>
+                    <td>
+                        <select [(ngModel)]="item.p4" class="select">
+                            <option value="">Select</option>
+                            <option *ngFor="let data of pData" [value]="data.value">{{data.name}}</option>
+                        </select>
+                        <input type="number" class="second" placeholder="sec" [(ngModel)]="item.p4Second">
+                    </td>
+                    <td>
+                        <span><i class="fa fa-plus add" (click)="addMoreItems(i)" *ngIf="j == items.length-1" style="padding: 1px;
+                            color: green;"></i>
+                            <i class="fa fa-minus minus" (click)="items.splice(j,1)" *ngIf="j !== 0" style="padding: 1px;
+                            color: red;"></i>
+                            </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 offset-10">
+            <button class="btn btn-primary" type="button"  (click)="saveData()">Submit</button>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="viewData && viewData.length>0">
+        <div class="col-sm-12" style="padding: 0!important;margin-top:10px;">
+            <table class="table table-bordered" *ngFor="let data of viewData;let i = index;" >
+                <thead>
+                  <tr>
+                    <th colspan='4'  class="col-sm-11 hdStyle">
+                      <span>Vehicle:</span><span class="ml-2 grn">{{data.regNo}} </span>
+                    </th>
+                  </tr>
+                  <tr style="background-color:#78cfea;">
+                    <th>#</th>
+                    <th>Mode Name</th>
+                    <th>Priority</th>
+                    <th>Second</th>
+                  </tr>
+                </thead>
+      
+                <tbody>
+                  <tr *ngFor="let data1 of data.preferences;let i = index;">
+                    <td style="width:10%;max-width:50px;">{{i+1}}</td>
+                    <td style="width:30%;">{{data1.modeName}}</td>
+                    <td style="width:30%;">{{data1.priority}}</td>
+                    <td style="width:30%;">{{data1.seconds}}</td>
+                  </tr>
+                </tbody>
+            </table>
+        
+        </div>
+    </div>
+    </nb-card-body>
+  </nb-card>

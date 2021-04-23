@@ -23,6 +23,7 @@ export class ApiService {
   /********************* Common ***************** */
   URLJava: string = 'http://13.126.162.170:7070/';
   URLJavaPortDost: string = 'http://elogist.in';
+  // URLJavaPortDost: string = 'http://127.0.0.1';
   verifyHaltsUrl: string = 'http://elogist.in:8081/';
 
   /********************** Local Server ************* */

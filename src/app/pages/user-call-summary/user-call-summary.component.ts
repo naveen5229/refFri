@@ -129,8 +129,9 @@ ngOnInit() {
           this.valobj[this.headings[j]] = {
             value: `<div style="color: black;" class="${this.data[i][this.headings[j]] ? 'blue' : 'black'}"><span>${this.data[i][this.headings[j]] || ''}</span></div>`,
             action: this.openHistoryModel.bind(this, this.data[i],this.headings[j]), isHTML: true,
-          }
-        }else{
+          } 
+        }   
+        else{
           this.valobj[this.headings[j]] = {
             value: `<div style="color: black;" class="${this.data[i][this.headings[j]] ? 'blue' : 'black'}"><span>${this.data[i][this.headings[j]] || ''}</span></div>`,
             isHTML: true,
