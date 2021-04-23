@@ -28,7 +28,7 @@ export class ApiService {
 
   /********************** Local Server ************* */
   // URL: string= 'http://107.6.151.122:8081/airtel'
-  // URL: string = 'http://192.168.0.109/booster_webservices/'; 
+  //URL: string = 'http://192.168.0.109/booster_webservices/'; 
   // UrlPrime:string='http://192.168.0.111/itrm_webservices/';
   // UrlTranstruckNew: string = 'http://192.168.1.101/webservices/';
   // verifyHaltsUrl: string = 'http://192.168.0.166:8081/';

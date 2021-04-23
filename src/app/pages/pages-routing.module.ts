@@ -116,6 +116,8 @@ import { TransporterViewComponent } from './transporter-view/transporter-view.co
 import { CooperateViewComponent } from './cooperate-view/cooperate-view.component';
 import { TriptatreportComponent } from './triptatreport/triptatreport.component';
 import { LeadvalidationreportComponent } from './leadvalidationreport/leadvalidationreport.component';
+import { TripdeliverycomplinancereportComponent } from './tripdeliverycomplinancereport/tripdeliverycomplinancereport.component';
+import { TripstoppageComponent } from './tripstoppage/tripstoppage.component';
 
 
 const routes: Routes = [{
@@ -718,6 +720,16 @@ const routes: Routes = [{
   {
     path: 'leadvalidationreport',
     component: LeadvalidationreportComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'tripdeliverycomplinancereport',
+    component: TripdeliverycomplinancereportComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'tripstoppage',
+    component: TripstoppageComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
   ],

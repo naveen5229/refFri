@@ -1,31 +1,35 @@
 <nb-card>
     <nb-card-header>
       <div class="row">
-          <h5>Trip TAT Report</h5>
+          <h5>Trip Stoppage Report</h5>
       </div>
     </nb-card-header>
     <nb-card-body>
         <div class="row">
-            <!-- <div class="col-sm-4">
+            <div class="col-sm-4">
                 <label>Vehicle</label>
                 <auto-suggestion style="min-height:300px;" (onSelected)="getVehicle($event)" url="Suggestion/getFoVehicleList"
                  display="regno" placeholder="Search by vehicle number and regno " [preSelected]="null">
                 </auto-suggestion>
-            </div> -->
+            </div>
 
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <label>Start Date</label>
-                <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
+                <uj-date-time-picker [isTime]="false" (onChanged)="startdate = $event" [dateTimeValue]="startdate">
                 </uj-date-time-picker>
             </div>
 
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <label>End Date</label>
-                <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event"
-                [dateTimeValue]="endTime">
+                <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="enddate = $event"
+                [dateTimeValue]="enddate">
                 </uj-date-time-picker>
             </div>
-
+            <div class="col-sm-2">
+                <label>Stoppage Minutes</label>
+                <input type="text" class="form-control" [(ngModel)]="min" 
+                placeholder="Stoppage" (input)=" min = (min < 5) ? 10 :min">
+            </div>
             <div class="col-sm-2">
                 <button class="btn btn-primary mt-3" (click)="getTripMasterReport()">submit</button>
             </div>
@@ -35,6 +39,7 @@
                 <smart-table *ngIf="tripData && tripData.length" id="TripTat" [data]="table.data"
                 [settings]="table.settings">
             </smart-table>
+            
             </div>
         </div>
     </nb-card-body>
