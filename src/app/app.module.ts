@@ -312,6 +312,7 @@ import { PlacementoptimizeComponent } from './modals/placementoptimize/placement
 import { PlacementOptimisationOnMapComponent } from './modals/placement-optimisation-on-map/placement-optimisation-on-map.component';
 import { PlacementConstraintsComponent } from './modals/placement-constraints/placement-constraints.component';
 import { PlacementRequirementComponent } from './modals/placement-requirement/placement-requirement.component';
+import { PlacementProblemGenerationComponent } from './modals/placement-problem-generation/placement-problem-generation.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -576,7 +577,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   VerifyHaltsComponent,
   PlacementoptimizeComponent,
   PlacementOptimisationOnMapComponent,
-  PlacementConstraintsComponent
+  PlacementConstraintsComponent,
+  PlacementProblemGenerationComponent
 ];
 
 @NgModule({
@@ -601,6 +603,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     PlacementOptimisationOnMapComponent,
     PlacementConstraintsComponent,
     PlacementRequirementComponent,
+    PlacementProblemGenerationComponent,
   ],
   entryComponents: [
     ...COMMON_COMPONENT,

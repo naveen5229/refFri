@@ -73,6 +73,7 @@ import { CaptchaComponent } from './captcha/captcha.component';
 import { FinancialAccountSummaryComponent } from './financial-account-summary/financial-account-summary.component';
 import { TripVerificationComponent } from './trip-verification/trip-verification.component';
 import { VehdocmismatchComponent } from './vehdocmismatch/vehdocmismatch.component';
+import { LocPreferenceComponent } from './loc-preference/loc-preference.component';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
@@ -104,8 +105,8 @@ const PAGES_COMPONENTS = [
   LocationsComponent,
   VouchersSummaryComponent,
   CaptchaComponent,
-  VehdocmismatchComponent
-
+  VehdocmismatchComponent,
+  LocPreferenceComponent
 ];
 @NgModule({
   imports: [
@@ -165,6 +166,7 @@ const PAGES_COMPONENTS = [
     FinancialAccountSummaryComponent,
     TripVerificationComponent,
     VehdocmismatchComponent,
+    LocPreferenceComponent,
   ],
   exports: [
     // VehiclesComponent,
