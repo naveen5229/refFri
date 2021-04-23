@@ -315,6 +315,7 @@ import { PlacementRequirementComponent } from './modals/placement-requirement/pl
 
 import { PlacementProblemGenerationComponent } from './modals/placement-problem-generation/placement-problem-generation.component';
 import { DriverConsentListComponent } from './modals/driver-consent-list/driver-consent-list.component';
+import { NearByVehiclesComponent } from './modals/near-by-vehicles/near-by-vehicles.component';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -607,6 +608,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     PlacementConstraintsComponent,
     PlacementRequirementComponent,
     PlacementProblemGenerationComponent,
+    NearByVehiclesComponent,
   ],
   entryComponents: [
     ...COMMON_COMPONENT,
