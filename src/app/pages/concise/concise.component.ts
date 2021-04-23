@@ -272,7 +272,7 @@ export class ConciseComponent implements OnInit {
           value: "",
           isHTML: false,
           action: null,
-          icons: this.actionIcons(kpi.x_icons || [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+          icons: this.actionIcons(kpi.x_actions)
         }
       });
     });
@@ -1004,62 +1004,73 @@ export class ConciseComponent implements OnInit {
     }
   }
 
-  actionIcons(xIcons) {
-    let icons = [
+  actionIcons(x_actions) {
+   let actions =  x_actions || ["chvehstatus","vehevent","routemap","trips","vehstates","rptissue","nearby","odometer","entityflag","vehorders","calldriver", "nearby"];
+   let icons = [
       {
-        class: "icon fa fa-chart-pie", action: '',
+        class: "icon fa fa-chart-pie", action: '', key:"chvehstatus"
       },
       {
         class: "icon fa fa-star",
         action: '',
+        key: 'vehevent'
       },
-
       {
         class: "icon fa fa-route",
         action: '',
+        key: 'routemap'
       },
       {
         class: "icon fa fa-truck",
         action: '',
+        key: 'trips'
       },
       {
         class: "icon fa fa-globe",
         action: '',
+        key: 'vehstates'
       },
       {
         class: "icon fa fa-question-circle",
         action: '',
+        key: 'rptissue'
       },
       {
         class: "icon fa fa-user-secret",
-        action: ''
+        action: '',
+        key: 'nearby'
       },
       {
         class: "icon fas fa-tachometer-alt",
-        action: ''
+        action: '',
+        key: 'odometer'
       },
       {
         class: "icon fas fa-flag-checkered",
-        action: ''
+        action: '',
+        key: 'entityflag'
       },
       {
         class: "icon fa fa-gavel",
-        action: ''
+        action: '',
+        key: 'vehorders'
       },
       {
         class: "icon fa fa-phone",
-        action: ''
+        action: '',
+        key: 'calldriver'
       },
       {
         class: "icon fa fa-map-marker",
-        action: ''
+        action: '',
+        key: 'nearby'
       },
     ];
 
     return icons.filter((icon, index) => {
-      if (xIcons.indexOf(index) != -1) {
+      if (actions.indexOf(icon.key) != -1) {
         return true;
-      }
+      } 
       return false;
     })
   }
