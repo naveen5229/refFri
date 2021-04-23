@@ -50,6 +50,8 @@ export class DriverConsentListComponent implements OnInit {
     this.api.getJavaPortDost(8083, 'simdataconsent/drivermapping')
       .subscribe(res => {
         this.common.loading--;
+        console.log('response is: ', res);
+
         this.driverConsentList = res['data'];
         this.setConsentTable();
       }, err => {
@@ -70,8 +72,11 @@ export class DriverConsentListComponent implements OnInit {
   generateHeadingsNormal() {
     let headings = {
       empName: { title: 'Driver', placeholder: 'Driver' },
+      regNo: { title: 'Reg No', placeholder: 'Reg No' },
       mobileNo: { title: 'Mobile No', placeholder: 'Mobile No' },
       status: { title: 'Status', placeholder: 'Status' },
+      pendingTime: { title: 'Start Time', placeholder: 'Start Time' },
+      expireTime: { title: 'Expire Time', placeholder: 'Expire Time' },
       action: { title: 'Action ', placeholder: 'Action', hideSearch: true, class: 'tag' },
     };
     return headings;
@@ -87,10 +92,16 @@ export class DriverConsentListComponent implements OnInit {
       for (let key in this.generateHeadingsNormal()) {
         if (key === 'empName') {
           column[key] = { value: consent[key], class: "black", action: "" };
+        } else if (key === 'regNo') {
+          column[key] = { value: consent[key], class: "black", action: "" };
         } else if (key === 'mobileNo') {
           column[key] = { value: consent[key], class: "black", action: "" };
         } else if (key === 'status') {
           column[key] = { value: consent[key], class: "black", action: "" };
+        } else if (key === 'pendingTime') {
+          column[key] = { value:  this.common.dateFormatter(consent[key]), class: "black", action: "" };
+        } else if (key === 'expireTime') {
+          column[key] = { value: this.common.dateFormatter(consent[key]), class: "black", action: "" };
         } else {
           column['action'] = { value: "", isHTML: true, action: null, icons: actionIcon };
         }

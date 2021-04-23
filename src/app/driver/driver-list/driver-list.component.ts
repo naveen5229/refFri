@@ -183,6 +183,6 @@ export class DriverListComponent implements OnInit {
 
   checkSimConsent() {
     console.log('inside checkSimCOnsent func');
-    this.modalService.open(DriverConsentListComponent, { size: 'lg', container: 'nb-layout' });
+    this.modalService.open(DriverConsentListComponent, { size: 'xl', container: 'nb-layout' });
   }
 }
