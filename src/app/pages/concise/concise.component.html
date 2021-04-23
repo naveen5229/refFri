@@ -130,7 +130,7 @@
                 <nb-card-body>
                     <div [id]="'print-table-' + i">
                         <smart-table class="home-page-tabel" style="width:100%;" [data]="table.data"
-                            [settings]="table.settings">
+                            [settings]="table.settings" >
                         </smart-table>
                     </div>
                 </nb-card-body>
@@ -260,7 +260,7 @@
             }" (resizeEnd)="onResizeEnd($event, 'smartTable')">
                             <div id="print-section">
                                 <smart-table class="home-page-tabel" style="width:100%;" [data]="table.data"
-                                    [settings]="table.settings" (action)="jrxActionHandler($event)">
+                                    [settings]="table.settings" (action)="jrxActionHandler($event)" [returnFilteredData]="true" (filtered)="jrxFiltered($event)">
                                 </smart-table>
                             </div>
                         </div>

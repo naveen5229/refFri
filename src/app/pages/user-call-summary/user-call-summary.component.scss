@@ -40,5 +40,6 @@ nb-card-header{
 
  :host ::ng-deep table tr:last-child  span{ 
    color: black!important;
-   pointer-events: none!important;
+   pointer-events: none;
+   cursor: default;
   }
