@@ -62,7 +62,7 @@
             <td>Current Location Time</td>
             <td>{{vehicleInfo.cur_loc_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
           </tr>
-          <tr>
+          <tr *ngIf="vehicleInfo.last_fetch_time"> <!-- Show & hide will be handled from backend: Umang Jain-->
             <td>Last Fetch Time</td>
             <td>{{vehicleInfo.last_fetch_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
           </tr>

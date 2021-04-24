@@ -38,6 +38,7 @@
                             <th rowspan="2">#</th>
                             <th rowspan="2">Trip Id</th>
                             <th rowspan="2">Vehicle No.</th>
+                            <th rowspan="2">Onward Status</th>
                             <th rowspan="2" style="min-width:150px;">Invoice Date & Time</th>
                             <th rowspan="2" style="min-width: 90px;">LR No.</th>
                             <th rowspan="2" style="min-width: 108px;">Product Name</th>
@@ -66,7 +67,7 @@
                             <!-- <th rowspan="2">VId</th> -->
                             <th rowspan='2' style="min-width: 140px;">Expired Doc. Count</th>
                             <th rowspan='2' style="min-width: 148px;">Challan date/Amount</th>
-                            
+                            <th rowspan='2' style="min-width: 148px;">Stamp Status</th>
                     </tr>
                     <tr style="background-color:#0dc3d540">
                         <th>Location</th>
@@ -97,6 +98,7 @@
                         <td>{{i+1}}</td>
                         <td>{{data['trip_id']}}</td>
                         <td>{{data['regno']}}</td>
+                        <td>{{data.trip_onward_status}}</td>
                         <td>{{data['inv_start_time']}}</td>
                         <td>{{data['receipt_no']}}</td>
                         <td>{{data['product_name']}}</td>
@@ -142,6 +144,7 @@
                         <!-- <td>{{data['vid']}}</td> -->
                         <td>{{data['expire_veh_count']}}</td>
                         <td>{{data['challan_amount']}}</td>
+                        <td>{{data.trip_stamp_status}}</td>
                     </tr>
                 </tbody>
                 </table>

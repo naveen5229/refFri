@@ -67,9 +67,11 @@ export class DriverPreferencesComponent implements OnInit {
       empName: { title: 'Driver', placeholder: 'Driver' },
       regNo: { title: 'Reg No', placeholder: 'Reg No' },
       mobileNo: { title: 'Mobile No', placeholder: 'Mobile No' },
+      mobileNo2: { title: 'Mobile No', placeholder: 'Mobile No 2' },
       status: { title: 'Status', placeholder: 'Status' },
       pendingTime: { title: 'Start Time', placeholder: 'Start Time' },
       expireTime: { title: 'Expire Time', placeholder: 'Expire Time' },
+      modes: { title: 'Modes', placeholder: 'Modes' },
       action: { title: 'Action ', placeholder: 'Action', hideSearch: true, class: 'tag' },
     };
     return headings;
@@ -89,12 +91,16 @@ export class DriverPreferencesComponent implements OnInit {
           column[key] = { value: consent[key], class: "black", action: "" };
         } else if (key === 'mobileNo') {
           column[key] = { value: consent[key], class: "black", action: "" };
+        } else if (key === 'mobileNo2') {
+          column[key] = { value: consent[key], class: "black", action: "" };
         } else if (key === 'status') {
           column[key] = { value: consent[key], class: "black", action: "" };
         } else if (key === 'pendingTime') {
-          column[key] = { value:  this.common.dateFormatter(consent[key]), class: "black", action: "" };
+          column[key] = { value: consent[key] ? this.common.dateFormatter(consent[key]) : '', class: "black", action: "" };
         } else if (key === 'expireTime') {
-          column[key] = { value: this.common.dateFormatter(consent[key]), class: "black", action: "" };
+          column[key] = { value: consent[key] ? this.common.dateFormatter(consent[key]) : '', class: "black", action: "" };
+        } else if (key === 'modes') {
+          column[key] = { value: consent[key], class: "black", action: "" };
         } else {
           column['action'] = { value: "", isHTML: true, action: null, icons: actionIcon };
         }
@@ -108,7 +114,7 @@ export class DriverPreferencesComponent implements OnInit {
     if (type === 'PENDING') {
       return this.actionIconsPending(consent);
     } else if (type === 'ALLOWED') {
-      return
+      return this.actionIconsPending(consent);
     } else {
       return this.actionIconNull(consent);
     }
