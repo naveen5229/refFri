@@ -65,7 +65,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         home: true,
       },
       {
-        title: 'Issues Report',
+        title: 'AI Report',
         icon: 'fa-clipboard-check',
         link: '/pages/issues-report',
         home: true,
@@ -586,6 +586,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
       title: 'Driver Performance ',
       icon: 'fa-star',
       link: '/pages/driver-performance',
+      home: true,
+    },
+    {
+      title: 'Driver Preference',
+      icon: 'fa-star',
+      link: '/pages/driver-preference',
       home: true,
     },
     {

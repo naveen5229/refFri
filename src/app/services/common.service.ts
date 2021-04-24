@@ -460,7 +460,7 @@ export class CommonService {
     return result;
   }
 
-  distanceFromAToB(lat1, lon1, lat2, lon2, unit) {
+  distanceFromAToB(lat1, lon1, lat2, lon2, unit):any {
     if (lat1 == lat2 && lon1 == lon2) {
       return 0;
     } else {

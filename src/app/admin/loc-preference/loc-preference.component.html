@@ -16,8 +16,8 @@
                     <th>Vehicle</th>
                     <th>P1</th>
                     <th>P2</th>
-                    <th>P3</th>
-                    <th>P4</th>
+                    <!-- <th>P3</th>
+                    <th>P4</th> -->
                     <th>Action</th>
                 </tr>
             </thead>
@@ -43,7 +43,7 @@
                         </select>
                         <input type="number" class="second" placeholder="sec" [(ngModel)]="item.p2Second">
                     </td>
-                    <td>
+                    <!-- <td>
                         <select [(ngModel)]="item.p3" class="select">
                             <option value="">Select</option>
                             <option *ngFor="let data of pData" [value]="data.value">{{data.name}}</option>
@@ -56,7 +56,7 @@
                             <option *ngFor="let data of pData" [value]="data.value">{{data.name}}</option>
                         </select>
                         <input type="number" class="second" placeholder="sec" [(ngModel)]="item.p4Second">
-                    </td>
+                    </td> -->
                     <td>
                         <span><i class="fa fa-plus add" (click)="addMoreItems(i)" *ngIf="j == items.length-1" style="padding: 1px;
                             color: green;"></i>

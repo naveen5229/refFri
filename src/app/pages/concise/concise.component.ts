@@ -1005,10 +1005,10 @@ export class ConciseComponent implements OnInit {
   }
 
   actionIcons(x_actions) {
-   let actions =  x_actions || ["chvehstatus","vehevent","routemap","trips","vehstates","rptissue","nearby","odometer","entityflag","vehorders","calldriver", "nearby"];
-   let icons = [
+    let actions = x_actions || ["chvehstatus", "vehevent", "routemap", "trips", "vehstates", "rptissue", "nearby", "odometer", "entityflag", "vehorders", "calldriver", "nearby"];
+    let icons = [
       {
-        class: "icon fa fa-chart-pie", action: '', key:"chvehstatus"
+        class: "icon fa fa-chart-pie", action: '', key: "chvehstatus"
       },
       {
         class: "icon fa fa-star",
@@ -1036,7 +1036,7 @@ export class ConciseComponent implements OnInit {
         key: 'rptissue'
       },
       {
-        class: "icon fa fa-user-secret",
+        class: "icon fa fa-map-marker",
         action: '',
         key: 'nearby'
       },
@@ -1059,18 +1059,13 @@ export class ConciseComponent implements OnInit {
         class: "icon fa fa-phone",
         action: '',
         key: 'calldriver'
-      },
-      {
-        class: "icon fa fa-map-marker",
-        action: '',
-        key: 'nearby'
-      },
+      }
     ];
 
     return icons.filter((icon, index) => {
       if (actions.indexOf(icon.key) != -1) {
         return true;
-      } 
+      }
       return false;
     })
   }
@@ -1139,11 +1134,35 @@ export class ConciseComponent implements OnInit {
   }
 
   openStations(kpi) {
+    let vehicles = this.allKpis.filter(vehicle => {
+      if (!vehicle.x_tlat || !vehicle.x_tlong || (vehicle.x_showveh == kpi.x_showveh)) {
+        return false;
+      }
+
+      let distance = this.common.distanceFromAToB(kpi.x_tlat, kpi.x_tlong, vehicle.x_tlat, vehicle.x_tlong, 'K');
+      if (distance <= 50)
+        return true;
+      return false;
+    }).map(vehicle => {
+      return {
+        lat: vehicle.x_tlat,
+        lng: vehicle.x_tlong,
+        name: vehicle.x_showveh,
+        distance: this.common.distanceFromAToB(kpi.x_tlat, kpi.x_tlong, vehicle.x_tlat, vehicle.x_tlong, 'K')
+      }
+    }).sort((a, b) => a.distance > b.distance ? 1 : -1)
+      .map(vehicle => {
+        vehicle.distance += 'KM';
+        return vehicle;
+      })
+
     this.common.params = {
       lat: kpi.x_tlat,
-      long: kpi.x_tlong
-
+      long: kpi.x_tlong,
+      name: kpi.x_showveh,
+      vehicles
     };
+
     this.modalService.open(PoliceStation, {
       size: "lg",
       container: "nb-layout"
