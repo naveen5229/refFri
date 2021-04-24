@@ -1408,9 +1408,6 @@ export class ConciseComponent implements OnInit {
         case 'icon fa fa-phone':
           this.callNotification(this.findKPI(details.column._id))
           break;
-        case 'icon fa fa-map-marker':
-          this.openStations(this.findKPI(details.column._id))
-          break;
       }
     }
   }
