@@ -1409,7 +1409,7 @@ export class ConciseComponent implements OnInit {
           this.callNotification(this.findKPI(details.column._id))
           break;
         case 'icon fa fa-map-marker':
-          this.jrxFindNearBy(this.findKPI(details.column._id))
+          this.openStations(this.findKPI(details.column._id))
           break;
       }
     }
