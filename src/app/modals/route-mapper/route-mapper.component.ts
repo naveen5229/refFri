@@ -364,9 +364,9 @@ export class RouteMapperComponent implements OnInit {
 
         if(!res.withSnap){
           res = {
-            withSnap: res.rawData,
-            raw: res.rawData,
-            events: res.eventList || []
+            withSnap: res.raw,
+            raw: res.raw,
+            events: res.events || []
           }
         }
         this.vehicleTrailEvents = res.events || [];

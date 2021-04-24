@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">Police Station</h5>
+  <h5 class="modal-title" id="modal-basic-title">Near By</h5>
   <i class="fa fa-file-pdf pdf" (click)="downloadPDF()"></i>
   <i class="fas fa-file-excel excel" (click)="downloadExcel()"></i>
 
@@ -53,8 +53,8 @@
       <table class="table table-bordered table-hover" id="near-vehicles" *ngIf="actionType == 'vehicle'">
         <thead>
           <tr>
-            <th><b>Reg.</b></th>
-            <th><b>Distance</b></th>
+            <th><b>Vehicle</b></th>
+            <th><b>Distance (Km)</b></th>
           </tr>
         </thead>
         <tbody>

@@ -163,7 +163,7 @@ export class MapService {
     let latLng = new google.maps.LatLng(lat, long);
     this.clearAll();
     this.mapDiv = document.getElementById(div);
-    if (this.mapLoadDiv) {
+    if (this.mapLoadDiv & this.map) {
       this.map.panTo(latLng);
       if (options) {
         this.map.set(options);

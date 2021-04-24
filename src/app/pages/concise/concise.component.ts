@@ -1151,10 +1151,7 @@ export class ConciseComponent implements OnInit {
         distance: this.common.distanceFromAToB(kpi.x_tlat, kpi.x_tlong, vehicle.x_tlat, vehicle.x_tlong, 'K')
       }
     }).sort((a, b) => a.distance > b.distance ? 1 : -1)
-      .map(vehicle => {
-        vehicle.distance += 'KM';
-        return vehicle;
-      })
+
 
     this.common.params = {
       lat: kpi.x_tlat,

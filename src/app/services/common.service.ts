@@ -460,7 +460,7 @@ export class CommonService {
     return result;
   }
 
-  distanceFromAToB(lat1, lon1, lat2, lon2, unit):any {
+  distanceFromAToB(lat1, lon1, lat2, lon2, unit, isFixed = true): any {
     if (lat1 == lat2 && lon1 == lon2) {
       return 0;
     } else {
@@ -491,6 +491,10 @@ export class CommonService {
         dist = dist * 0.8684;
       }
 
+      if (!isFixed) {
+        return parseFloat(dist.toFixed(2));
+      }
+      
       return parseInt(dist.toFixed(0));
     }
   }
