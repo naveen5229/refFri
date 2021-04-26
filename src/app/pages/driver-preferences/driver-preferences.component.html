@@ -1,0 +1,14 @@
+<nb-card style="border:0px;">
+    <nb-card-header>
+        <div class="row">
+            <div class="col-sm-10">
+                <h5>Driver Preferences</h5>
+            </div>
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+        <smart-table *ngIf="driverConsentList && driverConsentList.length" id="driverConsentList" [data]="table.data"
+            [settings]="table.settings">
+        </smart-table>
+    </nb-card-body>
+</nb-card>

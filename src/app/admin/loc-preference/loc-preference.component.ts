@@ -24,8 +24,8 @@ export class LocPreferenceComponent implements OnInit {
 
   items = [
     {
-      value: 0,
-      name: '',
+      value: null,
+      name: null,
       p1: 0,
       p2:null,
       p3:null,
@@ -79,8 +79,8 @@ export class LocPreferenceComponent implements OnInit {
 
   addMoreItems(i) {
     this.items.push({
-      value: 0,
-      name: '',
+      value: null,
+      name: null,
       p1: 0,
       p2: null,
       p3: null,

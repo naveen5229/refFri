@@ -64,12 +64,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/tripissues',
         home: true,
       },
-      {
-        title: 'Issues Report',
-        icon: 'fa-clipboard-check',
-        link: '/pages/issues-report',
-        home: true,
-      },
+
 
       {
         title: 'Placement Dashboard',
@@ -77,18 +72,8 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/placements-dash-board',
         home: true,
       },
-      {
-        title: 'Vehicle Distance(24Hr)',
-        icon: 'fa-road',
-        link: '/pages/vehicle-covered-distance',
-        home: true,
-      },
-      {
-        title: 'Vehicle Distance',
-        icon: 'fa-road',
-        link: '/pages/vehicle-distance',
-        home: true,
-      },
+     
+      
       {
         title: 'Day Wise Vehicle Distance',
         icon: 'fa-road',
@@ -164,15 +149,33 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         icon: 'fa-home',
         link: '/pages/tripmasterreport',
       },
+
+
+
+
       {
-        title: 'Trip TAT Report',
+        title: 'Placement Optimization',
         icon: 'fa-home',
-        link: '/pages/triptatreport',
-      },
+        link: '/pages/placementoptimization',
+      }
+    ]
+  },
+  {
+    title: 'Reports',
+    icon: 'fa-route',
+    link: '/pages/dashboard',
+    home: true,
+    children: [
       {
         title: 'Lead Validation Report',
         icon: 'fa-home',
         link: '/pages/leadvalidationreport',
+      },
+      {
+        title: 'AI Report',
+        icon: 'fa-clipboard-check',
+        link: '/pages/issues-report',
+        home: true,
       },
       {
         title: 'Trip Delivery Complinance Report',
@@ -185,10 +188,22 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/tripstoppage',
       },
       {
-        title: 'Placement Optimization',
+        title: 'Trip TAT Report',
         icon: 'fa-home',
-        link: '/pages/placementoptimization',
-      }
+        link: '/pages/triptatreport',
+      },
+      {
+        title: 'Vehicle Distance',
+        icon: 'fa-road',
+        link: '/pages/vehicle-distance',
+        home: true,
+      },
+      {
+        title: 'Vehicle Distance(24Hr)',
+        icon: 'fa-road',
+        link: '/pages/vehicle-covered-distance',
+        home: true,
+      },
     ]
   },
   {
@@ -586,6 +601,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
       title: 'Driver Performance ',
       icon: 'fa-star',
       link: '/pages/driver-performance',
+      home: true,
+    },
+    {
+      title: 'Driver Preference',
+      icon: 'fa-star',
+      link: '/pages/driver-preference',
       home: true,
     },
     {

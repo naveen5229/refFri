@@ -37,6 +37,7 @@ export class TripKmRepairViewComponent implements OnInit {
   ngOnDestroy() { }
   ngOnInit(): void {
   }
+
   ngAfterViewInit(): void {
     const ids = [28124, 16295, 28116, 28115, 29033, 88634];
     this.common.loading++;
@@ -95,10 +96,10 @@ export class TripKmRepairViewComponent implements OnInit {
         res = res['data'];
         if (!res.withSnap) {
           res = {
-            withSnap: res.rawData,
-            raw: res.rawData,
-            events: res.eventList || [],
-            google: res.rawData
+            withSnap: res.raw,
+            raw: res.raw,
+            events: res.events || [],
+            google: res.raw
           }
         }
         --this.common.loading;
