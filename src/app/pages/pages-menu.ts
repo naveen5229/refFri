@@ -144,11 +144,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         icon: 'fa-home',
         link: '/pages/ulheatmap',
       },
-      {
-        title: 'Trip Master Report',
-        icon: 'fa-home',
-        link: '/pages/tripmasterreport',
-      },
+      
 
 
 
@@ -203,6 +199,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         icon: 'fa-road',
         link: '/pages/vehicle-covered-distance',
         home: true,
+      },
+      {
+        title: 'Trip Master Report',
+        icon: 'fa-home',
+        link: '/pages/tripmasterreport',
       },
     ]
   },
