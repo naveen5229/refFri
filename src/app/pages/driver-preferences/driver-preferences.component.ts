@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-
+import { UserService } from '../../services/user.service';
+import { CsvService } from '../../services/csv/csv.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddDriverCompleteComponent } from '../../modals/DriverModals/add-driver-complete/add-driver-complete.component';
+import { ImportDocumentComponent } from '../../documents/documentation-modals/import-document/import-document.component';
 @Component({
   selector: 'driver-preferences',
   templateUrl: './driver-preferences.component.html',
@@ -22,6 +26,9 @@ export class DriverPreferencesComponent implements OnInit {
 
   constructor(
     private common: CommonService,
+    private csvService: CsvService,
+    private modalService: NgbModal,
+    public user: UserService,
     private api: ApiService) {
     this.getDriverConsentList();
     this.common.refresh = this.refresh.bind(this);
@@ -174,6 +181,20 @@ export class DriverPreferencesComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
+  }
+
+  importDriverCSV(){
+    this.common.params = { title: 'Bulk Import Driver', };
+    const activeModal = this.modalService.open(ImportDocumentComponent, { container: 'nb-layout', backdrop: 'static' });
+  }
+
+  addDriver(){
+    const activeModal = this.modalService.open(AddDriverCompleteComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.getDriverConsentList();
+      }
+    })
   }
 
 
