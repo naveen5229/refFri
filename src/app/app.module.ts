@@ -313,6 +313,10 @@ import { PlacementOptimisationOnMapComponent } from './modals/placement-optimisa
 import { PlacementConstraintsComponent } from './modals/placement-constraints/placement-constraints.component';
 import { PlacementRequirementComponent } from './modals/placement-requirement/placement-requirement.component';
 
+import { PlacementProblemGenerationComponent } from './modals/placement-problem-generation/placement-problem-generation.component';
+import { DriverConsentListComponent } from './modals/driver-consent-list/driver-consent-list.component';
+import { NearByVehiclesComponent } from './modals/near-by-vehicles/near-by-vehicles.component';
+
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
   FreightRateRulesComponent,
@@ -576,7 +580,9 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   VerifyHaltsComponent,
   PlacementoptimizeComponent,
   PlacementOptimisationOnMapComponent,
-  PlacementConstraintsComponent
+  PlacementConstraintsComponent,
+  DriverConsentListComponent,
+  PlacementProblemGenerationComponent
 ];
 
 @NgModule({
@@ -601,11 +607,13 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     PlacementOptimisationOnMapComponent,
     PlacementConstraintsComponent,
     PlacementRequirementComponent,
+    PlacementProblemGenerationComponent,
+    NearByVehiclesComponent,
   ],
   entryComponents: [
     ...COMMON_COMPONENT,
     VehicleInfoComponent,
-    
+
   ],
   imports: [
     BrowserModule,

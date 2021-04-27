@@ -1,0 +1,201 @@
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../services/api.service';
+import { CommonService } from '../../services/common.service';
+import { UserService } from '../../services/user.service';
+import { CsvService } from '../../services/csv/csv.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddDriverCompleteComponent } from '../../modals/DriverModals/add-driver-complete/add-driver-complete.component';
+import { ImportDocumentComponent } from '../../documents/documentation-modals/import-document/import-document.component';
+@Component({
+  selector: 'driver-preferences',
+  templateUrl: './driver-preferences.component.html',
+  styleUrls: ['./driver-preferences.component.scss']
+})
+export class DriverPreferencesComponent implements OnInit {
+  driverConsentList = [];
+  data = [];
+  table = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
+
+  constructor(
+    private common: CommonService,
+    private csvService: CsvService,
+    private modalService: NgbModal,
+    public user: UserService,
+    private api: ApiService) {
+    this.getDriverConsentList();
+    this.common.refresh = this.refresh.bind(this);
+
+  }
+
+  ngOnInit(): void {
+  }
+
+  refresh() {
+    this.getDriverConsentList();
+  }
+
+
+  getDriverConsentList() {
+    this.driverConsentList = [];
+    let response;
+    this.common.loading++;
+    this.api.getJavaPortDost(8083, 'simdataconsent/drivermapping')
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('response is: ', res);
+
+        this.driverConsentList = res['data'];
+        this.setConsentTable();
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+    return response;
+  }
+
+  setConsentTable() {
+    this.table.data = {
+      headings: this.generateHeadingsNormal(),
+      columns: this.getTableColumnsNormal(),
+    };
+    return true;
+  }
+
+  generateHeadingsNormal() {
+    let headings = {
+      empName: { title: 'Driver', placeholder: 'Driver' },
+      regNo: { title: 'Reg No', placeholder: 'Reg No' },
+      mobileNo: { title: 'Mobile No', placeholder: 'Mobile No' },
+      mobileNo2: { title: 'Mobile No', placeholder: 'Mobile No 2' },
+      status: { title: 'Status', placeholder: 'Status' },
+      pendingTime: { title: 'Start Time', placeholder: 'Start Time' },
+      expireTime: { title: 'Expire Time', placeholder: 'Expire Time' },
+      modes: { title: 'Modes', placeholder: 'Modes' },
+      action: { title: 'Action ', placeholder: 'Action', hideSearch: true, class: 'tag' },
+    };
+    return headings;
+  }
+
+  getTableColumnsNormal() {
+    let columns = [];
+    this.driverConsentList.map((consent) => {
+      let column = {};
+      let consentStatus = [];
+      consentStatus = consent['status'];
+      let actionIcon = this.statusActionIcons(consentStatus, consent);
+      for (let key in this.generateHeadingsNormal()) {
+        if (key === 'empName') {
+          column[key] = { value: consent[key], class: "black", action: "" };
+        } else if (key === 'regNo') {
+          column[key] = { value: consent[key], class: "black", action: "" };
+        } else if (key === 'mobileNo') {
+          column[key] = { value: consent[key], class: "black", action: "" };
+        } else if (key === 'mobileNo2') {
+          column[key] = { value: consent[key], class: "black", action: "" };
+        } else if (key === 'status') {
+          column[key] = { value: consent[key], class: "black", action: "" };
+        } else if (key === 'pendingTime') {
+          column[key] = { value: consent[key] ? this.common.dateFormatter(consent[key]) : '', class: "black", action: "" };
+        } else if (key === 'expireTime') {
+          column[key] = { value: consent[key] ? this.common.dateFormatter(consent[key]) : '', class: "black", action: "" };
+        } else if (key === 'modes') {
+          column[key] = { value: consent[key], class: "black", action: "" };
+        } else {
+          column['action'] = { value: "", isHTML: true, action: null, icons: actionIcon };
+        }
+      }
+      columns.push(column);
+    });
+    return columns;
+  }
+
+  statusActionIcons(type, consent) {
+    if (type === 'PENDING') {
+      return this.actionIconsPending(consent);
+    } else if (type === 'ALLOWED') {
+      return this.actionIconsPending(consent);
+    } else {
+      return this.actionIconNull(consent);
+    }
+  }
+
+  actionIconsPending(consent) {
+    let icons = [
+      {
+        class: "fas fa-user-check",
+        action: this.simDataConsentVerify.bind(this, consent),
+        txt: "",
+        title: null,
+      },
+    ]
+    return icons;
+  }
+
+  actionIconNull(consent) {
+    let icons = [
+      {
+        class: "fas fa-share-square",
+        action: this.simDataConsentSend.bind(this, consent),
+        txt: "",
+        title: null,
+      },
+    ]
+    return icons;
+  }
+
+  simDataConsentVerify(consent) {
+    this.common.loading++;
+    this.api.getJavaPortDost(8083, `simdataconsent/verify/${consent['id']}`)
+      .subscribe((res) => {
+        this.common.loading--;
+        console.log('response is: ', res);
+        this.common.showToast(res['message']);
+        this.refresh();
+      },
+        err => {
+          this.common.loading--;
+          console.log('error is:', err);
+
+        });
+  }
+
+  simDataConsentSend(consent) {
+    console.log('consent is :', consent);
+
+    this.common.loading++;
+    this.api.getJavaPortDost(8083, `simdataconsent/send/${consent['driverId']}`)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('response is :', res);
+        this.common.showToast(res['message'])
+        this.refresh();
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  importDriverCSV(){
+    this.common.params = { title: 'Bulk Import Driver', };
+    const activeModal = this.modalService.open(ImportDocumentComponent, { container: 'nb-layout', backdrop: 'static' });
+  }
+
+  addDriver(){
+    const activeModal = this.modalService.open(AddDriverCompleteComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.getDriverConsentList();
+      }
+    })
+  }
+
+
+}

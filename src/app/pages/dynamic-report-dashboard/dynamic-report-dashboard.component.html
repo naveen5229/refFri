@@ -1,0 +1,36 @@
+<nb-card style="border:0px;">
+    <nb-card-header>
+        <div class="row">
+            <div class="col-3">
+                <h5>Dynamic Report Dashboard</h5>
+            </div>
+            <div class="col-2">
+                <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]="false">
+                </uj-date-time-picker>
+            </div>
+            <div class="col-2">
+                <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]="false">
+                </uj-date-time-picker>
+            </div>
+            <div class="col-2">
+                <div class="btn btn-primary" (click)="getReport()">Get Report</div>
+            </div>
+            <div class="col-3 text-right">
+                <button class="btn btn-primary" (click)="editReport()">Edit Report</button>
+            </div>
+        </div>
+
+    </nb-card-header>
+
+    <nb-card-body>
+        <div class="reports-container">
+            <div class="report" *ngFor="let report of reports;let i = index" [id]="'xreport-' + report._id"
+                [style.width]="report.style.width" [style.height]="report.style.height" [style.top]="report.style.y"
+                [style.left]="report.style.x">
+                <div class="report-container">
+                    <dynamic-report [savedReportSelect]="report" [startDate]="assign.startDate" [endDate]="assign.endDate"></dynamic-report>
+                </div>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

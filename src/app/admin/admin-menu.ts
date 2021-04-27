@@ -331,6 +331,11 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         icon: 'fa-pencil-square-o',
         link: '/admin/via-routes',
       },
+      {
+        title: 'Tracking Mode',
+        icon: 'fa-pencil-square-o',
+        link: '/admin/loc-preference',
+      },
     ]
   },
 

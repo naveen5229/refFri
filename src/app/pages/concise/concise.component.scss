@@ -30,7 +30,6 @@
     color: black; // display: none;
 }
 
-
 :host ::ng-deep.byellow {
     background: yellow;
     color: #fff;
@@ -39,7 +38,6 @@
     background: green;
     color: black;
 }
-
 
 :host ::ng-deep.bgblue {
     background: rgb(26, 1, 247);
@@ -578,7 +576,7 @@ mwlResizable {
             }
 
             span::before {
-                content: "Station";
+                content: "NearBy";
                 display: block;
                 position: absolute;
                 top: 0px;
@@ -704,6 +702,53 @@ mwlResizable {
         }
 
         .icon.fa-flag-checkered:hover span {
+            display: block;
+        }
+
+        .icon.fa-map-marker {
+            color: #28d811;
+
+            span {
+                position: absolute;
+                display: none;
+                padding: 10px 35px;
+                font-weight: normal;
+                font-size: 11px;
+                left: -28px;
+                top: -28px;
+                -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                font-family: Roboto;
+                z-index: 9999;
+            }
+
+            span::before {
+                content: "NearBy";
+                display: block;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                background-color: #249408;
+                border-radius: 3px;
+                padding: 5px 10px;
+                color: #fff;
+                width: 100%;
+            }
+
+            span::after {
+                content: "";
+                width: 0;
+                height: 0;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 5px solid #09aa4c;
+                position: absolute;
+                bottom: -5px;
+                right: 50%;
+                transform: translate(50%);
+            }
+        }
+        .icon.fa-map-marker:hover span {
             display: block;
         }
     }

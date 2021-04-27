@@ -118,6 +118,9 @@ import { TriptatreportComponent } from './triptatreport/triptatreport.component'
 import { LeadvalidationreportComponent } from './leadvalidationreport/leadvalidationreport.component';
 import { TripdeliverycomplinancereportComponent } from './tripdeliverycomplinancereport/tripdeliverycomplinancereport.component';
 import { TripstoppageComponent } from './tripstoppage/tripstoppage.component';
+import { DynamicReportDashboardComponent } from './dynamic-report-dashboard/dynamic-report-dashboard.component';
+import { DriverConsentListComponent } from '../modals/driver-consent-list/driver-consent-list.component';
+import { DriverPreferencesComponent } from './driver-preferences/driver-preferences.component';
 
 
 const routes: Routes = [{
@@ -730,6 +733,15 @@ const routes: Routes = [{
   {
     path: 'tripstoppage',
     component: TripstoppageComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },{
+    path: 'dynamic-report-dashboard',
+    component: DynamicReportDashboardComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'driver-preference',
+    component: DriverPreferencesComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
   ],
