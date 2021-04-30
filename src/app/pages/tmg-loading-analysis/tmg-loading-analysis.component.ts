@@ -490,6 +490,24 @@ ngOnInit() {
 
         ]
       },
+      onClick: (e, item) => {
+        console.log('datasss',item[0]);
+        
+        let idx = item[0]['_chart']['tooltip'];
+        let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+        let endDate = new Date();
+        console.log('idx',idx);
+        let params = {
+          stepno: 1,
+          jsonparam: idx['_data']['datasets'][0]['label'],
+          fromdate: this.common.dateFormatter(startDate),
+          todate: this.common.dateFormatter(endDate),
+          totalrecord: 3,
+          groupdays: 7
+        }
+        this.getDetials('Tmgreport/GetLoadingAged', params)
+
+      }
 
     };
     console.log("chart2----", this.chart2);

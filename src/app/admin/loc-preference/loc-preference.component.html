@@ -3,7 +3,7 @@
     <nb-card-header>
       <div class="row">
         <div class="col-12">
-          <h5>LOC Preference</h5>
+          <h5>Tracking Mode</h5>
         </div>
       </div>
     </nb-card-header>
@@ -16,8 +16,8 @@
                     <th>Vehicle</th>
                     <th>P1</th>
                     <th>P2</th>
-                    <th>P3</th>
-                    <th>P4</th>
+                    <!-- <th>P3</th>
+                    <th>P4</th> -->
                     <th>Action</th>
                 </tr>
             </thead>
@@ -31,19 +31,20 @@
                         </auto-suggestion>
                     </td>
                     <td>
-                        <select [(ngModel)]="item.p1" disabled style="width:66.5%;">
-                            <option *ngFor="let data of p1Data" [value]="data.value">{{data.name}}</option>
+                        <select [(ngModel)]="item.p1" style="width:66.5%;">
+                            <option value="">Select</option>
+                            <option *ngFor="let data of modeData" [value]="data.value">{{data.name}}</option>
                         </select>
                         <input type="number" class="second" [(ngModel)]="item.p1Second" placeholder="sec">
                     </td>
                     <td>
                         <select [(ngModel)]="item.p2" class="select">
                             <option value="">Select</option>
-                            <option *ngFor="let data of pData" [value]="data.value">{{data.name}}</option>
+                            <option *ngFor="let data of modeData" [value]="data.value">{{data.name}}</option>
                         </select>
                         <input type="number" class="second" placeholder="sec" [(ngModel)]="item.p2Second">
                     </td>
-                    <td>
+                    <!-- <td>
                         <select [(ngModel)]="item.p3" class="select">
                             <option value="">Select</option>
                             <option *ngFor="let data of pData" [value]="data.value">{{data.name}}</option>
@@ -56,7 +57,7 @@
                             <option *ngFor="let data of pData" [value]="data.value">{{data.name}}</option>
                         </select>
                         <input type="number" class="second" placeholder="sec" [(ngModel)]="item.p4Second">
-                    </td>
+                    </td> -->
                     <td>
                         <span><i class="fa fa-plus add" (click)="addMoreItems(i)" *ngIf="j == items.length-1" style="padding: 1px;
                             color: green;"></i>
@@ -74,14 +75,15 @@
         </div>
     </div>
 
-    <div class="row" *ngIf="viewData && viewData.length>0">
+    <!-- <div class="row" *ngIf="viewData && viewData.length>0">
         <div class="col-sm-12" style="padding: 0!important;margin-top:10px;">
             <table class="table table-bordered" *ngFor="let data of viewData;let i = index;" >
                 <thead>
                   <tr>
-                    <th colspan='4'  class="col-sm-11 hdStyle">
+                    <th  class="hdStyle">
                       <span>Vehicle:</span><span class="ml-2 grn">{{data.regNo}} </span>
                     </th>
+                    <th colspan="3" class="col-sm-8"><i style="color:red;cursor:pointer;" class="fas fa-trash-alt" (click)="deleteRecord(data.regNo)"></i></th>
                   </tr>
                   <tr style="background-color:#78cfea;">
                     <th>#</th>
@@ -102,6 +104,13 @@
             </table>
         
         </div>
+    </div> -->
+    
+    <div class="row">
+        <smart-table *ngIf="data && data.length && table" [data]="table.data" [settings]="table.settings"
+            id="locpreference">
+            </smart-table>
     </div>
-    </nb-card-body>
+
+</nb-card-body>
   </nb-card>
