@@ -32,7 +32,8 @@ export class DynamicReportComponent implements OnInit {
   graphPieCharts = [];
   savedReports = [];
   legendPosition = 'top';
-  showLedgend = 'no'
+  showLedgend = 'no';
+  canvasname='';
   // measure = ['Date','Count','Average','Sum','distinct count']
   assign = {
     x: [],
@@ -655,9 +656,10 @@ export class DynamicReportComponent implements OnInit {
       this.api.post('GraphicalReport/getPreviewGraphicalReport', params).subscribe(res => {
         this.common.loading--;
         if (res['code'] == 1) {
-          console.log('Response:', res);
+          console.log('Response reportPreviewData :', res['data'][0]['series']['y_name']);
           if (res['data']) {
             this.reportPreviewData = res['data'];
+            this.canvasname = res['data'][0]['series']['y_name'];
             this.review();
           } else {
             // this.resetAssignForm();
@@ -894,6 +896,7 @@ export class DynamicReportComponent implements OnInit {
       });
     } else {
       dataSet.map((data, index) => {
+        console.log('data label',data);
         chartDataSet.push({
           label: data.label,
           data: data.data,
@@ -998,8 +1001,17 @@ export class DynamicReportComponent implements OnInit {
   generateChart(charDatas, type = 'pie') {
     let charts = [];
     console.log('chartData', charDatas, type);
+    this.showLedgend = (type == 'pie')? "yes":'np';
+    this.legendPosition = (type == 'pie')? "right":'top';
+   let labdata =  {
+      fontSize: 11,
+      padding:  3,
+      boxWidth: 22,
+      boxHeight:60
+    };
 
     charDatas.forEach(chartData => {
+      //console.log('chartData label  11',chartData.data.label,chartData.data[0].label);
       charts.push(new Chart(chartData.canvas.getContext('2d'), {
         type: type,
         data: {
@@ -1009,7 +1021,8 @@ export class DynamicReportComponent implements OnInit {
         options: {
           legend: {
             position: this.legendPosition,
-            display: this.showLedgend === "yes" ? true : false
+            display: this.showLedgend === "yes" ? true : false,
+            labels: (type == 'pie')? labdata:''
           },
           tooltips: {
             mode: 'index',
@@ -1018,6 +1031,7 @@ export class DynamicReportComponent implements OnInit {
           },
           scales: chartData.scales,
           responsive: true,
+         
         }
       }));
     })
