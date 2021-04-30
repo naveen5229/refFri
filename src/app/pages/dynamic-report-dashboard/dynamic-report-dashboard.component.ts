@@ -36,7 +36,7 @@ export class DynamicReportDashboardComponent implements OnInit {
   getSavedReports() {
     this.api.get(`GraphicalReport/getGraphicalReportList`)
       .subscribe((res: any) => {
-        console.log('Res:', res);
+        console.log('Res11111:', res,this.dynamicReports);
         this.reports = res.data.map(report => {
           report.isUsed = false;
           let info = this.dynamicReports.find(d => d.rpt_name == report.name);
