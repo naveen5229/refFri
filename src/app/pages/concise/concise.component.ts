@@ -29,6 +29,7 @@ import {
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 import { NearByVehiclesComponent } from "../../modals/near-by-vehicles/near-by-vehicles.component";
+import { ConciseColumnPrefrenceComponent } from "../../modals/concise-column-prefrence/concise-column-prefrence.component";
 
 @AutoUnsubscribe()
 @Component({
@@ -137,7 +138,7 @@ export class ConciseComponent implements OnInit {
   isHidePie: boolean = !!JSON.parse(localStorage.getItem('isHidePie'));
   subscriptions = [];
   markersWithId = [];
-
+  preferences = [];
   constructor(
     public api: Api,
     public common: Common,
@@ -204,9 +205,17 @@ export class ConciseComponent implements OnInit {
       .subscribe(res => {
         !isRefresh && this.common.loading--;
         if (res['code'] == 1) {
-          this.allKpis = res["data"];
+          if (res['data'].preferences) {
+            this.preferences = res['data'].preferences;
+            this.allKpis = res['data'];
+          } else {
+            this.allKpis = res["data"];
+            this.preferences = [];
+          }
+          this.common.params = res['data'];
+          console.log('kpi response data :', res['data']);
           localStorage.setItem('KPI_DATA', JSON.stringify(this.allKpis));
-          this.kpis = res["data"];
+          this.kpis = this.allKpis;
           this.grouping(this.viewType);
           this.getGpsStatus();
           this.table = this.setTable();
@@ -718,17 +727,35 @@ export class ConciseComponent implements OnInit {
   }
 
   setTable(kpis?) {
+    let preferences = this.preferences.length ? this.preferences : [
+      { key: 'vehicle', order: 1, title: 'Vehicle No' },
+      { key: 'vehicleType', order: 2, title: 'Veh Type' },
+      { key: 'status', order: 3, title: 'Status' },
+      { key: 'location', order: 4, title: 'Location' },
+      { key: 'hrs', order: 5, title: 'Hrs' },
+      { key: 'Idle_Time', order: 6, title: 'Idle Time' },
+      { key: 'trail', order: 7, title: 'Trail' },
+      { key: 'kmp', order: 8, title: 'KMP' },
+    ];
+    //preferences.filter(pre=>pre.show)
+    preferences = preferences.sort((a, b) => a.order > b.order ? 1 : -1);
+    let headings = {};
+    preferences.map(heading => {
+      headings[heading.key] = { title: heading.title, placeholder: heading.title }
+    });
+
     return {
       data: {
         headings: {
-          vehicle: { title: "Vehicle Number", placeholder: "Vehicle No" },
-          vehicleType: { title: "Vehicle Type", placeholder: "Veh Type" },
-          status: { title: "Status", placeholder: "Status" },
-          location: { title: "Location", placeholder: "Location" },
-          hrs: { title: "Hrs", placeholder: "Hrs " },
-          Idle_Time: { title: "Idle Time", placeholder: "Idle Time" },
-          trail: { title: "Trail", placeholder: "Trail" },
-          kmp: { title: "Kmp", placeholder: "KMP" },
+          // vehicle: { title: "Vehicle Number", placeholder: "Vehicle No" },
+          // vehicleType: { title: "Vehicle Type", placeholder: "Veh Type" },
+          // status: { title: "Status", placeholder: "Status" },
+          // location: { title: "Location", placeholder: "Location" },
+          // hrs: { title: "Hrs", placeholder: "Hrs " },
+          // Idle_Time: { title: "Idle Time", placeholder: "Idle Time" },
+          // trail: { title: "Trail", placeholder: "Trail" },
+          // kmp: { title: "Kmp", placeholder: "KMP" },
+          ...headings,
           action: { title: "Action", placeholder: "", hideSearch: true }
         },
         columns: this.getTableColumns(kpis)
@@ -1463,5 +1490,9 @@ export class ConciseComponent implements OnInit {
       container: "nb-layout"
     });
 
+  }
+
+  prefrenceModalOpen() {
+    this.modalService.open(ConciseColumnPrefrenceComponent, { size: "xl", container: "nb-layout" })
   }
 }
