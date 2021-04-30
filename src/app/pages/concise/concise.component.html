@@ -6,7 +6,7 @@
                 <div class="col-2 x-hide">
                     <i class="fa fa-bars x-hide" [ngClass]="{'active': isHidePie}" (click)="setIsHidePie()"></i>
                 </div>
-                <div class="col-8 status-print-title text-center">
+                <div class="col-6 status-print-title text-center">
                     <h4>Trip dashboard</h4>
                 </div>
                 <div class="col-2 right-status"> 
@@ -17,6 +17,9 @@
                             {{gpsStatus[gs].length}}
                         </u>
                     </div>
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-primary" (click)="prefrenceModalOpen()">Prefrences & Order</button>
                 </div>
             </div>
             <div class="row" *ngIf="pdfData.primary.list.length">
