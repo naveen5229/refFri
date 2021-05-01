@@ -316,6 +316,8 @@ import { PlacementRequirementComponent } from './modals/placement-requirement/pl
 import { PlacementProblemGenerationComponent } from './modals/placement-problem-generation/placement-problem-generation.component';
 import { DriverConsentListComponent } from './modals/driver-consent-list/driver-consent-list.component';
 import { NearByVehiclesComponent } from './modals/near-by-vehicles/near-by-vehicles.component';
+import { ConciseColumnPrefrenceComponent } from './modals/concise-column-prefrence/concise-column-prefrence.component';
+import {MatRadioModule} from '@angular/material/radio';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -582,7 +584,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   PlacementOptimisationOnMapComponent,
   PlacementConstraintsComponent,
   DriverConsentListComponent,
-  PlacementProblemGenerationComponent
+  PlacementProblemGenerationComponent,
+  ConciseColumnPrefrenceComponent
 ];
 
 @NgModule({
@@ -637,7 +640,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     PdfViewerModule,
     ResizableModule,
     DateInputsModule,
-    ScrollingModule
+    ScrollingModule,
+    MatRadioModule
   ],
 
   bootstrap: [AppComponent],
