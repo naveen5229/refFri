@@ -10,6 +10,7 @@ import { MaintenanceSummaryComponent } from './maintenance-summary/maintenance-s
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { RouteGuard } from '../guards/route.guard';
+import { TicketSummaryComponent } from './ticket-summary/ticket-summary.component';
 
 const routes: Routes = [
 
@@ -47,6 +48,12 @@ const routes: Routes = [
             {
                 path: 'view-sub-modal-service',
                 component: ViewSubModalServiceComponent,
+                canActivate: [AuthGuard, RouteGuard]
+
+            },
+            {
+                path: 'ticket-summary',
+                component: TicketSummaryComponent,
                 canActivate: [AuthGuard, RouteGuard]
 
             },
