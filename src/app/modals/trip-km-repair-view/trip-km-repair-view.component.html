@@ -7,9 +7,9 @@
 </div>
 <div class="modal-body">
     <div class="row">
-        <div class="col-4"><button type="button" class="button button-red" (click)="setAndShowData('gps')">GPS ({{GPSDis}} Km)</button></div>
-        <div class="col-4"><button type="button" class="button button-blue" (click)="setAndShowData('google')">Google ({{GoogleDis}} Km)</button></div>
-        <div class="col-4"><button type="button" class="button" (click)="setAndShowData('repaired')">Repaired ({{RequiredDis}} Km)</button></div>
+        <div class="col-6"><button type="button" class="button button-red" (click)="setAndShowData('gps')">GPS ({{GPSDis}} Km)</button></div>
+        <!-- <div class="col-4"><button type="button" class="button button-blue" (click)="setAndShowData('google')">Google ({{GoogleDis}} Km)</button></div> -->
+        <div class="col-6"><button type="button" class="button" (click)="setAndShowData('repaired')">AI Repaired ({{RequiredDis}} Km)</button></div>
     </div><br><br>
-    <div id="map" style="width: 100%; height:68vh"></div>
+    <div id="trip-km-repair-view-map" style="width: 100%; height:68vh"></div>
 </div>

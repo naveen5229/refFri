@@ -9,7 +9,11 @@
     <div class="input-container" *ngIf="location.time">
       <p text-center><b>Location Time:</b> {{location.time | date : 'dd-MMM-yyyy hh:mm a'}}</p>
     </div>
-    <div #map id="map"> </div>
+    <div #map id="location-marker-map"> </div>
+      <div class="tracker_img" [ngStyle]="{ transform: rotate }">
+        <img src="./assets/images/arrow-top.png" alt="image" />
+    </div>
+    
     <div class="zoom-container">
       <span class="zoom-btn" (click)="setZoom(6)">1</span>
       <span class="zoom-btn" (click)="setZoom(9)">2</span>

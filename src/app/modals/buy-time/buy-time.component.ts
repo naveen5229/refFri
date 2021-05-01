@@ -3,6 +3,9 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'buy-time',
   templateUrl: './buy-time.component.html',
@@ -25,7 +28,8 @@ export class BuyTimeComponent implements OnInit {
     public api: ApiService) {
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     console.log('ionViewDidLoad BuyTimePage');
   }
 

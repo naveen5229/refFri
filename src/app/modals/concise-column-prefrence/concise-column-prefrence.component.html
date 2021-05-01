@@ -1,0 +1,31 @@
+<div class="modal-header">
+  <h5>Column Prefrences & Order</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div cdkDropListGroup>
+    <div class="example-container">
+      <h2>Hide Column</h2>
+
+      <div cdkDropList [cdkDropListData]="columns.unSelected" class="example-list" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of columns.unSelected" cdkDrag>{{item.name}}</div>
+      </div>
+    </div>
+
+    <div class="example-container">
+      <h2>Show Column</h2>
+
+      <div cdkDropList [cdkDropListData]="columns.selected" class="example-list" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of columns.selected" cdkDrag>
+          <lable style="width: 100%; display: block;">{{item.name}}</lable>
+          <input type="text" class="form-control" [(ngModel)]="item.title">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid text-right">
+    <button class="btn btn-primary" (click)="savePreferences()">Save</button>
+  </div>
+</div>

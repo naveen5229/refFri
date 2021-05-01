@@ -2,6 +2,9 @@ import { Component, OnInit, EventEmitter, ChangeDetectionStrategy, Input, Output
 import { CommonService } from '../../services/common.service';
 import { type } from 'os';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'smart-table',
   templateUrl: './smart-table.component.html',
@@ -41,17 +44,24 @@ export class SmartTableComponent implements OnInit {
   constructor(private cdr: ChangeDetectorRef,
     public common: CommonService) { }
 
+  ngOnDestroy() { }
   ngOnInit() {
   }
 
   ngOnChanges(changes) {
     console.log('Changes: ', changes);
-    this.data = changes.data.currentValue;
-    if (changes.settings)
+    if (changes.data)
+      this.data = changes.data.currentValue;
+    if (changes.settings) {
       this.settings = changes.settings.currentValue;
+      if (this.settings.pageLimit) {
+        this.pages.limit = this.settings.pageLimit;
+      }
+    }
     console.log('Data', this.data);
     this.setData();
     this.activeRow = -1;
+    this.cdr.detectChanges();
   }
 
   ngAfterViewInit() {
@@ -62,20 +72,24 @@ export class SmartTableComponent implements OnInit {
     this.data.columns.map((column, index) => column._smartId = index);
     this.headings = this.data.headings;
     if (this.settings.pagination) {
-      this.handlePagination(this.pages.active);
+      // this.handlePagination(this.pages.active);
       this.pages.count = Math.floor(this.data.columns.length / this.pages.limit);
       if (this.data.columns.length % this.pages.limit) {
         this.pages.count++;
       }
+      if (this.pages.count < this.pages.active) {
+        this.pages.active = this.pages.count;
+      }
+      this.handlePagination(this.pages.active);
     } else {
       this.columns = this.data.columns
     }
 
-    this.cdr.detectChanges();
     if (this.search.txt && this.search.key) {
       this.headings[this.search.key].value = this.search.txt;
       this.filterData(this.search.key)
     };
+    this.cdr.detectChanges();
   }
 
   filterData(key) {
@@ -92,6 +106,7 @@ export class SmartTableComponent implements OnInit {
         } else {
           this.columns = this.data.columns;
         }
+
       } else {
         for (let i = 0; i < this.data.columns.length; i++) {
           let value = this.data.columns[i][key].value;
@@ -119,8 +134,12 @@ export class SmartTableComponent implements OnInit {
         if (search.includes('>')) this.sortColumn(key, 'asc')
         else this.sortColumn(key, 'desc')
       } else {
-        if (this.returnFilteredData)
-          this.filtered.emit(this.columns);
+        if (this.returnFilteredData) {
+          if (!search.length)
+            this.filtered.emit(this.data.columns);
+          else
+            this.filtered.emit(this.columns);
+        }
       }
       this.cdr.detectChanges();
     }, this.data.columns.length > 150 ? 500 : 300);
@@ -142,7 +161,7 @@ export class SmartTableComponent implements OnInit {
     const timePattern = new RegExp(/^([0-9])*(\:)([0-9])*$/);
 
     this.columns.forEach(column => {
-      let value = column[key].value
+      let value = column[key].sortBy || column[key].value
       if (datePattern.test(value)) counts.date++
       else if (numberPattern.test(value)) counts.number++;
       else if (timePattern.test(value)) counts.time++;
@@ -153,20 +172,23 @@ export class SmartTableComponent implements OnInit {
 
     console.info('Sort Counts:', counts);
     this.columns.sort((a, b) => {
+      let aValue = a[key].sortBy || a[key].value;
+      let bValue = b[key].sortBy || b[key].value;
+
       if (this.headings[key].type === 'date') {
-        let firstDate = a[key].value ? this.common.dateFormatter(a[key].value) : 0;
-        let secondDate = b[key].value ? this.common.dateFormatter(b[key].value) : 0;
+        let firstDate = aValue ? this.common.dateFormatter(aValue) : 0;
+        let secondDate = bValue ? this.common.dateFormatter(bValue) : 0;
         return firstDate > secondDate ? 1 : -1;
       } else if (counts.time > counts.number) {
-        let firstValue = a[key].value ? parseFloat(a[key].value.replace(':', '.')) : 0;
-        let secondValue = b[key].value ? parseFloat(b[key].value.replace(':', '.')) : 0;
+        let firstValue = aValue ? parseFloat(aValue.replace(':', '.')) : 0;
+        let secondValue = bValue ? parseFloat(bValue.replace(':', '.')) : 0;
         return firstValue - secondValue;
       } else if (!counts.number) {
         let firstValue = '';
         let secondValue = ''
-        if (typeof a[key].value === 'string') {
-          firstValue = a[key].value ? a[key].value.toLowerCase() : '';
-          secondValue = b[key].value ? b[key].value.toLowerCase() : '';
+        if (typeof aValue === 'string') {
+          firstValue = aValue ? aValue.toLowerCase() : '';
+          secondValue = bValue ? bValue.toLowerCase() : '';
         }
         if (firstValue < secondValue) //sort string ascending
           return -1
@@ -174,7 +196,7 @@ export class SmartTableComponent implements OnInit {
           return 1
         return 0
       } else {
-        return a[key].value - b[key].value;
+        return aValue - bValue;
       }
     });
 
@@ -182,6 +204,7 @@ export class SmartTableComponent implements OnInit {
     this.sortType = this.sortType == 'desc' ? 'asc' : 'desc';
     if (this.returnFilteredData)
       this.filtered.emit(this.columns);
+    this.cdr.detectChanges();
   }
 
   handleRowClick(column, index) {
@@ -193,6 +216,7 @@ export class SmartTableComponent implements OnInit {
         this.activeRows.splice(this.activeRows.indexOf(column._smartId), 1);
       }
     } else column.rowActions.click();
+    this.cdr.detectChanges();
   }
 
   isItActive(column) {
@@ -211,12 +235,14 @@ export class SmartTableComponent implements OnInit {
     if (column[heading].colActions && column[heading].colActions.dblclick) {
       column[heading].colActions.dblclick()
     }
+    this.cdr.detectChanges();
   }
 
   handleMouseHover(column, heading) {
     if (column[heading] && column[heading].colActions && column[heading].colActions.mouseover) {
       column[heading].colActions.mouseover()
     }
+    this.cdr.detectChanges();
   }
 
   /**
@@ -228,6 +254,7 @@ export class SmartTableComponent implements OnInit {
     if (column[heading] && column[heading].colActions && column[heading].colActions.mouseout) {
       column[heading].colActions.mouseout()
     }
+    this.cdr.detectChanges();
   }
 
   /**
@@ -238,16 +265,16 @@ export class SmartTableComponent implements OnInit {
     let startIndex = this.pages.limit * (this.pages.active - 1);
     let lastIndex = (this.pages.limit * this.pages.active);
     this.columns = this.data.columns.slice(startIndex, lastIndex);
+    this.cdr.detectChanges();
   }
 
-  customPage() {
-    this.common.loading++;
-    this.isTableHide = true;
+  customPage(event) {
+    console.log('Event:', event);
+    event.preventDefault();
+    event.stopPropagation();
+    this.cdr.detectChanges();
     this.setData();
-    setTimeout(() => {
-      this.common.loading--;
-      this.isTableHide = false;
-    }, 100);
+    this.cdr.detectChanges();
   }
 
   /**
@@ -263,6 +290,7 @@ export class SmartTableComponent implements OnInit {
       this.edit.column = JSON.parse(JSON.stringify(column));
       this.edit.heading = heading;
     }
+    this.cdr.detectChanges();
   }
 
   /**
@@ -273,6 +301,7 @@ export class SmartTableComponent implements OnInit {
     this.edit.row = -1;
     this.edit.column = null;
     this.edit.heading = '';
+    this.cdr.detectChanges();
   }
 
   /**
@@ -281,6 +310,7 @@ export class SmartTableComponent implements OnInit {
   saveEdit(editedColumn: any) {
     this.settings.editableAction({ current: editedColumn, old: this.edit.column });
     this.resetColumn(editedColumn);
+    this.cdr.detectChanges();
   }
 
   /**
@@ -291,10 +321,12 @@ export class SmartTableComponent implements OnInit {
   handleCheckboxChange(event, action) {
     action(event.target.checked);
     event.stopPropagation();
+    this.cdr.detectChanges();
   }
 
   isEventBinding(column, property, event) {
     column[property] && column[property](event);
+    this.cdr.detectChanges();
   }
 
   isPropertyBinding(column, property, byDefault = '') {
@@ -339,6 +371,7 @@ export class SmartTableComponent implements OnInit {
     } else if (actionLevel === 'icon') {
       icon.action && icon.action();
     }
+    this.cdr.detectChanges();
 
   }
 
@@ -352,6 +385,7 @@ export class SmartTableComponent implements OnInit {
         column.rowActions.dblclick()
       }
     }
+    this.cdr.detectChanges();
   }
 
   jrxColumActions(actionType, column, heading, index) {
@@ -364,6 +398,7 @@ export class SmartTableComponent implements OnInit {
     } else if (actionType === 'mouseout') {
       this.handleMouseOut(column, heading)
     }
+    this.cdr.detectChanges();
   }
 
 }

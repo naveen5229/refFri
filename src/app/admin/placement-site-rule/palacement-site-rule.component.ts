@@ -5,6 +5,9 @@ import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddPlacementSiteRuleComponent } from '../../modals/add-placement-site-rule/add-placement-site-rule.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'placement-site-rule',
   templateUrl: './palacement-site-rule.component.html',
@@ -41,7 +44,8 @@ export class PalacementSiteRuleComponent implements OnInit {
     this.getSiteData();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {
@@ -118,7 +122,7 @@ export class PalacementSiteRuleComponent implements OnInit {
         ruleType: { value: doc.ruleName },
         action: {
           value: '', isHTML: false, action: null, icons: [
-            { class: 'fa fa-pencil-square-o  edit-btn', action: this.editRule.bind(this, doc) },
+            { class: 'fas fa-edit  edit-btn', action: this.editRule.bind(this, doc) },
             { class: " fa fa-trash remove", action: this.deleteRule.bind(this, doc) }
           ]
         },

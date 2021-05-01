@@ -1,18 +1,24 @@
 
  
 <div class="contentsection">
-    <div class="row mb-2 mr-0">
+    <div class="row mb-3 mr-0 pt-2">
       <div class="col-4 pl-0">
         <div class="outer" style="min-height: 130px;">
           <h6 style="text-align:center"><b class="charthead">Live Traffic Status </b></h6>
+          <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetTrafficLiveStatus',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+        </p>
           <chart [type]="chart.type" [data]="chart.data" style="margin-right:0px;margin-top:0px;min-height: 200px;max-height: 200px;"
-          [options]="chart.options"></chart>
+          [options]="chart.options"  (clickElement)="chart2Clicked($event)"></chart>
         </div>
       </div>
       <div class="col-4 pl-0">
         <div class="outer" style="min-height: 130px;">
           <h6 style="text-align:center"><b class="charthead">Longest Driver Unavailable</b></h6>
-          <table class="table table-bordered">
+          <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetTrafficLongestDriverUnavailable',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+        </p>
+          <table class="table">
             <thead class="thead">
               <th>Vehicle No.</th>
               <th>Unavailable Hours</th>
@@ -20,7 +26,7 @@
             </thead>
             <tbody class="tbody">
               <tr *ngFor="let tldu of trafficLongestDriverUnavailable">
-                <td>{{tldu['Vehicle Name']}}</td>
+                <td (click)="chart4Clicked(tldu)" class="link">{{tldu['Vehicle Name']}}</td>
                 <td>{{tldu['Duration (HH:MM)']}}</td>
                 <td>{{tldu['Location']}}</td>
               </tr>
@@ -32,14 +38,17 @@
       <div class="col-4 pl-0 pr-0">
         <div class="outer" style="min-height: 130px;">
           <h6 style="text-align:center"><b class="charthead">Longest GPS Offline</b></h6>
-          <table class="table table-bordered">
+          <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetTrafficLongestVehicleGpsIssue',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+        </p>
+          <table class="table">
             <thead class="thead">
               <th>Vehicle No.</th>
               <th>Offline Since(Hours)</th>
             </thead>
             <tbody class="tbody">
               <tr *ngFor="let tlvi of trafficLongestVehicleGpsIssue">
-                <td>{{tlvi['Vehicle Name']}}</td>
+                <td (click)="chart5Clicked(tlvi)" class="link">{{tlvi['Vehicle Name']}}</td>
                 <td>{{tlvi['Duration (HH:MM)']}}</td>
               </tr>
             </tbody>
@@ -53,7 +62,10 @@
       <div class="col-4 pl-0">
         <div class="outer" style="min-height: 130px;">
           <h6 style="text-align:center"><b class="charthead">Top Vehicles with RTO + Maintenance + Breakdown Issues</b></h6>
-          <table class="table table-bordered">
+          <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetTrafficTopRmb',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+        </p>
+          <table class="table">
             <thead class="thead">
               <th>Vehicle No.</th>
               <th>R + M + B (in Hrs)</th>
@@ -61,7 +73,7 @@
             </thead>
             <tbody class="tbody">
               <tr *ngFor="let ttrmb of trafficTopRmb">
-                <td>{{ttrmb['Vehicle Name']}}</td>
+                <td (click)="chart6Clicked(ttrmb)" class="link">{{ttrmb['Vehicle Name']}}</td>
                 <td>{{ttrmb['R + M + B (HH:MM)']}}</td>
                 <td>{{ttrmb['RMB Type']}}</td>
               </tr>
@@ -70,18 +82,21 @@
         </div>
       </div>
       <div class="col-8 pl-0 pr-0">
-        <div class="row mr-0 mb-0">
+        <div class="row mr-0">
           <div class="col-6 pl-0">
             <div class="outer" style="min-height: 130px;">
             <h6 style="text-align:center"><b class="charthead">Longest Loading Sites</b></h6>
-            <table class="table table-bordered">
+            <p style="text-align: right; margin-top: -25px;" class="link"
+            (click)="getDetials('Tmgreport/GetTrafficLongestLoadingSites',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+          </p>
+            <table class="table">
               <thead class="thead">
                 <th>Site Name</th>
                 <th>Avg Loading Aging Time(in Hrs)</th>
               </thead>
               <tbody class="tbody">
                 <tr *ngFor="let tlls of trafficLongestLoadingSites">
-                  <td>{{tlls['Location']}}</td>
+                  <td (click)="chart7Clicked(tlls)" class="link">{{tlls['Location']}}</td>
                   <td>{{tlls['Duration (HH:MM)']}}</td>
                 </tr>
               </tbody>
@@ -91,14 +106,17 @@
           <div class="col-6 pl-0 pr-0">
             <div class="outer" style="min-height: 130px;">
               <h6 style="text-align:center"><b class="charthead">Longest Unloading Vehicles</b></h6>
-              <table class="table table-bordered">
+              <p style="text-align: right; margin-top: -25px;" class="link"
+            (click)="getDetials('Tmgreport/GetTrafficLongestUnloadingSite',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+          </p>
+              <table class="table">
                 <thead class="thead">
                   <th>Vehicle No.</th>
                   <th>Avg Unloading Aging Time(in Hrs)</th>
                 </thead>
                 <tbody class="tbody">
                   <tr *ngFor="let tlus of trafficLongestUnloadingSite">
-                    <td>{{tlus['Vehicle Name']}}</td>
+                    <td (click)="chart8Clicked(tlus)" class="link">{{tlus['Vehicle Name']}}</td>
                     <td>{{tlus['Duration (HH:MM)']}}</td>
 
                   </tr>
@@ -107,11 +125,14 @@
             </div>
           </div>
         </div>
-        <div class="row mr-0 mb-0 mt-2">
+        <div class="row mr-0 mt-3">
           <div class="col-6 pl-0">
             <div class="outer" style="min-height: 130px;">
             <h6 style="text-align:center"><b class="charthead">Slowest Onward Vehicles</b></h6>
-            <table class="table table-bordered">
+            <p style="text-align: right; margin-top: -25px;" class="link"
+            (click)="getDetials('Tmgreport/GetTrafficSlowestOnwardVehicles',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+          </p>
+            <table class="table">
               <thead class="thead">
                 <th>Vehicle No.</th>
                 <th>Driver Name</th>
@@ -120,10 +141,10 @@
               </thead>
               <tbody class="tbody">
                 <tr *ngFor="let tsov of trafficSlowestOnwardVehicles">
-                  <td>{{tsov['Vehicle Name']}}</td>
+                  <td  (click)="chart9Clicked(tsov)" class="link">{{tsov['Vehicle Name']}}</td>
                   <td>{{tsov['Driver Name']}}</td>
                   <td>{{tsov['Trip']}}</td>
-                  <td>{{tsov['KM\/Hrs']}}</td>
+                  <td>{{tsov['_KMPD_int']}}</td>
                 </tr>
               </tbody>
             </table>
@@ -132,7 +153,10 @@
           <div class="col-6 pl-0 pr-0">
             <div class="outer" style="min-height: 130px;">
               <h6 style="text-align:center"><b class="charthead">Longest Empty Vehicles</b></h6>
-              <table class="table table-bordered">
+              <p style="text-align: right; margin-top: -25px;" class="link"
+            (click)="getDetials('Tmgreport/GetTrafficLongestVehicleEmpty',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+          </p>
+              <table class="table">
                 <thead class="thead">
                   <th>Vehicle No.</th>
                   <th>Available Hours</th>
@@ -140,7 +164,7 @@
                 </thead>
                 <tbody class="tbody">
                   <tr *ngFor="let tlve of trafficLongestVehicleEmpty">
-                    <td>{{tlve['Vehicle Name']}}</td>
+                    <td (click)="chart10Clicked(tlve)" class="link">{{tlve['Vehicle Name']}}</td>
                     <td>{{tlve['Duration (HH:MM)']}}</td>
                     <td>{{tlve['Location']}}</td>
                   </tr>

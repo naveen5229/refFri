@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'lr-nearby-pod',
   templateUrl: './lr-nearby-pod.component.html',
@@ -38,7 +41,8 @@ export class LrNearbyPodComponent implements OnInit {
     this.refDetails = this.common.params.details['Ref Details'];
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   selectElogistName(details) {
     this.refId = details.id;

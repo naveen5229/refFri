@@ -6,6 +6,9 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CsvErrorReportComponent } from '../../modals/csv-error-report/csv-error-report.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'import-fillings',
   templateUrl: './import-fillings.component.html',
@@ -33,7 +36,8 @@ export class ImportFillingsComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   checkFuelFlag(isFuelFlag) {

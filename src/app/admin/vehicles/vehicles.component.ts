@@ -8,6 +8,9 @@ import { BulkVehicleNextServiceDetailComponent } from '../../modals/bulk-vehicle
 import { OdoMeterComponent } from '../../modals/odo-meter/odo-meter.component';
 import { VehicleDetailsUpdateComponent } from '../../modals/vehicle-details-update/vehicle-details-update.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicles',
   templateUrl: './vehicles.component.html',
@@ -40,7 +43,8 @@ export class VehiclesComponent implements OnInit {
   }
 
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {
@@ -114,7 +118,7 @@ export class VehiclesComponent implements OnInit {
   actionIcons(data) {
     let icons = [
       {
-        class: 'fa fa-pencil-square-o  edit-btn',
+        class: 'fas fa-edit  edit-btn',
         action: this.OpenVehicleNextServiceModal.bind(this, data)
       },
       {

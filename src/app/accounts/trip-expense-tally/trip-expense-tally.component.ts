@@ -5,6 +5,9 @@ import { AccountService } from '../../services/account.service';
 import { UserService } from '../../services/user.service';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trip-expense-tally',
   templateUrl: './trip-expense-tally.component.html',
@@ -42,7 +45,8 @@ export class TripExpenseTallyComponent implements OnInit {
 
    }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
 
   }
 

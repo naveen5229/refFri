@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'dashboard',
   templateUrl: './dashboard.component.html',
@@ -9,7 +12,8 @@ export class DashboardComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 }

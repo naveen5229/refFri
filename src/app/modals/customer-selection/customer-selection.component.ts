@@ -7,6 +7,9 @@ import { UserService } from '../../services/user.service';
 import { AccountService } from '../../services/account.service';
 import * as localforage from 'localforage';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'customer-selection',
   templateUrl: './customer-selection.component.html',
@@ -35,7 +38,8 @@ export class CustomerSelectionComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   searchUser() {

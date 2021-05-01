@@ -4,6 +4,9 @@ import { MAINTENANCE_MENU_ITEMS } from './vehicle-maintenance-menu';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ngx-pages',
   template: `
@@ -22,4 +25,6 @@ export class VehicleMaintenanceComponent {
     // }
 
   }
+  ngOnDestroy() { }
+
 }

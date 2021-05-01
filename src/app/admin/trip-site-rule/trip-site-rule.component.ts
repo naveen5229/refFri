@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddSiteRuleComponent } from '../../modals/add-site-rule/add-site-rule.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'trip-site-rule',
   templateUrl: './trip-site-rule.component.html',
@@ -54,7 +57,8 @@ export class TripSiteRuleComponent implements OnInit {
     this.getSiteData();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {
@@ -138,7 +142,7 @@ export class TripSiteRuleComponent implements OnInit {
         ruleType: { value: doc.ruleName },
         action: {
           value: '', isHTML: false, action: null, icons: [
-            { class: 'fa fa-pencil-square-o  edit-btn', action: this.editRule.bind(this, doc) },
+            { class: 'fas fa-edit  edit-btn', action: this.editRule.bind(this, doc) },
             { class: " fa fa-trash remove", action: this.deleteRule.bind(this, doc) }
           ]
         },

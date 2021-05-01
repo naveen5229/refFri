@@ -82,14 +82,14 @@
                 <th>Location</th>
                 <th>Dist</th>
                 <th>KM/h</th>
-                <th>AdUserId <span style="margin-left:15px"><i class="fa fa-refresh report-btn"
+                <th>AdUserId <span style="margin-left:15px"><i class="fas fa-sync-alt report-btn"
                       (click)="dataRefresh();"></i></span></th>
               </thead>
               <!-- 'color':!vehicleEvent.lastType ? 'none':(vehicleEvent.lastType==21?'red':'green'), -->
               <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
                 <tr [id]="'vehicleEvent-row-'+i"
                   [ngStyle]="{
-                            'border':  vehicleEvent.y_place_id ? '4px dashed red' : 'none', 'border-bottom':  vehicleEvent.showHorLine? '5px solid black' : 'none', 'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff'}"
+                            'border':  vehicleEvent.y_place_id ? '4px dashed red' : 'none', 'border-bottom':  vehicleEvent.showHorLine? '5px solid black' : 'none', 'background-color' :  vehicleEvent.desc!='Trails'? '#'+((vehicleEvent.isDecouple && (vehicleEvent.color === ('88ff4d') || vehicleEvent.color === ('ff4d4d') )) ? (vehicleEvent.color === ('88ff4d') ? '5ED921' : 'e60000') : vehicleEvent.color) :'#fff'}"
                   (mouseover)="toggleBounceMF(i)" (mouseout)="toggleBounceMF(i,2)">
                   <!-- <tr cdkDrag [id]="'vehicleEvent-row-'+i" (cdkDragStarted)="this.onlyDrag = true;"
                           (cdkDragEnded)="onDragEnded($event, i, vehicleEvent)" cdkDragLockAxis="y"
@@ -146,7 +146,7 @@
                           *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id && vehicleEvent.haltId == null">{{vehicleEvent.y_halt_desc}}</button>
 
                         <span class="zoom-btn" (click)="decouplingState(vehicleEvent)"
-                          *ngIf="vehicleEvent.isDecouple"><i class="fa fa-chain-broken" title="Decoupling"></i></span>
+                          *ngIf="vehicleEvent.isDecouple"><i class="fas fa-unlink" title="Decoupling"></i></span>
 
                         <span class="zoom-btn" (click)="updateLocation(vehicleEvent)"
                           *ngIf="vehicleEvent.desc!='Trails'&& vehicleEvent.vs_id"><i class="fa fa-map-marker"
@@ -155,7 +155,7 @@
                         <span class="zoom-btn" (click)="verifyTrip(vehicleEvent)" *ngIf="vehicleEvent.trip_id"><i
                             class="fa fa-check" title="Mark Resolved"></i></span>
                         <span class="zoom-btn" (click)="tripStateMapping(vehicleEvent)" *ngIf="vehicleEvent.vs_id"><i
-                            class="fa fa-chain" title="Trip State Mapping"></i></span>
+                            class="fas fa-link" title="Trip State Mapping"></i></span>
                       </span>
                     </div>
                   </td>
@@ -205,10 +205,10 @@
           <!-- <input class="form-control" type="text" style="cursor: pointer;margin-left:3px;" autocomplete="off"
           (click)="getDate('date')" placeholder="Custom LTime" [value]="customDate | date: 'dd MMM yyyy'" name="date"
           readonly> -->
-          <!-- <button class="btn btn-primary" id="addAutomaticHalt" (click)="addAutomaticHalt()" style="margin-left:3px">Add
-          Auto Halt </button> -->
-        <!-- <button class="btn btn-primary" id="addManualHalt" (click)="openManualHalt('vehicleEvent')"
-          style="margin-left:3px">Manual Halt </button> -->
+          <button class="btn btn-primary" id="addAutomaticHalt" (click)="addAutomaticHalt()" style="margin-left:3px">Add
+          Auto Halt </button>
+        <button class="btn btn-primary" id="addManualHalt" (click)="openManualHalt('vehicleEvent')"
+          style="margin-left:3px">Manual Halt </button>
         </div>
         <div class="col-3">
           <uj-date-time-picker (onChanged)="getDate('lTime',$event);" [isTime]='false' [dateTimeValue]="lTime">

@@ -100,7 +100,7 @@
             @include nb-rtl(border, none);
         }
 
-        .header-container /deep/ ngx-theme-switcher .dropdown-toggle {
+        .header-container::ng-deep ngx-theme-switcher .dropdown-toggle {
             color: #ffffff;
             background: transparent;
         }
@@ -122,7 +122,7 @@
         }
     }
 
-    .toggle-layout /deep/ a {
+    .toggle-layout::ng-deep a {
         display: block;
         text-decoration: none;
         line-height: 1;
@@ -212,7 +212,7 @@
     }
     @include media-breakpoint-down(sm) {
       
-        nb-user /deep/ .user-name {
+        nb-user::ng-deep .user-name {
             display: none;
         }
     }
@@ -241,7 +241,7 @@
     }
 
     @include media-breakpoint-down(xs) {
-        .right /deep/ {
+        .right::ng-deep {
             display: none;
         }
     }
@@ -297,6 +297,12 @@ button:hover {
     margin-right: 2px;
     height: 30px;
 }
+
+.customer_complain{
+    margin-right: 2px;
+    height: 30px;
+}
+
 .add_customer{
     margin-right: 2px;
     height: 30px;
@@ -395,7 +401,7 @@ button:hover {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    width: 100%;
+    width: 70%!important;
     h4{
         color: #d1d1d2;
         align-self: center;
@@ -424,7 +430,7 @@ button:hover {
     padding-top: 2px;
 }
 
-.add_customer button:hover, .bank_icon button:hover, .refresh_icon button:hover {
+.add_customer button:hover, .bank_icon button:hover,.customer_complain button:hover, .refresh_icon button:hover {
     background-color: #0c1427;
     border: 1px solid #5e7cf5;
     color: #5e7cf5;
@@ -444,3 +450,4 @@ button:hover {
         width: 350px;
     }
 }
+

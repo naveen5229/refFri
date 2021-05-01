@@ -7,6 +7,9 @@ import { UpdateTicketSubscribeComponent } from '../../modals/update-ticket-subsc
 import { DatePipe } from '@angular/common';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ticket-subscribe',
   templateUrl: './ticket-subscribe.component.html',
@@ -34,7 +37,8 @@ export class TicketSubscribeComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     console.log('Refresh');
@@ -120,8 +124,8 @@ export class TicketSubscribeComponent implements OnInit {
         isOld: { value: R.is_old },
         Name: { value: R.name },
         action: {
-          value: '', isHTML: false, action: null, icons: [
-            { class: 'fa fa-pencil-square-o  edit-btn', action: this.editTicketSubscribe.bind(this, R) },
+          value: '', isHTML: true, action: null, icons: [
+            { class: 'fas fa-edit edit-btn', action: this.editTicketSubscribe.bind(this, R) },
           ]
         },
       };

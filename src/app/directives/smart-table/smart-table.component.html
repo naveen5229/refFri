@@ -158,7 +158,7 @@
     <!-- Page Count END -->
     <!-- Records Per Page -->
     <div class="numer_list ml-3">
-        <input type="text" class="customPage form-control" name="customPageNo" (keyup.enter)="customPage()"
+        <input type="text" class="customPage form-control" name="customPageNo" (keyup.enter)="customPage($event)"
             [(ngModel)]="pages.limit">
     </div>
     <!-- Records Per Page END -->

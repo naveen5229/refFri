@@ -6,6 +6,9 @@ import { LocationMarkerComponent } from '../../modals/location-marker/location-m
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'show-fuel-station',
   templateUrl: './show-fuel-station.component.html',
@@ -24,7 +27,8 @@ export class ShowFuelStationComponent implements OnInit {
     this.getFuelStation();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getFuelStation() {

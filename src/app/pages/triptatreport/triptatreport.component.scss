@@ -1,0 +1,24 @@
+:host ::ng-deep .no-data {
+    font-size: 18px;
+    color: #f73c3c;
+    font-weight: 600;
+    text-align: center;
+    width: 100%;
+    margin-top:10px;
+}
+
+:host ::ng-deep table thead tr th{
+    vertical-align:middle!important;
+    border:1px solid #b2adad!important;
+    text-align:center;
+}
+
+:host ::ng-deep table tbody tr td{
+    vertical-align:middle!important;
+    border:1px solid #b2adad!important;
+    text-align:center;
+}
+
+
+
+

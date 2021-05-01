@@ -6,6 +6,9 @@ import { VehicleTripUpdateComponent } from '../../modals/vehicle-trip-update/veh
 import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
 import { AddShortTargetComponent } from '../../modals/add-short-target/add-short-target.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'placement-delay-faults',
   templateUrl: './placement-delay-faults.component.html',
@@ -36,7 +39,8 @@ export class PlacementDelayFaultsComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
 

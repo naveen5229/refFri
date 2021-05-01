@@ -36,6 +36,13 @@ import { TmgCallsComponent } from './pages/tmg-calls/tmg-calls.component';
 import { TmgDocumentsComponent } from './pages/tmg-documents/tmg-documents.component';
 import { TmgTrafficComponent } from './pages/tmg-traffic/tmg-traffic.component';
 import { TmgTripComponent } from './pages/tmg-trip/tmg-trip.component';
+import { TmgTrafficAnalysisComponent } from './pages/tmg-traffic-analysis/tmg-traffic-analysis.component';
+import { TmgLoadingAnalysisComponent } from './pages/tmg-loading-analysis/tmg-loading-analysis.component';
+import { TmgTransporterAnalysisComponent } from './pages/tmg-transporter-analysis/tmg-transporter-analysis.component';
+import { TmgUnloadingAnalysisComponent } from './pages/tmg-unloading-analysis/tmg-unloading-analysis.component';
+import { PlacementoptimizationComponent } from './pages/placementoptimization/placementoptimization.component';
+import { NightDriveReportComponent } from './pages/night-drive-report/night-drive-report.component';
+
 
 const PAGES_COMPONENTS = [
     FuelFillingsComponent,
@@ -66,7 +73,13 @@ const PAGES_COMPONENTS = [
     TmgCallsComponent,
     TmgDocumentsComponent,
     TmgTrafficComponent,
-    TmgTripComponent
+    TmgTripComponent,
+    TmgTrafficAnalysisComponent,
+    TmgLoadingAnalysisComponent,
+    TmgTransporterAnalysisComponent,
+    TmgUnloadingAnalysisComponent,
+    PlacementoptimizationComponent,
+    NightDriveReportComponent
 ];
 
 

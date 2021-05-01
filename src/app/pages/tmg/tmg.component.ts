@@ -1,18 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tmg',
   templateUrl: './tmg.component.html',
   styleUrls: ['./tmg.component.scss']
 })
 export class TmgComponent implements OnInit {
-  seletionsArray = ['Tmg-Challan', "Tmg-Trip", "Tmg-Traffic","Tmg-Calls","Tmg-Alerts","Tmg-Documents"];
+  seletionsArray = ['Tmg-Challan', "Tmg-Trip", "Tmg-Traffic","Tmg-Calls","Tmg-Alerts","Tmg-Documents","Tmg-Vehicle-Analysis","Tmg-Loading-Analysis","Tmg-Unloading-Analysis","Tmg-Transporter-Analysis"];
   selectedDashboard = 'Tmg-Challan';
   constructor() {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   getIndex() {
     for (let i = 0; i <= this.seletionsArray.length; i++) {

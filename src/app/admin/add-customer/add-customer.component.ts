@@ -18,6 +18,10 @@ import { GetUserBankInfoComponent } from '../../modals/get-user-bank-info/get-us
 import { BulkCompanyAssociationComponent } from '../../modals/bulk-company-association/bulk-company-association.component';
 import { MultiVehicleHaltAddComponent } from '../../modals/multi-vehicle-halt-add/multi-vehicle-halt-add.component';
 import { SingleVehicleGpsDataComponent } from '../../modals/single-vehicle-gps-data/single-vehicle-gps-data.component';
+import { AtSitesComponent } from '../../modals/at-sites/at-sites.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-customer',
   templateUrl: './add-customer.component.html',
@@ -45,7 +49,8 @@ export class AddCustomerComponent implements OnInit {
     console.log('Refresh');
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   addVehicle() {
     const activeModal = this.modalService.open(AddVehicleComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
@@ -148,6 +153,10 @@ export class AddCustomerComponent implements OnInit {
   addSingleVehicleHalt(){
     const activeModal = this.modalService.open(SingleVehicleGpsDataComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
+  }
+
+  importATSites(){
+    const activeModal = this.modalService.open(AtSitesComponent,{size: 'lg', container: 'nb-layout', backdrop: 'static'})
   }
   
 }

@@ -5,6 +5,9 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddFuelFullRuleComponent } from '../../modals/add-fuel-full-rule/add-fuel-full-rule.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fuel-rules',
   templateUrl: './fuel-rules.component.html',
@@ -24,7 +27,8 @@ export class FuelRulesComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     console.log("Refresh");
@@ -89,7 +93,7 @@ export class FuelRulesComponent implements OnInit {
         AngleTo: { value: norm.angle_to },
         action: {
           value: '', isHTML: false, action: null, icons: [
-            { class: 'fa fa-pencil-square-o  edit-btn', action: this.updateRule.bind(this, norm) },
+            { class: 'fas fa-edit  edit-btn', action: this.updateRule.bind(this, norm) },
             { class: " fa fa-trash remove", action: this.deleteRule.bind(this, norm) }
           ]
         },

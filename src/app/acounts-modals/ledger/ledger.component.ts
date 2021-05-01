@@ -8,6 +8,9 @@ import { AccountsComponent } from '../accounts/accounts.component';
 import { AccountService } from '../../services/account.service';
 import { AddCityComponent } from '../../acounts-modals/add-city/add-city.component';
 import { AddStateComponent } from '../../acounts-modals/add-state/add-state.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ledger',
   templateUrl: './ledger.component.html',
@@ -450,7 +453,8 @@ console.log('sixe ledger',this.sizeledger);
       });
       this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
   }
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
 
   }
   save(response){

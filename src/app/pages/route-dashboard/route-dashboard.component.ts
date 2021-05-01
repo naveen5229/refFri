@@ -7,6 +7,10 @@ import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.com
 import { RoutesTimetableComponent } from '../../modals/routes-timetable/routes-timetable.component';
 import { AddShortTargetComponent } from '../../modals/add-short-target/add-short-target.component';
 import * as _ from "lodash";
+import { AdhocRouteComponent } from '../../modals/adhoc-route/adhoc-route.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'route-dashboard',
   templateUrl: './route-dashboard.component.html',
@@ -57,7 +61,7 @@ export class RouteDashboardComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+ngOnInit() {
   }
 
   ngAfterViewInit() {
@@ -204,7 +208,10 @@ export class RouteDashboardComponent implements OnInit {
         class: 'fa fa-pencil-square-o',
         action: this.addShortTarget.bind(this, route)
       },
-
+      {
+        class: " fa fa-plus mr-1",
+        action: this.adhocRoute.bind(this, route),
+      },
     ]
     return icons;
   }
@@ -267,6 +274,20 @@ export class RouteDashboardComponent implements OnInit {
     console.log("params=", this.common.params);
     const activeModal = this.modalService.open(AddShortTargetComponent, {
       size: "sm",
+      container: "nb-layout"
+    });
+  }
+
+  adhocRoute(target) {
+    console.log("target", target);
+    let vehicle = {
+    id: target.v_id || target._vehicleid,
+      regNo: target.vehicle || target.Vehicle || target.regno || target.v_regno
+    };
+    this.common.params = {vehicle:vehicle };
+    console.log("params=", this.common.params);
+    const activeModal = this.modalService.open(AdhocRouteComponent, {
+      size: "lg",
       container: "nb-layout"
     });
   }

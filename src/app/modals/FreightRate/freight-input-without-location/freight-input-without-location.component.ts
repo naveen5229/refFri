@@ -6,6 +6,9 @@ import { DatePickerComponent } from '../../date-picker/date-picker.component';
 import { AddConsigneeComponent } from '../../LRModals/add-consignee/add-consignee.component';
 import { ConfirmComponent } from '../../confirm/confirm.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'freight-input-without-location',
   templateUrl: './freight-input-without-location.component.html',
@@ -89,7 +92,8 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1600');
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   closeModal() {
     this.activeModal.close();

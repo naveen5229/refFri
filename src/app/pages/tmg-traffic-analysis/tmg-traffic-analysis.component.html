@@ -1,0 +1,166 @@
+<div class="contentsection">
+    <div class="row mb-2 mr-0">
+      <div class="col-4 pl-0">
+        <div class="outer" style="min-height: 130px;">
+          <h6 style="text-align:center"><b class="charthead">Live Traffic Status </b></h6>
+          <chart [type]="chart.type" [data]="chart.data" style="margin-right:0px;margin-top:0px;min-height: 200px;max-height: 200px;"
+          [options]="chart.options"  (clickElement)="chart2Clicked($event)"></chart>
+        </div>
+      </div>
+      <div class="col-4 pl-0">
+        <div class="outer" style="min-height: 200px;">
+          <h6 style="text-align:center"><b class="charthead">Longest Onward Halt</b></h6>
+          <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetConsignmentLongestOnwardHalt',{totalrecord: 3,stepno: -1},15,'days')"><i title="More Details" class="fa fa-list"></i>
+        </p>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Vehicle No.</th>
+              <th>Transporter</th>
+              <th>Location</th>
+              <th>Hours</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let cloh of consignmentLongestOnwardHalt">
+                <td class="link" (click)="getDetials('Tmgreport/GetConsignmentLongestOnwardHalt',{totalrecord: 3,stepno: 1,vid: cloh['_vid'] },15,'days')">{{cloh['Vehicle Name']}}</td>
+                <td>{{cloh['Transporter']}}</td>
+                <td>{{cloh['Location']}}</td>
+                <td>{{cloh['Duration (HH:MM)']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      <div class="col-4 pl-0 pr-0">
+        <div class="outer" style="min-height: 200px;">
+          <h6 style="text-align:center"><b class="charthead">Longest GPS Offline</b></h6>
+          <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetConsignmentLongestGpsIssue',{totalrecord: 3,stepno: -1},15,'days')"><i title="More Details" class="fa fa-list"></i>
+        </p>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Vehicle No.</th>
+              <th>Transporter</th>
+              <th>Offline Since(Hours)</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let clgi of consignmentLongestGpsIssue">
+                <td class="link" (click)="getDetials('Tmgreport/GetConsignmentLongestGpsIssue',{totalrecord: 3,stepno: 1,vid: clgi['_vid'] },15,'days')">{{clgi['Vehicle Name']}}</td>
+                <td>{{clgi['Transporter']}}</td>
+                <td>{{clgi['Duration (HH:MM)']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row mb-2 mr-0">
+          <div class="col-6 pl-0">
+            <div class="outer" style="min-height: 130px;">
+            <h6 style="text-align:center"><b class="charthead">Longest Loading Site</b></h6>
+            <p style="text-align: right; margin-top: -25px;" class="link"
+            (click)="getDetials('Tmgreport/GetConsignmentLongestLoading',{totalrecord: 3,stepno: -1},15,'days')"><i title="More Details" class="fa fa-list"></i>
+          </p>
+            <table class="table table-bordered">
+              <thead class="thead">
+                <th>Site Name</th>
+                <!-- <td>Transporter</td> -->
+                <th>Duration(in Hrs)</th>
+                <th>Vehicle Count</th>
+              </thead>
+              <tbody class="tbody">
+                <tr *ngFor="let cll of consignmentLongestLoading">
+                  <td class="link" (click)="getDetials('Tmgreport/GetConsignmentLongestLoading',{totalrecord: 3,stepno: 1,location: cll['Location'] },15,'days')">{{cll['Location']}}</td>
+                  <!-- <td>{{cll['Transporter']}}</td> -->
+                  <td>{{cll['Duration (HH:MM)']}}</td>
+                  <td>{{cll['Vehicle Count']}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          </div>
+          <div class="col-6 pl-0 pr-0">
+            <div class="outer" style="min-height: 130px;">
+              <h6 style="text-align:center"><b class="charthead">Longest Unloading Vehicles</b></h6>
+              <p style="text-align: right; margin-top: -25px;" class="link"
+              (click)="getDetials('Tmgreport/GetConsignmentLongestUnLoading',{totalrecord: 3,stepno: -1},15,'days')"><i title="More Details" class="fa fa-list"></i>
+            </p>
+              <table class="table table-bordered">
+                <thead class="thead">
+                    <th>Vehicle No.</th>
+                    <!-- <th>Site</th> -->
+                    <th>Transporter</th>
+                    <!-- <th>Trip</th> -->
+                    <th>Duration(in Hrs)</th>
+                </thead>
+                <tbody class="tbody">
+                  <tr *ngFor="let clu of consignmentLongestUnLoading">
+                  <td class="link" (click)="getDetials('Tmgreport/GetConsignmentLongestUnLoading',{totalrecord: 3,stepno: 1,vid: clu['_vid'] },15,'days')">{{clu['Vehicle Name']}}</td>
+                  <td>{{clu['Transporter']}}</td>
+                  <!-- <td>{{clu['trip']}}</td> -->
+                  <td>{{clu['Duration (HH:MM)']}}</td>
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row mr-0 mb-0 mt-2">
+          <div class="col-6 pl-0">
+            <div class="outer" style="min-height: 130px;">
+            <h6 style="text-align:center"><b class="charthead">Slowest Onward Vehicles</b></h6>
+            <p style="text-align: right; margin-top: -25px;" class="link"
+              (click)="getDetials('Tmgreport/GetConsignmentSlowestOnward',{totalrecord: 3,stepno: -1},15,'days')"><i title="More Details" class="fa fa-list"></i>
+            </p>
+            <table class="table table-bordered">
+              <thead class="thead">
+                <th>Vehicle No.</th>
+                <th>Transporter</th>
+                <th>Trip</th>
+                <th>KMPD</th>
+              </thead>
+              <tbody class="tbody">
+                <tr *ngFor="let cso of consignmentSlowestOnward">
+                  <td class="link" (click)="getDetials('Tmgreport/GetConsignmentSlowestOnward',{totalrecord: 3,stepno: 1,vid: cso['_vid'] },7,'days')">{{cso['Vehicle Name']}}</td>
+                  <td>{{cso['Transporter']}}</td>
+                  <td>{{cso['Trip']}}</td>
+                  <td>{{cso['KMPD']}}</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+          </div>
+          <div class="col-6 pl-0 pr-0">
+            <div class="outer" style="min-height: 130px;">
+              <h6 style="text-align:center"><b class="charthead">Longest Parking Vehicles</b></h6>
+              <p style="text-align: right; margin-top: -25px;" class="link"
+              (click)="getDetials('Tmgreport/GetLiveLongestParking',{totalrecord: 3,stepno: -1},15,'days')"><i title="More Details" class="fa fa-list"></i>
+            </p>
+              <table class="table table-bordered">
+                <thead class="thead">
+                   <th>Vehicle</th>
+                   <th>Location</th>
+                   <th>Trip</th>
+                  <th>Transporter</th>
+                  <th>Duration</th>
+                </thead>
+                <tbody class="tbody">
+                  <tr *ngFor="let llp of liveLongestParking">
+                    <td class="link" (click)="getDetials('Tmgreport/GetLiveLongestParking',{totalrecord: 3,stepno: 1,location: llp['Vehicle'] },7,'days')">{{llp['Vehicle']}}</td>
+                    <td>{{llp['Location']}}</td>
+                    <td>{{llp['Trip']}}</td>
+                    <td>{{llp['Transporter']}}</td>
+                    <td>{{llp['Duration (HH:MM)']}}</td>
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+  

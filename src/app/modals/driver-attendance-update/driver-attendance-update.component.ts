@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'driver-attendance-update',
   templateUrl: './driver-attendance-update.component.html',
@@ -23,7 +26,8 @@ export class DriverAttendanceUpdateComponent implements OnInit {
    closeModal(){
     this.activeModal.close({response:true});
   }
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   NewStatus(){
     this.closeModal();

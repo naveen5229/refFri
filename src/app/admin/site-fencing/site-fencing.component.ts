@@ -6,6 +6,9 @@ import { Router } from '@angular/router';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'site-fencing',
   templateUrl: './site-fencing.component.html',
@@ -37,7 +40,8 @@ export class SiteFencingComponent implements OnInit {
 
      }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   
   }
   refresh() {
@@ -47,7 +51,7 @@ export class SiteFencingComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map");
+    this.mapService.mapIntialize("site-fencing-map");
     this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => {
       this.mapService.zoomAt({ lat: lat, lng: lng }, 13);
       this.clearAll();

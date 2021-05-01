@@ -6,6 +6,9 @@ import { CommonService } from '../../services/common.service';
 import { ReceiveItemsComponent } from '../modal/receive-items/receive-items.component';
 import { ManualItemsComponent } from '../modal/manual-items/manual-items.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ware-house-receipts',
   templateUrl: './ware-house-receipts.component.html',
@@ -39,7 +42,8 @@ export class WareHouseReceiptsComponent implements OnInit {
     this.common.refresh=this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){

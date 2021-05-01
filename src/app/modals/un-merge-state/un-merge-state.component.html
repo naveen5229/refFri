@@ -25,7 +25,7 @@
             <div class="col-th ">Location</div>
             <div class="col-th ">Dist</div>
             <div class="col-th ">KM/h</div>
-            <div class="col-th ">AdUserId <span style="margin-left:15px"><i class="fa fa-refresh report-btn"
+            <div class="col-th ">AdUserId <span style="margin-left:15px"><i class="fas fa-sync-alt report-btn"
                   (click)="mapReset();"></i></span></div>
 
           </div>
@@ -103,7 +103,7 @@
                   <th>Location</th>
                   <th>Dist</th>
                   <th>KM/h</th>
-                  <th>AdUserId <span style="margin-left:15px"><i class="fa fa-refresh report-btn"
+                  <th>AdUserId <span style="margin-left:15px"><i class="fas fa-sync-alt report-btn"
                         (click)="mapReset();"></i></span></th>
                 </thead>
                 <tbody *ngFor="let unMergeEvent of unMergeEvents;let i = index;">
@@ -174,7 +174,7 @@
 
       <!-- table div location -->
       <div [class]="'map-container'">
-        <div #map id="map"></div>
+        <div #map id="un-merge-state-map"></div>
         <div class="time-line-event">
           <div class="time-line-scale"></div>
           <div *ngFor="let event of vehicleEventsR; let i = index;" class="time-line-circle"

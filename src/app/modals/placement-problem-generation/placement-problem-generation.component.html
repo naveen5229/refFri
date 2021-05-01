@@ -1,0 +1,36 @@
+
+
+<div class="modal-header">
+    <h6 class="modal-title" id="modal-basic-title" style="color:white">Placement Problem Generation</h6>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <nb-card>
+    <nb-card-body style="overflow:inherit;padding-top: 0px;">
+      <div class="row">
+          <div class="col-sm-12">
+            <div class="col-sm-3">
+                <label>Date</label>
+                <uj-date-time-picker (onChanged)="getDate($event);" [isTime]='false' [dateTimeValue]="placementDate">
+                </uj-date-time-picker>
+              </div>
+              
+              <div class="col-sm-3">
+                <label>Select Days</label><br>
+                <select [(ngModel)]="days" change="selectDays();" style="width:100%">
+                  <option value="1">Today</option>
+                  <option value="2">(Today+1)</option>
+                  <option value="3">(Today+2)</option>
+                  <option value="4">(Today+3)</option>
+                  <option value="5">(Today+4)</option>
+                </select>
+              </div>    
+
+              <div class="col-sm-2">
+                <button class="btn btn-primary mt-4" (click)="saveplcProGeneration()">submit</button>
+              </div>
+          </div>
+      </div>
+    </nb-card-body>
+  </nb-card>

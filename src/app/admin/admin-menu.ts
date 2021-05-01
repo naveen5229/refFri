@@ -81,7 +81,7 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
       },
 
 
-     
+
       {
         title: 'Trip Diagnosis',
         icon: 'fa-arrows-alt',
@@ -92,6 +92,12 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         title: 'VSC Diagnosis',
         icon: 'fa-arrows-alt',
         link: '/admin/vsc-diagnosis',
+        home: true,
+      },
+      {
+        title: 'Placement Optimization',
+        icon: 'fa-home',
+        link: '/pages/placementoptimization',
         home: true,
       },
     ]
@@ -286,7 +292,7 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         link: '/admin/group-managements',
       },
       {
-        title: 'Ticket Properties',
+        title: 'Alert Properties',
         icon: 'fa-ticket-alt',
         link: '/admin/ticket-properties',
       },
@@ -324,6 +330,11 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         title: 'Routes',
         icon: 'fa-pencil-square-o',
         link: '/admin/via-routes',
+      },
+      {
+        title: 'Tracking Mode',
+        icon: 'fa-pencil-square-o',
+        link: '/admin/loc-preference',
       },
     ]
   },

@@ -7,6 +7,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 declare var google: any;
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'profit-calculator',
   templateUrl: './profit-calculator.component.html',
@@ -101,6 +104,8 @@ export class ProfitCalculatorComponent {
     this.getLoadingUnloading('tonnage', '', '', '', '');
 
   }
+  
+  ngOnDestroy() { }
 
   // ionViewDidLoad() {
   ngAfterViewInit(): void {

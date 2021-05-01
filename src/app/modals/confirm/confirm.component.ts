@@ -5,6 +5,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'confirm',
   templateUrl: './confirm.component.html',
@@ -28,7 +31,8 @@ export class ConfirmComponent implements OnInit {
     this.btn2 = this.common.params.btn2 || 'Cancel';
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   
   closeModal(response,apiHit) {

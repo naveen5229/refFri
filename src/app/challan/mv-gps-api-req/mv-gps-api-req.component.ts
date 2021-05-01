@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddGpsWebUrlComponent } from '../../modals/add-gps-web-url/add-gps-web-url.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'mv-gps-api-req',
   templateUrl: './mv-gps-api-req.component.html',
@@ -29,7 +32,8 @@ export class MvGpsApiReqComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

@@ -30,6 +30,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/trip',
       },
       {
+        title: 'Business Analytics',
+        icon: 'fa-home',
+        link: '/pages/graphical-reports',
+      },
+      {
         title: 'Trip Status FeedBack',
         icon: 'fa-comment-alt',
         link: '/pages/trip-status-feedback',
@@ -59,12 +64,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/tripissues',
         home: true,
       },
-      {
-        title: 'Issues Report',
-        icon: 'fa-clipboard-check',
-        link: '/pages/issues-report',
-        home: true,
-      },
+
 
       {
         title: 'Placement Dashboard',
@@ -72,18 +72,8 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/placements-dash-board',
         home: true,
       },
-      {
-        title: 'Vehicle Distance(24Hr)',
-        icon: 'fa-road',
-        link: '/pages/vehicle-covered-distance',
-        home: true,
-      },
-      {
-        title: 'Vehicle Distance',
-        icon: 'fa-road',
-        link: '/pages/vehicle-distance',
-        home: true,
-      },
+
+
       {
         title: 'Day Wise Vehicle Distance',
         icon: 'fa-road',
@@ -149,7 +139,74 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         icon: 'fa-home',
         link: '/pages/tmg-trip',
       },
+      {
+        title: 'Unloading Heat Map',
+        icon: 'fa-home',
+        link: '/pages/ulheatmap',
+      },
+
+
+
+
+
+      {
+        title: 'Placement Optimization',
+        icon: 'fa-home',
+        link: '/pages/placementoptimization',
+      }
     ]
+  },
+  {
+    title: 'Trip Reports',
+    icon: 'fa-route',
+    link: '/pages/dashboard',
+    home: true,
+    children: [
+      {
+        title: 'Lead Validation Report',
+        icon: 'fa-clipboard-check',
+        link: '/pages/leadvalidationreport',
+      },
+
+      {
+        title: 'Trip Delivery Complinance Report',
+        icon: 'fa-clipboard-check',
+        link: '/pages/tripdeliverycomplinancereport',
+      },
+      {
+        title: 'Trip Stoppage Report',
+        icon: 'fa-clipboard-check',
+        link: '/pages/tripstoppage',
+      },
+      {
+        title: 'Trip TAT Report',
+        icon: 'fa-clipboard-check',
+        link: '/pages/triptatreport',
+      },
+      {
+        title: 'Vehicle Distance',
+        icon: 'fa-road',
+        link: '/pages/vehicle-distance',
+        home: true,
+      },
+      {
+        title: 'Vehicle Distance(24Hr)',
+        icon: 'fa-road',
+        link: '/pages/vehicle-covered-distance',
+        home: true,
+      },
+      {
+        title: 'Trip Master Report',
+        icon: 'fa-clipboard-check',
+        link: '/pages/tripmasterreport',
+      },
+    ]
+  },
+  {
+    title: 'AI Report',
+    icon: 'fa-clipboard-check',
+    link: '/pages/issues-report',
+    home: true,
   },
   {
     title: 'Admin',
@@ -164,6 +221,32 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         home: true,
       },
       {
+        title: 'Business Dashboard',
+        // icon: 'fa-chart-pie',
+        link: '/pages/dynamic-report-dashboard',
+        home: true,
+      },
+
+      {
+        title: 'Transporter TMG Dashboard',
+        // icon: 'fa-chart-pie',
+        link: '/pages/transporter-view',
+        home: true,
+      },
+      {
+        title: 'Consignment',
+        // icon: 'fa-chart-pie',
+        link: '/pages/consignment',
+        home: true,
+      },
+
+      {
+        title: 'Corporate TMG Dashboard',
+        // icon: 'fa-chart-pie',
+        link: '/pages/cooperate-view',
+        home: true,
+      },
+      {
         title: 'TMG Alerts',
         icon: 'fa-home',
         link: '/pages/tmg-alerts',
@@ -175,7 +258,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/tickets',
         home: true,
       },
-    
+
       // {
       //   title: 'Finance Recovery',
       //   icon: 'fa-tachometer-alt',
@@ -185,6 +268,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         title: 'Tickets All',
         icon: 'fa-ticket-alt',
         link: '/pages/tickets-all',
+        home: true,
+      },
+      {
+        title: 'Tickets Reports',
+        icon: 'fa-ticket-alt',
+        link: '/pages/tickets-report',
         home: true,
       },
       {
@@ -235,7 +324,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/web-acttivity-summary'
       },
       {
-        title: 'Fo User Role',
+        title: 'User Roles',
         icon: 'fa-user-cog',
         link: '/pages/fo-user-role',
       },
@@ -414,7 +503,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/vehicle-performance',
         home: true,
       },
-      
+      {
+        title: 'Night Drive Report',
+        icon: 'fa-home',
+        link: '/pages/night-drive-report',
+      }
 
     ]
   },
@@ -429,7 +522,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/fuel-fillings',
         home: true,
       },
-      
+
       {
         title: 'Fuel Mileage',
         icon: 'fa-tachometer-alt',
@@ -496,13 +589,13 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     {
       title: 'Document Dashboard',
       icon: 'fa-table',
-      link: '/pages/documents-summary',
+      link: '/pages/document-dashboard',
       home: true,
     },
     {
       title: 'Document Summary',
       icon: 'fa-file-text',
-      link: '/pages/document-dashboard',
+      link: '/pages/documents-summary',
       home: true,
     },
     ]
@@ -519,14 +612,25 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
       home: true,
     },
     {
+      title: 'Driver Preference',
+      icon: 'fa-star',
+      link: '/pages/driver-preference',
+      home: true,
+    },
+    {
       title: 'Driver List ',
       icon: 'fa-list',
       link: '/pages/driver-list',
       home: true,
+    }, {
+
+      title: 'Driver On Side Images',
+      icon: 'fa-map-marker',
+      link: '/pages/driver-on-side-images',
+      home: true,
     },
 
     {
-
       title: 'Vehicle Driver Mapping',
       icon: 'fa-street-view',
       link: '/pages/vehicle-driver-mapping',
@@ -540,7 +644,6 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
       home: true,
     },
     {
-
       title: 'Driver Document',
       icon: 'fa-book',
       link: '/pages/driver-document',
@@ -597,7 +700,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     icon: 'fa-chalkboard-teacher',
     link: '/challan/pending-challan'
   },
- 
+
   {
     title: 'TMG Challan',
     icon: 'fa-home',
@@ -607,7 +710,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
   {
     title: 'Walle8',
     icon: 'fa-wallet',
-    link: '/walle8/card-balance'
+    link: '/walle8/card-mapping'
   },
   {
     title: 'Bid-System',

@@ -1,0 +1,177 @@
+<div class="contentsection">
+    <div class="row mb-2 mr-0 mb-0">
+      <div class="col-4 pl-0">
+        <div class="outer" style="min-height: 200px;">
+          <h6 style="text-align:center"><b class="charthead">Onward KMPD Graph</b></h6>
+          <p style="text-align: right; margin-top: -25px;" class="link"
+              (click)="getDetials('Tmgreport/GetTripOnwardKmd',{totalrecord: 3,stepno: -1,groupdays:7},30,'days')"><i title="More Details" class="fa fa-list"></i>
+            </p>
+          <chart [type]="chart.type" [data]="chart.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
+          [options]="chart.options">
+        </chart>
+        </div>
+      </div>
+      <div class="col-4 pl-0">
+        <div class="outer" style="min-height: 200px;">
+          <h6 style="text-align:center"><b class="charthead">Load Allocation Graph</b></h6>
+          <p style="text-align: right; margin-top: -25px;" class="link"
+              (click)="getDetials('Tmgreport/GetTransportarLoadingTat',{totalrecord: 3,stepno: -1,groupdays:7},30,'days')"><i title="More Details" class="fa fa-list"></i>
+            </p>
+          <chart [type]="chart1.type" [data]="chart1.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
+            [options]="chart1.options">
+          </chart>
+        </div>
+      </div>
+      <div class="col-4 pl-0 pr-0">
+        <div class="outer" style="min-height: 200px;">
+          <h6 style="text-align:center"><b class="charthead">Avg. Unloading Time Graph</b></h6>
+          <p style="text-align: right; margin-top: -25px;" class="link"
+              (click)="getDetials('Tmgreport/GetTransportarSlowestUnloadingtat',{totalrecord: 3,stepno: -1,groupdays:7},30,'days')"><i title="More Details" class="fa fa-list"></i>
+            </p>
+          <chart [type]="chart2.type" [data]="chart2.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
+            [options]="chart2.options">
+          </chart>
+        </div>
+      </div>
+    </div>
+     <div class="row mb-2 mr-0 mb-0">
+      <div class="col-4 pl-0">
+        <div class="outer" style="min-height: 145px;">
+          <h6 style="text-align:center"><b class="charthead">Slowest Transporter (Last 60 Days)</b></h6>
+          <p style="text-align: right; margin-top: -25px;" class="link"
+              (click)="getDetials('Tmgreport/GetTransportarSlowestOnward',{totalrecord: 3,stepno: -1,groupdays:7},60,'days')"><i title="More Details" class="fa fa-list"></i>
+            </p>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Transporter</th>
+              <th>Trips Count</th>
+              <th>Avg Kmpd</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let tso of transportarSlowestOnward">
+                <td>{{tso['transporter']}}</td>
+                <td>{{tso['tripcount']}}</td>
+                <td>{{tso['avg_kmpd']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-4 pl-0">
+        <div class="outer" style="min-height: 145px;">
+          <h6 style="text-align:center"><b class="charthead">Lowest Loads (Last 60 Days)</b></h6>
+          <p style="text-align: right; margin-top: -25px;" class="link"
+              (click)="getDetials('Tmgreport/GetTransportarSlowestLoad',{totalrecord: 3,stepno: -1,groupdays:7},60,'days')"><i title="More Details" class="fa fa-list"></i>
+            </p>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Transporter</th>
+              <th>Trips Count</th>
+              <!-- <th>Duration (Hrs)</th> -->
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let tsl of transportarSlowestLoad">
+                <td>{{tsl['transporter']}}</td>
+                <td>{{tsl['tripcount']}}</td>
+                <!-- <td>{{tsl['duration_Hrs']}}</td> -->
+              </tr>
+            </tbody>
+           
+          </table>
+        </div>
+      </div>
+      <div class="col-4 pl-0 pr-0">
+        <div class="outer" style="min-height: 145px;">
+          <h6 style="text-align:center"><b class="charthead">Longest Unloading (Last 60 Days)
+            <p style="text-align: right; margin-top: -25px;" class="link"
+              (click)="getDetials('Tmgreport/GetTransportarSlowestUnload',{totalrecord: 3,stepno: -1,groupdays:7},60,'days')"><i title="More Details" class="fa fa-list"></i>
+            </p>
+            </b></h6>
+            <table class="table table-bordered">
+              <thead class="thead">
+                <th>Transporter</th>
+                <th>Trips Count</th>
+                <th>Duration(Hrs)</th>
+              </thead>
+              <tbody class="tbody">
+                <tr *ngFor="let tsu of transportarSlowestUnload">
+                  <td>{{tsu['transporter']}}</td>
+                  <td>{{tsu['tripcount']}}</td>
+                  <td>{{tsu['duration_Hrs']}}</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-2 mr-0 mb-0">
+      <div class="col-4 pl-0">
+        <div class="outer" style="min-height: 145px;">
+          <h6 style="text-align:center"><b class="charthead">Slowest Transporter (Last 7 Days)</b></h6>
+          <p style="text-align: right; margin-top: -25px;" class="link"
+              (click)="getDetials('Tmgreport/GetTransportarSlowestOnward',{totalrecord: 3,stepno: -1,groupdays:7},7,'days')"><i title="More Details" class="fa fa-list"></i>
+            </p>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Transporter</th>
+              <th>Trips Count</th>
+              <th>Avg Kmpd</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let tso of transportarSlowestOnward7days">
+                <td>{{tso['transporter']}}</td>
+                <td>{{tso['tripcount']}}</td>
+                <td>{{tso['avg_kmpd']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-4 pl-0">
+        <div class="outer" style="min-height: 145px;">
+          <h6 style="text-align:center"><b class="charthead">Lowest Load (Last 7 Days)</b></h6>
+          <p style="text-align: right; margin-top: -25px;" class="link"
+              (click)="getDetials('Tmgreport/GetTransportarSlowestLoad',{totalrecord: 3,stepno: -1,groupdays:7},7,'days')"><i title="More Details" class="fa fa-list"></i>
+            </p>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Transporter</th>
+              <th>Trips Count</th>
+              <!-- <th>Duration (Hrs)</th> -->
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let tsl of transportarSlowestLoad7days">
+                <td>{{tsl['transporter']}}</td>
+                <td>{{tsl['tripcount']}}</td>
+                <!-- <td>{{tsl['duration_Hrs']}}</td> -->
+              </tr>
+            </tbody>
+            
+          </table>
+          
+        </div>
+      </div>
+      <div class="col-4 pl-0 pr-0">
+        <div class="outer" style="min-height: 145px;">
+          <h6 style="text-align:center"><b class="charthead">Longest Unloading (Last 7 days)</b></h6>
+          <p style="text-align: right; margin-top: -25px;" class="link"
+              (click)="getDetials('Tmgreport/GetTransportarSlowestUnload',{totalrecord: 3,stepno: -1,groupdays:7},7,'days')"><i title="More Details" class="fa fa-list"></i>
+            </p>
+          <table class="table table-bordered">
+            <thead class="thead">
+              <th>Transporter</th>
+              <th>Trips Count</th>
+              <th>Duration(Hrs)</th>
+            </thead>
+            <tbody class="tbody">
+              <tr *ngFor="let tsu of transportarSlowestUnload7days">
+                <td>{{tsu['transporter']}}</td>
+                <td>{{tsu['tripcount']}}</td>
+                <td>{{tsu['duration_Hrs']}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div> 
+  </div>

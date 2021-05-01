@@ -105,6 +105,23 @@ import { TmgTrafficComponent } from './tmg-traffic/tmg-traffic.component';
 import { TmgComponent } from './tmg/tmg.component';
 import { TmgCallsComponent } from './tmg-calls/tmg-calls.component';
 import { TmgAlertsComponent } from './tmg-alerts/tmg-alerts.component';
+import { GraphicalReportsComponent } from './graphical-reports/graphical-reports.component';
+import { OnSideImagesComponent } from '../driver/on-side-images/on-side-images.component';
+import { UlheatmapComponent } from './ulheatmap/ulheatmap.component';
+import { TicketsReportComponent } from './tickets-report/tickets-report.component';
+import { TripmasterreportComponent } from './tripmasterreport/tripmasterreport.component';
+import { PlacementoptimizationComponent } from './placementoptimization/placementoptimization.component';
+import { NightDriveReportComponent } from './night-drive-report/night-drive-report.component';
+import { TransporterViewComponent } from './transporter-view/transporter-view.component';
+import { CooperateViewComponent } from './cooperate-view/cooperate-view.component';
+import { TriptatreportComponent } from './triptatreport/triptatreport.component';
+import { LeadvalidationreportComponent } from './leadvalidationreport/leadvalidationreport.component';
+import { TripdeliverycomplinancereportComponent } from './tripdeliverycomplinancereport/tripdeliverycomplinancereport.component';
+import { TripstoppageComponent } from './tripstoppage/tripstoppage.component';
+import { DynamicReportDashboardComponent } from './dynamic-report-dashboard/dynamic-report-dashboard.component';
+import { DriverConsentListComponent } from '../modals/driver-consent-list/driver-consent-list.component';
+import { DriverPreferencesComponent } from './driver-preferences/driver-preferences.component';
+import { ConsignmentComponent } from './consignment/consignment.component';
 
 
 const routes: Routes = [{
@@ -127,34 +144,34 @@ const routes: Routes = [{
   },
   {
     path: 'vehiclestatuschange',
-    component: VehicleStatusChangeByUserComponent ,
+    component: VehicleStatusChangeByUserComponent,
     canActivate: [AuthGuard, RouteGuard],
-},
-{
-  path: 'vehicle-states',
-  component: VehicleStatesComponent ,
-  canActivate: [AuthGuard, RouteGuard],
-},
-{
-  path: 'tripissues',
-  component: TripissuesComponent ,
-  canActivate: [AuthGuard, RouteGuard],
-},
-{
-  path: 'tmg-trip',
-  component: TmgTripComponent ,
-  canActivate: [AuthGuard, RouteGuard],
-},
-{
-  path: 'tmg-traffic',
-  component: TmgTrafficComponent ,
-  canActivate: [AuthGuard, RouteGuard],
-},
-{
-  path: 'issues-report',
-  component: IssuesReportComponent ,
-  canActivate: [AuthGuard, RouteGuard],
-},
+  },
+  {
+    path: 'vehicle-states',
+    component: VehicleStatesComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'tripissues',
+    component: TripissuesComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'tmg-trip',
+    component: TmgTripComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'tmg-traffic',
+    component: TmgTrafficComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'issues-report',
+    component: IssuesReportComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
   {
 
     path: 'vehicle-kpis',
@@ -177,6 +194,12 @@ const routes: Routes = [{
 
     path: 'tickets-all',
     component: TicketsAllComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+
+    path: 'tickets-report',
+    component: TicketsReportComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
   {
@@ -220,7 +243,7 @@ const routes: Routes = [{
     component: CardMappingComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
- 
+
   {
 
     path: 'fuel-average-analysis',
@@ -455,6 +478,11 @@ const routes: Routes = [{
     component: DriverDocumentComponent,
     canActivate: [AuthGuard, RouteGuard]
 
+  }, {
+    path: 'driver-on-side-images',
+    component: OnSideImagesComponent,
+    canActivate: [AuthGuard, RouteGuard]
+
   },
 
 
@@ -635,27 +663,93 @@ const routes: Routes = [{
   {
     path: 'tmg-challan',
     component: TmgChallanComponent,
-    canActivate: [AuthGuard,RouteGuard]
-},
-{
-  path: 'tmg-dashboard',
-  component: TmgComponent,
-  canActivate: [AuthGuard,RouteGuard]
-},
-{
-  path: 'tmg-calls',
-  component: TmgCallsComponent,
-  canActivate: [AuthGuard,RouteGuard]
-},
-{
-  path: 'tmg-alerts',
-  component: TmgAlertsComponent,
-  canActivate: [AuthGuard,RouteGuard]
-},
+    canActivate: [AuthGuard, RouteGuard]
+  },
+  {
+    path: 'tmg-dashboard',
+    component: TmgComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  },
+  {
+    path: 'tmg-calls',
+    component: TmgCallsComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  },
+  {
+    path: 'tmg-alerts',
+    component: TmgAlertsComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  },
+  {
+    path: 'graphical-reports',
+    component: GraphicalReportsComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  },
+  {
+    path: 'ulheatmap',
+    component: UlheatmapComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'tripmasterreport',
+    component: TripmasterreportComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'placementoptimization',
+    component: PlacementoptimizationComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'night-drive-report',
+    component: NightDriveReportComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
 
+  {
+    path: 'transporter-view',
+    component: TransporterViewComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
 
-
-  
+  {
+    path: 'cooperate-view',
+    component: CooperateViewComponent
+  },
+  {
+    path: 'triptatreport',
+    component: TriptatreportComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'leadvalidationreport',
+    component: LeadvalidationreportComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'tripdeliverycomplinancereport',
+    component: TripdeliverycomplinancereportComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'tripstoppage',
+    component: TripstoppageComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },{
+    path: 'dynamic-report-dashboard',
+    component: DynamicReportDashboardComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'driver-preference',
+    component: DriverPreferencesComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'consignment',
+    component: ConsignmentComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
   ],
 }];
 

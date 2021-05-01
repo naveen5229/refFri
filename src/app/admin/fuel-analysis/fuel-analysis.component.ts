@@ -8,6 +8,9 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { VehicleWiseFuelFillingComponent } from '../../modals/vehicle-wise-fuel-filling/vehicle-wise-fuel-filling.component';
 import { PumpWiseFuelFillingComponent } from '../../modals/pump-wise-fuel-filling/pump-wise-fuel-filling.component';
 import { ModalWiseFuelAvgComponent } from '../../modals/modal-wise-fuel-avg/modal-wise-fuel-avg.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fuel-analysis',
   templateUrl: './fuel-analysis.component.html',
@@ -34,7 +37,8 @@ export class FuelAnalysisComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){

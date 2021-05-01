@@ -10,6 +10,9 @@ import { AddPumpComponent } from '../add-pump/add-pump.component';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FuelFillingTimetableComponent } from '../fuel-filling-timetable/fuel-filling-timetable.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'edit-filling',
   templateUrl: './edit-filling.component.html',
@@ -134,7 +137,8 @@ export class EditFillingComponent implements OnInit {
     this.getAllLedger();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
 
   }
 

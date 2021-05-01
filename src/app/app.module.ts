@@ -83,6 +83,7 @@ import { ChangeHaltComponent } from './modals/change-halt/change-halt.component'
 import { UpdateTicketPropertiesComponent } from './modals/update-ticket-properties/update-ticket-properties.component';
 import { EditLorryDetailsComponent } from './modals/edit-lorry-details/edit-lorry-details.component';
 import { AddTripComponent } from './modals/add-trip/add-trip.component';
+import { VerifyHaltsComponent } from './modals/verify-halts/verify-halts.component';
 import { ManualHaltComponent } from './modals/manual-halt/manual-halt.component';
 import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
@@ -300,6 +301,23 @@ import { IframeModalComponent } from './modals/iframe-modal/iframe-modal.compone
 import { UploadFileComponent } from './modals/generic-modals/upload-file/upload-file.component';
 import { FoSiteAliasComponent } from './modals/fo-site-alias/fo-site-alias.component';
 import { TripKmRepairViewComponent } from './modals/trip-km-repair-view/trip-km-repair-view.component';
+import { AdhocRouteComponent } from './modals/adhoc-route/adhoc-route.component';
+import { TollpaymentmanagementComponent } from './modals/tollpaymentmanagement/tollpaymentmanagement.component';
+import { AddmissingtollComponent } from './modals/addmissingtoll/addmissingtoll.component';
+import { TicketFormFieldComponent } from './modals/ticket-form-field/ticket-form-field.component';
+import { FormDataTableComponent } from './modals/form-data-table/form-data-table.component';
+import { AtSitesComponent } from './modals/at-sites/at-sites.component';
+import { OpenRejectTripsComponent } from './modals/open-reject-trips/open-reject-trips.component';
+import { PlacementoptimizeComponent } from './modals/placementoptimize/placementoptimize.component';
+import { PlacementOptimisationOnMapComponent } from './modals/placement-optimisation-on-map/placement-optimisation-on-map.component';
+import { PlacementConstraintsComponent } from './modals/placement-constraints/placement-constraints.component';
+import { PlacementRequirementComponent } from './modals/placement-requirement/placement-requirement.component';
+
+import { PlacementProblemGenerationComponent } from './modals/placement-problem-generation/placement-problem-generation.component';
+import { DriverConsentListComponent } from './modals/driver-consent-list/driver-consent-list.component';
+import { NearByVehiclesComponent } from './modals/near-by-vehicles/near-by-vehicles.component';
+import { ConciseColumnPrefrenceComponent } from './modals/concise-column-prefrence/concise-column-prefrence.component';
+import {MatRadioModule} from '@angular/material/radio';
 
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
@@ -556,7 +574,18 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   IframeModalComponent,
   UploadFileComponent,
   FoSiteAliasComponent,
-
+  AdhocRouteComponent,
+  TollpaymentmanagementComponent,
+  AddmissingtollComponent,
+  TicketFormFieldComponent,
+  FormDataTableComponent,
+  VerifyHaltsComponent,
+  PlacementoptimizeComponent,
+  PlacementOptimisationOnMapComponent,
+  PlacementConstraintsComponent,
+  DriverConsentListComponent,
+  PlacementProblemGenerationComponent,
+  ConciseColumnPrefrenceComponent
 ];
 
 @NgModule({
@@ -573,11 +602,21 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     CheckloginandredirectComponent,
     CheckloginandredirectComponent,
     TripKmRepairViewComponent,
-
+    TollpaymentmanagementComponent,
+    AddmissingtollComponent,
+    AtSitesComponent,
+    OpenRejectTripsComponent,
+    PlacementoptimizeComponent,
+    PlacementOptimisationOnMapComponent,
+    PlacementConstraintsComponent,
+    PlacementRequirementComponent,
+    PlacementProblemGenerationComponent,
+    NearByVehiclesComponent,
   ],
   entryComponents: [
     ...COMMON_COMPONENT,
-    VehicleInfoComponent
+    VehicleInfoComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -601,7 +640,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     PdfViewerModule,
     ResizableModule,
     DateInputsModule,
-    ScrollingModule
+    ScrollingModule,
+    MatRadioModule
   ],
 
   bootstrap: [AppComponent],

@@ -6,6 +6,9 @@ import { BranchComponent } from '../../acounts-modals/branch/branch.component';
 import { UserService } from '../../@core/data/users.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { AccountService } from '../../services/account.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'company-branches',
   templateUrl: './company-branches.component.html',
@@ -24,7 +27,8 @@ export class CompanyBranchesComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.GetBranchData();

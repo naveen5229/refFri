@@ -7,6 +7,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'payments-made',
   templateUrl: './payments-made.component.html',
@@ -31,7 +34,8 @@ export class PaymentsMadeComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){
@@ -51,7 +55,8 @@ export class PaymentsMadeComponent implements OnInit {
   }
   getPaymentMade() {
     this.total=0;
-    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.common.dateFormatter(new Date(this.startTime)) + "&enddate=" + this.common.dateFormatter(new Date(this.endTime));
+    let foid=this.user._loggedInBy=='admin' ? this.user._customer.foid : this.user._details.foid;
+    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.common.dateFormatter(new Date(this.startTime)) + "&enddate=" + this.common.dateFormatter(new Date(this.endTime))+"&foid="+foid ;
     this.common.loading++;
     let response;
     this.api.walle8Get('PaymentApi/FoPaymentsView.json?' + params)
@@ -70,7 +75,7 @@ export class PaymentsMadeComponent implements OnInit {
   }
 
   printPDF(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     console.log("Name:",name);
     let details = [
       ['Name: ' + name,'Start Date: '+this.common.dateFormatter1(this.startTime),'End Date: '+this.common.dateFormatter1(this.endTime),  'Report: '+'Payment-Made']
@@ -79,7 +84,7 @@ export class PaymentsMadeComponent implements OnInit {
   }
 
   printCSV(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     let details = [
       { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter1(this.startTime),enddate:'End Date:'+this.common.dateFormatter1(this.endTime), report:"Report:Payment-Made"}
     ];

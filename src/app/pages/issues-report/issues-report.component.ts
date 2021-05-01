@@ -6,6 +6,9 @@ import { UserService } from '../../services/user.service';
 import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
 import { ShowDataMapComponent } from '../../modals/generic-modals/show-data-map/show-data-map.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'issues-report',
   templateUrl: './issues-report.component.html',
@@ -42,7 +45,8 @@ export class IssuesReportComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

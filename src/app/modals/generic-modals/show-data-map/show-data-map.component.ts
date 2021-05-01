@@ -4,6 +4,9 @@ import { MapService } from '../../../services/map.service';
 import { ApiService } from '../../../services/api.service';
 import { CommonService } from '../../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'show-data-map',
   templateUrl: './show-data-map.component.html',
@@ -21,11 +24,12 @@ mapData = null;
    
     }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map");
+    this.mapService.mapIntialize("show-data-map-map");
     this.mapService.setMapType(0);
     this.mapService.map.setOptions({ draggableCursor: 'cursor' });
     if(this.mapData){

@@ -7,6 +7,9 @@ import * as _ from 'lodash';
 import { DateService } from '../../services/date/date.service';
 import { GeometryService } from '../../services/geometry/geometry.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fuel-filling-timetable',
   templateUrl: './fuel-filling-timetable.component.html',
@@ -58,11 +61,12 @@ export class FuelFillingTimetableComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map");
+    this.mapService.mapIntialize("fuel-filling-timetable-map");
     this.mapService.setMapType(0);
     this.mapService.zoomMap(5);
     this.mapService.map.setOptions({ draggableCursor: 'cursor' });

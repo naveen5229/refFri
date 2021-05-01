@@ -16,7 +16,7 @@
         (onSelected)="changeRouteType($event)" inputId="routeId"></auto-suggestion>
     </div>
     <div class="col-2 mt-1">
-      <label>Start Time</label>
+      <label>Start Time <input type="checkbox" name="start-time" [(ngModel)]="isNull" (ngModelChange)="handleTime()"></label>
     </div>
     <div class="col-2">
       <uj-date-time-picker [isDate]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">

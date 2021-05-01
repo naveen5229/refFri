@@ -6,6 +6,9 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoadHaltComponent } from '../../modals/load-halts/load-halt.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'halt-density',
   templateUrl: './halt-density.component.html',
@@ -33,13 +36,14 @@ export class HaltDensityComponent implements OnInit {
       this.commonService.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh(){
     console.log("refresh");
   }
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map");
+    this.mapService.mapIntialize("halt-density-map");
     this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => this.mapService.zoomAt({ lat: lat, lng: lng }, this.minZoom));
     this.mapService.map.setOptions({ draggableCursor: 'crosshair' });
     this.getTypeIds();

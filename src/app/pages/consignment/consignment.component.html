@@ -1,0 +1,44 @@
+<nb-card style="border:0px;">
+    <nb-card-header>
+        <div class="row">
+            <div class="col-3">
+                <h5>Consignment Dashboard</h5>
+            </div>
+            <div class="col-2">
+              <select [(ngModel)]='reporttype'  >
+                <option>Select Report Type</option>
+                <option value="DB"> DB</option>
+              </select>
+            </div>
+          
+            <div class="col-2">
+                <div class="btn btn-primary" (click)="getDynamicReports()">Get Report</div>
+            </div>
+          
+        </div>
+
+    </nb-card-header>
+
+    <nb-card-body>
+        <div class="reports-container">
+            <div class="row">
+                <button class="btn btn-primary" (click)="savereport()"> Save</button>
+            </div> 
+            <div class="report" *ngFor="let report of Reports;let i = index">
+                <div class="report-container row" >
+                    <div class="col-3">
+                    <input type="checkbox" [value]="true" [checked]="report.is_default"  [(ngModel)]="report.is_default">
+                    </div> 
+                    <span>{{report.col_title_actual}}</span>
+                    <div class="col-3">
+                    <input type="text" [value]="report.col_order" [(ngModel)]="report.col_order" />
+                    </div> 
+                    <div class="col-3">
+                   <input type="text" [(ngModel)]="report.col_title"/>
+                   <input type="hidden" [value]="report.col_id" [(ngModel)]="report.col_id" />
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

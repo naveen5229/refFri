@@ -5,6 +5,9 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ViewFrieghtInvoiceComponent } from '../view-frieght-invoice/view-frieght-invoice.component';
 import { SupportingDocComponent } from '../../LRModals/supporting-doc/supporting-doc.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'freight-invoice-rate',
   templateUrl: './freight-invoice-rate.component.html',
@@ -29,7 +32,8 @@ export class FreightInvoiceRateComponent implements OnInit {
     this.getFreightInvoiceRate();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

@@ -5,6 +5,9 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
 import { ImageViewComponent } from '../image-view/image-view.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-lr',
   templateUrl: './vehicle-lr.component.html',
@@ -30,7 +33,8 @@ export class VehicleLrComponent implements OnInit {
     this.ViewLr();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   searchVehicle(vehicleList) {
     this.vId = vehicleList.id;

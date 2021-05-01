@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import xml2js from 'xml2js';  
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'upload-routes',
   templateUrl: './upload-routes.component.html',
@@ -16,7 +19,8 @@ export class UploadRoutesComponent implements OnInit {
   constructor(public common: CommonService,
     public api: ApiService) { }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   UploadRoutes() {

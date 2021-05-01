@@ -5,6 +5,9 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-battery',
   templateUrl: './vehicle-battery.component.html',
@@ -53,7 +56,8 @@ export class VehicleBatteryComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
    }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){

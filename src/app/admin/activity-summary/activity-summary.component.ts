@@ -8,6 +8,9 @@ import { DatePipe, NumberFormatStyle } from '@angular/common';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { UserActivityStatusComponent } from '../../pages/user-activity-status/user-activity-status.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'activity-summary',
   templateUrl: './activity-summary.component.html',
@@ -45,7 +48,8 @@ export class ActivitySummaryComponent implements OnInit {
    
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {
