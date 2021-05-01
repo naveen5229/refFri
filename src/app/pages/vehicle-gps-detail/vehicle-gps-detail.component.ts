@@ -19,7 +19,15 @@ export class VehicleGpsDetailComponent implements OnInit {
 
   gpsDtails = [];
   foid;
-  table = null;
+  table = {
+    data: {
+      headings: null,
+      columns: []
+    },
+    settings: {
+      hideHeader: true, tableHeight: '75vh'
+    }
+  };
   constructor(public api: ApiService,
     private pdfService: PdfService,
     private csvService: CsvService,
@@ -32,8 +40,8 @@ export class VehicleGpsDetailComponent implements OnInit {
 
   }
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() { }
+  ngOnInit() {
   }
   refresh() {
     this.getVehicleGpsDetail();
@@ -57,9 +65,9 @@ ngOnInit() {
 
   setTable() {
     let headings = {
-      regno: { title: 'Vehicle regno', placeholder: 'Vehicle regno' },
-      apiProvider: { title: 'Api Provider', placeholder: 'Api Provider' },
-      lastCall: { title: 'last Call ', placeholder: 'last Call' },
+      regno: { title: 'Vehicle Reg No.', placeholder: 'Vehicle regno' },
+      apiProvider: { title: 'API Details', placeholder: 'API Details' },
+      lastCall: { title: 'Last Call ', placeholder: 'Last Call' },
       time: { title: 'Date Time ', placeholder: 'Date Time ' },
     };
     return {
@@ -77,11 +85,13 @@ ngOnInit() {
   getTableColumns() {
     let columns = [];
     this.gpsDtails.map(doc => {
+      let apiProvider = doc.apiprovider ? (doc.apiprovider.charAt(0).toUpperCase() + doc.apiprovider.slice(1)) : '';
+      console.log('apiProvider', apiProvider);
       let column = {
         regno: { value: doc.regno },
-        apiProvider: { value: doc.apiprovider },
-        lastCall:  {value : doc.lastcalldt}, //{ value: this.datePipe.transform(doc.lastcalldt, 'dd MMM HH:mm') },
-        time: {value : doc.dttime }//{ value: this.datePipe.transform(doc.dttime, 'dd MMM HH:mm') },
+        apiProvider: { value: apiProvider },
+        lastCall: { value: doc.lastcalldt }, //{ value: this.datePipe.transform(doc.lastcalldt, 'dd MMM HH:mm') },
+        time: { value: doc.dttime }//{ value: this.datePipe.transform(doc.dttime, 'dd MMM HH:mm') },
 
       };
       columns.push(column);
@@ -128,19 +138,19 @@ ngOnInit() {
 
   // }
 
-  printPDF(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
-    console.log("Name:",name);
+  printPDF() {
+    let name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:", name);
     let details = [
-      ['Name: ' + name,'Report: '+'Vehicle-GPS-Details']
+      ['Name: ' + name, 'Report: ' + 'Vehicle-GPS-Details']
     ];
     this.pdfService.jrxTablesPDF(['gpsDetails'], 'gps-Details', details);
   }
 
-  printCsv(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+  printCsv() {
+    let name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.name;
     let details = [
-      { name: 'Name:' + name,report:"Report:Vehicle-GPS-Details"}
+      { name: 'Name:' + name, report: "Report:Vehicle-GPS-Details" }
     ];
     this.csvService.byMultiIds(['gpsDetails'], 'gps-Details', details);
   }
