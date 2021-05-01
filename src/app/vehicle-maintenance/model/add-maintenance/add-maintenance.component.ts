@@ -28,7 +28,7 @@ export class AddMaintenanceComponent implements OnInit {
   isItem = 0;
   isChecks = {};
   serviceDetails = {
-    lastServiceDate: null,
+    lastServiceDate: new Date(),
     invoiceNo: null,
     serviceCategory: '1',
     scheduleServices: "true",
@@ -112,15 +112,18 @@ export class AddMaintenanceComponent implements OnInit {
             console.log("General",this.serviceDetails.scheduleServices)
             if(this.serviceDetails.scheduleServices=="true"){
               this.isChecks[i]=true;
+              this.addType(ele['id'],true);
             }else{
               this.isChecks[i]=false;
             }
           }
          else if(ele.id==this.sId){
             this.isChecks[i]=true;
+            this.addType(ele['id'],true);
           }
           return;
         })
+       
         console.log("Maintenance Type", this.serviceType);
       }, err => {
         this.common.loading--;
