@@ -121,6 +121,7 @@ import { TripstoppageComponent } from './tripstoppage/tripstoppage.component';
 import { DynamicReportDashboardComponent } from './dynamic-report-dashboard/dynamic-report-dashboard.component';
 import { DriverConsentListComponent } from '../modals/driver-consent-list/driver-consent-list.component';
 import { DriverPreferencesComponent } from './driver-preferences/driver-preferences.component';
+import { ConsignmentComponent } from './consignment/consignment.component';
 
 
 const routes: Routes = [{
@@ -742,6 +743,11 @@ const routes: Routes = [{
   {
     path: 'driver-preference',
     component: DriverPreferencesComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'consignment',
+    component: ConsignmentComponent,
     canActivate: [AuthGuard, RouteGuard],
   },
   ],

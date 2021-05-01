@@ -232,6 +232,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/transporter-view',
         home: true,
       },
+      {
+        title: 'Consignment',
+        // icon: 'fa-chart-pie',
+        link: '/pages/consignment',
+        home: true,
+      },
 
       {
         title: 'Corporate TMG Dashboard',

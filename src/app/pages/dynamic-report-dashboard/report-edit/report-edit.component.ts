@@ -4,6 +4,7 @@ import interact from 'interactjs';
 import { CommonService } from '../../../services/common.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
+import { prepareEventListenerParameters } from '@angular/compiler/src/render3/view/template';
 
 @Component({
   selector: 'report-edit',
@@ -190,6 +191,7 @@ export class ReportEditComponent implements OnInit {
   }
 
   saveReport() {
+    if(this.tabname){
     const data = this.reports
       .filter(report => report.isUsed)
       .map(report => {
@@ -211,6 +213,7 @@ export class ReportEditComponent implements OnInit {
           'rptheight': height,
           'rptname': report.name,
           'tabname': this.tabname,
+          'tabtitle': report.name,
           'ypos': parseInt(y.toString()) || 1,
           'xpos': parseInt(x.toString()) || 1
         }
@@ -232,6 +235,9 @@ export class ReportEditComponent implements OnInit {
       this.common.loading--;
       this.activeModal.close();
     }, 1000);
+  }else{
+    this.common.showError('Tab Name Mandatory');
+  }
   }
 
   deleteReport(report) {
