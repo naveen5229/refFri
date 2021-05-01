@@ -81,6 +81,8 @@ export class TripmasterreportComponent implements OnInit {
             return item;
           })
 
+          this.createSmartTableData();
+
           console.log("tripData:", this.tripData);
 
 
@@ -140,6 +142,102 @@ export class TripmasterreportComponent implements OnInit {
       container: "nb-layout",
       windowClass: "myCustomModalClass"
     });
+  }
+
+  createSmartTableData() {
+    let headings = {
+      trip_id: { placeholder: 'Trip Id' },
+      regno: { placeholder: 'Vehicle No.' },
+      trip_onward_status: { placeholder: 'Onward Status' },
+      inv_start_time: { placeholder: 'Invoice Date & Time' },
+      receipt_no: { placeholder: 'LR No.' },
+      product_name: { placeholder: 'Product Name' },
+      route_name: { placeholder: 'Route Name' },
+      lead_dis: { placeholder: 'Lead Distance' },
+      gps_dis: { placeholder: 'GPS Distance' },
+      route_kms: { placeholder: 'AI Repaired Distance' },
+      lead_dis_deviation: { placeholder: 'Lead Distance Deviation' },
+      dest_deviation: { placeholder: 'Destination Deviation' },
+      cnee: { placeholder: 'Consignee' },
+      cnor: { placeholder: 'Consignor' },
+      mode: { placeholder: 'Mode' },
+      gps_per: { placeholder: 'GPS %' },
+      sim_per: { placeholder: 'SIM %' },
+      org_loc_name: { placeholder: 'Org Location' },
+      org_trans_time: { placeholder: 'Org Reporting Time' },
+      org_act_start_time: { placeholder: 'Org Entry Time' },
+      org_act_end_time: { placeholder: 'Org Exit Time' },
+      org_load_time: { placeholder: 'Org Detention' },
+      org_delay: { placeholder: 'Org Delay' },
+      via_loc_name: { placeholder: 'Via Location' },
+      via_trans_time: { placeholder: 'Via Reporting Time' },
+      via_act_start_time: { placeholder: 'Via Entry Time' },
+      via_act_end_time: { placeholder: 'Via Exit Time' },
+      via_dest_name: { placeholder: 'Via Detention' },
+      via_delay: { placeholder: 'Via Delay' },
+      dest_loc_name: { placeholder: 'Dest Location' },
+      dest_trans_time: { placeholder: 'Dest Reporting Time' },
+      dest_act_start_time: { placeholder: 'Dest Entry Time' },
+      dest_act_end_time: { placeholder: 'Dest Exit Time' },
+      unload_time: { placeholder: 'Dest Detention' },
+      dest_delay: { placeholder: 'Dest Delay' },
+      trip_time: { placeholder: 'Total Trip Time' },
+      trip_delay: { placeholder: 'Total Trip Delay' },
+      weight: { placeholder: 'Weight' },
+      toll_count: { placeholder: 'Toll Count' },
+      stoppagecount: { placeholder: 'Halt' },
+      driver_name: { placeholder: 'Driver Name' },
+      driver_mobile: { placeholder: 'Driver Mobile' },
+      expire_veh_count: { placeholder: 'Expired Doc. Count' },
+      challan_amount: { placeholder: 'Challan date/Amount' },
+      trip_stamp_status: { placeholder: 'Stamp Status' }
+    }
+    let rows = this.tripData.map(trip => {
+      let row = {};
+      Object.keys(headings)
+        .map(heading => {
+          let value = trip[heading];
+          if (heading.startsWith('org_')) {
+            value = trip.origin[heading.replace('org_', '')];
+            if (heading.endsWith('load_time')) {
+              value = trip.load_time;
+            }
+          } else if (heading.startsWith('via_')) {
+            value = trip.via[heading.replace('org_', '')];
+          } else if (heading.startsWith('dest_')) {
+            value = trip.destination[heading.replace('dest_', '')];
+            if (heading.endsWith('unload_time')) {
+              value = trip.unload_time;
+            }
+          }
+          let action = null;
+          let className = null;
+          if (heading == 'route_kms') {
+            action = this.openTripKmRepair.bind(this, trip);
+            className = 'blue';
+          } else if (heading == 'toll_count') {
+            action = this.tollPaymentManagement.bind(this, trip);
+            className = 'blue';
+          } else if (heading == 'stoppagecount') {
+            action = this.showRouteMapper.bind(this, trip);
+            className = 'blue';
+          }
+          row[heading] = { value, action, class: className }
+        });
+      return row;
+    });
+    this.table.data = {
+      headings,
+      columns: rows
+    }
+  }
+
+  downloadPdf() {
+    this.common.getPDFFromTableId('trip-master-report');
+  }
+
+  downloadExcel() {
+    this.common.getCSVFromTableId('trip-master-report');
   }
 
 }

@@ -2,9 +2,12 @@
     <nb-card-header>
         <div class="row">
             <div class="col-6">
-                <h5>Dynamic Report Dashboard</h5>
+                <h5>Business Dashboard</h5>
             </div>
-            <div class="col-6 text-right">
+            <div class="col-3 text-right">
+                <input type="text" [(ngModel)]=tabname class="form-control" placeholder="Enter Tab Name">
+            </div>
+            <div class="col-3 text-right">
                 <button class="btn btn-primary" (click)="saveReport()">Save</button>
             </div>
         </div>
@@ -19,6 +22,15 @@
                     <div class="dataelements" *ngFor="let report of reports;let i = index" [hidden]="report.isUsed"
                         draggable="true" [id]="'option-' + report._id" (dragstart)="selectDraggable(report)">
                         <span>{{report.name}}</span>
+                    </div>
+                </div>
+                <div class="holdContainer" *ngIf="predefined">
+                    <div  *ngFor="let prereport of predefined;let i = index" (click)="activeTreeasset = activeTreeasset !== i ? i : -1" >
+                        <span>{{prereport[0].dashboard_name}}</span>
+                        <div class="dataelements" *ngFor="let prere of prereport;let i = index"  [active]="activeTreeasset == i ? true : false"  
+                            draggable="true" [id]="'option-' + prere.id" (dragstart)="selectDraggable(prere)">
+                            <span>{{prere.rpt_title}}</span>
+                        </div>
                     </div>
                 </div>
             </div>

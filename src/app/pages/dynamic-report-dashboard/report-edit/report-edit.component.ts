@@ -3,6 +3,8 @@ import { ApiService } from '../../../services/api.service';
 import interact from 'interactjs';
 import { CommonService } from '../../../services/common.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import * as _ from 'lodash';
+import { prepareEventListenerParameters } from '@angular/compiler/src/render3/view/template';
 
 @Component({
   selector: 'report-edit',
@@ -14,8 +16,11 @@ export class ReportEditComponent implements OnInit {
   reports = [];
   draggingReport = null;
   dynamicReports = [];
+  tabname = '';
+  predefined = [];
   constructor(private api: ApiService, private common: CommonService, private activeModal: NgbActiveModal) {
     this.getSavedReports();
+    this.getpredefinedReports();
   }
 
   ngOnInit(): void {
@@ -33,6 +38,34 @@ export class ReportEditComponent implements OnInit {
     this.api.post('tmgreport/GetDynamicReportMaster', params)
       .subscribe(res => {
         console.log('res:', res);
+      }, err => {
+        console.log('err:', err);
+      })
+  }
+  getpredefinedReports() {
+    this.api.get('tmgreport/getdynamicreport')
+      .subscribe(res => {
+        let dao = _.groupBy(res['data'], 'dashboard_name');
+        this.predefined = [];
+        Object.keys(dao)
+          .map(key => {
+            this.predefined.push(dao[key]);
+          })
+          console.log('predefined', this.predefined);
+        // dao.map( (data)=>{
+        //   console.log('res before:',data);
+        //   this.predefined.push(data)
+        //  })
+
+
+        // for (let i = 0; i < dao.length; i++) {
+        //   console.log('res predefined:', dao[i]);
+        //   let ledgerRegister = dao[i];
+        //   this.predefined[i].push(ledgerRegister);
+
+        // }
+        console.log('res predefined:', this.predefined);
+
       }, err => {
         console.log('err:', err);
       })
@@ -158,6 +191,7 @@ export class ReportEditComponent implements OnInit {
   }
 
   saveReport() {
+    if(this.tabname){
     const data = this.reports
       .filter(report => report.isUsed)
       .map(report => {
@@ -178,6 +212,8 @@ export class ReportEditComponent implements OnInit {
           'rptwidth': width,
           'rptheight': height,
           'rptname': report.name,
+          'tabname': this.tabname,
+          'tabtitle': report.name,
           'ypos': parseInt(y.toString()) || 1,
           'xpos': parseInt(x.toString()) || 1
         }
@@ -199,6 +235,9 @@ export class ReportEditComponent implements OnInit {
       this.common.loading--;
       this.activeModal.close();
     }, 1000);
+  }else{
+    this.common.showError('Tab Name Mandatory');
+  }
   }
 
   deleteReport(report) {
