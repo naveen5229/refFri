@@ -21,10 +21,22 @@
 
     <nb-card-body>
         <div class="reports-container">
+            <div class="row">
+                <button class="btn btn-primary" (click)="savereport()"> Save</button>
+            </div> 
             <div class="report" *ngFor="let report of Reports;let i = index">
                 <div class="report-container row" >
-                    <input type="checkbox">
-                   <input type="text" [value]="report.col_title"/>
+                    <div class="col-3">
+                    <input type="checkbox" [value]="true" [checked]="report.is_default"  [(ngModel)]="report.is_default">
+                    </div> 
+                    <span>{{report.col_title_actual}}</span>
+                    <div class="col-3">
+                    <input type="text" [value]="report.col_order" [(ngModel)]="report.col_order" />
+                    </div> 
+                    <div class="col-3">
+                   <input type="text" [(ngModel)]="report.col_title"/>
+                   <input type="hidden" [value]="report.col_id" [(ngModel)]="report.col_id" />
+                    </div> 
                 </div>
             </div>
         </div>
