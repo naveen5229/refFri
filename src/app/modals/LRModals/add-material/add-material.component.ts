@@ -4,6 +4,9 @@ import { UserService } from '../../../services/user.service';
 import { CommonService } from '../../..//services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-material',
   templateUrl: './add-material.component.html',
@@ -22,7 +25,8 @@ export class AddMaterialComponent implements OnInit {
 
   ) { }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   saveReceipts() {

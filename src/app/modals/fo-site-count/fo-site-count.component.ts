@@ -4,6 +4,9 @@ import { MapService } from '../../services/map.service';
 import { ApiService } from "../../services/api.service";
 import { CommonService } from '../../services/common.service';
 import { DateService } from '../../services/date.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fo-site-count',
   templateUrl: './fo-site-count.component.html',
@@ -31,7 +34,8 @@ export class FoSiteCountComponent implements OnInit {
     this.table = this.setTable();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   selectFoUser(user) {
     this.foid = user.id;

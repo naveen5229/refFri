@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { FuelDailyCunsumtionConditionComponent } from '../fuel-daily-cunsumtion-condition/fuel-daily-cunsumtion-condition.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fuel-daily-cunsumtion',
   templateUrl: './fuel-daily-cunsumtion.component.html',
@@ -50,7 +53,8 @@ export class FuelDailyCunsumtionComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

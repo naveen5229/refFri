@@ -5,6 +5,9 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'mv-gps-apis',
   templateUrl: './mv-gps-apis.component.html',
@@ -30,7 +33,8 @@ export class MvGpsApisComponent implements OnInit {
     this.getMvGpsDetails();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

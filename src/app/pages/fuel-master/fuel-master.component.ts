@@ -7,6 +7,9 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { ModalWiseFuelAverageComponent } from '../../modals/modal-wise-fuel-average/modal-wise-fuel-average.component';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fuel-master',
   templateUrl: './fuel-master.component.html',
@@ -50,7 +53,8 @@ export class FuelMasterComponent implements OnInit {
     this.getFuelAvg();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

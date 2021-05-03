@@ -7,17 +7,17 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'financial-toll-summary',
   templateUrl: './financial-toll-summary.component.html',
   styleUrls: ['./financial-toll-summary.component.scss']
 })
 export class FinancialTollSummaryComponent implements OnInit {
-  dates = {
-    start: null,
-
-    end: this.common.dateFormatter(new Date()),
-  };
+  startDate = new Date(new Date().setDate(new Date().getDate() - 7));
+  endDate = new Date();
   table = null;
   data = [];
   balance = [];
@@ -25,6 +25,7 @@ export class FinancialTollSummaryComponent implements OnInit {
   closingBalance = null;
   vehid = 6754;
   mobileno = this.user._details.mobileno;
+
   constructor(
     public api: ApiService,
     private pdfService: PdfService,
@@ -33,82 +34,31 @@ export class FinancialTollSummaryComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
   ) {
-
-    //this.getdoubleTollReport();
-    // this.getBalance();
-    let today = new Date();
-    this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 30)));
     this.getfinancialTollReport();
     this.common.refresh = this.refresh.bind(this);
+    }
 
-  }
-
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){
     this.getfinancialTollReport();
   }
-  getDate(date) {
-    this.common.params = { ref_page: "card usage" };
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log('Date:', this.dates);
-    });
-  }
-
-
-  // printPDF(tblEltId) {
-  //   this.common.loading++;
-  //   let userid = this.user._customer.id;
-  //   if (this.user._loggedInBy == "customer")
-  //     userid = this.user._details.id;
-  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       let fodata = res['data'];
-  //       let left_heading = fodata['name'];
-  //       let center_heading = "Financial Report";
-  //       this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
-  // }
-
-  // printCSV(tblEltId) {
-  //   this.common.loading++;
-  //   let userid = this.user._customer.id;
-  //   if (this.user._loggedInBy == "customer")
-  //     userid = this.user._details.id;
-  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       let fodata = res['data'];
-  //       let left_heading = fodata['name'];
-  //       let center_heading = "Financial Report";
-  //       this.common.getCSVFromTableId(tblEltId, left_heading, center_heading);
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
-  // }
-
-
+  
   printPDF(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     console.log("Name:",name);
     let details = [
-      ['Name: ' + name,'Start Date: '+this.common.dateFormatter1(this.dates.start),'End Date: '+this.common.dateFormatter1(this.dates.end),  'Report: '+'Financial-Toll-Summary']
+      ['Name: ' + name,'Start Date: '+this.common.dateFormatter(new Date(this.startDate)),'End Date: '+this.common.dateFormatter(new Date(this.endDate)),  'Report: '+'Financial-Toll-Summary']
     ];
     this.pdfService.jrxTablesPDF(['FinancialReport'], 'financial-toll-summary', details);
   }
 
   printCSV(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     let details = [
-      { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter1(this.dates.start),enddate:'End Date:'+this.common.dateFormatter1(this.dates.end), report:"Report:Financial-Toll-Summary"}
+      { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter(new Date(this.startDate)),enddate:'End Date:'+this.common.dateFormatter(new Date(this.endDate)), report:"Report:Financial-Toll-Summary"}
     ];
     this.csvService.byMultiIds(['FinancialReport'], 'financial-toll-summary', details);
   }
@@ -130,7 +80,7 @@ export class FinancialTollSummaryComponent implements OnInit {
       },
       settings: {
         hideHeader: true,
-        tableHeight: "auto"
+        tableHeight: "38vh"
       }
     }
   }
@@ -144,39 +94,24 @@ export class FinancialTollSummaryComponent implements OnInit {
         amount: { value: req.amount == null ? "-" : req.amount },
         balance: { value: req.balance == null ? "-" : req.balance },
         entry_type: { value: req.entry_type == null ? "-" : req.entry_type },
-
-
       };
       columns.push(column);
     });
     return columns;
   }
   getfinancialTollReport() {
-    let params = "startDate=" + this.dates.start + "&endDate=" + this.dates.end;
-    // console.log("api hit");
-    this.common.loading++;
-    this.api.walle8Get('FinancialAccountSummary/getOpeningAndClosingBalance.json?' + params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('Res:', res);
-        this.balance = res['data'];
-        if (this.balance == null) {
-          this.balance = [];
-        }
-        this.openingBalance = this.balance[0].opening_balance;
-        this.closingBalance = this.balance[0].closing_balance;
-
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-    let param = "startDate=" + this.dates.start + "&endDate=" + this.dates.end;
+    let foid=this.user._loggedInBy=='admin' ? this.user._customer.foid : this.user._details.foid;
+    let param = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate))+"&mobileno=" + this.user._details.fo_mobileno+"&foid="+foid;;
     this.common.loading++;
     this.api.walle8Get('FinancialAccountSummary/getFinancialAccountSummary.json?' + param)
       .subscribe(Res => {
         this.common.loading--;
         console.log('Res:', Res);
-        this.data = Res['data'];
+        if (Res && Res['data'] && Res['data'].length > 0) {
+          this.data = Res['data'];
+          this.calculateAmount(this.data);
+        }
+
         if (this.data == null) {
           this.data = [];
           this.table = null;
@@ -189,20 +124,23 @@ export class FinancialTollSummaryComponent implements OnInit {
         console.log(err);
       });
   }
-  // getdoubleTollReport() {
-  //   let params = "&startDate=" + this.dates.start + "&endDate=" + this.dates.end;
-  //   // console.log("api hit");
-  //   this.common.loading++;
-  //   this.api.walle8Get('FinancialAccountSummary/getOpeningAndClosingBalance.json?' + params)
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       console.log('Res:', res);
-  //       this.data = res['data'];
 
 
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
-  // }
+
+  calculateAmount(arr) {
+    let usageStatus = arr[0]['entry_type'];
+    let opening_balance_new = arr[0]['balance'];
+    let usageAmount = arr[0]['amount'];
+
+    console.log("usageStatus", (usageStatus).toLowerCase, "opening_balance_new", opening_balance_new, "usageAmount", usageAmount)
+    if ((usageStatus).toLowerCase() == "usage") {
+
+      this.openingBalance = parseInt(opening_balance_new) - usageAmount;
+    } else {
+      this.openingBalance = parseInt(opening_balance_new) + (usageAmount);
+    }
+    this.closingBalance = arr[(arr.length - 1)]['balance'];
+  }
+
+
 }

@@ -6,6 +6,9 @@ import { ApiService } from '../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'lr-invoice-columns',
   templateUrl: './lr-invoice-columns.component.html',
@@ -37,7 +40,8 @@ export class LrInvoiceColumnsComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   closeModal() {
     this.activeModal.close();

@@ -13,6 +13,9 @@ import { PrintService } from '../../services/print/print.service';
 import { PdfService } from '../../services/pdf/pdf.service';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'orderdetail',
   templateUrl: './orderdetail.component.html',
@@ -134,7 +137,8 @@ export class OrderdetailComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

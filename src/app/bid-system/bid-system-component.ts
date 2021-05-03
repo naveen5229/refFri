@@ -3,6 +3,9 @@ import { Component } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ngx-pages',
   template: `
@@ -21,4 +24,5 @@ export class BidSystemComponent {
     // }
 
   }
+  ngOnDestroy(){}
 }

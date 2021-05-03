@@ -7,17 +7,22 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'financial-main-summary',
   templateUrl: './financial-main-summary.component.html',
   styleUrls: ['./financial-main-summary.component.scss']
 })
 export class FinancialMainSummaryComponent implements OnInit {
-  dates = {
-    start: null,
+  // dates = {
+  //   start: null,
 
-    end: this.common.dateFormatter(new Date()),
-  };
+  //   end: this.common.dateFormatter(new Date()),
+  // };
+  startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  endDate = new Date();
   table = null;
   data = [];
   mobileNo = null;
@@ -32,63 +37,28 @@ export class FinancialMainSummaryComponent implements OnInit {
     public modalService: NgbModal,
   ) {
     console.log("this.user._customer",this.user._customer);
-    this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 30)));
+    // this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 30)));
     this.getfinancialMainSummary();
     this.common.refresh = this.refresh.bind(this);
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){
     this.getfinancialMainSummary();
   }
-  getDate(date) {
-    this.common.params = { ref_page: "card usage" };
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log('Date:', this.dates);
-    });
-  }
-  // printPDF(tblEltId) {
-  //   this.common.loading++;
-  //   let userid = this.user._customer.id;
-  //   if (this.user._loggedInBy == "customer")
-  //     userid = this.user._details.id;
-  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       let fodata = res['data'];
-  //       let left_heading = fodata['name'];
-  //       let center_heading = "Financial Report";
-  //       this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
+  // getDate(date) {
+  //   this.common.params = { ref_page: "card usage" };
+  //   const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+  //   activeModal.result.then(data => {
+  //     this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
+  //     console.log('Date:', this.dates);
+  //   });
   // }
-
-  // printCSV(tblEltId) {
-  //   this.common.loading++;
-  //   let userid = this.user._customer.id;
-  //   if (this.user._loggedInBy == "customer")
-  //     userid = this.user._details.id;
-  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       let fodata = res['data'];
-  //       let left_heading = fodata['name'];
-  //       let center_heading = "Financial Report";
-  //       this.common.getCSVFromTableId(tblEltId, left_heading, center_heading);
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
-  // }
-
-
+  
   setTable() {
     let headings = {
       vehid: { title: 'Vehicle', placeholder: 'Vehicle' },
@@ -106,7 +76,7 @@ export class FinancialMainSummaryComponent implements OnInit {
       },
       settings: {
         hideHeader: true,
-        tableHeight: "auto"
+        tableHeight: "60vh"
       }
     }
   }
@@ -132,7 +102,8 @@ export class FinancialMainSummaryComponent implements OnInit {
     if (this.user._loggedInBy == "customer")
       mobileNo = this.user._details.mobileNo;
 
-    let param = "startDate=" + this.dates.start + "&endDate=" + this.dates.end+ "&mobileno="+mobileNo;
+      let foid=this.user._loggedInBy=='admin' ? this.user._customer.foid : this.user._details.foid;
+    let param = "startDate=" + this.common.dateFormatter(new Date(this.startDate)) + "&endDate=" + this.common.dateFormatter(new Date(this.endDate))+"&mobileno=" + this.user._details.fo_mobileno+"&foid="+foid;
     this.common.loading++;
     this.api.walle8Get('FinancialAccountSummary/getFinancialAccountMainSummary.json?' + param)
       .subscribe(Res => {
@@ -155,20 +126,21 @@ export class FinancialMainSummaryComponent implements OnInit {
   }
 
   printPDF(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     console.log("Name:",name);
     let details = [
-      ['Name: ' + name,'Start Date: '+this.common.dateFormatter1(this.dates.start),'End Date: '+this.common.dateFormatter1(this.dates.end),  'Report: '+'Financial-Main-Summary']
+      ['Name: ' + name, 'Report: '+'Customer Receipt & Toll Recharges'],
+      ['Start Date: '+this.common.dateFormatter(new Date(this.startDate)),'End Date: '+this.common.dateFormatter(new Date(this.endDate))]
     ];
-    this.pdfService.jrxTablesPDF(['FinancialReport'], 'financial-main-summary', details);
+    this.pdfService.jrxTablesPDF(['FinancialReport'], 'Customer Receipt & Toll Recharges', details);
   }
 
   printCSV(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     let details = [
-      { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter1(this.dates.start),enddate:'End Date:'+this.common.dateFormatter1(this.dates.end), report:"Report:Financial-Main-Summary"}
+      { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter(new Date(this.startDate)),enddate:'End Date:'+this.common.dateFormatter(new Date(this.endDate)), report:"Report:Customer Receipt & Toll Recharges"}
     ];
-    this.csvService.byMultiIds(['FinancialReport'], 'financial-main-summary', details);
+    this.csvService.byMultiIds(['FinancialReport'], 'Customer Receipt & Toll Recharges', details);
   }
 
 }

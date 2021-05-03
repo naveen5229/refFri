@@ -4,7 +4,12 @@ import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { ConfirmComponent } from '../../confirm/confirm.component';
 import { UserService } from '../../../services/user.service';
+import { PdfService } from '../../../services/pdf/pdf.service';
+import { CsvService } from '../../../services/csv/csv.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'transfer-receipts',
   templateUrl: './transfer-receipts.component.html',
@@ -78,10 +83,14 @@ export class TransferReceiptsComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public activeModal: NgbActiveModal,
+    private pdfService: PdfService,
+    private csvService: CsvService,
     public api: ApiService) {
     this.getPaymentMode();
     this.getTypeList();
     console.log("this.common.params.refData", this.common.params.refData);
+    
+    this.common.handleModalSize('class', 'modal-lg', '1150', 'px');
     if (this.common.params && this.common.params.refData) {
       this.refData = this.common.params.refData;
       this.edit = 1;
@@ -101,7 +110,8 @@ export class TransferReceiptsComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 
@@ -375,7 +385,8 @@ export class TransferReceiptsComponent implements OnInit {
         console.log(res['data'][0].result);
         if (res['data'][0].y_id > 0) {
           this.common.showToast(res['data'][0].y_msg);
-          this.activeModal.close({ data: true });
+          // this.activeModal.close({ data: true });
+          this.showdata();
         }
         else {
           this.common.showError(res['data'][0].y_msg);
@@ -431,6 +442,21 @@ export class TransferReceiptsComponent implements OnInit {
     data.ref_type_name;
 
 
+  }
+
+  printPDF(){
+    console.log("Name:",name);
+    let details = [
+      ['Regno: ' + this.transferReceipt.vehicleRegNo, this.referenceName+":" +this.transferReceipt.refTypeName]
+    ];
+    this.pdfService.jrxTablesPDF(['freightwithLocation'], 'Transfers', details);
+  }
+
+  printCSV(){
+    let details = [
+      { Regno: 'Regno:' +  this.transferReceipt.vehicleRegNo,reftype:this.referenceName+":" +this.transferReceipt.refTypeName}
+    ];
+    this.csvService.byMultiIds(['freightwithLocation'], 'Transfers', details);
   }
 
 }

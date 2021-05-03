@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { DateService } from '../../services/date/date.service';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'site-in-out',
   templateUrl: './site-in-out.component.html',
@@ -44,7 +47,8 @@ export class SiteInOutComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
 
   }
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     this.getAllFoSites();

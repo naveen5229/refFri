@@ -9,6 +9,9 @@ import * as _ from 'lodash';
 import { CostCenterViewComponent } from '../../acounts-modals/cost-center-view/cost-center-view.component';
 import { AccountService } from '../../services/account.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'cost-center-report',
   templateUrl: './cost-center-report.component.html',
@@ -63,7 +66,8 @@ export class CostCenterReportComponent implements OnInit {
     this.common.currentPage = 'Cost Category Report';
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     // this.getVoucherTypeList();

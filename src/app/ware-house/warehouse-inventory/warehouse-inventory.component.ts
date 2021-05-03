@@ -5,6 +5,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { ApiService } from '../../services/api.service';
 import { GotPassComponent } from '../modal/got-pass/got-pass.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'warehouse-inventory',
   templateUrl: './warehouse-inventory.component.html',
@@ -37,7 +40,8 @@ export class WarehouseInventoryComponent implements OnInit {
 
   }
   stateDetail = [];
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){

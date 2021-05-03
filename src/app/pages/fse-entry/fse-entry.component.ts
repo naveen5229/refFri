@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fse-entry',
   templateUrl: './fse-entry.component.html',
@@ -19,7 +22,8 @@ export class FSEEntryComponent implements OnInit {
     public common:CommonService
   ) { }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   setTable() {

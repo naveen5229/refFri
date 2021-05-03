@@ -5,6 +5,9 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../services/account.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'accounts',
   templateUrl: './accounts.component.html',
@@ -59,7 +62,8 @@ console.log('accounts get data',this.common.params);
     this.common.handleModalSize('class', 'modal-lg', '1250', 'px', 0);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   dismiss(response) {
     console.log('Accounts:', this.Accounts);

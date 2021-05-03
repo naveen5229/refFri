@@ -8,6 +8,9 @@ import { TemplatePreviewComponent } from '../../modals/template-preview/template
 import { LrGenerateComponent } from '../../modals/LRModals/lr-generate/lr-generate.component';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'dispatch-orders',
   templateUrl: './dispatch-orders.component.html',
@@ -35,7 +38,8 @@ export class DispatchOrdersComponent implements OnInit {
     this.getDispatchOrders();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getDispatchOrders() {

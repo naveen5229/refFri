@@ -4,6 +4,9 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'multi-vehicle-halt-add',
   templateUrl: './multi-vehicle-halt-add.component.html',
@@ -51,7 +54,8 @@ export class MultiVehicleHaltAddComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   submit() {

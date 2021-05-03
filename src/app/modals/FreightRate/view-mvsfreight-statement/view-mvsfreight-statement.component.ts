@@ -3,6 +3,9 @@ import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'view-mvsfreight-statement',
   templateUrl: './view-mvsfreight-statement.component.html',
@@ -33,7 +36,8 @@ export class ViewMVSFreightStatementComponent implements OnInit {
    this.printInvoice();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

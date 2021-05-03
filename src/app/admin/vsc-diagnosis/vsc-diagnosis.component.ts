@@ -6,6 +6,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { FoSiteCountComponent } from '../../modals/fo-site-count/fo-site-count.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vsc-diagnosis',
   templateUrl: './vsc-diagnosis.component.html',
@@ -46,7 +49,8 @@ export class VscDiagnosisComponent implements OnInit {
     this.getSiteRule();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getSiteRule() {

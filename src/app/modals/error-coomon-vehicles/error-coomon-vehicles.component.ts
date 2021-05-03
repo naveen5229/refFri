@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'error-coomon-vehicles',
   templateUrl: './error-coomon-vehicles.component.html',
@@ -20,7 +23,8 @@ export class ErrorCoomonVehiclesComponent implements OnInit {
     this.title = this.common.params.title;
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   closeModal() {
     this.activeModal.close();

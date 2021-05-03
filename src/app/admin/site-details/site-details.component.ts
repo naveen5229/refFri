@@ -6,6 +6,9 @@ import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UpdateSiteDetailsComponent } from '../../modals/update-site-details/update-site-details.component';
 import { ReportIssueComponent } from '../../modals/report-issue/report-issue.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'site-details',
   templateUrl: './site-details.component.html',
@@ -22,7 +25,8 @@ export class SiteDetailsComponent implements OnInit {
 
    }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh() {

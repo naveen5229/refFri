@@ -12,6 +12,9 @@ import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.com
 import { ViewMVSFreightStatementComponent } from '../../modals/FreightRate/view-mvsfreight-statement/view-mvsfreight-statement.component';
 import { AccountService } from '../../services/account.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'account-entry-approval',
   templateUrl: './account-entry-approval.component.html',
@@ -49,7 +52,8 @@ export class AccountEntryApprovalComponent implements OnInit {
     this.common.currentPage =  'Account Entry Approval';
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

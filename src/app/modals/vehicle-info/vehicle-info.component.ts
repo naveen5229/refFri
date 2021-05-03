@@ -5,6 +5,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MapService } from '../../services/map.service';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-info',
   templateUrl: './vehicle-info.component.html',
@@ -35,11 +38,12 @@ export class VehicleInfoComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map");
+    this.mapService.mapIntialize("vehicle-info-map");
     this.mapService.setMapType(0);
     this.mapService.map.setOptions({ draggableCursor: 'cursor' });
   }

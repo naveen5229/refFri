@@ -5,6 +5,9 @@ import { UserService } from '../../services/user.service';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'card-mapping',
   templateUrl: './card-mapping.component.html',
@@ -26,7 +29,8 @@ export class CardMappingComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){
@@ -62,7 +66,7 @@ export class CardMappingComponent implements OnInit {
       },
       settings: {
         hideHeader: true,
-        tableHeight: "auto"
+        tableHeight: "73vh"
       }
     }
   }
@@ -120,7 +124,7 @@ export class CardMappingComponent implements OnInit {
 
 
   printPDF(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     console.log("Name:",name);
     let details = [
       ['Name: ' + name,  'Report: '+'Card-Mapping']
@@ -129,7 +133,7 @@ export class CardMappingComponent implements OnInit {
   }
 
   printCSV(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     let details = [
       { name: 'Name:' + name,report:"Report:Card-Mapping"}
     ];

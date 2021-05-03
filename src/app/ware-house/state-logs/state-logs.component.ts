@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'state-logs',
   templateUrl: './state-logs.component.html',
@@ -35,7 +38,8 @@ export class StateLogsComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
    }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh(){
     this.getWareData();

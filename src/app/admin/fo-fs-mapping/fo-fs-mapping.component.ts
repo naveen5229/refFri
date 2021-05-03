@@ -5,6 +5,9 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateService } from '../../services/date.service';
 import { DatePipe } from '@angular/common';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fo-fs-mapping',
   templateUrl: './fo-fs-mapping.component.html',
@@ -29,7 +32,8 @@ export class FoFsMappingComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

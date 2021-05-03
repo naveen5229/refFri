@@ -5,6 +5,9 @@ import { ApiService } from '../../../services/api.service';
 import { ConfirmComponent } from '../../confirm/confirm.component';
 import { TransferReceiptsComponent } from '../transfer-receipts/transfer-receipts.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-freight-expenses',
   templateUrl: './add-freight-expenses.component.html',
@@ -68,7 +71,8 @@ export class AddFreightExpensesComponent implements OnInit {
     this.getExpenses();
 
   }
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   getExpenseDetails() {
     const params = "id=" + this.expense.refId +

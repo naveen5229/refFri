@@ -5,6 +5,9 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { DateService } from '../../services/date/date.service';
 import { FuelDailyCunsumtionComponent } from '../../modals/fuel-daily-cunsumtion/fuel-daily-cunsumtion.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fuel-daily-consumption',
   templateUrl: './fuel-daily-consumption.component.html',
@@ -129,7 +132,8 @@ export class FuelDailyConsumptionComponent implements OnInit {
     this.getFuelDailyConsumption();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

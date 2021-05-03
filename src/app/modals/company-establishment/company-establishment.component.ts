@@ -3,6 +3,9 @@ import { ApiService } from '../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'company-establishment',
   templateUrl: './company-establishment.component.html',
@@ -48,7 +51,8 @@ export class CompanyEstablishmentComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getState() {

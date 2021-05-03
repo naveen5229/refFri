@@ -12,6 +12,9 @@ import { RoutesTrafficKpisComponent } from '../../modals/routes-traffic-kpis/rou
 import { StrictMappingComponent } from '../../modals/strict-mapping/strict-mapping.component';
 import { VehiclePriSecRoutemappingComponent } from '../../modals/vehicle-pri-sec-routemapping/vehicle-pri-sec-routemapping.component';
 import { RouteTimeTableComponent } from '../../modals/route-time-table/route-time-table.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'via-routes',
   templateUrl: './via-routes.component.html',
@@ -41,7 +44,8 @@ export class ViaRoutesComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

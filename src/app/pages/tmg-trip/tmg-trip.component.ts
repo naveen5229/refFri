@@ -1,8 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
+import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tmg-trip',
   templateUrl: './tmg-trip.component.html',
@@ -54,102 +59,106 @@ export class TmgTripComponent implements OnInit {
 
   constructor(public api: ApiService,
     public common: CommonService,
-    private modalService: NgbModal) {
-    this.getTripOnwardKmd();
-    this.getTripLoadindTime();
-    this.getTripUnLoadindTime();
-    this.getTripLongHalt();
-    this.getLongestLoadindSites();
-    this.getTripSlowestOnward();
-    this.getLongestUnLoadindDriver();
-    this.getLongestUnLoadindSites();
-    this.getTripGpsPerformance();
+    private modalService: NgbModal,
+    private sanitizer: DomSanitizer,
+    private cdr: ChangeDetectorRef) {
     this.common.refresh = this.refresh.bind(this);
   }
 
+  ngOnDestroy() { }
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+    this.refresh();
   }
 
   refresh() {
     this.xAxisData = [];
-    this.getTripOnwardKmd();
-    this.getTripLoadindTime();
-    this.getTripUnLoadindTime();
-    this.getTripLongHalt();
-    this.getLongestLoadindSites();
-    this.getTripSlowestOnward();
-    this.getLongestUnLoadindDriver();
-    this.getLongestUnLoadindSites();
-    this.getTripGpsPerformance();
+    this.getTripOnwardKmd(0);
+    this.getTripLoadindTime(1);
+    this.getTripUnLoadindTime(2);
+    this.getTripLongHalt(3);
+    this.getLongestLoadindSites(4);
+    this.getTripSlowestOnward(6);
+    this.getLongestUnLoadindDriver(5);
+    this.getLongestUnLoadindSites(7);
+    this.getTripGpsPerformance(8);
   }
 
-  getTripOnwardKmd() {
+  getTripOnwardKmd(index) {
     this.tripOnwardKmd = [];
-    ++this.common.loading;
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    this.showLoader(index);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 7
+      groupdays: 7,
+      isfo: false,
+      isadmin: true
     };
     this.api.post('Tmgreport/GetTripOnwardKmd', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('tripOnwardKmd:', res);
         this.tripOnwardKmd = res['data'];
         this.getlabelValue();
+        this.hideLoader(index);;
       }, err => {
-        --this.common.loading;
+        this.hideLoader(index);;
         console.log('Err:', err);
       });
   }
 
-  getTripLoadindTime() {
+  getTripLoadindTime(index) {
     this.tripLoadindTime = [];
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 7
+      groupdays: 7,
+      isfo: false,
+      isadmin: true
     };
-    ++this.common.loading;
+    this.showLoader(index);
     this.api.post('Tmgreport/GetTripLoadindTime', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('tripLoadindTime:', res);
         this.tripLoadindTime = res['data'];
         if (this.tripLoadindTime.length > 0) this.handleChart1();
+        this.hideLoader(index);;
       }, err => {
-        --this.common.loading;
+        this.hideLoader(index);;
         console.log('Err:', err);
       });
   }
 
-  getTripUnLoadindTime() {
+  getTripUnLoadindTime(index) {
     this.tripUnLoadindTime = [];
-    ++this.common.loading;
-    let startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    this.showLoader(index);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 7
+      groupdays: 7,
+      isfo: false,
+      isadmin: true
     };
     this.api.post('Tmgreport/GetTripUnLoadindTime', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('tripUnLoadindTime:', res);
         this.tripUnLoadindTime = res['data'];
         if (this.tripUnLoadindTime.length > 0) this.handleChart2();
+        this.hideLoader(index);;
       }, err => {
-        --this.common.loading;
+        this.hideLoader(index);;
         console.log('Err:', err);
       });
   }
 
-  getTripLongHalt() {
+  getTripLongHalt(index) {
     this.tripLongHalt = [];
     let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
@@ -158,23 +167,23 @@ export class TmgTripComponent implements OnInit {
       todate: this.common.dateFormatter(endDate),
       totalrecord: 3
     };
-    ++this.common.loading;
+    this.showLoader(index);
     this.api.post('Tmgreport/GetTripLoadindHalt', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('tripLongHalt:', res);
         this.tripLongHalt = res['data'];
+        this.hideLoader(index);;
       }, err => {
-        --this.common.loading;
+        this.hideLoader(index);;
         console.log('Err:', err);
       });
   }
 
-  getLongestLoadindSites() {
+  getLongestLoadindSites(index) {
 
     this.longestLoadindSites = [];
-    ++this.common.loading;
-    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    this.showLoader(index);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -183,16 +192,16 @@ export class TmgTripComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetLongestLoadindSites', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('longestLoadindSites:', res['data']);
         this.longestLoadindSites = res['data'];
+        this.hideLoader(index);
       }, err => {
-        --this.common.loading;
+        this.hideLoader(index);
         console.log('Err:', err);
       });
   }
 
-  getLongestUnLoadindSites() {
+  getLongestUnLoadindSites(index) {
     this.longestUnLoadindSites = [];
     let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
@@ -201,22 +210,22 @@ export class TmgTripComponent implements OnInit {
       todate: this.common.dateFormatter(endDate),
       totalrecord: 3
     };
-    ++this.common.loading;
+    this.showLoader(index);
     this.api.post('Tmgreport/GetLongestUnLoadindSites', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('longestUnLoadindSites:', res);
         this.longestUnLoadindSites = res['data'];
+        this.hideLoader(index);;
       }, err => {
-        --this.common.loading;
+        this.hideLoader(index);;
         console.log('Err:', err);
       });
   }
 
-  getTripSlowestOnward() {
+  getTripSlowestOnward(index) {
     this.tripSlowestOnward = [];
-    ++this.common.loading;
-    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    this.showLoader(index);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
     let endDate = new Date();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
@@ -225,18 +234,18 @@ export class TmgTripComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetTripSlowestOnward', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('tripSlowestOnward:', res['data']);
         this.tripSlowestOnward = res['data'];
+        this.hideLoader(index);;
       }, err => {
-        --this.common.loading;
+        this.hideLoader(index);;
         console.log('Err:', err);
       });
   }
 
-  getLongestUnLoadindDriver() {
+  getLongestUnLoadindDriver(index) {
     this.longestUnLoadindDriver = [];
-    ++this.common.loading;
+    this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
@@ -246,18 +255,18 @@ export class TmgTripComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetLongestUnLoadindDriver', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('longestUnLoadindDriver:', res['data']);
         this.longestUnLoadindDriver = res['data'];
+        this.hideLoader(index);;
       }, err => {
-        --this.common.loading;
+        this.hideLoader(index);;
         console.log('Err:', err);
       });
   }
 
-  getTripGpsPerformance() {
+  getTripGpsPerformance(index) {
     this.tripGpsPerformance = [];
-    ++this.common.loading;
+    this.showLoader(index);
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     let params = {
@@ -267,11 +276,11 @@ export class TmgTripComponent implements OnInit {
     };
     this.api.post('Tmgreport/GetTripGpsPerformance', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('tripGpsPerformance:', res['data']);
         this.tripGpsPerformance = res['data'];
+        this.hideLoader(index);;
       }, err => {
-        --this.common.loading;
+        this.hideLoader(index);;
         console.log('Err:', err);
       });
   }
@@ -375,6 +384,7 @@ export class TmgTripComponent implements OnInit {
         labelString: 'Onward KMS',
         fontSize: 17
       },
+      ticks: { beginAtZero: true, min: 0 },
       type: 'linear',
       display: true,
       position: 'left',
@@ -450,7 +460,7 @@ export class TmgTripComponent implements OnInit {
               display: true,
               labelString: 'Onward KMS' + yaxisObj.yaxisLabel
             },
-            ticks: { stepSize: yaxisObj.gridSize },
+            ticks: { stepSize: yaxisObj.gridSize },//beginAtZero: true,min:0, 
             suggestedMin: yaxisObj.minValue,
           },
 
@@ -475,6 +485,10 @@ export class TmgTripComponent implements OnInit {
       xaxis.push(tlt['Period']);
       yaxis.push(tlt['Loading Duration(hrs)']);
     });
+
+    console.log('trip loading time : ', this.tripLoadindTime);
+    console.log('y axis data:', yaxis);
+
     let yaxisObj = this.common.chartScaleLabelAndGrid(yaxis);
     console.log("handleChart1", xaxis, yaxis);
     this.chart1.type = 'line'
@@ -515,11 +529,32 @@ export class TmgTripComponent implements OnInit {
               display: true,
               labelString: 'Time (in Hrs.)' + yaxisObj.yaxisLabel
             },
-            ticks: { stepSize: yaxisObj.gridSize },
+            ticks: { stepSize: yaxisObj.gridSize },//beginAtZero: true,min:0,
             suggestedMin: yaxisObj.minValue,
           }
           ]
-        }
+        },
+        tooltips: {
+          enabled: true,
+          mode: 'single',
+          callbacks: {
+            label: function (tooltipItems, data) {
+              console.log("tooltipItems", tooltipItems, "data", data);
+              // let tti = ('' + tooltipItems.yLabel).split(".");
+              // let min = tti[1] ? String(parseInt(tti[1]) * 6).substring(0, 2) : '00';
+              // return tooltipItems.xLabel + " ( " + tti[0] + ":" + min + " Hrs. )";
+              let x = tooltipItems.yLabel;
+              // let z = (parseFloat(x.toFixed()) + parseFloat((x % 1).toFixed(10)) * 0.6).toString();
+              // z = z.slice(0, z.indexOf('.') + 3).split('.').join(':');
+              //   return tooltipItems.xLabel + " ( " + z + " Hrs. )";
+              let z = (parseFloat((x % 1).toFixed(10)) * 0.6).toString();
+              z = z.slice(0, z.indexOf('.') + 3).split('.').join(':') ;
+                let final = x.toString().split('.')[0] +':'+ z.split(':')[1];
+  
+                return tooltipItems.xLabel + " ( " + final + " Hrs. )";
+            }
+          }
+        },
         // scales: {
         //   yAxes: [{
         //     ticks: { stepSize: 50000},
@@ -531,7 +566,6 @@ export class TmgTripComponent implements OnInit {
       };
 
   }
-
 
   handleChart2() {
     let yaxis = [];
@@ -580,10 +614,193 @@ export class TmgTripComponent implements OnInit {
               display: true,
               labelString: 'Time (in Hrs.)' + yaxisObj.yaxisLabel
             },
-            ticks: { stepSize: yaxisObj.gridSize },
+            ticks: { stepSize: yaxisObj.gridSize }, //beginAtZero: true,min:0,
             suggestedMin: yaxisObj.minValue,
           }]
-        }
+        },
+        tooltips: {
+          enabled: true,
+          mode: 'single',
+          callbacks: {
+            label: function (tooltipItems, data) {
+              console.log('tooltipItems', tooltipItems);
+              // let tti = ('' + tooltipItems.yLabel).split(".");
+              // console.log('tooltipItems:s', tooltipItems.yLabel * 0.6);
+              // let min = tti[1] ? String(parseInt(tti[1]) * .60).substring(0, 2) : '00';
+              // console.log("tooltipItems", min, parseInt(tti[1]) + .0, parseInt("0" + (tti[1])));
+              let x = tooltipItems.yLabel;
+            // let z = (parseFloat(x.toFixed()) + parseFloat((x % 1).toFixed(10)) * 0.6).toString();
+            // z = z.slice(0, z.indexOf('.') + 3).split('.').join(':');
+            //   return tooltipItems.xLabel + " ( " + z + " Hrs. )";
+            let z = (parseFloat((x % 1).toFixed(10)) * 0.6).toString();
+            z = z.slice(0, z.indexOf('.') + 3).split('.').join(':') ;
+              let final = x.toString().split('.')[0] +':'+ z.split(':')[1];
+
+              return tooltipItems.xLabel + " ( " + final + " Hrs. )";
+            }
+          }
+        },
       };
   }
+  getDetials(url, params, value = 0, type = 'days') {
+    let dataparams = {
+      view: {
+        api: url,
+        param: params,
+        type: 'post'
+      },
+
+      title: 'Details'
+    }
+    if (value) {
+      let startDate = type == 'months' ? new Date(new Date().setMonth(new Date().getMonth() - value)) : new Date(new Date().setDate(new Date().getDate() - value));
+      let endDate = new Date();
+      dataparams.view.param['fromdate'] = this.common.dateFormatter(startDate);
+      dataparams.view.param['todate'] = this.common.dateFormatter(endDate);
+    }
+    console.log("dataparams=", dataparams);
+    this.common.handleModalSize('class', 'modal-lg', '1100');
+    this.common.params = { data: dataparams };
+    const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+
+  showLoader(index) {
+    setTimeout(() => {
+      let outers = document.getElementsByClassName("outer");
+      let loader = document.createElement('div');
+      loader.className = 'loader';
+      outers[index].appendChild(loader);
+    }, 50);
+  }
+
+  hideLoader(index) {
+    let outers = document.getElementsByClassName("outer");
+    outers[index].lastChild.remove();
+  }
+
+
+  chart1Clicked(event) {
+
+    let Date = this.tripLoadindTime[event[0]._index]._id;
+    console.log('event[0]._index 1', event[0]._index, event[0], Date);
+    this.passingIdChart1Data(Date);
+  }
+
+  passingIdChart1Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      groupdays: 7,
+      isadmin: false,
+      isfo: false,
+      xid: parseDate,
+      // ref: 'tmg-calls'
+    };
+    // this.api.post('Tmgreport/GetCallsDrivar', params)
+    //   .subscribe(res => {
+    //     console.log('callsDrivar 111 :', res);
+
+    //     this.hideLoader(id);;
+    //   }, err => {
+    //     this.hideLoader(id);;
+    //     console.log('Err:', err);
+    //   });
+    this.getDetials('Tmgreport/GetTripLoadindTime', params)
+  }
+  chart2Clicked(event) {
+    let Date = this.tripOnwardKmd[event[0]._index]._id;
+    console.log('event[0]._index 2', event[0]._index, event[0], Date);
+    this.passingIdChart2Data(Date);
+  }
+
+  passingIdChart2Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      groupdays: 7,
+      isadmin: false,
+      isfo: false,
+      xid: parseDate,
+      // ref: 'tmg-calls'
+    };
+    // this.api.post('Tmgreport/GetCallsDrivar', params)
+    //   .subscribe(res => {
+    //     console.log('callsDrivar 111 :', res);
+
+    //     this.hideLoader(id);;
+    //   }, err => {
+    //     this.hideLoader(id);;
+    //     console.log('Err:', err);
+    //   });
+    this.getDetials('Tmgreport/GetTripOnwardKmd', params)
+  }
+  chart3Clicked(event) {
+
+    let Date = this.tripUnLoadindTime[event[0]._index]._id;
+    console.log('event[0]._index 1', event[0]._index, event[0], Date);
+    this.passingIdChart3Data(Date);
+  }
+
+  passingIdChart3Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      groupdays: 7,
+      isadmin: false,
+      isfo: false,
+      xid: parseDate,
+      // ref: 'tmg-calls'
+    };
+    // this.api.post('Tmgreport/GetCallsDrivar', params)
+    //   .subscribe(res => {
+    //     console.log('callsDrivar 111 :', res);
+
+    //     this.hideLoader(id);;
+    //   }, err => {
+    //     this.hideLoader(id);;
+    //     console.log('Err:', err);
+    //   });
+    this.getDetials('Tmgreport/GetTripUnLoadindTime', params)
+  }
+
+  chart4Clicked(event) {
+
+    let Date = event._vid;
+    console.log('event[0]._index 1', event);
+    this.passingIdChart4Data(Date);
+  }
+
+  passingIdChart4Data(parseDate) {
+    //   this.showLoader(id);
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 7));
+    let endDate = new Date();
+    let params = {
+      fromdate: this.common.dateFormatter(startDate),
+      todate: this.common.dateFormatter(endDate),
+      totalrecord: 3,
+      stepno: 1,
+      vehid: parseDate,
+      // ref: 'tmg-calls'
+    };
+    // this.api.post('Tmgreport/GetCallsDrivar', params)
+    //   .subscribe(res => {
+    //     console.log('callsDrivar 111 :', res);
+
+    //     this.hideLoader(id);;
+    //   }, err => {
+    //     this.hideLoader(id);;
+    //     console.log('Err:', err);
+    //   });
+    this.getDetials('Tmgreport/GetTripLoadindHalt', params)
+  }
+
 }

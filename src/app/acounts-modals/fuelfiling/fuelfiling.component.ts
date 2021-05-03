@@ -8,6 +8,9 @@ import { AccountService } from '../../services/account.service';
 import { PrintService } from '../../services/print/print.service';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'fuelfiling',
   templateUrl: './fuelfiling.component.html',
@@ -74,7 +77,8 @@ export class FuelfilingComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getAllLedger() {

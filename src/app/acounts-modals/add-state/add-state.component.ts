@@ -6,6 +6,9 @@ import { AccountService } from '../../services/account.service';
 import { UserService } from '../../services/user.service';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-state',
   templateUrl: './add-state.component.html',
@@ -60,7 +63,8 @@ export class AddStateComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1250');
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   dismiss(response) {
     console.log('data:', this.data);

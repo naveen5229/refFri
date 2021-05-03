@@ -7,6 +7,9 @@ import { AddBidComponent } from '../add-bid/add-bid.component';
 import { ConfirmComponent } from '../../confirm/confirm.component';
 import { ProposalStateComponent } from '../proposal-state/proposal-state.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-orders',
   templateUrl: './vehicle-orders.component.html',
@@ -39,7 +42,8 @@ data = [];
   }
 
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 
@@ -128,14 +132,14 @@ data = [];
     let icons = [];
     if (data['Action'].isAdd) {
       icons.push({
-        class: " icon fa fa-pencil-square-o blue",
+        class: " icon fas fa-edit blue",
         action: this.openAddOrder.bind(this, data),
       });
     }
     
     if (data['Action'].isEdit) {
       icons.push({
-        class: " icon fa fa-pencil-square-o blue",
+        class: " icon fas fa-edit blue",
         action: this.openAddOrder.bind(this, data),
       });
     }

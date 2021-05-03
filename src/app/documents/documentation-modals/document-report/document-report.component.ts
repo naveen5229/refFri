@@ -11,6 +11,9 @@ import { from } from 'rxjs';
 import { NgIf } from '@angular/common';
 import { DatePipe } from '@angular/common';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'document-report',
   templateUrl: './document-report.component.html',
@@ -54,7 +57,8 @@ export class DocumentReportComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal(response) {

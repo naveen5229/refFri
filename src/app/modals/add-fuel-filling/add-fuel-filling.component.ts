@@ -7,6 +7,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { ReminderComponent } from '../../modals/reminder/reminder.component';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-fuel-filling',
   templateUrl: './add-fuel-filling.component.html',
@@ -32,7 +35,8 @@ export class AddFuelFillingComponent implements OnInit {
     this.VehicleId = this.common.params.vehId;
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   addFuelFilling() {
     console.log(this.fuelEntries);

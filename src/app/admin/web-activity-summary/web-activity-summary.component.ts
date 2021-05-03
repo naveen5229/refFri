@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FoWebViewSummaryComponent } from '../../modals/fo-web-view-summary/fo-web-view-summary.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'web-activity-summary',
   templateUrl: './web-activity-summary.component.html',
@@ -22,7 +25,8 @@ export class WebActivitySummaryComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
     console.log('refresh');

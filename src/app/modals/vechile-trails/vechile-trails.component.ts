@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MapService } from '../../services/map.service';
 import { CommonService } from '../../services/common.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vechile-trails',
   templateUrl: './vechile-trails.component.html',
@@ -19,7 +22,8 @@ export class VechileTrailsComponent implements OnInit {
     console.log("markers",this.markers);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   ngAfterViewInit(){
       this.common.loading++;

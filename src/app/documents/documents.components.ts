@@ -4,6 +4,9 @@ import { ADMIN_MENU_ITEMS, CUSTOMER_MENU_ITEMS } from './documents-menu';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ngx-pages',
   template: `
@@ -22,4 +25,6 @@ export class DocumentsComponent {
     // }
 
   }
+  ngOnDestroy(){}
+
 }

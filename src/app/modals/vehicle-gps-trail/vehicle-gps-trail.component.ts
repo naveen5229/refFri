@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-gps-trail',
   templateUrl: './vehicle-gps-trail.component.html',
@@ -44,7 +47,8 @@ export class VehicleGpsTrailComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   closeModal(response) {
     this.activeModal.close({ response: response });

@@ -46,7 +46,8 @@
             <td> Subtotal</td>
             <td style="text-align: center;padding-right:12px;">{{sum.bpcl}}</td>
             <td style="text-align: center; padding-right:10px;" >{{sum.hpcl}}</td>
-            <td style="text-align: center; padding-right:171px;">{{sum.atm}}</td>
+            <td style="padding-right:185px;padding-left:97px;">{{sum.atm}}</td>
+            <td style="padding-right:64px;">{{tollTotal}}</td>
           </tr>
         </tbody>
         <!-- </table>
@@ -54,8 +55,8 @@
         <tbody class="tbody-three" *ngIf="data.length">
           <tr>
             <td></td>
-            <td>Total</td>
-            <td style="padding-left:121px!important;">{{total}}</td>
+            <td style="width:285px;">Total</td>
+            <td style="padding-left:80px!important; width:431px;">{{total}}</td>
           </tr>
         </tbody>
       </table>

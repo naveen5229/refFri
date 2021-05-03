@@ -1,0 +1,75 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Verify Halts</h5>
+</div>
+
+<div class="modal-body">
+  <div class="row mt-1 pb-2">
+    <div class="col-md-3">
+      <label> Vehicle</label>
+      <auto-suggestion (onSelected)="getVehicleData($event)" display="regno" url="Vehicles/getVehicleListForFoid"
+        placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
+    </div>
+    <div class="col-md-4 pr-0">
+      <label> Start Time </label>
+      <uj-date-time-picker (onChanged)="filterVar.startTime = $event" [dateTimeValue]="filterVar.startTime" [isTime]='true'>
+      </uj-date-time-picker>
+    </div>
+    <div class="col-md-4 pr-0">
+      <label> End Time </label>
+      <uj-date-time-picker (onChanged)="filterVar.endTime = $event" [dateTimeValue]="filterVar.endTime" [isTime]='true' [isStart]="false">
+      </uj-date-time-picker>
+    </div>
+    <div class="col-md-1 pr-0 mt-3">
+      <button class="btn btn-primary submit-btn" type="submit"  (click)="getVerifyHaltsFilterData()">Submit</button>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-6">
+    <h5> Halt Existing Table </h5>
+      <div class="tableFixHead table-responsive">
+        <table class="table table-bordered table-hover ">
+          <thead class="thead">
+            <tr>
+              <th>Vehicle Id</th>
+              <th>Site Id</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let haltExisting of haltExisting">
+              <td>{{haltExisting.key.vehicleId}}</td>
+              <td>{{haltExisting.siteId}}</td>
+              <td>{{haltExisting.key.startTime | date:'M/d/yyyy HH:mm'}}</td>
+              <td>{{haltExisting.endTime | date:'M/d/yyyy HH:mm'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-6">
+      <h5> Halt New Table</h5>
+      <div class="tableFixHead table-responsive">
+        <table class="table table-bordered table-hover ">
+          <thead class="thead">
+            <tr>
+              <th>Vehicle Id</th>
+              <th>Site Id</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let haltNew of haltNew">
+              <td>{{haltNew.key.vehicleId}}</td>
+              <td>{{haltNew.siteId}}</td>
+              <td>{{haltNew.key.startTime | date:'M/d/yyyy HH:mm'}}</td>
+              <td>{{haltNew.endTime | date:'M/d/yyyy HH:mm'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { ApiService } from '../../services/api.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'orders-won',
   templateUrl: './orders-won.component.html',
@@ -32,7 +35,8 @@ export class OrdersWonComponent implements OnInit {
 
     this.getOrderDetails();
   }
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
  

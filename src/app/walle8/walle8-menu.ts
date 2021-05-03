@@ -7,13 +7,13 @@ export const WALLE8_MENU_ITEMS = JSON.stringify([
         link: '/pages/dashboard',
         home: true,
     },
-    {
-        title: 'Card Balance',
-        icon: 'fa-credit-card',
-        link: '/walle8/card-balance',
-        home: true,
+    // {
+    //     title: 'Card Balance',
+    //     icon: 'fa-credit-card',
+    //     link: '/walle8/card-balance',
+    //     home: true,
 
-    },
+    // },
     {
         title: 'Card Mapping',
         icon: 'fa-credit-card',
@@ -33,11 +33,17 @@ export const WALLE8_MENU_ITEMS = JSON.stringify([
         home: true,
     },
     {
-        title: 'Latest Recharge',
+        title: 'Tag Summary',
         icon: 'fa-credit-card',
-        link: '/walle8/latest-recharge',
+        link: '/walle8/tag-summary',
         home: true,
     },
+    // {
+    //     title: 'Latest Recharge',
+    //     icon: 'fa-credit-card',
+    //     link: '/walle8/latest-recharge',
+    //     home: true,
+    // },
     {
         title: 'Toll Usage Summary',
         icon: 'fa-credit-card',
@@ -91,6 +97,14 @@ export const WALLE8_MENU_ITEMS = JSON.stringify([
         home: true,
 
     },
+
+    {
+        title: 'Financial History Summary(Add Time)',
+        icon: 'fa-credit-card',
+        link: '/walle8/financialhistorysummary',
+        home: true,
+
+    },
     {
         title: 'Financial Main Summary',
         icon: 'fa-credit-card',
@@ -98,13 +112,13 @@ export const WALLE8_MENU_ITEMS = JSON.stringify([
         home: true,
 
     },
-    {
-        title: 'Toll Analytics',
-        icon: 'fa-credit-card',
-        link: '/walle8/toll-analatics',
-        home: true,
+    // {
+    //     title: 'Toll Analytics',
+    //     icon: 'fa-credit-card',
+    //     link: '/walle8/toll-analatics',
+    //     home: true,
 
-    },
+    // },
     {
         title: 'Other Usage',
         icon: 'fa-credit-card',

@@ -9,6 +9,10 @@ import { EmpDashboardComponent } from '../../documents/documentation-modals/emp-
 import { ChangeVehicleStatusByCustomerComponent } from '../../modals/change-vehicle-status-by-customer/change-vehicle-status-by-customer.component';
 import { UserService } from '../../services/user.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+import { VerifyHaltsComponent } from '../../modals/verify-halts/verify-halts.component';
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-status-change',
   templateUrl: './vehicle-status-change.component.html',
@@ -27,7 +31,7 @@ export class VehicleStatusChangeComponent implements OnInit {
     public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal,
-    public user: UserService 
+    public user: UserService
   ) {
 
     this.getVehicleStatusAlerts(this.viewType);
@@ -36,6 +40,7 @@ export class VehicleStatusChangeComponent implements OnInit {
 
   }
 
+  ngOnDestroy() { }
   ngOnInit() {
   }
 
@@ -51,11 +56,15 @@ export class VehicleStatusChangeComponent implements OnInit {
     this.api.get('HaltOperations/getVehicleStatusAlerts?' + params)
       .subscribe(res => {
         console.log('Res: ', res['data']);
-        this.VehicleStatusAlerts = res['data'];
+        this.VehicleStatusAlerts = res['data'].sort((a, b) => a.fo_name > b.fo_name ? 1 : -1);
       }, err => {
         console.error(err);
         this.common.showError();
       });
+  }
+
+  getHaltsDetails() {
+    const activeModal = this.modalService.open(VerifyHaltsComponent, { size: 'xl', container: 'nb-layout' });
   }
 
   getPendingStatusDetails() {
@@ -124,7 +133,7 @@ export class VehicleStatusChangeComponent implements OnInit {
         }
         else {
           if (this.user._loggedInBy == "admin") {
-             this.openChangeStatusModal(VehicleStatusData);
+            this.openChangeStatusModal(VehicleStatusData);
           }
           else {
             this.openChangeStatusCustomerModal(VehicleStatusData);

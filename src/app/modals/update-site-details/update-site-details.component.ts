@@ -7,6 +7,9 @@ import { MapService } from '../../services/map.service';
 import { ReportIssueComponent } from '../report-issue/report-issue.component';
 declare var google: any;
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'update-site-details',
   templateUrl: './update-site-details.component.html',
@@ -35,7 +38,8 @@ export class UpdateSiteDetailsComponent implements OnInit {
   }
 
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
 
   }
   updateSiteDetails() {
@@ -70,7 +74,7 @@ export class UpdateSiteDetailsComponent implements OnInit {
     this.activeModal.close();
   }
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map");
+    this.mapService.mapIntialize("update-site-details-map");
     setTimeout(() => {
       this.mapService.autoSuggestion("siteLoc", (place, lat, lng) => this.siteLoc = place);
       this.mapService.createMarkers([{ lat: this.common.params.site.lat, long: this.common.params.site.lng, type: 'site' }]);

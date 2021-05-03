@@ -10,6 +10,9 @@ import { ShowBidDataComponent } from '../../modals/BidModals/show-bid-data/show-
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'order-trip-management',
   templateUrl: './order-trip-management.component.html',
@@ -49,7 +52,8 @@ export class OrderTripManagementComponent implements OnInit {
    this.getOrders();
  }
 
- ngOnInit() {
+ ngOnDestroy(){}
+ngOnInit() {
  }
 
  resetData(){
@@ -234,7 +238,7 @@ export class OrderTripManagementComponent implements OnInit {
   let icons = [];
   if(data['Action'].isEdit){
     icons.push({
-      class: " icon fa fa-pencil-square-o blue",
+      class: " icon fas fa-edit blue",
        action: this.openAddOrder.bind(this, data),
     });
   }

@@ -4,6 +4,11 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-gps-detail',
   templateUrl: './vehicle-gps-detail.component.html',
@@ -14,8 +19,18 @@ export class VehicleGpsDetailComponent implements OnInit {
 
   gpsDtails = [];
   foid;
-  table = null;
+  table = {
+    data: {
+      headings: null,
+      columns: []
+    },
+    settings: {
+      hideHeader: true, tableHeight: '75vh'
+    }
+  };
   constructor(public api: ApiService,
+    private pdfService: PdfService,
+    private csvService: CsvService,
     public common: CommonService,
     private datePipe: DatePipe,
     public user: UserService,
@@ -25,6 +40,7 @@ export class VehicleGpsDetailComponent implements OnInit {
 
   }
 
+  ngOnDestroy() { }
   ngOnInit() {
   }
   refresh() {
@@ -49,9 +65,9 @@ export class VehicleGpsDetailComponent implements OnInit {
 
   setTable() {
     let headings = {
-      regno: { title: 'Vehicle regno', placeholder: 'Vehicle regno' },
-      apiProvider: { title: 'Api Provider', placeholder: 'Api Provider' },
-      lastCall: { title: 'last Call ', placeholder: 'last Call' },
+      regno: { title: 'Vehicle Reg No.', placeholder: 'Vehicle regno' },
+      apiProvider: { title: 'API Details', placeholder: 'API Details' },
+      lastCall: { title: 'Last Call ', placeholder: 'Last Call' },
       time: { title: 'Date Time ', placeholder: 'Date Time ' },
     };
     return {
@@ -69,11 +85,13 @@ export class VehicleGpsDetailComponent implements OnInit {
   getTableColumns() {
     let columns = [];
     this.gpsDtails.map(doc => {
+      let apiProvider = doc.apiprovider ? (doc.apiprovider.charAt(0).toUpperCase() + doc.apiprovider.slice(1)) : '';
+      console.log('apiProvider', apiProvider);
       let column = {
         regno: { value: doc.regno },
-        apiProvider: { value: doc.apiprovider },
-        lastCall:  {value : doc.lastcalldt}, //{ value: this.datePipe.transform(doc.lastcalldt, 'dd MMM HH:mm') },
-        time: {value : doc.dttime }//{ value: this.datePipe.transform(doc.dttime, 'dd MMM HH:mm') },
+        apiProvider: { value: apiProvider },
+        lastCall: { value: doc.lastcalldt }, //{ value: this.datePipe.transform(doc.lastcalldt, 'dd MMM HH:mm') },
+        time: { value: doc.dttime }//{ value: this.datePipe.transform(doc.dttime, 'dd MMM HH:mm') },
 
       };
       columns.push(column);
@@ -82,42 +100,59 @@ export class VehicleGpsDetailComponent implements OnInit {
   }
 
 
-  printPDF(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = fodata['name'];
-        let center_heading = "GPS Details";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"],'');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
+  // printPDF(tblEltId) {
+  //   this.common.loading++;
+  //   let userid = this.user._customer.id;
+  //   if (this.user._loggedInBy == "customer")
+  //     userid = this.user._details.id;
+  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       let fodata = res['data'];
+  //       let left_heading = fodata['name'];
+  //       let center_heading = "GPS Details";
+  //       this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"],'');
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
+
+  // printCsv(tblEltId) {
+  //   this.common.loading++;
+  //   let userid = this.user._customer.id;
+  //   if (this.user._loggedInBy == "customer")
+  //     userid = this.user._details.id;
+  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       let fodata = res['data'];
+  //       let left_heading = "FoName:" + fodata['name'];
+  //       let center_heading = "Report:" + "GPS Details";
+  //       this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"],'');
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+
+
+  // }
+
+  printPDF() {
+    let name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:", name);
+    let details = [
+      ['Name: ' + name, 'Report: ' + 'Vehicle-GPS-Details']
+    ];
+    this.pdfService.jrxTablesPDF(['gpsDetails'], 'gps-Details', details);
   }
 
-  printCsv(tblEltId) {
-    this.common.loading++;
-    let userid = this.user._customer.id;
-    if (this.user._loggedInBy == "customer")
-      userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-      .subscribe(res => {
-        this.common.loading--;
-        let fodata = res['data'];
-        let left_heading = "FoName:" + fodata['name'];
-        let center_heading = "Report:" + "GPS Details";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"],'');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-
-
+  printCsv() {
+    let name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.name;
+    let details = [
+      { name: 'Name:' + name, report: "Report:Vehicle-GPS-Details" }
+    ];
+    this.csvService.byMultiIds(['gpsDetails'], 'gps-Details', details);
   }
 
 

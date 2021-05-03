@@ -6,6 +6,9 @@ import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VehicleTyreSummaryComponent } from '../../modals/Tyres/vehicle-tyre-summary/vehicle-tyre-summary.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tyre-summary',
   templateUrl: './tyre-summary.component.html',
@@ -37,7 +40,8 @@ export class TyreSummaryComponent implements OnInit {
     this.refresh();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

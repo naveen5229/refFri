@@ -3,6 +3,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../../services/api.service';
 import { CommonService } from '../../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'receive-items',
   templateUrl: './receive-items.component.html',
@@ -28,7 +31,8 @@ export class ReceiveItemsComponent implements OnInit {
     console.log("params", this.common.params);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   closeModal() {

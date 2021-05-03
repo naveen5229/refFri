@@ -10,6 +10,9 @@ import { NullTemplateVisitor } from '@angular/compiler';
 import { position } from '@progress/kendo-popup-common';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-pump',
   templateUrl: './add-pump.component.html',
@@ -55,13 +58,14 @@ export class AddPumpComponent implements OnInit {
     }, 2000)
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
     this.getTypeIds();
   }
 
 
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map");
+    this.mapService.mapIntialize("add-pump-map");
     setTimeout(() => {
       this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => {
         this.mapService.zoomAt({ lat: lat, lng: lng });

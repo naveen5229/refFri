@@ -39,13 +39,13 @@ nb-card-header{
         width: 50px;
       }
       th{
-        width: 250px;
+        width: 200px;
       }
       td:nth-child(1){
         width: 50px;
       }
       td{
-          width: 250px;
+          width: 200px;
       }
       th:last-child{
         width: auto;
@@ -61,7 +61,7 @@ nb-card-header{
         width: 100%;
         table-layout: fixed;
         overflow: auto;
-        max-height: calc(100vh - 210px);
+        max-height: calc(73vh - 115px);
         tr{
             display: table;
             table-layout: fixed;

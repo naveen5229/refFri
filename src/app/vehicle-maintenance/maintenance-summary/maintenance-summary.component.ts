@@ -7,6 +7,9 @@ import { DocumentReportComponent } from '../../documents/documentation-modals/do
 import { MaintenanceReportComponent } from '../model/maintenance-report/maintenance-report.component';
 import { ViewSummaryDetailsComponent } from '../model/view-summary-details/view-summary-details.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'maintenance-summary',
   templateUrl: './maintenance-summary.component.html',
@@ -41,7 +44,8 @@ export class MaintenanceSummaryComponent implements OnInit {
     // this.common.currentPage = 'Vehicle Documents Summary';
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   formatTitle(strval) {

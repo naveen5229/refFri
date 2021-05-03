@@ -4,6 +4,11 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
+import { stringify } from 'querystring';
+import { DomSanitizer } from '@angular/platform-browser';
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tip-feedback-logs',
   templateUrl: './tip-feedback-logs.component.html',
@@ -11,8 +16,8 @@ import { UserService } from '../../services/user.service';
 })
 export class TipFeedbackLogsComponent implements OnInit {
   vehicleId = null;
-  startDate = '';
-  endDate = '';
+  startDate = null;
+  endDate = null;
   activitySummary = [];
   headings = [];
   valobj = {};
@@ -26,42 +31,27 @@ export class TipFeedbackLogsComponent implements OnInit {
       tableHeight: '75vh'
     }
   };
-
+  dataFormat = 'vehicle_wise';
   constructor(public api: ApiService,
     public common: CommonService,
     public modalService: NgbModal,
-    public user: UserService) {
-    let today;
-    today = new Date();
-    this.endDate = (this.common.dateFormatter(today)).split(' ')[0];
-    this.startDate = (this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)))).split(' ')[0];
+    public user: UserService,
+    private sanitizer: DomSanitizer) {
+
     this.common.refresh = this.refresh.bind(this);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
+  }
+  ngAfterViewInit() {
+    this.endDate = new Date();
+    this.startDate = new Date(new Date().setDate(new Date().getDate() - 1));
   }
 
   refresh() {
     this.vehicleId = null;
     this.getFeedbackLogs();
-  }
-  getDate(type) {
-    this.common.params = { ref_page: 'trip feedback logs' }
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-        if (type == 'start') {
-          this.startDate = '';
-          this.startDate = this.common.dateFormatter(data.date).split(' ')[0];
-          console.log('endDate', this.startDate);
-        }
-        else {
-          this.endDate = this.common.dateFormatter(data.date).split(' ')[0];
-          console.log('endDate', this.endDate);
-        }
-      }
-    });
-
   }
 
   getvehicleData(vehicle) {
@@ -83,15 +73,14 @@ export class TipFeedbackLogsComponent implements OnInit {
       }
     };
 
-    var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0]);
     const params = {
       vehicleId: this.vehicleId ? this.vehicleId : -1,
-      startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
-      endDate: this.common.dateFormatter1(enddate.setDate(enddate.getDate() + 1)).split(' ')[0],
+      startDate: this.common.dateFormatter1(this.startDate),
+      endDate: this.common.dateFormatter1(this.endDate),
     }
 
     console.log("params:", params);
-    const data = "startDate=" + params.startDate +
+    const data = "startDate=" + params.startDate + "&pivotBy=" + this.dataFormat +
       "&endDate=" + params.endDate + "&vehicleId=" + params.vehicleId;
     this.common.loading++;
 
@@ -99,24 +88,25 @@ export class TipFeedbackLogsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['data'])
-        this.activitySummary = res['data'];
+        this.activitySummary = res['data'] || [];
         console.log('activitySummary', this.activitySummary);
-        let first_rec = this.activitySummary[0];
-        console.log("first_Rec", first_rec);
-
-        for (var key in first_rec) {
-          if (key.charAt(0) != "_") {
-            this.headings.push(key);
-            let headerObj = { title: key, placeholder: this.formatTitle(key) };
-            this.table.data.headings[key] = headerObj;
+        if (this.activitySummary.length > 0) {
+          let first_rec = this.activitySummary[0];
+          console.log("first_Rec", first_rec);
+          this.headings = [];
+          for (var key in first_rec) {
+            if (key.charAt(0) != "_") {
+              this.headings.push(key);
+              let headerObj = { title: key, placeholder: this.formatTitle(key) };
+              this.table.data.headings[key] = headerObj;
+            }
           }
+
+          this.table.data.columns = this.getTableColumns();
+          console.log("table:");
+          console.log(this.table);
+
         }
-
-        this.table.data.columns = this.getTableColumns();
-        console.log("table:");
-        console.log(this.table);
-
-
       }, err => {
         this.common.loading--;
         this.common.showError();
@@ -128,8 +118,14 @@ export class TipFeedbackLogsComponent implements OnInit {
     for (var i = 0; i < this.activitySummary.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
-        j
-        this.valobj[this.headings[j]] = { value: this.activitySummary[i][this.headings[j]], class: 'black', action: '' };
+        console.log("as", this.activitySummary[i], [this.headings[j]], this.activitySummary[i][this.headings[j]])
+        if (this.dataFormat == 'date_wise' && this.headings[j] == 'Date' || this.headings[j] == 'date') {
+          this.valobj[this.headings[j]] = { value: this.activitySummary[i][this.headings[j]], class: '', action: '', isHTML: true };
+        } else if (this.dataFormat == 'vehicle_wise' && this.headings[j] == 'Regno' || this.headings[j] == 'regno') {
+          this.valobj[this.headings[j]] = { value: this.activitySummary[i][this.headings[j]], class: '', action: '', isHTML: true };
+        }
+        else
+          this.valobj[this.headings[j]] = { value: this.getHtml(this.activitySummary[i][this.headings[j]]), class: '', action: '', isHTML: true };
       }
       columns.push(this.valobj);
     }
@@ -143,6 +139,56 @@ export class TipFeedbackLogsComponent implements OnInit {
     } else {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
+  }
+  getHtml(text) {
+    console.log("HSSSSS:", text)
+    let string = '';
+    text = JSON.parse(text);
+    if (text && text.length > 0 && text != null) {
+      let oldTrip = JSON.parse(text[0].o_trip);
+      let str = text[0].n_trip ? text[0].n_trip : this.getTripHtml(oldTrip);
+      let title = ' ';
+      // string +='<span>'+this.common.getTripStatusHTML(oldTrip._trip_status_type,oldTrip._showtripstart, oldTrip._showtripend, oldTrip._placement_types, oldTrip._p_loc_name)+'</span><br>';
+      string += '<span>' + text[0].location + '</span><br>';
+      title += text[0].location + ' ';
+      if (('' + text[0].state_name).search('Onward') > -1) {
+        string += '<span class="black">(O)</span>';
+        title += '(O)';
+
+      } else if (('' + text[0].state_name).search('Unloading') > -1) {
+        string += '<span class="green">(UL)</span>';
+        title += '(UL)';
+      } else if (('' + text[0].state_name).search('Loading') > -1) {
+        string += '<span class="blue">(L)</span>';
+        title += '(L)';
+      } else if ((('' + text[0].state_name).search('No Data 12 Hr') > -1) || (('' + text[0].state_name).search('No GPS Data') > -1) || (('' + text[0].state_name).search('Undetected') > -1)) {
+        string += '<span class="red">(Issue)</span>';
+        title += '(Issue)';
+      }
+      else {
+        string += '<span>(' + text[0].state_name + ')</span>';
+        title += '(' + text[0].state_name + ')';
+
+      }
+      if (text[0].remarks) {
+        string += '<span> - ' + text[0].remarks + '</span>';
+        title += ' - ' + text[0].remarks;
+      }
+
+      string += "<br>Added on : " + text[0]['addtime'];
+      title += ' Added on : ' + text[0]['addtime'];
+      str = this.formatTripTitle(str, title);
+      string = str + string;
+    }
+    return this.sanitizer.bypassSecurityTrustHtml(string);
+  }
+
+  formatTripTitle(str: string, strToAdd) {
+    let stIndex = str.indexOf('<i title="');
+    let endIndex = str.indexOf('"></i>>');
+    let str2 = str.slice(stIndex, endIndex)
+    let str3 = str2 + ' > ' + strToAdd;
+    return str.replace(str2, str3);
   }
 
   printPDF(tblEltId) {
@@ -183,7 +229,11 @@ export class TipFeedbackLogsComponent implements OnInit {
 
   }
 
-
+  getTripHtml(oldTrip) {
+    let trip = '<span [innerHTML]=' + this.common.getTripStatusHTML(oldTrip._trip_status_type, oldTrip._showtripstart, oldTrip._showtripend, oldTrip._placement_types, oldTrip._p_loc_name)['changingThisBreaksApplicationSecurity'] + '></span><br>';
+    console.log("trip", trip);
+    return trip;
+  }
 
 
 

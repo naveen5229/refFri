@@ -7,6 +7,9 @@ import { UserService } from '../../services/user.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BasicPartyDetailsComponent } from '../basic-party-details/basic-party-details.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'add-supplier-association',
   templateUrl: './add-supplier-association.component.html',
@@ -41,7 +44,8 @@ export class AddSupplierAssociationComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngDestroy() {

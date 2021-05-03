@@ -7,6 +7,9 @@ import { TicketForwardComponent } from '../ticket-forward/ticket-forward.compone
 import { TicketTrailsComponent } from '../ticket-trails/ticket-trails.component';
 import { ChangeVehicleStatusByCustomerComponent } from '../change-vehicle-status-by-customer/change-vehicle-status-by-customer.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ticket-details',
   templateUrl: './ticket-details.component.html',
@@ -53,7 +56,8 @@ export class TicketDetailsComponent implements OnInit {
     this.activeModal.close({ response: isFatal });
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
  

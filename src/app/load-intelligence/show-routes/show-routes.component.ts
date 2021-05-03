@@ -5,6 +5,9 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MapService } from '../../services/map.service';
 declare var google: any;
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'show-routes',
   templateUrl: './show-routes.component.html',
@@ -58,11 +61,12 @@ export class ShowRoutesComponent implements OnInit {
       this.searchData();
     }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   ngAfterViewInit() {
     setTimeout(() => {
-      this.mapService.mapIntialize('map', this.requestData.zoom, this.requestData.lat, this.requestData.long);
+      this.mapService.mapIntialize('show-routes-map', this.requestData.zoom, this.requestData.lat, this.requestData.long);
     }, 200);
 
   }

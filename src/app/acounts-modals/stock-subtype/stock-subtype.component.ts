@@ -3,6 +3,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'stock-subtype',
   templateUrl: './stock-subtype.component.html',
@@ -62,7 +65,8 @@ export class StockSubtypeComponent implements OnInit {
     display: 'name'
   };
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getStockType() {

@@ -10,6 +10,9 @@ import { LocationSelectionComponent } from '../../modals/location-selection/loca
 
 declare var google: any;
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-trip-update',
   templateUrl: './vehicle-trip-update.component.html',
@@ -65,7 +68,8 @@ export class VehicleTripUpdateComponent implements OnInit {
     this.getVehicleCurrentStatus();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   selecteCity() {
     console.log("city selected");
@@ -310,5 +314,14 @@ export class VehicleTripUpdateComponent implements OnInit {
       }
     }, 1000);
 
+  }
+
+  getTripHtml(oldTrip){
+    oldTrip = JSON.parse(oldTrip);
+    let trip = this.common.getTripStatusHTML(oldTrip._trip_status_type,oldTrip._showtripstart, oldTrip._showtripend, oldTrip._placement_types, oldTrip._p_loc_name);
+    // let trip = '<span [innerHTML]='+this.common.getTripStatusHTML(oldTrip._trip_status_type,oldTrip._showtripstart, oldTrip._showtripend, oldTrip._placement_types, oldTrip._p_loc_name)['changingThisBreaksApplicationSecurity']+'></span><br>';
+    console.log("trip",trip);
+    return trip;
+    // return this.sanitizer.bypassSecurityTrustHtml(trip);
   }
 }

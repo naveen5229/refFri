@@ -3,7 +3,11 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ExcelService } from '../../services/excel/excel.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'user-call-history',
   templateUrl: './user-call-history.component.html',
@@ -28,14 +32,16 @@ callData = null;
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
+    private excelService: ExcelService,
     private activeModal : NgbActiveModal
   ) {
     this.callData = this.common.params.callData;
-    console.log("call data",this.callData)
+    console.log("call data",this.callData);
     this.getReport();
    }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   formatTitle(strval) {
@@ -126,6 +132,29 @@ callData = null;
 
   closeModal() {
     this.activeModal.close();
+  }
+
+  generateExcel() {
+    let foName =   this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let headerDetails=[];
+    headerDetails=[
+        {sDate:''},
+        {eDate:''},
+        {name:foName}
+    ]
+    let headersArray = ["Vehicle Name", "Name", "Category", "Mobile No", "Call Type", "Call Time", "Call Duration (seconds)"];
+    let json = this.callHistory.map(calhistory => {
+      return {
+        "Vehicle Name": calhistory['Vehicle Name'],
+        "Name":calhistory['Name'],
+        "Category": calhistory['Category'],
+        "Mobile No": calhistory['Mobile No'],
+        "Call Type": calhistory['Call Type'],
+        "Call Time": calhistory['Call Time'],
+        "Call Duration (seconds)": calhistory['Call Duration (seconds)'],
+      };
+    });
+    this.excelService.jrxExcel("User Call History",headerDetails,headersArray, json, 'User Call History', false);
   }
   
 

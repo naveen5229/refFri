@@ -26,7 +26,7 @@ import { AutoSuggestionComponent } from '../directives/auto-suggestion/auto-sugg
 import { DirectiveModule } from '../directives/directives.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime-ex';
 import { VehicleSearchComponent } from '../modals/vehicle-search/vehicle-search.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ImageProcessingComponent } from './image-processing/image-processing.component';
 import { RouteMapperComponent } from './route-mapper/route-mapper.component';
 import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
@@ -97,10 +97,29 @@ import { SupervisorUserAssociationComponent } from './supervisor-user-associatio
 import { TripsComponent } from './trips/trips.component';
 import { IssuesReportComponent } from './issues-report/issues-report.component';
 import { VehicleStatesComponent } from './vehicle-states/vehicle-states.component';
+import { GraphicalReportsComponent } from './graphical-reports/graphical-reports.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { UlheatmapComponent } from './ulheatmap/ulheatmap.component';
+import { TicketsReportComponent } from './tickets-report/tickets-report.component';
+import { TripmasterreportComponent } from './tripmasterreport/tripmasterreport.component';
+import { TransporterViewComponent } from './transporter-view/transporter-view.component';
+import { CooperateViewComponent } from './cooperate-view/cooperate-view.component';
+import { TriptatreportComponent } from './triptatreport/triptatreport.component';
+import { LeadvalidationreportComponent } from './leadvalidationreport/leadvalidationreport.component';
+import { TripdeliverycomplinancereportComponent } from './tripdeliverycomplinancereport/tripdeliverycomplinancereport.component';
+import { TripstoppageComponent } from './tripstoppage/tripstoppage.component';
+import { DynamicReportDashboardComponent } from './dynamic-report-dashboard/dynamic-report-dashboard.component';
+import { DynamicReportComponent } from './dynamic-report-dashboard/dynamic-report/dynamic-report';
+import { ReportViewComponent } from './dynamic-report-dashboard/report-view/report-view.component';
+import { ReportEditComponent } from './dynamic-report-dashboard/report-edit/report-edit.component';
+import { DriverPreferencesComponent } from './driver-preferences/driver-preferences.component';
+import { ConsignmentComponent } from './consignment/consignment.component';
+
+
 
 const PAGES_COMPONENTS = [
-  PagesComponent
-
+  PagesComponent,
+  DynamicReportComponent
 ];
 
 @NgModule({
@@ -119,6 +138,8 @@ const PAGES_COMPONENTS = [
     LorryReceiptModule,
     SharedModule,
     DriverModule,
+    DragDropModule,
+    FormsModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -142,6 +163,8 @@ const PAGES_COMPONENTS = [
     UserCallSummaryComponent,
     PlacementsDashBoardComponent,
     TripStatusFeedbackComponent,
+    TicketsReportComponent,
+
     // UserActivityStatusComponent,
     PlacementDelayFaultsComponent,
     VehicleGpsDetailComponent,
@@ -193,8 +216,21 @@ const PAGES_COMPONENTS = [
     TripsComponent,
     IssuesReportComponent,
     VehicleStatesComponent,
-   
-  
+    GraphicalReportsComponent,
+    UlheatmapComponent,
+    TripmasterreportComponent,
+    UlheatmapComponent,
+    TransporterViewComponent,
+    CooperateViewComponent,
+    TriptatreportComponent,
+    LeadvalidationreportComponent,
+    TripdeliverycomplinancereportComponent,
+    TripstoppageComponent,
+    DynamicReportDashboardComponent,
+    ReportViewComponent,
+    ReportEditComponent,
+    DriverPreferencesComponent,
+    ConsignmentComponent
   ],
   exports: [
     FuelAverageAnalysisComponent,

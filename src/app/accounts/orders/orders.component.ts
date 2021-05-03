@@ -16,6 +16,9 @@ import { PrintService } from '../../services/print/print.service';
 import { isNull } from 'util';
 import { RecordsComponent } from '../../acounts-modals/records/records.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'orders',
   templateUrl: './orders.component.html',
@@ -198,7 +201,8 @@ export class OrdersComponent implements OnInit {
     this.getFreeze();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
 

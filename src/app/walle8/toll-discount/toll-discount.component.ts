@@ -9,6 +9,9 @@ import { CsvService } from '../../services/csv/csv.service';
 import { getUrlScheme } from '@angular/compiler';
 import { now } from 'moment';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'toll-discount',
   templateUrl: './toll-discount.component.html',
@@ -49,7 +52,8 @@ export class TollDiscountComponent implements OnInit {
     //this.calculateTotal();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   refresh(){
@@ -105,7 +109,7 @@ export class TollDiscountComponent implements OnInit {
 
 
   printPDF(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     console.log("Name:",name);
     let details = [
       ['Name: ' + name,'Start Date: '+this.common.dateFormatter1(this.dates.start),'End Date: '+this.common.dateFormatter1(this.dates.end),  'Report: '+'Toll-Discount']
@@ -114,7 +118,7 @@ export class TollDiscountComponent implements OnInit {
   }
 
   printCSV(){
-    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.foName;
     let details = [
       { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter1(this.dates.start),enddate:'End Date:'+this.common.dateFormatter1(this.dates.end), report:"Report:Toll-Discount"}
     ];
@@ -143,10 +147,8 @@ export class TollDiscountComponent implements OnInit {
 
 
   gettollDiscount() {
-
-
-    let params = "foid=" + this.user._details.foid;
-
+    let foid=this.user._loggedInBy=='admin' ? this.user._customer.foid : this.user._details.foid;
+    let params = "mobileno=" + this.user._details.fo_mobileno+"&foid="+foid;
     this.common.loading++;
     let response;
     this.api.walle8Get('DiscountApi/getUserDiscountHistory.json?' + params)
@@ -252,8 +254,6 @@ export class TollDiscountComponent implements OnInit {
       amount: { title: 'Amount', placeholder: 'Amount' },
       remark: { title: 'Remark', placeholder: 'Remark' },
       disc_type: { title: 'Discount Type', placeholder: 'Discount Type' },
-
-
     };
     return {
       data: {

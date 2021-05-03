@@ -6,6 +6,9 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountsComponent } from '../accounts/accounts.component';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'ledgeraddress',
   templateUrl: './ledgeraddress.component.html',
@@ -45,7 +48,8 @@ export class LedgeraddressComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1250','px',0);
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   keyHandler(event) {

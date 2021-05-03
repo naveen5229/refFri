@@ -8,6 +8,9 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { MapService } from '../../services/map.service';
 
 declare var google: any;
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'vehicle-states',
   templateUrl: './vehicle-states.component.html',
@@ -68,7 +71,7 @@ export class VehicleStatesComponent implements OnInit {
     public mapService: MapService,
     public datepipe: DatePipe,
     private modalService: NgbModal) {
-    this.common.handleModalSize('class', 'modal-lg', '1000');
+    this.common.handleModalSize('class', 'modal-lg', '1200');
     this.vid = this.common.params.vehicleId;
     this.vehicle[0].lat = this.common.params.lat;
     this.vehicle[0].long = this.common.params.long;
@@ -77,7 +80,8 @@ export class VehicleStatesComponent implements OnInit {
     this.getVehicleEvent();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   changeStateType() {
@@ -89,7 +93,7 @@ export class VehicleStatesComponent implements OnInit {
     console.log("here");
 
 
-    this.mapService.mapIntialize("map", 18, 25, 75, true);
+    this.mapService.mapIntialize("vehicle-states-map", 18, 25, 75, true);
     setTimeout(() => {
       this.mapService.createMarkers(this.vehicle, false, true, ["vregno"]);
       this.mapService.zoomMap(9);
@@ -354,7 +358,7 @@ export class VehicleStatesComponent implements OnInit {
       document.getElementById('foo').className = 'col-sm-12';
 
       this.mapService.clearAll();
-      this.mapService.mapIntialize("map", 18, 25, 75, true);
+      this.mapService.mapIntialize("vehicle-states-1-map", 18, 25, 75, true);
       setTimeout(() => {
         this.mapService.createMarkers(this.vehicle, false, true, ["vregno"]);
         this.mapService.zoomMap(7);

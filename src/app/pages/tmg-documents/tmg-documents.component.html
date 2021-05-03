@@ -4,25 +4,31 @@
   <div class="row mb-3 mr-0 pt-2">
     <div class="col-12 pl-0 pr-0">
       <div class="outer">
-        <h6 style="text-align:center"><b class="charthead">Current Status</b></h6>
-        <table class="table">
+        <!-- <h6 style="text-align:center"><b class="charthead">Current Status</b></h6> -->
+        <smart-table *ngIf="documentData.length" [data]="table.data" [settings]="table.settings" id="tblsummary"></smart-table>
+        <br>
+        <!-- <table class="table">
           <thead class="thead">
             <th></th>
-            <th>Unuploaded</th>
+            <th>Total</th>
+            <th>Pending/Not Uploaded</th>
             <th>Unverified</th>
+            <th>Verified</th>
             <th>Expired</th>
-            <th>Expired & on Trip</th> 
+            <th>Expired (Active Trip)</th> 
           </thead>
           <tbody class="tbody">
             <tr *ngFor="let cs of currentStatus">
               <td><b>{{cs['Docs Type']}}</b></td>
+              <td><b>{{cs['_total_vehicle']}}</b></td>
               <td><b>{{cs['Unuploaded']}}</b></td>
               <td><b>{{cs['Unverified']}}</b></td>
+              <td><b>{{cs['Verified']}}</b></td>
               <td><b>{{cs['Expired']}}</b></td>
               <td><b>{{cs['Expired On Trips']}}</b></td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
       </div>
     </div>
   </div>

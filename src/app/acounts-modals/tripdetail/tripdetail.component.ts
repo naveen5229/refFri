@@ -12,6 +12,9 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { PrintService } from '../../services/print/print.service';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'tripdetail',
   templateUrl: './tripdetail.component.html',
@@ -144,7 +147,8 @@ this.vouchertype=this.common.params.VoucherData[0]['y_vouchertype_id'];
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   getcreditLedgers(transactionType) {

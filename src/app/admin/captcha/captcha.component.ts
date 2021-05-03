@@ -5,6 +5,9 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'captcha',
   templateUrl: './captcha.component.html',
@@ -20,7 +23,8 @@ export class CaptchaComponent implements OnInit {
     this.getCaptchas();
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
 
   ngAfterViewInit() {

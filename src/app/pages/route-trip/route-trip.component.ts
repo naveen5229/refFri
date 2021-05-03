@@ -9,6 +9,9 @@ import { DateService } from '../../services/date.service';
 import { RoutesTimetableComponent } from '../../modals/routes-timetable/routes-timetable.component';
 
 
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+
+@AutoUnsubscribe()
 @Component({
   selector: 'route-trip',
   templateUrl: './route-trip.component.html',
@@ -56,7 +59,8 @@ export class RouteTripComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnDestroy(){}
+ngOnInit() {
   }
   refresh() {
 
@@ -138,7 +142,7 @@ export class RouteTripComponent implements OnInit {
 
         this.valobj['action'] = {
           value: '', isHTML: true, action: null, icons: [
-             { class: 'fa fa-pencil-square-o  edit-btn', isHTML: `<h2>test</h2>`, action:  this.viewRouteTimeTable.bind(this, this.vehicleTrips[i]) },
+             { class: 'fas fa-edit  edit-btn', isHTML: `<h2>test</h2>`, action:  this.viewRouteTimeTable.bind(this, this.vehicleTrips[i]) },
             // { class: 'fa fa-question-circle report-btn', action: this.reportIssue.bind(this, this.vehicleTrips[i]) },
             // { class: " fa fa-trash remove", action: this.deleteTrip.bind(this, this.vehicleTrips[i]) },
             // { class: " fa fa-route route-mapper", action: this.openRouteMapper.bind(this, this.vehicleTrips[i]) },
