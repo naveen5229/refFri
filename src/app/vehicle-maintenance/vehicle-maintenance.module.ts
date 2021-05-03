@@ -21,6 +21,7 @@ import { ViewSummaryDetailsComponent } from './model/view-summary-details/view-s
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ChartModule } from 'angular2-chartjs';
 import { ResizableModule } from 'angular-resizable-element';
+import { TicketSummaryComponent } from './ticket-summary/ticket-summary.component';
 
 const PAGES_COMPONENTS = [
   VehicleMaintenanceComponent,
@@ -47,6 +48,7 @@ const PAGES_COMPONENTS = [
     MaintenanceReportComponent,
     ViewSummaryDetailsComponent,
     DashboardComponent,
+    TicketSummaryComponent,
   ],
   entryComponents: [
     AddMaintenanceComponent,
@@ -54,7 +56,8 @@ const PAGES_COMPONENTS = [
     MaintenanaceDashboardComponent,
     MaintenanceSummaryComponent,
     MaintenanceReportComponent,
-    ViewSummaryDetailsComponent
+    ViewSummaryDetailsComponent,
+    TicketSummaryComponent
   ],
   exports: [
     ViewModalServiceComponent,

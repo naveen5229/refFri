@@ -1,0 +1,10 @@
+
+<nb-card style=" margin:0px; padding-top: 0px; border: 0px; height: 100%;">
+    <nb-card-header>
+        <h6>Ticket Summary</h6>
+    </nb-card-header>
+    <nb-card-body style="padding-bottom: 0px;">
+        <smart-table class="maintenance-details" *ngIf="data && data.length>0" [data]="table.data"
+            [settings]="table.settings" id="ticket-Maintenance"></smart-table>
+    </nb-card-body>
+</nb-card>
