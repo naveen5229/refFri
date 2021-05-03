@@ -27,7 +27,6 @@
         //position: absolute;
         overflow: hidden;
         // border: 2px solid black;
-        background: #fefefe;
         //width: 300px;
        // height: 300px;
         .report-container{
@@ -41,6 +40,22 @@
                 font-size: 20px;
                 cursor: pointer;
             }
+        }
+        span.title {
+            font-size: 10px;
+        }
+       
+        input{
+            width: -webkit-fill-available;
+            border-radius: 5px;
+            border: 1px solid #e8e5e5;
+            height: 25px!important;
+
+        }
+      input[type="checkbox"] {
+        width: auto;
+        display: block;
+        height: 20px!important;
         }
     }
 }
