@@ -20,38 +20,37 @@
     </nb-card-header>
 
     <nb-card-body>
-        <div class="reports-container">
-            <div class="row">
-                <button class="btn btn-primary" (click)="savereport()"> Save</button>
-            </div> 
-            <div class="report row" *ngFor="let report of Reports;let i = index">
-
+        <div class="reports-container">            
+                <button class="btn btn-primary float-right" (click)="savereport()"> Save</button>           
+            <div class="report col-10 p-0" *ngFor="let report of Reports;let i = index">
+                <div  class="row">
                 <div class="col-6">
-                <div class="report-container row mb-2" >
-                    <div class="col-1 p-1">
+                <div class="report-container row" >
+                    <div class="col-3 p-1">
                     <input type="checkbox" [value]="true" [checked]="report.is_default"  [(ngModel)]="report.is_default">                    
                 </div>                    
-                    <div class="col-1 p-1"> <input type="text" [value]="report.col_order" [(ngModel)]="report.col_order" /></div> 
+                    <div class="col-3 p-1"> <input type="text" [value]="report.col_order" [(ngModel)]="report.col_order" /></div> 
                  
-                    <div class="col-3 p-1"> <input type="text" [(ngModel)]="report.col_title"/>
+                    <div class="col-6 p-1"> <input type="text" [(ngModel)]="report.col_title"/>
                    <input type="hidden" [value]="report.col_id" [(ngModel)]="report.col_id" />
                     </div> 
-                    <diiv class="col-12 p-1"> <span class="title">( {{report.col_title_actual}} )</span>   </diiv>
+                    <diiv class="col-12 pl-1 pr-1"> <span class="title">( {{report.col_title_actual}} )</span>   </diiv>
                 </div>
             </div>
             <div class="col-6">
-                <div class="report-container row mb-2" >
-                    <div class="col-1 p-1">
+                <div class="report-container row" >
+                    <div class="col-3 p-1">
                     <input type="checkbox" [value]="true" [checked]="report.is_default"  [(ngModel)]="report.is_default">                    
                 </div>                    
-                    <div class="col-1 p-1"> <input type="text" [value]="report.col_order" [(ngModel)]="report.col_order" /></div> 
+                    <div class="col-3 p-1"> <input type="text" [value]="report.col_order" [(ngModel)]="report.col_order" /></div> 
                  
-                    <div class="col-3 p-1"> <input type="text" [(ngModel)]="report.col_title"/>
+                    <div class="col-6 p-1"> <input type="text" [(ngModel)]="report.col_title"/>
                    <input type="hidden" [value]="report.col_id" [(ngModel)]="report.col_id" />
                     </div> 
-                    <diiv class="col-12  p-1"> <span class="title">( {{report.col_title_actual}} )</span>   </diiv>
+                    <diiv class="col-12  pl-1 pr-1"> <span class="title">( {{report.col_title_actual}} )</span>   </diiv>
                 </div>
             </div>
+        </div>
             </div>
         </div>
     </nb-card-body>
