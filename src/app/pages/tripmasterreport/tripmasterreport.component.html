@@ -2,6 +2,9 @@
     <nb-card-header>
       <div class="row">
           <h5>Trip Master Report</h5>
+          <!-- <i class="fas fa-file-pdf" (click)="downloadPdf()"></i> -->
+          <i class="fas fa-file-excel download-excel" (click)="downloadExcel()"></i>
+
       </div>
     </nb-card-header>
     <nb-card-body>
@@ -32,7 +35,7 @@
         </div>
         <div  class="row" style="margin-top:15px;scrollbar-width:thin;" *ngIf="tripMasterReportData && tripMasterReportData.length>0">
             <div class="col-sm-12" style="height: 66vh;width: 100%;overflow: auto;">
-                <table class="table table-bordered" >
+                <!-- <table class="table table-bordered" >
                     <thead>
                     <tr style="background-color:#a6e2f4;">
                             <th rowspan="2">#</th>
@@ -42,7 +45,6 @@
                             <th rowspan="2" style="min-width:150px;">Invoice Date & Time</th>
                             <th rowspan="2" style="min-width: 90px;">LR No.</th>
                             <th rowspan="2" style="min-width: 108px;">Product Name</th>
-                            <!-- <th rowspan="2" style="min-width: 70px;">Route Id</th> -->
                             <th rowspan="2" style="min-width: 95px;">Route Name</th>
                             <th rowspan="2" style="min-width: 130px;">Lead Distance</th>
                             <th rowspan="2" style="min-width: 130px;">GPS Distance</th>
@@ -64,7 +66,6 @@
                             <th rowspan='2'>Halt</th>
                             <th rowspan="2" style="min-width:110px;">Driver Name</th>
                             <th rowspan="2" style="min-width: 110px;">Driver Mobile</th>
-                            <!-- <th rowspan="2">VId</th> -->
                             <th rowspan='2' style="min-width: 140px;">Expired Doc. Count</th>
                             <th rowspan='2' style="min-width: 148px;">Challan date/Amount</th>
                             <th rowspan='2' style="min-width: 148px;">Stamp Status</th>
@@ -102,7 +103,6 @@
                         <td>{{data['inv_start_time']}}</td>
                         <td>{{data['receipt_no']}}</td>
                         <td>{{data['product_name']}}</td>
-                        <!-- <td>{{data['route_id']}}</td> -->
                         <td>{{data['route_name']}}</td>
                         <td>{{data.lead_dis}}</td>
                         <td>{{data.gps_dis || ''}}</td>
@@ -141,13 +141,14 @@
                         <td> <span (click)="showRouteMapper(data)" style="color:blue;cursor:pointer;">{{data['stoppagecount']}}</span> </td>
                         <td>{{data['driver_name']}}</td>
                         <td>{{data['driver_mobile']}}</td>
-                        <!-- <td>{{data['vid']}}</td> -->
                         <td>{{data['expire_veh_count']}}</td>
                         <td>{{data['challan_amount']}}</td>
                         <td>{{data.trip_stamp_status}}</td>
                     </tr>
                 </tbody>
-                </table>
+                </table> -->
+
+                <smart-table id="trip-master-report" [data]="table.data" [settings]="table.settings"></smart-table>
             </div>
         </div>
     </nb-card-body>

@@ -72,8 +72,8 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/placements-dash-board',
         home: true,
       },
-     
-      
+
+
       {
         title: 'Day Wise Vehicle Distance',
         icon: 'fa-road',
@@ -144,11 +144,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         icon: 'fa-home',
         link: '/pages/ulheatmap',
       },
-      {
-        title: 'Trip Master Report',
-        icon: 'fa-home',
-        link: '/pages/tripmasterreport',
-      },
+
 
 
 
@@ -161,35 +157,30 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
     ]
   },
   {
-    title: 'Reports',
+    title: 'Trip Reports',
     icon: 'fa-route',
     link: '/pages/dashboard',
     home: true,
     children: [
       {
         title: 'Lead Validation Report',
-        icon: 'fa-home',
+        icon: 'fa-clipboard-check',
         link: '/pages/leadvalidationreport',
       },
-      {
-        title: 'AI Report',
-        icon: 'fa-clipboard-check',
-        link: '/pages/issues-report',
-        home: true,
-      },
+
       {
         title: 'Trip Delivery Complinance Report',
-        icon: 'fa-home',
+        icon: 'fa-clipboard-check',
         link: '/pages/tripdeliverycomplinancereport',
       },
       {
         title: 'Trip Stoppage Report',
-        icon: 'fa-home',
+        icon: 'fa-clipboard-check',
         link: '/pages/tripstoppage',
       },
       {
         title: 'Trip TAT Report',
-        icon: 'fa-home',
+        icon: 'fa-clipboard-check',
         link: '/pages/triptatreport',
       },
       {
@@ -204,7 +195,18 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/vehicle-covered-distance',
         home: true,
       },
+      {
+        title: 'Trip Master Report',
+        icon: 'fa-clipboard-check',
+        link: '/pages/tripmasterreport',
+      },
     ]
+  },
+  {
+    title: 'AI Report',
+    icon: 'fa-clipboard-check',
+    link: '/pages/issues-report',
+    home: true,
   },
   {
     title: 'Admin',
@@ -219,7 +221,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         home: true,
       },
       {
-        title: 'Dynamic Report Dashboard',
+        title: 'Business Dashboard',
         // icon: 'fa-chart-pie',
         link: '/pages/dynamic-report-dashboard',
         home: true,
@@ -229,6 +231,12 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         title: 'Transporter TMG Dashboard',
         // icon: 'fa-chart-pie',
         link: '/pages/transporter-view',
+        home: true,
+      },
+      {
+        title: 'Consignment',
+        // icon: 'fa-chart-pie',
+        link: '/pages/consignment',
         home: true,
       },
 
@@ -316,7 +324,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/web-acttivity-summary'
       },
       {
-        title: 'Fo User Role',
+        title: 'User Roles',
         icon: 'fa-user-cog',
         link: '/pages/fo-user-role',
       },

@@ -292,7 +292,7 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         link: '/admin/group-managements',
       },
       {
-        title: 'Ticket Properties',
+        title: 'Alert Properties',
         icon: 'fa-ticket-alt',
         link: '/admin/ticket-properties',
       },
@@ -332,7 +332,7 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         link: '/admin/via-routes',
       },
       {
-        title: 'LOC Preference',
+        title: 'Tracking Mode',
         icon: 'fa-pencil-square-o',
         link: '/admin/loc-preference',
       },

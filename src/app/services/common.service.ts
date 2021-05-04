@@ -494,7 +494,7 @@ export class CommonService {
       if (!isFixed) {
         return parseFloat(dist.toFixed(2));
       }
-      
+
       return parseInt(dist.toFixed(0));
     }
   }
@@ -1014,19 +1014,22 @@ export class CommonService {
     let organization = { "elogist Solutions": "elogist Solutions" };
     let blankline = { "": "" };
 
-    let leftData = { left_heading };
-    let centerData = { center_heading };
+    let leftData = { left_heading: left_heading || '' };
+    let centerData = { center_heading: center_heading || '' };
     let lowerLeft = lower_left_heading ? { lower_left_heading } : {};
-    let doctime = { time };
+    let doctime = { time: time || '' };
 
     let info = []; lower_left_heading
     let hdgs = {};
     let arr_hdgs = [];
     info.push(organization);
     info.push(blankline);
-    info.push(leftData);
-    info.push(centerData, doctime);
-    info.push(lowerLeft);
+    if (left_heading)
+      info.push(leftData);
+    if (center_heading)
+      info.push(centerData, doctime);
+    if (lower_left_heading)
+      info.push(lowerLeft);
     let hdgCols = tblelt.querySelectorAll('th');
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
