@@ -4,6 +4,7 @@ import interact from 'interactjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReportEditComponent } from './report-edit/report-edit.component';
 import { CommonService } from '../../services/common.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'dynamic-report-dashboard',
@@ -18,8 +19,10 @@ export class DynamicReportDashboardComponent implements OnInit {
     startDate: this.startDate,
     endDate: this.endDate,
   };
+  tabsdata:any;
   dynamicReports = [];
-
+  dynamicreportcall=[];
+  caltabname='';
   constructor(private api: ApiService, private modalService: NgbModal, private common: CommonService) {
     this.getDynamicReports();
 
@@ -55,6 +58,18 @@ export class DynamicReportDashboardComponent implements OnInit {
   }
   callreport(calldata){
     console.log('callreport',calldata);
+    this.dynamicreportcall = [];
+
+      this.reports.map((data)=>{
+    console.log('callreport',data.name);
+    calldata.map((cdata)=>{
+        if(data.name == cdata.rpt_name){
+        this.dynamicreportcall.push(data);
+        this.caltabname = cdata.rpt_tabname;
+        }
+      })
+      });
+      console.log('dynamicreportcall',this.dynamicreportcall);
   }
 
   getDynamicReports() {
@@ -68,6 +83,16 @@ export class DynamicReportDashboardComponent implements OnInit {
         this.common.loading--;
         console.log('GetDynamicReportMaster:', res);
         this.dynamicReports = res['data'];
+        //let tabs =this.dynamicReports[]
+        let tabs = _.groupBy(res['data'], 'rpt_tabname');
+        this.tabsdata = [];
+        Object.keys(tabs)
+          .map(key => {
+            this.tabsdata.push(tabs[key]);
+          })
+          console.log('predefined', this.tabsdata);
+
+      
         localStorage.setItem('dynamic-report', JSON.stringify(this.dynamicReports));
         this.getSavedReports();
 
@@ -77,7 +102,14 @@ export class DynamicReportDashboardComponent implements OnInit {
       })
   }
 
-  editReport() {
+  editReport(flag?) {
+    if(flag){
+        this.common.params = {
+          caltabname: this.caltabname
+        };
+    }else{
+      this.common.params ='';
+    }
     let modal = this.modalService.open(ReportEditComponent, { size: 'lg', container: 'nb-layout' });
     modal.result.then(data => {
       this.getDynamicReports();

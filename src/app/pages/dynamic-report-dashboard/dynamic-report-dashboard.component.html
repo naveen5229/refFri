@@ -15,27 +15,42 @@
             <div class="col-2">
                 <div class="btn btn-primary" (click)="getReport()">Get Report</div>
             </div>
-            <div class="col-3 text-right">
-                <button class="btn btn-primary" (click)="editReport()">Edit Report</button>
+            <div class="col-1 text-right">
+                <button class="btn btn-primary fas-fa-plus" (click)="editReport()"></button>
+            </div>
+            <div class="col-2 text-right">
+                <button class="btn btn-primary" (click)="editReport(true)">Edit Report</button>
             </div>
         </div>
-        <div class="row"  *ngIf="dynamicReports">
-            <div class="col-2"  *ngFor="let dynareport of dynamicReports;let i = index" (click)="callreport(dynareport)"> 
-            
-                    <span>{{dynareport.rpt_tabname}}</span>
-               
+        <div class="row"  *ngIf="tabsdata">
+            <!-- <div class="col-2" >
+                <span>General</span>
+            </div> -->
+            <div *ngFor="let dynareport of tabsdata;let i = index "> 
+                <div class="col-2" *ngIf="dynareport.rpt_tabname != 'General'">
+                    <button class="btn btn-primary" (click)="callreport(dynareport)">{{dynareport[0].rpt_tabname}}</button>
+                </div>
             </div>
+           
         </div>
 
     </nb-card-header>
 
     <nb-card-body>
         <div class="reports-container">
-            <div class="report" *ngFor="let report of reports;let i = index" [id]="'xreport-' + report._id"
+            <!-- <div class="report" *ngFor="let report of reports;let i = index" [id]="'xreport-' + report._id"
                 [style.width]="report.style.width" [style.height]="report.style.height" [style.top]="report.style.y"
                 [style.left]="report.style.x">
                 <div class="report-container">
                     <dynamic-report [savedReportSelect]="report" [startDate]="assign.startDate" [endDate]="assign.endDate"></dynamic-report>
+                </div>
+            </div> -->
+
+            <div class="report" *ngFor="let dynamicreportcallreport of dynamicreportcall;let i = index" [id]="'xreport-' + dynamicreportcallreport._id"
+                [style.width]="dynamicreportcallreport.style.width" [style.height]="dynamicreportcallreport.style.height" [style.top]="dynamicreportcallreport.style.y"
+                [style.left]="dynamicreportcallreport.style.x">
+                <div class="report-container">
+                    <dynamic-report [savedReportSelect]="dynamicreportcallreport" [startDate]="assign.startDate" [endDate]="assign.endDate"></dynamic-report>
                 </div>
             </div>
         </div>
