@@ -53,6 +53,9 @@ export class DynamicReportDashboardComponent implements OnInit {
         }).filter(report => report.style)
       })
   }
+  callreport(calldata){
+    console.log('callreport',calldata);
+  }
 
   getDynamicReports() {
     const params = {

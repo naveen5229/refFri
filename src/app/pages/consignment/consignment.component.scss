@@ -19,16 +19,14 @@
 
 .reports-container {
     position: relative;
-    overflow: hidden;
-    // border: 2px solid black;
-    height: 80vh;
+    height: calc(100vh - 137px);
+    overflow: auto;
     .report {
         // resize: both;
         //position: absolute;
         overflow: hidden;
         // border: 2px solid black;
-        background: #fefefe;
-        width: 300px;
+        //width: 300px;
        // height: 300px;
         .report-container{
             position: relative;
@@ -41,6 +39,23 @@
                 font-size: 20px;
                 cursor: pointer;
             }
+        }
+        span.title {
+            font-size: 10px;
+        }
+       
+        input{
+            width: -webkit-fill-available;
+            border-radius: 5px;
+            border: 1px solid #e8e5e5;
+            height: 22px !important;
+            padding: 0 6px!important;
+
+        }
+      input[type="checkbox"] {
+        width: auto;
+        display: block;
+        height: 14px!important;
         }
     }
 }
