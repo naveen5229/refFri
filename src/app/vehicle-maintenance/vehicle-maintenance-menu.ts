@@ -26,6 +26,14 @@ export const MAINTENANCE_MENU_ITEMS = JSON.stringify([
         home: true,
     },
 
+    {
+        title: 'Ticket Summary',
+        icon: 'fa-cogs',
+        link: '/vehicle-maintenance/ticket-summary',
+        home: true,
+    },
+
+
 ]);
 
 // export const CUSTOMER_MENU_ITEMS: NbMenuItem[] = [

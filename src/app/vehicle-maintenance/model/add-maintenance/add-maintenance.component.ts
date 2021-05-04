@@ -24,11 +24,12 @@ export class AddMaintenanceComponent implements OnInit {
   serviceType = [];
   serviceId = null;
   typeId = null;
+  sId = null;
   isItem = 0;
   isChecks = {};
   serviceDetails = {
-    lastServiceDate: null,
-    invoiceNo : null,
+    lastServiceDate: new Date(),
+    invoiceNo: null,
     serviceCategory: '1',
     scheduleServices: "true",
     lastServiceKm: null,
@@ -38,7 +39,7 @@ export class AddMaintenanceComponent implements OnInit {
     serviceLocation: null,
     amount: 0,
     totalAmount: 0,
-    tax:0,
+    tax: 0,
     labourCost: null,
     remark: null,
   }
@@ -68,12 +69,18 @@ export class AddMaintenanceComponent implements OnInit {
     this.btn2 = this.common.params.btn2 || 'Add';
     this.vehicleId = this.common.params.vehicleId;
     this.regno = this.common.params.regno;
+
     this.serviceMaintenanceType();
     this.getServiceCenters();
+    if (this.common.params.modal) {
+      this.sId = this.common.params.sId;
+      // console.log("test", this.common.params.sId);
+      // this.addType(this.sId, true);
+    }
   }
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() { }
+  ngOnInit() {
   }
 
 
@@ -82,11 +89,41 @@ ngOnInit() {
   }
 
   serviceMaintenanceType() {
+    this.serviceType=[];
+    let data=[];
+
     this.common.loading++;
     this.api.get('VehicleMaintenance/getHeadMaster')
       .subscribe(res => {
         this.common.loading--;
-        this.serviceType = res['data'];
+        data = res['data'];
+        data.map((ele,i)=>{
+          if(ele.name=="GENERAL"){
+            this.serviceType.unshift(ele);
+          } 
+          else{
+            this.serviceType.push(ele);
+          }
+          return this.serviceType;
+        })
+
+        this.serviceType.map((ele,i)=>{
+          if(ele.name=="GENERAL"){
+            console.log("General",this.serviceDetails.scheduleServices)
+            if(this.serviceDetails.scheduleServices=="true"){
+              this.isChecks[i]=true;
+              this.addType(ele['id'],true);
+            }else{
+              this.isChecks[i]=false;
+            }
+          }
+         else if(ele.id==this.sId){
+            this.isChecks[i]=true;
+            this.addType(ele['id'],true);
+          }
+          return;
+        })
+       
         console.log("Maintenance Type", this.serviceType);
       }, err => {
         this.common.loading--;
@@ -122,7 +159,7 @@ ngOnInit() {
       serviceCenter: this.serviceDetails.serviceCenter,
       serviceLocation: this.serviceDetails.serviceLocation,
       amount: this.serviceDetails.amount,
-      tax : this.serviceDetails.tax,
+      tax: this.serviceDetails.tax,
       labourCost: this.serviceDetails.labourCost,
       remark: this.serviceDetails.remark,
       items: JSON.stringify(this.items),
@@ -178,23 +215,24 @@ ngOnInit() {
   // }
 
   addType(serviceId, isCheck) {
-    if (isCheck)
+    if (isCheck) {
       this.services = this.common.unionArrays(this.services, [serviceId]);
-    else
+    } else {
       this.services.splice(this.services.findIndex((element) => { return element == serviceId }), 1);
+    }
   }
 
-  calculateAmount(){
+  calculateAmount() {
     this.serviceDetails.totalAmount = this.serviceDetails.amount + this.serviceDetails.tax;
   }
 
-  selectServiceCenter(event){
+  selectServiceCenter(event) {
     event = event['service_center'].split("-");
     this.serviceDetails.serviceCenter = event[0];
     this.serviceDetails.serviceLocation = event[1]
   }
 
-  setServiceCenter(){
-    this.serviceDetails.serviceCenter = this.serviceDetails.serviceCenter?this.serviceDetails.serviceCenter:(<HTMLInputElement>document.getElementById('service_center')).value;
+  setServiceCenter() {
+    this.serviceDetails.serviceCenter = this.serviceDetails.serviceCenter ? this.serviceDetails.serviceCenter : (<HTMLInputElement>document.getElementById('service_center')).value;
   }
 }

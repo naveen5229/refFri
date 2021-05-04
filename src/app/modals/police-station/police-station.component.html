@@ -1,5 +1,8 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">Police Station</h5>
+  <h5 class="modal-title" id="modal-basic-title">Near By</h5>
+  <i class="fa fa-file-pdf pdf" (click)="downloadPDF()"></i>
+  <i class="fas fa-file-excel excel" (click)="downloadExcel()"></i>
+
   <button type="button" class="close" aria-label="Close" (click)="dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -7,8 +10,18 @@
 
 <div class="modal-body">
   <div class="row">
+    <div class="col-3">
+      <input type="radio" name="type" [(ngModel)]="actionType" value="police" (ngModelChange)="handleMarkers()">
+      <label style="vertical-align: middle; margin-left: 5px;">Police Stations</label>
+    </div>
+    <div class="col-3">
+      <input type="radio" name="type" [(ngModel)]="actionType" value="vehicle" (ngModelChange)="handleMarkers()">
+      <label style="vertical-align: middle; margin-left: 5px;">Vehicles</label>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-sm-6">
-      <table class="table table-bordered table-hover">
+      <table class="table table-bordered table-hover" id="near-police" *ngIf="actionType == 'police'">
         <thead>
           <tr>
             <th><b>Serial No</b></th>
@@ -20,14 +33,37 @@
         <tbody>
           <tr *ngFor="let value of PoliceStation; let i = index">
             <div class="td_box HOVER" style=" cursor: pointer">
-              <td (mouseover)="mapService.toggleBounceMF(i)" (mouseout)="mapService.toggleBounceMF(i,2)"
-                (click)="openSmartTool(i,value);">{{value.id}}</td>
-              <td (mouseover)="mapService.toggleBounceMF(i)" (mouseout)="mapService.toggleBounceMF(i,2)"
-                (click)="openSmartTool(i,value);">{{value.name}}</td>
-              <td (mouseover)="mapService.toggleBounceMF(i)" (mouseout)="mapService.toggleBounceMF(i,2)"
-                (click)="openSmartTool(i,value);">{{value.Vicinity}}</td>
-              <td (mouseover)="mapService.toggleBounceMF(i)" (mouseout)="mapService.toggleBounceMF(i,2)"
-                (click)="openSmartTool(i,value);">{{value.phone}}</td>
+              <td (mouseover)="toggleBounceMF(i, policeStationMarkers)"
+                (mouseout)="toggleBounceMF(i,policeStationMarkers,2)" (click)="openSmartTool(i,value);">{{value.id}}
+              </td>
+              <td (mouseover)="toggleBounceMF(i,policeStationMarkers)"
+                (mouseout)="toggleBounceMF(i,policeStationMarkers,2)" (click)="openSmartTool(i,value);">{{value.name}}
+              </td>
+              <td (mouseover)="toggleBounceMF(i,policeStationMarkers)"
+                (mouseout)="toggleBounceMF(i,policeStationMarkers,2)" (click)="openSmartTool(i,value);">
+                {{value.Vicinity}}</td>
+              <td (mouseover)="toggleBounceMF(i,policeStationMarkers)"
+                (mouseout)="toggleBounceMF(i,policeStationMarkers,2)" (click)="openSmartTool(i,value);">{{value.phone}}
+              </td>
+            </div>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="table table-bordered table-hover" id="near-vehicles" *ngIf="actionType == 'vehicle'">
+        <thead>
+          <tr>
+            <th><b>Vehicle</b></th>
+            <th><b>Distance (Km)</b></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let vehicle of vehicles; let i = index">
+            <div class="td_box HOVER" style=" cursor: pointer">
+              <td (mouseover)="toggleBounceMF(i, vehiclesMarkers)" (mouseout)="toggleBounceMF(i, vehiclesMarkers, 2)">
+                {{vehicle.name}}</td>
+              <td (mouseover)="toggleBounceMF(i, vehiclesMarkers)" (mouseout)="toggleBounceMF(i,vehiclesMarkers,2)">
+                {{vehicle.distance}}</td>
             </div>
           </tr>
         </tbody>

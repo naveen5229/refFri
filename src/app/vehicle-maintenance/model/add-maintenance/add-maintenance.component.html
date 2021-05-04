@@ -68,7 +68,7 @@
       <label>Scheduled Service</label>
     </div>
     <div class="col-md-3">
-      <select [(ngModel)]="serviceDetails.scheduleServices" class="form-control">
+      <select [(ngModel)]="serviceDetails.scheduleServices" class="form-control" (change)="serviceMaintenanceType()">
         <option value="true">Yes</option>
         <option value="false">No</option>
       </select>

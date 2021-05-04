@@ -1,10 +1,8 @@
 .holdContainer {
     height: calc(100vh - 180px);
-    border: solid;
+    border: groove;
     padding: 20px;
     overflow: auto;
-    border-width: 1px;
-    border-color: #f2f2f2;
 }
 .placeContainer {
     height: calc(100vh - 180px);
@@ -21,17 +19,15 @@
 
 .reports-container {
     position: relative;
-    overflow: hidden;
-    border: 1px solid #f2f2f2;
+    height: calc(100vh - 137px);
+    overflow: auto;
     .report {
         // resize: both;
-        position: absolute;
+        //position: absolute;
         overflow: hidden;
-        border: 1px solid #f2f2f2;
-        background: #fefefe;
-        cursor: move;
-        width: 300px;
-        height: 300px;
+        // border: 2px solid black;
+        //width: 300px;
+       // height: 300px;
         .report-container{
             position: relative;
             .report-close{
@@ -43,6 +39,23 @@
                 font-size: 20px;
                 cursor: pointer;
             }
+        }
+        span.title {
+            font-size: 10px;
+        }
+       
+        input{
+            width: -webkit-fill-available;
+            border-radius: 5px;
+            border: 1px solid #e8e5e5;
+            height: 22px !important;
+            padding: 0 6px!important;
+
+        }
+      input[type="checkbox"] {
+        width: auto;
+        display: block;
+        height: 14px!important;
         }
     }
 }

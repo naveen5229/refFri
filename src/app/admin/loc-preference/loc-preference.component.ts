@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 @Component({
   selector: 'loc-preference',
@@ -11,11 +12,16 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class LocPreferenceComponent implements OnInit {
 
+
+  table = null;
+
   vehicleId = null;
   modeData: any;
   p1Data: any;
   pData: any;
   viewData:any=[];
+  objData:any={};
+  data=[];
   
   p1Second = "";
   p2Second = "";
@@ -24,9 +30,9 @@ export class LocPreferenceComponent implements OnInit {
 
   items = [
     {
-      value: 0,
-      name: '',
-      p1: 0,
+      value: null,
+      name: null,
+      p1: null,
       p2:null,
       p3:null,
       p4:null,
@@ -41,11 +47,16 @@ export class LocPreferenceComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
+    this.common.refresh = this.refresh.bind(this);
     this.getModes();
     this.showData();
   }
 
   ngOnInit(): void {
+  }
+
+  refresh() {
+    this.showData();
   }
 
   selectVehicle(event, index) {
@@ -61,13 +72,13 @@ export class LocPreferenceComponent implements OnInit {
         console.log("res:", res);
         this.modeData = res['data'];
 
-        this.p1Data = this.modeData.filter(obj => {
-          return obj.value === 0
-        })
+        // this.p1Data = this.modeData.filter(obj => {
+        //   return obj.value === 0
+        // })
 
-        this.pData = this.modeData.filter(obj => {
-          return obj.value !== 0
-        })
+        // this.pData = this.modeData.filter(obj => {
+        //   return obj.value !== 0
+        // })
 
         console.log("plData:", this.p1Data);
         console.log("pData:", this.pData);
@@ -79,9 +90,9 @@ export class LocPreferenceComponent implements OnInit {
 
   addMoreItems(i) {
     this.items.push({
-      value: 0,
-      name: '',
-      p1: 0,
+      value: null,
+      name: null,
+      p1: null,
       p2: null,
       p3: null,
       p4: null,
@@ -102,13 +113,13 @@ export class LocPreferenceComponent implements OnInit {
           preferences.push({ modetype:item.p2, priority: 1, seconds: item.p2Second });
         }
 
-        if (item.p3) {
-          preferences.push({ modetype:item.p3, priority: 2, seconds: item.p3Second });
-        }
+        // if (item.p3) {
+        //   preferences.push({ modetype:item.p3, priority: 2, seconds: item.p3Second });
+        // }
 
-        if (item.p4) {
-          preferences.push({ modetype:item.p4, priority: 3, seconds: item.p4Second });
-        }
+        // if (item.p4) {
+        //   preferences.push({ modetype:item.p4, priority: 3, seconds: item.p4Second });
+        // }
         return {
           "vehicleId": item.value,
           "preferences":preferences
@@ -119,7 +130,8 @@ export class LocPreferenceComponent implements OnInit {
         .subscribe(res => {
           this.common.loading--;
           if (res['success']) {
-            this.common.showToast(res['msg']);
+            this.common.showToast(res['message']);
+            this.refresh();
           }
         }, err => {
           this.common.loading--;
@@ -134,11 +146,114 @@ export class LocPreferenceComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.viewData=res['data'];
-        console.log("siteDet:", res);
-        // console.log("vehId:",this.viewData[0]['vehicleId']);
+        console.log("realData:",this.viewData);
+        this.data = []
+        this.viewData.map(e=>{
+          let singleRow = {
+            vehicle_id:e.vehicleId,
+            regNo : e.regNo,
+            p1Name : e.preferences[0].modeName,
+            p1Sec : e.preferences[0].seconds,
+            p2Name : e.preferences[1]?e.preferences[1].modeName:null,
+            p2Sec : e.preferences[1]?e.preferences[1].seconds:null
+          };
+          this.data.push(singleRow);
+        });
+        this.table = this.setTable();
+      
       }, err => {
         this.common.loading--;
         console.log(err);
+      });
+  }
+
+
+
+  // resetTable() {
+  //   this.table.data = {
+  //     headings: {},
+  //     columns: []
+  //   };
+  // }
+
+  setTable() {
+  let headings = {
+    vehicle: { title: 'Vehicle', placeholder: 'Vehicle' },
+    p1Name: { title: 'P1 Mode', placeholder: 'P1 Mode' },
+    p1Sec: { title: 'P1 Sec', placeholder: 'P1 Sec' },
+    p2Name: { title: 'P2 Mode', placeholder: 'P2 Mode' },
+    p2Sec: { title: 'P2 Sec', placeholder: 'P2 Sec' },
+    action: { title: 'Action', placeholder: 'Action' }
+  };
+  return {
+    data: {
+      headings: headings,
+
+      columns: this.getTableColumns(),
+    },
+    settings: {
+      hideHeader: true,
+      tableHeight: "auto"
+    }
+  }
+}
+
+getTableColumns() {
+  let columns = [];
+  this.data.map(doc => {
+    let column = {
+      vehicle: { value: doc.regNo },
+      p1Name : { value: doc.p1Name },
+      p1Sec: { value: doc.p1Sec },
+      p2Name: { value: doc.p2Name },
+      p2Sec: { value: doc.p2Sec },
+      action:{value: "",isHTML: false,action: null,icons: this.actionIcons(doc)}
+      // action: { value: '', class: 'far fa-edit', action: this.setData.bind(this, doc) }
+    };
+    columns.push(column);
+  });
+  return columns;
+}
+
+actionIcons(doc){
+  let icons = [
+    {
+      class: "fas fa-trash-alt",
+      action: this.deleteRecord.bind(this, doc)
+    }
+  ];
+  return icons;
+}
+
+
+
+
+
+
+
+
+
+  deleteRecord(doc) {
+    console.log("doc:",doc);
+      this.common.params = {
+        title: 'Delete  ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          this.common.loading++;
+          this.api.postJavaPortDost(8083, 'ldmp/delete'+(doc.vehicle_id?'/'+doc.vehicle_id:''),null)
+            .subscribe(res => {
+              this.common.loading--;
+              this.common.showToast(res['message']);
+              this.refresh();
+
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+            });
+        }
       });
   }
 

@@ -2,6 +2,9 @@
     <nb-card-header>
       <div class="row">
           <h5>Trip Master Report</h5>
+          <!-- <i class="fas fa-file-pdf" (click)="downloadPdf()"></i> -->
+          <i class="fas fa-file-excel download-excel" (click)="downloadExcel()"></i>
+
       </div>
     </nb-card-header>
     <nb-card-body>
@@ -32,22 +35,27 @@
         </div>
         <div  class="row" style="margin-top:15px;scrollbar-width:thin;" *ngIf="tripMasterReportData && tripMasterReportData.length>0">
             <div class="col-sm-12" style="height: 66vh;width: 100%;overflow: auto;">
-                <table class="table table-bordered" >
+                <!-- <table class="table table-bordered" >
                     <thead>
                     <tr style="background-color:#a6e2f4;">
                             <th rowspan="2">#</th>
                             <th rowspan="2">Trip Id</th>
                             <th rowspan="2">Vehicle No.</th>
+                            <th rowspan="2">Onward Status</th>
                             <th rowspan="2" style="min-width:150px;">Invoice Date & Time</th>
                             <th rowspan="2" style="min-width: 90px;">LR No.</th>
                             <th rowspan="2" style="min-width: 108px;">Product Name</th>
-                            <!-- <th rowspan="2" style="min-width: 70px;">Route Id</th> -->
                             <th rowspan="2" style="min-width: 95px;">Route Name</th>
                             <th rowspan="2" style="min-width: 130px;">Lead Distance</th>
-                            <th rowspan="2" style="min-width: 140px;">Travelled Distance</th>
+                            <th rowspan="2" style="min-width: 130px;">GPS Distance</th>
+                            <th rowspan="2" style="min-width: 140px;">AI Repaired Distance</th>
+                            <th rowspan="2" style="min-width: 130px;">Lead Distance Deviation</th>
+                            <th rowspan="2" style="min-width: 130px;">Destination Deviation</th>
                             <th rowspan="2">Consignee</th>
                             <th rowspan="2">Consignor</th>
                             <th rowspan='2'>Mode</th>
+                            <th rowspan='2'>GPS %</th>
+                            <th rowspan='2'>SIM %</th>
                             <th colspan="6" style="text-align:center;">Origin</th>
                             <th colspan="6" style="text-align:center;">Via</th>
                             <th colspan='6' style="text-align:center;">Destination</th>
@@ -58,10 +66,9 @@
                             <th rowspan='2'>Halt</th>
                             <th rowspan="2" style="min-width:110px;">Driver Name</th>
                             <th rowspan="2" style="min-width: 110px;">Driver Mobile</th>
-                            <!-- <th rowspan="2">VId</th> -->
                             <th rowspan='2' style="min-width: 140px;">Expired Doc. Count</th>
                             <th rowspan='2' style="min-width: 148px;">Challan date/Amount</th>
-                            
+                            <th rowspan='2' style="min-width: 148px;">Stamp Status</th>
                     </tr>
                     <tr style="background-color:#0dc3d540">
                         <th>Location</th>
@@ -92,16 +99,21 @@
                         <td>{{i+1}}</td>
                         <td>{{data['trip_id']}}</td>
                         <td>{{data['regno']}}</td>
+                        <td>{{data.trip_onward_status}}</td>
                         <td>{{data['inv_start_time']}}</td>
                         <td>{{data['receipt_no']}}</td>
                         <td>{{data['product_name']}}</td>
-                        <!-- <td>{{data['route_id']}}</td> -->
                         <td>{{data['route_name']}}</td>
                         <td>{{data.lead_dis}}</td>
+                        <td>{{data.gps_dis || ''}}</td>
                         <td (click)="openTripKmRepair(data)" style="color:blue;cursor:pointer;">{{data['route_kms']}}</td>
+                        <td>{{data.lead_dis_deviation || ''}}</td>
+                        <td>{{data.dest_deviation || ''}}</td>
                         <td>{{data['cnee']}}</td>
                         <td>{{data['cnor']}}</td>
                         <td>{{data['mode']}}</td>
+                        <td>{{data['gps_per'] || ''}}</td>
+                        <td>{{data['sim_per'] || ''}}</td>
                         <td>{{data['origin']['loc_name'] !='' ? data['origin']['loc_name'] : ''}}</td>
                         <td>{{data['origin']['trans_time'] !='' ? data['origin']['trans_time'] : ''}}</td>
                         <td>{{data['origin']['act_start_time'] !='' ? data['origin']['act_start_time'] : null}}</td>
@@ -129,12 +141,14 @@
                         <td> <span (click)="showRouteMapper(data)" style="color:blue;cursor:pointer;">{{data['stoppagecount']}}</span> </td>
                         <td>{{data['driver_name']}}</td>
                         <td>{{data['driver_mobile']}}</td>
-                        <!-- <td>{{data['vid']}}</td> -->
                         <td>{{data['expire_veh_count']}}</td>
                         <td>{{data['challan_amount']}}</td>
+                        <td>{{data.trip_stamp_status}}</td>
                     </tr>
                 </tbody>
-                </table>
+                </table> -->
+
+                <smart-table id="trip-master-report" [data]="table.data" [settings]="table.settings"></smart-table>
             </div>
         </div>
     </nb-card-body>

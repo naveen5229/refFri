@@ -29,6 +29,7 @@ import {
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 import { NearByVehiclesComponent } from "../../modals/near-by-vehicles/near-by-vehicles.component";
+import { ConciseColumnPrefrenceComponent } from "../../modals/concise-column-prefrence/concise-column-prefrence.component";
 
 @AutoUnsubscribe()
 @Component({
@@ -137,7 +138,7 @@ export class ConciseComponent implements OnInit {
   isHidePie: boolean = !!JSON.parse(localStorage.getItem('isHidePie'));
   subscriptions = [];
   markersWithId = [];
-
+  preferences = [];
   constructor(
     public api: Api,
     public common: Common,
@@ -204,9 +205,17 @@ export class ConciseComponent implements OnInit {
       .subscribe(res => {
         !isRefresh && this.common.loading--;
         if (res['code'] == 1) {
-          this.allKpis = res["data"];
+          if (res['data'].preferences) {
+            this.preferences = res['data'].preferences;
+            this.allKpis = res['data'];
+          } else {
+            this.allKpis = res["data"];
+            this.preferences = [];
+          }
+          this.common.params = res['data'];
+          console.log('kpi response data :', res['data']);
           localStorage.setItem('KPI_DATA', JSON.stringify(this.allKpis));
-          this.kpis = res["data"];
+          this.kpis = this.allKpis;
           this.grouping(this.viewType);
           this.getGpsStatus();
           this.table = this.setTable();
@@ -272,7 +281,7 @@ export class ConciseComponent implements OnInit {
           value: "",
           isHTML: false,
           action: null,
-          icons: this.actionIcons(kpi.x_icons || [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+          icons: this.actionIcons(kpi.x_actions)
         }
       });
     });
@@ -718,17 +727,35 @@ export class ConciseComponent implements OnInit {
   }
 
   setTable(kpis?) {
+    let preferences = this.preferences.length ? this.preferences : [
+      { key: 'vehicle', order: 1, title: 'Vehicle No' },
+      { key: 'vehicleType', order: 2, title: 'Veh Type' },
+      { key: 'status', order: 3, title: 'Status' },
+      { key: 'location', order: 4, title: 'Location' },
+      { key: 'hrs', order: 5, title: 'Hrs' },
+      { key: 'Idle_Time', order: 6, title: 'Idle Time' },
+      { key: 'trail', order: 7, title: 'Trail' },
+      { key: 'kmp', order: 8, title: 'KMP' },
+    ];
+    //preferences.filter(pre=>pre.show)
+    preferences = preferences.sort((a, b) => a.order > b.order ? 1 : -1);
+    let headings = {};
+    preferences.map(heading => {
+      headings[heading.key] = { title: heading.title, placeholder: heading.title }
+    });
+
     return {
       data: {
         headings: {
-          vehicle: { title: "Vehicle Number", placeholder: "Vehicle No" },
-          vehicleType: { title: "Vehicle Type", placeholder: "Veh Type" },
-          status: { title: "Status", placeholder: "Status" },
-          location: { title: "Location", placeholder: "Location" },
-          hrs: { title: "Hrs", placeholder: "Hrs " },
-          Idle_Time: { title: "Idle Time", placeholder: "Idle Time" },
-          trail: { title: "Trail", placeholder: "Trail" },
-          kmp: { title: "Kmp", placeholder: "KMP" },
+          // vehicle: { title: "Vehicle Number", placeholder: "Vehicle No" },
+          // vehicleType: { title: "Vehicle Type", placeholder: "Veh Type" },
+          // status: { title: "Status", placeholder: "Status" },
+          // location: { title: "Location", placeholder: "Location" },
+          // hrs: { title: "Hrs", placeholder: "Hrs " },
+          // Idle_Time: { title: "Idle Time", placeholder: "Idle Time" },
+          // trail: { title: "Trail", placeholder: "Trail" },
+          // kmp: { title: "Kmp", placeholder: "KMP" },
+          ...headings,
           action: { title: "Action", placeholder: "", hideSearch: true }
         },
         columns: this.getTableColumns(kpis)
@@ -1004,60 +1031,66 @@ export class ConciseComponent implements OnInit {
     }
   }
 
-  actionIcons(xIcons) {
+  actionIcons(x_actions) {
+    let actions = x_actions || ["chvehstatus", "vehevent", "routemap", "trips", "vehstates", "rptissue", "nearby", "odometer", "entityflag", "vehorders", "calldriver", "nearby"];
     let icons = [
       {
-        class: "icon fa fa-chart-pie", action: '',
+        class: "icon fa fa-chart-pie", action: '', key: "chvehstatus"
       },
       {
         class: "icon fa fa-star",
         action: '',
+        key: 'vehevent'
       },
-
       {
         class: "icon fa fa-route",
         action: '',
+        key: 'routemap'
       },
       {
         class: "icon fa fa-truck",
         action: '',
+        key: 'trips'
       },
       {
         class: "icon fa fa-globe",
         action: '',
+        key: 'vehstates'
       },
       {
         class: "icon fa fa-question-circle",
         action: '',
-      },
-      {
-        class: "icon fa fa-user-secret",
-        action: ''
-      },
-      {
-        class: "icon fas fa-tachometer-alt",
-        action: ''
-      },
-      {
-        class: "icon fas fa-flag-checkered",
-        action: ''
-      },
-      {
-        class: "icon fa fa-gavel",
-        action: ''
-      },
-      {
-        class: "icon fa fa-phone",
-        action: ''
+        key: 'rptissue'
       },
       {
         class: "icon fa fa-map-marker",
-        action: ''
+        action: '',
+        key: 'nearby'
       },
+      {
+        class: "icon fas fa-tachometer-alt",
+        action: '',
+        key: 'odometer'
+      },
+      {
+        class: "icon fas fa-flag-checkered",
+        action: '',
+        key: 'entityflag'
+      },
+      {
+        class: "icon fa fa-gavel",
+        action: '',
+        key: 'vehorders'
+      },
+      {
+        class: "icon fa fa-phone",
+        action: '',
+        key: 'calldriver'
+      }
     ];
 
     return icons.filter((icon, index) => {
-      if (xIcons.indexOf(index) != -1) {
+      if (actions.indexOf(icon.key) != -1) {
         return true;
       }
       return false;
@@ -1128,11 +1161,32 @@ export class ConciseComponent implements OnInit {
   }
 
   openStations(kpi) {
+    let vehicles = this.allKpis.filter(vehicle => {
+      if (!vehicle.x_tlat || !vehicle.x_tlong || (vehicle.x_showveh == kpi.x_showveh)) {
+        return false;
+      }
+
+      let distance = this.common.distanceFromAToB(kpi.x_tlat, kpi.x_tlong, vehicle.x_tlat, vehicle.x_tlong, 'K');
+      if (distance <= 50)
+        return true;
+      return false;
+    }).map(vehicle => {
+      return {
+        lat: vehicle.x_tlat,
+        lng: vehicle.x_tlong,
+        name: vehicle.x_showveh,
+        distance: this.common.distanceFromAToB(kpi.x_tlat, kpi.x_tlong, vehicle.x_tlat, vehicle.x_tlong, 'K')
+      }
+    }).sort((a, b) => a.distance > b.distance ? 1 : -1)
+
+
     this.common.params = {
       lat: kpi.x_tlat,
-      long: kpi.x_tlong
-
+      long: kpi.x_tlong,
+      name: kpi.x_showveh,
+      vehicles
     };
+
     this.modalService.open(PoliceStation, {
       size: "lg",
       container: "nb-layout"
@@ -1379,7 +1433,7 @@ export class ConciseComponent implements OnInit {
           this.callNotification(this.findKPI(details.column._id))
           break;
         case 'icon fa fa-map-marker':
-          this.jrxFindNearBy(this.findKPI(details.column._id))
+          this.openStations(this.findKPI(details.column._id))
           break;
       }
     }
@@ -1463,5 +1517,9 @@ export class ConciseComponent implements OnInit {
       container: "nb-layout"
     });
 
+  }
+
+  prefrenceModalOpen() {
+    this.modalService.open(ConciseColumnPrefrenceComponent, { size: "xl", container: "nb-layout" })
   }
 }

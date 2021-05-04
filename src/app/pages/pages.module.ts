@@ -112,6 +112,8 @@ import { DynamicReportDashboardComponent } from './dynamic-report-dashboard/dyna
 import { DynamicReportComponent } from './dynamic-report-dashboard/dynamic-report/dynamic-report';
 import { ReportViewComponent } from './dynamic-report-dashboard/report-view/report-view.component';
 import { ReportEditComponent } from './dynamic-report-dashboard/report-edit/report-edit.component';
+import { DriverPreferencesComponent } from './driver-preferences/driver-preferences.component';
+import { ConsignmentComponent } from './consignment/consignment.component';
 
 
 
@@ -226,7 +228,9 @@ const PAGES_COMPONENTS = [
     TripstoppageComponent,
     DynamicReportDashboardComponent,
     ReportViewComponent,
-    ReportEditComponent
+    ReportEditComponent,
+    DriverPreferencesComponent,
+    ConsignmentComponent
   ],
   exports: [
     FuelAverageAnalysisComponent,

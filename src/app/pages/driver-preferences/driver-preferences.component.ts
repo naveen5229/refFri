@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-
+import { UserService } from '../../services/user.service';
+import { CsvService } from '../../services/csv/csv.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddDriverCompleteComponent } from '../../modals/DriverModals/add-driver-complete/add-driver-complete.component';
+import { ImportDocumentComponent } from '../../documents/documentation-modals/import-document/import-document.component';
 @Component({
-  selector: 'driver-consent-list',
-  templateUrl: './driver-consent-list.component.html',
-  styleUrls: ['./driver-consent-list.component.scss']
+  selector: 'driver-preferences',
+  templateUrl: './driver-preferences.component.html',
+  styleUrls: ['./driver-preferences.component.scss']
 })
-export class DriverConsentListComponent implements OnInit {
-
+export class DriverPreferencesComponent implements OnInit {
   driverConsentList = [];
   data = [];
   table = {
@@ -23,8 +25,10 @@ export class DriverConsentListComponent implements OnInit {
   };
 
   constructor(
-    public activeModal: NgbActiveModal,
     private common: CommonService,
+    private csvService: CsvService,
+    private modalService: NgbModal,
+    public user: UserService,
     private api: ApiService) {
     this.getDriverConsentList();
     this.common.refresh = this.refresh.bind(this);
@@ -38,10 +42,6 @@ export class DriverConsentListComponent implements OnInit {
     this.getDriverConsentList();
   }
 
-
-  closeModal() {
-    this.activeModal.close({ response: true });
-  }
 
   getDriverConsentList() {
     this.driverConsentList = [];
@@ -74,9 +74,11 @@ export class DriverConsentListComponent implements OnInit {
       empName: { title: 'Driver', placeholder: 'Driver' },
       regNo: { title: 'Reg No', placeholder: 'Reg No' },
       mobileNo: { title: 'Mobile No', placeholder: 'Mobile No' },
+      mobileNo2: { title: 'Mobile No', placeholder: 'Mobile No 2' },
       status: { title: 'Status', placeholder: 'Status' },
       pendingTime: { title: 'Start Time', placeholder: 'Start Time' },
       expireTime: { title: 'Expire Time', placeholder: 'Expire Time' },
+      modes: { title: 'Modes', placeholder: 'Modes' },
       action: { title: 'Action ', placeholder: 'Action', hideSearch: true, class: 'tag' },
     };
     return headings;
@@ -96,12 +98,16 @@ export class DriverConsentListComponent implements OnInit {
           column[key] = { value: consent[key], class: "black", action: "" };
         } else if (key === 'mobileNo') {
           column[key] = { value: consent[key], class: "black", action: "" };
+        } else if (key === 'mobileNo2') {
+          column[key] = { value: consent[key], class: "black", action: "" };
         } else if (key === 'status') {
           column[key] = { value: consent[key], class: "black", action: "" };
         } else if (key === 'pendingTime') {
-          column[key] = { value:  this.common.dateFormatter(consent[key]), class: "black", action: "" };
+          column[key] = { value: consent[key] ? this.common.dateFormatter(consent[key]) : '', class: "black", action: "" };
         } else if (key === 'expireTime') {
-          column[key] = { value: this.common.dateFormatter(consent[key]), class: "black", action: "" };
+          column[key] = { value: consent[key] ? this.common.dateFormatter(consent[key]) : '', class: "black", action: "" };
+        } else if (key === 'modes') {
+          column[key] = { value: consent[key], class: "black", action: "" };
         } else {
           column['action'] = { value: "", isHTML: true, action: null, icons: actionIcon };
         }
@@ -115,7 +121,7 @@ export class DriverConsentListComponent implements OnInit {
     if (type === 'PENDING') {
       return this.actionIconsPending(consent);
     } else if (type === 'ALLOWED') {
-      return
+      return this.actionIconsPending(consent);
     } else {
       return this.actionIconNull(consent);
     }
@@ -176,5 +182,20 @@ export class DriverConsentListComponent implements OnInit {
         console.log(err);
       });
   }
+
+  importDriverCSV(){
+    this.common.params = { title: 'Bulk Import Driver', };
+    const activeModal = this.modalService.open(ImportDocumentComponent, { container: 'nb-layout', backdrop: 'static' });
+  }
+
+  addDriver(){
+    const activeModal = this.modalService.open(AddDriverCompleteComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.getDriverConsentList();
+      }
+    })
+  }
+
 
 }
