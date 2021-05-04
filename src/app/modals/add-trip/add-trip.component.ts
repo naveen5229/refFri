@@ -180,7 +180,7 @@ export class AddTripComponent implements OnInit {
     this.common.params = {
       assType: assType
     };
-    const activeModal = this.modalService.open(BasicPartyDetailsComponent, { size: 'lg', container: 'nb-layout',windowClass: 'add-consige-veiw'});
+    const activeModal = this.modalService.open(BasicPartyDetailsComponent, { size: 'lg', container: 'nb-layout', windowClass: 'add-consige-veiw' });
     activeModal.result.then(data => {
       console.log('Data:', data);
     });
@@ -199,7 +199,7 @@ export class AddTripComponent implements OnInit {
     this.lr.consignorName = consignor.name;
     this.lr.consignorId = consignor.id;
   }
-  
+
   updateLocation(elementId, autocomplete) {
     console.log('tets');
     let place = autocomplete.getPlace();
@@ -298,19 +298,19 @@ export class AddTripComponent implements OnInit {
   getViaPointsParams() {
     let items = this.registerForm.get('viaPoints') as FormArray;
     console.log("items params", items.controls);
-    
+
     let data = [];
     for (let i = 0; i < items.controls.length; i++) {
       let formBuilder = items.controls[i];
       data.push({
         name: formBuilder.get('name').value,
         lat: formBuilder.get('lat').value,
-        long:formBuilder.get('long').value,
+        long: formBuilder.get('long').value,
         locType: formBuilder.get('locType').value,
         siteId: formBuilder.get('siteId').value,
         type: formBuilder.get('type').value,
         radius: formBuilder.get('radius').value,
-        time: formBuilder.get('time').value == '' ? null : this.common.dateFormatter(formBuilder.get('time').value) 
+        time: formBuilder.get('time').value == '' ? null : this.common.dateFormatter(formBuilder.get('time').value)
       })
     }
     return data;
@@ -444,7 +444,7 @@ export class AddTripComponent implements OnInit {
     }
     let params = {
       startLocation: st,
-      locations: this.viaPoints,
+      locations: this.getViaPointsParams(),
       endLocation: ed
     }
     this.api.post('TripsOperation/rearrangeWithTSP', params)
