@@ -19,6 +19,13 @@
                 <button class="btn btn-primary" (click)="editReport()">Edit Report</button>
             </div>
         </div>
+        <div class="row"  *ngIf="dynamicReports">
+            <div class="col-2"  *ngFor="let dynareport of dynamicReports;let i = index" (click)="callreport(dynareport)"> 
+            
+                    <span>{{dynareport.rpt_tabname}}</span>
+               
+            </div>
+        </div>
 
     </nb-card-header>
 
