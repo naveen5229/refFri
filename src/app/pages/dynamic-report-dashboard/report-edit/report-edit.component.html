@@ -5,7 +5,7 @@
                 <h5>Business Dashboard</h5>
             </div>
             <div class="col-3 text-right">
-                <input type="text" [(ngModel)]=tabname class="form-control" placeholder="Enter Tab Name">
+                <input type="text" [(ngModel)]=tabname class="form-control" placeholder="Enter Tab Name" [readonly]="tabname">
             </div>
             <div class="col-3 text-right">
                 <button class="btn btn-primary" (click)="saveReport()">Save</button>

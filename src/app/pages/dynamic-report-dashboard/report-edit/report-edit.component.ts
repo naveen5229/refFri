@@ -21,6 +21,9 @@ export class ReportEditComponent implements OnInit {
   constructor(private api: ApiService, private common: CommonService, private activeModal: NgbActiveModal) {
     this.getSavedReports();
     this.getpredefinedReports();
+    if(this.common.params && this.common.params.caltabname){
+      this.tabname = this.common.params.caltabname;
+    }
   }
 
   ngOnInit(): void {
@@ -244,7 +247,8 @@ export class ReportEditComponent implements OnInit {
     report.isUsed = false;
     const params = {
       rptname: report.name,
-      rpttype: 'DB'
+      rpttype: 'DB',
+      tabname: this.tabname
     };
     this.api.post('Tmgreport/deletereport', params)
       .subscribe(res => {
