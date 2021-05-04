@@ -102,7 +102,7 @@ export class DynamicReportDashboardComponent implements OnInit {
       })
   }
 
-  editReport(flag) {
+  editReport(flag?) {
     if(flag){
         this.common.params = {
           caltabname: this.caltabname
