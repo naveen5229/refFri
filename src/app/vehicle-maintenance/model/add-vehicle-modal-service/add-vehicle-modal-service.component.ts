@@ -78,7 +78,7 @@ ngOnInit() {
         this.common.loading--;
         console.log("response:", res);
         if (res['data'][0].r_id > 0) {
-          this.common.showToast("Sucessfully Added", 10000);
+          this.common.showToast(res['data'][0].r_msg);
           this.nextKm = null;
           this.nextMonth = null;
         }
