@@ -115,11 +115,22 @@ import { ReportEditComponent } from './dynamic-report-dashboard/report-edit/repo
 import { DriverPreferencesComponent } from './driver-preferences/driver-preferences.component';
 import { ConsignmentComponent } from './consignment/consignment.component';
 
-
+import { TrendsComponent as ChallanTrends } from '../widgets/challans/trends/trends.component';
+import { StateWiseComponent } from '../widgets/challans/state-wise/state-wise.component';
+import { MostAgedComponent } from '../widgets/challans/most-aged/most-aged.component';
+import { LatestComponent } from '../widgets/challans/latest/latest.component';
+import { WorstDriversComponent } from '../widgets/challans/worst-drivers/worst-drivers.component';
+import { WorstDriversYearsComponent } from '../widgets/challans/worst-drivers-years/worst-drivers-years.component';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
-  DynamicReportComponent
+  DynamicReportComponent,
+  ChallanTrends,
+  StateWiseComponent,
+  MostAgedComponent,
+  LatestComponent,
+  WorstDriversComponent,
+  WorstDriversYearsComponent,
 ];
 
 @NgModule({

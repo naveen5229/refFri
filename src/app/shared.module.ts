@@ -79,7 +79,8 @@ const PAGES_COMPONENTS = [
     TmgTransporterAnalysisComponent,
     TmgUnloadingAnalysisComponent,
     PlacementoptimizationComponent,
-    NightDriveReportComponent
+    NightDriveReportComponent,
+    
 ];
 
 
