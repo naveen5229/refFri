@@ -27,7 +27,7 @@
         <input value="location" [(ngModel)]="site.type" type="radio" name="'site" class="m-2">
 
         <auto-suggestion *ngIf="site.type == 'site'" (onSelected)="selectSite($event,'site')"
-          url="Suggestion/getSites?typeId=1" seperator="-" [display]="['name','sd_loc_name']" placeholder="Search Site"
+          url="Suggestion/getSites?typeId=1&isFoid=true" seperator="-" [display]="['name','sd_loc_name']" placeholder="Search Site"
           inputId="'site-'+i" [preSelected]="null">
         </auto-suggestion>
 
@@ -59,7 +59,7 @@
         <input value="location" [(ngModel)]="alias.type" type="radio" name="'alias" class="m-2">
 
         <auto-suggestion *ngIf="alias.type == 'site'" (onSelected)="selectSite($event,'alias')"
-          url="Suggestion/getSites?typeId=1" seperator="-" [display]="['name','sd_loc_name']" placeholder="Search Site"
+          url="Suggestion/getSites?typeId=1&isFoid=true" seperator="-" [display]="['name','sd_loc_name']" placeholder="Search Site"
           inputId="'site-'+i" [preSelected]="null">
         </auto-suggestion>
 
