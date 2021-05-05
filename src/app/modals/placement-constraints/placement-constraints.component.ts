@@ -26,10 +26,7 @@ export class PlacementConstraintsComponent implements OnInit {
       regno: null,
     }
   ];
-
- 
-    
-
+  
   siteIdNamePairs=[
     {
       siteId:0,
