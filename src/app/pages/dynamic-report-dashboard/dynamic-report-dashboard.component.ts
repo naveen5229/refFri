@@ -54,6 +54,8 @@ export class DynamicReportDashboardComponent implements OnInit {
           }
           return report;
         }).filter(report => report.style)
+        this.callreport(this.tabsdata[0]);
+
       })
   }
   callreport(calldata){
@@ -61,7 +63,7 @@ export class DynamicReportDashboardComponent implements OnInit {
     this.dynamicreportcall = [];
 
       this.reports.map((data)=>{
-    console.log('callreport',data.name);
+    console.log('callreport1',data.name);
     calldata.map((cdata)=>{
         if(data.name == cdata.rpt_name){
         this.dynamicreportcall.push(data);
@@ -91,7 +93,6 @@ export class DynamicReportDashboardComponent implements OnInit {
             this.tabsdata.push(tabs[key]);
           })
           console.log('predefined', this.tabsdata);
-
       
         localStorage.setItem('dynamic-report', JSON.stringify(this.dynamicReports));
         this.getSavedReports();

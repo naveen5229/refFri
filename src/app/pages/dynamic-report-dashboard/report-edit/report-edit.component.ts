@@ -18,11 +18,13 @@ export class ReportEditComponent implements OnInit {
   dynamicReports = [];
   tabname = '';
   predefined = [];
+  backtabname = false;
   constructor(private api: ApiService, private common: CommonService, private activeModal: NgbActiveModal) {
     this.getSavedReports();
     this.getpredefinedReports();
     if(this.common.params && this.common.params.caltabname){
-      this.tabname = this.common.params.caltabname;
+       this.tabname = this.common.params.caltabname;
+       this.backtabname = true;
     }
   }
 
