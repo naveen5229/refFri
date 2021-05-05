@@ -19,13 +19,19 @@ export class DynamicReportDashboardComponent implements OnInit {
     startDate: this.startDate,
     endDate: this.endDate,
   };
-  tabsdata:any;
+  tabsdata: any;
   dynamicReports = [];
-  dynamicreportcall=[];
-  caltabname='';
+  dynamicreportcall = [];
+  caltabname = '';
+  widgetsList = {
+    "Challan Trends (Last 6 Months) ": "challan-trend"
+  };
+
+  challanReports = [];
+  usedChallanWidgtets = [];
   constructor(private api: ApiService, private modalService: NgbModal, private common: CommonService) {
     this.getDynamicReports();
-
+    this.getpredefinedReports();
   }
 
   ngOnInit(): void {
@@ -34,12 +40,21 @@ export class DynamicReportDashboardComponent implements OnInit {
   ngAfterViewInit() {
   }
 
+  getpredefinedReports() {
+    this.api.get('tmgreport/getdynamicreport')
+      .subscribe(res => {
+        this.challanReports = res['data'].filter(report => report.dashboard_name === "Challan DashBoard");
+      }, err => {
+        console.log('err:', err);
+      })
+  }
+
 
 
   getSavedReports() {
     this.api.get(`GraphicalReport/getGraphicalReportList`)
       .subscribe((res: any) => {
-        console.log('Res11111:', res,this.dynamicReports);
+        console.log('Res11111:', res, this.dynamicReports);
         this.reports = res.data.map(report => {
           report.isUsed = false;
           let info = this.dynamicReports.find(d => d.rpt_name == report.name);
@@ -54,22 +69,27 @@ export class DynamicReportDashboardComponent implements OnInit {
           }
           return report;
         }).filter(report => report.style)
+        this.callreport(this.tabsdata[0]);
+
       })
   }
-  callreport(calldata){
-    console.log('callreport',calldata);
+  callreport(calldata) {
+    console.log('callreport', calldata);
     this.dynamicreportcall = [];
+    this.usedChallanWidgtets = calldata.filter(report => report.type.includes('challan-'))
+    
 
-      this.reports.map((data)=>{
-    console.log('callreport',data.name);
-    calldata.map((cdata)=>{
-        if(data.name == cdata.rpt_name){
-        this.dynamicreportcall.push(data);
-        this.caltabname = cdata.rpt_tabname;
+    console.log('usedChallanWidgtets:', this.usedChallanWidgtets);
+    this.reports.map((data) => {
+      console.log('callreport1', data.name);
+      calldata.map((cdata) => {
+        if (data.name == cdata.rpt_name && calldata.type === 'dynamic') {
+          this.dynamicreportcall.push(data);
+          this.caltabname = cdata.rpt_tabname;
         }
       })
-      });
-      console.log('dynamicreportcall',this.dynamicreportcall);
+    });
+    console.log('dynamicreportcall', this.dynamicreportcall);
   }
 
   getDynamicReports() {
@@ -82,7 +102,10 @@ export class DynamicReportDashboardComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('GetDynamicReportMaster:', res);
-        this.dynamicReports = res['data'];
+        this.dynamicReports = res['data'].map(report => {
+          report.type = this.widgetsList[report.rpt_name] || 'dynamic';
+          return report;
+        });
         //let tabs =this.dynamicReports[]
         let tabs = _.groupBy(res['data'], 'rpt_tabname');
         this.tabsdata = [];
@@ -90,9 +113,8 @@ export class DynamicReportDashboardComponent implements OnInit {
           .map(key => {
             this.tabsdata.push(tabs[key]);
           })
-          console.log('predefined', this.tabsdata);
+        console.log('predefined', this.tabsdata);
 
-      
         localStorage.setItem('dynamic-report', JSON.stringify(this.dynamicReports));
         this.getSavedReports();
 
@@ -103,12 +125,12 @@ export class DynamicReportDashboardComponent implements OnInit {
   }
 
   editReport(flag?) {
-    if(flag){
-        this.common.params = {
-          caltabname: this.caltabname
-        };
-    }else{
-      this.common.params ='';
+    if (flag) {
+      this.common.params = {
+        caltabname: this.caltabname
+      };
+    } else {
+      this.common.params = '';
     }
     let modal = this.modalService.open(ReportEditComponent, { size: 'lg', container: 'nb-layout' });
     modal.result.then(data => {
