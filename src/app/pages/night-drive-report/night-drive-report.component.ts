@@ -62,7 +62,7 @@ export class NightDriveReportComponent implements OnInit {
     let entime = this.common.changeDateformat(this.endTime,'HH:mm:ss');
     let foid=this.user._customer.foid;
     ++this.common.loading;
-    const subscription = this.api.getJavaPortDost(8082, 'report/' + foid+'/'+startDate+'/'+endDate+'/'+sttime+'/'+entime)
+    const subscription = this.api.getJavaPortDost(8082, 'report/' +startDate+'/'+endDate+'/'+sttime+'/'+entime)
     .subscribe((res: any) => {
         --this.common.loading;
         console.log('Res:',res,res['reports']);

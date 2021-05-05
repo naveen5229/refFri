@@ -74,6 +74,9 @@ export class AddMaintenanceComponent implements OnInit {
     this.getServiceCenters();
     if (this.common.params.modal) {
       this.sId = this.common.params.sId;
+      if(this.sId=="47"){
+        this.serviceDetails.scheduleServices="true"
+      }
       // console.log("test", this.common.params.sId);
       // this.addType(this.sId, true);
     }
@@ -108,18 +111,22 @@ export class AddMaintenanceComponent implements OnInit {
         })
 
         this.serviceType.map((ele,i)=>{
-          if(ele.name=="GENERAL"){
-            console.log("General",this.serviceDetails.scheduleServices)
-            if(this.serviceDetails.scheduleServices=="true"){
+         if(ele.id==this.sId){
+           if(this.sId=='47'){
+             if( this.serviceDetails.scheduleServices!='false'){
               this.isChecks[i]=true;
               this.addType(ele['id'],true);
-            }else{
+             }else{
+              this.serviceDetails.scheduleServices="false";
               this.isChecks[i]=false;
-            }
-          }
-         else if(ele.id==this.sId){
-            this.isChecks[i]=true;
-            this.addType(ele['id'],true);
+              this.addType(ele['id'],true);
+             }
+              
+           }else{
+              this.serviceDetails.scheduleServices="false";
+              this.isChecks[i]=true;
+              this.addType(ele['id'],true);
+           }
           }
           return;
         })
