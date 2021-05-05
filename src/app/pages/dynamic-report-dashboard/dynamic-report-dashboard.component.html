@@ -22,16 +22,17 @@
                 <button class="btn btn-primary" (click)="editReport(true)">Edit Report</button>
             </div>
         </div>
-        <div class="row"  *ngIf="tabsdata">
+        <div class="row" *ngIf="tabsdata">
             <!-- <div class="col-2" >
                 <span>General</span>
             </div> -->
-            <div *ngFor="let dynareport of tabsdata;let i = index "> 
+            <div *ngFor="let dynareport of tabsdata;let i = index ">
                 <div class="col-2" *ngIf="dynareport.rpt_tabname != 'General'">
-                    <button class="btn btn-primary" (click)="callreport(dynareport)">{{dynareport[0].rpt_tabname}}</button>
+                    <button class="btn btn-primary"
+                        (click)="callreport(dynareport)">{{dynareport[0].rpt_tabname}}</button>
                 </div>
             </div>
-           
+
         </div>
 
     </nb-card-header>
@@ -46,11 +47,22 @@
                 </div>
             </div> -->
 
-            <div class="report" *ngFor="let dynamicreportcallreport of dynamicreportcall;let i = index" [id]="'xreport-' + dynamicreportcallreport._id"
-                [style.width]="dynamicreportcallreport.style.width" [style.height]="dynamicreportcallreport.style.height" [style.top]="dynamicreportcallreport.style.y"
+            <div class="report" *ngFor="let dynamicreportcallreport of dynamicreportcall;let i = index"
+                [id]="'xreport-' + dynamicreportcallreport._id" [style.width]="dynamicreportcallreport.style.width"
+                [style.height]="dynamicreportcallreport.style.height" [style.top]="dynamicreportcallreport.style.y"
                 [style.left]="dynamicreportcallreport.style.x">
                 <div class="report-container">
-                    <dynamic-report [savedReportSelect]="dynamicreportcallreport" [startDate]="assign.startDate" [endDate]="assign.endDate"></dynamic-report>
+                    <dynamic-report [savedReportSelect]="dynamicreportcallreport" [startDate]="assign.startDate"
+                        [endDate]="assign.endDate"></dynamic-report>
+                </div>
+            </div>
+
+            <div class="report draggable" *ngFor="let challanWidget of usedChallanWidgtets"
+                [style.width]="challanWidget.rpt_width + 'px'"
+                [style.height]="challanWidget.rpt_height + 'px'"
+                [style.top]="challanWidget.y_pos + 'px'" [style.left]="challanWidget.x_pos + 'px'">
+                <div class="report-container">
+                    <challan-trends *ngIf="challanWidget.type == 'challan-trend'"></challan-trends>
                 </div>
             </div>
         </div>
