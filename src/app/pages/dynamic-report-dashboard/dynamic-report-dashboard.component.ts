@@ -131,6 +131,7 @@ export class DynamicReportDashboardComponent implements OnInit {
         caltabname: this.caltabname
       };
     } else {
+      localStorage.removeItem("dynamic-report");
       this.common.params = '';
     }
     let modal = this.modalService.open(ReportEditComponent, { size: 'lg', container: 'nb-layout' });
