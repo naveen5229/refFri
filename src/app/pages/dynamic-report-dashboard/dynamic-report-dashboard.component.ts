@@ -116,7 +116,6 @@ export class DynamicReportDashboardComponent implements OnInit {
           })
         console.log('predefined', this.tabsdata);
 
-        localStorage.setItem('dynamic-report', JSON.stringify(this.dynamicReports));
         this.getSavedReports();
 
       }, err => {
@@ -127,6 +126,7 @@ export class DynamicReportDashboardComponent implements OnInit {
 
   editReport(flag?) {
     if (flag) {
+      localStorage.setItem('dynamic-report', JSON.stringify(this.dynamicReports));
       this.common.params = {
         caltabname: this.caltabname
       };
