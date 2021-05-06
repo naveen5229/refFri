@@ -139,10 +139,10 @@ export class PlacementRequirementComponent implements OnInit {
 
   actionIcons(doc){
     let icons = [
-      {
-        class: "far fa-eye",
-        action: this.placementProblemGenereation.bind(this, doc)
-      },
+      // {
+      //   class: "far fa-eye",
+      //   action: this.placementProblemGenereation.bind(this, doc)
+      // },
       {
         class: "fas fa-user",
         action: this.setData.bind(this, doc)
