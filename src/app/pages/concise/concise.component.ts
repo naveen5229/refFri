@@ -222,7 +222,7 @@ export class ConciseComponent implements OnInit {
               order: column.col_order,
               title: column.col_title_actual
             }
-          });
+          }).filter(column => column.key);
           this.allKpis = res['data'].y_data;
 
           this.common.params = res['data'].y_data;
@@ -742,8 +742,7 @@ export class ConciseComponent implements OnInit {
   }
 
   setTable(kpis?) {
-    let newPrefrences = this.preferences.pop();
-    let preferences = newPrefrences.length ? newPrefrences : [
+    let preferences = this.preferences.length ? this.preferences : [
       { key: 'vehicle', order: 1, title: 'Vehicle No' },
       { key: 'vehicleType', order: 2, title: 'Veh Type' },
       { key: 'status', order: 3, title: 'Status' },
@@ -754,8 +753,8 @@ export class ConciseComponent implements OnInit {
       { key: 'kmp', order: 8, title: 'KMP' },
     ];
 
-    console.log('this.prefrences :', this.preferences);
-    
+    console.log('this.prefrences :', this.preferences.length);
+
     //preferences.filter(pre=>pre.show)
     preferences = preferences.sort((a, b) => a.order > b.order ? 1 : -1);
     let headings = {};
@@ -1538,7 +1537,7 @@ export class ConciseComponent implements OnInit {
 
   }
 
-  // prefrenceModalOpen() {
-  //   this.modalService.open(ConciseColumnPrefrenceComponent, { size: "xl", container: "nb-layout" })
-  // }
+  prefrenceModalOpen() {
+    this.modalService.open(ConciseColumnPrefrenceComponent, { size: "xl", container: "nb-layout" })
+  }
 }

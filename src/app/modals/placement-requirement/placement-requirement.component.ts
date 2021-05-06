@@ -160,8 +160,8 @@ export class PlacementRequirementComponent implements OnInit {
     console.log("docL",doc)
     this.partyId = doc['partyId'];
     this.partyName = doc['partyName'];
-    this.startTime = doc['startDate'];
-    this.endTime = doc['endDate'];
+    this.startTime = new Date(doc['startDate']);
+    this.endTime = new Date(doc['endDate']);
     this.repName = doc['reportName'];
     this.quantityType = doc['quantityType'];
     this.id = doc['id'];
