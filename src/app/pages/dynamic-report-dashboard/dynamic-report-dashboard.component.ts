@@ -81,9 +81,10 @@ export class DynamicReportDashboardComponent implements OnInit {
 
     console.log('usedChallanWidgtets:', this.usedChallanWidgtets);
     this.reports.map((data) => {
-      console.log('callreport1', data.name);
       calldata.map((cdata) => {
-        if (data.name == cdata.rpt_name && calldata.type === 'dynamic') {
+      console.log('callreport1', data.name,cdata.rpt_name,cdata.type);
+
+        if (data.name == cdata.rpt_name && cdata.type == "dynamic") {
           this.dynamicreportcall.push(data);
           this.caltabname = cdata.rpt_tabname;
         }
@@ -130,6 +131,7 @@ export class DynamicReportDashboardComponent implements OnInit {
         caltabname: this.caltabname
       };
     } else {
+      localStorage.removeItem("dynamic-report");
       this.common.params = '';
     }
     let modal = this.modalService.open(ReportEditComponent, { size: 'lg', container: 'nb-layout' });
