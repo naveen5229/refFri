@@ -61,6 +61,38 @@ export class ReportEditComponent implements OnInit {
           })
         console.log('predefined', this.predefined);
         this.challanReports = res['data'].filter(report => report.dashboard_name === "Challan DashBoard");
+
+        
+        let data = JSON.parse(localStorage.getItem('dynamic-report')) || [];
+
+        this.challanReports.map((rptdata,index)=>{
+                      data.map((stordata)=>{
+                        if(stordata.type != 'dynamic' && rptdata.rpt_name == stordata.rpt_name){
+                          this.challanReports[index].isUsed=true;
+                          let info = stordata;
+                        //let ele = document.getElementById('challan-report-' + this.draggingReport.id);
+
+                        // ele.style.transform = `translate(${event.layerX}px, ${event.layerY}px)`;
+                        // ele.setAttribute('data-x', event.layerX);
+                        // ele.setAttribute('data-y', event.layerY);
+
+
+                        let target = document.getElementById('report-' + rptdata.id);
+                        let x = info.x_pos;
+                        let y = info.y_pos;
+                        target.style.width = info.rpt_width + 'px';
+                        target.style.height = info.rpt_height + 'px';
+                        target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+                        target.setAttribute('data-x', x);
+                        target.setAttribute('data-y', y);
+                        }
+                      });
+                    });
+
+        
+
+
+
       }, err => {
         console.log('err:', err);
       })
@@ -71,6 +103,9 @@ export class ReportEditComponent implements OnInit {
       .subscribe((res: any) => {
         console.log('Res:', res);
         let data = JSON.parse(localStorage.getItem('dynamic-report')) || [];
+
+    
+
 
         this.reports = res.data.map(report => {
           let info = data.find(d => d.rpt_name == report.name);
