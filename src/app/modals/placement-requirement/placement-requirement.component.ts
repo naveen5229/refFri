@@ -37,7 +37,7 @@ export class PlacementRequirementComponent implements OnInit {
   }
 
   offDate = [{
-    offDates: new Date()
+    offDates: null
   }]
 
   items = [
@@ -131,7 +131,6 @@ export class PlacementRequirementComponent implements OnInit {
         reportName: { value: doc.reportName },
         quantityType: { value: doc.quantityType == 0 ? 'Capacity' : 'Vehicle' },
         action:{value: "",isHTML: false,action: null,icons: this.actionIcons(doc)}
-        // action: { value: '', class: 'far fa-edit', action: this.setData.bind(this, doc) }
       };
       columns.push(column);
     });

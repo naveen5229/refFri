@@ -47,7 +47,6 @@ export class PlacementoptimizationComponent implements OnInit {
   placementOPT = null;
   optimizeArray = [];
   select = 0;
-  // name = '';
   placementDate = new Date();
   plcId = -1;
   dayindx=1;
@@ -69,10 +68,6 @@ export class PlacementoptimizationComponent implements OnInit {
     }
   ];
 
-
-
-
-
   constructor(
     private datePipe: DatePipe,
     public api: ApiService,
@@ -82,7 +77,6 @@ export class PlacementoptimizationComponent implements OnInit {
     public modalService: NgbModal,
     public user: UserService,
     public map: MapService) {
-    // this.getPreviousData(null);
   }
 
   ngOnInit(): void {
@@ -97,8 +91,6 @@ export class PlacementoptimizationComponent implements OnInit {
       this.tblshowhide = '-';
     }
   }
-
-  
 
   showHide(isvisible) {
     if (isvisible) {
@@ -116,7 +108,6 @@ export class PlacementoptimizationComponent implements OnInit {
   }
 
   selectDays(event){
-
     let day=0;
     day=event['target']['options']['selectedIndex']+1;
     console.log("daysEvent:",event['target']['options']['selectedIndex']);
@@ -130,11 +121,11 @@ export class PlacementoptimizationComponent implements OnInit {
     const activeModal = this.modalService.open(PlacementoptimizeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
-  showAllData(data) {
-    console.log("All Data:", data);
-    this.common.params = { data: data }
-    const activeModal = this.modalService.open(PlacementOptimisationOnMapComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-  }
+  // showAllData(data) {
+  //   console.log("All Data:", data);
+  //   this.common.params = { data: data }
+  //   const activeModal = this.modalService.open(PlacementOptimisationOnMapComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  // }
 
   placementReq(){
     const activeModal = this.modalService.open(PlacementRequirementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
@@ -153,9 +144,7 @@ export class PlacementoptimizationComponent implements OnInit {
     this.api.getJavaPortDost(8084, 'getPreviousData/' + this.common.dateFormatter1(this.placementDate)+'/'+days)
       .subscribe(res => {
         this.common.loading--;
-        // console.log("getPreviousData:",res['placementProblemDetailsDTO']);
         if (res['placementProblemDetailsDTOS'] && res['placementProblemDetailsDTOS'].length > 0) {
-          // this.name = res['name'];
           this.select = res['allocType'];
           this.items = res['placementProblemDetailsDTOS'];
           this.plcId = res['id'];
@@ -204,16 +193,10 @@ export class PlacementoptimizationComponent implements OnInit {
         onwards=res['onward24Hrs']
         atPlant=res['atPlant'];
         towards=res['towards'];
-
         this.items[index].onward24Hrs = res['onward24Hrs'];
         this.items[index].atPlant = res['atPlant'];
         this.items[index].towards = res['towards'];
-
         this.addItems(plantid,plantname,onwards,atPlant,towards);
-
-        
-
-        
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -221,7 +204,6 @@ export class PlacementoptimizationComponent implements OnInit {
   }
 
   addItems(plantid,plantname,onwards,atplant,towards) {
-    
     for (let i =1; i <= this.days-1; i++) {
       this.items.push({
         siteId: plantid,
@@ -237,7 +219,6 @@ export class PlacementoptimizationComponent implements OnInit {
         dayIndex:i+1
       })
     }
-    
   }
 
   addMoreItems(index) {
@@ -257,12 +238,9 @@ export class PlacementoptimizationComponent implements OnInit {
     console.log("items:",this.items)
   }
 
-  
-
   savePlacementOptimization() {
     console.log("jsonData:", JSON.stringify(this.items))
     let params = {
-      // name: this.name,
       allocType: this.select,
       placementDate: this.common.dateFormatter1(this.placementDate),
       quantityType:this.quantityType,
@@ -270,8 +248,6 @@ export class PlacementoptimizationComponent implements OnInit {
       id: this.plcId
     }
     console.log("param:", params);
-
-
     this.common.loading++;
     this.api.postJavaPortDost(8084, 'PlacementResult', params)
       .subscribe(res => {
@@ -281,30 +257,10 @@ export class PlacementoptimizationComponent implements OnInit {
           this.placementOPT = res['data'];
           this.totalCost = this.placementOPT['completeCost'];
           this.totalPanelty = this.placementOPT['completePenalty'];
-          // this.showData(res['data']);
         }
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
-
-
-  // showData(placementId) {
-  //   console.log("param:", placementId);
-  //   this.common.loading++;
-  //   this.api.getJavaPortDost(8084, 'placementOP/' + placementId)
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       if (res['success']) {
-  //         this.placementOPT = res['data'];
-  //         this.totalCost = this.placementOPT['completeCost'];
-  //         this.totalPanelty = this.placementOPT['completePenalty'];
-  //         console.log("siteData:", this.placementOPT);
-  //       }
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
-  // }
 }
