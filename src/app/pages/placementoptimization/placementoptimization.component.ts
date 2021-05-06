@@ -263,4 +263,44 @@ export class PlacementoptimizationComponent implements OnInit {
         console.log(err);
       });
   }
+  fillingFields(event , id){
+    console.log('inside fillingFields ', id);
+    if(id === 1){
+      console.log('inside id 1');
+      let params = {
+        allocType: this.select,
+        placementDate: this.common.dateFormatter1(this.placementDate),
+        quantityType:this.quantityType,
+        placementProblemDetailsDTOS: (this.items),
+        id: this.plcId
+      }
+    } else if(id === 2){
+      console.log('inside id 2');
+      let params = {
+        allocType: this.select,
+        placementDate: this.common.dateFormatter1(this.placementDate),
+        quantityType:this.quantityType,
+        placementProblemDetailsDTOS: (this.items),
+        id: this.plcId
+      }
+    }
+  }
+
+  resetFields(){
+    console.log('inside resetFields');
+    this.items = [];
+    this.items.push({
+      siteId: 0,
+      siteName: '',
+      waitingTime: 0,
+      minQuantity: 0,
+      maxQuantity: 0,
+      penaltyMin: 0,
+      penaltyMax: 200000,
+      onward24Hrs: 0,
+      atPlant: 0,
+      towards: 0,
+      dayIndex:1
+    });
+  }
 }
