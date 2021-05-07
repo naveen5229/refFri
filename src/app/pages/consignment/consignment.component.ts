@@ -17,6 +17,9 @@ export class ConsignmentComponent implements OnInit {
     col_title:'',
     is_default:false,
   }]
+  firstreport = [];
+  secondreport = [];
+
   constructor(private api: ApiService, private modalService: NgbModal, private common: CommonService) { }
 
   ngOnInit(): void {
@@ -35,6 +38,16 @@ export class ConsignmentComponent implements OnInit {
           this.Reports[index].col_title = pt.col_title_actual;
           }
         });
+        let len = (this.Reports.length)/2;
+        this.Reports.map((data,index)=>{
+        console.log('len',len);
+          if(index < len){
+            this.firstreport.push(data);
+            } else{
+              this.secondreport.push(data);
+            }
+        });
+        console.log('data report',this.firstreport,this.secondreport);
 
       }, err => {
         console.log(err);
