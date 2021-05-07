@@ -263,7 +263,7 @@ export class PlacementoptimizationComponent implements OnInit {
         console.log(err);
       });
   }
-  fillingFields(event , id){
+  fillingFields(id){
     console.log('inside fillingFields ', id);
     if(id === 1){
       console.log('inside id 1');
@@ -271,9 +271,9 @@ export class PlacementoptimizationComponent implements OnInit {
         allocType: this.select,
         placementDate: this.common.dateFormatter1(this.placementDate),
         quantityType:this.quantityType,
-        placementProblemDetailsDTOS: (this.items),
-        id: this.plcId
       }
+      this.common.loading ++;
+      this.api.get('manualFill', params)
     } else if(id === 2){
       console.log('inside id 2');
       let params = {

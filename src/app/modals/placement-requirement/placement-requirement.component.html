@@ -42,16 +42,16 @@
                 </select> 
         </div>
         <div class="col-sm-2" style="padding:0!important;">
-            <table class="table table-bordered">
+            <table class="table table-bordered" [ngClass]="offDate[0].offDates !== null ? '' : 'off-date-hidden'">
                 <thead>
                     <tr>
-                        <th>Off Dates</th>
-                        <th>Action</th>
+                        <th *ngIf="offDate[0].offDates !== null">Off Dates</th>
+                        <th>Off Date Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of offDate;let j=index;">
-                        <td><uj-date-time-picker [isTime]="false" (onChanged)="data.offDates= $event" [dateTimeValue]="data.offDates">
+                        <td *ngIf="data.offDates !== null"><uj-date-time-picker [isTime]="false" (onChanged)="data.offDates= $event" [dateTimeValue]="data.offDates">
                         </uj-date-time-picker></td>
                         <td style="padding:15px">
                             <span><i class="fa fa-plus add" (click)="addDates(i)" *ngIf="j == offDate.length-1" style="padding: 1px;
