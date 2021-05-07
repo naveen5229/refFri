@@ -16,6 +16,11 @@
     text-align: center;
     margin-top: 2px;
 }
+.jrx-container{
+    height: calc(100vh - 180px);
+    width: 100%;
+    overflow: auto;
+}
 
 .reports-container {
     position: relative;

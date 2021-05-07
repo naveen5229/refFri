@@ -10,7 +10,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ConsignmentComponent implements OnInit {
   Reports:any;
-  reporttype='';
+  reporttype='DB';
   amountDetails: [{
     col_id:null,
     col_order:null,

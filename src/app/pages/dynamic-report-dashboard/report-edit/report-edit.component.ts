@@ -25,9 +25,9 @@ export class ReportEditComponent implements OnInit {
   constructor(private api: ApiService, private common: CommonService, private activeModal: NgbActiveModal) {
     this.getSavedReports();
     this.getpredefinedReports();
-    if(this.common.params && this.common.params.caltabname){
-       this.tabname = this.common.params.caltabname;
-       this.backtabname = true;
+    if (this.common.params && this.common.params.caltabname) {
+      this.tabname = this.common.params.caltabname;
+      this.backtabname = true;
     }
   }
 
@@ -62,34 +62,31 @@ export class ReportEditComponent implements OnInit {
         console.log('predefined', this.predefined);
         this.challanReports = res['data'].filter(report => report.dashboard_name === "Challan DashBoard");
 
-        
+
         let data = JSON.parse(localStorage.getItem('dynamic-report')) || [];
 
-        this.challanReports.map((rptdata,index)=>{
-                      data.map((stordata)=>{
-                        if(stordata.type != 'dynamic' && rptdata.rpt_name == stordata.rpt_name){
-                          this.challanReports[index].isUsed=true;
-                          let info = stordata;
-                        //let ele = document.getElementById('challan-report-' + this.draggingReport.id);
+        this.challanReports.map((rptdata, index) => {
+          data.map((stordata) => {
+            if (stordata.type != 'dynamic' && rptdata.rpt_name == stordata.rpt_name) {
+              setTimeout(() => {
+                this.challanReports[index].isUsed = true;
+                console.log('stored', stordata, rptdata);
+                let info = stordata;
+                let target = document.getElementById('challan-report-' + rptdata.id);
+                let x = info.x_pos;
+                let y = info.y_pos;
+                target.style.width = info.rpt_width + 'px';
+                target.style.height = info.rpt_height + 'px';
+                target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+                target.setAttribute('data-x', x);
+                target.setAttribute('data-y', y);
+              }, 3000)
 
-                        // ele.style.transform = `translate(${event.layerX}px, ${event.layerY}px)`;
-                        // ele.setAttribute('data-x', event.layerX);
-                        // ele.setAttribute('data-y', event.layerY);
+            }
+          });
+        });
 
 
-                        let target = document.getElementById('report-' + rptdata.id);
-                        let x = info.x_pos;
-                        let y = info.y_pos;
-                        target.style.width = info.rpt_width + 'px';
-                        target.style.height = info.rpt_height + 'px';
-                        target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
-                        target.setAttribute('data-x', x);
-                        target.setAttribute('data-y', y);
-                        }
-                      });
-                    });
-
-        
 
 
 
@@ -104,7 +101,7 @@ export class ReportEditComponent implements OnInit {
         console.log('Res:', res);
         let data = JSON.parse(localStorage.getItem('dynamic-report')) || [];
 
-    
+
 
 
         this.reports = res.data.map(report => {

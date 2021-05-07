@@ -26,7 +26,8 @@ export class DynamicReportDashboardComponent implements OnInit {
   widgetsList = {
     "Challan Trends (Last 6 Months) ": "challan-trend"
   };
-
+  containerHeight = 0;
+  containerWidth = 0;
   challanReports = [];
   usedChallanWidgtets = [];
   constructor(private api: ApiService, private modalService: NgbModal, private common: CommonService) {
@@ -58,6 +59,7 @@ export class DynamicReportDashboardComponent implements OnInit {
         this.reports = res.data.map(report => {
           report.isUsed = false;
           let info = this.dynamicReports.find(d => d.rpt_name == report.name);
+
           if (info) {
             let style = {
               width: info.rpt_width + "px",
@@ -77,12 +79,12 @@ export class DynamicReportDashboardComponent implements OnInit {
     console.log('callreport', calldata);
     this.dynamicreportcall = [];
     this.usedChallanWidgtets = calldata.filter(report => report.type.includes('challan-'))
-    
+
 
     console.log('usedChallanWidgtets:', this.usedChallanWidgtets);
     this.reports.map((data) => {
       calldata.map((cdata) => {
-      console.log('callreport1', data.name,cdata.rpt_name,cdata.type);
+        console.log('callreport1', data.name, cdata.rpt_name, cdata.type);
 
         if (data.name == cdata.rpt_name && cdata.type == "dynamic") {
           this.dynamicreportcall.push(data);
@@ -105,6 +107,13 @@ export class DynamicReportDashboardComponent implements OnInit {
         console.log('GetDynamicReportMaster:', res);
         this.dynamicReports = res['data'].map(report => {
           report.type = this.widgetsList[report.rpt_name] || 'dynamic';
+          if (report.rpt_height + report.y_pos > this.containerHeight) {
+            this.containerHeight = report.rpt_height + report.y_pos;
+          }
+
+          if (report.rpt_width + report.x_pos > this.containerWidth) {
+            this.containerWidth = report.rpt_width + report.x_pos;
+          }
           return report;
         });
         //let tabs =this.dynamicReports[]
