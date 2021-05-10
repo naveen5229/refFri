@@ -35,7 +35,9 @@
             </div>
 
             <div class="col-10 reports-container" (drop)="handleDropped($event)" (dragover)="handleDragOver($event)">
-                <div class="report draggable" *ngFor="let report of reports;let i = index" [hidden]="!report.isUsed"
+                <div class="report draggable" *ngFor="let report of reports;let i = index" [hidden]="!report.isUsed" [style.width]="report.rpt_width + 'px'"
+                [style.height]="report.rpt_height + 'px'"
+                [style.top]="report.y_pos + 'px'" [style.left]="report.x_pos + 'px'" 
                     [id]="'report-' + report._id">
                     <div class="report-container">
                         <dynamic-report [savedReportSelect]="report"></dynamic-report>
@@ -43,7 +45,9 @@
                     </div>
                 </div>
                 <div class="report draggable" *ngFor="let challanReport of challanReports; let i = index"
-                    [hidden]="!challanReport.isUsed" [id]="'challan-report-' + challanReport.id">
+                    [hidden]="!challanReport.isUsed" [id]="'challan-report-' + challanReport.id"  [style.width]="challanReport.rpt_width + 'px'"
+                    [style.height]="challanReport.rpt_height + 'px'"
+                    [style.top]="challanReport.y_pos + 'px'" [style.left]="challanReport.x_pos + 'px'" >
                     <div class="report-container">
                         <challan-trends *ngIf="challanReport.id == 1"></challan-trends>
                         <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
