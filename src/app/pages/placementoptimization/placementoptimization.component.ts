@@ -105,7 +105,7 @@ export class PlacementoptimizationComponent implements OnInit {
 
   getDate(event) {
     this.placementDate = event;
-    this.getPreviousData(this.days, this.placementDate);
+    // this.getPreviousData(this.days, this.placementDate);
   }
 
   selectDays(event) {
