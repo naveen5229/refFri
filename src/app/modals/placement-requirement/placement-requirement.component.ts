@@ -40,6 +40,10 @@ export class PlacementRequirementComponent implements OnInit {
     offDates: null
   }]
 
+  offDateSite = [{
+    offDatesSite: null
+  }]
+
   items = [
     {
       siteId: 0,
