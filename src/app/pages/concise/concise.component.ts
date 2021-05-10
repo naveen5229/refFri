@@ -289,8 +289,10 @@ export class ConciseComponent implements OnInit {
                     mouseout: ''
                   }
           }
+          column['_id'] = {
+            value: ticket['x_showveh']
+          }
         }
-        
         else {
           column[key] = { value: ticket[key], class: 'black', action: '' };
         }
@@ -1453,67 +1455,67 @@ export class ConciseComponent implements OnInit {
   }
 
   jrxActionHandler(details: any) {
-    console.log('jrxActionHandlerDetails is: ', details.column._smartId);
+    console.log('jrxActionHandlerDetails is: ', details);
     
     if (details.heading && details.actionLevel !== 'icon') {
       switch (details.heading) {
         case 'vehicle':
           if (details.actionType === 'click')
-            this.addShortTarget(this.findKPI(details.column._smartId))
+            this.addShortTarget(this.findKPI(details.column._id.value))
           else if (details.actionType === 'dblclick')
-            this.showDetails(this.findKPI(details.column._smartId))
+            this.showDetails(this.findKPI(details.column._id.value))
           else if (details.actionType === 'mouseover' && this.isMapView)
-            this.rotateBounce.bind(this.findKPI(details.column._smartId), details.index)
+            this.rotateBounce.bind(this.findKPI(details.column._id.value), details.index)
           else if (details.actionType === 'mouseout' && this.isMapView)
             this.mapService.toggleBounceMF(details.index, 2)
           break;
         case 'status':
-          this.showDetails(this.findKPI(details.column._smartId));
+          this.showDetails(this.findKPI(details.column._id.value));
           break;
         case 'location':
-          this.showLocation(this.findKPI(details.column._smartId));
+          this.showLocation(this.findKPI(details.column._id.value));
           break;
         case 'trail':
-          this.getUpdate(this.findKPI(details.column._smartId));
+          this.getUpdate(this.findKPI(details.column._id.value));
           break;
       }
     } else if (details.actionLevel === 'icon') {
       switch (details.heading) {
         case 'icon fa fa-chart-pie':
-          this.openChangeStatusModal(this.findKPI(details.column._smartId))
+          this.openChangeStatusModal(this.findKPI(details.column._id.value))
           break;
         case 'icon fa fa-star':
-          this.vehicleReport(this.findKPI(details.column._smartId))
+          this.vehicleReport(this.findKPI(details.column._id.value))
           break;
         case 'icon fa fa-route':
-          this.openRouteMapper(this.findKPI(details.column._smartId))
+          this.openRouteMapper(this.findKPI(details.column._id.value))
           break;
         case 'icon fa fa-truck':
-          this.openTripDetails(this.findKPI(details.column._smartId))
+          this.openTripDetails(this.findKPI(details.column._id.value))
           break;
         case 'icon fa fa-globe':
-          this.openVehicleStates(this.findKPI(details.column._smartId))
+          this.openVehicleStates(this.findKPI(details.column._id.value))
           break;
         case 'icon fa fa-question-circle':
-          this.reportIssue(this.findKPI(details.column._smartId))
+          this.reportIssue(this.findKPI(details.column._id.value))
           break;
         case 'icon fa fa-user-secret':
-          this.openStations(this.findKPI(details.column._smartId))
+          this.openStations(this.findKPI(details.column._id.value))
           break;
         case 'icon fas fa-tachometer-alt':
-          this.openOdoMeter(this.findKPI(details.column._smartId))
+          this.openOdoMeter(this.findKPI(details.column._id.value))
           break;
         case 'icon fas fa-flag-checkered':
-          this.openentityFlag(this.findKPI(details.column._smartId))
+          this.openentityFlag(this.findKPI(details.column._id.value))
           break;
         case 'icon fa fa-gavel':
-          this.openVehicleWiseOrders(this.findKPI(details.column._smartId))
+          this.openVehicleWiseOrders(this.findKPI(details.column._id.value))
           break;
         case 'icon fa fa-phone':
-          this.callNotification(this.findKPI(details.column._smartId))
+          this.callNotification(this.findKPI(details.column._id.value))
           break;
         case 'icon fa fa-map-marker':
-          this.openStations(this.findKPI(details.column._smartId))
+          this.openStations(this.findKPI(details.column._id.value))
           break;
       }
     }
