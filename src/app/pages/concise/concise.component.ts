@@ -201,19 +201,34 @@ export class ConciseComponent implements OnInit {
   getKPIS(isRefresh?) {
     this.lastRefreshTime = new Date();
     !isRefresh && this.common.loading++;
-    let subscription = this.api.get("VehicleKpis")
+    let subscription = this.api.get("VehicleKpis/getVehicleKpisv1")
       .subscribe(res => {
         !isRefresh && this.common.loading--;
         if (res['code'] == 1) {
-          if (res['data'].preferences) {
-            this.preferences = res['data'].preferences;
-            this.allKpis = res['data'];
-          } else {
-            this.allKpis = res["data"];
-            this.preferences = [];
-          }
-          this.common.params = res['data'];
-          console.log('kpi response data :', res['data']);
+          const keys = {
+            "x_kmph": "kmp",
+            "x_showtripstart": "trail",
+            "x_idle_time": "Idle_Time",
+            "x_hrssince": "hrs",
+            "Address": "location",
+            "showprim_status": "status",
+            "x_vehicle_type": "vehicleType",
+            "x_showveh": "vehicle"
+          };
+
+          this.preferences = res['data'].y_columns.map(column => {
+            return {
+              key: keys[column.col_name],
+              order: column.col_order,
+              title: column.col_title_actual
+            }
+          }).filter(column => column.key);
+          this.allKpis = res['data'].y_data;
+
+          this.common.params = res['data'].y_data;
+          console.log('kpi response data :', res['data'].y_data);
+          console.log('kpi response y column :', res['data'].y_columns);
+
           localStorage.setItem('KPI_DATA', JSON.stringify(this.allKpis));
           this.kpis = this.allKpis;
           this.grouping(this.viewType);
@@ -737,6 +752,9 @@ export class ConciseComponent implements OnInit {
       { key: 'trail', order: 7, title: 'Trail' },
       { key: 'kmp', order: 8, title: 'KMP' },
     ];
+
+    console.log('this.prefrences :', this.preferences.length);
+
     //preferences.filter(pre=>pre.show)
     preferences = preferences.sort((a, b) => a.order > b.order ? 1 : -1);
     let headings = {};

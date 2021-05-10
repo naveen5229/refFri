@@ -40,6 +40,10 @@ export class PlacementRequirementComponent implements OnInit {
     offDates: null
   }]
 
+  offDateSite = [{
+    offDatesSite: null
+  }]
+
   items = [
     {
       siteId: 0,
@@ -139,10 +143,10 @@ export class PlacementRequirementComponent implements OnInit {
 
   actionIcons(doc){
     let icons = [
-      {
-        class: "far fa-eye",
-        action: this.placementProblemGenereation.bind(this, doc)
-      },
+      // {
+      //   class: "far fa-eye",
+      //   action: this.placementProblemGenereation.bind(this, doc)
+      // },
       {
         class: "fas fa-user",
         action: this.setData.bind(this, doc)
@@ -160,8 +164,8 @@ export class PlacementRequirementComponent implements OnInit {
     console.log("docL",doc)
     this.partyId = doc['partyId'];
     this.partyName = doc['partyName'];
-    this.startTime = doc['startDate'];
-    this.endTime = doc['endDate'];
+    this.startTime = new Date(doc['startDate']);
+    this.endTime = new Date(doc['endDate']);
     this.repName = doc['reportName'];
     this.quantityType = doc['quantityType'];
     this.id = doc['id'];

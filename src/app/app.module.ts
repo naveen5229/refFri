@@ -319,6 +319,7 @@ import { NearByVehiclesComponent } from './modals/near-by-vehicles/near-by-vehic
 import { ConciseColumnPrefrenceComponent } from './modals/concise-column-prefrence/concise-column-prefrence.component';
 import {MatRadioModule} from '@angular/material/radio';
 
+
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
   FreightRateRulesComponent,
@@ -612,6 +613,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     PlacementRequirementComponent,
     PlacementProblemGenerationComponent,
     NearByVehiclesComponent,
+    
   ],
   entryComponents: [
     ...COMMON_COMPONENT,

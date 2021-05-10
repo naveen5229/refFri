@@ -4,6 +4,7 @@ import interact from 'interactjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReportEditComponent } from './report-edit/report-edit.component';
 import { CommonService } from '../../services/common.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'dynamic-report-dashboard',
@@ -18,11 +19,19 @@ export class DynamicReportDashboardComponent implements OnInit {
     startDate: this.startDate,
     endDate: this.endDate,
   };
+  tabsdata: any;
   dynamicReports = [];
+  dynamicreportcall = [];
+  caltabname = '';
+  widgetsList = {
+    "Challan Trends (Last 6 Months) ": "challan-trend"
+  };
 
+  challanReports = [];
+  usedChallanWidgtets = [];
   constructor(private api: ApiService, private modalService: NgbModal, private common: CommonService) {
     this.getDynamicReports();
-
+    this.getpredefinedReports();
   }
 
   ngOnInit(): void {
@@ -31,12 +40,21 @@ export class DynamicReportDashboardComponent implements OnInit {
   ngAfterViewInit() {
   }
 
+  getpredefinedReports() {
+    this.api.get('tmgreport/getdynamicreport')
+      .subscribe(res => {
+        this.challanReports = res['data'].filter(report => report.dashboard_name === "Challan DashBoard");
+      }, err => {
+        console.log('err:', err);
+      })
+  }
+
 
 
   getSavedReports() {
     this.api.get(`GraphicalReport/getGraphicalReportList`)
       .subscribe((res: any) => {
-        console.log('Res11111:', res,this.dynamicReports);
+        console.log('Res11111:', res, this.dynamicReports);
         this.reports = res.data.map(report => {
           report.isUsed = false;
           let info = this.dynamicReports.find(d => d.rpt_name == report.name);
@@ -51,10 +69,28 @@ export class DynamicReportDashboardComponent implements OnInit {
           }
           return report;
         }).filter(report => report.style)
+        this.callreport(this.tabsdata[0]);
+
       })
   }
-  callreport(calldata){
-    console.log('callreport',calldata);
+  callreport(calldata) {
+    console.log('callreport', calldata);
+    this.dynamicreportcall = [];
+    this.usedChallanWidgtets = calldata.filter(report => report.type.includes('challan-'))
+    
+
+    console.log('usedChallanWidgtets:', this.usedChallanWidgtets);
+    this.reports.map((data) => {
+      calldata.map((cdata) => {
+      console.log('callreport1', data.name,cdata.rpt_name,cdata.type);
+
+        if (data.name == cdata.rpt_name && cdata.type == "dynamic") {
+          this.dynamicreportcall.push(data);
+          this.caltabname = cdata.rpt_tabname;
+        }
+      })
+    });
+    console.log('dynamicreportcall', this.dynamicreportcall);
   }
 
   getDynamicReports() {
@@ -67,8 +103,19 @@ export class DynamicReportDashboardComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('GetDynamicReportMaster:', res);
-        this.dynamicReports = res['data'];
-        localStorage.setItem('dynamic-report', JSON.stringify(this.dynamicReports));
+        this.dynamicReports = res['data'].map(report => {
+          report.type = this.widgetsList[report.rpt_name] || 'dynamic';
+          return report;
+        });
+        //let tabs =this.dynamicReports[]
+        let tabs = _.groupBy(res['data'], 'rpt_tabname');
+        this.tabsdata = [];
+        Object.keys(tabs)
+          .map(key => {
+            this.tabsdata.push(tabs[key]);
+          })
+        console.log('predefined', this.tabsdata);
+
         this.getSavedReports();
 
       }, err => {
@@ -77,7 +124,16 @@ export class DynamicReportDashboardComponent implements OnInit {
       })
   }
 
-  editReport() {
+  editReport(flag?) {
+    if (flag) {
+      localStorage.setItem('dynamic-report', JSON.stringify(this.dynamicReports));
+      this.common.params = {
+        caltabname: this.caltabname
+      };
+    } else {
+      localStorage.removeItem("dynamic-report");
+      this.common.params = '';
+    }
     let modal = this.modalService.open(ReportEditComponent, { size: 'lg', container: 'nb-layout' });
     modal.result.then(data => {
       this.getDynamicReports();
