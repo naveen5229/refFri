@@ -37,7 +37,11 @@ export class PlacementRequirementComponent implements OnInit {
   }
 
   offDate = [{
-    offDates: new Date()
+    offDates: null
+  }]
+
+  offDateSite = [{
+    offDatesSite: null
   }]
 
   items = [
@@ -131,7 +135,6 @@ export class PlacementRequirementComponent implements OnInit {
         reportName: { value: doc.reportName },
         quantityType: { value: doc.quantityType == 0 ? 'Capacity' : 'Vehicle' },
         action:{value: "",isHTML: false,action: null,icons: this.actionIcons(doc)}
-        // action: { value: '', class: 'far fa-edit', action: this.setData.bind(this, doc) }
       };
       columns.push(column);
     });
@@ -140,10 +143,10 @@ export class PlacementRequirementComponent implements OnInit {
 
   actionIcons(doc){
     let icons = [
-      {
-        class: "far fa-eye",
-        action: this.placementProblemGenereation.bind(this, doc)
-      },
+      // {
+      //   class: "far fa-eye",
+      //   action: this.placementProblemGenereation.bind(this, doc)
+      // },
       {
         class: "fas fa-user",
         action: this.setData.bind(this, doc)
@@ -161,8 +164,8 @@ export class PlacementRequirementComponent implements OnInit {
     console.log("docL",doc)
     this.partyId = doc['partyId'];
     this.partyName = doc['partyName'];
-    this.startTime = doc['startDate'];
-    this.endTime = doc['endDate'];
+    this.startTime = new Date(doc['startDate']);
+    this.endTime = new Date(doc['endDate']);
     this.repName = doc['reportName'];
     this.quantityType = doc['quantityType'];
     this.id = doc['id'];

@@ -20,11 +20,6 @@
     <div *ngIf="isVisible">
       <div class="row">
         <div class="col-sm-12 p-0">
-          <!-- <div class="col-sm-2 p-0">
-            <label>Name</label>
-            <input type="text" [(ngModel)]="name" class="form control" placeholder="Name">
-          </div> -->
-
           <div class="col-sm-3">
             <label>Placement Date</label>
             <uj-date-time-picker (onChanged)="getDate($event);" [isTime]='false' [dateTimeValue]="placementDate">
@@ -53,6 +48,13 @@
                     <option [value]="0">Capacity</option>
                     <option [value]='1'>Vehicle</option>
                 </select> 
+          </div>
+
+          <div class="col-sm-2">
+            <button class="btn btn-primary mt-2" (click)="fillingFields(1)">Manual Fill</button>
+            <button class="btn btn-primary mt-2" (click)="fillingFields(2)">Auto Fill</button>
+            <button class="btn btn-primary mt-2" (click)="resetFields()">Reset</button>
+
           </div>
         </div>
       </div>
@@ -115,20 +117,14 @@
                 </td>
 
                 <td>
-                  <!-- <input type="number" [(ngModel)]="item.onward24Hrs" min=0 oninput="validity.valid||(value='');"
-                    class="form control" placeholder="Onwards 24 Hrs"> -->
                     <label>{{item.onward24Hrs}}</label>
                 </td>
 
                 <td>
-                  <!-- <input type="number" [(ngModel)]="item.atPlant" min=0 oninput="validity.valid||(value='');"
-                    class="form control" placeholder="At Plant"> -->
                     <label>{{item.atPlant}}</label>
                 </td>
 
                 <td>
-                  <!-- <input type="number" [(ngModel)]="item.towards" min=0 oninput="validity.valid||(value='');"
-                    class="form control" placeholder="Towards"> -->
                     <label>{{item.towards}}</label>
                 </td>
 
@@ -149,9 +145,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="row">
-        
-      </div> -->
     </div>
     <div class="row mt-3">
       <div class="col-sm-12" style="text-align:center;" *ngIf="placementOPT">

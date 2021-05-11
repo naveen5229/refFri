@@ -41,8 +41,6 @@ export class PlacementoptimizeComponent implements OnInit {
     }]
   }
 
-
-
   ngOnInit(): void {
   }
 
@@ -50,16 +48,11 @@ export class PlacementoptimizeComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-  
-
-
   ngAfterViewInit() {
     this.mapService.mapIntialize("placementoptimize-map");
     this.mapService.clearAll();
     setTimeout(() => {
       this.mapService.setMapType(0);
-      // this.placementData.map(e=>{return e.title = e.truckRegno;});
-      // console.log("Testing-data:",this.placementData);
       this.markers=this.mapService.createMarkers(this.placementData).map((siteMarker,i) =>{
         const siteDetails=this.placementData[i];
         siteMarker.setTitle(siteDetails.truckRegno);
@@ -76,11 +69,6 @@ export class PlacementoptimizeComponent implements OnInit {
     } else {
       this.clearCluster();
       this.markers= this.mapService.createMarkers(this.placementData)
-      // .map((siteMarker,i) =>{
-      //   const siteDetails=this.placementData[i];
-      //   siteMarker.setTitle(siteDetails.truckRegno);
-      //   return {marker:siteMarker};
-      // });
     }
   }
 

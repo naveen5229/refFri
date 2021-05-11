@@ -5,7 +5,7 @@
                 <h5>Business Dashboard</h5>
             </div>
             <div class="col-3 text-right">
-                <input type="text" [(ngModel)]=tabname class="form-control" placeholder="Enter Tab Name">
+                <input type="text" [(ngModel)]=tabname class="form-control" placeholder="Enter Tab Name" [readonly]="backtabname">
             </div>
             <div class="col-3 text-right">
                 <button class="btn btn-primary" (click)="saveReport()">Save</button>
@@ -24,23 +24,33 @@
                         <span>{{report.name}}</span>
                     </div>
                 </div>
-                <div class="holdContainer" *ngIf="predefined">
-                    <div  *ngFor="let prereport of predefined;let i = index" (click)="activeTreeasset = activeTreeasset !== i ? i : -1" >
-                        <span>{{prereport[0].dashboard_name}}</span>
-                        <div class="dataelements" *ngFor="let prere of prereport;let i = index"  [active]="activeTreeasset == i ? true : false"  
-                            draggable="true" [id]="'option-' + prere.id" (dragstart)="selectDraggable(prere)">
-                            <span>{{prere.rpt_title}}</span>
-                        </div>
+                <div class="holdContainer" *ngIf="challanReports.length">
+                    <span>Challan Reports</span>
+                    <div class="dataelements" *ngFor="let challanReport of challanReports; let i = index" [hidden]="challanReport.isUsed"
+                        draggable="true" [id]="'challan-option-' + challanReport.id"
+                        (dragstart)="selectDraggable(challanReport, 'challan')">
+                        <span>{{challanReport.rpt_title}}</span>
                     </div>
                 </div>
             </div>
 
             <div class="col-10 reports-container" (drop)="handleDropped($event)" (dragover)="handleDragOver($event)">
-                <div class="report draggable" *ngFor="let report of reports;let i = index" [hidden]="!report.isUsed"
+                <div class="report draggable" *ngFor="let report of reports;let i = index" [hidden]="!report.isUsed" [style.width]="report.rpt_width + 'px'"
+                [style.height]="report.rpt_height + 'px'"
+                [style.top]="report.y_pos + 'px'" [style.left]="report.x_pos + 'px'" 
                     [id]="'report-' + report._id">
                     <div class="report-container">
                         <dynamic-report [savedReportSelect]="report"></dynamic-report>
                         <i class="fa fa-window-close report-close" (click)="deleteReport(report)"></i>
+                    </div>
+                </div>
+                <div class="report draggable" *ngFor="let challanReport of challanReports; let i = index"
+                    [hidden]="!challanReport.isUsed" [id]="'challan-report-' + challanReport.id"  [style.width]="challanReport.rpt_width + 'px'"
+                    [style.height]="challanReport.rpt_height + 'px'"
+                    [style.top]="challanReport.y_pos + 'px'" [style.left]="challanReport.x_pos + 'px'" >
+                    <div class="report-container">
+                        <challan-trends *ngIf="challanReport.id == 1"></challan-trends>
+                        <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
                     </div>
                 </div>
             </div>

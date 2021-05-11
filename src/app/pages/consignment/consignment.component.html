@@ -7,7 +7,7 @@
             <div class="col-2">
               <select [(ngModel)]='reporttype'  >
                 <option>Select Report Type</option>
-                <option value="DB"> DB</option>
+                <option value="DB"> Dashboard</option>
               </select>
             </div>
           
@@ -22,35 +22,37 @@
     <nb-card-body>
         <div class="reports-container">            
                 <button class="btn btn-primary float-right" (click)="savereport()"> Save</button>           
-            <div class="report col-10 p-0" *ngFor="let report of Reports;let i = index">
-                <div  class="row">
-                <div class="col-6">
-                <div class="report-container row" >
-                    <div class="col-3 p-1">
-                    <input type="checkbox" [value]="true" [checked]="report.is_default"  [(ngModel)]="report.is_default">                    
-                </div>                    
-                    <div class="col-3 p-1"> <input type="text" [value]="report.col_order" [(ngModel)]="report.col_order" /></div> 
-                 
-                    <div class="col-6 p-1"> <input type="text" [(ngModel)]="report.col_title"/>
-                   <input type="hidden" [value]="report.col_id" [(ngModel)]="report.col_id" />
-                    </div> 
-                    <diiv class="col-12 pl-1 pr-1"> <span class="title">( {{report.col_title_actual}} )</span>   </diiv>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="report-container row" >
-                    <div class="col-3 p-1">
-                    <input type="checkbox" [value]="true" [checked]="report.is_default"  [(ngModel)]="report.is_default">                    
-                </div>                    
-                    <div class="col-3 p-1"> <input type="text" [value]="report.col_order" [(ngModel)]="report.col_order" /></div> 
-                 
-                    <div class="col-6 p-1"> <input type="text" [(ngModel)]="report.col_title"/>
-                   <input type="hidden" [value]="report.col_id" [(ngModel)]="report.col_id" />
-                    </div> 
-                    <diiv class="col-12  pl-1 pr-1"> <span class="title">( {{report.col_title_actual}} )</span>   </diiv>
-                </div>
-            </div>
-        </div>
+            
+                
+                    <div class="report col-10 p-0">
+                        <div  class="row">
+                        <div class="col-6" *ngFor="let report of firstreport;let i = index">
+                        <div class="report-container row" >
+                            <div class="col-3 p-1">
+                            <input type="checkbox" [value]="true" [checked]="report.is_default"  [(ngModel)]="report.is_default">                    
+                        </div>                    
+                            <div class="col-3 p-1"> <input type="text" [value]="report.col_order" [(ngModel)]="report.col_order" /></div> 
+                        
+                            <div class="col-6 p-1"> <input type="text" [(ngModel)]="report.col_title"/>
+                        <input type="hidden" [value]="report.col_id" [(ngModel)]="report.col_id" />
+                            </div> 
+                            <diiv class="col-12 pl-1 pr-1"> <span class="title">( {{report.col_title_actual}} )</span>   </diiv>
+                        </div>
+                        </div>
+                        <div class="col-6" *ngFor="let report1 of secondreport;let i = index">
+                            <div class="report-container row">
+                                <div class="col-3 p-1">
+                                    <input type="checkbox" [value]="true" [checked]="report1.is_default"  [(ngModel)]="report1.is_default">                    
+                                </div>                    
+                                <div class="col-3 p-1"> <input type="text" [value]="report1.col_order" [(ngModel)]="report1.col_order" /></div> 
+                            
+                                <div class="col-6 p-1"> <input type="text" [(ngModel)]="report1.col_title"/>
+                            <input type="hidden" [value]="report1.col_id" [(ngModel)]="report1.col_id" />
+                                </div> 
+                                <diiv class="col-12  pl-1 pr-1"> <span class="title">( {{report1.col_title_actual}} )</span>   </diiv>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </nb-card-body>
