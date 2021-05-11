@@ -30,6 +30,7 @@ import {
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 import { NearByVehiclesComponent } from "../../modals/near-by-vehicles/near-by-vehicles.component";
 import { ConciseColumnPrefrenceComponent } from "../../modals/concise-column-prefrence/concise-column-prefrence.component";
+// import { ConsoleReporter } from "jasmine";
 
 @AutoUnsubscribe()
 @Component({
@@ -139,6 +140,8 @@ export class ConciseComponent implements OnInit {
   subscriptions = [];
   markersWithId = [];
   preferences = [];
+  kpiHeadings = [];
+
   constructor(
     public api: Api,
     public common: Common,
@@ -205,20 +208,20 @@ export class ConciseComponent implements OnInit {
       .subscribe(res => {
         !isRefresh && this.common.loading--;
         if (res['code'] == 1) {
-          const keys = {
-            "x_kmph": "kmp",
-            "x_showtripstart": "trail",
-            "x_idle_time": "Idle_Time",
-            "x_hrssince": "hrs",
-            "Address": "location",
-            "showprim_status": "status",
-            "x_vehicle_type": "vehicleType",
-            "x_showveh": "vehicle"
-          };
+          // const keys = {
+          //   "x_kmph": "kmp",
+          //   "x_showtripstart": "trail",
+          //   "x_idle_time": "Idle_Time",
+          //   "x_hrssince": "hrs",
+          //   "Address": "location",
+          //   "showprim_status": "status",
+          //   "x_vehicle_type": "vehicleType",
+          //   "x_showveh": "vehicle"
+          // };
 
           this.preferences = res['data'].y_columns.map(column => {
             return {
-              key: keys[column.col_name],
+              key: [column.col_name],
               order: column.col_order,
               title: column.col_title_actual
             }
@@ -247,59 +250,113 @@ export class ConciseComponent implements OnInit {
   getTableColumns(kpis?) {
     let columns = [];
     let kpisList = kpis || this.kpis;
-    kpisList.map(kpi => {
-      columns.push({
-        _id: kpi.x_showveh,
-        vehicle: {
-          value: this._sanitizer.bypassSecurityTrustHtml(`<span><div style='float:left;'>${kpi.x_showveh}</div><div class="${kpi.x_gps_state == 'Offline' ? 'ball red' : kpi.x_gps_state == 'Online' ? 'ball bgreen' : kpi.x_gps_state == 'SIM' ? 'ball bgblue' : 'ball byellow'}" title=${kpi.x_gps_state}></div></span>`),
-          action: '',
-          isHTML: true,
-          colActions: {
-            dblclick: '',
-            click: '',
-            mouseover: '',
-            mouseout: ''
+    kpisList.map(ticket => {
+      let column = {};
+      for (let key in this.kpiHeadings) {
+        if (key === 'x_actions') {
+          column[key] = {
+            value: "",
+            isHTML: false,
+            action: null,
+            icons: this.actionIcons(ticket['x_actions'])
+          };
+        } else if(key === 'x_hrssince'){
+          column[key] = {
+            value: this.convertHrsToDays(ticket['x_hrssince']),
+            action: null,
+            sortBy: ticket['x_hrssince']
           }
-        },
-        vehicleType: {
-          value: kpi.x_vehicle_type,
-          action: "",
-        },
-        status: {
-          value: kpi.showprim_status,
-          action: '',
-        },
-        location: {
-          value: kpi.Address,
-          action: ''
-        },
-        hrs: {
-          value: this.convertHrsToDays(kpi.x_hrssince),
-          action: "",
-          sortBy: kpi.x_hrssince
-        },
-        Idle_Time: {
-          value: this.common.changeTimeformat(kpi.x_idle_time),
-          action: "",
-        },
-        trail: {
-          value: this.common.getTripStatusHTML(kpi.trip_status_type, kpi.x_showtripstart, kpi.x_showtripend, kpi.x_p_placement_type, kpi.x_p_loc_name),
-          action: '',
-          isHTML: true,
-        },
-        kmp: {
-          value: kpi.x_kmph,
-          action: "",
-        },
-
-        action: {
-          value: "",
-          isHTML: false,
-          action: null,
-          icons: this.actionIcons(kpi.x_actions)
+        } else if(key === 'x_idle_time'){
+          column[key] = {
+            value: this.common.changeTimeformat(ticket['x_idle_time']),
+            action: null,
+          }
+        } else if(key === 'x_showtripstart'){
+          column[key] = {
+            value: this.common.getTripStatusHTML(ticket['trip_status_type'], ticket['x_showtripstart'], ticket['x_showtripend'], ticket['x_p_placement_type'], ticket['x_p_loc_name']),
+            action: null,
+            isHTML: true,
+          }
+        } else if(key === 'x_showveh'){
+          column[key] = {
+            value: this._sanitizer.bypassSecurityTrustHtml(`<span><div style='float:left;'>${ticket['x_showveh']}</div><div class="${ticket['x_gps_state'] == 'Offline' ? 'ball red' : ticket['x_gps_state'] == 'Online' ? 'ball bgreen' : ticket['x_gps_state'] == 'SIM' ? 'ball bgblue' : 'ball byellow'}" title=${ticket['x_gps_state']}></div></span>`),
+                  action: '',
+                  isHTML: true,
+                  colActions: {
+                    dblclick: '',
+                    click: '',
+                    mouseover: '',
+                    mouseout: ''
+                  }
+          }
+          column['_id'] = {
+            value: ticket['x_showveh']
+          }
         }
-      });
-    });
+        else {
+          column[key] = { value: ticket[key], class: 'black', action: '' };
+        }
+      }
+      columns.push(column);
+    })
+
+    return columns;
+
+    // kpisList.map(kpi => {
+    //   columns.push({
+    //     _id: kpi.x_showveh,
+    //     vehicle: {
+    //       value: this._sanitizer.bypassSecurityTrustHtml(`<span><div style='float:left;'>${kpi.x_showveh}</div><div class="${kpi.x_gps_state == 'Offline' ? 'ball red' : kpi.x_gps_state == 'Online' ? 'ball bgreen' : kpi.x_gps_state == 'SIM' ? 'ball bgblue' : 'ball byellow'}" title=${kpi.x_gps_state}></div></span>`),
+    //       action: '',
+    //       isHTML: true,
+    //       colActions: {
+    //         dblclick: '',
+    //         click: '',
+    //         mouseover: '',
+    //         mouseout: ''
+    //       }
+    //     },
+    //     vehicleType: {
+    //       value: kpi.x_vehicle_type,
+    //       action: "",
+    //     },
+    //     status: {
+    //       value: kpi.showprim_status,
+    //       action: '',
+    //     },
+    //     location: {
+    //       value: kpi.Address,
+    //       action: ''
+    //     },
+    //     hrs: {
+    //       value: this.convertHrsToDays(kpi.x_hrssince),
+    //       action: "",
+    //       sortBy: kpi.x_hrssince
+    //     },
+    //     Idle_Time: {
+    //       value: this.common.changeTimeformat(kpi.x_idle_time),
+    //       action: "",
+    //     },
+    //     trail: {
+    //       value: this.common.getTripStatusHTML(kpi.trip_status_type, kpi.x_showtripstart, kpi.x_showtripend, kpi.x_p_placement_type, kpi.x_p_loc_name),
+    //       action: '',
+    //       isHTML: true,
+    //     },
+    //     kmp: {
+    //       value: kpi.x_kmph,
+    //       action: "",
+    //     },
+
+    //     action: {
+    //       value: "",
+    //       isHTML: false,
+    //       action: null,
+    //       icons: this.actionIcons(kpi.x_actions)
+    //     }
+    //   });
+    // });
+
+
     return columns;
   }
 
@@ -753,14 +810,17 @@ export class ConciseComponent implements OnInit {
       { key: 'kmp', order: 8, title: 'KMP' },
     ];
 
-    console.log('this.prefrences :', this.preferences.length);
+    console.log('this.prefrences :', this.preferences);
 
     //preferences.filter(pre=>pre.show)
     preferences = preferences.sort((a, b) => a.order > b.order ? 1 : -1);
     let headings = {};
     preferences.map(heading => {
-      headings[heading.key] = { title: heading.title, placeholder: heading.title }
+      headings[heading.key] = { title: heading.title, placeholder: heading.title, key: heading }
     });
+
+    Object.assign(this.kpiHeadings, {...headings});
+    console.log('kpiHeadings data is: ', this.kpiHeadings)
 
     return {
       data: {
@@ -774,7 +834,7 @@ export class ConciseComponent implements OnInit {
           // trail: { title: "Trail", placeholder: "Trail" },
           // kmp: { title: "Kmp", placeholder: "KMP" },
           ...headings,
-          action: { title: "Action", placeholder: "", hideSearch: true }
+          // action: { title: "Action", placeholder: "", hideSearch: true }
         },
         columns: this.getTableColumns(kpis)
       },
@@ -1116,6 +1176,8 @@ export class ConciseComponent implements OnInit {
   }
 
   openChangeStatusModal(trip) {
+    console.log('trip is:', trip);
+    
     let ltime = new Date();
     let tTime = this.common.dateFormatter(new Date());
     let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 48));
@@ -1393,65 +1455,67 @@ export class ConciseComponent implements OnInit {
   }
 
   jrxActionHandler(details: any) {
+    console.log('jrxActionHandlerDetails is: ', details);
+    
     if (details.heading && details.actionLevel !== 'icon') {
       switch (details.heading) {
         case 'vehicle':
           if (details.actionType === 'click')
-            this.addShortTarget(this.findKPI(details.column._id))
+            this.addShortTarget(this.findKPI(details.column._id.value))
           else if (details.actionType === 'dblclick')
-            this.showDetails(this.findKPI(details.column._id))
+            this.showDetails(this.findKPI(details.column._id.value))
           else if (details.actionType === 'mouseover' && this.isMapView)
-            this.rotateBounce.bind(this.findKPI(details.column._id), details.index)
+            this.rotateBounce.bind(this.findKPI(details.column._id.value), details.index)
           else if (details.actionType === 'mouseout' && this.isMapView)
             this.mapService.toggleBounceMF(details.index, 2)
           break;
         case 'status':
-          this.showDetails(this.findKPI(details.column._id));
+          this.showDetails(this.findKPI(details.column._id.value));
           break;
         case 'location':
-          this.showLocation(this.findKPI(details.column._id));
+          this.showLocation(this.findKPI(details.column._id.value));
           break;
         case 'trail':
-          this.getUpdate(this.findKPI(details.column._id));
+          this.getUpdate(this.findKPI(details.column._id.value));
           break;
       }
     } else if (details.actionLevel === 'icon') {
       switch (details.heading) {
         case 'icon fa fa-chart-pie':
-          this.openChangeStatusModal(this.findKPI(details.column._id))
+          this.openChangeStatusModal(this.findKPI(details.column._id.value))
           break;
         case 'icon fa fa-star':
-          this.vehicleReport(this.findKPI(details.column._id))
+          this.vehicleReport(this.findKPI(details.column._id.value))
           break;
         case 'icon fa fa-route':
-          this.openRouteMapper(this.findKPI(details.column._id))
+          this.openRouteMapper(this.findKPI(details.column._id.value))
           break;
         case 'icon fa fa-truck':
-          this.openTripDetails(this.findKPI(details.column._id))
+          this.openTripDetails(this.findKPI(details.column._id.value))
           break;
         case 'icon fa fa-globe':
-          this.openVehicleStates(this.findKPI(details.column._id))
+          this.openVehicleStates(this.findKPI(details.column._id.value))
           break;
         case 'icon fa fa-question-circle':
-          this.reportIssue(this.findKPI(details.column._id))
+          this.reportIssue(this.findKPI(details.column._id.value))
           break;
         case 'icon fa fa-user-secret':
-          this.openStations(this.findKPI(details.column._id))
+          this.openStations(this.findKPI(details.column._id.value))
           break;
         case 'icon fas fa-tachometer-alt':
-          this.openOdoMeter(this.findKPI(details.column._id))
+          this.openOdoMeter(this.findKPI(details.column._id.value))
           break;
         case 'icon fas fa-flag-checkered':
-          this.openentityFlag(this.findKPI(details.column._id))
+          this.openentityFlag(this.findKPI(details.column._id.value))
           break;
         case 'icon fa fa-gavel':
-          this.openVehicleWiseOrders(this.findKPI(details.column._id))
+          this.openVehicleWiseOrders(this.findKPI(details.column._id.value))
           break;
         case 'icon fa fa-phone':
-          this.callNotification(this.findKPI(details.column._id))
+          this.callNotification(this.findKPI(details.column._id.value))
           break;
         case 'icon fa fa-map-marker':
-          this.openStations(this.findKPI(details.column._id))
+          this.openStations(this.findKPI(details.column._id.value))
           break;
       }
     }
