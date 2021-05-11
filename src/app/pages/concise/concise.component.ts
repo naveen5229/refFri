@@ -30,7 +30,7 @@ import {
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 import { NearByVehiclesComponent } from "../../modals/near-by-vehicles/near-by-vehicles.component";
 import { ConciseColumnPrefrenceComponent } from "../../modals/concise-column-prefrence/concise-column-prefrence.component";
-import { ConsoleReporter } from "jasmine";
+// import { ConsoleReporter } from "jasmine";
 
 @AutoUnsubscribe()
 @Component({
