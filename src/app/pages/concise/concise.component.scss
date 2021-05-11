@@ -875,7 +875,6 @@ mwlResizable {
 :host ::ng-deep.tableFixHead {
     height: auto !important;
     max-height: calc(100vh - 115px);
-    width: calc(100vw - 215px);
     .table>tbody>tr>td,
     .table>tbody>tr>th,
     .table>tfoot>tr>td,
@@ -884,6 +883,12 @@ mwlResizable {
     .table>thead>tr>th {       
         width: 150px;
     }
+}
+.full{    
+        width: calc(100vw - 215px); 
+}
+.less{
+        width: calc(100vw - 305px); 
 }
 :host ::ng-deep .no-search {
     background: #fff;
