@@ -64,7 +64,13 @@
                     [style.top]="challanWidget.y_pos + 'px'" [style.left]="challanWidget.x_pos + 'px'">
                     <div class="report-container">
                         <challan-trends *ngIf="challanWidget.type == 'challan-trend'"></challan-trends>
+                        <state-wise *ngIf="challanWidget.type == 'state-wise'"></state-wise>
+                        <worst-drivers *ngIf="challanWidget.type == 'worst-drivers'"></worst-drivers>
+                        <most-aged *ngIf="challanWidget.type == 'most-aged'"></most-aged>
+                        <latest *ngIf="challanWidget.type == 'latest'"></latest>
+                        <worst-drivers-years *ngIf="challanWidget.type == 'worst-drivers-years'"></worst-drivers-years>
                     </div>
+                   
                 </div>
             </div>
         </div>

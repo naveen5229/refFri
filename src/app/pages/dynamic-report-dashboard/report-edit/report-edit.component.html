@@ -51,6 +51,16 @@
                     <div class="report-container">
                         <challan-trends *ngIf="challanReport.id == 1"></challan-trends>
                         <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
+                        <state-wise *ngIf="challanReport.id == 2"></state-wise>
+                        <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
+                        <worst-drivers *ngIf="challanReport.id == 3"></worst-drivers>
+                        <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
+                        <most-aged *ngIf="challanReport.id == 4"></most-aged>
+                        <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
+                        <latest *ngIf="challanReport.id == 5"></latest>
+                        <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
+                        <worst-drivers-years *ngIf="challanReport.id == 6"></worst-drivers-years>
+                        <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
                     </div>
                 </div>
             </div>

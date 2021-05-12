@@ -24,7 +24,15 @@ export class DynamicReportDashboardComponent implements OnInit {
   dynamicreportcall = [];
   caltabname = '';
   widgetsList = {
-    "Challan Trends (Last 6 Months) ": "challan-trend"
+    "Challan Trends (Last 6 Months) ": "challan-trend",
+    "State Wise Challans in Last 30 Days": "state-wise",
+    "Worst 3 Drivers(Count Wise) Last 15 Days": "worst-drivers",
+    "Most Aged Challans (Pending)": "most-aged",
+    "Latest Challans": "latest",
+    "Worst 3 Drivers(Amount Wise) Last 1 Year": "worst-drivers-years"
+
+
+
   };
   containerHeight = 0;
   containerWidth = 0;
@@ -78,8 +86,7 @@ export class DynamicReportDashboardComponent implements OnInit {
   callreport(calldata) {
     console.log('callreport', calldata);
     this.dynamicreportcall = [];
-    this.usedChallanWidgtets = calldata.filter(report => report.type.includes('challan-'))
-
+    this.usedChallanWidgtets = calldata.filter(report => (report.type.includes('challan-')||report.type.includes('state-')||report.type.includes('worst-drivers')||report.type.includes('most-aged')||report.type.includes('latest')||report.type.includes('worst-drivers-years')))
 
     console.log('usedChallanWidgtets:', this.usedChallanWidgtets);
     this.reports.map((data) => {
