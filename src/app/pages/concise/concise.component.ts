@@ -1459,7 +1459,7 @@ export class ConciseComponent implements OnInit {
     
     if (details.heading && details.actionLevel !== 'icon') {
       switch (details.heading) {
-        case 'vehicle':
+        case 'x_showveh':
           if (details.actionType === 'click')
             this.addShortTarget(this.findKPI(details.column._id.value))
           else if (details.actionType === 'dblclick')
@@ -1469,13 +1469,13 @@ export class ConciseComponent implements OnInit {
           else if (details.actionType === 'mouseout' && this.isMapView)
             this.mapService.toggleBounceMF(details.index, 2)
           break;
-        case 'status':
+        case 'showprim_status':
           this.showDetails(this.findKPI(details.column._id.value));
           break;
-        case 'location':
+        case 'Address':
           this.showLocation(this.findKPI(details.column._id.value));
           break;
-        case 'trail':
+        case 'x_showtripstart':
           this.getUpdate(this.findKPI(details.column._id.value));
           break;
       }
