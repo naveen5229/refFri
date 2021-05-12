@@ -40,10 +40,6 @@ export class PlacementRequirementComponent implements OnInit {
     offDates: null
   }]
 
-  offDateSite = [{
-    offDatesSite: null
-  }]
-
   items = [
     {
       siteId: 0,
@@ -52,7 +48,11 @@ export class PlacementRequirementComponent implements OnInit {
       maxQuantity: 0,
       penaltyMin: 0,
       penaltyMax: 0,
-    }
+      siteOffDates:[{
+        offDatesSite: null,
+        offDatesSiteStr:null
+      }]
+    },
   ];
 
   selectCompany(event?) {
@@ -72,7 +72,7 @@ export class PlacementRequirementComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-  addMoreItems() {
+  addMoreItems(i) {
     this.items.push({
       siteId: 0,
       siteName: '',
@@ -80,12 +80,24 @@ export class PlacementRequirementComponent implements OnInit {
       maxQuantity: 0,
       penaltyMin: 0,
       penaltyMax: 0,
+      siteOffDates:[{
+        offDatesSite: null,
+        offDatesSiteStr:null
+      }]
     });
+    console.log("siteOfDates:",this.items[i],"index ",i)
   }
 
   addDates() {
     this.offDate.push({
-      offDates: new Date()
+      offDates: null
+    });
+  }
+
+  addDateSites(j){
+    this.items[j].siteOffDates.push({
+      offDatesSite: null,
+      offDatesSiteStr:null
     });
   }
 
@@ -123,6 +135,11 @@ export class PlacementRequirementComponent implements OnInit {
         tableHeight: "auto"
       }
     }
+  }
+
+  dateChangeSites(date:Date,item){
+    item.offDatesSiteStr = this.common.dateFormatter1(date);
+    item.offDatesSite = date;
   }
 
   getTableColumns() {
