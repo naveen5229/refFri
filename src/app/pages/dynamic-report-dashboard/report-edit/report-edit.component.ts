@@ -66,10 +66,14 @@ export class ReportEditComponent implements OnInit {
         let data = JSON.parse(localStorage.getItem('dynamic-report')) || [];
 
         this.challanReports.map((rptdata, index) => {
+          
           data.map((stordata) => {
+          console.log('stro',stordata,rptdata);
             if (stordata.type != 'dynamic' && rptdata.rpt_name == stordata.rpt_name) {
               setTimeout(() => {
+                if(this.tabname == stordata.rpt_tabname){
                 this.challanReports[index].isUsed = true;
+                }
                 console.log('stored', stordata, rptdata);
                 let info = stordata;
                 let target = document.getElementById('challan-report-' + rptdata.id);
@@ -105,9 +109,12 @@ export class ReportEditComponent implements OnInit {
 
 
         this.reports = res.data.map(report => {
+          //tabname
           let info = data.find(d => d.rpt_name == report.name);
           report.isUsed = false;
-          if (info) {
+          console.log('final issue',info);
+
+          if (info && this.tabname ==info.rpt_tabname) {
             report.isUsed = true;
           }
 
@@ -197,7 +204,7 @@ export class ReportEditComponent implements OnInit {
   handleDropped(event) {
     console.log('handleDropped::', event);
     event.preventDefault();
-    console.log('draggingReport:', this.draggingReport);
+    console.log('draggingReport:', this.draggingReport,this.draggingReportType);
     this.draggingReport.isUsed = true;
     let ele = null;
     if (this.draggingReportType === 'challan') {
