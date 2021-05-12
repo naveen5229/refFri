@@ -48,7 +48,11 @@ export class PlacementRequirementComponent implements OnInit {
       maxQuantity: 0,
       penaltyMin: 0,
       penaltyMax: 0,
-    }
+      siteOffDates:[{
+        offDatesSite: null,
+        offDatesSiteStr:null
+      }]
+    },
   ];
 
   selectCompany(event?) {
@@ -68,7 +72,7 @@ export class PlacementRequirementComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-  addMoreItems() {
+  addMoreItems(i) {
     this.items.push({
       siteId: 0,
       siteName: '',
@@ -76,12 +80,24 @@ export class PlacementRequirementComponent implements OnInit {
       maxQuantity: 0,
       penaltyMin: 0,
       penaltyMax: 0,
+      siteOffDates:[{
+        offDatesSite: null,
+        offDatesSiteStr:null
+      }]
     });
+    console.log("siteOfDates:",this.items[i],"index ",i)
   }
 
   addDates() {
     this.offDate.push({
-      offDates: new Date()
+      offDates: null
+    });
+  }
+
+  addDateSites(j){
+    this.items[j].siteOffDates.push({
+      offDatesSite: null,
+      offDatesSiteStr:null
     });
   }
 
@@ -121,6 +137,11 @@ export class PlacementRequirementComponent implements OnInit {
     }
   }
 
+  dateChangeSites(date:Date,item){
+    item.offDatesSiteStr = this.common.dateFormatter1(date);
+    item.offDatesSite = date;
+  }
+
   getTableColumns() {
     let columns = [];
     this.data.map(doc => {
@@ -139,10 +160,10 @@ export class PlacementRequirementComponent implements OnInit {
 
   actionIcons(doc){
     let icons = [
-      {
-        class: "far fa-eye",
-        action: this.placementProblemGenereation.bind(this, doc)
-      },
+      // {
+      //   class: "far fa-eye",
+      //   action: this.placementProblemGenereation.bind(this, doc)
+      // },
       {
         class: "fas fa-user",
         action: this.setData.bind(this, doc)
@@ -160,8 +181,8 @@ export class PlacementRequirementComponent implements OnInit {
     console.log("docL",doc)
     this.partyId = doc['partyId'];
     this.partyName = doc['partyName'];
-    this.startTime = doc['startDate'];
-    this.endTime = doc['endDate'];
+    this.startTime = new Date(doc['startDate']);
+    this.endTime = new Date(doc['endDate']);
     this.repName = doc['reportName'];
     this.quantityType = doc['quantityType'];
     this.id = doc['id'];

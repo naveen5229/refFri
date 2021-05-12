@@ -6,7 +6,7 @@
                 <div class="col-2 x-hide">
                     <i class="fa fa-bars x-hide" [ngClass]="{'active': isHidePie}" (click)="setIsHidePie()"></i>
                 </div>
-                <div class="col-6 status-print-title text-center">
+                <div class="col-8 status-print-title text-center">
                     <h4>Trip dashboard</h4>
                 </div>
                 <div class="col-2 right-status"> 
@@ -18,9 +18,9 @@
                         </u>
                     </div>
                 </div>
-                <div class="col-2">
+                <!-- <div class="col-2">
                     <button class="btn btn-primary" (click)="prefrenceModalOpen()">Prefrences & Order</button>
-                </div>
+                </div> -->
             </div>
             <div class="row" *ngIf="pdfData.primary.list.length">
                 <div class="col-sm-3">
@@ -251,8 +251,8 @@
                     <span class="exel-icon" title="CSV Export" (click)="exportCsv('print-section')"
                         style="cursor: pointer;"><i class="fas fa-file-excel"></i></span>
                 </div>
-                <div class="" *ngIf="table" [ngClass]="isMapView || isHidePie ? 'col-sm-12 p-0' : 'col-sm-9 p-0'">
-                    <div>
+                <div class="" *ngIf="table" [ngClass]="isMapView || isHidePie ? 'col-sm-12 p-0 full' : 'col-sm-9 p-0 less'">
+                 
                         <!-- ============================= SMART TABLE VIEW ============================= -->
                         <div mwlResizable [enableGhostResize]="true" class="map-table-container"
                             [ngStyle]="{ width: isMapView ? widths.smartTable : '100%' }" [resizeEdges]="{
@@ -287,7 +287,7 @@
                             </div>
                         </div>
                         <!-- ============================== MAP VIEW END =============================== -->
-                    </div>
+                  
                 </div>
             </div>
         </nb-card-body>

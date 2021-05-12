@@ -1,69 +1,71 @@
-
 <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title" style="color:white!important">Placement Requirement</h4>
-    <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  
-  <nb-card>
-    <nb-card-body>
-      <div class="row">
-        <div class="col-sm-2">
-            <label>Party</label>
-            <auto-suggestion (onSelected)="selectCompany($event)"
-                                url="Suggestion/GetCompanies2?type=ALL" display="name"
-                                [preSelected]="(partyId>0) ? {'name':partyName} : {'name':''}"
-                                 placeholder="Party">
-                            </auto-suggestion>
+  <h4 class="modal-title" id="modal-basic-title" style="color:white!important">Placement Requirement</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 
-        </div>
-        <div class="col-sm-2">
-            <label>Start Date</label>
-            <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
-            </uj-date-time-picker>
-        </div>
-        <div class="col-sm-2">
-            <label>End Date</label>
-            <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event"
-            [dateTimeValue]="endTime">
-            </uj-date-time-picker>
-        </div>
-        <div class="col-sm-2">
-            <label>Report Name</label>
-            <input type="text" class="form-control" inputId="driver" name="name" placeholder="Report Name" [(ngModel)]="repName">
-        </div>
+<nb-card>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-sm-2">
+        <label>Party</label>
+        <auto-suggestion (onSelected)="selectCompany($event)" url="Suggestion/GetCompanies2?type=ALL" display="name"
+          [preSelected]="(partyId>0) ? {'name':partyName} : {'name':''}" placeholder="Party">
+        </auto-suggestion>
 
-        <div class="col-sm-2">
-            <label>Quantity Type:</label>
-                <select [(ngModel)]="quantityType" style="width:100%;padding:4.5px!important;border: 1px solid lightgrey!important;border-radius:5px;">
-                    <option [value]="0">Capacity</option>
-                    <option [value]='1'>Vehicle</option>
-                </select> 
-        </div>
-        <div class="col-sm-2" style="padding:0!important;">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Off Dates</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let data of offDate;let j=index;">
-                        <td><uj-date-time-picker [isTime]="false" (onChanged)="data.offDates= $event" [dateTimeValue]="data.offDates">
-                        </uj-date-time-picker></td>
-                        <td style="padding:15px">
-                            <span><i class="fa fa-plus add" (click)="addDates(i)" *ngIf="j == offDate.length-1" style="padding: 1px;
+      </div>
+      <div class="col-sm-2">
+        <label>Start Date</label>
+        <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
+        </uj-date-time-picker>
+      </div>
+      <div class="col-sm-2">
+        <label>End Date</label>
+        <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event"
+          [dateTimeValue]="endTime">
+        </uj-date-time-picker>
+      </div>
+      <div class="col-sm-2">
+        <label>Report Name</label>
+        <input type="text" class="form-control" inputId="driver" name="name" placeholder="Report Name"
+          [(ngModel)]="repName">
+      </div>
+
+      <div class="col-sm-2">
+        <label>Quantity Type:</label>
+        <select [(ngModel)]="quantityType"
+          style="width:100%;padding:4.5px!important;border: 1px solid lightgrey!important;border-radius:5px;">
+          <option [value]="0">Capacity</option>
+          <option [value]='1'>Vehicle</option>
+        </select>
+      </div>
+      <div class="col-sm-2" style="padding:0!important;">
+        <table class="table table-bordered" [ngClass]="offDate[0].offDates !== null ? '' : 'off-date-hidden'">
+          <thead>
+            <tr>
+              <th>Off Dates</th>
+              <th>Off Date Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of offDate;let j=index;">
+              <td>
+                <uj-date-time-picker [isTime]="false" (onChanged)="data.offDates= $event"
+                  [dateTimeValue]="data.offDates">
+                </uj-date-time-picker>
+              </td>
+              <td style="padding:15px">
+                <span><i class="fa fa-plus add" (click)="addDates(i)" *ngIf="j == offDate.length-1" style="padding: 1px;
                                 color: green;"></i>
-                                <i class="fa fa-minus minus" (click)="offDate.splice(j,1)" *ngIf="j !== 0" style="padding: 1px;
+                  <i class="fa fa-minus minus" (click)="offDate.splice(j,1)" *ngIf="j !== 0" style="padding: 1px;
                                 color: red;"></i>
-                            </span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <!-- <label>Off Dates</label>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- <label>Off Dates</label>
             <div *ngFor="let data of offDate;let j=index;">
             <uj-date-time-picker [isTime]="false" (onChanged)="data.offDates= $event" [dateTimeValue]="data.offDates">
             </uj-date-time-picker>
@@ -73,11 +75,11 @@
                 color: red;"></i>
             </span>
         </div> -->
-            
-            
-        </div>
-        </div>
-        <!-- <div class="row mt-2 mb-2">
+
+
+      </div>
+    </div>
+    <!-- <div class="row mt-2 mb-2">
             <div class="col-sm-4" style="margin-top:-38px;">
                 <label>Quantity Type:</label>
                 <select [(ngModel)]="quantityType">
@@ -86,64 +88,79 @@
                 </select> 
             </div>
         </div> -->
-        <div class="row">
-            <table class="table table-bordered" style="width:100%;">
-                <thead>
-                    <tr>
-                        <th>Site</th>
-                        <th>Min Quantity</th>
-                        <th>Max Quantity</th>
-                        <th>Min Panelty</th>
-                        <th>Max Panelty</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of items;let j=index;">
-                        <td>
-                        <auto-suggestion (onSelected)="selectplnt($event, j);" url="suggestion/getSites" display="name"
-                        placeholder="Search Plant" [preSelected]="(item.siteId>0) ? {'name':item.siteName} : {'name':null}">
-                        </auto-suggestion>
-                        </td>
-                        <td>
-                            <input type="number" [(ngModel)]="item.minQuantity" min=0 oninput="validity.valid||(value='');"
-                            class="form control" placeholder="Min Qty">
-                        </td>
-                        <td>
-                            <input type="number" [(ngModel)]="item.maxQuantity" min=0 oninput="validity.valid||(value='');"
-                            class="form control" placeholder="Max Qty">
-                        </td>
-                        <td>
-                            <input type="number" [(ngModel)]="item.penaltyMin" min=0 oninput="validity.valid||(value='');"
-                            class="form control" placeholder="Max Qty">
-                        </td>
-                        <td>
-                            <input type="number" [(ngModel)]="item.penaltyMax" min=0 oninput="validity.valid||(value='');"
-                            class="form control" placeholder="Max Qty">
-                        </td>
+    <div class="row">
+      <table class="table table-bordered" style="width:100%;">
+        <thead>
+          <tr>
+            <th>Site</th>
+            <th>Min Quantity</th>
+            <th>Max Quantity</th>
+            <th>Min Panelty</th>
+            <th>Max Panelty</th>
+            <th>Off Date Site</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of items;let j=index;">
+            <td>
+              <auto-suggestion (onSelected)="selectplnt($event, j);" url="suggestion/getSites" display="name"
+                placeholder="Search Plant" [preSelected]="(item.siteId>0) ? {'name':item.siteName} : {'name':null}">
+              </auto-suggestion>
+            </td>
+            <td>
+              <input type="number" [(ngModel)]="item.minQuantity" min=0 oninput="validity.valid||(value='');"
+                class="form control" placeholder="Min Qty">
+            </td>
+            <td>
+              <input type="number" [(ngModel)]="item.maxQuantity" min=0 oninput="validity.valid||(value='');"
+                class="form control" placeholder="Max Qty">
+            </td>
+            <td>
+              <input type="number" [(ngModel)]="item.penaltyMin" min=0 oninput="validity.valid||(value='');"
+                class="form control" placeholder="Max Qty">
+            </td>
+            <td>
+              <input type="number" [(ngModel)]="item.penaltyMax" min=0 oninput="validity.valid||(value='');"
+                class="form control" placeholder="Max Qty">
+            </td>
 
-                        <td style="padding: 15px;">
-                            <span><i class="fa fa-plus add" (click)="addMoreItems(i)" *ngIf="j == items.length-1" style="padding: 1px;
-                                          color: green;"></i>
-                              <i class="fa fa-minus minus" (click)="items.splice(j,1)" *ngIf="j !== 0" style="padding: 1px;
-                                        color: red;"></i>
-                            </span>
-                          </td>
-                    </tr>
+            <td>
+                <div *ngFor="let data of item.siteOffDates;let i=index;">
+                <uj-date-time-picker [isTime]="false" (onChanged)=" dateChangeSites($event,data)"
+                  [dateTimeValue]="data.offDateSites">
+                </uj-date-time-picker>
 
-                </tbody>
-            </table>
-        </div>
-        <div class="row">
-            <div class="col-sm-2 offset-10">
-                <button class="btn btn-primary" (click)="savePlacementRequirement()">submit</button>
+                <span><i class="fa fa-plus add" (click)="addDateSites(j)" *ngIf="i == item.siteOffDates.length-1" style="padding: 1px;
+                    color: green;"></i>
+                <i class="fa fa-minus minus" (click)="item.siteOffDates.splice(i,1)" *ngIf="i !== 0" style="padding: 1px;
+                    color: red;"></i>
+                </span>
             </div>
-        </div>
+            </td>
 
-        <div class="row">
-            <smart-table *ngIf="data && data.length && table" [data]="table.data" [settings]="table.settings"
-            id="cardDetails">
-            </smart-table>
-        </div>
-    </nb-card-body>
-  </nb-card>
+            <td style="padding: 15px;">
+              <span><i class="fa fa-plus add" (click)="addMoreItems(j)" *ngIf="j == items.length-1" style="padding: 1px;
+                                          color: green;"></i>
+                <i class="fa fa-minus minus" (click)="items.splice(j,1)" *ngIf="j !== 0" style="padding: 1px;
+                                        color: red;"></i>
+              </span>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+    <div class="row">
+      <div class="col-sm-2 offset-10">
+        <button class="btn btn-primary" (click)="savePlacementRequirement()">submit</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <smart-table *ngIf="data && data.length && table" [data]="table.data" [settings]="table.settings"
+        id="cardDetails">
+      </smart-table>
+    </div>
+  </nb-card-body>
+</nb-card>
