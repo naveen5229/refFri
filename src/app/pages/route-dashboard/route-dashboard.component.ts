@@ -295,7 +295,7 @@ ngOnInit() {
   }
 
   getRouteAconym(route,routeData) {
-    let sortend = route.substring(0, 20);
+    let sortend = route.substring(0, 30);
     // route = route.replace(/\s/g,'');
     route = "\'" + route + "\'";
     let acy = { value: route ? '<acronym title=' + route + '>' + sortend + '</acronym>' : '-', action: this.viewlocation.bind(this, routeData), isHTML: true };
