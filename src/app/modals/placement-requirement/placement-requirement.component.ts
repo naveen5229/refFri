@@ -48,6 +48,7 @@ export class PlacementRequirementComponent implements OnInit {
       maxQuantity: 0,
       penaltyMin: 0,
       penaltyMax: 0,
+      projectionDays: 0,
       siteOffDates:[{
         offDatesSite: null,
         offDatesSiteStr:null
@@ -80,6 +81,7 @@ export class PlacementRequirementComponent implements OnInit {
       maxQuantity: 0,
       penaltyMin: 0,
       penaltyMax: 0,
+      projectionDays: 0,
       siteOffDates:[{
         offDatesSite: null,
         offDatesSiteStr:null
