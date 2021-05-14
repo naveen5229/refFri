@@ -50,8 +50,7 @@ export class PlacementRequirementComponent implements OnInit {
       penaltyMax: 0,
       projectionDays: 0,
       siteOffDates:[{
-        offDatesSite: null,
-        offDatesSiteStr:null
+        offDatesSite: null
       }]
     },
   ];
@@ -83,8 +82,7 @@ export class PlacementRequirementComponent implements OnInit {
       penaltyMax: 0,
       projectionDays: 0,
       siteOffDates:[{
-        offDatesSite: null,
-        offDatesSiteStr:null
+        offDatesSite: null
       }]
     });
     console.log("siteOfDates:",this.items[i],"index ",i)
@@ -98,8 +96,7 @@ export class PlacementRequirementComponent implements OnInit {
 
   addDateSites(j){
     this.items[j].siteOffDates.push({
-      offDatesSite: null,
-      offDatesSiteStr:null
+      offDatesSite: null
     });
   }
 
@@ -142,8 +139,8 @@ export class PlacementRequirementComponent implements OnInit {
   }
 
   dateChangeSites(date:Date,item){
-    item.offDatesSiteStr = this.common.dateFormatter1(date);
-    item.offDatesSite = date;
+    item.offDatesSite = this.common.dateFormatter1(date);
+    // item.offDatesSite = date;
   }
 
   getTableColumns() {
