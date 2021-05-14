@@ -29,8 +29,7 @@ export class DynamicReportDashboardComponent implements OnInit {
     "Worst 3 Drivers(Count Wise) Last 15 Days": "worst-drivers",
     "Most Aged Challans (Pending)": "most-aged",
     "Latest Challans": "latest",
-    "Worst 3 Drivers(Amount Wise) Last 1 Year": "worst-drivers-years",
-    "Onward KMPD Graph": "trip-onward-kmpd"
+    "Worst 3 Drivers(Amount Wise) Last 1 Year": "worst-drivers-years"
 
 
 
@@ -87,7 +86,7 @@ export class DynamicReportDashboardComponent implements OnInit {
   callreport(calldata) {
     console.log('callreport', calldata);
     this.dynamicreportcall = [];
-    this.usedChallanWidgtets = calldata.filter(report => (report.type.includes('challan-')||report.type.includes('state-')||report.type.includes('worst-drivers')||report.type.includes('most-aged')||report.type.includes('latest')||report.type.includes('worst-drivers-years')||report.type.includes('trip-onward-kmpd')))
+    this.usedChallanWidgtets = calldata.filter(report => (report.type.includes('challan-')||report.type.includes('state-')||report.type.includes('worst-drivers')||report.type.includes('most-aged')||report.type.includes('latest')||report.type.includes('worst-drivers-years')))
 
     console.log('usedChallanWidgtets:', this.usedChallanWidgtets);
     this.reports.map((data) => {
