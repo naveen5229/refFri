@@ -1,1 +1,24 @@
-<p>gps-performance works!</p>
+<div class="">
+    <div class="outer" style="min-height: 145px;">
+      <h6 style="text-align:center"><b class="charthead">GPS Performance</b></h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+        (click)="getDetials('Tmgreport/GetTripGpsPerformance',{totalrecord: 3,stepno: -1},30,'days')"><i title="More Details"
+          class="fa fa-list"></i>
+      </p>
+      <table class="table">
+        <thead class="thead">
+          <th>Vendor Name</th>
+          <th>Total GPS</th>
+          <th>% Offline GPS</th>
+        </thead>
+        <tbody class="tbody">
+          <tr *ngFor="let tgp of tripGpsPerformance">
+            <td class="link"
+            (click)="getDetials('Tmgreport/GetTripGpsPerformance',{totalrecord: 3,stepno: 1,isfo: tgp['Vendor Name']},30,'days')">{{tgp['Vendor Name']}}</td>
+            <td>{{tgp['Total GPS']}}</td>
+            <td>{{tgp['% Offline GPS']}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

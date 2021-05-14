@@ -1,1 +1,22 @@
-<p>worst-vehicles works!</p>
+<div class="">
+    <div class="outer" style="min-height: 145px;">
+      <h6 style="text-align:center"><b class="charthead">Worst 3 Vehicles in Last Week(Breakdown + Maintenance)</b>
+      </h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+        (click)="getDetials('Tmgreport/GetTripLoadindHalt',{totalrecord: 3,stepno: -1},7,'days')"><i title="More Details"
+          class="fa fa-list"></i>
+      </p>
+      <table class="table">
+        <thead class="thead">
+          <th>Vehicle No.</th>
+          <th>BreakDown+Maintenace (Hrs)</th>
+        </thead>
+        <tbody class="tbody">
+          <tr *ngFor="let tlh of tripLongHalt">
+            <td (click)="chart4Clicked(tlh)" class="link">{{tlh['Vehicle Name']}}</td>
+            <td>{{tlh['Breakdown + Maintenance(in Hrs)']}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

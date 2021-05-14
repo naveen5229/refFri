@@ -1,1 +1,12 @@
-<p>avg-unloading works!</p>
+<div class=""> 
+    <div class="outer" style="min-height: 200px;">
+      <h6 style="text-align:center"><b class="charthead">Avg. Unloading Time Graph</b></h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+        (click)="getDetials('Tmgreport/GetTripUnLoadindTime',{totalrecord: 3,stepno: -1,groupdays: 7},30,'days')"><i title="More Details"
+          class="fa fa-list"></i>
+      </p>
+      <chart [type]="chart2.type" [data]="chart2.data"
+        style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;" [options]="chart2.options" (clickElement)="chart3Clicked($event)">
+      </chart>
+    </div>
+  </div>

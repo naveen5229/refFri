@@ -25,6 +25,7 @@ export class ReportEditComponent implements OnInit {
   constructor(private api: ApiService, private common: CommonService, private activeModal: NgbActiveModal) {
     this.getSavedReports();
     this.getpredefinedReports();
+    console.log('common.params',this.common.params);
     if (this.common.params && this.common.params.caltabname) {
       this.tabname = this.common.params.caltabname;
       this.backtabname = true;
@@ -69,13 +70,15 @@ export class ReportEditComponent implements OnInit {
         this.challanReports.map((rptdata, index) => {
           
           data.map((stordata) => {
-          console.log('stro',stordata,rptdata);
+          //console.log('stro',stordata,rptdata);
             if (stordata.type != 'dynamic' && rptdata.rpt_name == stordata.rpt_name) {
               setTimeout(() => {
                 if(this.tabname == stordata.rpt_tabname){
+               // console.log('selected stored', stordata, rptdata);
+
                 this.challanReports[index].isUsed = true;
                 }
-                console.log('stored', stordata, rptdata);
+               // console.log('stored', stordata, rptdata);
                 let info = stordata;
                 let target = document.getElementById('challan-report-' + rptdata.id);
                 let x = info.x_pos;
@@ -97,10 +100,12 @@ export class ReportEditComponent implements OnInit {
           console.log('stro',stordata,rptdata);
             if (stordata.type != 'dynamic' && rptdata.rpt_name == stordata.rpt_name) {
               setTimeout(() => {
+                console.log('selected stored', stordata, this.tabname);
+
                 if(this.tabname == stordata.rpt_tabname){
+
                 this.tripReports[index].isUsed = true;
                 }
-                console.log('stored', stordata, rptdata);
                 let info = stordata;
                 let target = document.getElementById('trip-report-' + rptdata.id);
                 let x = info.x_pos;
@@ -116,7 +121,7 @@ export class ReportEditComponent implements OnInit {
           });
         });
 
-
+        console.log('tripReports',this.tripReports);
 
 
 
@@ -308,7 +313,7 @@ export class ReportEditComponent implements OnInit {
         data.push(...this.tripReports
           .filter(report => report.isUsed)
           .map(report => {
-            let ele = document.getElementById('challan-report-' + report.id);
+            let ele = document.getElementById('trip-report-' + report.id);
             let width = ele.offsetWidth;
             let height = ele.offsetHeight;
             let x = parseFloat(ele.getAttribute('data-x'));

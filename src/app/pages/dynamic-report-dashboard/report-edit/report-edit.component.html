@@ -71,14 +71,38 @@
                         <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
                     </div>
                 </div>
-                <div class="report draggable" *ngFor="let challanReport of tripReports; let i = index"
-                [hidden]="!challanReport.isUsed" [id]="'trip-report-' + challanReport.id"  [style.width]="challanReport.rpt_width + 'px'"
-                [style.height]="challanReport.rpt_height + 'px'"
-                [style.top]="challanReport.y_pos + 'px'" [style.left]="challanReport.x_pos + 'px'" >
+                <div class="report draggable" *ngFor="let trreport of tripReports;let i = index" [hidden]="!trreport.isUsed" [style.width]="trreport.rpt_width + 'px'"
+                [style.height]="trreport.rpt_height + 'px'"
+                [style.top]="trreport.y_pos + 'px'" [style.left]="trreport.x_pos + 'px'" 
+                    [id]="'trip-report-' + trreport._id">
+                    <div class="trreport-container">
+                        <dynamic-report [savedReportSelect]="report"></dynamic-report>
+                        <i class="fa fa-window-close report-close" (click)="deleteReport(trreport)"></i>
+                    </div>
+                </div>
+                <div class="report draggable" *ngFor="let singletripReport of tripReports; let i = index"
+                [hidden]="!singletripReport.isUsed" [id]="'trip-report-' + singletripReport.id"  [style.width]="singletripReport.rpt_width + 'px'"
+                [style.height]="singletripReport.rpt_height + 'px'"
+                [style.top]="singletripReport.y_pos + 'px'" [style.left]="singletripReport.x_pos + 'px'" >
                 <div class="report-container">
-                    <trip-onward-kmpd *ngIf="challanReport.id == 1"></trip-onward-kmpd>
-                    <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
-                   
+                    <trip-onward-kmpd *ngIf="singletripReport.id == 1"></trip-onward-kmpd>
+                    <i class="fa fa-window-close report-close" (click)="deleteChallanReport(singletripReport)"></i>
+                    <avg-loading *ngIf="singletripReport.id == 2"></avg-loading>
+                        <i class="fa fa-window-close report-close" (click)="deleteChallanReport(singletripReport)"></i>
+                        <avg-unloading *ngIf="singletripReport.id == 3"></avg-unloading>
+                            <i class="fa fa-window-close report-close" (click)="deleteChallanReport(singletripReport)"></i>
+                            <worst-vehicles *ngIf="singletripReport.id == 4"></worst-vehicles>
+                                <i class="fa fa-window-close report-close" (click)="deleteChallanReport(singletripReport)"></i>
+                                <longest-loading *ngIf="singletripReport.id == 5"></longest-loading>
+                                <i class="fa fa-window-close report-close" (click)="deleteChallanReport(singletripReport)"></i>
+                                <longest-unloading *ngIf="singletripReport.id == 6"></longest-unloading>
+                                    <i class="fa fa-window-close report-close" (click)="deleteChallanReport(singletripReport)"></i>
+                                    <slowest-onward *ngIf="singletripReport.id == 7"></slowest-onward>
+                                    <i class="fa fa-window-close report-close" (click)="deleteChallanReport(singletripReport)"></i>
+                                    <longest-unloading-sites *ngIf="singletripReport.id == 8"></longest-unloading-sites>
+                                    <i class="fa fa-window-close report-close" (click)="deleteChallanReport(singletripReport)"></i>
+                                    <gps-performance *ngIf="singletripReport.id == 8"></gps-performance>
+                                        <i class="fa fa-window-close report-close" (click)="deleteChallanReport(singletripReport)"></i>
                 </div>
             </div>
             </div>
