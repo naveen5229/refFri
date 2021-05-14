@@ -6,22 +6,22 @@
       </div>
 
       <div class="col-sm-2 col-sm-offset-1 constraints" (click)="placementReq()">Placement Requirement</div>
-      <div class="col-sm-2 col-sm-offset-1 constraints"  (click)="constraints()">Placement Constraints</div>
+      <div class="col-sm-2 col-sm-offset-1 constraints" (click)="constraints()">Placement Constraints</div>
     </div>
   </nb-card-header>
   <nb-card-body>
     <div class="row">
       <div class="col-sm-12">
-      <label style="float: right;" [ngClass]="isVisible ? 'red' : 'green'" [(ngModel)]="showHides"
-        (click)="showHide(isVisible)">{{showHides}}</label>
+        <label style="float: right;" [ngClass]="isVisible ? 'red' : 'green'" [(ngModel)]="showHides"
+          (click)="showHide(isVisible)">{{showHides}}</label>
       </div>
     </div>
 
     <div *ngIf="isVisible">
       <div class="row">
-          <button class="btn btn-primary mt-0 mb-2"  (click)="fillingFields(1)">Manual Fill</button>
-          <button class="btn btn-primary mt-0 mb-2 ml-2"  (click)="fillingFields(2)">Auto Fill</button>
-          <button class="btn btn-primary mt-0 mb-2 ml-2"  (click)="resetFields()">Reset</button>
+        <button class="btn btn-primary mt-0 mb-2" (click)="fillingFields(1)">Manual Fill</button>
+        <button class="btn btn-primary mt-0 mb-2 ml-2" (click)="fillingFields(2)">Auto Fill</button>
+        <button class="btn btn-primary mt-0 mb-2 ml-2" (click)="resetFields()">Reset</button>
       </div>
       <div class="row">
         <div class="col-sm-12 p-0">
@@ -30,7 +30,7 @@
             <uj-date-time-picker (onChanged)="getDate($event);" [isTime]='false' [dateTimeValue]="placementDate">
             </uj-date-time-picker>
           </div>
-          
+
           <div class="col-sm-2">
             <label>Select Days</label><br>
             <select [(ngModel)]="days" (change)="selectDays($event);" style="width:100%">
@@ -49,13 +49,14 @@
 
           <div class="col-sm-2">
             <label>Quantity Type:</label>
-                <select [(ngModel)]="quantityType" style="width:100%;padding:4.5px!important;border: 1px solid lightgrey!important;border-radius:5px;">
-                    <option [value]="0">Capacity</option>
-                    <option [value]='1'>Vehicle</option>
-                </select> 
+            <select [(ngModel)]="quantityType"
+              style="width:100%;padding:4.5px!important;border: 1px solid lightgrey!important;border-radius:5px;">
+              <option [value]="0">Capacity</option>
+              <option [value]='1'>Vehicle</option>
+            </select>
           </div>
 
-          
+
         </div>
       </div>
 
@@ -72,7 +73,7 @@
                 <th><label>Min Penalty</label></th>
                 <th><label>Max Penalty</label></th>
                 <th style="min-width:140px;"><label>Qty till Date</label></th>
-                <th style="min-width:80px;"><label >Qty on Plant</label></th>
+                <th style="min-width:80px;"><label>Qty on Plant</label></th>
                 <th><label>Qty Towards</label></th>
                 <th><label>Action</label></th>
               </tr>
@@ -86,7 +87,8 @@
                   </auto-suggestion>
                 </td>
                 <td style="min-width:154px;">
-                  <span [ngStyle]="{'color':item['dayIndex']==1 ? 'green':(item['dayIndex']==2?'red':(item['dayIndex']==3?'blue':(item['dayIndex']== 4 ?'orange':'black')))}">
+                  <span
+                    [ngStyle]="{'color':item['dayIndex']==1 ? 'green':(item['dayIndex']==2?'red':(item['dayIndex']==3?'blue':(item['dayIndex']== 4 ?'orange':'black')))}">
                     {{item['dayIndex']==1 ? "(Today)":(item['dayIndex']==2 ? "(Today+1)":(item['dayIndex']==3 ? "(Today+2)":(item['dayIndex']== 4 ? "(Today+3)":"(Today+4)")))}}</span>
                 </td>
                 <td>
@@ -117,15 +119,15 @@
                 </td>
 
                 <td>
-                    <label>{{item.quantityTillDate}}</label>
+                  <label>{{item.quantityTillDate}}</label>
                 </td>
 
                 <td>
-                    <label>{{item.quantityOnPlant}}</label>
+                  <label>{{item.quantityOnPlant}}</label>
                 </td>
 
                 <td>
-                    <label>{{item.quantityTowards}}</label>
+                  <label>{{item.quantityTowards}}</label>
                 </td>
 
                 <td style="padding: 0px;">
@@ -149,7 +151,7 @@
     <div class="row mt-3">
       <div class="col-sm-12" style="text-align:center;" *ngIf="placementOPT">
         <label style="float:right;" [ngClass]="isActive ? 'red' : 'green'" [(ngModel)]="tblshowhide"
-        (click)="tblShowHides(isActive)">{{tblshowhide}}</label>
+          (click)="tblShowHides(isActive)">{{tblshowhide}}</label>
       </div>
       <table *ngIf="placementOPT && isActive" class="table table-bordered">
         <tr style="background-color:#78cfea;">
@@ -166,7 +168,9 @@
         <tr *ngFor="let packet of placementOPT.siteAllocationDetails;let i=index">
           <td>{{i+1}}</td>
           <td>{{packet.siteId}}</td>
-          <td>{{packet.name}} - {{packet['dayIndex']==1 ? "(Today)":(packet['dayIndex']==2 ? "(Today+1)":(packet['dayIndex']==3 ? "(Today+2)":(packet['dayIndex']== 4 ? "(Today+3)":"(Today+4)")))}}</td>
+          <td>{{packet.name}} -
+            {{packet['dayIndex']==1 ? "(Today)":(packet['dayIndex']==2 ? "(Today+1)":(packet['dayIndex']==3 ? "(Today+2)":(packet['dayIndex']== 4 ? "(Today+3)":"(Today+4)")))}}
+          </td>
           <td>{{packet.minQuantity}}</td>
           <td>{{packet.maxQuantity}}</td>
           <td>{{packet.allocatedVehicles}}</td>
@@ -175,33 +179,40 @@
           <td>{{packet.towards}}</td>
         </tr>
       </table>
-    
+
     </div>
 
     <div *ngIf="placementOPT">
       <table class="table table-bordered">
         <thead>
-          <tr><th class="ttl">Total Cost</th><th class="ttl grn">{{totalCost}}</th><th class="ttl">Total penalty</th><th class="ttl grn">{{totalPanelty}}</th>
-            <th><i class="fa fa-map grn"  (click)="showAllData(placementOPT)"></i></th>
+          <tr>
+            <th class="ttl">Total Cost</th>
+            <th class="ttl grn">{{totalCost}}</th>
+            <th class="ttl">Total penalty</th>
+            <th class="ttl grn">{{totalPanelty}}</th>
+            <th><i class="fa fa-map grn" (click)="showAllData(placementOPT)"></i></th>
           </tr>
         </thead>
       </table>
       <div class="row" style="height:60vh;overflow-y:auto;">
-        <table class="table table-bordered" *ngFor="let packet of placementOPT.siteVehicleCostPackets;let i = index; let active = false">
+        <table class="table table-bordered"
+          *ngFor="let packet of placementOPT.siteVehicleCostPackets;let i = index; let active = false">
           <thead>
             <tr>
               <th colspan='4' class="col-sm-11 hdStyle">
-                <span>Plant:</span><span class="ml-2 grn">{{packet.siteName}} - {{packet['dayIndex']==1 ? "(Today)":(packet['dayIndex']==2 ? "(Today+1)":(packet['dayIndex']==3 ? "(Today+2)":(packet['dayIndex']== 4 ? "(Today+3)":"(Today+4)")))}}</span>
-                
-               <span class="ml-4">Cost:</span> 
-               <span class="ml-2 grn">{{packet.totalCost}}</span>
-               <span class="ml-4">Penalty:</span>
-               <span class="ml-2 grn">{{packet.totalPenalty}}</span>
+                <span>Plant:</span><span class="ml-2 grn">{{packet.siteName}} -
+                  {{packet['dayIndex']==1 ? "(Today)":(packet['dayIndex']==2 ? "(Today+1)":(packet['dayIndex']==3 ? "(Today+2)":(packet['dayIndex']== 4 ? "(Today+3)":"(Today+4)")))}}</span>
+
+                <span class="ml-4">Cost:</span>
+                <span class="ml-2 grn">{{packet.totalCost}}</span>
+                <span class="ml-4">Penalty:</span>
+                <span class="ml-2 grn">{{packet.totalPenalty}}</span>
               </th>
               <th class="col-sm-1 hdStyle">
-                <i class="fa fa-map grn"  (click)="showDataOnMap(packet.vehicleCostPacket,packet.siteLatitude,packet.siteLongitude,packet.siteName)"></i>
+                <i class="fa fa-map grn"
+                  (click)="showDataOnMap(packet.vehicleCostPacket,packet.siteLatitude,packet.siteLongitude,packet.siteName)"></i>
                 <i class="fa fa-plus ml-3 grn" *ngIf="!packet.active" (click)="packet.active = !packet.active"></i>
-                <i class="fa fa-minus ml-3 rd"  *ngIf="packet.active" (click)="packet.active = !packet.active"></i>
+                <i class="fa fa-minus ml-3 rd" *ngIf="packet.active" (click)="packet.active = !packet.active"></i>
               </th>
             </tr>
             <tr style="background-color:#78cfea;">
@@ -210,6 +221,7 @@
               <th style="width:22%;">Reg No</th>
               <th style="width:22%;">Cost</th>
               <th style="width: 22%;">Penalty</th>
+              <th style="width: 22%;">Placement Selection</th>
             </tr>
           </thead>
 
@@ -220,6 +232,9 @@
               <td style="width:30%;">{{costPacket.truckRegno}}</td>
               <td style="width:30%;">{{costPacket.cost}}</td>
               <td style="width:30%;">{{costPacket.penalty}}</td>
+              <td style="width: 30%;">
+                <input type="checkbox" [value]= "costPacket.vehicleId" (click)="gettingPlacementList($event)"/>
+              </td>
             </tr>
           </tbody>
           <tbody *ngIf="!packet.vehicleCostPacket.length">
@@ -227,6 +242,7 @@
               <td colspan="4" class="noRecord">No Record Found!</td>
             </tr>
           </tbody>
+          <button *ngIf="packet.active" class="btn btn-primary" (click)="placementSelectionSubmit(packet)">submit</button>
         </table>
       </div>
     </div>

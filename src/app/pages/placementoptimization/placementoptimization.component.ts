@@ -52,6 +52,8 @@ export class PlacementoptimizationComponent implements OnInit {
   plcId = -1;
   dayindx = 1;
   quantityType = 0;
+  placmenetSelChecbox = 1;
+  vehicleIdList = [];
 
   items = [
     {
@@ -315,5 +317,28 @@ export class PlacementoptimizationComponent implements OnInit {
       quantityTowards: 0,
       dayIndex: 1
     });
+  }
+
+  placementSelectionSubmit(data){
+    console.log('data is: ', data)
+    let params = {
+      vehicleId: this.vehicleIdList,
+      placment_type: 11,
+      locationName: data.siteName,
+      locationLat: data.siteLatitude,
+      locationLng:  data.siteLongitude,
+      siteId: data.siteId,
+      dayIndex:  data.dayIndex,
+      placementDate: this.common.dateFormatter1(this.placementDate)
+    }
+
+    console.log('params is: ', params)
+  }
+
+  gettingPlacementList(event){
+    console.log('event is: ', event);
+    this.vehicleIdList.push(event.srcElement.value);
+    console.log('');
+    
   }
 }
