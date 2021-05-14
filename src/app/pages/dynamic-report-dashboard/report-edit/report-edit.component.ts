@@ -21,7 +21,7 @@ export class ReportEditComponent implements OnInit {
   predefined = [];
   backtabname = false;
   challanReports = [];
-
+  tripReports = [];
   constructor(private api: ApiService, private common: CommonService, private activeModal: NgbActiveModal) {
     this.getSavedReports();
     this.getpredefinedReports();
@@ -60,8 +60,9 @@ export class ReportEditComponent implements OnInit {
             this.predefined.push(dao[key]);
           })
         console.log('predefined', this.predefined);
-        this.challanReports = res['data'].filter(report => report.dashboard_name === "Challan DashBoard");
-
+        this.challanReports = res['data'].filter(report => report.dashboard_name === ("Challan DashBoard"));
+        this.tripReports = res['data'].filter(report => report.dashboard_name === ("Trip DashBoard"));
+        console.log('challanReports',this.tripReports);
 
         let data = JSON.parse(localStorage.getItem('dynamic-report')) || [];
 
@@ -77,6 +78,31 @@ export class ReportEditComponent implements OnInit {
                 console.log('stored', stordata, rptdata);
                 let info = stordata;
                 let target = document.getElementById('challan-report-' + rptdata.id);
+                let x = info.x_pos;
+                let y = info.y_pos;
+                target.style.width = info.rpt_width + 'px';
+                target.style.height = info.rpt_height + 'px';
+                target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+                target.setAttribute('data-x', x);
+                target.setAttribute('data-y', y);
+              }, 3000)
+
+            }
+          });
+        });
+
+        this.tripReports.map((rptdata, index) => {
+          
+          data.map((stordata) => {
+          console.log('stro',stordata,rptdata);
+            if (stordata.type != 'dynamic' && rptdata.rpt_name == stordata.rpt_name) {
+              setTimeout(() => {
+                if(this.tabname == stordata.rpt_tabname){
+                this.tripReports[index].isUsed = true;
+                }
+                console.log('stored', stordata, rptdata);
+                let info = stordata;
+                let target = document.getElementById('trip-report-' + rptdata.id);
                 let x = info.x_pos;
                 let y = info.y_pos;
                 target.style.width = info.rpt_width + 'px';
@@ -209,6 +235,8 @@ export class ReportEditComponent implements OnInit {
     let ele = null;
     if (this.draggingReportType === 'challan') {
       ele = document.getElementById('challan-report-' + this.draggingReport.id);
+    } else if (this.draggingReportType === 'trip') {
+      ele = document.getElementById('trip-report-' + this.draggingReport.id);
     } else {
       ele = document.getElementById('report-' + this.draggingReport._id);
     }
@@ -277,7 +305,32 @@ export class ReportEditComponent implements OnInit {
             'xpos': parseInt(x.toString()) || 1
           }
         }));
-
+        data.push(...this.tripReports
+          .filter(report => report.isUsed)
+          .map(report => {
+            let ele = document.getElementById('challan-report-' + report.id);
+            let width = ele.offsetWidth;
+            let height = ele.offsetHeight;
+            let x = parseFloat(ele.getAttribute('data-x'));
+            let y = parseFloat(ele.getAttribute('data-y'));
+            if (x < 0) {
+              x = 0;
+            }
+            if (y < 0) {
+              y = 0;
+            }
+            return {
+              'rpttype': "DB",
+              'rptwidth': width,
+              'rptheight': height,
+              'rptname': report.rpt_name,
+              'tabname': this.tabname,
+              'tabtitle': report.rpt_title,
+              'ypos': parseInt(y.toString()) || 1,
+              'xpos': parseInt(x.toString()) || 1
+            }
+          }));
+  
       data.forEach((info, index) => {
         this.api
           .post('tmgreport/SaveDynamicReportMaster', info)
