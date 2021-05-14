@@ -62,9 +62,9 @@ export class PlacementoptimizationComponent implements OnInit {
       maxQuantity: 0,
       penaltyMin: 0,
       penaltyMax: 200000,
-      onward24Hrs: 0,
-      atPlant: 0,
-      towards: 0,
+      quantityTillDate: 0,
+      quantityOnPlant: 0,
+      quantityTowards: 0,
       dayIndex: 1
     }
   ];
@@ -131,42 +131,42 @@ export class PlacementoptimizationComponent implements OnInit {
   }
 
 
-  getPreviousData(days, date?) {
-    if (date) {
-      this.placementDate = date;
-    }
-    this.common.loading++;
-    this.api.getJavaPortDost(8084, 'getPreviousData/' + this.common.dateFormatter1(this.placementDate) + '/' + days)
-      .subscribe(res => {
-        this.common.loading--;
-        if (res['placementProblemDetailsDTOS'] && res['placementProblemDetailsDTOS'].length > 0) {
-          this.select = res['allocType'];
-          this.items = res['placementProblemDetailsDTOS'];
-          this.plcId = res['id'];
-        } else {
-          this.plcId = res['id'];
-          this.placementOPT = null;
-          this.items = [];
-          this.items.push({
-            siteId: 0,
-            siteName: '',
-            waitingTime: 0,
-            minQuantity: 0,
-            maxQuantity: 0,
-            penaltyMin: 0,
-            penaltyMax: 200000,
-            onward24Hrs: 0,
-            atPlant: 0,
-            towards: 0,
-            dayIndex: 1
-          });
+  // getPreviousData(days, date?) {
+  //   if (date) {
+  //     this.placementDate = date;
+  //   }
+  //   this.common.loading++;
+  //   this.api.getJavaPortDost(8084, 'getPreviousData/' + this.common.dateFormatter1(this.placementDate) + '/' + days)
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       if (res['placementProblemDetailsDTOS'] && res['placementProblemDetailsDTOS'].length > 0) {
+  //         this.select = res['allocType'];
+  //         this.items = res['placementProblemDetailsDTOS'];
+  //         this.plcId = res['id'];
+  //       } else {
+  //         this.plcId = res['id'];
+  //         this.placementOPT = null;
+  //         this.items = [];
+  //         this.items.push({
+  //           siteId: 0,
+  //           siteName: '',
+  //           waitingTime: 0,
+  //           minQuantity: 0,
+  //           maxQuantity: 0,
+  //           penaltyMin: 0,
+  //           penaltyMax: 200000,
+  //           quantityTillDate: 0,
+  //           quantityOnPlant: 0,
+  //           quantityTowards: 0,
+  //           dayIndex: 1
+  //         });
 
-        }
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
+  //       }
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
 
   selectplnt(plant, index, num) {
     this.items[index]['siteId'] = plant['id'];
@@ -176,28 +176,28 @@ export class PlacementoptimizationComponent implements OnInit {
 
   getSiteDetails(plantid, plantname, index) {
     console.log("siteDetails:", plantid);
-    let onwards = null;
-    let atPlant = null;
-    let towards = null;
+    let quantityTillDate = null;
+    let quantityOnPlant = null;
+    let quantityTowards = null;
     this.common.loading++;
     this.api.getJavaPortDost(8084, 'getSiteDetails/' + plantid)
       .subscribe(res => {
         this.common.loading--;
         console.log("siteDet:", res);
-        onwards = res['onward24Hrs']
-        atPlant = res['atPlant'];
-        towards = res['towards'];
-        this.items[index].onward24Hrs = res['onward24Hrs'];
-        this.items[index].atPlant = res['atPlant'];
-        this.items[index].towards = res['towards'];
-        this.addItems(plantid, plantname, onwards, atPlant, towards);
+        quantityTillDate = res['quantityTillDate']
+        quantityOnPlant = res['quantityOnPlant'];
+        quantityTowards = res['quantityTowards'];
+        this.items[index].quantityTillDate = res['quantityTillDate'];
+        this.items[index].quantityOnPlant = res['quantityOnPlant'];
+        this.items[index].quantityTowards = res['quantityTowards'];
+        this.addItems(plantid, plantname, quantityTillDate, quantityOnPlant, quantityTowards);
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
 
-  addItems(plantid, plantname, onwards, atplant, towards) {
+  addItems(plantid, plantname, quantityTillDate, quantityOnPlant, quantityTowards) {
     for (let i = 1; i <= this.days - 1; i++) {
       this.items.push({
         siteId: plantid,
@@ -207,9 +207,9 @@ export class PlacementoptimizationComponent implements OnInit {
         maxQuantity: 0,
         penaltyMin: 0,
         penaltyMax: 200000,
-        onward24Hrs: onwards,
-        atPlant: atplant,
-        towards: towards,
+        quantityTillDate: quantityTillDate,
+        quantityOnPlant: quantityOnPlant,
+        quantityTowards: quantityTowards,
         dayIndex: i + 1
       })
     }
@@ -224,9 +224,9 @@ export class PlacementoptimizationComponent implements OnInit {
       maxQuantity: 0,
       penaltyMin: 0,
       penaltyMax: 200000,
-      onward24Hrs: 0,
-      atPlant: 0,
-      towards: 0,
+      quantityTillDate: 0,
+      quantityOnPlant: 0,
+      quantityTowards: 0,
       dayIndex: 1
     });
   }
@@ -255,28 +255,23 @@ export class PlacementoptimizationComponent implements OnInit {
       });
   }
 
-
   fillingFields(id) {
+    let params = {
+      date: this.common.dateFormatter1(this.placementDate),
+      days: this.days,
+      quantityType: this.quantityType,
+      select: this.select
+    }
     if (id === 1) {
-      let params = {
-        date: this.common.dateFormatter1(this.placementDate),
-        days: this.days,
-        quantityType: this.quantityType
-      }
       this.manualFill(params);
     } else if (id === 2) {
-      let params = {
-        date: this.common.dateFormatter1(this.placementDate),
-        days: this.days,
-        quantityType: this.quantityType
-      }
       this.autoFill(params);
     }
   }
 
   manualFill(params) {
     this.common.loading++;
-    this.api.getJavaPortDost(8084, `manualFill/${params.date}/${params.days}/${params.quantityType}`)
+    this.api.getJavaPortDost(8084, `manualFill/${params.date}/${params.days}/${params.quantityType}/${params.select}`)
       .subscribe(res => {
         this.common.loading--;
         this.items = [];
@@ -291,7 +286,7 @@ export class PlacementoptimizationComponent implements OnInit {
 
   autoFill(params) {
     this.common.loading++;
-    this.api.getJavaPortDost(8084, `autoFill/${params.date}/${params.days}/${params.quantityType}`)
+    this.api.getJavaPortDost(8084, `autoFill/${params.date}/${params.days}/${params.quantityType}/${params.select}`)
       .subscribe(res => {
         this.common.loading--;
         this.items = [];
@@ -315,9 +310,9 @@ export class PlacementoptimizationComponent implements OnInit {
       maxQuantity: 0,
       penaltyMin: 0,
       penaltyMax: 200000,
-      onward24Hrs: 0,
-      atPlant: 0,
-      towards: 0,
+      quantityTillDate: 0,
+      quantityOnPlant: 0,
+      quantityTowards: 0,
       dayIndex: 1
     });
   }

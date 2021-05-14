@@ -71,9 +71,9 @@
                 <th><label>Max Quantity</label></th>
                 <th><label>Min Penalty</label></th>
                 <th><label>Max Penalty</label></th>
-                <th style="min-width:140px;"><label>Onwards 24 Hours</label></th>
-                <th style="min-width:80px;"><label >At Plant</label></th>
-                <th><label>Towards</label></th>
+                <th style="min-width:140px;"><label>Qty till Date</label></th>
+                <th style="min-width:80px;"><label >Qty on Plant</label></th>
+                <th><label>Qty Towards</label></th>
                 <th><label>Action</label></th>
               </tr>
             </thead>
@@ -117,15 +117,15 @@
                 </td>
 
                 <td>
-                    <label>{{item.onward24Hrs}}</label>
+                    <label>{{item.quantityTillDate}}</label>
                 </td>
 
                 <td>
-                    <label>{{item.atPlant}}</label>
+                    <label>{{item.quantityOnPlant}}</label>
                 </td>
 
                 <td>
-                    <label>{{item.towards}}</label>
+                    <label>{{item.quantityTowards}}</label>
                 </td>
 
                 <td style="padding: 0px;">
@@ -166,7 +166,7 @@
         <tr *ngFor="let packet of placementOPT.siteAllocationDetails;let i=index">
           <td>{{i+1}}</td>
           <td>{{packet.siteId}}</td>
-          <td>{{packet.name}}</td>
+          <td>{{packet.name}} - {{packet['dayIndex']==1 ? "(Today)":(packet['dayIndex']==2 ? "(Today+1)":(packet['dayIndex']==3 ? "(Today+2)":(packet['dayIndex']== 4 ? "(Today+3)":"(Today+4)")))}}</td>
           <td>{{packet.minQuantity}}</td>
           <td>{{packet.maxQuantity}}</td>
           <td>{{packet.allocatedVehicles}}</td>
@@ -191,7 +191,7 @@
           <thead>
             <tr>
               <th colspan='4' class="col-sm-11 hdStyle">
-                <span>Plant:</span><span class="ml-2 grn">{{packet.siteName}} </span>
+                <span>Plant:</span><span class="ml-2 grn">{{packet.siteName}} - {{packet['dayIndex']==1 ? "(Today)":(packet['dayIndex']==2 ? "(Today+1)":(packet['dayIndex']==3 ? "(Today+2)":(packet['dayIndex']== 4 ? "(Today+3)":"(Today+4)")))}}</span>
                 
                <span class="ml-4">Cost:</span> 
                <span class="ml-2 grn">{{packet.totalCost}}</span>
