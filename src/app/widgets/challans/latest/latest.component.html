@@ -1,1 +1,27 @@
-<p>latest works!</p>
+<div class="">
+    <div class="outer" style="min-height:130px;">
+      <h6 style="text-align:center"><b class="charthead">Latest Challans</b></h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+        (click)="getDetials('Tmgreport/GetChallansLatestChallans',{totalrecord: 3,stepno: -1},15,'days')"><i
+          title="More Details" class="fa fa-list"></i>
+      </p>
+      <table class="table">
+        <thead class="thead">
+          <th>Date</th>
+          <th>Vehicle No.</th>
+          <th>State</th>
+          <th>Amount</th>
+          <th>Status</th>
+        </thead>
+        <tbody class="tbody">
+          <tr *ngFor="let cl of challansLatest">
+            <td>{{cl['Challan Date']}}</td>
+            <td>{{cl['Vehicle No']}}</td>
+            <td>{{cl['State']}}</td>
+            <td>{{cl['Amount']}}</td>
+            <td>{{cl['Status']}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

@@ -97,6 +97,7 @@
             <th>Max Quantity</th>
             <th>Min Panelty</th>
             <th>Max Panelty</th>
+            <th>Days</th>
             <th>Off Date Site</th>
             <th>Action</th>
           </tr>
@@ -123,6 +124,10 @@
             <td>
               <input type="number" [(ngModel)]="item.penaltyMax" min=0 oninput="validity.valid||(value='');"
                 class="form control" placeholder="Max Qty">
+            </td>
+            <td>
+              <input type="number" [(ngModel)]="item.projectionDays" min=0 oninput="validity.valid||(value='');"
+                class="form control" placeholder="Days">
             </td>
 
             <td>

@@ -64,7 +64,24 @@
                     [style.top]="challanWidget.y_pos + 'px'" [style.left]="challanWidget.x_pos + 'px'">
                     <div class="report-container">
                         <challan-trends *ngIf="challanWidget.type == 'challan-trend'"></challan-trends>
+                        <state-wise *ngIf="challanWidget.type == 'state-wise'"></state-wise>
+                        <worst-drivers *ngIf="challanWidget.type == 'worst-drivers'"></worst-drivers>
+                        <most-aged *ngIf="challanWidget.type == 'most-aged'"></most-aged>
+                        <latest *ngIf="challanWidget.type == 'latest'"></latest>
+                        <worst-drivers-years *ngIf="challanWidget.type == 'worst-drivers-years'"></worst-drivers-years>
+                        <trip-onward-kmpd *ngIf="challanWidget.type == 'trip-onward-kmpd'"></trip-onward-kmpd>
+                        <avg-loading *ngIf="challanWidget.type == 'avg-loading'"></avg-loading>
+                        <avg-unloading *ngIf="challanWidget.type == 'avg-unloading'"></avg-unloading>
+                        <worst-vehicles *ngIf="challanWidget.type == 'worst-vehicles'"></worst-vehicles>
+                        <longest-loading *ngIf="challanWidget.type == 'longest-loading'"></longest-loading>
+                        <longest-unloading *ngIf="challanWidget.type == 'longest-unloading'"></longest-unloading>
+                        <slowest-onward *ngIf="challanWidget.type == 'slowest-onward'"></slowest-onward>
+                        <longest-unloading-sites *ngIf="challanWidget.type == 'longest-unloading-sites'"></longest-unloading-sites>
+                        <gps-performance *ngIf="challanWidget.type == 'gps-performance'"></gps-performance>
+
+
                     </div>
+                   
                 </div>
             </div>
         </div>

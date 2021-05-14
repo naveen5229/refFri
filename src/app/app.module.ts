@@ -320,6 +320,7 @@ import { ConciseColumnPrefrenceComponent } from './modals/concise-column-prefren
 import {MatRadioModule} from '@angular/material/radio';
 
 
+
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
   FreightRateRulesComponent,

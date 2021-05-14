@@ -1,0 +1,22 @@
+<div class="">
+    <div class="outer" style="min-height: 145px;">
+      <h6 style="text-align:center"><b class="charthead">Longest Unloading Sites in Last 7 Days</b></h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+        (click)="getDetials('Tmgreport/GetLongestUnLoadindSites',{totalrecord: 3,stepno: -1},7,'days')"><i
+          title="More Details" class="fa fa-list"></i>
+      </p>
+      <table class="table">
+        <thead class="thead">
+          <th>Site Name</th>
+          <th>Avg. Unloading Time (Hrs)</th>
+        </thead>
+        <tbody class="tbody">
+          <tr *ngFor="let lus of longestUnLoadindSites">
+            <td class="link"
+            (click)="getDetials('Tmgreport/GetLongestUnLoadindSites',{totalrecord: 3,stepno: 1,isfo: lus['Site Name']},7,'days')">{{lus['Site Name']}}</td>
+            <td>{{lus['Avg Unloading Time(in Hrs)']}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
