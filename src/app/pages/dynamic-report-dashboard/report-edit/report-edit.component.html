@@ -32,6 +32,14 @@
                         <span>{{challanReport.rpt_title}}</span>
                     </div>
                 </div>
+                <div class="holdContainer" *ngIf="tripReports.length">
+                    <span>Trip Reports</span>
+                    <div class="dataelements" *ngFor="let challanReport of tripReports; let i = index" [hidden]="challanReport.isUsed"
+                        draggable="true" [id]="'trip-option-' + challanReport.id"
+                        (dragstart)="selectDraggable(challanReport, 'trip')">
+                        <span>{{challanReport.rpt_title}}</span>
+                    </div>
+                </div>
             </div>
 
             <div class="col-10 reports-container" (drop)="handleDropped($event)" (dragover)="handleDragOver($event)">
@@ -63,6 +71,16 @@
                         <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
                     </div>
                 </div>
+                <div class="report draggable" *ngFor="let challanReport of tripReports; let i = index"
+                [hidden]="!challanReport.isUsed" [id]="'trip-report-' + challanReport.id"  [style.width]="challanReport.rpt_width + 'px'"
+                [style.height]="challanReport.rpt_height + 'px'"
+                [style.top]="challanReport.y_pos + 'px'" [style.left]="challanReport.x_pos + 'px'" >
+                <div class="report-container">
+                    <trip-onward-kmpd *ngIf="challanReport.id == 1"></trip-onward-kmpd>
+                    <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
+                   
+                </div>
+            </div>
             </div>
         </div>
     </nb-card-body>
