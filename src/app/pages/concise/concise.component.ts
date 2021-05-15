@@ -923,7 +923,8 @@ export class ConciseComponent implements OnInit {
       vehicleId: kpi.x_vehicle_id,
       vehicleRegNo: kpi.x_showveh,
       fromTime: fromTime,
-      toTime: toTime
+      toTime: toTime,
+      vehicleTripId: kpi.vt_id
     };
     this.modalService.open(RouteMapper, {
       size: "lg",
