@@ -16,7 +16,7 @@ export class LongestEmptyVehicleComponent implements OnInit {
   ngOnInit(): void {
   }
   ngAfterViewInit() {
-    //this.getTripSlowestOnward();
+    this.getTrafficLongestVehicleEmpty();
     }
     getDetials(url, params, value = 0, type = 'days') {
       let dataparams = {

@@ -16,7 +16,7 @@ export class LongestUnloadingOfflineComponent implements OnInit {
   ngOnInit(): void {
   }
   ngAfterViewInit() {
-   // this.getTripSlowestOnward();
+    this.getTrafficLongestUnloadingSite();
     }
     getDetials(url, params, value = 0, type = 'days') {
       let dataparams = {
