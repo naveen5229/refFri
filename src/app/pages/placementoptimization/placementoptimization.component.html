@@ -200,9 +200,9 @@
           <thead>
             <tr>
               <th colspan='4' class="col-sm-11 hdStyle">
-                <span>Plant:</span><span class="ml-2 grn">{{packet.siteName}} -
-                  {{packet['dayIndex']==1 ? "(Today)":(packet['dayIndex']==2 ? "(Today+1)":(packet['dayIndex']==3 ? "(Today+2)":(packet['dayIndex']== 4 ? "(Today+3)":"(Today+4)")))}}</span>
-
+                <span>Plant:</span>
+                <span class="ml-2 grn">{{packet.siteName}}
+                  - {{packet['dayIndex']==1 ? "(Today)":(packet['dayIndex']==2 ? "(Today+1)":(packet['dayIndex']==3 ? "(Today+2)":(packet['dayIndex']== 4 ? "(Today+3)":"(Today+4)")))}}</span>
                 <span class="ml-4">Cost:</span>
                 <span class="ml-2 grn">{{packet.totalCost}}</span>
                 <span class="ml-4">Penalty:</span>
@@ -233,7 +233,7 @@
               <td style="width:30%;">{{costPacket.cost}}</td>
               <td style="width:30%;">{{costPacket.penalty}}</td>
               <td style="width: 30%;">
-                <input type="checkbox" [value]= "costPacket.vehicleId" (click)="gettingPlacementList($event)"/>
+                <input type="checkbox" [value]="costPacket.vehicleId" (click)="gettingPlacementList($event)" />
               </td>
             </tr>
           </tbody>
@@ -242,7 +242,10 @@
               <td colspan="4" class="noRecord">No Record Found!</td>
             </tr>
           </tbody>
-          <button *ngIf="packet.active" class="btn btn-primary" (click)="placementSelectionSubmit(packet)">submit</button>
+          <div class="w-100 submit-btn">
+            <button *ngIf="packet.active" class="btn btn-primary"
+              (click)="placementSelectionSubmit(packet)">submit</button>
+          </div>
         </table>
       </div>
     </div>

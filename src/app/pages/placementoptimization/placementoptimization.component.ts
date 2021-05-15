@@ -302,7 +302,6 @@ export class PlacementoptimizationComponent implements OnInit {
   }
 
   resetFields() {
-    console.log('inside resetFields');
     this.items = [];
     this.items.push({
       siteId: 0,
@@ -320,10 +319,9 @@ export class PlacementoptimizationComponent implements OnInit {
   }
 
   placementSelectionSubmit(data){
-    console.log('data is: ', data)
     let params = {
       vehicleId: this.vehicleIdList,
-      placment_type: 11,
+      placementType: 11,
       locationName: data.siteName,
       locationLat: data.siteLatitude,
       locationLng:  data.siteLongitude,
@@ -331,14 +329,19 @@ export class PlacementoptimizationComponent implements OnInit {
       dayIndex:  data.dayIndex,
       placementDate: this.common.dateFormatter1(this.placementDate)
     }
-
     console.log('params is: ', params)
+    this.common.loading ++;
+    this.api.postJavaPortDost(8084, 'savePlacementData', params)
+    .subscribe(res => {
+      this.common.loading --;
+      console.log('savePlacementData res is: ', res)
+    }, err => {
+      this.common.loading --;
+      console.log('error is: ', err);
+    })
   }
 
   gettingPlacementList(event){
-    console.log('event is: ', event);
     this.vehicleIdList.push(event.srcElement.value);
-    console.log('');
-    
   }
 }
