@@ -1,11 +1,14 @@
 <nb-card style="border:0px;">
     <nb-card-header>
         <div class="row">
-            <div class="col-6">
+            <div class="col-4">
                 <h5>Business Dashboard</h5>
             </div>
+            <div class="col-2 text-right">
+                <label> Tab Name </label>
+            </div>
             <div class="col-3 text-right">
-                <input type="text" [(ngModel)]=tabname class="form-control" placeholder="Enter Tab Name" [readonly]="backtabname">
+              <input type="text" [(ngModel)]=tabname class="form-control" placeholder="Enter Tab Name" [readonly]="backtabname">
             </div>
             <div class="col-3 text-right">
                 <button class="btn btn-primary" (click)="saveReport()">Save</button>
