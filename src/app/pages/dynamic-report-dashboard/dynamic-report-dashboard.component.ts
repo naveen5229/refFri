@@ -37,12 +37,16 @@ export class DynamicReportDashboardComponent implements OnInit {
     "Longest Loading Sites in Last 7 Days": "longest-loading",
     "Longest Unloading Drivers in Last 30 Days": "longest-unloading",
     "Slowest 3 Onward Drivers in Last 7 Days": "slowest-onward",
-    "Longest Unloading Sites in Last 7 Days": "longest-unloading-sites"
-
-
-
-
-
+    "Longest Unloading Sites in Last 7 Days": "longest-unloading-sites",
+    "GPS Performance": "gps-performance",
+    "Live Traffic Status": "live-traffic-status",
+    "Longest Driver Unavailable": "longest-driver-unavailable",
+    "Longest GPS Offline": "longest-gps-offline",
+    "Top Vehicles with RTO + Maintenance + Breakdown Issues": "top-vehicle-rto",
+    "Longest Loading Sites": "longest-unloading-offline",
+    "Longest Unloading Vehicles": "longest-unloading-offline",
+    "Slowest Onward Vehicles": "slowest-onward-veicles",
+    "Longest Empty Vehicles": "longest-empty-vehicle",
 
 
 
@@ -55,7 +59,7 @@ export class DynamicReportDashboardComponent implements OnInit {
   usedChallanWidgtets = [];
   constructor(private api: ApiService, private modalService: NgbModal, private common: CommonService) {
     this.getDynamicReports();
-    this.getpredefinedReports();
+    //this.getpredefinedReports();
   }
 
   ngOnInit(): void {
@@ -101,7 +105,7 @@ export class DynamicReportDashboardComponent implements OnInit {
   callreport(calldata) {
     console.log('callreport', calldata);
     this.dynamicreportcall = [];
-    this.usedChallanWidgtets = calldata.filter(report => (report.type.includes('challan-')||report.type.includes('state-')||report.type.includes('worst-drivers')||report.type.includes('most-aged')||report.type.includes('latest')||report.type.includes('worst-drivers-years')||report.type.includes('trip-onward-kmpd')||report.type.includes('avg-loading')||report.type.includes('avg-unloading')||report.type.includes('worst-vehicles')||report.type.includes('longest-loading')||report.type.includes('longest-unloading')||report.type.includes('slowest-onward')||report.type.includes('longest-unloading-sites')|report.type.includes('gps-performance')))
+    this.usedChallanWidgtets = calldata.filter(report => (report.type.includes('challan-')||report.type.includes('state-')||report.type.includes('worst-drivers')||report.type.includes('most-aged')||report.type.includes('latest')||report.type.includes('worst-drivers-years')||report.type.includes('trip-onward-kmpd')||report.type.includes('avg-loading')||report.type.includes('avg-unloading')||report.type.includes('worst-vehicles')||report.type.includes('longest-loading')||report.type.includes('longest-unloading')||report.type.includes('slowest-onward')||report.type.includes('longest-unloading-sites')||report.type.includes('gps-performance')||report.type.includes('live-traffic-status')||report.type.includes('longest-driver-unavailable')||report.type.includes('longest-gps-offline')||report.type.includes('top-vehicle-rto')||report.type.includes('longest-loading-sites')||report.type.includes('longest-unloading-offline')||report.type.includes('slowest-onward-veicles')))
 
     console.log('usedChallanWidgtets:', this.usedChallanWidgtets);
     this.caltabname = (this.usedChallanWidgtets.length)?this.usedChallanWidgtets[0].rpt_tabname : this.reports[0].rpt_tabname;

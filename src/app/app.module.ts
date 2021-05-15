@@ -615,6 +615,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     PlacementProblemGenerationComponent,
     NearByVehiclesComponent,
     
+    
   ],
   entryComponents: [
     ...COMMON_COMPONENT,
