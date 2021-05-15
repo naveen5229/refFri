@@ -43,7 +43,7 @@ export class DynamicReportDashboardComponent implements OnInit {
     "Longest Driver Unavailable": "longest-driver-unavailable",
     "Longest GPS Offline": "longest-gps-offline",
     "Top Vehicles with RTO + Maintenance + Breakdown Issues": "top-vehicle-rto",
-    "Longest Loading Sites": "longest-unloading-offline",
+    "Longest Loading Sites": "longest-loading-sites",
     "Longest Unloading Vehicles": "longest-unloading-offline",
     "Slowest Onward Vehicles": "slowest-onward-veicles",
     "Longest Empty Vehicles": "longest-empty-vehicle",
