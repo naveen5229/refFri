@@ -318,6 +318,7 @@ import { DriverConsentListComponent } from './modals/driver-consent-list/driver-
 import { NearByVehiclesComponent } from './modals/near-by-vehicles/near-by-vehicles.component';
 import { ConciseColumnPrefrenceComponent } from './modals/concise-column-prefrence/concise-column-prefrence.component';
 import {MatRadioModule} from '@angular/material/radio';
+import { AddGpsNewRequesComponent } from './modals/add-gps-new-reques/add-gps-new-reques.component';
 
 
 
@@ -587,7 +588,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   PlacementConstraintsComponent,
   DriverConsentListComponent,
   PlacementProblemGenerationComponent,
-  ConciseColumnPrefrenceComponent
+  ConciseColumnPrefrenceComponent,
+  AddGpsNewRequesComponent
 ];
 
 @NgModule({
@@ -614,6 +616,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     PlacementRequirementComponent,
     PlacementProblemGenerationComponent,
     NearByVehiclesComponent,
+    AddGpsNewRequesComponent,
     
   ],
   entryComponents: [
