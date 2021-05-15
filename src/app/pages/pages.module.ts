@@ -121,6 +121,15 @@ import { MostAgedComponent } from '../widgets/challans/most-aged/most-aged.compo
 import { LatestComponent } from '../widgets/challans/latest/latest.component';
 import { WorstDriversComponent } from '../widgets/challans/worst-drivers/worst-drivers.component';
 import { WorstDriversYearsComponent } from '../widgets/challans/worst-drivers-years/worst-drivers-years.component';
+import { OnwardKmpdComponent as tripOnwardKmpd } from '../widgets/trips/onward-kmpd/onward-kmpd.component';
+import { AvgLoadingComponent } from '../widgets/trips/avg-loading/avg-loading.component';
+import { AvgUnloadingComponent } from '../widgets/trips/avg-unloading/avg-unloading.component';
+import { WorstVehiclesComponent } from '../widgets/trips/worst-vehicles/worst-vehicles.component';
+import { LongestLoadingComponent } from '../widgets/trips/longest-loading/longest-loading.component';
+import { LongestUnloadingComponent } from '../widgets/trips/longest-unloading/longest-unloading.component';
+import { SlowestOnwardComponent } from '../widgets/trips/slowest-onward/slowest-onward.component';
+import { LongestUnloadingSitesComponent } from '../widgets/trips/longest-unloading-sites/longest-unloading-sites.component';
+import { GpsPerformanceComponent } from '../widgets/trips/gps-performance/gps-performance.component';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -131,6 +140,16 @@ const PAGES_COMPONENTS = [
   LatestComponent,
   WorstDriversComponent,
   WorstDriversYearsComponent,
+  tripOnwardKmpd,
+  AvgLoadingComponent,
+  AvgUnloadingComponent,
+  WorstVehiclesComponent,
+  LongestLoadingComponent,
+  LongestUnloadingComponent,
+  SlowestOnwardComponent,
+  LongestUnloadingSitesComponent,
+  GpsPerformanceComponent
+
 ];
 
 @NgModule({

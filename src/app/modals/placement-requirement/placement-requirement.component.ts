@@ -48,9 +48,9 @@ export class PlacementRequirementComponent implements OnInit {
       maxQuantity: 0,
       penaltyMin: 0,
       penaltyMax: 0,
+      projectionDays: 0,
       siteOffDates:[{
-        offDatesSite: null,
-        offDatesSiteStr:null
+        offDatesSite: null
       }]
     },
   ];
@@ -80,9 +80,9 @@ export class PlacementRequirementComponent implements OnInit {
       maxQuantity: 0,
       penaltyMin: 0,
       penaltyMax: 0,
+      projectionDays: 0,
       siteOffDates:[{
-        offDatesSite: null,
-        offDatesSiteStr:null
+        offDatesSite: null
       }]
     });
     console.log("siteOfDates:",this.items[i],"index ",i)
@@ -96,8 +96,7 @@ export class PlacementRequirementComponent implements OnInit {
 
   addDateSites(j){
     this.items[j].siteOffDates.push({
-      offDatesSite: null,
-      offDatesSiteStr:null
+      offDatesSite: null
     });
   }
 
@@ -121,6 +120,8 @@ export class PlacementRequirementComponent implements OnInit {
       startDate: { title: 'Start Date', placeholder: 'Start Date' },
       endDate: { title: 'End Date', placeholder: 'End Date' },
       reportName: { title: 'Report Name', placeholder: 'Report Name' },
+      totalMinQuantity: { title: 'Min Quantity', placeholder: 'Min Quantity' },
+      totalMaxQuantity: { title: 'Max Quantity', placeholder: 'Max Quantity' },
       quantityType: { title: 'Quantity Type', placeholder: 'Quantity Type' },
       action: { title: 'Action', placeholder: 'Action' }
     };
@@ -138,8 +139,8 @@ export class PlacementRequirementComponent implements OnInit {
   }
 
   dateChangeSites(date:Date,item){
-    item.offDatesSiteStr = this.common.dateFormatter1(date);
-    item.offDatesSite = date;
+    item.offDatesSite = this.common.dateFormatter1(date);
+    // item.offDatesSite = date;
   }
 
   getTableColumns() {
@@ -150,6 +151,8 @@ export class PlacementRequirementComponent implements OnInit {
         startDate: { value: doc.startDate },
         endDate: { value: doc.endDate },
         reportName: { value: doc.reportName },
+        totalMinQuantity: {value: doc.totalMinQuantity},
+        totalMaxQuantity: {value: doc.totalMaxQuantity},
         quantityType: { value: doc.quantityType == 0 ? 'Capacity' : 'Vehicle' },
         action:{value: "",isHTML: false,action: null,icons: this.actionIcons(doc)}
       };

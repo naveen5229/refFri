@@ -321,6 +321,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import { AddGpsNewRequesComponent } from './modals/add-gps-new-reques/add-gps-new-reques.component';
 
 
+
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
   FreightRateRulesComponent,
