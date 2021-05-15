@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddGpsWebUrlComponent } from '../../modals/add-gps-web-url/add-gps-web-url.component';
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+import { AddGpsNewRequesComponent } from '../../modals/add-gps-new-reques/add-gps-new-reques.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -123,6 +124,16 @@ ngOnInit() {
       }
     });
 
+  }
+
+
+  addNewRequest(){
+    const activeModal = this.modalService.open(AddGpsNewRequesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.getMvGpsDetails();
+      }
+    });
   }
 
 
