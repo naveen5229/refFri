@@ -31,9 +31,9 @@
                             <div class="col-3 p-1">
                             <input type="checkbox" [value]="true" [checked]="report.is_default"  [(ngModel)]="report.is_default">                    
                         </div>                    
-                            <div class="col-3 p-1"> <input type="text" [value]="report.col_order" [(ngModel)]="report.col_order" /></div> 
+                            <div class="col-1 p-1"> <input type="text" [value]="report.col_order" [(ngModel)]="report.col_order" /></div> 
                         
-                            <div class="col-6 p-1"> <input type="text" [(ngModel)]="report.col_title"/>
+                            <div class="col-8 p-1"> <input type="text" [(ngModel)]="report.col_title"/>
                         <input type="hidden" [value]="report.col_id" [(ngModel)]="report.col_id" />
                             </div> 
                             <diiv class="col-12 pl-1 pr-1"> <span class="title">( {{report.col_title_actual}} )</span>   </diiv>
@@ -44,9 +44,9 @@
                                 <div class="col-3 p-1">
                                     <input type="checkbox" [value]="true" [checked]="report1.is_default"  [(ngModel)]="report1.is_default">                    
                                 </div>                    
-                                <div class="col-3 p-1"> <input type="text" [value]="report1.col_order" [(ngModel)]="report1.col_order" /></div> 
+                                <div class="col-1 p-1"> <input type="text" [value]="report1.col_order" [(ngModel)]="report1.col_order" /></div> 
                             
-                                <div class="col-6 p-1"> <input type="text" [(ngModel)]="report1.col_title"/>
+                                <div class="col-8 p-1"> <input type="text" [(ngModel)]="report1.col_title"/>
                             <input type="hidden" [value]="report1.col_id" [(ngModel)]="report1.col_id" />
                                 </div> 
                                 <diiv class="col-12  pl-1 pr-1"> <span class="title">( {{report1.col_title_actual}} )</span>   </diiv>
