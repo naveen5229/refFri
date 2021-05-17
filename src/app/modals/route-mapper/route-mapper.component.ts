@@ -6,6 +6,9 @@ import { CommonService } from '../../services/common.service';
 import { DateService } from '../../services/date.service';
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 import * as moment from 'moment';
+import { resolve } from 'dns';
+
+declare let google: any;
 
 @AutoUnsubscribe()
 @Component({
@@ -46,11 +49,12 @@ export class RouteMapperComponent implements OnInit {
   eventInfo = null;
   infoWindow = null;
   infoStart = null;
+  vehicleTripId = null;
   trails = [];
   trailsAll = [];
   redSubTrails = [];
   blueSubTrails = [];
-
+  circles = [];
   subTrailsPolyLines = [];
   vehicleTrailEvents = [];
 
@@ -67,6 +71,7 @@ export class RouteMapperComponent implements OnInit {
     this.orderId = this.commonService.params.orderId;
     this.orderType = this.commonService.params.orderType;
     this.title = this.commonService.params.title ? this.commonService.params.title : this.title;
+    this.vehicleTripId = this.commonService.params.vehicleTripId;
     console.time('total');
     console.time('api time')
     this.initFunctionality();
@@ -105,7 +110,7 @@ export class RouteMapperComponent implements OnInit {
 
   initFunctionality() {
     if (!this.validateDates()) return;
-
+    this.getSingleTripInfoForView();
     let promises = [this.getHaltTrails(), this.getVehicleTrailAll()]
     Promise.all(promises).then((result) => {
       console.log('vehicleEvents', this.vehicleEvents);
@@ -629,4 +634,34 @@ export class RouteMapperComponent implements OnInit {
     });
   }
 
+  getSingleTripInfoForView(){
+    this.commonService.loading ++;
+    if(this.vehicleTripId){
+      this.apiService.get(`TripsOperation/getSingleTripInfoForView?tripId=${this.vehicleTripId}`)
+      .subscribe(res => {
+        this.commonService.loading --;
+        res['data'].forEach(element => {
+          if(element.type === 3){
+            this.circles.forEach(item => {
+              item.setMap(null);
+            });
+            this.circles = [];
+            let center = this.mapService.createLatLng(element.rlat, element.rlong)
+            let circle = this.mapService.createCirclesOnPostion(center,500)
+            this.circles.push(circle);
+            this.mapService.addListerner(circle,'mouseover',() => {
+              this.mapService.map.getDiv().setAttribute('title', element.name);
+            });
+
+            this.mapService.addListerner(circle,'mouseout',() => {
+              this.mapService.map.getDiv().removeAttribute('title');
+            });
+          }
+        }); 
+      },err => {  
+        this.commonService.loading --;
+        console.error(err);
+      })
+    }
+  }
 }
