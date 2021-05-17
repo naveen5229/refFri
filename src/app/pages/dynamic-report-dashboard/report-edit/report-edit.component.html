@@ -22,37 +22,44 @@
         <div class="row" style="margin-top: 5px;">
            
             <div class="col-2 topholdreport pr-2 pl-2">
+               
                 <p class="head">Dynamic Reports</p>
-                <div class="holdContainer">
-                    <div class="dataelements" *ngFor="let report of reports;let i = index" [hidden]="report.isUsed"
+                <div class="holdContainer" style="border:none;">
+                    <div title="drag it" class="dataelements" *ngFor="let report of reports;let i = index" [hidden]="report.isUsed"
                         draggable="true" [id]="'option-' + report._id" (dragstart)="selectDraggable(report)">
                         <span>{{report.name}}</span>
                     </div>
                 </div>
                 <p class="head">Global Reports</p>
                 <div class="holdContainer" *ngIf="challanReports.length">
-                    <p>Challan Reports</p>
-                    <div class="dataelements" *ngFor="let challanReport of challanReports; let i = index" [hidden]="challanReport.isUsed"
+                    <div class="collas-head" (click)="collOne = !collOne"><p>Challan Reports</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span></div>
+                    <div *ngIf= "collOne" class="collapseitem">
+                    <div title="drag it"  class="dataelements" *ngFor="let challanReport of challanReports; let i = index" [hidden]="challanReport.isUsed"
                         draggable="true" [id]="'challan-option-' + challanReport.id"
                         (dragstart)="selectDraggable(challanReport, 'challan')">
                         <span>{{challanReport.rpt_title}}</span>
                     </div>
                 </div>
+                </div>
                 <div class="holdContainer" *ngIf="tripReports.length">
-                    <p>Trip Reports</p>
-                    <div class="dataelements" *ngFor="let challanReport of tripReports; let i = index" [hidden]="challanReport.isUsed"
+                    <div class="collas-head" (click)="collTwo = !collTwo"><p>Trip Reports</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span></div>
+                    <div *ngIf= "collTwo" class="collapseitem">
+                    <div title="drag it"  class="dataelements" *ngFor="let challanReport of tripReports; let i = index" [hidden]="challanReport.isUsed"
                         draggable="true" [id]="'trip-option-' + challanReport.id"
                         (dragstart)="selectDraggable(challanReport, 'trip')">
                         <span>{{challanReport.rpt_title}}</span>
                     </div>
                 </div>
+                </div>
                 <div class="holdContainer" *ngIf="trafficReports.length">
-                    <span>Traffic Reports</span>
-                    <div class="dataelements" *ngFor="let challanReport of trafficReports; let i = index" [hidden]="challanReport.isUsed"
+                    <div class="collas-head" (click)="collThree = !collThree"><p>Traffic Reports</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span></div>
+                    <div *ngIf= "collThree" class="collapseitem">
+                    <div title="drag it"  class="dataelements" *ngFor="let challanReport of trafficReports; let i = index" [hidden]="challanReport.isUsed"
                         draggable="true" [id]="'trip-option-' + challanReport.id"
                         (dragstart)="selectDraggable(challanReport, 'traffic')">
                         <span>{{challanReport.rpt_title}}</span>
                     </div>
+                </div>
                 </div>
             </div>
 
