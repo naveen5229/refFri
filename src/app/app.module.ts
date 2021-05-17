@@ -618,6 +618,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     NearByVehiclesComponent,
     AddGpsNewRequesComponent,
     
+    
   ],
   entryComponents: [
     ...COMMON_COMPONENT,

@@ -130,6 +130,13 @@ import { LongestUnloadingComponent } from '../widgets/trips/longest-unloading/lo
 import { SlowestOnwardComponent } from '../widgets/trips/slowest-onward/slowest-onward.component';
 import { LongestUnloadingSitesComponent } from '../widgets/trips/longest-unloading-sites/longest-unloading-sites.component';
 import { GpsPerformanceComponent } from '../widgets/trips/gps-performance/gps-performance.component';
+import { LiveTrafficStatusComponent } from '../widgets/traffic/live-traffic-status/live-traffic-status.component';
+import { LongestDriverUnavailableComponent } from '../widgets/traffic/longest-driver-unavailable/longest-driver-unavailable.component';
+import { LongestEmptyVehicleComponent } from '../widgets/traffic/longest-empty-vehicle/longest-empty-vehicle.component';
+import { LongestGpsOfflineComponent } from '../widgets/traffic/longest-gps-offline/longest-gps-offline.component';
+import { LongestLoadingSitesComponent } from '../widgets/traffic/longest-loading-sites/longest-loading-sites.component';
+import { SlowestOnwardVeiclesComponent } from '../widgets/traffic/slowest-onward-veicles/slowest-onward-veicles.component';
+import { TopVehicleRtoComponent } from '../widgets/traffic/top-vehicle-rto/top-vehicle-rto.component';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -147,8 +154,15 @@ const PAGES_COMPONENTS = [
   LongestLoadingComponent,
   LongestUnloadingComponent,
   SlowestOnwardComponent,
+  GpsPerformanceComponent,
+  LiveTrafficStatusComponent,
+  LongestDriverUnavailableComponent,
+  LongestEmptyVehicleComponent,
+  LongestGpsOfflineComponent,
+  LongestLoadingSitesComponent,
   LongestUnloadingSitesComponent,
-  GpsPerformanceComponent
+  SlowestOnwardVeiclesComponent,
+  TopVehicleRtoComponent
 
 ];
 

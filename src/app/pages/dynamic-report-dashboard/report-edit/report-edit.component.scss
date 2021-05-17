@@ -1,10 +1,10 @@
 .holdContainer {
-    height: calc(100vh - 180px);
-    border: solid;
-    padding: 20px;
+    height: 26.33%;
     overflow: auto;
-    border-width: 1px;
-    border-color: #f2f2f2;
+    margin-top: 7%;
+    padding-right: 5px;
+
+
 }
 .placeContainer {
     height: calc(100vh - 180px);
@@ -13,12 +13,24 @@
 }
 
 .dataelements {
-    background: lightgray;
-    padding: 15px;
-    text-align: center;
-    margin-top: 2px;
+    background: white;
+    padding: 4px 6px;
+    color: #000;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    box-shadow: 0px 1px 4px #dcdada;
+    font-size: 12px;
 }
-
+.topholdreport{
+    height: calc(100vh - 155px);
+    overflow: auto;
+    background: #f7f9fc;
+    .head{
+        font-size: 16px;
+        font-weight: 700;
+        padding: 5px 0;
+    }
+}
 .reports-container {
     position: relative;
     overflow: hidden;
