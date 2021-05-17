@@ -47,6 +47,13 @@ export class DynamicReportDashboardComponent implements OnInit {
     "Longest Unloading Vehicles": "longest-unloading-offline",
     "Slowest Onward Vehicles": "slowest-onward-veicles",
     "Longest Empty Vehicles": "longest-empty-vehicle",
+    "Driver Contacted %": "drivercontacted",
+    "Supervisor Wise Unresponded Driver Calls %": "supervisor-wise-unrespond",
+    "Unresponded Driver Calls %": "unrespond-driver-calls",
+    "Worst 3 Drivers (Unresponded Supervisor Calls %)": "worst-driver",
+    "Average Loading TAT": "avg-loading-tat",
+    "Onward KMPD": "onward-kmpd",
+    "Average Unloading TAT": "avg-unloading-tat",
 
 
 
@@ -105,7 +112,7 @@ export class DynamicReportDashboardComponent implements OnInit {
   callreport(calldata) {
     console.log('callreport', calldata);
     this.dynamicreportcall = [];
-    this.usedChallanWidgtets = calldata.filter(report => (report.type.includes('challan-')||report.type.includes('state-')||report.type.includes('worst-drivers')||report.type.includes('most-aged')||report.type.includes('latest')||report.type.includes('worst-drivers-years')||report.type.includes('trip-onward-kmpd')||report.type.includes('avg-loading')||report.type.includes('avg-unloading')||report.type.includes('worst-vehicles')||report.type.includes('longest-loading')||report.type.includes('longest-unloading')||report.type.includes('slowest-onward')||report.type.includes('longest-unloading-sites')||report.type.includes('gps-performance')||report.type.includes('live-traffic-status')||report.type.includes('longest-driver-unavailable')||report.type.includes('longest-gps-offline')||report.type.includes('top-vehicle-rto')||report.type.includes('longest-loading-sites')||report.type.includes('longest-unloading-offline')||report.type.includes('slowest-onward-veicles')||report.type.includes('longest-empty-vehicle')))
+    this.usedChallanWidgtets = calldata.filter(report => (report.type.includes('challan-')||report.type.includes('state-')||report.type.includes('worst-drivers')||report.type.includes('most-aged')||report.type.includes('latest')||report.type.includes('worst-drivers-years')||report.type.includes('trip-onward-kmpd')||report.type.includes('avg-loading')||report.type.includes('avg-unloading')||report.type.includes('worst-vehicles')||report.type.includes('longest-loading')||report.type.includes('longest-unloading')||report.type.includes('slowest-onward')||report.type.includes('longest-unloading-sites')||report.type.includes('gps-performance')||report.type.includes('live-traffic-status')||report.type.includes('longest-driver-unavailable')||report.type.includes('longest-gps-offline')||report.type.includes('top-vehicle-rto')||report.type.includes('longest-loading-sites')||report.type.includes('longest-unloading-offline')||report.type.includes('slowest-onward-veicles')||report.type.includes('longest-empty-vehicle')||report.type.includes('drivercontacted')||report.type.includes('supervisor-wise-unrespond')||report.type.includes('unrespond-driver-calls')||report.type.includes('worst-driver')||report.type.includes('avg-loading-tat')||report.type.includes('onward-kmpd')||report.type.includes('avg-unloading-tat')))
 
     console.log('usedChallanWidgtets:', this.usedChallanWidgtets,this.reports);
     this.caltabname = (this.usedChallanWidgtets.length)?this.usedChallanWidgtets[0].rpt_tabname : calldata[0].rpt_tabname;
