@@ -1,5 +1,5 @@
 <nb-card style="border:0px;">
-    <nb-card-header>
+    <nb-card-header class="p-2">
         <div class="row">
             <div class="col-3">
                 <h5>Business Dashboard</h5>
@@ -13,23 +13,22 @@
                 </uj-date-time-picker>
             </div>
             <div class="col-2">
-                <div class="btn btn-primary" (click)="getReport()">Get Report</div>
+                <button class="btn btn-primary" (click)="getReport()">Get Report</button>
             </div>
-            <div class="col-1 text-right">
+            <div class="col-1">
                 <button class="btn btn-primary" (click)="editReport()"><i class="fa fa-plus"></i></button>
             </div>
             <div class="col-2">
                 <button class="btn btn-primary" (click)="editReport(true)">Edit Report</button>
             </div>
         </div>
-        <div class="row" *ngIf="tabsdata">
+        <div class="toptab" *ngIf="tabsdata">
             <!-- <div class="col-2" >
                 <span>General</span>
             </div> -->
-            <div *ngFor="let dynareport of tabsdata;let i = index ">
-                <div class="col-2" *ngIf="dynareport.rpt_tabname != 'General'">
-                    <button class="btn btn-primary"
-                        (click)="callreport(dynareport)">{{dynareport[0].rpt_tabname}}</button>
+            <div *ngFor="let dynareport of tabsdata;let i = index " class="hiddenby">
+                <div class=" hiddenby" *ngIf="dynareport.rpt_tabname != 'General'">
+                    <p class="default" (click)="callreport(dynareport)">{{dynareport[0].rpt_tabname}}</p>
                 </div>
             </div>
 

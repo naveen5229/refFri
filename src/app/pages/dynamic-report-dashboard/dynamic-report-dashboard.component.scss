@@ -64,3 +64,61 @@
     height: 40px;
     color: #fff;
   }
+  .toptab {
+    padding-top: 10px;
+    max-width: calc(100vw - 210px);
+    overflow-y: auto;   
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    .hiddenby{
+        opacity: 1;
+        -webkit-transition: .5s;
+        transition: .5s;
+        .default{
+            color: #000;
+            border-radius: 4.17rem;
+            font-size: .75rem;
+            text-align: center;
+            padding: 5px 10px;
+            background-color: #eef1fd;
+            color: #3f6ad8;
+            cursor: pointer;
+            border-bottom: 1px solid #fff;
+            margin-bottom: 0;
+            word-break: keep-all;
+            white-space: nowrap;
+            margin-right: 10px;
+        }
+        .active {
+            border-radius: 4.17rem;
+            font-size: .75rem;
+            text-align: center;
+            padding: 5px 10px;
+            background: #3f6ad7;
+            color: #fff;
+            cursor: pointer;
+            border-bottom: 1px solid #fff;
+            margin-bottom: 0;
+            word-break: keep-all;
+            white-space: nowrap;
+            margin-right: 10px;
+            word-break: keep-all;
+            white-space: nowrap;
+        }
+    }
+}
+.toptab::-webkit-scrollbar {
+    width: 5px !important;
+    height: 5px !important;
+    background-color: #c1c1c1 !important;
+}
+.btn.btn-primary{
+    height: 30px;
+    padding: 6px 13px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 5px;
+    border-radius: 4px;
+    font-family: Exo;
+}
