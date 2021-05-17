@@ -24,7 +24,7 @@ export class OnwardKmpdComponent implements OnInit {
   ngAfterViewInit() {
     this.getCallOnwardKmd();
     }
-    getDetials(url, params, value = 0, type = 'days',flag) {
+    getDetials(url, params, value = 0, type = 'days',flag?) {
       let dataparams = {
         view: {
           api: url,
