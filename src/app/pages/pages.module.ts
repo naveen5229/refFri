@@ -137,6 +137,14 @@ import { LongestGpsOfflineComponent } from '../widgets/traffic/longest-gps-offli
 import { LongestLoadingSitesComponent } from '../widgets/traffic/longest-loading-sites/longest-loading-sites.component';
 import { SlowestOnwardVeiclesComponent } from '../widgets/traffic/slowest-onward-veicles/slowest-onward-veicles.component';
 import { TopVehicleRtoComponent } from '../widgets/traffic/top-vehicle-rto/top-vehicle-rto.component';
+import { LongestUnloadingOfflineComponent } from '../widgets/traffic/longest-unloading-offline/longest-unloading-offline.component';
+import { DrivercontactedComponent } from '../widgets/calls/drivercontacted/drivercontacted.component';
+import { SupervisorWiseUnrespondComponent } from '../widgets/calls/supervisor-wise-unrespond/supervisor-wise-unrespond.component';
+import { UnrespondDriverCallsComponent } from '../widgets/calls/unrespond-driver-calls/unrespond-driver-calls.component';
+import { WorstDriverComponent } from '../widgets/calls/worst-driver/worst-driver.component';
+import { AvgLoadingTatComponent } from '../widgets/calls/avg-loading-tat/avg-loading-tat.component';
+import { AvgUnloadingTatComponent } from '../widgets/calls/avg-unloading-tat/avg-unloading-tat.component';
+import { OnwardKmpdComponent as callonwardkmpd} from '../widgets/calls/onward-kmpd/onward-kmpd.component';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -162,8 +170,15 @@ const PAGES_COMPONENTS = [
   LongestLoadingSitesComponent,
   LongestUnloadingSitesComponent,
   SlowestOnwardVeiclesComponent,
-  TopVehicleRtoComponent
-
+  TopVehicleRtoComponent,
+  LongestUnloadingOfflineComponent,
+  DrivercontactedComponent,
+  SupervisorWiseUnrespondComponent,
+  UnrespondDriverCallsComponent,
+  WorstDriverComponent,
+  AvgLoadingTatComponent,
+  callonwardkmpd,
+  AvgUnloadingTatComponent,
 ];
 
 @NgModule({
