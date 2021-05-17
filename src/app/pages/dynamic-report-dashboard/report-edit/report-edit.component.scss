@@ -1,9 +1,19 @@
 .holdContainer {
-    height: 26.33%;
-    overflow: auto;
+   
     margin-top: 7%;
-    padding-right: 5px;
+    border: 1px solid #d4d4d4;
+    padding: 0px 5px;
+  
+.collas-head{
+    display: flex;
+    cursor: pointer;
+    justify-content: space-between;
+    padding: 8px 0;
+    p{
+        margin-bottom: 0;
+    }
 
+}
 
 }
 .placeContainer {
