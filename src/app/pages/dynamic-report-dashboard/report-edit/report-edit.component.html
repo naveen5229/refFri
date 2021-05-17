@@ -71,21 +71,21 @@
                     [style.height]="challanReport.rpt_height + 'px'"
                     [style.top]="challanReport.y_pos + 'px'" [style.left]="challanReport.x_pos + 'px'" >
                     <div class="report-container">
-                        <challan-trends *ngIf="challanReport.id == 1"></challan-trends>
+                        <challan-trends *ngIf="challanReport.id == 1 && challanReport.isUsed"></challan-trends>
                         <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
-                        <state-wise *ngIf="challanReport.id == 2"></state-wise>
+                        <state-wise *ngIf="challanReport.id == 2 && challanReport.isUsed"></state-wise>
                         <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
-                        <worst-drivers *ngIf="challanReport.id == 3"></worst-drivers>
+                        <worst-drivers *ngIf="challanReport.id == 3 && challanReport.isUsed"></worst-drivers>
                         <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
-                        <most-aged *ngIf="challanReport.id == 4"></most-aged>
+                        <most-aged *ngIf="challanReport.id == 4 && challanReport.isUsed"></most-aged>
                         <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
-                        <latest *ngIf="challanReport.id == 5"></latest>
+                        <latest *ngIf="challanReport.id == 5 && challanReport.isUsed"></latest>
                         <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
-                        <worst-drivers-years *ngIf="challanReport.id == 6"></worst-drivers-years>
+                        <worst-drivers-years *ngIf="challanReport.id == 6 && challanReport.isUsed"></worst-drivers-years>
                         <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
                     </div>
                 </div>
-                <div class="report draggable" *ngFor="let trreport of tripReports;let i = index" [hidden]="!trreport.isUsed" [style.width]="trreport.rpt_width + 'px'"
+                <!-- <div class="report draggable" *ngFor="let trreport of tripReports;let i = index" [hidden]="!trreport.isUsed" [style.width]="trreport.rpt_width + 'px'"
                 [style.height]="trreport.rpt_height + 'px'"
                 [style.top]="trreport.y_pos + 'px'" [style.left]="trreport.x_pos + 'px'" 
                     [id]="'trip-report-' + trreport._id">
@@ -93,33 +93,33 @@
                         <dynamic-report [savedReportSelect]="trreport"></dynamic-report>
                         <i class="fa fa-window-close report-close" (click)="deleteReport(trreport)"></i>
                     </div>
-                </div>
+                </div> -->
                 <div class="report draggable" *ngFor="let singletripReport of tripReports; let i = index"
                 [hidden]="!singletripReport.isUsed" [id]="'trip-report-' + singletripReport.id"  [style.width]="singletripReport.rpt_width + 'px'"
                 [style.height]="singletripReport.rpt_height + 'px'"
                 [style.top]="singletripReport.y_pos + 'px'" [style.left]="singletripReport.x_pos + 'px'" >
                     <div class="report-container">
-                        <trip-onward-kmpd *ngIf="singletripReport.id == 1"></trip-onward-kmpd>
+                        <trip-onward-kmpd *ngIf="singletripReport.id == 1 && singletripReport.isUsed"></trip-onward-kmpd>
                         <i class="fa fa-window-close report-close" (click)="deleteTripReport(singletripReport)"></i>
-                        <avg-loading *ngIf="singletripReport.id == 2"></avg-loading>
+                        <avg-loading *ngIf="singletripReport.id == 2 && singletripReport.isUsed"></avg-loading>
                             <i class="fa fa-window-close report-close" (click)="deleteTripReport(singletripReport)"></i>
-                            <avg-unloading *ngIf="singletripReport.id == 3"></avg-unloading>
+                            <avg-unloading *ngIf="singletripReport.id == 3 && singletripReport.isUsed"></avg-unloading>
                                 <i class="fa fa-window-close report-close" (click)="deleteTripReport(singletripReport)"></i>
-                                <worst-vehicles *ngIf="singletripReport.id == 4"></worst-vehicles>
+                                <worst-vehicles *ngIf="singletripReport.id == 4 && singletripReport.isUsed"></worst-vehicles>
                                     <i class="fa fa-window-close report-close" (click)="deleteTripReport(singletripReport)"></i>
-                                    <longest-loading *ngIf="singletripReport.id == 5"></longest-loading>
+                                    <longest-loading *ngIf="singletripReport.id == 5 && singletripReport.isUsed"></longest-loading>
                                     <i class="fa fa-window-close report-close" (click)="deleteTripReport(singletripReport)"></i>
-                                    <longest-unloading *ngIf="singletripReport.id == 6"></longest-unloading>
+                                    <longest-unloading *ngIf="singletripReport.id == 6 && singletripReport.isUsed"></longest-unloading>
                                         <i class="fa fa-window-close report-close" (click)="deleteTripReport(singletripReport)"></i>
-                                        <slowest-onward *ngIf="singletripReport.id == 7"></slowest-onward>
+                                        <slowest-onward *ngIf="singletripReport.id == 7 && singletripReport.isUsed"></slowest-onward>
                                         <i class="fa fa-window-close report-close" (click)="deleteTripReport(singletripReport)"></i>
-                                        <longest-unloading-sites *ngIf="singletripReport.id == 8"></longest-unloading-sites>
+                                        <longest-unloading-sites *ngIf="singletripReport.id == 8 && singletripReport.isUsed"></longest-unloading-sites>
                                         <i class="fa fa-window-close report-close" (click)="deleteTripReport(singletripReport)"></i>
-                                        <gps-performance *ngIf="singletripReport.id == 9"></gps-performance>
+                                        <gps-performance *ngIf="singletripReport.id == 9 && singletripReport.isUsed"></gps-performance>
                                             <i class="fa fa-window-close report-close" (click)="deleteTripReport(singletripReport)"></i>
                     </div>
                 </div>
-                <div class="report draggable" *ngFor="let trafficreport of trafficReports;let i = index" [hidden]="!trafficreport.isUsed" [style.width]="trafficreport.rpt_width + 'px'"
+                <!-- <div class="report draggable" *ngFor="let trafficreport of trafficReports;let i = index" [hidden]="!trafficreport.isUsed" [style.width]="trafficreport.rpt_width + 'px'"
                 [style.height]="trafficreport.rpt_height + 'px'"
                 [style.top]="trafficreport.y_pos + 'px'" [style.left]="trafficreport.x_pos + 'px'" 
                     [id]="'traffic-report-' + trafficreport._id">
@@ -127,27 +127,27 @@
                         <dynamic-report [savedReportSelect]="trafficreport"></dynamic-report>
                         <i class="fa fa-window-close report-close" (click)="deleteReport(trafficreport)"></i>
                     </div>
-                </div>
+                </div> -->
                 <div class="report draggable" *ngFor="let singletrafficReport of trafficReports; let i = index"
                 [hidden]="!singletrafficReport.isUsed" [id]="'traffic-report-' + singletrafficReport.id"  [style.width]="singletrafficReport.rpt_width + 'px'"
                 [style.height]="singletrafficReport.rpt_height + 'px'"
                 [style.top]="singletrafficReport.y_pos + 'px'" [style.left]="singletrafficReport.x_pos + 'px'" >
                     <div class="report-container">
-                        <live-traffic-status *ngIf="singletrafficReport.id == 1"></live-traffic-status>
+                        <live-traffic-status *ngIf="singletrafficReport.id == 1 && singletrafficReport.isUsed"></live-traffic-status>
                         <i class="fa fa-window-close report-close" (click)="deleteTrafficReport(singletrafficReport)"></i>
-                        <longest-driver-unavailable *ngIf="singletrafficReport.id == 2"></longest-driver-unavailable>
+                        <longest-driver-unavailable *ngIf="singletrafficReport.id == 2 && singletrafficReport.isUsed"></longest-driver-unavailable>
                         <i class="fa fa-window-close report-close" (click)="deleteChallanReport(singletrafficReport)"></i>
-                        <longest-gps-offline *ngIf="singletrafficReport.id == 3"></longest-gps-offline>
+                        <longest-gps-offline *ngIf="singletrafficReport.id == 3 && singletrafficReport.isUsed"></longest-gps-offline>
                         <i class="fa fa-window-close report-close" (click)="deleteChallanReport(singletrafficReport)"></i>
-                        <top-vehicle-rto *ngIf="singletrafficReport.id == 4"></top-vehicle-rto>
+                        <top-vehicle-rto *ngIf="singletrafficReport.id == 4 && singletrafficReport.isUsed"></top-vehicle-rto>
                         <i class="fa fa-window-close report-close" (click)="deleteChallanReport(singletrafficReport)"></i>
-                        <longest-loading-sites *ngIf="singletrafficReport.id == 5"></longest-loading-sites>
+                        <longest-loading-sites *ngIf="singletrafficReport.id == 5 && singletrafficReport.isUsed"></longest-loading-sites>
                         <i class="fa fa-window-close report-close" (click)="deleteChallanReport(singletrafficReport)"></i>
-                         <longest-unloading-offline *ngIf="singletrafficReport.id == 6"></longest-unloading-offline>
+                         <longest-unloading-offline *ngIf="singletrafficReport.id == 6 && singletrafficReport.isUsed"></longest-unloading-offline>
                          <i class="fa fa-window-close report-close" (click)="deleteChallanReport(singletrafficReport)"></i>
-                        <slowest-onward-veicles *ngIf="singletrafficReport.id == 7"></slowest-onward-veicles>
+                        <slowest-onward-veicles *ngIf="singletrafficReport.id == 7 && singletrafficReport.isUsed"></slowest-onward-veicles>
                         <i class="fa fa-window-close report-close" (click)="deleteChallanReport(singletrafficReport)"></i>
-                         <longest-empty-vehicle *ngIf="singletrafficReport.id == 8"></longest-empty-vehicle>
+                         <longest-empty-vehicle *ngIf="singletrafficReport.id == 8 && singletrafficReport.isUsed"></longest-empty-vehicle>
                         <i class="fa fa-window-close report-close" (click)="deleteChallanReport(singletrafficReport)"></i> 
                     </div>
                 </div>
