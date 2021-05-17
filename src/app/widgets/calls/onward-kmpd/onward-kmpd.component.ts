@@ -6,7 +6,7 @@ import { CommonService } from '../../../services/common.service';
 import * as _ from "lodash";
 
 @Component({
-  selector: 'onward-kmpd',
+  selector: 'calls-onward-kmpd',
   templateUrl: './onward-kmpd.component.html',
   styleUrls: ['./onward-kmpd.component.scss']
 })
@@ -24,7 +24,7 @@ export class OnwardKmpdComponent implements OnInit {
   ngAfterViewInit() {
     this.getCallOnwardKmd();
     }
-    getDetials(url, params, value = 0, type = 'days') {
+    getDetials(url, params, value = 0, type = 'days',flag) {
       let dataparams = {
         view: {
           api: url,
