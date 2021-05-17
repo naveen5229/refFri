@@ -18,6 +18,10 @@ export class ReportEditComponent implements OnInit {
   draggingReportType = '';
   dynamicReports = [];
   tabname = '';
+  callToShow = null;
+  // collOne = false;
+  // collTwo = false;
+  // collThree = false;
   predefined = [];
   backtabname = false;
   challanReports = [];
