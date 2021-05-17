@@ -32,8 +32,8 @@
                 </div>
                 <p class="head">Global Reports</p>
                 <div class="holdContainer" *ngIf="challanReports.length">
-                    <div class="collas-head" (click)="collOne = !collOne"><p>Challan Reports</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span></div>
-                    <div *ngIf= "collOne" class="collapseitem">
+                    <div class="collas-head" (click)="callToShow = 1"><p>Challan Reports</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span></div>
+                    <div *ngIf= "callToShow==1" class="collapseitem">
                     <div title="drag it"  class="dataelements" *ngFor="let challanReport of challanReports; let i = index" [hidden]="challanReport.isUsed"
                         draggable="true" [id]="'challan-option-' + challanReport.id"
                         (dragstart)="selectDraggable(challanReport, 'challan')">
@@ -42,8 +42,8 @@
                 </div>
                 </div>
                 <div class="holdContainer" *ngIf="tripReports.length">
-                    <div class="collas-head" (click)="collTwo = !collTwo"><p>Trip Reports</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span></div>
-                    <div *ngIf= "collTwo" class="collapseitem">
+                    <div class="collas-head" (click)="callToShow = 2"><p>Trip Reports</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span></div>
+                    <div *ngIf= "callToShow==2" class="collapseitem">
                     <div title="drag it"  class="dataelements" *ngFor="let challanReport of tripReports; let i = index" [hidden]="challanReport.isUsed"
                         draggable="true" [id]="'trip-option-' + challanReport.id"
                         (dragstart)="selectDraggable(challanReport, 'trip')">
@@ -52,8 +52,8 @@
                 </div>
                 </div>
                 <div class="holdContainer" *ngIf="trafficReports.length">
-                    <div class="collas-head" (click)="collThree = !collThree"><p>Traffic Reports</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span></div>
-                    <div *ngIf= "collThree" class="collapseitem">
+                    <div class="collas-head" (click)="callToShow = 3"><p>Traffic Reports</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span></div>
+                    <div *ngIf= "callToShow==3" class="collapseitem">
                     <div title="drag it"  class="dataelements" *ngFor="let challanReport of trafficReports; let i = index" [hidden]="challanReport.isUsed"
                         draggable="true" [id]="'trip-option-' + challanReport.id"
                         (dragstart)="selectDraggable(challanReport, 'traffic')">
