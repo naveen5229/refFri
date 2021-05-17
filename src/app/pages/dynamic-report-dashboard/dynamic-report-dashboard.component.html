@@ -1,5 +1,5 @@
 <nb-card style="border:0px;">
-    <nb-card-header>
+    <nb-card-header class="p-2">
         <div class="row">
             <div class="col-3">
                 <h5>Business Dashboard</h5>
@@ -13,23 +13,22 @@
                 </uj-date-time-picker>
             </div>
             <div class="col-2">
-                <div class="btn btn-primary" (click)="getReport()">Get Report</div>
+                <button class="btn btn-primary" (click)="getReport()">Get Report</button>
             </div>
-            <div class="col-1 text-right">
+            <div class="col-1">
                 <button class="btn btn-primary" (click)="editReport()"><i class="fa fa-plus"></i></button>
             </div>
             <div class="col-2">
                 <button class="btn btn-primary" (click)="editReport(true)">Edit Report</button>
             </div>
         </div>
-        <div class="row" *ngIf="tabsdata">
+        <div class="toptab" *ngIf="tabsdata">
             <!-- <div class="col-2" >
                 <span>General</span>
             </div> -->
-            <div *ngFor="let dynareport of tabsdata;let i = index ">
-                <div class="col-2" *ngIf="dynareport.rpt_tabname != 'General'">
-                    <button class="btn btn-primary"
-                        (click)="callreport(dynareport)">{{dynareport[0].rpt_tabname}}</button>
+            <div *ngFor="let dynareport of tabsdata;let i = index " class="hiddenby">
+                <div class=" hiddenby" *ngIf="dynareport.rpt_tabname != 'General'">
+                    <p class="default" (click)="callreport(dynareport)">{{dynareport[0].rpt_tabname}}</p>
                 </div>
             </div>
 
@@ -78,7 +77,15 @@
                         <slowest-onward *ngIf="challanWidget.type == 'slowest-onward'"></slowest-onward>
                         <longest-unloading-sites *ngIf="challanWidget.type == 'longest-unloading-sites'"></longest-unloading-sites>
                         <gps-performance *ngIf="challanWidget.type == 'gps-performance'"></gps-performance>
-
+                        <live-traffic-status *ngIf="challanWidget.type == 'live-traffic-status'"></live-traffic-status>
+                        <longest-driver-unavailable *ngIf="challanWidget.type == 'longest-driver-unavailable'"></longest-driver-unavailable>
+                        <longest-gps-offline *ngIf="challanWidget.type == 'longest-gps-offline'"></longest-gps-offline>
+                        <top-vehicle-rto *ngIf="challanWidget.type == 'top-vehicle-rto'"></top-vehicle-rto>
+                        <longest-loading-sites *ngIf="challanWidget.type == 'longest-loading-sites'"></longest-loading-sites>
+                        <longest-unloading-offline *ngIf="challanWidget.type == 'longest-unloading-offline'"></longest-unloading-offline>
+                        <slowest-onward-veicles *ngIf="challanWidget.type == 'slowest-onward-veicles'"></slowest-onward-veicles>
+                        <longest-empty-vehicle *ngIf="challanWidget.type == 'longest-empty-vehicle'"></longest-empty-vehicle>
+                        
 
                     </div>
                    
