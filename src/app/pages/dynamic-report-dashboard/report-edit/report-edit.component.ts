@@ -18,7 +18,7 @@ export class ReportEditComponent implements OnInit {
   draggingReportType = '';
   dynamicReports = [];
   tabname = '';
-  callToShow = null;
+  callToShow = 1;
   // collOne = false;
   // collTwo = false;
   // collThree = false;
@@ -28,6 +28,7 @@ export class ReportEditComponent implements OnInit {
   tripReports = [];
   trafficReports = [];
   CallsReports = [];
+  AlertReports = [];
   constructor(private api: ApiService, private common: CommonService, private activeModal: NgbActiveModal) {
     this.getSavedReports();
     this.getpredefinedReports();
@@ -71,6 +72,7 @@ export class ReportEditComponent implements OnInit {
         this.tripReports = res['data'].filter(report => report.dashboard_name === ("Trip DashBoard"));
         this.trafficReports = res['data'].filter(report => report.dashboard_name === ("Traffic DashBoard"));
         this.CallsReports = res['data'].filter(report => report.dashboard_name === ("Calls DashBoard"));
+        this.AlertReports = res['data'].filter(report => report.dashboard_name === ("Alerts DashBoard"));
 
         console.log('tripReports',this.tripReports);
 
@@ -179,7 +181,32 @@ export class ReportEditComponent implements OnInit {
             }
           });
         });
-        console.log('tripReports',this.CallsReports);
+        this.AlertReports.map((rptdata, index) => {
+          data.map((stordata) => {
+          console.log('stro',stordata,rptdata);
+            if (stordata.type != 'dynamic' && rptdata.rpt_name == stordata.rpt_name) {
+              setTimeout(() => {
+                console.log('selected stored', stordata, this.tabname);
+
+                if(this.tabname == stordata.rpt_tabname){
+
+                this.AlertReports[index].isUsed = true;
+                }
+                let info = stordata;
+                let target = document.getElementById('calls-report-' + rptdata.id);
+                let x = info.x_pos;
+                let y = info.y_pos;
+                target.style.width = info.rpt_width + 'px';
+                target.style.height = info.rpt_height + 'px';
+                target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+                target.setAttribute('data-x', x);
+                target.setAttribute('data-y', y);
+              }, 3000)
+
+            }
+          });
+        });
+        console.log('tripReports',this.AlertReports);
 
 
 
@@ -445,6 +472,31 @@ export class ReportEditComponent implements OnInit {
                   'xpos': parseInt(x.toString()) || 1
                 }
               }));
+              data.push(...this.AlertReports
+                .filter(report => report.isUsed)
+                .map(report => {
+                  let ele = document.getElementById('alert-report-' + report.id);
+                  let width = ele.offsetWidth;
+                  let height = ele.offsetHeight;
+                  let x = parseFloat(ele.getAttribute('data-x'));
+                  let y = parseFloat(ele.getAttribute('data-y'));
+                  if (x < 0) {
+                    x = 0;
+                  }
+                  if (y < 0) {
+                    y = 0;
+                  }
+                  return {
+                    'rpttype': "DB",
+                    'rptwidth': width,
+                    'rptheight': height,
+                    'rptname': report.rpt_name,
+                    'tabname': this.tabname,
+                    'tabtitle': report.rpt_title,
+                    'ypos': parseInt(y.toString()) || 1,
+                    'xpos': parseInt(x.toString()) || 1
+                  }
+                }));
       data.forEach((info, index) => {
         this.api
           .post('tmgreport/SaveDynamicReportMaster', info)

@@ -70,11 +70,15 @@
           </div>
         </div>
         <div class="holdContainer" *ngIf="CallsReports.length">
-          <span>Calls Reports</span>
+         <div class="collas-head" (click)="callToShow = 4">
+            <p>Calls Reports</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span>
+          </div>
+          <div *ngIf="callToShow==4" class="collapseitem">
           <div class="dataelements" *ngFor="let challanReport of CallsReports; let i = index"
             [hidden]="challanReport.isUsed" draggable="true" [id]="'calls-option-' + challanReport.id"
             (dragstart)="selectDraggable(challanReport, 'calls')">
             <span>{{challanReport.rpt_title}}</span>
+          </div>
           </div>
         </div>
       </div>

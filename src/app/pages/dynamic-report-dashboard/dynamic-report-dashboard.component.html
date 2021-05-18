@@ -15,11 +15,10 @@
             <div class="col-2">
                 <button class="btn btn-primary" (click)="getReport()">Get Report</button>
             </div>
-            <div class="col-1">
+            <div class="col-3 text-right">
                 <button class="btn btn-primary" (click)="editReport()"><i class="fa fa-plus"></i></button>
-            </div>
-            <div class="col-2">
-                <button class="btn btn-primary" (click)="editReport(true)">Edit Report</button>
+         
+                <button class="btn btn-primary ml-2" (click)="editReport(true)">Edit Report</button>
             </div>
         </div>
         <div class="toptab" *ngIf="tabsdata">
@@ -27,8 +26,8 @@
                 <span>General</span>
             </div> -->
             <div *ngFor="let dynareport of tabsdata;let i = index " class="hiddenby">
-                <div class=" hiddenby" *ngIf="dynareport.rpt_tabname != 'General'">
-                    <p class="default" (click)="callreport(dynareport)">{{dynareport[0].rpt_tabname}}</p>
+                <div class="hiddenby" *ngIf="dynareport.rpt_tabname != 'General'">
+                    <p [ngClass]="{'active' : caltabname == dynareport[0].rpt_tabname,'default':caltabname != dynareport[0].rpt_tabname }" (click)="callreport(dynareport)">{{dynareport[0].rpt_tabname}}</p>
                 </div>
             </div>
 
