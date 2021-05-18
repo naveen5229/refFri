@@ -26,20 +26,21 @@ export class ConsignmentComponent implements OnInit {
   }
 
   getDynamicReports() {
-    this.Reports = [];
+    this.Reports = this.firstreport = this.secondreport = [];
     this.common.loading++;
     this.api.get('tmgreport/getConsignmentCols?typename='+this.reporttype)
       .subscribe(res => {
         this.common.loading--;
         console.log('getConsignmentCols:', res);
-        this.Reports = res['data'];
-        this.Reports.map((pt,index)=>{
+        let dReports = res['data'];
+
+        dReports.map((pt,index)=>{
           if(pt.col_title == null){
-          this.Reports[index].col_title = pt.col_title_actual;
+          dReports[index].col_title = pt.col_title_actual;
           }
         });
-        let len = (this.Reports.length)/2;
-        this.Reports.map((data,index)=>{
+        let len = (dReports.length)/2;
+        dReports.map((data,index)=>{
         console.log('len',len);
           if(index < len){
             this.firstreport.push(data);
