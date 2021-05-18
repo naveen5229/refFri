@@ -39,13 +39,16 @@ export class ConsignmentComponent implements OnInit {
           }
         });
         let len = (this.Reports.length)/2;
-        this.Reports.map((data,index)=>{
-        console.log('len',len);
-          if(index < len){
-            this.firstreport.push(data);
+        let index = 0 ;
+        this.Reports.map((data,secin)=>{
+          if(index % 2 == 0){
+        console.log('first len',len,index);
+            this.firstreport.push(this.Reports[secin]);
             } else{
-              this.secondreport.push(data);
+        console.log('second len',len,index);
+              this.secondreport.push(this.Reports[secin);
             }
+            index = index + 1;
         });
         console.log('data report',this.firstreport,this.secondreport);
 
