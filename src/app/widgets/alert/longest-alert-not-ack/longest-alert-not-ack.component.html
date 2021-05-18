@@ -1,0 +1,22 @@
+<div class="">
+    <div class="outer" style="min-height: 170px;">
+      <h6 style="text-align:center"><b class="charthead">Longest Alert Not Ack</b></h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+      (click)="getDetials('Tmgreport/GetAlertNotAck',{totalrecord: 3,stepno: -1},7,'days')"><i title="More Details" class="fa fa-list"></i>
+    </p>
+      <table class="table">
+        <thead class="thead">
+          <th>Executive</th>
+          <th>Alert Name</th>
+          <th>Alert Date</th>
+        </thead>
+        <tbody class="tbody">
+          <tr *ngFor="let ana of alertNotAck" >
+            <td class="link" (click)="getDetials('Tmgreport/GetAlertNotAck',{totalrecord: 3,stepno: 1,isfo: ana['_adminusers_id'] },7,'days')">{{ana['Executive']}}</td>
+            <td>{{ana['Alert Name']}}</td>
+            <td>{{ana['Alert Date']}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

@@ -145,6 +145,15 @@ import { WorstDriverComponent } from '../widgets/calls/worst-driver/worst-driver
 import { AvgLoadingTatComponent } from '../widgets/calls/avg-loading-tat/avg-loading-tat.component';
 import { AvgUnloadingTatComponent } from '../widgets/calls/avg-unloading-tat/avg-unloading-tat.component';
 import { OnwardKmpdComponent as callonwardkmpd} from '../widgets/calls/onward-kmpd/onward-kmpd.component';
+import { AlertAckTatComponent } from '../widgets/alert/alert-ack-tat/alert-ack-tat.component';
+import { AlertCallTatComponent } from '../widgets/alert/alert-call-tat/alert-call-tat.component';
+import { VscTatComponent } from '../widgets/alert/vsc-tat/vsc-tat.component';
+import { LongestAlertNotAckComponent } from '../widgets/alert/longest-alert-not-ack/longest-alert-not-ack.component';
+import { LongestAlertNotCalledComponent } from '../widgets/alert/longest-alert-not-called/longest-alert-not-called.component';
+import { LongestPendingVscTatComponent } from '../widgets/alert/longest-pending-vsc-tat/longest-pending-vsc-tat.component';
+import { LongestOpenAlertComponent } from '../widgets/alert/longest-open-alert/longest-open-alert.component';
+import { WorstCallTatComponent } from '../widgets/alert/worst-call-tat/worst-call-tat.component';
+import { WorstVscTatComponent } from '../widgets/alert/worst-vsc-tat/worst-vsc-tat.component';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -179,6 +188,15 @@ const PAGES_COMPONENTS = [
   AvgLoadingTatComponent,
   callonwardkmpd,
   AvgUnloadingTatComponent,
+  AlertAckTatComponent,
+  AlertCallTatComponent,
+  VscTatComponent,
+  LongestAlertNotAckComponent,
+  LongestAlertNotCalledComponent,
+  LongestPendingVscTatComponent,
+  LongestOpenAlertComponent,
+  WorstCallTatComponent,
+  WorstVscTatComponent,
 ];
 
 @NgModule({

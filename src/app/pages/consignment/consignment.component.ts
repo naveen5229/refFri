@@ -26,7 +26,7 @@ export class ConsignmentComponent implements OnInit {
   }
 
   getDynamicReports() {
-    
+    this.Reports = [];
     this.common.loading++;
     this.api.get('tmgreport/getConsignmentCols?typename='+this.reporttype)
       .subscribe(res => {
