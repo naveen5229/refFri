@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
-
+ 
 @AutoUnsubscribe()
 @Component({
   selector: 'tmg-alerts',

@@ -54,6 +54,15 @@ export class DynamicReportDashboardComponent implements OnInit {
     "Average Loading TAT": "avg-loading-tat",
     "Onward KMPD": "calls-onward-kmpd",
     "Average Unloading TAT": "avg-unloading-tat",
+    "Alert Ack TAT in Last 7 Days": "alert-ack-tat",
+    "Alert Call TAT in Last 7 Days": "alert-call-tat",
+    "VSC TAT in Last 7 Days": "vsc-tat",
+    "Longest Alert Not Ack": "longest-alert-not-ack",
+    "Longest Alert Not Called": "longest-alert-not-called",
+    "Longest Pending VSC TAT": "longest-pending-vsc-tat",
+    "Longest Open Alert": "longest-open-alert",
+    "Worst Call TAT in Last 7 Days": "worst-call-tat",
+    "Worst VSC TAT in Last 7 Days": "worst-vsc-tat",
 
 
 
@@ -112,7 +121,7 @@ export class DynamicReportDashboardComponent implements OnInit {
   callreport(calldata) {
     console.log('callreport', calldata);
     this.dynamicreportcall = [];
-    this.usedChallanWidgtets = calldata.filter(report => (report.type.includes('challan-')||report.type.includes('state-')||report.type.includes('worst-drivers')||report.type.includes('most-aged')||report.type.includes('latest')||report.type.includes('worst-drivers-years')||report.type.includes('trip-onward-kmpd')||report.type.includes('avg-loading')||report.type.includes('avg-unloading')||report.type.includes('worst-vehicles')||report.type.includes('longest-loading')||report.type.includes('longest-unloading')||report.type.includes('slowest-onward')||report.type.includes('longest-unloading-sites')||report.type.includes('gps-performance')||report.type.includes('live-traffic-status')||report.type.includes('longest-driver-unavailable')||report.type.includes('longest-gps-offline')||report.type.includes('top-vehicle-rto')||report.type.includes('longest-loading-sites')||report.type.includes('longest-unloading-offline')||report.type.includes('slowest-onward-veicles')||report.type.includes('longest-empty-vehicle')||report.type.includes('drivercontacted')||report.type.includes('supervisor-wise-unrespond')||report.type.includes('unrespond-driver-calls')||report.type.includes('worst-driver')||report.type.includes('avg-loading-tat')||report.type.includes('calls-onward-kmpd')||report.type.includes('avg-unloading-tat')))
+    this.usedChallanWidgtets = calldata.filter(report => (report.type.includes('challan-')||report.type.includes('state-')||report.type.includes('worst-drivers')||report.type.includes('most-aged')||report.type.includes('latest')||report.type.includes('worst-drivers-years')||report.type.includes('trip-onward-kmpd')||report.type.includes('avg-loading')||report.type.includes('avg-unloading')||report.type.includes('worst-vehicles')||report.type.includes('longest-loading')||report.type.includes('longest-unloading')||report.type.includes('slowest-onward')||report.type.includes('longest-unloading-sites')||report.type.includes('gps-performance')||report.type.includes('live-traffic-status')||report.type.includes('longest-driver-unavailable')||report.type.includes('longest-gps-offline')||report.type.includes('top-vehicle-rto')||report.type.includes('longest-loading-sites')||report.type.includes('longest-unloading-offline')||report.type.includes('slowest-onward-veicles')||report.type.includes('longest-empty-vehicle')||report.type.includes('drivercontacted')||report.type.includes('supervisor-wise-unrespond')||report.type.includes('unrespond-driver-calls')||report.type.includes('worst-driver')||report.type.includes('avg-loading-tat')||report.type.includes('calls-onward-kmpd')||report.type.includes('avg-unloading-tat')||report.type.includes('alert-ack-tat')||report.type.includes('alert-call-tat')||report.type.includes('vsc-tat')||report.type.includes('longest-alert-not-ack')||report.type.includes('longest-pending-vsc-tat')||report.type.includes('longest-open-alert')||report.type.includes('worst-call-tat')||report.type.includes('worst-vsc-tat')))
 
     console.log('usedChallanWidgtets:', this.usedChallanWidgtets,this.reports);
     this.caltabname = (this.usedChallanWidgtets.length)?this.usedChallanWidgtets[0].rpt_tabname : calldata[0].rpt_tabname;
