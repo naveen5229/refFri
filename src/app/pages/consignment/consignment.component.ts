@@ -46,7 +46,7 @@ export class ConsignmentComponent implements OnInit {
             this.firstreport.push(this.Reports[secin]);
             } else{
         console.log('second len',len,index);
-              this.secondreport.push(this.Reports[secin);
+              this.secondreport.push(this.Reports[secin]);
             }
             index = index + 1;
         });
