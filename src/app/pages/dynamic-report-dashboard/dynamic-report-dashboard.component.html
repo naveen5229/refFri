@@ -27,8 +27,8 @@
                 <span>General</span>
             </div> -->
             <div *ngFor="let dynareport of tabsdata;let i = index " class="hiddenby">
-                <div class=" hiddenby" *ngIf="dynareport.rpt_tabname != 'General'">
-                    <p class="default" (click)="callreport(dynareport)">{{dynareport[0].rpt_tabname}}</p>
+                <div class="hiddenby" *ngIf="dynareport.rpt_tabname != 'General'">
+                    <p [ngClass]="{'active' : caltabname == dynareport[0].rpt_tabname,'default':caltabname != dynareport[0].rpt_tabname }" (click)="callreport(dynareport)">{{dynareport[0].rpt_tabname}}</p>
                 </div>
             </div>
 
