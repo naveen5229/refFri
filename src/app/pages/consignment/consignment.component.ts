@@ -32,15 +32,14 @@ export class ConsignmentComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('getConsignmentCols:', res);
-        let dReports = res['data'];
-
-        dReports.map((pt,index)=>{
+        this.Reports = res['data'];
+        this.Reports.map((pt,index)=>{
           if(pt.col_title == null){
-          dReports[index].col_title = pt.col_title_actual;
+          this.Reports[index].col_title = pt.col_title_actual;
           }
         });
-        let len = (dReports.length)/2;
-        dReports.map((data,index)=>{
+        let len = (this.Reports.length)/2;
+        this.Reports.map((data,index)=>{
         console.log('len',len);
           if(index < len){
             this.firstreport.push(data);
