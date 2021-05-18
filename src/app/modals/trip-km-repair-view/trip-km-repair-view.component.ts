@@ -129,7 +129,7 @@ export class TripKmRepairViewComponent implements OnInit {
       if (bPoint[1]) {
         data.push({ lat: bPoint[1], long: bPoint[0] });
         if (p) {
-          dis += this.common.distanceFromAToB(bPoint[1], bPoint[0], p[1], p[0], 'Mt');
+          dis += this.common.distanceFromAToB(bPoint[1], bPoint[0], p[1], p[0], 'Mt',true,false);
         }
         p = bPoint;
       }
