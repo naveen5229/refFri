@@ -535,7 +535,8 @@ export class ReportEditComponent implements OnInit {
     challanReport.isUsed = false;
     const params = {
       rptname: challanReport.rpt_name,
-      rpttype: 'DB'
+      rpttype: 'DB',
+      tabname: this.tabname
     };
     this.api.post('Tmgreport/deletereport', params)
       .subscribe(res => {
@@ -548,7 +549,8 @@ export class ReportEditComponent implements OnInit {
     challanReport.isUsed = false;
     const params = {
       rptname: challanReport.rpt_name,
-      rpttype: 'DB'
+      rpttype: 'DB',
+      tabname: this.tabname
     };
     this.api.post('Tmgreport/deletereport', params)
       .subscribe(res => {
@@ -561,7 +563,8 @@ export class ReportEditComponent implements OnInit {
     challanReport.isUsed = false;
     const params = {
       rptname: challanReport.rpt_name,
-      rpttype: 'DB'
+      rpttype: 'DB',
+      tabname: this.tabname
     };
     this.api.post('Tmgreport/deletereport', params)
       .subscribe(res => {
@@ -570,4 +573,32 @@ export class ReportEditComponent implements OnInit {
         console.log('err:', err);
       })
     }
+    deleteCallReport(challanReport) {
+      challanReport.isUsed = false;
+      const params = {
+        rptname: challanReport.rpt_name,
+        rpttype: 'DB',
+        tabname: this.tabname
+      };
+      this.api.post('Tmgreport/deletereport', params)
+        .subscribe(res => {
+          console.log('res:', res);
+        }, err => {
+          console.log('err:', err);
+        })
+      }
+      deleteAlertReport(challanReport) {
+        challanReport.isUsed = false;
+        const params = {
+          rptname: challanReport.rpt_name,
+          rpttype: 'DB',
+          tabname: this.tabname
+        };
+        this.api.post('Tmgreport/deletereport', params)
+          .subscribe(res => {
+            console.log('res:', res);
+          }, err => {
+            console.log('err:', err);
+          })
+        }
 }
