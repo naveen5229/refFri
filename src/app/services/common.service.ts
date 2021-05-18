@@ -460,7 +460,7 @@ export class CommonService {
     return result;
   }
 
-  distanceFromAToB(lat1, lon1, lat2, lon2, unit, isFixed = true): any {
+  distanceFromAToB(lat1, lon1, lat2, lon2, unit, isFixed = true, isMultiply = true): any {
     if (lat1 == lat2 && lon1 == lon2) {
       return 0;
     } else {
@@ -478,7 +478,8 @@ export class CommonService {
       dist = (dist * 180) / Math.PI;
       dist = dist * 60 * 1.1515;
       dist = dist * 1.609344 * 1000;
-      dist = this.odoMultiplierWithMeter(dist);
+      if(isMultiply)
+        dist = this.odoMultiplierWithMeter(dist);
       dist /= 1.609344 * 1000;
 
       if (unit == "K") {
