@@ -653,19 +653,22 @@ export class DynamicReportComponent implements OnInit {
 
     if (this.assign.x.length && this.assign.y.length) {
       this.common.loading++;
+      let i = 0;
       this.api.post('GraphicalReport/getPreviewGraphicalReport', params).subscribe(res => {
         this.common.loading--;
         if (res['code'] == 1) {
-          console.log('Response reportPreviewData :', res['data'][0]['series']['y_name']);
+          console.log('Response reportPreviewData :',this.assign,i);
+          i = i + 1;
           if (res['data']) {
             this.reportPreviewData = res['data'];
-            this.canvasname = res['data'][0]['series']['y_name'];
+            this.canvasname = this.assign['reportFileName'];
             this.review();
           } else {
             // this.resetAssignForm();
             this.common.showError('No Data to Display');
             this.graphPieCharts.forEach(ele => ele.destroy());
           }
+          
         } else {
           this.common.showError(res['msg'])
         }
