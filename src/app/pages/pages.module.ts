@@ -155,6 +155,16 @@ import { LongestOpenAlertComponent } from '../widgets/alert/longest-open-alert/l
 import { WorstCallTatComponent } from '../widgets/alert/worst-call-tat/worst-call-tat.component';
 import { WorstVscTatComponent } from '../widgets/alert/worst-vsc-tat/worst-vsc-tat.component';
 
+import { LiveTrafficStatusComponent as livetraficanalysis } from '../widgets/analysis/live-traffic-status/live-traffic-status.component';
+import { LongestGpsOfflineComponent as longestgpsanalysys} from '../widgets/analysis/longest-gps-offline/longest-gps-offline.component';
+import { LongestOnwardHaltComponent } from '../widgets/analysis/longest-onward-halt/longest-onward-halt.component';
+import { LongestLoadingSiteComponent } from '../widgets/analysis/longest-loading-site/longest-loading-site.component';
+import { LongestUnloadingVehicleComponent } from '../widgets/analysis/longest-unloading-vehicle/longest-unloading-vehicle.component';
+import { LongestParkingVehicleComponent } from '../widgets/analysis/longest-parking-vehicle/longest-parking-vehicle.component';
+import { SlowestOnwardVehicleComponent } from '../widgets/analysis/slowest-onward-vehicle/slowest-onward-vehicle.component';
+
+
+
 const PAGES_COMPONENTS = [
   PagesComponent,
   DynamicReportComponent,
@@ -197,6 +207,13 @@ const PAGES_COMPONENTS = [
   LongestOpenAlertComponent,
   WorstCallTatComponent,
   WorstVscTatComponent,
+  livetraficanalysis,
+  LongestOnwardHaltComponent,
+  longestgpsanalysys,
+  LongestLoadingSiteComponent,
+  LongestUnloadingVehicleComponent,
+  LongestParkingVehicleComponent,
+  SlowestOnwardVehicleComponent,
 ];
 
 @NgModule({
