@@ -148,7 +148,8 @@ export class AddGpsNewRequesComponent implements OnInit {
         };
       }
           } else {
-            this.gpsRequestData=res['result'];
+            this.gpsRequestData=[];
+            console.log("resData148:",res['result']);
             this.common.showError(res['message']);
           }
 
