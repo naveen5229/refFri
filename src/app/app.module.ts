@@ -619,6 +619,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     PlacementProblemGenerationComponent,
     NearByVehiclesComponent,
     AddGpsNewRequesComponent,
+    
    
    
     
