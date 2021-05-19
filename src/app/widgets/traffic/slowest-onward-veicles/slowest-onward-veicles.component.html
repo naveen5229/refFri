@@ -1,0 +1,24 @@
+<div class="">
+    <div class="outer" style="min-height: 130px;">
+    <h6 style="text-align:center"><b class="charthead">Slowest Onward Vehicles</b></h6>
+    <p style="text-align: right; margin-top: -25px;" class="link"
+    (click)="getDetials('Tmgreport/GetTrafficSlowestOnwardVehicles',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+  </p>
+    <table class="table">
+      <thead class="thead">
+        <th>Vehicle No.</th>
+        <th>Driver Name</th>
+        <th>Trip</th>
+        <th>KMPD</th>
+      </thead>
+      <tbody class="tbody">
+        <tr *ngFor="let tsov of trafficSlowestOnwardVehicles">
+          <td  (click)="chart9Clicked(tsov)" class="link">{{tsov['Vehicle Name']}}</td>
+          <td>{{tsov['Driver Name']}}</td>
+          <td>{{tsov['Trip']}}</td>
+          <td>{{tsov['_KMPD_int']}}</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>

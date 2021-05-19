@@ -97,6 +97,7 @@
             <th>Max Quantity</th>
             <th>Min Panelty</th>
             <th>Max Panelty</th>
+            <th>Days</th>
             <th>Off Date Site</th>
             <th>Action</th>
           </tr>
@@ -124,6 +125,10 @@
               <input type="number" [(ngModel)]="item.penaltyMax" min=0 oninput="validity.valid||(value='');"
                 class="form control" placeholder="Max Qty">
             </td>
+            <td>
+              <input type="number" [(ngModel)]="item.projectionDays" min=0 oninput="validity.valid||(value='');"
+                class="form control" placeholder="Days">
+            </td>
 
             <td>
                 <div *ngFor="let data of item.siteOffDates;let i=index;">
@@ -131,7 +136,7 @@
                   [dateTimeValue]="data.offDateSites">
                 </uj-date-time-picker>
 
-                <span><i class="fa fa-plus add" (click)="addDateSites(j)" *ngIf="i == item.siteOffDates.length-1" style="padding: 1px;
+                <span><i class="fa fa-plus add" (click)="addDateSites(i)" *ngIf="i == item.siteOffDates.length-1" style="padding: 1px;
                     color: green;"></i>
                 <i class="fa fa-minus minus" (click)="item.siteOffDates.splice(i,1)" *ngIf="i !== 0" style="padding: 1px;
                     color: red;"></i>

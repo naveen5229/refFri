@@ -9,7 +9,7 @@ import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 import { ChartComponent } from 'angular2-chartjs';
 
 @AutoUnsubscribe()
-@Component({
+@Component({ 
   selector: 'tmg-calls',
   templateUrl: './tmg-calls.component.html',
   styleUrls: ['./tmg-calls.component.scss']

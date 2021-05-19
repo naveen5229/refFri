@@ -1,0 +1,21 @@
+<div class="">
+    <div class="outer" style="min-height: 130px;">
+      <h6 style="text-align:center"><b class="charthead">Longest GPS Offline</b></h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+      (click)="getDetials('Tmgreport/GetTrafficLongestVehicleGpsIssue',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+    </p>
+      <table class="table">
+        <thead class="thead">
+          <th>Vehicle No.</th>
+          <th>Offline Since(Hours)</th>
+        </thead>
+        <tbody class="tbody">
+          <tr *ngFor="let tlvi of trafficLongestVehicleGpsIssue">
+            <td (click)="chart5Clicked(tlvi)" class="link">{{tlvi['Vehicle Name']}}</td>
+            <td>{{tlvi['Duration (HH:MM)']}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>

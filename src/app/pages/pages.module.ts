@@ -121,6 +121,39 @@ import { MostAgedComponent } from '../widgets/challans/most-aged/most-aged.compo
 import { LatestComponent } from '../widgets/challans/latest/latest.component';
 import { WorstDriversComponent } from '../widgets/challans/worst-drivers/worst-drivers.component';
 import { WorstDriversYearsComponent } from '../widgets/challans/worst-drivers-years/worst-drivers-years.component';
+import { OnwardKmpdComponent as tripOnwardKmpd } from '../widgets/trips/onward-kmpd/onward-kmpd.component';
+import { AvgLoadingComponent } from '../widgets/trips/avg-loading/avg-loading.component';
+import { AvgUnloadingComponent } from '../widgets/trips/avg-unloading/avg-unloading.component';
+import { WorstVehiclesComponent } from '../widgets/trips/worst-vehicles/worst-vehicles.component';
+import { LongestLoadingComponent } from '../widgets/trips/longest-loading/longest-loading.component';
+import { LongestUnloadingComponent } from '../widgets/trips/longest-unloading/longest-unloading.component';
+import { SlowestOnwardComponent } from '../widgets/trips/slowest-onward/slowest-onward.component';
+import { LongestUnloadingSitesComponent } from '../widgets/trips/longest-unloading-sites/longest-unloading-sites.component';
+import { GpsPerformanceComponent } from '../widgets/trips/gps-performance/gps-performance.component';
+import { LiveTrafficStatusComponent } from '../widgets/traffic/live-traffic-status/live-traffic-status.component';
+import { LongestDriverUnavailableComponent } from '../widgets/traffic/longest-driver-unavailable/longest-driver-unavailable.component';
+import { LongestEmptyVehicleComponent } from '../widgets/traffic/longest-empty-vehicle/longest-empty-vehicle.component';
+import { LongestGpsOfflineComponent } from '../widgets/traffic/longest-gps-offline/longest-gps-offline.component';
+import { LongestLoadingSitesComponent } from '../widgets/traffic/longest-loading-sites/longest-loading-sites.component';
+import { SlowestOnwardVeiclesComponent } from '../widgets/traffic/slowest-onward-veicles/slowest-onward-veicles.component';
+import { TopVehicleRtoComponent } from '../widgets/traffic/top-vehicle-rto/top-vehicle-rto.component';
+import { LongestUnloadingOfflineComponent } from '../widgets/traffic/longest-unloading-offline/longest-unloading-offline.component';
+import { DrivercontactedComponent } from '../widgets/calls/drivercontacted/drivercontacted.component';
+import { SupervisorWiseUnrespondComponent } from '../widgets/calls/supervisor-wise-unrespond/supervisor-wise-unrespond.component';
+import { UnrespondDriverCallsComponent } from '../widgets/calls/unrespond-driver-calls/unrespond-driver-calls.component';
+import { WorstDriverComponent } from '../widgets/calls/worst-driver/worst-driver.component';
+import { AvgLoadingTatComponent } from '../widgets/calls/avg-loading-tat/avg-loading-tat.component';
+import { AvgUnloadingTatComponent } from '../widgets/calls/avg-unloading-tat/avg-unloading-tat.component';
+import { OnwardKmpdComponent as callonwardkmpd} from '../widgets/calls/onward-kmpd/onward-kmpd.component';
+import { AlertAckTatComponent } from '../widgets/alert/alert-ack-tat/alert-ack-tat.component';
+import { AlertCallTatComponent } from '../widgets/alert/alert-call-tat/alert-call-tat.component';
+import { VscTatComponent } from '../widgets/alert/vsc-tat/vsc-tat.component';
+import { LongestAlertNotAckComponent } from '../widgets/alert/longest-alert-not-ack/longest-alert-not-ack.component';
+import { LongestAlertNotCalledComponent } from '../widgets/alert/longest-alert-not-called/longest-alert-not-called.component';
+import { LongestPendingVscTatComponent } from '../widgets/alert/longest-pending-vsc-tat/longest-pending-vsc-tat.component';
+import { LongestOpenAlertComponent } from '../widgets/alert/longest-open-alert/longest-open-alert.component';
+import { WorstCallTatComponent } from '../widgets/alert/worst-call-tat/worst-call-tat.component';
+import { WorstVscTatComponent } from '../widgets/alert/worst-vsc-tat/worst-vsc-tat.component';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -131,6 +164,39 @@ const PAGES_COMPONENTS = [
   LatestComponent,
   WorstDriversComponent,
   WorstDriversYearsComponent,
+  tripOnwardKmpd,
+  AvgLoadingComponent,
+  AvgUnloadingComponent,
+  WorstVehiclesComponent,
+  LongestLoadingComponent,
+  LongestUnloadingComponent,
+  SlowestOnwardComponent,
+  GpsPerformanceComponent,
+  LiveTrafficStatusComponent,
+  LongestDriverUnavailableComponent,
+  LongestEmptyVehicleComponent,
+  LongestGpsOfflineComponent,
+  LongestLoadingSitesComponent,
+  LongestUnloadingSitesComponent,
+  SlowestOnwardVeiclesComponent,
+  TopVehicleRtoComponent,
+  LongestUnloadingOfflineComponent,
+  DrivercontactedComponent,
+  SupervisorWiseUnrespondComponent,
+  UnrespondDriverCallsComponent,
+  WorstDriverComponent,
+  AvgLoadingTatComponent,
+  callonwardkmpd,
+  AvgUnloadingTatComponent,
+  AlertAckTatComponent,
+  AlertCallTatComponent,
+  VscTatComponent,
+  LongestAlertNotAckComponent,
+  LongestAlertNotCalledComponent,
+  LongestPendingVscTatComponent,
+  LongestOpenAlertComponent,
+  WorstCallTatComponent,
+  WorstVscTatComponent,
 ];
 
 @NgModule({

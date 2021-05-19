@@ -1,5 +1,5 @@
 <nb-card style="border:0px;">
-    <nb-card-header>
+    <nb-card-header class="p-2">
         <div class="row">
             <div class="col-3">
                 <h5>Business Dashboard</h5>
@@ -13,23 +13,21 @@
                 </uj-date-time-picker>
             </div>
             <div class="col-2">
-                <div class="btn btn-primary" (click)="getReport()">Get Report</div>
+                <button class="btn btn-primary" (click)="getReport()">Get Report</button>
             </div>
-            <div class="col-1 text-right">
+            <div class="col-3 text-right">
                 <button class="btn btn-primary" (click)="editReport()"><i class="fa fa-plus"></i></button>
-            </div>
-            <div class="col-2">
-                <button class="btn btn-primary" (click)="editReport(true)">Edit Report</button>
+         
+                <button class="btn btn-primary ml-2" (click)="editReport(true)">Edit Report</button>
             </div>
         </div>
-        <div class="row" *ngIf="tabsdata">
+        <div class="toptab" *ngIf="tabsdata">
             <!-- <div class="col-2" >
                 <span>General</span>
             </div> -->
-            <div *ngFor="let dynareport of tabsdata;let i = index ">
-                <div class="col-2" *ngIf="dynareport.rpt_tabname != 'General'">
-                    <button class="btn btn-primary"
-                        (click)="callreport(dynareport)">{{dynareport[0].rpt_tabname}}</button>
+            <div *ngFor="let dynareport of tabsdata;let i = index " class="hiddenby">
+                <div class="hiddenby" *ngIf="dynareport.rpt_tabname != 'General'">
+                    <p [ngClass]="{'active' : caltabname == dynareport[0].rpt_tabname,'default':caltabname != dynareport[0].rpt_tabname }" (click)="callreport(dynareport)">{{dynareport[0].rpt_tabname}}</p>
                 </div>
             </div>
 
@@ -64,7 +62,49 @@
                     [style.top]="challanWidget.y_pos + 'px'" [style.left]="challanWidget.x_pos + 'px'">
                     <div class="report-container">
                         <challan-trends *ngIf="challanWidget.type == 'challan-trend'"></challan-trends>
+                        <state-wise *ngIf="challanWidget.type == 'state-wise'"></state-wise>
+                        <worst-drivers *ngIf="challanWidget.type == 'worst-drivers'"></worst-drivers>
+                        <most-aged *ngIf="challanWidget.type == 'most-aged'"></most-aged>
+                        <latest *ngIf="challanWidget.type == 'latest'"></latest>
+                        <worst-drivers-years *ngIf="challanWidget.type == 'worst-drivers-years'"></worst-drivers-years>
+                        <trip-onward-kmpd *ngIf="challanWidget.type == 'trip-onward-kmpd'"></trip-onward-kmpd>
+                        <avg-loading *ngIf="challanWidget.type == 'avg-loading'"></avg-loading>
+                        <avg-unloading *ngIf="challanWidget.type == 'avg-unloading'"></avg-unloading>
+                        <worst-vehicles *ngIf="challanWidget.type == 'worst-vehicles'"></worst-vehicles>
+                        <longest-loading *ngIf="challanWidget.type == 'longest-loading'"></longest-loading>
+                        <longest-unloading *ngIf="challanWidget.type == 'longest-unloading'"></longest-unloading>
+                        <slowest-onward *ngIf="challanWidget.type == 'slowest-onward'"></slowest-onward>
+                        <longest-unloading-sites *ngIf="challanWidget.type == 'longest-unloading-sites'"></longest-unloading-sites>
+                        <gps-performance *ngIf="challanWidget.type == 'gps-performance'"></gps-performance>
+                        <live-traffic-status *ngIf="challanWidget.type == 'live-traffic-status'"></live-traffic-status>
+                        <longest-driver-unavailable *ngIf="challanWidget.type == 'longest-driver-unavailable'"></longest-driver-unavailable>
+                        <longest-gps-offline *ngIf="challanWidget.type == 'longest-gps-offline'"></longest-gps-offline>
+                        <top-vehicle-rto *ngIf="challanWidget.type == 'top-vehicle-rto'"></top-vehicle-rto>
+                        <longest-loading-sites *ngIf="challanWidget.type == 'longest-loading-sites'"></longest-loading-sites>
+                        <longest-unloading-offline *ngIf="challanWidget.type == 'longest-unloading-offline'"></longest-unloading-offline>
+                        <slowest-onward-veicles *ngIf="challanWidget.type == 'slowest-onward-veicles'"></slowest-onward-veicles>
+                        <longest-empty-vehicle *ngIf="challanWidget.type == 'longest-empty-vehicle'"></longest-empty-vehicle>
+                        <drivercontacted *ngIf="challanWidget.type == 'drivercontacted'"></drivercontacted>
+                        <supervisor-wise-unrespond *ngIf="challanWidget.type == 'supervisor-wise-unrespond'"></supervisor-wise-unrespond>
+                        <unrespond-driver-calls *ngIf="challanWidget.type == 'unrespond-driver-calls'"></unrespond-driver-calls>
+                        <worst-driver *ngIf="challanWidget.type == 'worst-driver'"></worst-driver>
+                        <avg-loading-tat *ngIf="challanWidget.type == 'avg-loading-tat'"></avg-loading-tat>
+                        <calls-onward-kmpd *ngIf="challanWidget.type == 'calls-onward-kmpd'"></calls-onward-kmpd>
+                        <avg-unloading-tat *ngIf="challanWidget.type == 'avg-unloading-tat'"></avg-unloading-tat>
+                        <alert-ack-tat *ngIf="challanWidget.type == 'alert-ack-tat'"></alert-ack-tat>
+                        <alert-call-tat *ngIf="challanWidget.type == 'alert-call-tat'"></alert-call-tat>
+                        <vsc-tat *ngIf="challanWidget.type == 'vsc-tat'"></vsc-tat>
+                        <longest-alert-not-ack *ngIf="challanWidget.type == 'longest-alert-not-ack'"></longest-alert-not-ack>
+                        <longest-alert-not-called *ngIf="challanWidget.type == 'longest-alert-not-called'"></longest-alert-not-called>
+                        <longest-pending-vsc-tat *ngIf="challanWidget.type == 'longest-pending-vsc-tat'"></longest-pending-vsc-tat>
+                        <longest-open-alert *ngIf="challanWidget.type == 'longest-open-alert'"></longest-open-alert>
+                        <worst-call-tat *ngIf="challanWidget.type == 'worst-call-tat'"></worst-call-tat>
+                        <worst-vsc-tat *ngIf="challanWidget.type == 'worst-vsc-tat'"></worst-vsc-tat>
+                        
+                        
+
                     </div>
+                   
                 </div>
             </div>
         </div>
