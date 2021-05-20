@@ -27,7 +27,8 @@
                 
                     <div class="report col-10 p-0">
                         <div  class="row">
-                        <div class="col-6" *ngFor="let report of firstreport;let i = index">
+                        <div class="col-6">
+                            <div class="row" *ngFor="let report of firstreport;let i = index">
                         <div class="report-container row" >
                             <div class="col-3 p-1">
                             <input type="checkbox" [value]="true" [checked]="report.is_default"  [(ngModel)]="report.is_default">                    
@@ -40,7 +41,10 @@
                             <diiv class="col-12 pl-1 pr-1"> <span class="title">( {{report.col_title_actual}} )</span>   </diiv>
                         </div>
                         </div>
-                        <div class="col-6" *ngFor="let report1 of secondreport;let i = index">
+                    </div>
+                        <div class="col-6">
+                        <div class="row" *ngFor="let report1 of secondreport;let i = index">
+
                             <div class="report-container row">
                                 <div class="col-3 p-1">
                                     <input type="checkbox" [value]="true" [checked]="report1.is_default"  [(ngModel)]="report1.is_default">                    
@@ -53,6 +57,7 @@
                                 <diiv class="col-12  pl-1 pr-1"> <span class="title">( {{report1.col_title_actual}} )</span>   </diiv>
                             </div>
                         </div>
+                    </div>
                     </div>
             </div>
         </div>

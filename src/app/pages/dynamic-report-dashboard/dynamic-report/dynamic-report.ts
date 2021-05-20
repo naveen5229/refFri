@@ -640,7 +640,7 @@ export class DynamicReportComponent implements OnInit {
       if (!ele.measure) {
         ele.measure = 'Count';
       }
-    });
+    }); 
     // console.log('data to send',this.assign.data)
     // return;
     let info = { x: this.assign.x, y: this.assign.y };

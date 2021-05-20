@@ -63,6 +63,13 @@ export class DynamicReportDashboardComponent implements OnInit {
     "Longest Open Alert": "longest-open-alert",
     "Worst Call TAT in Last 7 Days": "worst-call-tat",
     "Worst VSC TAT in Last 7 Days": "worst-vsc-tat",
+    "Live Traffic Status ": "live-traffic-status-analysys",
+    "Longest Onward Halt": "longest-onward-halt",
+    "Longest GPS Offline ": "longest-gps-offline-analysys",
+    "Longest Loading Site": "longest-loading-site",
+    "Longest Unloading Vehicles ": "longest-unloading-vehicle",
+    "Slowest Onward Vehicles ": "slowest-onward-vehicle",
+    "Longest Parking Vehicles": "longest-parking-vehicle",
 
 
 
@@ -121,7 +128,7 @@ export class DynamicReportDashboardComponent implements OnInit {
   callreport(calldata) {
     console.log('callreport', calldata);
     this.dynamicreportcall = [];
-    this.usedChallanWidgtets = calldata.filter(report => (report.type.includes('challan-')||report.type.includes('state-')||report.type.includes('worst-drivers')||report.type.includes('most-aged')||report.type.includes('latest')||report.type.includes('worst-drivers-years')||report.type.includes('trip-onward-kmpd')||report.type.includes('avg-loading')||report.type.includes('avg-unloading')||report.type.includes('worst-vehicles')||report.type.includes('longest-loading')||report.type.includes('longest-unloading')||report.type.includes('slowest-onward')||report.type.includes('longest-unloading-sites')||report.type.includes('gps-performance')||report.type.includes('live-traffic-status')||report.type.includes('longest-driver-unavailable')||report.type.includes('longest-gps-offline')||report.type.includes('top-vehicle-rto')||report.type.includes('longest-loading-sites')||report.type.includes('longest-unloading-offline')||report.type.includes('slowest-onward-veicles')||report.type.includes('longest-empty-vehicle')||report.type.includes('drivercontacted')||report.type.includes('supervisor-wise-unrespond')||report.type.includes('unrespond-driver-calls')||report.type.includes('worst-driver')||report.type.includes('avg-loading-tat')||report.type.includes('calls-onward-kmpd')||report.type.includes('avg-unloading-tat')||report.type.includes('alert-ack-tat')||report.type.includes('alert-call-tat')||report.type.includes('vsc-tat')||report.type.includes('longest-alert-not-ack')||report.type.includes('longest-pending-vsc-tat')||report.type.includes('longest-open-alert')||report.type.includes('worst-call-tat')||report.type.includes('worst-vsc-tat')))
+    this.usedChallanWidgtets = calldata.filter(report => (report.type.includes('challan-')||report.type.includes('state-')||report.type.includes('worst-drivers')||report.type.includes('most-aged')||report.type.includes('latest')||report.type.includes('worst-drivers-years')||report.type.includes('trip-onward-kmpd')||report.type.includes('avg-loading')||report.type.includes('avg-unloading')||report.type.includes('worst-vehicles')||report.type.includes('longest-loading')||report.type.includes('longest-unloading')||report.type.includes('slowest-onward')||report.type.includes('longest-unloading-sites')||report.type.includes('gps-performance')||report.type.includes('live-traffic-status')||report.type.includes('longest-driver-unavailable')||report.type.includes('longest-gps-offline')||report.type.includes('top-vehicle-rto')||report.type.includes('longest-loading-sites')||report.type.includes('longest-unloading-offline')||report.type.includes('slowest-onward-veicles')||report.type.includes('longest-empty-vehicle')||report.type.includes('drivercontacted')||report.type.includes('supervisor-wise-unrespond')||report.type.includes('unrespond-driver-calls')||report.type.includes('worst-driver')||report.type.includes('avg-loading-tat')||report.type.includes('calls-onward-kmpd')||report.type.includes('avg-unloading-tat')||report.type.includes('alert-ack-tat')||report.type.includes('alert-call-tat')||report.type.includes('vsc-tat')||report.type.includes('longest-alert-not-ack')||report.type.includes('longest-pending-vsc-tat')||report.type.includes('longest-open-alert')||report.type.includes('worst-call-tat')||report.type.includes('worst-vsc-tat')||report.type.includes('live-traffic-status-analysys')||report.type.includes('longest-onward-halt')||report.type.includes('longest-gps-offline-analysys')||report.type.includes('longest-unloading-vehicle')||report.type.includes('slowest-onward-vehicle')||report.type.includes('longest-parking-vehicle')))
 
     console.log('usedChallanWidgtets:', this.usedChallanWidgtets,this.reports);
     this.caltabname = (this.usedChallanWidgtets.length)?this.usedChallanWidgtets[0].rpt_tabname : calldata[0].rpt_tabname;
@@ -130,6 +137,7 @@ export class DynamicReportDashboardComponent implements OnInit {
       calldata.map((cdata) => {
         console.log('callreport1', data.name, cdata.rpt_name, cdata.type);
         if (data.name == cdata.rpt_name && cdata.type == "dynamic") {
+          data.isUsed = true;
           this.dynamicreportcall.push(data);
           
         }
