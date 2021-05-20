@@ -29,6 +29,7 @@ export class AddGpsNewRequesComponent implements OnInit {
   gpsSupplierList = [];
   gpsSupplierId = null;
   gpsSupplierName = '';
+  gpsSupplierCode='';
   gpsAuthToken=null;
   gpsPassword=null;
   gpsUsername=null;
@@ -68,9 +69,18 @@ export class AddGpsNewRequesComponent implements OnInit {
     });
   }
 
+  reset(){
+    this.gpsAuthToken=null;
+    this.gpsUsername=null;
+    this.gpsPassword=null;
+    this.gpsRequestData=[];
+  }
+
   selectSupplierData(gps){
+    this.reset();
     this.gpsSupplierId = gps.id;
     this.gpsSupplierName = gps.name;
+    this.gpsSupplierCode=gps.code;
     this.isAuth=gps.auth_type;
   }
 
@@ -97,14 +107,14 @@ export class AddGpsNewRequesComponent implements OnInit {
       this.common.showError("Please Enter Gps Supplier");
       return;
     } 
-    if(this.isAuth==1){
+    if(this.isAuth==1 || this.isAuth==3){
       if(this.gpsAuthToken=='' || this.gpsAuthToken==null || this.gpsAuthToken=='undefined')
       {
         this.common.showError("Please Enter AuthToken");
         return;
       }
     }
-    if(this.isAuth!=1){
+    if(this.isAuth==2 || this.isAuth==3){
       if(this.gpsUsername=='' || this.gpsUsername==null || this.gpsUsername=='undefined'){
         this.common.showError("Please Enter Username");
         return;
@@ -114,17 +124,17 @@ export class AddGpsNewRequesComponent implements OnInit {
         return;
       }
     }
-    let params={
-      gpsSupplierId:this.gpsSupplierId,
-      supplierName:this.gpsSupplierName,
-      authtoken:this.gpsAuthToken,
-      username:this.gpsUsername,
-      password:this.gpsPassword
-    }
-    console.log("param:",params);
+    // let params={
+    //   gpsSupplierId:this.gpsSupplierId,
+    //   supplierName:this.gpsSupplierCode,
+    //   authtoken:this.gpsAuthToken,
+    //   username:this.gpsUsername,
+    //   password:this.gpsPassword
+    // }
+    // console.log("param:",params);
 
     this.common.loading++;
-      this.api.getJavaPortDost(8090, 'gpsapi/downloadapidatabyprovider?providerName='+this.gpsSupplierName+'&token='+this.gpsAuthToken+'&userName='+this.gpsUsername+'&password='+this.gpsPassword)
+      this.api.getJavaPortDost(8090, 'gpsapi/downloadapidatabyprovider?providerName='+this.gpsSupplierCode+'&token='+this.gpsAuthToken+'&userName='+this.gpsUsername+'&password='+this.gpsPassword)
         .subscribe(res => {
           --this.common.loading;
           console.log("Api result", res['result']);
@@ -146,9 +156,12 @@ export class AddGpsNewRequesComponent implements OnInit {
             headings: headings,
             columns: this.getTableColumns()
         };
+      }else{
+        this.common.showToast("Record Not Found");
       }
           } else {
-            this.gpsRequestData=res['result'];
+            this.gpsRequestData=[];
+            console.log("resData148:",res['result']);
             this.common.showError(res['message']);
           }
 
@@ -178,7 +191,7 @@ export class AddGpsNewRequesComponent implements OnInit {
         addGpsRequest(){
           let params={
             gpsSupplierId:this.gpsSupplierId,
-            supplierName:this.gpsSupplierName,
+            supplierName:this.gpsSupplierCode,
             authtoken:this.gpsAuthToken,
             username:this.gpsUsername,
             password:this.gpsPassword
