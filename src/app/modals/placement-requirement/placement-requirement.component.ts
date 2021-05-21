@@ -49,6 +49,9 @@ export class PlacementRequirementComponent implements OnInit {
       penaltyMin: 0,
       penaltyMax: 0,
       projectionDays: 0,
+      queuingCost: 0,
+      fromTime: '00:00:00',
+      toTime: '00:00:00',
       siteOffDates:[{
         offDatesSite: null
       }]
@@ -81,6 +84,9 @@ export class PlacementRequirementComponent implements OnInit {
       penaltyMin: 0,
       penaltyMax: 0,
       projectionDays: 0,
+      queuingCost: 0,
+      fromTime: '00:00:00',
+      toTime: '00:00:00',
       siteOffDates:[{
         offDatesSite: null
       }]

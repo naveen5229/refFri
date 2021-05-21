@@ -98,6 +98,9 @@
             <th>Min Panelty</th>
             <th>Max Panelty</th>
             <th>Days</th>
+            <th>Queuing Cost</th>
+            <th>From Time</th>
+            <th>To Time</th>
             <th>Off Date Site</th>
             <th>Action</th>
           </tr>
@@ -128,6 +131,19 @@
             <td>
               <input type="number" [(ngModel)]="item.projectionDays" min=0 oninput="validity.valid||(value='');"
                 class="form control" placeholder="Days">
+            </td>
+
+            <td>
+              <input type="number" [(ngModel)]="item.queuingCost" min=0 oninput="validity.valid||(value='');"
+                class="form control" placeholder="Queuing Cost" >
+            </td>
+
+            <td>
+              <input type="text" [(ngModel)]="item.fromTime" class="form control" placeholder="From Time">
+            </td>
+
+            <td>
+              <input type="text" [(ngModel)]="item.toTime" class="form control" placeholder="To Time">
             </td>
 
             <td>
