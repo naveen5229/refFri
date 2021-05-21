@@ -98,6 +98,9 @@
             <th>Min Panelty</th>
             <th>Max Panelty</th>
             <th>Days</th>
+            <th>Queuing Cost</th>
+            <th>From Time</th>
+            <th>To Time</th>
             <th>Off Date Site</th>
             <th>Action</th>
           </tr>
@@ -111,23 +114,40 @@
             </td>
             <td>
               <input type="number" [(ngModel)]="item.minQuantity" min=0 oninput="validity.valid||(value='');"
-                class="form control" placeholder="Min Qty">
+                class="form control width-col" placeholder="Min Qty">
             </td>
             <td>
               <input type="number" [(ngModel)]="item.maxQuantity" min=0 oninput="validity.valid||(value='');"
-                class="form control" placeholder="Max Qty">
+                class="form control width-col" placeholder="Max Qty">
             </td>
             <td>
               <input type="number" [(ngModel)]="item.penaltyMin" min=0 oninput="validity.valid||(value='');"
-                class="form control" placeholder="Max Qty">
+                class="form control width-col" placeholder="Max Qty">
             </td>
             <td>
               <input type="number" [(ngModel)]="item.penaltyMax" min=0 oninput="validity.valid||(value='');"
-                class="form control" placeholder="Max Qty">
+                class="form control width-col" placeholder="Max Qty">
             </td>
             <td>
               <input type="number" [(ngModel)]="item.projectionDays" min=0 oninput="validity.valid||(value='');"
-                class="form control" placeholder="Days">
+                class="form control width-col" placeholder="Days">
+            </td>
+
+            <td>
+              <input type="number" [(ngModel)]="item.queuingCost" min=0 oninput="validity.valid||(value='');"
+                class="form control width-col" placeholder="Queuing Cost" >
+            </td>
+
+            <td>
+              <uj-date-time-picker [isTime]="true" [isDate]="false" (onChanged)="changeTime($event, item)"
+                  [dateTimeValue]="item.fromTime">
+                </uj-date-time-picker>
+            </td>
+
+            <td>
+              <uj-date-time-picker [isTime]="true" [isDate]="false" (onChanged)="changeTime($event, item, tTime)"
+              [dateTimeValue]="item.toTime">
+            </uj-date-time-picker>
             </td>
 
             <td>
