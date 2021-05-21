@@ -51,7 +51,7 @@
                     [id]="'xreport-' + dynamicreportcallreport._id" [style.width]="dynamicreportcallreport.style.width"
                     [style.height]="dynamicreportcallreport.style.height" [style.top]="dynamicreportcallreport.style.y"
                     [style.left]="dynamicreportcallreport.style.x">
-                    <div class="report-container">
+                    <div class="report-container" *ngIf="dynamicreportcallreport.isUsed">
                         <dynamic-report [savedReportSelect]="dynamicreportcallreport" [startDate]="assign.startDate"
                             [endDate]="assign.endDate"></dynamic-report>
                     </div>
@@ -100,6 +100,13 @@
                         <longest-open-alert *ngIf="challanWidget.type == 'longest-open-alert'"></longest-open-alert>
                         <worst-call-tat *ngIf="challanWidget.type == 'worst-call-tat'"></worst-call-tat>
                         <worst-vsc-tat *ngIf="challanWidget.type == 'worst-vsc-tat'"></worst-vsc-tat>
+                        <live-traffic-status-analysys *ngIf="challanWidget.type == 'live-traffic-status-analysys'"></live-traffic-status-analysys>
+                        <longest-onward-halt *ngIf="challanWidget.type == 'longest-onward-halt'"></longest-onward-halt>
+                        <longest-gps-offline-analysys *ngIf="challanWidget.type == 'longest-gps-offline-analysys'"></longest-gps-offline-analysys>
+                        <longest-loading-site *ngIf="challanWidget.type == 'longest-loading-site'"></longest-loading-site>
+                        <longest-unloading-vehicle *ngIf="challanWidget.type == 'longest-unloading-vehicle'"></longest-unloading-vehicle>
+                        <slowest-onward-vehicle *ngIf="challanWidget.type == 'slowest-onward-vehicle'"></slowest-onward-vehicle>
+                        <longest-parking-vehicle *ngIf="challanWidget.type == 'longest-parking-vehicle'"></longest-parking-vehicle>
                         
                         
 
