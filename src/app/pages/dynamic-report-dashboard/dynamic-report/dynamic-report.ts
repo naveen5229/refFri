@@ -652,10 +652,12 @@ export class DynamicReportComponent implements OnInit {
     };
 
     if (this.assign.x.length && this.assign.y.length) {
-      this.common.loading++;
+     // this.common.loading++;
+     this.showLoader(1);
       let i = 0;
       this.api.post('GraphicalReport/getPreviewGraphicalReport', params).subscribe(res => {
-        this.common.loading--;
+       this.hideLoader(1);
+       // this.common.loading--;
         if (res['code'] == 1) {
           console.log('Response reportPreviewData :',this.assign,i);
           i = i + 1;
@@ -673,7 +675,8 @@ export class DynamicReportComponent implements OnInit {
           this.common.showError(res['msg'])
         }
       }, err => {
-        this.common.loading--;
+        this.hideLoader(1);
+        //this.common.loading--;
         console.log('Error:', err)
       })
     } else {
@@ -1083,6 +1086,24 @@ export class DynamicReportComponent implements OnInit {
           content.style.maxHeight = content.scrollHeight + "px";
         }
       });
+    }
+  }
+  showLoader(index) {
+    setTimeout(() => {
+      let outers = document.getElementsByClassName("outer");
+      let loader = document.createElement('div');
+      loader.className = 'loader';
+      outers[index].appendChild(loader);
+    }, 50);
+  }
+  
+  hideLoader(index) {
+    try {
+      let outers = document.getElementsByClassName("outer");
+      let ele = outers[index].getElementsByClassName('loader')[0];
+      outers[index].removeChild(ele);
+    } catch (e) {
+      console.log('Exception', e);
     }
   }
 
