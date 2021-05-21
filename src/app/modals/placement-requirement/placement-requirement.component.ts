@@ -6,6 +6,7 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { PlacementProblemGenerationComponent } from '../placement-problem-generation/placement-problem-generation.component';
+import { Time } from '@angular/common';
 
 @Component({
   selector: 'placement-requirement',
@@ -49,6 +50,9 @@ export class PlacementRequirementComponent implements OnInit {
       penaltyMin: 0,
       penaltyMax: 0,
       projectionDays: 0,
+      queuingCost: 0,
+      fromTime: null,
+      toTime: null,
       siteOffDates:[{
         offDatesSite: null
       }]
@@ -81,6 +85,9 @@ export class PlacementRequirementComponent implements OnInit {
       penaltyMin: 0,
       penaltyMax: 0,
       projectionDays: 0,
+      queuingCost: 0,
+      fromTime: null,
+      toTime: null,
       siteOffDates:[{
         offDatesSite: null
       }]
@@ -175,10 +182,10 @@ export class PlacementRequirementComponent implements OnInit {
     return icons;
   }
 
-  placementProblemGenereation(){
-    console.log("test");
-    const activeModal = this.modalService.open(PlacementProblemGenerationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-  }
+  // placementProblemGenereation(){
+  //   console.log("test");
+  //   const activeModal = this.modalService.open(PlacementProblemGenerationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  // }
   
   setData(doc) {
     console.log("docL",doc)
@@ -231,5 +238,10 @@ export class PlacementRequirementComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
+  }
+
+  changeTime(date:Time,item){
+    console.log('change time called ', item.fromTime)
+    item.fromTime = this.common.timeFormatter(date);
   }
 }
