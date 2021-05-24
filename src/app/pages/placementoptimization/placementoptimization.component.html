@@ -199,7 +199,7 @@
           *ngFor="let packet of placementOPT.siteVehicleCostPackets;let i = index; let active = false">
           <thead>
             <tr>
-              <th colspan='4' class="col-sm-11 hdStyle">
+              <th colspan='5' class="col-sm-11 hdStyle">
                 <span>Plant:</span>
                 <span class="ml-2 grn">{{packet.siteName}}
                   - {{packet['dayIndex']==1 ? "(Today)":(packet['dayIndex']==2 ? "(Today+1)":(packet['dayIndex']==3 ? "(Today+2)":(packet['dayIndex']== 4 ? "(Today+3)":"(Today+4)")))}}</span>
@@ -227,19 +227,19 @@
 
           <tbody *ngIf="packet.vehicleCostPacket.length > 0 && packet.active">
             <tr *ngFor="let costPacket of packet.vehicleCostPacket;let i = index;">
-              <td style="width:10%;max-width: 50px;">{{i+1}}</td>
-              <td style="width:30%;">{{costPacket.vehicleId}}</td>
-              <td style="width:30%;">{{costPacket.truckRegno}}</td>
-              <td style="width:30%;">{{costPacket.cost}}</td>
-              <td style="width:30%;">{{costPacket.penalty}}</td>
-              <td style="width: 30%;">
+              <td style="width:5%;max-width: 50px;">{{i+1}}</td>
+              <td style="width:19%;">{{costPacket.vehicleId}}</td>
+              <td style="width:19%;">{{costPacket.truckRegno}}</td>
+              <td style="width:19%;">{{costPacket.cost}}</td>
+              <td style="width:19%;">{{costPacket.penalty}}</td>
+              <td style="width: 19%;">
                 <input type="checkbox" [value]="costPacket.vehicleId" (click)="gettingPlacementList($event)" />
               </td>
             </tr>
           </tbody>
           <tbody *ngIf="!packet.vehicleCostPacket.length">
             <tr>
-              <td colspan="4" class="noRecord">No Record Found!</td>
+              <td colspan="6" class="noRecord">No Record Found!</td>
             </tr>
           </tbody>
           <div class="w-100 submit-btn">
@@ -249,5 +249,32 @@
         </table>
       </div>
     </div>
+
+    <div class="row mt-5" style="height:60vh;overflow-y:auto;" *ngIf="unAllocatedVehicles && unAllocatedVehicles.length>0">
+      <table class="table table-bordered" *ngIf="unAllocatedVehicles && unAllocatedVehicles.length>0">
+        <thead>
+          <tr><th style="width:90%;font-weight: bold; font-size: 20px;color:green">Unallocated Vehicles</th>
+            <th style="width:10%">
+              <label style="float:right;" [ngClass]="unAllocateIsActive ? 'red' : 'green'" [(ngModel)]="unallocatedtblshowhide"
+              (click)="tblShowHideForUnAllocatedData(unAllocateIsActive)">{{unallocatedtblshowhide}}</label>
+            </th></tr>
+        </thead>
+      </table>
+
+      <table *ngIf="unAllocatedVehicles && unAllocatedVehicles.length>0 && unAllocateIsActive" class="table table-bordered">
+        <tr style="background-color:#78cfea;">
+          <th>#</th>
+          <th>Vehicle Id</th>
+          <th>Registration Number</th>
+        </tr>
+        <tr *ngFor="let data of unAllocatedVehicles;let i=index">
+          <td>{{i+1}}</td>
+          <td>{{data.id}}</td>
+          <td>{{data.regno}}</td>
+        </tr>
+      </table>
+    </div>
+      
+    
   </nb-card-body>
 </nb-card>
