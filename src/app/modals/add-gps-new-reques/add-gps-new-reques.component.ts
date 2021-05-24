@@ -124,17 +124,18 @@ export class AddGpsNewRequesComponent implements OnInit {
         return;
       }
     }
-    // let params={
-    //   gpsSupplierId:this.gpsSupplierId,
-    //   supplierName:this.gpsSupplierCode,
-    //   authtoken:this.gpsAuthToken,
-    //   username:this.gpsUsername,
-    //   password:this.gpsPassword
-    // }
+    let params={
+      // gpsSupplierId:this.gpsSupplierId,
+      apiprovider:this.gpsSupplierCode,
+      authtoken:this.gpsAuthToken,
+      apiusername:this.gpsUsername,
+      apipwd:this.gpsPassword
+    }
     // console.log("param:",params);
 
+    // ?providerName='+this.gpsSupplierCode+'&token='+this.gpsAuthToken+'&userName='+this.gpsUsername+'&password='+this.gpsPassword
     this.common.loading++;
-      this.api.getJavaPortDost(8090, 'gpsapi/downloadapidatabyprovider?providerName='+this.gpsSupplierCode+'&token='+this.gpsAuthToken+'&userName='+this.gpsUsername+'&password='+this.gpsPassword)
+      this.api.postJavaPortDost(8090, 'gpsapi/downloadapidatabyprovider',params)
         .subscribe(res => {
           --this.common.loading;
           console.log("Api result", res['result']);
