@@ -84,7 +84,7 @@ const routes: Routes = [{
         },
         {
             path: 'load-intelligence',
-            loadChildren: () => import('app/load-intelligence/load-intelligence.module').then(m => m.LoadIntelligenceModule),
+            loadChildren: () => import('../load-intelligence/load-intelligence.module').then(m => m.LoadIntelligenceModule),
             canActivate: [RouteGuard]
         },
         {
