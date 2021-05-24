@@ -139,14 +139,14 @@
             </td>
 
             <td>
-              <uj-date-time-picker [isTime]="true" [isDate]="false" (onChanged)="changeTime($event, item)"
-                  [dateTimeValue]="item.fromTime">
+              <uj-date-time-picker [isTime]="true" [isDate]="false" (onChanged)="changeTime($event, item,'from')"
+                  [dateTimeValue]="item.zeroDateF">
                 </uj-date-time-picker>
             </td>
 
             <td>
-              <uj-date-time-picker [isTime]="true" [isDate]="false" (onChanged)="changeTime($event, item, tTime)"
-              [dateTimeValue]="item.toTime">
+              <uj-date-time-picker [isTime]="true" [isDate]="false" (onChanged)="changeTime($event, item,'to')"
+              [dateTimeValue]="item.zeroDateT">
             </uj-date-time-picker>
             </td>
 

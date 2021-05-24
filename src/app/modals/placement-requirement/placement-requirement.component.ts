@@ -51,8 +51,10 @@ export class PlacementRequirementComponent implements OnInit {
       penaltyMax: 0,
       projectionDays: 0,
       queuingCost: 0,
-      fromTime: null,
-      toTime: null,
+      fromTime: "00:00:00",
+      toTime: "00:00:00",
+      zeroDateF : new Date(new Date().setHours(0,0,0,0)),
+      zeroDateT : new Date(new Date().setHours(0,0,0,0)),
       siteOffDates:[{
         offDatesSite: null
       }]
@@ -86,8 +88,10 @@ export class PlacementRequirementComponent implements OnInit {
       penaltyMax: 0,
       projectionDays: 0,
       queuingCost: 0,
-      fromTime: null,
-      toTime: null,
+      fromTime: "00:00:00",
+      toTime: "00:00:00",
+      zeroDateF : new Date(new Date().setHours(0,0,0,0)),
+      zeroDateT : new Date(new Date().setHours(0,0,0,0)),
       siteOffDates:[{
         offDatesSite: null
       }]
@@ -206,7 +210,16 @@ export class PlacementRequirementComponent implements OnInit {
     let itemsDetails = null;
     itemsDetails = doc['placementRequirementDetailsDTOS'] ? doc['placementRequirementDetailsDTOS'] : this.items;
     this.items = itemsDetails;
+    this.items.forEach((e,i)=>{
+      e.zeroDateF = this.convertStringToDate(e.fromTime);
+      e.zeroDateT = this.convertStringToDate(e.toTime);
+    })
     console.log("items:", this.items, this.partyId, this.partyName);
+  }
+
+  convertStringToDate(dateStr:string){
+    let dateStrSplit = dateStr.split(":");
+    return new Date(new Date().setHours(parseInt(dateStrSplit[0]),parseInt(dateStrSplit[1]),parseInt(dateStrSplit[2]),0));
   }
 
   savePlacementRequirement() {
@@ -215,6 +228,11 @@ export class PlacementRequirementComponent implements OnInit {
       return this.common.dateFormatter1(e.offDates)
     })
     console.log("offDates:", data);
+    let datax = JSON.parse(JSON.stringify(this.items));
+    datax.forEach((e,i) => {
+      delete e.zeroDateT;
+      delete e.zeroDateF;
+    });
     param = {
       partyId: this.partyId,
       partyName: this.partyName,
@@ -224,7 +242,7 @@ export class PlacementRequirementComponent implements OnInit {
       quantityType: this.quantityType,
       id: this.id,
       offDates: data,
-      placementRequirementDetailsDTOS: this.items
+      placementRequirementDetailsDTOS: datax
     }
     console.log("data:", param);
     this.common.loading++;
@@ -240,8 +258,10 @@ export class PlacementRequirementComponent implements OnInit {
       });
   }
 
-  changeTime(date:Time,item){
-    console.log('change time called ', item.fromTime)
-    item.fromTime = this.common.timeFormatter(date);
+  changeTime(date:Time,item,type){
+    if(type=="from")
+      item.fromTime = this.common.timeFormatter(date);
+    else
+      item.toTime = this.common.timeFormatter(date);
   }
 }
