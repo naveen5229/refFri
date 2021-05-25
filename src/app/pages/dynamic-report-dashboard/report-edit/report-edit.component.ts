@@ -30,6 +30,8 @@ export class ReportEditComponent implements OnInit {
   CallsReports = [];
   AlertReports = [];
   AnalysisReports = [];
+  LoadingAnalysisReports = [];
+  DocumentReports = [];
   constructor(private api: ApiService, private common: CommonService, private activeModal: NgbActiveModal) {
     this.getSavedReports();
     this.getpredefinedReports();
@@ -75,8 +77,10 @@ export class ReportEditComponent implements OnInit {
         this.CallsReports = res['data'].filter(report => report.dashboard_name === ("Calls DashBoard"));
         this.AlertReports = res['data'].filter(report => report.dashboard_name === ("Alerts DashBoard"));
         this.AnalysisReports = res['data'].filter(report => report.dashboard_name === ("Live Analysis"));
+        this.LoadingAnalysisReports = res['data'].filter(report => report.dashboard_name === ("Loading Analysis"));
+        this.DocumentReports = res['data'].filter(report => report.dashboard_name === ("Document DashBoard"));
 
-        console.log('tripReports',this.AnalysisReports);
+        console.log('DocumentReports',this.DocumentReports);
 
         let data = JSON.parse(localStorage.getItem('dynamic-report')) || [];
 
@@ -233,7 +237,57 @@ export class ReportEditComponent implements OnInit {
             }
           });
         });
-        console.log('tripReports',this.AnalysisReports);
+        this.LoadingAnalysisReports.map((rptdata, index) => {
+          data.map((stordata) => {
+          console.log('stro',stordata,rptdata);
+            if (stordata.type != 'dynamic' && rptdata.rpt_name == stordata.rpt_name) {
+              setTimeout(() => {
+                console.log('selected stored', stordata, this.tabname);
+
+                if(this.tabname == stordata.rpt_tabname){
+
+                this.LoadingAnalysisReports[index].isUsed = true;
+                }
+                let info = stordata;
+                let target = document.getElementById('loading-report-' + rptdata.id);
+                let x = info.x_pos;
+                let y = info.y_pos;
+                target.style.width = info.rpt_width + 'px';
+                target.style.height = info.rpt_height + 'px';
+                target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+                target.setAttribute('data-x', x);
+                target.setAttribute('data-y', y);
+              }, 3000)
+
+            }
+          });
+        });
+        this.DocumentReports.map((rptdata, index) => {
+          data.map((stordata) => {
+          console.log('stro',stordata,rptdata);
+            if (stordata.type != 'dynamic' && rptdata.rpt_name == stordata.rpt_name) {
+              setTimeout(() => {
+                console.log('DocumentReports stored', stordata, this.tabname);
+
+                if(this.tabname == stordata.rpt_tabname){
+
+                this.DocumentReports[index].isUsed = true;
+                }
+                let info = stordata;
+                let target = document.getElementById('document-report-' + rptdata.id);
+                let x = info.x_pos;
+                let y = info.y_pos;
+                target.style.width = info.rpt_width + 'px';
+                target.style.height = info.rpt_height + 'px';
+                target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+                target.setAttribute('data-x', x);
+                target.setAttribute('data-y', y);
+              }, 3000)
+
+            }
+          });
+        });
+        console.log('tripReports',this.LoadingAnalysisReports);
 
 
 
@@ -552,6 +606,56 @@ export class ReportEditComponent implements OnInit {
                       'xpos': parseInt(x.toString()) || 1
                     }
                   }));
+                  data.push(...this.LoadingAnalysisReports
+                    .filter(report => report.isUsed)
+                    .map(report => {
+                      let ele = document.getElementById('loading-report-' + report.id);
+                      let width = ele.offsetWidth;
+                      let height = ele.offsetHeight;
+                      let x = parseFloat(ele.getAttribute('data-x'));
+                      let y = parseFloat(ele.getAttribute('data-y'));
+                      if (x < 0) {
+                        x = 0;
+                      }
+                      if (y < 0) {
+                        y = 0;
+                      }
+                      return {
+                        'rpttype': "DB",
+                        'rptwidth': width,
+                        'rptheight': height,
+                        'rptname': report.rpt_name,
+                        'tabname': this.tabname,
+                        'tabtitle': report.rpt_title,
+                        'ypos': parseInt(y.toString()) || 1,
+                        'xpos': parseInt(x.toString()) || 1
+                      }
+                    }));
+                    data.push(...this.DocumentReports
+                      .filter(report => report.isUsed)
+                      .map(report => {
+                        let ele = document.getElementById('document-report-' + report.id);
+                        let width = ele.offsetWidth;
+                        let height = ele.offsetHeight;
+                        let x = parseFloat(ele.getAttribute('data-x'));
+                        let y = parseFloat(ele.getAttribute('data-y'));
+                        if (x < 0) {
+                          x = 0;
+                        }
+                        if (y < 0) {
+                          y = 0;
+                        }
+                        return {
+                          'rpttype': "DB",
+                          'rptwidth': width,
+                          'rptheight': height,
+                          'rptname': report.rpt_name,
+                          'tabname': this.tabname,
+                          'tabtitle': report.rpt_title,
+                          'ypos': parseInt(y.toString()) || 1,
+                          'xpos': parseInt(x.toString()) || 1
+                        }
+                      }));
       data.forEach((info, index) => {
         this.api
           .post('tmgreport/SaveDynamicReportMaster', info)

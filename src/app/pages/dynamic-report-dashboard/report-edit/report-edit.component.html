@@ -105,6 +105,30 @@
            </div>
            </div>
          </div>
+         <div class="holdContainer" *ngIf="LoadingAnalysisReports.length">
+          <div class="collas-head" (click)="callToShow =7 ">
+             <p>Loading Analysis</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span>
+           </div>
+           <div *ngIf="callToShow==7" class="collapseitem">
+           <div class="dataelements" *ngFor="let challanReport of LoadingAnalysisReports; let i = index"
+             [hidden]="challanReport.isUsed" draggable="true" [id]="'analysis-option-' + challanReport.id"
+             (dragstart)="selectDraggable(challanReport, 'loading')">
+             <span>{{challanReport.rpt_title}}</span>
+           </div>
+           </div>
+         </div>
+         <div class="holdContainer" *ngIf="DocumentReports.length">
+          <div class="collas-head" (click)="callToShow =8 ">
+             <p>Document Report</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span>
+           </div>
+           <div *ngIf="callToShow==8" class="collapseitem">
+           <div class="dataelements" *ngFor="let challanReport of DocumentReports; let i = index"
+             [hidden]="challanReport.isUsed" draggable="true" [id]="'analysis-option-' + challanReport.id"
+             (dragstart)="selectDraggable(challanReport, 'document')">
+             <span>{{challanReport.rpt_title}}</span>
+           </div>
+           </div>
+         </div>
       </div>
 
       <div class="col-10 reports-container" (drop)="handleDropped($event)" (dragover)="handleDragOver($event)">
@@ -232,7 +256,7 @@
                       </div>
             </div>
             <div class="report draggable" *ngFor="let singlealertReport of AlertReports; let i = index"
-            [hidden]="!singlealertReport.isUsed" [id]="'alert-report-' + singlealertReport.id"
+            [hidden]="!singlealertReport.isUsed" [id]="'analysis-report-' + singlealertReport.id"
             [style.width]="singlealertReport.rpt_width + 'px'" [style.height]="singlealertReport.rpt_height + 'px'"
             [style.top]="singlealertReport.y_pos + 'px'" [style.left]="singlealertReport.x_pos + 'px'">
             <div class="report-container">
@@ -278,6 +302,36 @@
             <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(singleanalysisReport)"></i>
             </div>
         </div>
+        <div class="report draggable" *ngFor="let loadinganalysis of LoadingAnalysisReports; let i = index"
+        [hidden]="!loadinganalysis.isUsed" [id]="'loading-report-' + loadinganalysis.id"
+        [style.width]="loadinganalysis.rpt_width + 'px'" [style.height]="loadinganalysis.rpt_height + 'px'"
+        [style.top]="loadinganalysis.y_pos + 'px'" [style.left]="loadinganalysis.x_pos + 'px'">
+        <div class="report-container">
+           <avg-loading-time-graph *ngIf="loadinganalysis.id == 1 && loadinganalysis.isUsed"></avg-loading-time-graph>
+          <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(loadinganalysis)"></i>
+          <loading-trends *ngIf="loadinganalysis.id == 2 && loadinganalysis.isUsed"></loading-trends>
+          <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(loadinganalysis)"></i>
+          <worst-loading-sites *ngIf="loadinganalysis.id == 3 && loadinganalysis.isUsed"></worst-loading-sites>
+          <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(loadinganalysis)"></i>
+          <worst-loading-sites-days *ngIf="loadinganalysis.id == 4 && loadinganalysis.isUsed"></worst-loading-sites-days>
+          <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(loadinganalysis)"></i>
+         <worst-parking-sites *ngIf="loadinganalysis.id == 5 && loadinganalysis.isUsed"></worst-parking-sites>
+          <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(loadinganalysis)"></i>
+         <worst-parking-sites-days *ngIf="loadinganalysis.id == 6 && loadinganalysis.isUsed"></worst-parking-sites-days>
+          <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(loadinganalysis)"></i>
+         
+          </div>
+      </div>
+      <div class="report draggable" *ngFor="let document of DocumentReports; let i = index"
+      [hidden]="!document.isUsed" [id]="'document-report-' + document.id"
+      [style.width]="document.rpt_width + 'px'" [style.height]="document.rpt_height + 'px'"
+      [style.top]="document.y_pos + 'px'" [style.left]="document.x_pos + 'px'">
+      <div class="report-container">
+         <tmg-documents *ngIf="document.id == 1 && document.isUsed"></tmg-documents>
+        <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(document)"></i>
+      
+        </div>
+    </div>
 
             </div>
         </div>
