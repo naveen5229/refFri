@@ -324,6 +324,8 @@ import { AddGpsNewRequesComponent } from './modals/add-gps-new-reques/add-gps-ne
 
 
 
+
+
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
   FreightRateRulesComponent,
@@ -620,8 +622,6 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     NearByVehiclesComponent,
     AddGpsNewRequesComponent,
     
-   
-   
     
     
   ],
