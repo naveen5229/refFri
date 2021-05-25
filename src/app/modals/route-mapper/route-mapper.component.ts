@@ -635,8 +635,8 @@ export class RouteMapperComponent implements OnInit {
   }
 
   getSingleTripInfoForView(){
-    this.commonService.loading ++;
     if(this.vehicleTripId){
+    this.commonService.loading ++;
       this.apiService.get(`TripsOperation/getSingleTripInfoForView?tripId=${this.vehicleTripId}`)
       .subscribe(res => {
         this.commonService.loading --;
