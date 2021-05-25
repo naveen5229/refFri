@@ -164,7 +164,12 @@ import { LongestParkingVehicleComponent } from '../widgets/analysis/longest-park
 import { SlowestOnwardVehicleComponent } from '../widgets/analysis/slowest-onward-vehicle/slowest-onward-vehicle.component';
 
 
-
+import { AvgLoadingTimeGraphComponent } from '../widgets/loading/avg-loading-time-graph/avg-loading-time-graph.component';
+import { WorstLoadingSitesComponent } from '../widgets/loading/worst-loading-sites/worst-loading-sites.component';
+import { WorstLoadingSitesDaysComponent } from '../widgets/loading/worst-loading-sites-days/worst-loading-sites-days.component';
+import { WorstParkingSitesDaysComponent } from '../widgets/loading/worst-parking-sites-days/worst-parking-sites-days.component';
+import { WorstParkingSitesComponent } from '../widgets/loading/worst-parking-sites/worst-parking-sites.component';
+import { LoadingTrendsComponent } from '../widgets/loading/loading-trends/loading-trends.component';
 const PAGES_COMPONENTS = [
   PagesComponent,
   DynamicReportComponent,
@@ -214,6 +219,12 @@ const PAGES_COMPONENTS = [
   LongestUnloadingVehicleComponent,
   LongestParkingVehicleComponent,
   SlowestOnwardVehicleComponent,
+  AvgLoadingTimeGraphComponent,
+    WorstLoadingSitesComponent,
+    WorstLoadingSitesDaysComponent,
+    WorstParkingSitesDaysComponent,
+    WorstParkingSitesComponent,
+    LoadingTrendsComponent,
 ];
 
 @NgModule({

@@ -143,6 +143,9 @@
         </div>
         <div class="col-sm-12 mb-2">
           <div class="col-sm-2">
+            <button class="btn btn-info" *ngIf="user._loggedInBy=='admin'" (click)="costMatrix()">Cost Matrix</button>
+          </div>
+          <div class="col-sm-2">
             <button class="btn btn-primary" (click)="savePlacementOptimization()">submit</button>
           </div>
         </div>
@@ -250,7 +253,7 @@
       </div>
     </div>
 
-    <div class="row mt-5" style="height:60vh;overflow-y:auto;" *ngIf="unAllocatedVehicles && unAllocatedVehicles.length>0">
+    <div class="row mt-5" style="height:auto;overflow-y:auto;" *ngIf="unAllocatedVehicles && unAllocatedVehicles.length>0">
       <table class="table table-bordered" *ngIf="unAllocatedVehicles && unAllocatedVehicles.length>0">
         <thead>
           <tr><th style="width:90%;font-weight: bold; font-size: 20px;color:green">Unallocated Vehicles</th>

@@ -11,6 +11,7 @@ import { PlacementoptimizeComponent } from '../../modals/placementoptimize/place
 import { PlacementOptimisationOnMapComponent } from '../../modals/placement-optimisation-on-map/placement-optimisation-on-map.component';
 import { PlacementConstraintsComponent } from '../../modals/placement-constraints/placement-constraints.component';
 import { PlacementRequirementComponent } from '../../modals/placement-requirement/placement-requirement.component';
+import { CostmatrixComponent } from '../../modals/costmatrix/costmatrix.component';
 
 @Component({
   selector: 'placementoptimization',
@@ -272,6 +273,12 @@ export class PlacementoptimizationComponent implements OnInit {
         console.log(err);
       });
   }
+
+  costMatrix(){
+          this.common.params = { allocType:this.select,placementDate:this.common.dateFormatter1(this.placementDate),
+          quantityType: this.quantityType,placementProblemDetailsDTOS: (this.items),id: this.plcId}
+          const activeModal = this.modalService.open(CostmatrixComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+        }
 
   fillingFields(id) {
     let params = {
