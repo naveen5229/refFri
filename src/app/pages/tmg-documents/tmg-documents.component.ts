@@ -56,11 +56,11 @@ export class TmgDocumentsComponent implements OnInit {
 
   getCurrentStatus() {
     this.currentStatus = [];
-    this.common.loading++;
+    //this.common.loading++;
     let params = { totalrecord: 3 };
     this.api.post('Tmgreport/GetDocsDetails', params)
       .subscribe(res => {
-        --this.common.loading;
+     //   --this.common.loading;
         console.log('currentStatus:', res);
        // this.currentStatus = res['data'];
        this.documentData = res['data'];
@@ -75,7 +75,7 @@ export class TmgDocumentsComponent implements OnInit {
        }
        this.table.data.columns = this.getTableColumns();
       }, err => {
-        --this.common.loading;
+      //  --this.common.loading;
         console.log('Err:', err);
       });
   }
