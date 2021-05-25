@@ -64,6 +64,7 @@ export class ExcelService {
       color: { argb: '000000' }
     }
 
+    if(headerDetail){
     secondRow.value = "Customer Name: "+headerDetail[2]['name'];
     secondRow.font = {
       name: 'Calibri',
@@ -87,6 +88,7 @@ export class ExcelService {
       bold: true,
       color: { argb: '000000' }
     }
+  }
 
     // let titleRow1 = worksheet.getCell('A2');
 

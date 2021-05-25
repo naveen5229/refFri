@@ -11,6 +11,7 @@ import { PlacementoptimizeComponent } from '../../modals/placementoptimize/place
 import { PlacementOptimisationOnMapComponent } from '../../modals/placement-optimisation-on-map/placement-optimisation-on-map.component';
 import { PlacementConstraintsComponent } from '../../modals/placement-constraints/placement-constraints.component';
 import { PlacementRequirementComponent } from '../../modals/placement-requirement/placement-requirement.component';
+import { CostmatrixComponent } from '../../modals/costmatrix/costmatrix.component';
 
 @Component({
   selector: 'placementoptimization',
@@ -20,6 +21,9 @@ import { PlacementRequirementComponent } from '../../modals/placement-requiremen
 
 export class PlacementoptimizationComponent implements OnInit {
 
+  unAllocatedVehicles=[];
+  unAllocateIsActive=false;
+  unallocatedtblshowhide='+';
   placementProblemDTO = [];
   totalCost = null;
   totalPanelty = null;
@@ -51,7 +55,7 @@ export class PlacementoptimizationComponent implements OnInit {
   placementDate = new Date();
   plcId = -1;
   dayindx = 1;
-  quantityType = 0;
+  quantityType = 1;
   placmenetSelChecbox = 1;
   vehicleIdList = [];
 
@@ -102,6 +106,16 @@ export class PlacementoptimizationComponent implements OnInit {
     } else {
       this.isVisible = true;
       this.showHides = '-'
+    }
+  }
+
+  tblShowHideForUnAllocatedData(data){
+    if (data) {
+      this.unAllocateIsActive = false;
+      this.unallocatedtblshowhide = '+'
+    } else {
+      this.unAllocateIsActive = true;
+      this.unallocatedtblshowhide = '-';
     }
   }
 
@@ -234,6 +248,7 @@ export class PlacementoptimizationComponent implements OnInit {
   }
 
   savePlacementOptimization() {
+    this.unAllocatedVehicles=[];
     let params = {
       allocType: this.select,
       placementDate: this.common.dateFormatter1(this.placementDate),
@@ -246,16 +261,24 @@ export class PlacementoptimizationComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         if (res['success']) {
+          console.log("-----------",res['data']);
           this.common.showToast(res['msg']);
           this.placementOPT = res['data'];
           this.totalCost = this.placementOPT['completeCost'];
           this.totalPanelty = this.placementOPT['completePenalty'];
+          this.unAllocatedVehicles=this.placementOPT['unallocatedVehicles'];
         }
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
+
+  costMatrix(){
+          this.common.params = { allocType:this.select,placementDate:this.common.dateFormatter1(this.placementDate),
+          quantityType: this.quantityType,placementProblemDetailsDTOS: (this.items),id: this.plcId}
+          const activeModal = this.modalService.open(CostmatrixComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+        }
 
   fillingFields(id) {
     let params = {
