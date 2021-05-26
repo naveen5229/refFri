@@ -325,6 +325,8 @@ import { CostmatrixComponent } from './modals/costmatrix/costmatrix.component';
 
 
 
+
+
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
   FreightRateRulesComponent,
