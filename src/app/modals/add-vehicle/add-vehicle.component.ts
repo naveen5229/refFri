@@ -52,7 +52,7 @@ ngOnInit() {
       id:this.id
 
     };
-    // console.log(params);
+    console.log(params);
     this.common.loading++;
     let response;
     this.api.post('Gisdb/addVehicle', params)
