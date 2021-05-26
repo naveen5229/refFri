@@ -205,7 +205,8 @@
               <th colspan='5' class="col-sm-11 hdStyle">
                 <span>Plant:</span>
                 <span class="ml-2 grn">{{packet.siteName}}
-                  - {{packet['dayIndex']==1 ? "(Today)":(packet['dayIndex']==2 ? "(Today+1)":(packet['dayIndex']==3 ? "(Today+2)":(packet['dayIndex']== 4 ? "(Today+3)":"(Today+4)")))}}</span>
+                  -
+                  {{packet['dayIndex']==1 ? "(Today)":(packet['dayIndex']==2 ? "(Today+1)":(packet['dayIndex']==3 ? "(Today+2)":(packet['dayIndex']== 4 ? "(Today+3)":"(Today+4)")))}}</span>
                 <span class="ml-4">Cost:</span>
                 <span class="ml-2 grn">{{packet.totalCost}}</span>
                 <span class="ml-4">Penalty:</span>
@@ -253,18 +254,39 @@
       </div>
     </div>
 
-    <div class="row mt-5" style="height:auto;overflow-y:auto;" *ngIf="unAllocatedVehicles && unAllocatedVehicles.length>0">
-      <table class="table table-bordered" *ngIf="unAllocatedVehicles && unAllocatedVehicles.length>0">
+    <div class="row mt-5" style="height:auto;overflow-y:auto;"
+      *ngIf="unAllocatedVehicles && unAllocatedVehicles.length>0">
+      <!-- <table class="table table-bordered" *ngIf="unAllocatedVehicles && unAllocatedVehicles.length>0">
         <thead>
-          <tr><th style="width:90%;font-weight: bold; font-size: 20px;color:green">Unallocated Vehicles</th>
+          <tr>
+            <th style="width:90%;font-weight: bold; font-size:16px;color:green">Unallocated Vehicles</th>
             <th style="width:10%">
-              <label style="float:right;" [ngClass]="unAllocateIsActive ? 'red' : 'green'" [(ngModel)]="unallocatedtblshowhide"
-              (click)="tblShowHideForUnAllocatedData(unAllocateIsActive)">{{unallocatedtblshowhide}}</label>
-            </th></tr>
+              <label style="float:left; margin-left: 20px;">
+                <i class="fa fa-map grn" style="font-size: 25px;"
+                  (click)="showUnallocatedVehAndSitesOnMap()"></i>
+              </label>
+              <label style="float:right;" [ngClass]="unAllocateIsActive ? 'red' : 'green'"
+                [(ngModel)]="unallocatedtblshowhide"
+                (click)="tblShowHideForUnAllocatedData(unAllocateIsActive)">{{unallocatedtblshowhide}}</label>
+            </th>
+          </tr>
         </thead>
-      </table>
+      </table> -->
+      
+      <div class="col-sm-12" style="background-color:lightgrey;">
+        <div class="col-sm-9 pt-2" style="font-weight: bold;font-size: 18px; color:green" >Unallocated Vehicles</div>
+        <div class="col-sm-3 pt-2">
+          <label style="float: left;margin-left: 200px">
+            <i class="fa fa-map grn" style="font-size: 20px;"
+                  (click)="showUnallocatedVehAndSitesOnMap()"></i>
+          </label>
+          <label style="float:right;" [ngClass]="unAllocateIsActive ? 'red' : 'green'" [(ngModel)]="unallocatedtblshowhide"
+          (click)="tblShowHideForUnAllocatedData(unAllocateIsActive)">{{unallocatedtblshowhide}}</label>
+        </div>
+      </div>
 
-      <table *ngIf="unAllocatedVehicles && unAllocatedVehicles.length>0 && unAllocateIsActive" class="table table-bordered">
+      <table *ngIf="unAllocatedVehicles && unAllocatedVehicles.length>0 && unAllocateIsActive"
+        class="table table-bordered">
         <tr style="background-color:#78cfea;">
           <th>#</th>
           <th>Vehicle Id</th>
@@ -277,7 +299,7 @@
         </tr>
       </table>
     </div>
-      
-    
+
+
   </nb-card-body>
 </nb-card>
