@@ -59,7 +59,8 @@ export class PlacementoptimizeComponent implements OnInit {
         return {marker:siteMarker};
       });
     }, 1000);
-    this.mapService.createMarkers(this.headingData);
+    if(this.headingData[0].latitude)
+      this.mapService.createMarkers(this.headingData);
   }
 
   handleMarkerCluster() {
