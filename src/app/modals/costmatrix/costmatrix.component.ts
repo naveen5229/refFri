@@ -167,22 +167,24 @@ export class CostmatrixComponent implements OnInit {
     //   { eDate: endDate },
     //   { name: foName }
     // ]
-    let headersArray = ["Cost", "Day Index", "Distance", "End Time", "Queuing Cost", "Reach Time", "Regno", "Site Id", "Site Name","Start Time","Time Taken","Timex","Vehicle Id","Waiting Cost"];
+    let headersArray = ["Site Id", "Site Name", "Day Index", "Vehicle Id", "Regno",
+     "Cost", "Distance", "Timex", "Time Taken","Reach Time","Start Time","End Time","Queuing Cost",
+     "Waiting Cost"];
     let json = this.costMatrixData.map(costmtrx => {
       return {
-        "Cost": costmtrx['cost'],
-        "Day Index": costmtrx['dayIndex'],
-        "Distance": costmtrx['distance'],
-        "End Time": costmtrx['endTime'],
-        "Queuing Cost": costmtrx['queuingCost'],
-        "Reach Time": costmtrx['reachTime'],
-        "Regno": costmtrx['regno'],
         "Site Id": costmtrx['siteId'],
         "Site Name": costmtrx['siteName'],
-        "Start Time": costmtrx['startTime'],
-        "Time Taken": costmtrx['timeTaken'],
-        "Timex": costmtrx['timex'],
+        "Day Index": costmtrx['dayIndex'],
         "Vehicle Id": costmtrx['vehicleId'],
+        "Regno": costmtrx['regno'],
+        "Cost": costmtrx['cost'],
+        "Distance": costmtrx['distance'],
+        "Timex": costmtrx['timex'],
+        "Time Taken": costmtrx['timeTaken'],
+        "Reach Time": costmtrx['reachTime'],
+        "Start Time": costmtrx['startTime'],
+        "End Time": costmtrx['endTime'],
+        "Queuing Cost": costmtrx['queuingCost'],
         "Waiting Cost": costmtrx['waitingCost'],
       };
     });
