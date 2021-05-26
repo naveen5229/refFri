@@ -15,14 +15,21 @@ export class AddVehicleComponent implements OnInit {
   Foid = null;
   regno = null;
   isDost = 1;
+  addVehicle=false;
   vehicleList = [];
   constructor(
     public common: CommonService,
     private activeModal: NgbActiveModal,
     public api: ApiService,
-    private modalService: NgbModal, ) { }
+    private modalService: NgbModal, ) {
+      if(this.common.params.isAddVehicle){
+        this.addVehicle=this.common.params.isAddVehicle;
+        this.regno=this.common.params.regNo;
+      }
+     }
 
   ngOnDestroy(){}
+
 ngOnInit() {
   }
   selectFoUser(user) {
@@ -36,6 +43,9 @@ ngOnInit() {
 
   }
   Submit() {
+    if(this.common.params.isAddVehicle){
+      this.Foid=-1;
+    }
     let params = {
       foid: this.Foid,
       regno: this.regno,

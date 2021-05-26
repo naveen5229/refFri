@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddGpsSupplierComponent } from '../add-gps-supplier/add-gps-supplier.component';
+import { AddVehicleComponent } from '../add-vehicle/add-vehicle.component';
 
 @Component({
   selector: 'add-gps-new-reques',
@@ -177,16 +178,48 @@ export class AddGpsNewRequesComponent implements OnInit {
           return title.charAt(0).toUpperCase() + title.slice(1)
         }
         
+                
         getTableColumns() {
           let columns = [];
           this.gpsRequestData.map(matrix => {
             this.valobj = {};
             for (let i = 0; i < this.headings.length; i++) {
+              if (this.headings[i] == 'action') {
+                this.valobj[this.headings[i]] = {
+                  value: "",
+                  isHTML: false,
+                  action: null,
+                  icons: this.actionIcon(matrix)
+              }
+
               this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'black', action: '' };
             }
+            this.valobj['Action'] = { class: '', icons: this.actionIcon(matrix) }
             columns.push(this.valobj);
-          });
-          return columns;
+          } 
+        });
+          return columns
+        }
+      
+
+        actionIcon(data) {
+          console.log("dataaction:",data);
+          let actionIcons = [];
+          if (data['vid']==0) {
+            actionIcons.push(
+              {
+                class: "far fa-eye",
+                action: this.addVehicle.bind(this, data),
+              });
+          
+           return actionIcons;
+        }
+      }
+      
+        addVehicle(data){
+          this.common.params = { isAddVehicle:true,regNo:data['vehicleName']}
+            
+            const activeModal = this.modalService.open(AddVehicleComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         }
 
         addGpsRequest(){
