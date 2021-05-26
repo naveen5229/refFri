@@ -12,6 +12,7 @@ import { PlacementOptimisationOnMapComponent } from '../../modals/placement-opti
 import { PlacementConstraintsComponent } from '../../modals/placement-constraints/placement-constraints.component';
 import { PlacementRequirementComponent } from '../../modals/placement-requirement/placement-requirement.component';
 import { CostmatrixComponent } from '../../modals/costmatrix/costmatrix.component';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'placementoptimization',
@@ -21,9 +22,9 @@ import { CostmatrixComponent } from '../../modals/costmatrix/costmatrix.componen
 
 export class PlacementoptimizationComponent implements OnInit {
 
-  unAllocatedVehicles=[];
-  unAllocateIsActive=false;
-  unallocatedtblshowhide='+';
+  unAllocatedVehicles = [];
+  unAllocateIsActive = false;
+  unallocatedtblshowhide = '+';
   placementProblemDTO = [];
   totalCost = null;
   totalPanelty = null;
@@ -58,6 +59,10 @@ export class PlacementoptimizationComponent implements OnInit {
   quantityType = 1;
   placmenetSelChecbox = 1;
   vehicleIdList = [];
+  allSite = [];
+  allUnAllocatedVehiclesDetails = [];
+
+
 
   items = [
     {
@@ -109,7 +114,7 @@ export class PlacementoptimizationComponent implements OnInit {
     }
   }
 
-  tblShowHideForUnAllocatedData(data){
+  tblShowHideForUnAllocatedData(data) {
     if (data) {
       this.unAllocateIsActive = false;
       this.unallocatedtblshowhide = '+'
@@ -138,6 +143,11 @@ export class PlacementoptimizationComponent implements OnInit {
     const activeModal = this.modalService.open(PlacementoptimizeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
+  showUnallocatedVehAndSitesOnMap() {
+    this.common.params = { data:[...this.allUnAllocatedVehiclesDetails,...this.allSite]};
+    const activeModal = this.modalService.open(PlacementoptimizeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+
   placementReq() {
     const activeModal = this.modalService.open(PlacementRequirementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
@@ -145,44 +155,6 @@ export class PlacementoptimizationComponent implements OnInit {
   constraints() {
     const activeModal = this.modalService.open(PlacementConstraintsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
-
-
-  // getPreviousData(days, date?) {
-  //   if (date) {
-  //     this.placementDate = date;
-  //   }
-  //   this.common.loading++;
-  //   this.api.getJavaPortDost(8084, 'getPreviousData/' + this.common.dateFormatter1(this.placementDate) + '/' + days)
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       if (res['placementProblemDetailsDTOS'] && res['placementProblemDetailsDTOS'].length > 0) {
-  //         this.select = res['allocType'];
-  //         this.items = res['placementProblemDetailsDTOS'];
-  //         this.plcId = res['id'];
-  //       } else {
-  //         this.plcId = res['id'];
-  //         this.placementOPT = null;
-  //         this.items = [];
-  //         this.items.push({
-  //           siteId: 0,
-  //           siteName: '',
-  //           waitingTime: 0,
-  //           minQuantity: 0,
-  //           maxQuantity: 0,
-  //           penaltyMin: 0,
-  //           penaltyMax: 200000,
-  //           quantityTillDate: 0,
-  //           quantityOnPlant: 0,
-  //           quantityTowards: 0,
-  //           dayIndex: 1
-  //         });
-
-  //       }
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
-  // }
 
   selectplnt(plant, index, num) {
     this.items[index]['siteId'] = plant['id'];
@@ -248,7 +220,7 @@ export class PlacementoptimizationComponent implements OnInit {
   }
 
   savePlacementOptimization() {
-    this.unAllocatedVehicles=[];
+    this.unAllocatedVehicles = [];
     let params = {
       allocType: this.select,
       placementDate: this.common.dateFormatter1(this.placementDate),
@@ -261,12 +233,19 @@ export class PlacementoptimizationComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         if (res['success']) {
-          console.log("-----------",res['data']);
+          console.log("-----------", res['data']);
           this.common.showToast(res['msg']);
           this.placementOPT = res['data'];
+          this.allSite = [];
+          this.placementOPT['siteVehicleCostPackets'].map(item => {
+            this.allSite.push({ lat: item.siteLatitude, lng: item.siteLongitude, truckRegno: item.siteName, type: 'site', color: '00FF00' });
+          });
           this.totalCost = this.placementOPT['completeCost'];
           this.totalPanelty = this.placementOPT['completePenalty'];
-          this.unAllocatedVehicles=this.placementOPT['unallocatedVehicles'];
+          this.unAllocatedVehicles = this.placementOPT['unallocatedVehicles'];
+          this.unAllocatedVehicles.map(item => {
+            this.allUnAllocatedVehiclesDetails.push({ lat: item.latitude, lng: item.longitude,truckRegno: item.regno, type: 'vehicles', color: 'FF0000' })
+          })
         }
       }, err => {
         this.common.loading--;
@@ -274,11 +253,13 @@ export class PlacementoptimizationComponent implements OnInit {
       });
   }
 
-  costMatrix(){
-          this.common.params = { allocType:this.select,placementDate:this.common.dateFormatter1(this.placementDate),
-          quantityType: this.quantityType,placementProblemDetailsDTOS: (this.items),id: this.plcId}
-          const activeModal = this.modalService.open(CostmatrixComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-        }
+  costMatrix() {
+    this.common.params = {
+      allocType: this.select, placementDate: this.common.dateFormatter1(this.placementDate),
+      quantityType: this.quantityType, placementProblemDetailsDTOS: (this.items), id: this.plcId
+    }
+    const activeModal = this.modalService.open(CostmatrixComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
 
   fillingFields(id) {
     let params = {
@@ -341,30 +322,34 @@ export class PlacementoptimizationComponent implements OnInit {
     });
   }
 
-  placementSelectionSubmit(data){
+  placementSelectionSubmit(data) {
     let params = {
       vehicleId: this.vehicleIdList,
       placementType: 11,
       locationName: data.siteName,
       locationLat: data.siteLatitude,
-      locationLng:  data.siteLongitude,
+      locationLng: data.siteLongitude,
       siteId: data.siteId,
-      dayIndex:  data.dayIndex,
+      dayIndex: data.dayIndex,
       placementDate: this.common.dateFormatter1(this.placementDate)
     }
     console.log('params is: ', params)
-    this.common.loading ++;
+    this.common.loading++;
     this.api.postJavaPortDost(8084, 'savePlacementData', params)
-    .subscribe(res => {
-      this.common.loading --;
-      console.log('savePlacementData res is: ', res)
-    }, err => {
-      this.common.loading --;
-      console.log('error is: ', err);
-    })
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('savePlacementData res is: ', res)
+      }, err => {
+        this.common.loading--;
+        console.log('error is: ', err);
+      })
   }
 
-  gettingPlacementList(event){
+  gettingPlacementList(event) {
     this.vehicleIdList.push(event.srcElement.value);
+  }
+
+  showSiteUnAllocatedMarkerMap() {
+    console.log('allSite: ', this.allSite , ' unAllocatedVehicles: ' , this.allUnAllocatedVehiclesDetails)
   }
 }
