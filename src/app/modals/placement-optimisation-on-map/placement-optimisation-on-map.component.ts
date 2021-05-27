@@ -5,6 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { MapService } from "../../services/map.service";
 import { isArray } from 'rxjs/internal/util/isArray';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'placement-optimisation-on-map',
@@ -19,11 +20,17 @@ export class PlacementOptimisationOnMapComponent implements OnInit {
   combinedData = [];
   markers = [];
   marker1 = [];
-  
+
   selected = {
     markerCluster: false
   };
   markerCluster: any;
+  clusterChecked: false;
+  vehicleMarkes = [];
+  siteMarkers = [];
+  vehicleClusters = [];
+  siteClusters = [];
+
   constructor(
     public mapService: MapService,
     public api: ApiService,
@@ -53,78 +60,126 @@ export class PlacementOptimisationOnMapComponent implements OnInit {
           lng: element.siteLongitude,
           siteName: element.siteName,
           type: 'site',
-          color: '00FF00'
+          color: '00FF00',
+          dayIndex: element.dayIndex,
+          vehicleCostPacket: element.vehicleCostPacket,
+          index: index,
+          vehicleMarkes: [],
+          siteMarkers: [],
+          vehicleClusters: [],
+          siteClusters: []
         });
-      this.vehCostPacketData.push(element.vehicleCostPacket);
+      // this.vehCostPacketData.push(element.vehicleCostPacket);
     });
-    console.log('headingArray:', this.headingData);
-    console.log('cominedArray:', this.vehCostPacketData);
-    this.mapService.clearAll();
-    setTimeout(() => {
-      this.mapService.setMapType(0);
-      console.log("combinedArray:", this.vehCostPacketData);
-      for (let i = 0; i < this.vehCostPacketData.length; i++) {
-        console.log("condition:", Array.isArray(this.vehCostPacketData[i]))
-        if (Array.isArray(this.vehCostPacketData[i])) {
-          this.vehCostPacketData[i].forEach(element => {
-            this.combinedData.push(element);
-          });
-          console.log("newArray:", this.combinedData);
-        } else {
-          this.combinedData.push(this.vehCostPacketData[i]);
-        }
-      }
+    // console.log('headingArray:', this.headingData);
+    // console.log('cominedArray:', this.vehCostPacketData);
+    // this.mapService.clearAll();
+    // setTimeout(() => {
+    //   this.mapService.setMapType(0);
+    //   console.log("combinedArray:", this.vehCostPacketData);
+    //   for (let i = 0; i < this.vehCostPacketData.length; i++) {
+    //     console.log("condition:", Array.isArray(this.vehCostPacketData[i]))
+    //     if (Array.isArray(this.vehCostPacketData[i])) {
+    //       this.vehCostPacketData[i].forEach(element => {
+    //         this.combinedData.push(element);
+    //       });
+    //       console.log("newArray:", this.combinedData);
+    //     } else {
+    //       this.combinedData.push(this.vehCostPacketData[i]);
+    //     }
+    //   }
 
-      this.markers = this.mapService.createMarkers(this.combinedData).map((marker, index) => {
-        const vehicle = this.combinedData[index];
-        marker.setTitle(vehicle.truckRegno);
-        return {marker:marker };
-      });
-      this.marker1=this.mapService.createMarkers(this.headingData).map((siteMarker,i) =>{
-        const siteDetails=this.headingData[i];
-        siteMarker.setTitle(siteDetails.siteName);
-        return {marker:siteMarker};
-      });
-      console.log("marker:",this.markers);
-      console.log("siteMarkers:",this.marker1);
-      console.log("markers:", this.markers);
-    }, 1000);
+    //   this.markers = this.mapService.createMarkers(this.combinedData).map((marker, index) => {
+    //     const vehicle = this.combinedData[index];
+    //     marker.setTitle(vehicle.truckRegno);
+    //     return {marker:marker };
+    //   });
+    //   this.marker1=this.mapService.createMarkers(this.headingData).map((siteMarker,i) =>{
+    //     const siteDetails=this.headingData[i];
+    //     siteMarker.setTitle(siteDetails.siteName);
+    //     return {marker:siteMarker};
+    //   });
+    //   console.log("marker:",this.markers);
+    //   console.log("siteMarkers:",this.marker1);
+    //   console.log("markers:", this.markers);
+    // }, 1000);
   }
 
   closeModal(response) {
     this.activeModal.close({ response: response });
   }
 
-  handleMarkerCluster(ischecked,index,data) {
-    console.log("isChecked",ischecked);
-    console.log("index",index);
-    console.log("data",data);
-    this.selected.markerCluster=ischecked;
-    if (this.selected.markerCluster) {
-      this.showclustering();
+  handleMarkerCluster(data, index) {
+
+    console.log('index is: ', index);
+    console.log('data is: ', data);
+    console.log('heading data:', this.headingData[index]);
+
+
+
+
+
+    if (data === true) {
+      this.showclustering(index);
     } else {
-      console.log("test");
-      this.clearCluster();
-      this.markers= this.mapService.createMarkers(this.markers);
+      this.clearCluster(index)
     }
   }
 
-  showclustering() {
-    this.markers=[];
-    
-    console.log("Test");
-    console.log("Markers:",this.markers);
-    this.markerCluster = this.mapService.createCluster(this.markers, true);
-    console.log("markerCluster:",this.markerCluster);
+  showclustering(index) {
+
+    console.log("index", index);
+
+    let vehicleCostPacketData = [];
+
+    this.headingData[index]['vehicleCostPacket'].forEach(element => {
+      vehicleCostPacketData.push({
+        lat: element.latitude,
+        long: element.longitude,
+        truckRegno: element.truckRegno,
+        type: 'vehicles',
+        color: 'FF0000'
+      })
+    });
+
+    let siteData = [];
+    siteData.push({
+      lat: this.headingData[index].lat,
+      lng: this.headingData[index].lng,
+      siteName: this.headingData[index].siteName,
+      type: this.headingData[index].type,
+      color: this.headingData[index].color
+    });
+
+      this.headingData[index].vehicleMarkes = this.mapService.createMarkers(vehicleCostPacketData).map((marker, index) => {
+        const vehicle = vehicleCostPacketData[index];
+        marker.setTitle(vehicle.truckRegno);
+        return { marker: marker };
+      });
+
+
+      this.headingData[index].siteMarkers = this.mapService.createMarkers(siteData).map((marker, index) => {
+        const vehicle = siteData[index];
+        marker.setTitle(vehicle.siteName);
+        return { marker: marker };
+      });
+
   }
 
-  clearCluster() {
-    if (this.markerCluster)
-      this.markerCluster.clearMarkers();
+  clearCluster(index) {
+
+    console.log('inside clear cluster: ', index)
+    if (this.headingData[index].siteMarkers && this.headingData[index].vehicleMarkes) {
+      this.mapService.resetMarkerNested(true, true, this.headingData[index].vehicleMarkes);
+      this.mapService.resetMarkerNested(true, true, this.headingData[index].siteMarkers);
+
+      this.headingData[index].vehicleMarkes = [];
+      this.headingData[index].siteMarkers = [];
+    }
   }
 
-  selectid(event){
-    console.log("data:",event);
+  selectid(event) {
+    console.log("data:", event);
   }
 
 
