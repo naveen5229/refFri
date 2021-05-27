@@ -129,6 +129,18 @@
            </div>
            </div>
          </div>
+         <div class="holdContainer" *ngIf="TransportarReports.length">
+          <div class="collas-head" (click)="callToShow =9 ">
+             <p>Transportar Report</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span>
+           </div>
+           <div *ngIf="callToShow==9" class="collapseitem">
+           <div class="dataelements" *ngFor="let challanReport of TransportarReports; let i = index"
+             [hidden]="challanReport.isUsed" draggable="true" [id]="'analysis-option-' + challanReport.id"
+             (dragstart)="selectDraggable(challanReport, 'document')">
+             <span>{{challanReport.rpt_title}}</span>
+           </div>
+           </div>
+         </div>
       </div>
 
       <div class="col-10 reports-container" (drop)="handleDropped($event)" (dragover)="handleDragOver($event)">
@@ -332,6 +344,27 @@
       
         </div>
     </div>
+    <div class="report draggable" *ngFor="let tranportar of TransportarReports; let i = index"
+    [hidden]="!tranportar.isUsed" [id]="'transportar-report-' + tranportar.id"
+    [style.width]="tranportar.rpt_width + 'px'" [style.height]="tranportar.rpt_height + 'px'"
+    [style.top]="tranportar.y_pos + 'px'" [style.left]="tranportar.x_pos + 'px'">
+    <div class="report-container">
+        <load-allocation *ngIf="tranportar.id == 1 && tranportar.isUsed"></load-allocation>
+      <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(tranportar)"></i>
+      <avg-unloading-time-slowest *ngIf="tranportar.id == 2 && tranportar.isUsed"></avg-unloading-time-slowest>
+      <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(tranportar)"></i>
+      <slowest-transporter *ngIf="tranportar.id == 3 && tranportar.isUsed"></slowest-transporter>
+      <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(tranportar)"></i>
+      <lowest-loads *ngIf="tranportar.id == 4 && tranportar.isUsed"></lowest-loads>
+      <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(tranportar)"></i>
+    <lowest-load-days *ngIf="tranportar.id == 5 && tranportar.isUsed"></lowest-load-days>
+      <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(tranportar)"></i>
+     <longest-unloading *ngIf="tranportar.id == 6 && tranportar.isUsed"></longest-unloading>
+      <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(tranportar)"></i>
+      <longest-unloading-days *ngIf="tranportar.id == 6 && tranportar.isUsed"></longest-unloading-days>
+      <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(tranportar)"></i>
+      </div>
+  </div>
 
             </div>
         </div>

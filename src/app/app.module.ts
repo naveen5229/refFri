@@ -320,6 +320,7 @@ import { ConciseColumnPrefrenceComponent } from './modals/concise-column-prefren
 import {MatRadioModule} from '@angular/material/radio';
 import { AddGpsNewRequesComponent } from './modals/add-gps-new-reques/add-gps-new-reques.component';
 import { CostmatrixComponent } from './modals/costmatrix/costmatrix.component';
+import { SlowestTransporterComponent } from './widgets/transportar/slowest-transporter/slowest-transporter.component';
 
 
 
@@ -624,6 +625,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     NearByVehiclesComponent,
     AddGpsNewRequesComponent,
     CostmatrixComponent,
+    SlowestTransporterComponent,
+   
   ],
   entryComponents: [
     ...COMMON_COMPONENT,
