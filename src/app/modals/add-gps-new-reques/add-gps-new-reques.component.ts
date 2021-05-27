@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddGpsSupplierComponent } from '../add-gps-supplier/add-gps-supplier.component';
+import { AddVehicleComponent } from '../add-vehicle/add-vehicle.component';
 
 @Component({
   selector: 'add-gps-new-reques',
@@ -11,20 +12,7 @@ import { AddGpsSupplierComponent } from '../add-gps-supplier/add-gps-supplier.co
 })
 export class AddGpsNewRequesComponent implements OnInit {
 
-
-  table = {
-    data: {
-      headings: {},
-      columns: []
-    },
-    settings: {
-      hideHeader: true
-    }
-  };
-  headings = [];
-  valobj = {};
-
-
+  table=null;
   isAuth=null;
   gpsSupplierList = [];
   gpsSupplierId = null;
@@ -92,17 +80,7 @@ export class AddGpsNewRequesComponent implements OnInit {
 
   getGpsData(){
     this.gpsRequestData=[];
-    this.table = {
-      data: {
-        headings: {},
-        columns: []
-      },
-      settings: {
-        hideHeader: true
-      }
-    };
-    this.headings = [];
-    this. valobj = {};
+    this.table=null;
     if (this.gpsSupplierId == null) {
       this.common.showError("Please Enter Gps Supplier");
       return;
@@ -125,15 +103,12 @@ export class AddGpsNewRequesComponent implements OnInit {
       }
     }
     let params={
-      // gpsSupplierId:this.gpsSupplierId,
       apiprovider:this.gpsSupplierCode,
       authtoken:this.gpsAuthToken,
       apiusername:this.gpsUsername,
       apipwd:this.gpsPassword
     }
-    // console.log("param:",params);
-
-    // ?providerName='+this.gpsSupplierCode+'&token='+this.gpsAuthToken+'&userName='+this.gpsUsername+'&password='+this.gpsPassword
+    
     this.common.loading++;
       this.api.postJavaPortDost(8090, 'gpsapi/downloadapidatabyprovider',params)
         .subscribe(res => {
@@ -144,19 +119,7 @@ export class AddGpsNewRequesComponent implements OnInit {
             if(res['result'].length>0){
               this.common.showToast("Success");
             this.gpsRequestData=res['result'];
-            let first_rec = this.gpsRequestData[0];
-            let headings = {};
-            for (var key in first_rec) {
-            if (key.charAt(0) != "_") {
-            this.headings.push(key);
-            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-            headings[key] = headerObj;
-              }
-            }
-            this.table.data = {
-            headings: headings,
-            columns: this.getTableColumns()
-        };
+            this.table = this.setTable();
       }else{
         this.common.showToast("Record Not Found");
       }
@@ -176,17 +139,59 @@ export class AddGpsNewRequesComponent implements OnInit {
         formatTitle(title) {
           return title.charAt(0).toUpperCase() + title.slice(1)
         }
-        
-        getTableColumns() {
-          let columns = [];
-          this.gpsRequestData.map(matrix => {
-            this.valobj = {};
-            for (let i = 0; i < this.headings.length; i++) {
-              this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'black', action: '' };
+
+        setTable() {
+          let headings = {
+            vid: { title: 'Vehicle Id', placeholder: 'Vehicle Id' },
+            vehicleName: { title: 'Vehicle Name', placeholder: 'Vehicle Name' },
+            dateAndTime: { title: 'Date ', placeholder: 'Date' },
+            angle: { title: 'Angle', placeholder: 'Angle' },
+            speed: { title: 'Speed', placeholder: 'Speed' },
+            latLongValid: { title: 'Lat Long Valid', placeholder: 'Lat Long Valid' },
+            latitude: { title: 'Latitude', placeholder: 'Latitude' },
+            longitude: { title: 'Longitude', placeholder: 'Longitude' },
+            ignition: { title: 'Ignition', placeholder: 'Ignition' },
+            gmt: { title: 'GMT', placeholder: 'GMT' },
+            action: { title: 'Action', placeholder: 'Action', hideSearch: true, class: '' },
+          };
+          return {
+            data: {
+              headings: headings,
+              columns: this.getTableColumns()
+            },
+            settings: {
+              hideHeader: true,
+              tableHeight: "auto"
             }
-            columns.push(this.valobj);
+          }
+        }
+        getTableColumns() {
+          console.log("SITES:", this.gpsRequestData);
+          let columns = [];
+          this.gpsRequestData.map(res => {
+            let column = {
+              vid: {value:res.vid},
+              vehicleName: { value: res.vehicleName },
+              dateAndTime: { value: res.dateAndTime },
+              angle: { value: res.angle },
+              speed: { value: res.speed },
+              latLongValid: { value: res.latLongValid },
+              latitude: { value: res.latitude },
+              longitude: { value: res.longitude },
+              ignition: { value: res.ignition },
+              gmt: { value: res.gmt },
+              action: { value: res.vid==0? 'Add Vehicle':'', isHTML: true, action: this.addVehicle.bind(this, res), class: 'icon'  },
+            };
+            columns.push(column);
           });
           return columns;
+        }
+        
+      
+        addVehicle(data){
+          this.common.params = { isAddVehicle:true,regNo:data['vehicleName']}
+            
+            const activeModal = this.modalService.open(AddVehicleComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         }
 
         addGpsRequest(){
