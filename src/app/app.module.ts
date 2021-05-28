@@ -321,6 +321,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import { AddGpsNewRequesComponent } from './modals/add-gps-new-reques/add-gps-new-reques.component';
 import { CostmatrixComponent } from './modals/costmatrix/costmatrix.component';
 import { SlowestTransporterComponent } from './widgets/transportar/slowest-transporter/slowest-transporter.component';
+import { CostGamificationComponent } from './modals/cost-gamification/cost-gamification.component';
 
 
 
@@ -596,7 +597,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   PlacementProblemGenerationComponent,
   ConciseColumnPrefrenceComponent,
   AddGpsNewRequesComponent,
-  CostmatrixComponent
+  CostmatrixComponent,
+  CostGamificationComponent
 ];
 
 @NgModule({
@@ -626,7 +628,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     AddGpsNewRequesComponent,
     CostmatrixComponent,
     SlowestTransporterComponent,
-   
+    CostGamificationComponent
   ],
   entryComponents: [
     ...COMMON_COMPONENT,
@@ -656,7 +658,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     ResizableModule,
     DateInputsModule,
     ScrollingModule,
-    MatRadioModule
+    MatRadioModule,
   ],
 
   bootstrap: [AppComponent],
