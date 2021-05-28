@@ -13,6 +13,8 @@ import { PlacementConstraintsComponent } from '../../modals/placement-constraint
 import { PlacementRequirementComponent } from '../../modals/placement-requirement/placement-requirement.component';
 import { CostmatrixComponent } from '../../modals/costmatrix/costmatrix.component';
 import * as _ from 'lodash';
+import { CostGamificationComponent } from '../../modals/cost-gamification/cost-gamification.component';
+import { PlacementCostComponent } from '../../modals/placement-cost/placement-cost.component';
 
 @Component({
   selector: 'placementoptimization',
@@ -61,6 +63,7 @@ export class PlacementoptimizationComponent implements OnInit {
   vehicleIdList = [];
   allSite = [];
   allUnAllocatedVehiclesDetails = [];
+  showCostGameBtn: boolean = false;
 
 
 
@@ -144,7 +147,7 @@ export class PlacementoptimizationComponent implements OnInit {
   }
 
   showUnallocatedVehAndSitesOnMap() {
-    this.common.params = { data:[...this.allUnAllocatedVehiclesDetails,...this.allSite]};
+    this.common.params = { data: [...this.allUnAllocatedVehiclesDetails, ...this.allSite] };
     const activeModal = this.modalService.open(PlacementoptimizeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
@@ -160,6 +163,10 @@ export class PlacementoptimizationComponent implements OnInit {
 
   constraints() {
     const activeModal = this.modalService.open(PlacementConstraintsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+
+  placementCost(){
+    const activeModal = this.modalService.open(PlacementCostComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
   selectplnt(plant, index, num) {
@@ -238,6 +245,7 @@ export class PlacementoptimizationComponent implements OnInit {
     this.api.postJavaPortDost(8084, 'PlacementResult', params)
       .subscribe(res => {
         this.common.loading--;
+        this.showCostGameBtn = true;
         if (res['success']) {
           console.log("-----------", res['data']);
           this.common.showToast(res['msg']);
@@ -250,7 +258,7 @@ export class PlacementoptimizationComponent implements OnInit {
           this.totalPanelty = this.placementOPT['completePenalty'];
           this.unAllocatedVehicles = this.placementOPT['unallocatedVehicles'];
           this.unAllocatedVehicles.map(item => {
-            this.allUnAllocatedVehiclesDetails.push({ lat: item.latitude, lng: item.longitude,truckRegno: item.regno, type: 'vehicles', color: 'FF0000' })
+            this.allUnAllocatedVehiclesDetails.push({ lat: item.latitude, lng: item.longitude, truckRegno: item.regno, type: 'vehicles', color: 'FF0000' })
           })
         }
       }, err => {
@@ -356,6 +364,12 @@ export class PlacementoptimizationComponent implements OnInit {
   }
 
   showSiteUnAllocatedMarkerMap() {
-    console.log('allSite: ', this.allSite , ' unAllocatedVehicles: ' , this.allUnAllocatedVehiclesDetails)
+    console.log('allSite: ', this.allSite, ' unAllocatedVehicles: ', this.allUnAllocatedVehiclesDetails)
+  }
+
+  costGamification() {
+    console.log('inside costGamification');
+    this.common.params = {data: this.placementOPT}
+    const activeModal = this.modalService.open(CostGamificationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 }
