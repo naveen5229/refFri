@@ -148,6 +148,12 @@ export class PlacementoptimizationComponent implements OnInit {
     const activeModal = this.modalService.open(PlacementoptimizeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
+  showAllData(data) {
+    console.log("All Data:", data);
+    this.common.params = { data: data }
+    const activeModal = this.modalService.open(PlacementOptimisationOnMapComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+
   placementReq() {
     const activeModal = this.modalService.open(PlacementRequirementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
