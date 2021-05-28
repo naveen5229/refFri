@@ -407,7 +407,7 @@ export class TmgTripComponent implements OnInit {
     });
     return options;
   }
-
+ 
   handleChart() {
     let yaxis = [];
     let xaxis = [];

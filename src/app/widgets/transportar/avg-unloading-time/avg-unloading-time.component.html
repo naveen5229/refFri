@@ -1,0 +1,22 @@
+<div class="">
+    <div class="outer" style="min-height: 145px;">
+      <h6 style="text-align:center"><b class="charthead">Slowest Transporter (Last 60 Days)</b></h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetTransportarSlowestOnward',{totalrecord: 3,stepno: -1,groupdays:7},60,'days')"><i title="More Details" class="fa fa-list"></i>
+        </p>
+      <table class="table table-bordered">
+        <thead class="thead">
+          <th>Transporter</th>
+          <th>Trips Count</th>
+          <th>Avg Kmpd</th>
+        </thead>
+        <tbody class="tbody">
+          <tr *ngFor="let tso of transportarSlowestOnward">
+            <td>{{tso['transporter']}}</td>
+            <td>{{tso['tripcount']}}</td>
+            <td>{{tso['avg_kmpd']}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
