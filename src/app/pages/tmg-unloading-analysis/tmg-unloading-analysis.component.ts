@@ -312,7 +312,7 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
 
 
   }
-
+ 
   getlabelValue1() {
     this.xAxisData1 = [];
     if (this.unloadingWorstDestination) {

@@ -626,6 +626,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     AddGpsNewRequesComponent,
     CostmatrixComponent,
     SlowestTransporterComponent,
+  
    
   ],
   entryComponents: [
