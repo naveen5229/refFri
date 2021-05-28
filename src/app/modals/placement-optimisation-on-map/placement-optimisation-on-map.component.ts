@@ -28,8 +28,8 @@ export class PlacementOptimisationOnMapComponent implements OnInit {
   clusterChecked: false;
   vehicleMarkes = [];
   siteMarkers = [];
-  vehicleClusters = [];
-  siteClusters = [];
+  colorArray = [];
+
 
   constructor(
     public mapService: MapService,
@@ -66,11 +66,10 @@ export class PlacementOptimisationOnMapComponent implements OnInit {
           index: index,
           vehicleMarkes: [],
           siteMarkers: [],
-          vehicleClusters: [],
-          siteClusters: []
         });
       // this.vehCostPacketData.push(element.vehicleCostPacket);
     });
+    this.getRandomColor();
     // console.log('headingArray:', this.headingData);
     // console.log('cominedArray:', this.vehCostPacketData);
     // this.mapService.clearAll();
@@ -138,7 +137,7 @@ export class PlacementOptimisationOnMapComponent implements OnInit {
         long: element.longitude,
         truckRegno: element.truckRegno,
         type: 'vehicles',
-        color: 'FF0000'
+        color: this.colorArray[index]
       })
     });
 
@@ -151,18 +150,18 @@ export class PlacementOptimisationOnMapComponent implements OnInit {
       color: this.headingData[index].color
     });
 
-      this.headingData[index].vehicleMarkes = this.mapService.createMarkers(vehicleCostPacketData).map((marker, index) => {
-        const vehicle = vehicleCostPacketData[index];
-        marker.setTitle(vehicle.truckRegno);
-        return { marker: marker };
-      });
+    this.headingData[index].vehicleMarkes = this.mapService.createMarkers(vehicleCostPacketData).map((marker, index) => {
+      const vehicle = vehicleCostPacketData[index];
+      marker.setTitle(vehicle.truckRegno);
+      return { marker: marker };
+    });
 
 
-      this.headingData[index].siteMarkers = this.mapService.createMarkers(siteData).map((marker, index) => {
-        const vehicle = siteData[index];
-        marker.setTitle(vehicle.siteName);
-        return { marker: marker };
-      });
+    this.headingData[index].siteMarkers = this.mapService.createMarkers(siteData).map((marker, index) => {
+      const vehicle = siteData[index];
+      marker.setTitle(vehicle.siteName);
+      return { marker: marker };
+    });
 
   }
 
@@ -182,5 +181,16 @@ export class PlacementOptimisationOnMapComponent implements OnInit {
     console.log("data:", event);
   }
 
-
+  getRandomColor() {
+   this.colorArray = []
+    for(let i=0; i<this.headingData.length; i++){
+      var letters = '0123456789ABCDEF'.split('');
+      let color = ''
+      for (var  j= 0; j < 6; j++) {
+        color += letters[Math.round(Math.random() * 15)];
+      }
+      this.colorArray.push(color);
+    }
+    return this.colorArray;
+  }
 }
