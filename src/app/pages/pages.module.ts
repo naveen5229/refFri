@@ -176,6 +176,12 @@ import { LowestLoadsComponent } from '../widgets/transportar/lowest-loads/lowest
 import { LongestUnloadingComponent as transportuloading } from '../widgets/transportar/longest-unloading/longest-unloading.component';
 import { LowestLoadDaysComponent } from '../widgets/transportar/lowest-load-days/lowest-load-days.component';
 import { LongestUnloadingDaysComponent } from '../widgets/transportar/longest-unloading-days/longest-unloading-days.component';
+import { AvgUloadingTimeComponent } from '../widgets/unloading/avg-uloading-time/avg-uloading-time.component';
+import { DetentionTrendComponent } from '../widgets/unloading/detention-trend/detention-trend.component';
+import { WorstConsigneeComponent } from '../widgets/unloading/worst-consignee/worst-consignee.component';
+import { WorstConsigneeMonthsComponent } from '../widgets/unloading/worst-consignee-months/worst-consignee-months.component';
+import { WorstTransporterMonthsComponent } from '../widgets/unloading/worst-transporter-months/worst-transporter-months.component';
+import { WorstTransporterComponent } from '../widgets/unloading/worst-transporter/worst-transporter.component';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -238,6 +244,12 @@ const PAGES_COMPONENTS = [
     transportuloading,
     LowestLoadDaysComponent,
     LongestUnloadingDaysComponent,
+    AvgUloadingTimeComponent,
+    DetentionTrendComponent,
+    WorstConsigneeComponent,
+    WorstConsigneeMonthsComponent,
+    WorstTransporterMonthsComponent,
+    WorstTransporterComponent,
 ];
 
 @NgModule({

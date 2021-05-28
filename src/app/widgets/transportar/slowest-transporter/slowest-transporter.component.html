@@ -12,8 +12,8 @@
         </thead>
         <tbody class="tbody">
           <tr *ngFor="let tso of transportarSlowestOnward7days">
-            <td>{{tso['transporter']}}</td>
-            <td>{{tso['tripcount']}}</td>
+            <td class="link" (click)="getDetials('Tmgreport/GetTransportarSlowestOnward',{totalrecord: 3,stepno: 1,xid: tso['transporter'] ,groupdays:7},7,'days')">{{tso['transporter']}}</td>
+            <td>{{tso['tripcount']}}</td> 
             <td>{{tso['avg_kmpd']}}</td>
           </tr>
         </tbody>

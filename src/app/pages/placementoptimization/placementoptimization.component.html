@@ -1,10 +1,11 @@
 <nb-card style="border: 0px;">
   <nb-card-header>
     <div class="row">
-      <div class="col-sm-6 p-0">
+      <div class="col-sm-2 p-0">
         <h5>Placement Optimization</h5>
       </div>
 
+      <div class="col-sm-2 col-sm-offset-1 constraints" (click)="placementCost()">Placement Cost</div>
       <div class="col-sm-2 col-sm-offset-1 constraints" (click)="placementReq()">Placement Requirement</div>
       <div class="col-sm-2 col-sm-offset-1 constraints" (click)="constraints()">Placement Constraints</div>
     </div>
@@ -147,6 +148,9 @@
           </div>
           <div class="col-sm-2">
             <button class="btn btn-primary" (click)="savePlacementOptimization()">submit</button>
+          </div>
+          <div class="col-sm-4" *ngIf="showCostGameBtn">
+            <button class="btn btn-primary" (click)="costGamification()">Cost Gamification</button>
           </div>
         </div>
       </div>

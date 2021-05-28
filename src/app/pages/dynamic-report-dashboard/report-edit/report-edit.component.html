@@ -111,7 +111,7 @@
            </div>
            <div *ngIf="callToShow==7" class="collapseitem">
            <div class="dataelements" *ngFor="let challanReport of LoadingAnalysisReports; let i = index"
-             [hidden]="challanReport.isUsed" draggable="true" [id]="'analysis-option-' + challanReport.id"
+             [hidden]="challanReport.isUsed" draggable="true" [id]="'loading-option-' + challanReport.id"
              (dragstart)="selectDraggable(challanReport, 'loading')">
              <span>{{challanReport.rpt_title}}</span>
            </div>
@@ -123,7 +123,7 @@
            </div>
            <div *ngIf="callToShow==8" class="collapseitem">
            <div class="dataelements" *ngFor="let challanReport of DocumentReports; let i = index"
-             [hidden]="challanReport.isUsed" draggable="true" [id]="'analysis-option-' + challanReport.id"
+             [hidden]="challanReport.isUsed" draggable="true" [id]="'document-option-' + challanReport.id"
              (dragstart)="selectDraggable(challanReport, 'document')">
              <span>{{challanReport.rpt_title}}</span>
            </div>
@@ -135,8 +135,20 @@
            </div>
            <div *ngIf="callToShow==9" class="collapseitem">
            <div class="dataelements" *ngFor="let challanReport of TransportarReports; let i = index"
-             [hidden]="challanReport.isUsed" draggable="true" [id]="'analysis-option-' + challanReport.id"
-             (dragstart)="selectDraggable(challanReport, 'document')">
+             [hidden]="challanReport.isUsed" draggable="true" [id]="'transportar-option-' + challanReport.id"
+             (dragstart)="selectDraggable(challanReport, 'transportar')">
+             <span>{{challanReport.rpt_title}}</span>
+           </div>
+           </div>
+         </div>
+         <div class="holdContainer" *ngIf="UnloadingReports.length">
+          <div class="collas-head" (click)="callToShow =10 ">
+             <p>Unloading Report</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span>
+           </div>
+           <div *ngIf="callToShow==10" class="collapseitem">
+           <div class="dataelements" *ngFor="let challanReport of UnloadingReports; let i = index"
+             [hidden]="challanReport.isUsed" draggable="true" [id]="'unloading-option-' + challanReport.id"
+             (dragstart)="selectDraggable(challanReport, 'unloading')">
              <span>{{challanReport.rpt_title}}</span>
            </div>
            </div>
@@ -365,6 +377,26 @@
       <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(tranportar)"></i>
       </div>
   </div>
+  <div class="report draggable" *ngFor="let unloading of UnloadingReports; let i = index"
+  [hidden]="!unloading.isUsed" [id]="'unloading-report-' + unloading.id"
+  [style.width]="unloading.rpt_width + 'px'" [style.height]="unloading.rpt_height + 'px'"
+  [style.top]="unloading.y_pos + 'px'" [style.left]="unloading.x_pos + 'px'">
+  <div class="report-container">
+       <avg-uloading-time *ngIf="unloading.id == 1 && unloading.isUsed"></avg-uloading-time>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(unloading)"></i>
+   <detention-trend *ngIf="unloading.id == 2 && unloading.isUsed"></detention-trend>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(unloading)"></i>
+    <worst-consignee *ngIf="unloading.id == 3 && unloading.isUsed"></worst-consignee>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(unloading)"></i>
+     <worst-consignee-months *ngIf="unloading.id == 4 && unloading.isUsed"></worst-consignee-months>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(unloading)"></i>
+  <worst-transporter *ngIf="unloading.id == 5 && unloading.isUsed"></worst-transporter>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(unloading)"></i>
+ <worst-transporter-months *ngIf="unloading.id == 6 && unloading.isUsed"></worst-transporter-months>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(unloading)"></i>
+   
+    </div>
+</div>
 
             </div>
         </div>
