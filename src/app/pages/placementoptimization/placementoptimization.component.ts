@@ -14,6 +14,7 @@ import { PlacementRequirementComponent } from '../../modals/placement-requiremen
 import { CostmatrixComponent } from '../../modals/costmatrix/costmatrix.component';
 import * as _ from 'lodash';
 import { CostGamificationComponent } from '../../modals/cost-gamification/cost-gamification.component';
+import { PlacementCostComponent } from '../../modals/placement-cost/placement-cost.component';
 
 @Component({
   selector: 'placementoptimization',
@@ -162,6 +163,10 @@ export class PlacementoptimizationComponent implements OnInit {
 
   constraints() {
     const activeModal = this.modalService.open(PlacementConstraintsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+
+  placementCost(){
+    const activeModal = this.modalService.open(PlacementCostComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
   selectplnt(plant, index, num) {

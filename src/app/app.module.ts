@@ -322,6 +322,7 @@ import { AddGpsNewRequesComponent } from './modals/add-gps-new-reques/add-gps-ne
 import { CostmatrixComponent } from './modals/costmatrix/costmatrix.component';
 import { SlowestTransporterComponent } from './widgets/transportar/slowest-transporter/slowest-transporter.component';
 import { CostGamificationComponent } from './modals/cost-gamification/cost-gamification.component';
+import { PlacementCostComponent } from './modals/placement-cost/placement-cost.component';
 
 
 
@@ -598,7 +599,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   ConciseColumnPrefrenceComponent,
   AddGpsNewRequesComponent,
   CostmatrixComponent,
-  CostGamificationComponent
+  CostGamificationComponent,
+  PlacementCostComponent
 ];
 
 @NgModule({
@@ -628,7 +630,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     AddGpsNewRequesComponent,
     CostmatrixComponent,
     SlowestTransporterComponent,
-    CostGamificationComponent
+    CostGamificationComponent,
+    PlacementCostComponent
   ],
   entryComponents: [
     ...COMMON_COMPONENT,
