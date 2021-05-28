@@ -170,6 +170,13 @@ import { WorstLoadingSitesDaysComponent } from '../widgets/loading/worst-loading
 import { WorstParkingSitesDaysComponent } from '../widgets/loading/worst-parking-sites-days/worst-parking-sites-days.component';
 import { WorstParkingSitesComponent } from '../widgets/loading/worst-parking-sites/worst-parking-sites.component';
 import { LoadingTrendsComponent } from '../widgets/loading/loading-trends/loading-trends.component';
+import { LoadAllocationComponent } from '../widgets/transportar/load-allocation/load-allocation.component';
+import { AvgUnloadingTimeComponent } from '../widgets/transportar/avg-unloading-time/avg-unloading-time.component';
+import { LowestLoadsComponent } from '../widgets/transportar/lowest-loads/lowest-loads.component';
+import { LongestUnloadingComponent as transportuloading } from '../widgets/transportar/longest-unloading/longest-unloading.component';
+import { LowestLoadDaysComponent } from '../widgets/transportar/lowest-load-days/lowest-load-days.component';
+import { LongestUnloadingDaysComponent } from '../widgets/transportar/longest-unloading-days/longest-unloading-days.component';
+
 const PAGES_COMPONENTS = [
   PagesComponent,
   DynamicReportComponent,
@@ -225,6 +232,12 @@ const PAGES_COMPONENTS = [
     WorstParkingSitesDaysComponent,
     WorstParkingSitesComponent,
     LoadingTrendsComponent,
+    LoadAllocationComponent,
+    AvgUnloadingTimeComponent,
+    LowestLoadsComponent,
+    transportuloading,
+    LowestLoadDaysComponent,
+    LongestUnloadingDaysComponent,
 ];
 
 @NgModule({
