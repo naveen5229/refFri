@@ -512,6 +512,24 @@ export class MapService {
     }
   }
 
+  resetMarkerNested(reset = true, boundsReset = true, markers?) {
+    try {
+      let actualMarker = markers || this.markers;
+      for (let i = 0; i < actualMarker.length; i++) {
+        if (actualMarker[i].marker)
+          actualMarker[i].marker.setMap(null);
+      }
+      if (reset)
+        actualMarker = [];
+      if (boundsReset) {
+        this.bounds = new google.maps.LatLngBounds();
+      }
+      this.markers = [];
+    } catch (e) {
+      console.error('Exception in resetMarker:', e);
+    }
+  }
+
   resetBounds() {
     this.bounds = new google.maps.LatLngBounds();
     for (let index = 0; index < this.markers.length; index++) {
