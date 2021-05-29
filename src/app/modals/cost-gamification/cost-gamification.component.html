@@ -1,0 +1,53 @@
+<div class="modal-header">
+  <h6 style="color:white">Cost Gamification</h6>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<nb-card>
+  <nb-card-body style="overflow:inherit;padding-top:0px;">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th><label>Sites</label></th>
+              <th><label>Vehicles</label></th>
+              <th><label>Action</label></th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr *ngFor="let item of items; let j= index">
+              <td style="min-width: 250px;">
+                <auto-suggestion (onSelected)="siteDetails($event, j)" display="siteName" [data]="siteData"
+                  placeholder="Search Provider" className="borderStyle"
+                  [preSelected]="(item.siteId>0) ? {'name':item.siteName} : {'name':null}" inputId="site_name">
+                </auto-suggestion>
+              </td>
+              <td style="min-width:154px;">
+                <auto-suggestion (onSelected)="vehicleDetails($event, j)" display="truckRegno" [data]="vehicleData"
+                  placeholder="Search Provider" className="borderStyle" [preSelected]="null" inputId="vehicle_name">
+                </auto-suggestion>
+              </td>
+
+              <td style="padding: 0px;">
+                <span><i class="fa fa-plus add" (click)="addMoreItems(j)" *ngIf="j == items.length-1" style="padding: 1px;
+                                      color: green;"></i>
+                  <i class="fa fa-minus minus" (click)="items.splice(j,1)" *ngIf="j !== 0" style="padding: 1px;
+                                    color: red;"></i>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div>
+            <button class="btn btn-primary" style='float: right;' (click)="saveCostGamificationData()">Submit</button>
+        </div>
+      </div>
+    </div>
+
+  </nb-card-body>
+</nb-card>
