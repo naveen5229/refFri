@@ -66,7 +66,7 @@ export class DetentionTrendComponent implements OnInit {
       let params = {
         fromdate: this.common.dateFormatter(startDate),
         todate: this.common.dateFormatter(endDate),
-        totalrecord: 3
+        totalrecord: 5
       };
       this.api.post('Tmgreport/GetUnLoadingWorstDestination', params)
         .subscribe(res => {
@@ -83,7 +83,7 @@ export class DetentionTrendComponent implements OnInit {
       this.xAxisData1 = [];
       if (this.unloadingWorstDestination) {
         this.unloadingWorstDestination.forEach((cmg) => {
-          this.chart1.data.line.push(cmg['detention_days']);
+          this.chart1.data.line.push(cmg['Detention Days']);
           this.chart1.data.bar.push(cmg['tripcount']);
           this.xAxisData1.push(cmg['destination']);
         });
