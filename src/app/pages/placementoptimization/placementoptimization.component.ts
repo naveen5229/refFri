@@ -166,7 +166,7 @@ export class PlacementoptimizationComponent implements OnInit {
   }
 
   placementCost(){
-    const activeModal = this.modalService.open(PlacementCostComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(PlacementCostComponent, { size: 'xl', container: 'nb-layout', backdrop: 'static' });
   }
 
   selectplnt(plant, index, num) {
