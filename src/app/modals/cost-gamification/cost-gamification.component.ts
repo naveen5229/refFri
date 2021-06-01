@@ -14,6 +14,7 @@ export class CostGamificationComponent implements OnInit {
   placementData = [];
   siteData = [];
   vehicleData = [];
+  placementDate;
 
   items = [
     {
@@ -31,6 +32,7 @@ export class CostGamificationComponent implements OnInit {
     private api: ApiService
     ) { 
    this.placementData =  this.common.params.data;
+   this.placementDate = this.common.params.placementDate;
    this.getData();
   }
 
@@ -39,7 +41,7 @@ export class CostGamificationComponent implements OnInit {
       this.placementData['siteVehicleCostPackets'].forEach(element => {
         this.siteData.push({
           siteId: element.siteId,
-          siteName: element.siteName,
+          siteName: this.newSiteName(element),
           dayIndex: element.dayIndex        
         });
 
@@ -56,6 +58,25 @@ export class CostGamificationComponent implements OnInit {
         });
       })
       console.log('vehicle data is: ', this.vehicleData)
+  }
+
+  newSiteName(element){
+    let newSiteName;
+    let newDayIndex;
+
+    if(element.dayIndex === 1){
+      newDayIndex = 'Today'
+    }else if(element.dayIndex === 2){
+      newDayIndex = 'Today + 1'
+    } else if(element.dayIndex === 3){
+      newDayIndex = 'Today + 2'
+    } else if( element.dayIndex === 4){
+      newDayIndex = 'Today + 3'
+    }
+    
+    newSiteName = element.siteName + ' - ' + newDayIndex;
+
+    return newSiteName;
   }
 
   ngOnInit(): void {
@@ -91,7 +112,8 @@ export class CostGamificationComponent implements OnInit {
     console.log('this.items: ', this.items, this.placementData)
     let params = {
       costGamification: this.items,
-      placementData: this.placementData
+      placementData: this.placementData,
+      placementDate: this.common.dateFormatter1(this.placementDate)
     }
     console.log('params is: ', params);
     
