@@ -12,7 +12,7 @@
         </thead>
         <tbody class="tbody">
           <tr *ngFor="let uwt of unLoadingWorstTransportar1month">
-            <td (click)="getDetials(uwt._url,{ts:'tst',fromdate:uwt._fromdate,todate:uwt._todate,stepno:'1',totalrecord:'3',jsonparam:uwt.transporter})">{{uwt['transporter']}}</td>
+            <td class="link" (click)="getDetials(uwt._url,{ts:'tst',fromdate:uwt._fromdate,todate:uwt._todate,stepno:'1',totalrecord:'3',jsonparam:uwt.transporter})">{{uwt['transporter']}}</td>
             <td>{{uwt['tripcount']}}</td>
             <td>{{uwt['duration_Hrs']}}</td>
           </tr>
