@@ -369,7 +369,7 @@ export class PlacementoptimizationComponent implements OnInit {
 
   costGamification() {
     console.log('inside costGamification');
-    this.common.params = {data: this.placementOPT}
+    this.common.params = {data: this.placementOPT, placementDate: this.placementDate}
     const activeModal = this.modalService.open(CostGamificationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 }
