@@ -30,7 +30,7 @@
                               <td>{{i+1}}</td>
                               <td>{{data['siteName']}} - {{data['dayIndex']==1 ? "(Today)":(data['dayIndex']==2 ? "(Today+1)":(data['dayIndex']==3 ? "(Today+2)":(data['dayIndex']== 4 ? "(Today+3)":"(Today+4)")))}}</td>
                               <td><input type="checkbox" [name]="'density-' + i" [id]="'density-' + i" [(ngModel)]="data.markerCluster" (ngModelChange)="handleMarkerCluster(data.markerCluster,i)" >
-                              <span>Density Cluster</span></td>
+                              </td>
                           </tr>
                       </tbody>
                   </table>

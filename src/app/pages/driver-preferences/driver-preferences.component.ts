@@ -78,6 +78,7 @@ export class DriverPreferencesComponent implements OnInit {
       status: { title: 'Status', placeholder: 'Status' },
       pendingTime: { title: 'Start Time', placeholder: 'Start Time' },
       expireTime: { title: 'Expire Time', placeholder: 'Expire Time' },
+      isActive: {title: 'isActive', placeholder: 'isActive'},
       modes: { title: 'Modes', placeholder: 'Modes' },
       action: { title: 'Action ', placeholder: 'Action', hideSearch: true, class: 'tag' },
     };
@@ -106,7 +107,9 @@ export class DriverPreferencesComponent implements OnInit {
           column[key] = { value: consent[key] ? this.common.dateFormatter(consent[key]) : '', class: "black", action: "" };
         } else if (key === 'expireTime') {
           column[key] = { value: consent[key] ? this.common.dateFormatter(consent[key]) : '', class: "black", action: "" };
-        } else if (key === 'modes') {
+        } else if (key === 'isActive') {
+          column[key] = { value: "", isHTML: true, action: null, icons: this.isActiveIcon(consent['isActive'])};
+        }  else if (key === 'modes') {
           column[key] = { value: consent[key], class: "black", action: "" };
         } else {
           column['action'] = { value: "", isHTML: true, action: null, icons: actionIcon };
@@ -115,6 +118,31 @@ export class DriverPreferencesComponent implements OnInit {
       columns.push(column);
     });
     return columns;
+  }
+
+  isActiveIcon(isActive){
+    console.log('isActive', isActive)
+    let icons = []
+    if(isActive == true){
+      icons = [
+        {
+          class: "fa fa-check",
+          action: '',
+          txt: "",
+          title: null,
+        },
+      ]
+    } else if(isActive == false){
+      icons = [
+        {
+          class: "fa fa-times",
+          action: '',
+          txt: "",
+          title: null,
+        },
+      ]
+    }
+    return icons
   }
 
   statusActionIcons(type, consent) {
@@ -136,6 +164,9 @@ export class DriverPreferencesComponent implements OnInit {
         title: null,
       },
     ]
+
+    this.enableDisableActionIcon(consent, icons);
+    
     return icons;
   }
 
@@ -148,8 +179,52 @@ export class DriverPreferencesComponent implements OnInit {
         title: null,
       },
     ]
+    this.enableDisableActionIcon(consent, icons);
     return icons;
   }
+
+  enableDisableActionIcon(consent, icons){
+    if(consent['isActive'] == true){
+      icons.push(
+        {
+          class: "fa fa-window-close ml-2",
+          action: this.enableDisableConsentData.bind(this, consent, false),
+          txt: "",
+          title: null,
+        }
+      )
+    } else if(consent['isActive'] == false){
+      icons.push(
+        {
+          class: "fa fa-check-square ml-2",
+          action: this.enableDisableConsentData.bind(this, consent, true),
+          txt: "",
+          title: null,
+        }
+      )
+    }
+  }
+
+  enableDisableConsentData(consent, value){
+    let params ={
+      id: consent['id'],
+      data: value
+    }
+    this.common.loading ++;
+    this.api.postJavaPortDost(8083, `simdataconsent/activate/${params.id}/${params.data}`, null)
+    .subscribe((res) => {
+      this.common.loading--;
+      console.log('response is: ', res);
+      this.common.showToast(res['message']);
+      this.refresh();
+    },
+      err => {
+        this.common.loading--;
+        console.log('error is:', err);
+
+      });
+  }
+
 
   simDataConsentVerify(consent) {
     this.common.loading++;
