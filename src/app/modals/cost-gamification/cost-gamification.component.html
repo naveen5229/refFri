@@ -49,5 +49,28 @@
       </div>
     </div>
 
+    <div class="row mt-5" *ngIf="showNewCostData">
+      <div class="col-sm-12">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Previous Cost</th>
+              <th>Previous Penalty</th>
+              <th>New Cost</th>
+              <th>New Penalty</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{previousCost}}</td>
+              <td>{{previousPenalty}}</td>
+              <td>{{newCost}}</td>
+              <td>{{newPenalty}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </nb-card-body>
 </nb-card>

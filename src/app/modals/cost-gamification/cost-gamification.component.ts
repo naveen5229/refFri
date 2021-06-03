@@ -26,6 +26,12 @@ export class CostGamificationComponent implements OnInit {
     }
   ]
 
+  previousCost;
+  previousPenalty;
+  newPenalty;
+  newCost;
+  showNewCostData: boolean = false;
+
   constructor(
     private common: CommonService,
     private activeModal: NgbActiveModal,
@@ -57,7 +63,9 @@ export class CostGamificationComponent implements OnInit {
           })
         });
       })
-      console.log('vehicle data is: ', this.vehicleData)
+
+      this.previousCost = this.placementData['completeCost'];
+      this.previousPenalty = this.placementData['completePenalty'];
   }
 
   newSiteName(element){
@@ -123,6 +131,9 @@ export class CostGamificationComponent implements OnInit {
       .subscribe(res => {
         this.common.loading --;
         console.log('response is: ', res);
+        this.newCost = res['data'].completeCost;
+        this.newPenalty = res['data'].completePenalty;
+        this.showNewCostData = true;
       }, err => {
         this.common.loading --;
         console.log(err);
