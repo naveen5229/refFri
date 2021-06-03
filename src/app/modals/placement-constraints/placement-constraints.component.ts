@@ -164,7 +164,7 @@ getPreviousDataUsingVehicle(id){
 
 selectPlantForVehicle(event,index){
   console.log("plantEvent:",event);
-  this.siteIdNamePairs[index]['siteName']=event['id'];
+  this.siteIdNamePairs[index]['siteId']=event['id'];
   this.siteIdNamePairs[index]['siteName']=event['name'];
 }
 
