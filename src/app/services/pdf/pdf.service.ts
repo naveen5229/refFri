@@ -378,7 +378,7 @@ export class PdfService {
 
     doc.setFontSize(14);
     doc.setFont("times", "bold");
-    doc.text("elogist Solutions ", x, y);
+    // doc.text("elogist Solutions ", x, y);
 
 
 
@@ -387,9 +387,9 @@ export class PdfService {
     doc.setFontSize(12);
     doc.line(20, 70, pageWidth - 20, 70);
 
-    let eltimg = document.createElement("img");
-    eltimg.src = "assets/images/elogist.png";
-    eltimg.alt = "logo";
+    // let eltimg = document.createElement("img");
+    // eltimg.src = "assets/images/elogist.png";
+    // eltimg.alt = "logo";
 
 
 
@@ -412,7 +412,7 @@ export class PdfService {
     // }
 
 
-    doc.addImage(eltimg, 'JPEG', 370, 15, 50, 50, 'logo', 'NONE', 0);
+    // doc.addImage(eltimg, 'JPEG', 370, 15, 50, 50, 'logo', 'NONE', 0);
     // FOOTER
     var str = "Page " + data.pageCount;
 
@@ -678,6 +678,15 @@ export class PdfService {
   }
 
   tableWithImages(id, tableIds, data, left_heading, center_heading) {
+
+    console.log('tableWithImages id: ', id);
+    console.log('tableWithImages tableIds: ', tableIds);
+    console.log('tableWithImages data is:', data);
+    console.log('tableWithImages left_heading: ', left_heading);
+    console.log('tableWithImages center_heading: ', center_heading)
+    
+    
+
     let promises = [];
     let list = data;
     const status = [];
@@ -692,11 +701,11 @@ export class PdfService {
 
     Promise.all(promises).then(result => {
       let pdf = new jsPDF('p', 'px', 'a4'); // A4 size page of PDF
-      let eltimg = document.createElement("img");
-      eltimg.src = "assets/images/elogist.png";
-      eltimg.alt = "logo";
+      // let eltimg = document.createElement("img");
+      // eltimg.src = "assets/images/elogist.png";
+      // eltimg.alt = "logo";
 
-      pdf.addImage(eltimg, 'JPEG', 370, 15, 50, 50, 'logo', 'NONE', 0);
+      // pdf.addImage(eltimg, 'JPEG', 370, 15, 50, 50, 'logo', 'NONE', 0);
       result.map((canvas, index) => {
 
         pdf = this.addImageToPdf(canvas, pdf, index, 450, 600);
@@ -723,7 +732,7 @@ export class PdfService {
         let tablesRows = [];
         tablesHeadings = this.newfindTableHeadings(tableId);
         tablesRows = this.findTableRows(tableId);
-        pdf.text(status[index], 25, 65);
+        // pdf.text(status[index], 25, 65);
         pdf = this.newaddTableInDoc(pdf, tablesHeadings, tablesRows);
         pdf.addPage();
       });
