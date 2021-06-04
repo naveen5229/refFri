@@ -1401,7 +1401,8 @@ export class ConciseComponent implements OnInit {
       tableId.push(`print-table-${index}`);
     });
 
-    this.pdfService.tableWithImages('page-1', tableId, data, customerName, 'Trip Feedback Logs');
+
+    this.pdfService.tableWithImages('page-1', tableId, data, customerName, 'Trip Dashboard');
   }
 
   cookPdfData() {
