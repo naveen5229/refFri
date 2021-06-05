@@ -48,6 +48,15 @@
             <label><input name="time" class="ml-3" type="radio" [(ngModel)]="select" [value]="1">Only Available</label>
           </div>
 
+          <div class="col-sm-3">
+            <label>Allocation Type</label><br>
+            <select [(ngModel)]="subAllocType" (change)="subAllocTypeChange($event);" style="width:100%">
+              <option value="0">available</option>
+              <option value="1">available + unloading</option>
+              <option value="2">available + unloading + onward</option>
+            </select>
+          </div>
+
           <div class="col-sm-2">
             <label>Quantity Type:</label>
             <select [(ngModel)]="quantityType"

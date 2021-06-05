@@ -71,6 +71,12 @@
           <button class="btn btn-primary" (click)="savePlacementCost()">Submit</button>
         </div>
       </div>
+
+      <div class="row mt-2">
+        <smart-table *ngIf="data && data.length && table" [data]="table.data" [settings]="table.settings"
+          id="cardDetails">
+        </smart-table>
+      </div>
     </div>
   </nb-card-body>
 </nb-card>

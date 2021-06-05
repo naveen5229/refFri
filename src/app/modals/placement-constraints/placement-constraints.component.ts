@@ -19,6 +19,10 @@ export class PlacementConstraintsComponent implements OnInit {
   activeTab='plant';
   plantIdForSave=null;
   vehicleIdForSave=null;
+  tabData = {
+    plant: true,
+    vehicle: false
+  }
 
   vehicleIdRegnoPairs = [
     {
@@ -38,7 +42,8 @@ export class PlacementConstraintsComponent implements OnInit {
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    private activeModal: NgbActiveModal) { }
+    private activeModal: NgbActiveModal) { 
+    }
 
   ngOnInit(): void {
   }
@@ -76,9 +81,14 @@ export class PlacementConstraintsComponent implements OnInit {
 
   getPreviousDataUsingPlant(pltId){
     let siteId=pltId;
-    let constraintType=this.select
+    let constraintType;
+    if(this.select === 0){
+      constraintType = true
+    } else{
+      constraintType = false
+    }
     this.common.loading++;
-    this.api.getJavaPortDost(8084, 'getPreviousConstraintDataUsingPlant/' + siteId+'/'+constraintType)
+    this.api.getJavaPortDost(8084, `getVehicleSiteConstraints/${siteId}/${constraintType}/true`)
       .subscribe(res => {
         this.common.loading--;
         if (res['vehicleIdRegnoPairs'] && res['vehicleIdRegnoPairs'].length > 0) {
@@ -141,9 +151,14 @@ this.getPreviousDataUsingVehicle(event['id']);
 
 getPreviousDataUsingVehicle(id){
   let vehId=id;
-  let vehConstraints=this.sltVehicle;
+  let vehConstraints;
+    if(this.sltVehicle === 0){
+      vehConstraints = true
+    } else{
+      vehConstraints = false
+    }
     this.common.loading++;
-    this.api.getJavaPortDost(8084, 'getPreviousConstraintDataUsingVehicle/' + vehId+'/'+vehConstraints)
+    this.api.getJavaPortDost(8084, `getVehicleSiteConstraints/${vehId}/${vehConstraints}/false`)
       .subscribe(res => {
         this.common.loading--;
         if (res['siteIdNamePairs'] && res['siteIdNamePairs'].length > 0) {
