@@ -105,24 +105,31 @@ export class PlacementCostComponent implements OnInit {
 
     this.items.map(item => {
       if(item.regno == ''){
-        item.regno = doc['regno'];
-        item.costPerLoadKm = doc['costPerLoadKm'];
-        item.costPerUnloadKm = doc['costPerUnloadKm'];
-        item.kmPerDayLoad = doc['kmPerDayLoad'];
-        item.kmPerDayUnload = doc['kmPerDayUnload'];
-        item.costPerHour = doc['costPerHour'];
-      } else {
+        this.items = [];
         this.items.push({
           vehicleId: doc['vehicleId'],
-          regno: doc['regno'],
+          regno:  doc['regno'],
           costPerLoadKm: doc['costPerLoadKm'],
           costPerUnloadKm: doc['costPerUnloadKm'],
           kmPerDayLoad: doc['kmPerDayLoad'],
           kmPerDayUnload: doc['kmPerDayUnload'],
-          costPerHour: doc['costPerHour'],
+          costPerHour: doc['costPerHour']
         })
+      } 
+
+      
+      else {
+          this.items.push(
+            {
+            vehicleId: doc['vehicleId'],
+            regno: doc['regno'],
+            costPerLoadKm: doc['costPerLoadKm'],
+            costPerUnloadKm: doc['costPerUnloadKm'],
+            kmPerDayLoad: doc['kmPerDayLoad'],
+            kmPerDayUnload: doc['kmPerDayUnload'],
+            costPerHour: doc['costPerHour'],
+          })
       }
-     
     })
 
     console.log('this.items: ', this.items);
