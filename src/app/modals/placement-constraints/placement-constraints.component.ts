@@ -12,13 +12,25 @@ import { MapService } from "../../services/map.service";
 })
 export class PlacementConstraintsComponent implements OnInit {
 
-  plantStatus=false;
-  vehicleStatus=false;
-  select=0;
-  sltVehicle=0;
-  activeTab='plant';
-  plantIdForSave=null;
-  vehicleIdForSave=null;
+  plantStatus = false;
+  vehicleStatus = false;
+  select = 0;
+  sltVehicle = 0;
+  activeTab = 'plant';
+  plantIdForSave = null;
+  vehicleIdForSave = null;
+  isPlantInclusive: boolean = false;
+  isVehicleInclusive: boolean = false;
+  plantSiteId;
+  plantSiteName;
+
+  vehVehicleId;
+  vehVehicleName;
+
+  tabData = {
+    plant: true,
+    vehicle: false
+  }
 
   vehicleIdRegnoPairs = [
     {
@@ -26,25 +38,26 @@ export class PlacementConstraintsComponent implements OnInit {
       regno: null,
     }
   ];
-  
-  siteIdNamePairs=[
+
+  siteIdNamePairs = [
     {
-      siteId:0,
-      siteName:null
+      siteId: 0,
+      siteName: null,
     }
-];
+  ];
 
   constructor(public mapService: MapService,
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    private activeModal: NgbActiveModal) { }
+    private activeModal: NgbActiveModal) {
+  }
 
   ngOnInit(): void {
   }
 
-  refreshPlant(){
-    this.plantStatus=false;
+  refreshPlant() {
+    this.plantStatus = false;
     this.vehicleIdRegnoPairs = [
       {
         vehicleId: 0,
@@ -53,73 +66,89 @@ export class PlacementConstraintsComponent implements OnInit {
     ];
   }
 
-  refreshVehicle(){
-    this.vehicleStatus=false;
-    this.siteIdNamePairs=[
+  refreshVehicle() {
+    this.vehicleStatus = false;
+    this.siteIdNamePairs = [
       {
-        siteId:0,
-        siteName:null
+        siteId: 0,
+        siteName: null,
       }
-  ];
+    ];
   }
 
   closeModal(response) {
     this.activeModal.close({ response: response });
   }
 
-  selectplnt(event,index){
-    this.plantIdForSave=event['id'];
-    this.plantStatus=true;
-    this.getPreviousDataUsingPlant(event['id']);
-    console.log("Plant:",event); 
+  selectplnt(event, index) {
+    this.plantIdForSave = event['id'];
+    this.plantStatus = true;
+    this.getPreviousDataUsingPlant(event['id'], event['name']);
+    console.log("Plant:", event);
   }
 
-  getPreviousDataUsingPlant(pltId){
-    let siteId=pltId;
-    let constraintType=this.select
+  getPreviousDataUsingPlant(pltId, pltName) {
+    this.plantSiteId = pltId;
+    this.plantSiteName = pltName;
+    let constraintType;
+    if (this.select === 0) {
+      constraintType = true;
+      this.isPlantInclusive = true;
+    } else {
+      constraintType = false;
+      this.isPlantInclusive = false;
+    }
     this.common.loading++;
-    this.api.getJavaPortDost(8084, 'getPreviousConstraintDataUsingPlant/' + siteId+'/'+constraintType)
+    this.api.getJavaPortDost(8084, `getVehicleSiteConstraints/${this.plantSiteId}/${constraintType}/true`)
       .subscribe(res => {
         this.common.loading--;
-        if (res['vehicleIdRegnoPairs'] && res['vehicleIdRegnoPairs'].length > 0) {
-          this.vehicleIdRegnoPairs = res['vehicleIdRegnoPairs'];
-        } else {
-          console.log("test");
+        res['data']['vehicleSiteConstraints'].forEach(element => {
           this.vehicleIdRegnoPairs = [];
           this.vehicleIdRegnoPairs.push({
-              vehicleId: 0,
-              regno: null,
-          });
-        }
+            vehicleId: element.vehicleId,
+            regno: element.regno
+          })
+        });
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
 
-  getVehicleForPlant(event,index){
+  getVehicleForPlant(event, index) {
     this.vehicleIdRegnoPairs[index]['vehicleId'] = event['id'];
     this.vehicleIdRegnoPairs[index]['regno'] = event['regno'];
   }
 
   addMoreItems(i) {
     this.vehicleIdRegnoPairs.push({
-      vehicleId:0,
-      regno:null
+      vehicleId: 0,
+      regno: null
     });
-    console.log("items:",this.vehicleIdRegnoPairs)
+    console.log("items:", this.vehicleIdRegnoPairs)
   }
 
-  savePlantData(){
+  savePlantData() {
     console.log("jsonData:", JSON.stringify(this.vehicleIdRegnoPairs))
+    let newVehicleIdRegnoPairs = [];
+    this.vehicleIdRegnoPairs.forEach(item => {
+      newVehicleIdRegnoPairs.push({
+        vehicleId: item.vehicleId,
+        siteId: this.plantSiteId,
+        isInclusive: this.isPlantInclusive,
+        isRefPlant: true,
+        regno: item.regno,
+        siteName: this.plantSiteName
+      })
+    })
     let params = {
-      constraintType: this.select,
-      siteId: this.plantIdForSave,
-      vehicleIdRegnoPairs:this.vehicleIdRegnoPairs
+      isInclusive: this.isPlantInclusive,
+      isRefPlant: true,
+      vehicleSiteConstraints: newVehicleIdRegnoPairs
     }
     console.log("savePlantParam:", params);
     this.common.loading++;
-    this.api.postJavaPortDost(8084, 'saveConstraintSite', params)
+    this.api.postJavaPortDost(8084, 'saveVehicleSiteConstraints', params)
       .subscribe(res => {
         this.common.loading--;
         if (res['success']) {
@@ -131,60 +160,78 @@ export class PlacementConstraintsComponent implements OnInit {
       });
   }
 
-// Vehicle placement Constraints
+  // Vehicle placement Constraints
 
-selectVehicle(event){
-this.vehicleIdForSave=event['id'];
-this.vehicleStatus=true;
-this.getPreviousDataUsingVehicle(event['id']);
-}
+  selectVehicle(event) {
+    this.vehicleIdForSave = event['id'];
+    this.vehicleStatus = true;
+    console.log('vehicle event: ', event)
+    this.getPreviousDataUsingVehicle(event['id'], event['regno']);
+  }
 
-getPreviousDataUsingVehicle(id){
-  let vehId=id;
-  let vehConstraints=this.sltVehicle;
+  getPreviousDataUsingVehicle(id, regno) {
+    this.vehVehicleId = id;
+    this.vehVehicleName = regno
+    let vehConstraints;
+    if (this.sltVehicle === 0) {
+      vehConstraints = true;
+      this.isVehicleInclusive = true;
+    } else {
+      vehConstraints = false;
+      this.isVehicleInclusive = false;
+    }
     this.common.loading++;
-    this.api.getJavaPortDost(8084, 'getPreviousConstraintDataUsingVehicle/' + vehId+'/'+vehConstraints)
+    this.api.getJavaPortDost(8084, `getVehicleSiteConstraints/${id}/${vehConstraints}/false`)
       .subscribe(res => {
         this.common.loading--;
-        if (res['siteIdNamePairs'] && res['siteIdNamePairs'].length > 0) {
-          this.siteIdNamePairs = res['siteIdNamePairs'];
-        } else {
-          console.log("test");
-          this.siteIdNamePairs = []; 
+        res['data']['vehicleSiteConstraints'].forEach(element => {
+          this.siteIdNamePairs = [];
           this.siteIdNamePairs.push({
-              siteId: 0,
-              siteName: null,
-          });
-        }
+            siteId: element.siteId,
+            siteName: element.siteName
+          })
+        });
+
       }, err => {
         this.common.loading--;
         console.log(err);
       });
-}
+  }
 
-selectPlantForVehicle(event,index){
-  console.log("plantEvent:",event);
-  this.siteIdNamePairs[index]['siteId']=event['id'];
-  this.siteIdNamePairs[index]['siteName']=event['name'];
-}
+  selectPlantForVehicle(event, index) {
+    console.log("plantEvent:", event);
+    this.siteIdNamePairs[index]['siteId'] = event['id'];
+    this.siteIdNamePairs[index]['siteName'] = event['name'];
+  }
 
-addItemsForVehicle(){
-  this.siteIdNamePairs.push({
-    siteId:0,
-    siteName:null
-  });
-}
+  addItemsForVehicle() {
+    this.siteIdNamePairs.push({
+      siteId: 0,
+      siteName: null
+    });
+  }
 
-saveVehicleData(){
-  console.log("jsonData:", JSON.stringify(this.vehicleIdRegnoPairs))
+  saveVehicleData() {
+    console.log("jsonData:", JSON.stringify(this.vehicleIdRegnoPairs))
+    let newSiteIdNamePair = [];
+    this.siteIdNamePairs.forEach(item => {
+      newSiteIdNamePair.push({
+        vehicleId: this.vehVehicleId,
+        siteId: item.siteId,
+        isInclusive: this.isVehicleInclusive,
+        isRefPlant: false,
+        regno: this.vehVehicleName,
+        siteName: item.siteName,
+      })
+    })
     let params = {
-      constraintType: this.sltVehicle,
-      vehicleId: this.vehicleIdForSave,
-      siteIdNamePairs:this.siteIdNamePairs
+      isInclusive: this.isVehicleInclusive,
+      isRefPlant: false,
+      vehicleSiteConstraints: newSiteIdNamePair
     }
     console.log("saveVehicleParams:", params);
     this.common.loading++;
-    this.api.postJavaPortDost(8084, 'saveConstraintVehicle', params)
+    this.api.postJavaPortDost(8084, 'saveVehicleSiteConstraints', params)
       .subscribe(res => {
         this.common.loading--;
         if (res['success']) {
@@ -194,6 +241,6 @@ saveVehicleData(){
         this.common.loading--;
         console.log(err);
       });
-}
+  }
 
 }
