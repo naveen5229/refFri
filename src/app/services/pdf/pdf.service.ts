@@ -340,8 +340,7 @@ export class PdfService {
 
   newaddTableInDoc(doc, headings, rows) {
     // console.log("ids",left_heading,center_heading);
-    let tempLineBreak = { fontSize: 10, cellPadding: 1, minCellHeight: 11, minCellWidth: 9, cellWidth: 48, valign: 'middle', halign: 'center' };
-
+    let tempLineBreak = { fontSize: 10, cellPadding: 1, minCellHeight: 11, minCellWidth: 9, valign: 'middle', halign: 'center' };
     doc.autoTable({
       head: headings,
       body: rows,
@@ -357,8 +356,8 @@ export class PdfService {
 
       },
       styles: tempLineBreak,
-      columnStyles: { text: { cellWidth: 35, halign: 'center', valign: 'middle' } },
-
+      columnStyles: { text: { halign: 'center', valign: 'middle' } },
+      tableWidth: 'auto'
     });
 
     //  console.log("testing",left_heading,center_heading);
@@ -679,14 +678,6 @@ export class PdfService {
 
   tableWithImages(id, tableIds, data, left_heading, center_heading) {
 
-    console.log('tableWithImages id: ', id);
-    console.log('tableWithImages tableIds: ', tableIds);
-    console.log('tableWithImages data is:', data);
-    console.log('tableWithImages left_heading: ', left_heading);
-    console.log('tableWithImages center_heading: ', center_heading)
-    
-    
-
     let promises = [];
     let list = data;
     const status = [];
@@ -700,43 +691,68 @@ export class PdfService {
     promises.push(html2canvas(element, { scale: 2 }));
 
     Promise.all(promises).then(result => {
-      let pdf = new jsPDF('p', 'px', 'a4'); // A4 size page of PDF
+
+
+      // let pdf = new jsPDF('l', 'px', 'a4'); // A4 size page of PDF
       // let eltimg = document.createElement("img");
       // eltimg.src = "assets/images/elogist.png";
       // eltimg.alt = "logo";
 
       // pdf.addImage(eltimg, 'JPEG', 370, 15, 50, 50, 'logo', 'NONE', 0);
-      result.map((canvas, index) => {
 
-        pdf = this.addImageToPdf(canvas, pdf, index, 450, 600);
-        if (index < result.length - 1) pdf.addPage()
-      });
-
-      pdf.addPage();
       /**************** LOGO Creation *************** */
 
       /**************** PDF Size ***************** */
+      // let maxHeadingLength = 0;
+      // let pageOrientation = "Portrait";
+
+      let tablesHeadings = [];
+      let tablesRows = [];
+      tableIds.map(tableId => {
+        tablesHeadings.push(this.findTableHeadings(tableId));
+        tablesRows.push(this.findTableRows(tableId));
+      });
+
       let maxHeadingLength = 0;
+      tablesHeadings.map(tblHeadings => {
+        if (maxHeadingLength < tblHeadings[0].length)
+          maxHeadingLength = tblHeadings[0].length;
+      });
       let pageOrientation = "Portrait";
+      if (maxHeadingLength >= 7) {
+        pageOrientation = "Landscape";
+      }
+      let doc = new jsPDF({
+        orientation: pageOrientation,
+        unit: "px",
+        format: "a4"
+      });
 
-      pdf.setFontSize(14);
-      pdf.setFont("times", "bold", "text-center");
-      pdf.text(left_heading, 200, 60);
+      result.map((canvas, index) => {
+
+        doc = this.addImageToPdf(canvas, doc, index, 450, 600);
+        if (index < result.length - 1) doc.addPage()
+      });
+
+      doc.addPage();
+      doc.setFontSize(14);
+      doc.setFont("times", "bold", "text-center");
+      doc.text(left_heading, 200, 60);
 
 
-      pdf.setFontSize(14);
-      pdf.setFont("times", "bold", "text-center");
-      pdf.text(center_heading, 200, 45);
+      doc.setFontSize(14);
+      doc.setFont("times", "bold", "text-center");
+      doc.text(center_heading, 200, 45);
       tableIds.map((tableId, index) => {
         let tablesHeadings = [];
         let tablesRows = [];
         tablesHeadings = this.newfindTableHeadings(tableId);
         tablesRows = this.findTableRows(tableId);
         // pdf.text(status[index], 25, 65);
-        pdf = this.newaddTableInDoc(pdf, tablesHeadings, tablesRows);
-        pdf.addPage();
+        doc = this.newaddTableInDoc(doc, tablesHeadings, tablesRows);
+        doc.addPage();
       });
-      pdf.save("report.pdf");
+      doc.save("report.pdf");
     });
   }
 
