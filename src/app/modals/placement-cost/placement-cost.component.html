@@ -27,7 +27,7 @@
             <tr *ngFor="let item of items; let j= index">
               <td>
                 <auto-suggestion (onSelected)="selectVehicle($event, j);" url="suggestion/getVehicleList" display="regno"
-                  placeholder="Search Vehicle" [preSelected]="null">
+                  placeholder="Search Vehicle" [preSelected]="item['vehicleId']>0? {'regno':item.regno} : {'regno':null}">
                 </auto-suggestion>
               </td>
 
@@ -70,6 +70,12 @@
         <div style="float: right;" >
           <button class="btn btn-primary" (click)="savePlacementCost()">Submit</button>
         </div>
+      </div>
+
+      <div class="row mt-2">
+        <smart-table *ngIf="data && data.length && table" [data]="table.data" [settings]="table.settings"
+          id="cardDetails">
+        </smart-table>
       </div>
     </div>
   </nb-card-body>
