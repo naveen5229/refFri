@@ -103,12 +103,24 @@ export class PlacementConstraintsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.vehicleIdRegnoPairs = [];
-        res['data']['vehicleSiteConstraints'].forEach(element => {
-          this.vehicleIdRegnoPairs.push({
-            vehicleId: element.vehicleId,
-            regno: element.regno
-          })
-        });
+        if (res['data']['vehicleSiteConstraints'] && res['data']['vehicleSiteConstraints'].length) {
+          res['data']['vehicleSiteConstraints'].forEach(element => {
+            if (element.vehicleId) {
+              this.vehicleIdRegnoPairs.push({
+                vehicleId: element.vehicleId,
+                regno: element.regno
+              })
+            }
+          });
+        } else {
+          this.vehicleIdRegnoPairs.push(
+            {
+              vehicleId: 0,
+              regno: null,
+            }
+          )
+        }
+
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -154,6 +166,7 @@ export class PlacementConstraintsComponent implements OnInit {
         if (res['success']) {
           this.common.showToast(res['msg']);
         }
+        this.refreshPlant();
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -185,13 +198,23 @@ export class PlacementConstraintsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.siteIdNamePairs = [];
-        res['data']['vehicleSiteConstraints'].forEach(element => {
-          this.siteIdNamePairs.push({
-            siteId: element.siteId,
-            siteName: element.siteName
-          })
-        });
-
+        if (res['data']['vehicleSiteConstraints'] && res['data']['vehicleSiteConstraints'].length) {
+          res['data']['vehicleSiteConstraints'].forEach(element => {
+            if (element.siteId) {
+              this.siteIdNamePairs.push({
+                siteId: element.siteId,
+                siteName: element.siteName
+              })
+            }
+          });
+        } else {
+          this.siteIdNamePairs.push(
+            {
+              siteId: 0,
+              siteName: null,
+            }
+          )
+        }
       }, err => {
         this.common.loading--;
         console.log(err);
