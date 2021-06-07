@@ -102,8 +102,8 @@ export class PlacementConstraintsComponent implements OnInit {
     this.api.getJavaPortDost(8084, `getVehicleSiteConstraints/${this.plantSiteId}/${constraintType}/true`)
       .subscribe(res => {
         this.common.loading--;
+        this.vehicleIdRegnoPairs = [];
         res['data']['vehicleSiteConstraints'].forEach(element => {
-          this.vehicleIdRegnoPairs = [];
           this.vehicleIdRegnoPairs.push({
             vehicleId: element.vehicleId,
             regno: element.regno
@@ -184,8 +184,8 @@ export class PlacementConstraintsComponent implements OnInit {
     this.api.getJavaPortDost(8084, `getVehicleSiteConstraints/${id}/${vehConstraints}/false`)
       .subscribe(res => {
         this.common.loading--;
+        this.siteIdNamePairs = [];
         res['data']['vehicleSiteConstraints'].forEach(element => {
-          this.siteIdNamePairs = [];
           this.siteIdNamePairs.push({
             siteId: element.siteId,
             siteName: element.siteName
