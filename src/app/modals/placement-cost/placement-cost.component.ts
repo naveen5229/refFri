@@ -102,37 +102,21 @@ export class PlacementCostComponent implements OnInit {
 
   setData(doc) {
     console.log("docL",doc)
-
-    this.items.map(item => {
-      if(item.regno == ''){
-        this.items = [];
-        this.items.push({
-          vehicleId: doc['vehicleId'],
-          regno:  doc['regno'],
-          costPerLoadKm: doc['costPerLoadKm'],
-          costPerUnloadKm: doc['costPerUnloadKm'],
-          kmPerDayLoad: doc['kmPerDayLoad'],
-          kmPerDayUnload: doc['kmPerDayUnload'],
-          costPerHour: doc['costPerHour']
-        })
-      } 
-
-      
-      else {
-          this.items.push(
-            {
+    if(this.items && this.items.length ){
+      this.items.map(item => {
+        if(item.regno == ''){
+          this.items.push({
             vehicleId: doc['vehicleId'],
-            regno: doc['regno'],
+            regno:  doc['regno'],
             costPerLoadKm: doc['costPerLoadKm'],
             costPerUnloadKm: doc['costPerUnloadKm'],
             kmPerDayLoad: doc['kmPerDayLoad'],
             kmPerDayUnload: doc['kmPerDayUnload'],
-            costPerHour: doc['costPerHour'],
+            costPerHour: doc['costPerHour']
           })
-      }
-    })
-
-    console.log('this.items: ', this.items);
+        } 
+      })
+    } 
   }
 
   closeModal(response) {
