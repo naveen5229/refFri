@@ -44,6 +44,10 @@ export class TollpaymentmanagementComponent implements OnInit {
       this.disEnd = this.common.params.endDatedis;
       this.startDate = this.common.params.startDate;
       this.endDate = this.common.params.endDate;
+      this.vClass = this.common.params.vClass;
+      if(this.vClass && this.vehicleId && this.disStart && this.disEnd && this.startDate && this.endDate){
+        this.tollPayManagement();
+      }
     }
     // this.endDate = new Date();
     // this.startDate = new Date();
@@ -81,11 +85,11 @@ export class TollpaymentmanagementComponent implements OnInit {
   }
 
   tollPayManagement() {
-    const ids = [28124, 16295, 28116, 28115, 29033];
-    if (ids.includes(this.vehicleId)) {
-      this.getTolls();
-      return;
-    }
+    // const ids = [28124, 16295, 28116, 28115, 29033];
+    // if (ids.includes(this.vehicleId)) {
+      // this.getTolls();
+    //   return;
+    // }
 
     this.common.loading++;
     let params = {
@@ -154,16 +158,19 @@ export class TollpaymentmanagementComponent implements OnInit {
     let data = [];
     let p = null;
     let dis = 0;
-    dataStr.split('\n').forEach(point => {
-      let bPoint = point.split(',');
-      if (bPoint[1]) {
-        data.push({ lat: bPoint[1], long: bPoint[0] });
+    let dataStrArr = dataStr.split(',');
+    for (let dindex = 0; dindex < dataStrArr.length; dindex+=2) {
+      const long = dataStrArr[dindex];
+      const lat = dataStrArr[dindex+1];
+      if (lat && long) {
+        let curpoint = { lat: lat, long: long };
+        data.push(curpoint);
         if (p) {
-          dis += this.common.distanceFromAToB(bPoint[1], bPoint[0], p[1], p[0], 'Mt');
+          dis += this.common.distanceFromAToB(lat,long, p.lat, p.long, 'Mt');
         }
-        p = bPoint;
+        p = curpoint;
       }
-    });
+    }
     return { data: data, dis: Math.round(dis / 1000) };
   }
 

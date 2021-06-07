@@ -146,7 +146,7 @@ export class TripmasterreportComponent implements OnInit {
     let fromTime = trip._sdate;
     let toTime = trip._edate;
     console.log("trip------", fromTime, toTime);
-    this.common.params = { vehId: trip._vid, vehRegNo: trip._regno, startDate: fromTime, endDate: toTime, startDatedis: fromTime, endDatedis: toTime };
+    this.common.params = { vehId: trip._vid, vehRegNo: trip._regno, startDate: fromTime, endDate: toTime, startDatedis: fromTime, endDatedis: toTime,vClass: '5' };
     this.common.openType = "modal";
     this.modalService.open(TollpaymentmanagementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "mycustomModalClass" });
   }
