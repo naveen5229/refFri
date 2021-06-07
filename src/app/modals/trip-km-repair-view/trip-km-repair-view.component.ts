@@ -92,8 +92,14 @@ export class TripKmRepairViewComponent implements OnInit {
     // const subscription = this.apiService.postJavaPortDost(8086, 'routerestore/true', params)
     const subscription = this.api.getJavaPortDost(8083, `getrawdatafromtrip/${this.common.params.tripId}`)
       .subscribe((res: any) => {
+        --this.common.loading;
         console.log('res:', res);
+        if(!res['success']){
+          this.common.showError(res['message'])
+          return
+        }
         res = res['data'];
+       
         if (!res.withSnap) {
           res = {
             withSnap: res.raw,
@@ -102,7 +108,6 @@ export class TripKmRepairViewComponent implements OnInit {
             google: res.raw
           }
         }
-        --this.common.loading;
         this.GPSData = res.raw;
         this.GPSDis = this.calculateDistance(res.raw);
         this.GoogleData = res.google;
@@ -142,7 +147,7 @@ export class TripKmRepairViewComponent implements OnInit {
     for (let i = 0; i < points.length - 1; i++) {
       const pointA = points[i];
       const pointB = points[i + 1];
-      distance += this.common.distanceFromAToB(pointA.lat, pointA.lng, pointB.lat, pointB.lng, 'Mt');
+      distance += this.common.distanceFromAToB(pointA.lat, pointA.lng, pointB.lat, pointB.lng, 'Mt', false);
     }
     return Math.round(distance / 1000)
   }
