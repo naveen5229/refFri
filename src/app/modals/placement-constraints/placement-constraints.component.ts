@@ -18,6 +18,7 @@ export class PlacementConstraintsComponent implements OnInit {
   sltVehicle = 0;
   activeTab = 'plant';
   plantIdForSave = null;
+  plantNameForSave = '';
   vehicleIdForSave = null;
   isPlantInclusive: boolean = false;
   isVehicleInclusive: boolean = false;
@@ -98,8 +99,14 @@ export class PlacementConstraintsComponent implements OnInit {
       constraintType = false;
       this.isPlantInclusive = false;
     }
+
+    this.refreshGetPreviousDataUsingPlant(constraintType);
+  }
+
+  refreshGetPreviousDataUsingPlant(type){
+    console.log('type is: ', type)
     this.common.loading++;
-    this.api.getJavaPortDost(8084, `getVehicleSiteConstraints/${this.plantSiteId}/${constraintType}/true`)
+    this.api.getJavaPortDost(8084, `getVehicleSiteConstraints/${this.plantSiteId}/${type}/true`)
       .subscribe(res => {
         this.common.loading--;
         this.vehicleIdRegnoPairs = [];
@@ -193,8 +200,13 @@ export class PlacementConstraintsComponent implements OnInit {
       vehConstraints = false;
       this.isVehicleInclusive = false;
     }
+    this.refeshVehicleData(vehConstraints)
+    
+  }
+
+  refeshVehicleData(type){
     this.common.loading++;
-    this.api.getJavaPortDost(8084, `getVehicleSiteConstraints/${id}/${vehConstraints}/false`)
+    this.api.getJavaPortDost(8084, `getVehicleSiteConstraints/${this.vehVehicleId}/${type}/false`)
       .subscribe(res => {
         this.common.loading--;
         this.siteIdNamePairs = [];
