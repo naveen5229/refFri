@@ -31,8 +31,8 @@
                     </auto-suggestion>
             </div>
             <div class="col-sm-4 mt-4">
-                <label><input name="time12" [(ngModel)]="select" type="radio" [value]="0">Inclusive</label>
-                <label><input name="time12" class="ml-3" type="radio" [(ngModel)]="select" [value]="1">Exclusive</label>
+                <label><input name="time12" [(ngModel)]="select" type="radio" [value]="0" (click)="refreshGetPreviousDataUsingPlant(true)">Inclusive</label>
+                <label><input name="time12" class="ml-3" type="radio" [(ngModel)]="select" [value]="1" (click)="refreshGetPreviousDataUsingPlant(false)">Exclusive</label>
             </div>
             </div>
             <div class="col-sm-12 mt-3" *ngIf="plantStatus">
@@ -76,8 +76,8 @@
                     display="regno" placeholder="Vehicle" [preSelected]="null"></auto-suggestion>
                 </div>
                 <div class="col-sm-4 mt-4">
-                    <label><input name="time1" [(ngModel)]="sltVehicle" type="radio" [value]="0">Inclusive</label>
-                    <label><input name="time1" class="ml-3" type="radio" [(ngModel)]="sltVehicle" [value]="1">Exclusive</label>
+                    <label><input name="time1" [(ngModel)]="sltVehicle" type="radio" [value]="0" (click)="refeshVehicleData(true)">Inclusive</label>
+                    <label><input name="time1" class="ml-3" type="radio" [(ngModel)]="sltVehicle" [value]="1" (click)="refeshVehicleData(false)">Exclusive</label>
                 </div>
                 </div>
                 <div class="col-sm-12 mt-3" *ngIf="vehicleStatus">

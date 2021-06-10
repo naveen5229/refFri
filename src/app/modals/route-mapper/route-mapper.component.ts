@@ -55,6 +55,7 @@ export class RouteMapperComponent implements OnInit {
   redSubTrails = [];
   blueSubTrails = [];
   circles = [];
+  circleCenter = [];
   subTrailsPolyLines = [];
   vehicleTrailEvents = [];
 
@@ -73,8 +74,7 @@ export class RouteMapperComponent implements OnInit {
     this.title = this.commonService.params.title ? this.commonService.params.title : this.title;
     this.vehicleTripId = this.commonService.params.vehicleTripId;
     console.time('total');
-    console.time('api time')
-    this.initFunctionality();
+    console.time('api time');
   }
 
   ngOnDestroy() {
@@ -89,6 +89,7 @@ export class RouteMapperComponent implements OnInit {
     this.mapService.mapIntialize("route-mapper-map", 18, 25, 75, false, true);
     this.mapService.setMapType(0);
     this.mapService.map.setOptions({ draggableCursor: 'cursor' });
+    this.initFunctionality();
     // setTimeout(() => {
     //   this.initFunctionality();
     // }, 500);
@@ -110,9 +111,9 @@ export class RouteMapperComponent implements OnInit {
 
   initFunctionality() {
     if (!this.validateDates()) return;
-    this.getSingleTripInfoForView();
     let promises = [this.getHaltTrails(), this.getVehicleTrailAll()]
     Promise.all(promises).then((result) => {
+      this.getSingleTripInfoForView();
       console.log('vehicleEvents', this.vehicleEvents);
       console.log('vehicleEvents', this.vehicleTrailEvents);
       this.vehicleEvents.push(...this.vehicleTrailEvents);
@@ -640,12 +641,16 @@ export class RouteMapperComponent implements OnInit {
       this.apiService.get(`TripsOperation/getSingleTripInfoForView?tripId=${this.vehicleTripId}`)
       .subscribe(res => {
         this.commonService.loading --;
+        this.circles.forEach(item => {
+          item.setMap(null);
+        });
+        this.circleCenter.forEach(item => {
+          item.setMap(null);
+        });
+        this.circles = [];
+        this.circleCenter = [];
         res['data'].forEach(element => {
           if(element.type === 3){
-            this.circles.forEach(item => {
-              item.setMap(null);
-            });
-            this.circles = [];
             let center = this.mapService.createLatLng(element.rlat, element.rlong)
             let circle = this.mapService.createCirclesOnPostion(center,500)
             this.circles.push(circle);
@@ -656,6 +661,12 @@ export class RouteMapperComponent implements OnInit {
             this.mapService.addListerner(circle,'mouseout',() => {
               this.mapService.map.getDiv().removeAttribute('title');
             });
+            let marker = [{
+              lat:element.rlat,
+              lng:element.rlong,
+              type:'site', subType: 'marker', color: 'FF0000'
+            }];
+            this.circleCenter.push(this.mapService.createMarkers(marker,false,false)[0]);
           }
         }); 
       },err => {  
