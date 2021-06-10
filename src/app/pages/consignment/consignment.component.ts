@@ -69,6 +69,7 @@ export class ConsignmentComponent implements OnInit {
         colid:data.col_id ,
         coltitle:data.col_title ,
         colorder:data.col_order ,
+        field_type:data.field_type
       };
       demodata.push(dee);
     }
