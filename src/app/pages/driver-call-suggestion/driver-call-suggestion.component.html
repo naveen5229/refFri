@@ -64,6 +64,9 @@
           <li [ngClass]="dis_all == 'st' ? 'active' : '' " (click)=" dis_all = 'st'; getReportdata(dis_all)">
             Short Target
           </li>
+          <li [ngClass]="dis_all == 'es' ? 'active' : '' " (click)=" dis_all = 'es'; getReportdata(dis_all)">
+            Empty Stoppage
+          </li>
 
         </ul>
       </div>
@@ -82,7 +85,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-3" *ngIf="dis_all == '11' || dis_all == '21' || dis_all == '51' ">
+      <div class="col-md-3" *ngIf="dis_all == '11' || dis_all == '21' || dis_all == '51' || dis_all == 'es' ">
         <div class="row">
           <div class="col-md-4 pr-0">
             <select class="w-100" [(ngModel)]="hoursType">
@@ -132,6 +135,12 @@
     <div *ngIf="dis_all == '21'">
       <smart-table *ngIf="longUnLoading && longUnLoading.length" [data]="table6.data" [settings]="table6.settings"
         id="tblsuggestions6">
+      </smart-table>
+    </div>
+
+    <div *ngIf="dis_all == 'es'">
+      <smart-table *ngIf="emptyStoppageData && emptyStoppageData.length" [data]="tableES.data" [settings]="tableES.settings"
+        id="tblsuggestions7">
       </smart-table>
     </div>
   </nb-card-body>
