@@ -58,6 +58,11 @@
         <b>Transporter Analysis</b>
         </p>
       </div>
+      <div class="hiddenby">
+        <p [class]="selectedDashboard=='Tmg-Maintainance'?'active':'default'" (click)="selectedDashboard='Tmg-Maintainance'">
+        <b>Maintainance</b>
+        </p>
+      </div>
     </div>
     <div>
       <p class="dirbtn"><i class="fa fa-forward" (click)="forwardMove()"></i></p>
@@ -73,5 +78,7 @@
    <tmg-loading-analysis *ngIf="selectedDashboard=='Tmg-Loading-Analysis'"></tmg-loading-analysis>
    <tmg-unloading-analysis *ngIf="selectedDashboard=='Tmg-Unloading-Analysis'"></tmg-unloading-analysis>
     <tmg-transporter-analysis *ngIf="selectedDashboard=='Tmg-Transporter-Analysis'"></tmg-transporter-analysis>
+    <tmg-maintainace *ngIf="selectedDashboard=='Tmg-Maintainance'"></tmg-maintainace>
+
   </nb-card-body>
 </nb-card>
