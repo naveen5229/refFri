@@ -360,7 +360,8 @@ const PAGES_COMPONENTS = [
     ReportViewComponent,
     ReportEditComponent,
     DriverPreferencesComponent,
-    ConsignmentComponent
+    ConsignmentComponent,
+    
   ],
   exports: [
     FuelAverageAnalysisComponent,
