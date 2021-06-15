@@ -31,7 +31,7 @@ export class PlacementoptimizationComponent implements OnInit {
   totalCost = null;
   totalPanelty = null;
   days = 1;
-
+  subAllocType = 0;
   isTblActive = false;
   isVisible = true;
   isActive = true;
@@ -140,6 +140,12 @@ export class PlacementoptimizationComponent implements OnInit {
     // this.getPreviousData(this.days, this.placementDate,);
   }
 
+  subAllocTypeChange(event){
+    let subAllocType = event['target']['options']['selectedIndex'] ;
+    console.log("daysEvent:", event['target']['options']['selectedIndex']);
+    this.subAllocType = subAllocType;
+  }
+
   showDataOnMap(event, latitude, longitude, name) {
     console.log(event, latitude, longitude, name);
     this.common.params = { data: event, latitude: latitude, longitude: longitude, regno: name }
@@ -238,9 +244,11 @@ export class PlacementoptimizationComponent implements OnInit {
       allocType: this.select,
       placementDate: this.common.dateFormatter1(this.placementDate),
       quantityType: this.quantityType,
+      subAllocType: this.subAllocType,
       placementProblemDetailsDTOS: (this.items),
       id: this.plcId
     }
+    console.log('savePlacementOptimization params is: ', params)
     this.common.loading++;
     this.api.postJavaPortDost(8084, 'PlacementResult', params)
       .subscribe(res => {
@@ -369,7 +377,7 @@ export class PlacementoptimizationComponent implements OnInit {
 
   costGamification() {
     console.log('inside costGamification');
-    this.common.params = {data: this.placementOPT}
+    this.common.params = {data: this.placementOPT, placementDate: this.placementDate}
     const activeModal = this.modalService.open(CostGamificationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 }

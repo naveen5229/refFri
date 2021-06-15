@@ -28,11 +28,19 @@
             color: blue !important;
         }
     }
+    .tableFixHead{
+        height: 100% !important;
+    }
 }
 .download-excel{
     position: absolute;
     right: 30px;
     font-size: 25px;
-    color: green;
+    color: rgb(101, 167, 101);
     cursor: pointer;
+}
+.tripmasterreport{
+    height: calc(100vh - 195px);
+    overflow: auto;
+    display: block;
 }

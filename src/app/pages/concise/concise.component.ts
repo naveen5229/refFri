@@ -815,9 +815,11 @@ export class ConciseComponent implements OnInit {
     //preferences.filter(pre=>pre.show)
     preferences = preferences.sort((a, b) => a.order > b.order ? 1 : -1);
     let headings = {};
+
     preferences.map(heading => {
       headings[heading.key] = { title: heading.title, placeholder: heading.title, key: heading }
     });
+
 
     Object.assign(this.kpiHeadings, {...headings});
     console.log('kpiHeadings data is: ', this.kpiHeadings)
@@ -825,16 +827,7 @@ export class ConciseComponent implements OnInit {
     return {
       data: {
         headings: {
-          // vehicle: { title: "Vehicle Number", placeholder: "Vehicle No" },
-          // vehicleType: { title: "Vehicle Type", placeholder: "Veh Type" },
-          // status: { title: "Status", placeholder: "Status" },
-          // location: { title: "Location", placeholder: "Location" },
-          // hrs: { title: "Hrs", placeholder: "Hrs " },
-          // Idle_Time: { title: "Idle Time", placeholder: "Idle Time" },
-          // trail: { title: "Trail", placeholder: "Trail" },
-          // kmp: { title: "Kmp", placeholder: "KMP" },
           ...headings,
-          // action: { title: "Action", placeholder: "", hideSearch: true }
         },
         columns: this.getTableColumns(kpis)
       },
@@ -1401,7 +1394,8 @@ export class ConciseComponent implements OnInit {
       tableId.push(`print-table-${index}`);
     });
 
-    this.pdfService.tableWithImages('page-1', tableId, data, customerName, 'Trip Feedback Logs');
+
+    this.pdfService.tableWithImages('page-1', tableId, data, customerName, 'Trip Dashboard');
   }
 
   cookPdfData() {
