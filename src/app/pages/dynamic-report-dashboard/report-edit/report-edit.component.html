@@ -153,6 +153,18 @@
            </div>
            </div>
          </div>
+         <div class="holdContainer" *ngIf="MaintainanceReports.length">
+          <div class="collas-head" (click)="callToShow =11 ">
+             <p>Maintenance Report</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span>
+           </div>
+           <div *ngIf="callToShow==11" class="collapseitem">
+           <div class="dataelements" *ngFor="let challanReport of MaintainanceReports; let i = index"
+             [hidden]="challanReport.isUsed" draggable="true" [id]="'maintainance-option-' + challanReport.id"
+             (dragstart)="selectDraggable(challanReport, 'maintainance')">
+             <span>{{challanReport.rpt_title}}</span>
+           </div>
+           </div>
+         </div>
       </div>
 
       <div class="col-10 reports-container" (drop)="handleDropped($event)" (dragover)="handleDragOver($event)">
@@ -397,7 +409,26 @@
    
     </div>
 </div>
-
+<div class="report draggable" *ngFor="let maintainance of MaintainanceReports; let i = index"
+  [hidden]="!maintainance.isUsed" [id]="'maintainance-report-' + maintainance.id"
+  [style.width]="maintainance.rpt_width + 'px'" [style.height]="maintainance.rpt_height + 'px'"
+  [style.top]="maintainance.y_pos + 'px'" [style.left]="maintainance.x_pos + 'px'">
+  <div class="report-container">
+       <maintainance-work-trend *ngIf="maintainance.id == 1 && maintainance.isUsed"></maintainance-work-trend>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(maintainance)"></i>
+ <vehicle-maintainance-most-aged *ngIf="maintainance.id == 2 && maintainance.isUsed"></vehicle-maintainance-most-aged>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(maintainance)"></i>
+       <vehicle-maintainance-max-dur *ngIf="maintainance.id == 3 && maintainance.isUsed"></vehicle-maintainance-max-dur>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(maintainance)"></i>
+  <vehicle-maintainance-cost *ngIf="maintainance.id == 4 && maintainance.isUsed"></vehicle-maintainance-cost>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(maintainance)"></i>
+   <vehicle-maintainance-count *ngIf="maintainance.id == 5 && maintainance.isUsed"></vehicle-maintainance-count>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(maintainance)"></i>
+ <top-workshop *ngIf="maintainance.id == 6 && maintainance.isUsed"></top-workshop>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(maintainance)"></i> 
+   
+    </div>
+</div>
             </div>
         </div>
   </nb-card-body>

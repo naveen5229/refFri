@@ -1,0 +1,24 @@
+<div>
+<div class="mt-3 outer" style="min-height: 130px;">
+    <h6 style="text-align:center"><b class="charthead">Top Workshops (Last 90 Days)</b></h6>
+    <p style="text-align: right; margin-top: -25px;" class="link"
+      (click)="getDetials('Tmgreport/GetVehicleMaintainancereportworkshopcost',{totalrecord: 3,stepno: 2},90,'dayss')"><i
+        title="More Details" class="fa fa-list"></i>
+    </p>
+    <table class="table">
+      <thead class="thead">
+        <th>Work Shop</th>
+        <th>Vehicle Serviced</th>
+        <th>Service Amount</th>
+      </thead>
+      <tbody class="tbody">
+        <tr *ngFor="let cda of challansdrivaramount">
+          <td class="link"
+          (click)="getDetials('Tmgreport/GetVehicleMaintainancereportworkshopcost',{totalrecord: 3,stepno: 3,xid:cda['_vid']},15,'days')">{{cda['Workshop']}}</td>
+          <td>{{cda['Vehicle Serviced']}}</td>
+          <td>{{cda['Cost']}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
