@@ -17,6 +17,8 @@ export class DynamicReportComponent implements OnInit {
   @Input() savedReportSelect = {};
   @Input() startDate: any = this.common.getDate(-15);
   @Input() endDate = new Date();
+  @Input() dynamicid : null;
+
   graphId: string = (Math.random() * 10000000).toFixed(0);
   isDisplayTable = false;
   reportIdUpdate = null;
@@ -130,6 +132,11 @@ export class DynamicReportComponent implements OnInit {
       isChanged = true;
 
     }
+    if (changes.dynamicid) {
+      this.endDate = changes.dynamicid.currentValue;
+      isChanged = true;
+
+    }
     if (isChanged)
       this.openPreviewModal();
   }
@@ -197,7 +204,7 @@ export class DynamicReportComponent implements OnInit {
       this.assign.x = this.savedReportSelect['jData']['info']["x"];
       this.assign.y = this.savedReportSelect['jData']['info']["y"];
       this.assign.filter = this.savedReportSelect['jData']['filter'];
-      this.loderid = this.savedReportSelect['_id'];
+      this.loderid = this.dynamicid;
       this.getReportPreview();
     } else {
       this.reportIdUpdate = null;
@@ -657,7 +664,7 @@ export class DynamicReportComponent implements OnInit {
      this.showLoader(this.loderid);
       let i = 0; 
       this.api.post('GraphicalReport/getPreviewGraphicalReport', params).subscribe(res => {
-       this.hideLoader(1);
+       this.hideLoader(this.loderid);
        // this.common.loading--;
         if (res['code'] == 1) {
           console.log('Response reportPreviewData :',this.assign,i);
