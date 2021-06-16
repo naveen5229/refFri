@@ -111,7 +111,7 @@ export class DynamicReportComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.openPreviewModal();
+    //this.openPreviewModal();
   }
 
   ngOnChanges(changes) {
