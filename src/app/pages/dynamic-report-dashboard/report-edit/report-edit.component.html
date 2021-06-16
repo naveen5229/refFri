@@ -173,7 +173,7 @@
           [style.top]="report.y_pos + 'px'" [style.left]="report.x_pos + 'px'" [id]="'report-' + report._id">
           <div class="report-container" *ngIf="report.isUsed">
             <dynamic-report [savedReportSelect]="report"></dynamic-report>
-            <i class="fa fa-window-close report-close" (click)="deleteReport(report)"></i>
+            <i class="fa fa-window-close report-close" (click)="deleteReport(report)" [dynamicid]="i"></i>
           </div>
         </div>
         <div class="report draggable" *ngFor="let challanReport of challanReports; let i = index"
