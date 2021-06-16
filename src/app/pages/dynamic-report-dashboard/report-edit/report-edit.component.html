@@ -172,7 +172,7 @@
           [style.width]="report.rpt_width + 'px'" [style.height]="report.rpt_height + 'px'"
           [style.top]="report.y_pos + 'px'" [style.left]="report.x_pos + 'px'" [id]="'report-' + report._id">
           <div class="report-container" *ngIf="report.isUsed">
-            <dynamic-report [savedReportSelect]="report"></dynamic-report>
+            <dynamic-report [savedReportSelect]="report"  [dynamicid]="i"></dynamic-report>
             <i class="fa fa-window-close report-close" (click)="deleteReport(report)"></i>
           </div>
         </div>
