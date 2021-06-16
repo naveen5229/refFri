@@ -3,7 +3,7 @@ import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { CdkDragDrop, copyArrayItem } from '@angular/cdk/drag-drop';
 import * as Chart from 'chart.js';
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 
@@ -98,7 +98,7 @@ export class DynamicReportComponent implements OnInit {
   ]
 
   dropdownFilter = [];
-
+  loderid=0;
   constructor(
     public common: CommonService,
     public api: ApiService,) {
@@ -197,6 +197,7 @@ export class DynamicReportComponent implements OnInit {
       this.assign.x = this.savedReportSelect['jData']['info']["x"];
       this.assign.y = this.savedReportSelect['jData']['info']["y"];
       this.assign.filter = this.savedReportSelect['jData']['filter'];
+      this.loderid = this.savedReportSelect['_id'];
       this.getReportPreview();
     } else {
       this.reportIdUpdate = null;
@@ -653,8 +654,8 @@ export class DynamicReportComponent implements OnInit {
 
     if (this.assign.x.length && this.assign.y.length) {
      // this.common.loading++;
-     this.showLoader(1);
-      let i = 0;
+     this.showLoader(this.loderid);
+      let i = 0; 
       this.api.post('GraphicalReport/getPreviewGraphicalReport', params).subscribe(res => {
        this.hideLoader(1);
        // this.common.loading--;
@@ -675,7 +676,7 @@ export class DynamicReportComponent implements OnInit {
           this.common.showError(res['msg'])
         }
       }, err => {
-        this.hideLoader(1);
+        this.hideLoader(this.loderid);
         //this.common.loading--;
         console.log('Error:', err)
       })
@@ -1089,10 +1090,12 @@ export class DynamicReportComponent implements OnInit {
     }
   }
   showLoader(index) {
+    console.log('loder count',index);
     setTimeout(() => {
       let outers = document.getElementsByClassName("outer");
       let loader = document.createElement('div');
       loader.className = 'loader';
+      console.log('show loader',index,outers);
       outers[index].appendChild(loader);
     }, 50);
   }
