@@ -199,10 +199,21 @@
       </div>
       <!-- Modal body -->
       <div class="modal-body">
-
-        <div class="row mt-2" id="basicFilter">
-          <div class="col-12">
+        
+        <div class="row mt-2"  *ngIf="basicFilter">
+          <div class="col-4">
             <div class="filter-Container">
+              <ul style="list-style-type: none;">
+              <select [(ngModel)]="dynamicfilterval" #btw>
+                <option *ngFor="let sign of dynamicFilter" value="{{sign}}">{{sign}}</option>
+              </select>
+
+              </ul>
+              <!-- {{dropdownFilter | json}} -->
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="filter-Container" *ngIf="fliterflag">
               <ul style="list-style-type: none;">
                 <li>
                   <input type="checkbox" (click)="checkUncheckAll($event)" [checked]="checked">Select All
@@ -212,6 +223,17 @@
                     (click)="data.status = !data.status;manageCheckUncheckAll()">{{data.value}}
                 </li>
               </ul>
+              <!-- {{dropdownFilter | json}} -->
+            </div>
+            <div class="filter-Container" *ngIf="!fliterflag">
+               <div>
+                <span>
+                  <input type="text" [(ngModel)]="firstfilter">
+                </span> 
+                <span *ngIf="dynamicfilterval == 'between' ">
+                 And <input type="text" [(ngModel)]="secondfilter">
+                </span>
+              </div>
               <!-- {{dropdownFilter | json}} -->
             </div>
           </div>
