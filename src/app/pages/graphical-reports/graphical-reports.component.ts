@@ -506,6 +506,9 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
     } else if (count == this.dropdownFilter.length) {
       this.checked = true;
     }
+    if(count > 1 && (!this.dynamicfilterval.includes('NOT IN'))) { 
+      this.dynamicfilterval = 'IN';
+     }
     console.log('dropdownFilter',this.dropdownFilter);
   }
 
@@ -530,6 +533,20 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
     if(!this.fliterflag){
     this.dropdownFilter = [];
     this.dropdownFilter.push({value:this.firstfilter,status:true},{value:this.secondfilter,status:((this.dynamicfilterval == 'between')?true:false)})
+    }
+    if(this.dynamicfilterval == 'between' && (!this.firstfilter || !this.secondfilter)){
+      this.common.showError('both min And max are mandatory');
+      return false;
+    }else if(this.dynamicfilterval == ('LIKE' || 'NOT LIKE' )){
+      let count = 0;
+        this.dropdownFilter.forEach((rdata)=>{
+          if(rdata.status){
+            count +=1;
+          }
+        });
+        if((count > 1) &&  (!this.dynamicfilterval.includes('NOT IN'))) { 
+         this.dynamicfilterval = 'IN';
+        }
     }
     let filterObject = _.clone(this.filterObject)
     let inEle = [];
@@ -639,10 +656,56 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
     } else {
       reqID = this.reportIdUpdate;
     }
+    let xnewaaray = [];
+    this.assign.x.map((data)=>{
+      let xarray ={
+        r_coltitle:data.r_coltitle,
+        r_colcode:data.r_colcode,
+        measure:data.measure
+      };
+      xnewaaray.push(xarray);
+    });
 
-    let info = { x: this.assign.x, y: this.assign.y };
+    let ynewaaray = [];
+    this.assign.y.map((data)=>{
+      let xarray ={
+        r_coltitle:data.r_coltitle,
+        r_colcode:data.r_colcode,
+        measure:data.measure
+      };
+      ynewaaray.push(xarray);
+    });
+    //let info = { x: this.assign.x, y: this.assign.y };
+    let info = { x: xnewaaray, y: ynewaaray };
+
+    let newfilter=[];
+    if(this.assign.filter){
+      this.assign.filter.map((data)=>{
+        let arrstring='';
+        data['filterdata'].map((fldata)=>{
+          console.log('fffl data',fldata);
+          fldata['r_threshold'][0]['r_value'].map((miningdata)=>{
+          console.log('fffl data2',miningdata);
+
+          if(miningdata['status']){
+            arrstring += `''`+miningdata.value+`'',`;
+          }
+        })
+        });
+        console.log('arr',arrstring);
+
+        
+        let xarray ={
+          r_coltitle:data.r_coltitle,
+          r_colcode:data.r_colcode,
+          measure:data.dynamicfilterval,//'in'
+          data:'['+(arrstring).slice(0, -1)+']'
+        };
+        newfilter.push(xarray);
+      });
+    }
     let params = {
-      reportFilter: this.assign.filter ? JSON.stringify(this.assign.filter) : [],
+      reportFilter: this.assign.filter ? JSON.stringify(newfilter) : [],
       info: JSON.stringify(info),
       rpttype:this.finalcarttype,
      // jData: JSON.stringify({ filter: this.assign.filter, info: this.assign }),
@@ -748,7 +811,7 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
         this.common.loading--;
         if (res['code'] == 1) {
           console.log('Response:', res);
-          if (res['data']) {
+          if (res['data']['data']) {
            let dummmy = res['data'];
             
             let xname = dummmy.x;
@@ -783,6 +846,8 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
             this.review();
           } else {
             // this.resetAssignForm();
+            document.getElementById('table').style.display = 'none';
+            document.getElementById('graph').style.display = 'none';
             this.common.showError('No Data to Display');
             this.graphPieCharts.forEach(ele => ele.destroy());
           }
