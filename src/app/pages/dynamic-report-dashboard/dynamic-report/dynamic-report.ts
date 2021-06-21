@@ -676,16 +676,29 @@ export class DynamicReportComponent implements OnInit {
     //let info = { x: this.assign.x, y: this.assign.y };
     let info = { x: xnewaaray, y: ynewaaray };
 
-    // console.log('data to send',this.assign.data)
-    // return;
-    //let info = { x: this.assign.x, y: this.assign.y };
     let newfilter=[];
     if(this.assign.filter){
       this.assign.filter.map((data)=>{
+        // let arrstring='';
+        // data['filterdata'].map((fldata)=>{
+        //   console.log('fffl data',fldata);
+        //   fldata['r_threshold'][0]['r_value'].map((miningdata)=>{
+        //   console.log('fffl data2',miningdata);
+
+        //   if(miningdata['status']){
+        //     arrstring += `''`+miningdata.value+`'',`;
+        //   }
+        // })
+        // });
+        // console.log('arr',arrstring);
+
+        
         let xarray ={
           r_coltitle:data.r_coltitle,
           r_colcode:data.r_colcode,
-          measure:data.measure
+          measure:data.measure,//'in'
+          //data:'['+(arrstring).slice(0, -1)+']'
+          data:data.data
         };
         newfilter.push(xarray);
       });
