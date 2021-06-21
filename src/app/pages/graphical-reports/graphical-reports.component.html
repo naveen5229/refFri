@@ -209,6 +209,7 @@
          
             <div class="filter-Container">
               <ul style="list-style-type: none;">
+                <label *ngIf="!fliterflag"> Operator &nbsp;&nbsp;</label>
               <select [(ngModel)]="dynamicfilterval" #btw>
                 <option *ngFor="let sign of dynamicFilter" value="{{sign}}">{{sign}}</option>
               </select>
@@ -232,6 +233,8 @@
             </div>
             <div class="filter-Container" *ngIf="!fliterflag">
                <div class="row">
+                <label *ngIf="!fliterflag"> Values &nbsp;&nbsp;</label>
+
                 <div class="col-5 pl-0">
                   <input type="text" [(ngModel)]="firstfilter">
                 </div> 
