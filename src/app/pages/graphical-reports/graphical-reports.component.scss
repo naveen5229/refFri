@@ -35,13 +35,15 @@
         padding-left: 0;
     }
     input, select, textarea {
-        width: 300px;
+        width: 200px;
     }
 }
 .filter-Container:nth-child(2) ul{
     max-height: calc(100vh - 325px);
     overflow: auto;
     border: 1px solid #b9b9b9;
+    padding: 10px 15px;
+    width: 250px;
     input[type="radio"], input[type="checkbox"] {
     width: auto!important;       
     margin-right: 15px;
