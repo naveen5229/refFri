@@ -33,13 +33,18 @@
     </div>
   </nb-card-header>
   <nb-card-body class="bodyclass">
-    <div class="row mt-2 centarize">
-      <div class="col-1 hoverChart" [ngClass]="{'disablePieClick': image.blur}"
+    <div class="row pb-1 pt-1 centarize">
+      <div class="hoverChart ml-4 mr-4" [ngClass]="{'disablePieClick': image.blur}"
         *ngFor="let image of chartTypes;let i = index"
         (click)="active = image.id;getChartofType(image.type);selectedChart = image.type">
-        <span>
+        <div class="pl-2 pr-2" [ngClass]="active==image.id?'active':''">
+          <div class="grptab">
+            <img src="{{image.url}}" width="20px">
+          </div>
+      </div>
+        <!-- <span>
           <img src="{{image.url}}" height="80px" width="80px" [ngClass]="active==image.id?'active':''">
-        </span>
+        </span> -->
       </div>
     </div>
 
@@ -190,7 +195,7 @@
 
 <!-- start:filter modal  -->
 <div class="modal" id="filterModal" #filterModal>
-  <div class="modal-dialog modal-lg" class="filterModalClass">
+  <div class="modal-dialog modal-md" class="filterModalClass">
     <div class="modal-content">
       <!-- Modal Header -->
       <div class="modal-header">
@@ -199,10 +204,22 @@
       </div>
       <!-- Modal body -->
       <div class="modal-body">
-
-        <div class="row mt-2" id="basicFilter">
-          <div class="col-12">
+        
+        <div class="row mt-2"  *ngIf="basicFilter">
+         
             <div class="filter-Container">
+              <ul style="list-style-type: none;">
+                <label *ngIf="!fliterflag"> Operator &nbsp;&nbsp;</label>
+              <select [(ngModel)]="dynamicfilterval" #btw>
+                <option *ngFor="let sign of dynamicFilter" value="{{sign}}">{{sign}}</option>
+              </select>
+
+              </ul>
+              <!-- {{dropdownFilter | json}} -->
+           
+          </div>
+        
+            <div class="filter-Container" *ngIf="fliterflag">
               <ul style="list-style-type: none;">
                 <li>
                   <input type="checkbox" (click)="checkUncheckAll($event)" [checked]="checked">Select All
@@ -214,7 +231,21 @@
               </ul>
               <!-- {{dropdownFilter | json}} -->
             </div>
-          </div>
+            <div class="filter-Container" *ngIf="!fliterflag">
+               <div class="row">
+                <label *ngIf="!fliterflag"> Values &nbsp;&nbsp;</label>
+
+                <div class="col-5 pl-0">
+                  <input type="text" [(ngModel)]="firstfilter">
+                </div> 
+                
+                <div class="col-7" *ngIf="dynamicfilterval == 'between' ">
+                <span class="pl-2 pr-5"> And </span> <input type="text" [(ngModel)]="secondfilter">
+                </div>
+              </div>
+              <!-- {{dropdownFilter | json}} -->
+            </div>
+        
         </div>
 
         <div class="row mt-2" id="rowFilter" style="display: none;">
