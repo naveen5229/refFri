@@ -37,6 +37,12 @@
     input, select, textarea {
         width: 200px;
     }
+    select{
+        border-radius: 5px;
+        background: #e4f0fe;
+        border: 1px solid #e4f0fe;
+        box-shadow: 0px 1px 6px #d8d4d4;
+    }
 }
 .filter-Container:nth-child(2) ul{
     max-height: calc(100vh - 325px);
@@ -94,12 +100,12 @@
     overflow: auto;
     h6 {
         color: #ffffff;
-        font-size: 0.8rem;
+        font-size: 1rem;
         background: #3366ff;
         padding: 0 10px;
     }
     .drophead {
-        font-size: 0.7rem;
+        font-size: 0.9rem;
         border: 1px solid #d0d0d0;
         padding: 0px 5px;
         margin-bottom: 0.2rem;
@@ -127,7 +133,7 @@
         // overflow: auto;
         li {
             font-family: "Poppins", sans-serif !important;
-            font-size: 0.68rem;
+            font-size: 0.8rem;
             border-bottom: 1px solid #dedede;
             padding-left: 5px;
             position: relative;
