@@ -71,31 +71,31 @@ export class GraphicalReportsComponent implements OnInit {
     {
       id: 1,
       type: 'pie',
-      url: "./assets/images/charts/piechart.jpg",
+      url: "./assets/images/charts/chart-pie-solid.svg",
       blur: true
     },
     {
       id: 2,
       type: 'bar',
-      url: "./assets/images/charts/barchart.png",
+      url: "./assets/images/charts/chart-bar-solid.svg",
       blur: true
     },
     {
       id: 3,
       type: 'line',
-      url: "./assets/images/charts/linechart.png",
+      url: "./assets/images/charts/bubble.svg",
       blur: true
     },
     {
       id: 4,
       type: 'bubble',
-      url: "./assets/images/charts/bubblechart.png",
+      url: "./assets/images/charts/chart-line-solid.svg",
       blur: true
     },
     {
       id: 5,
       type: 'table',
-      url: "./assets/images/charts/table.webp",
+      url: "./assets/images/charts/table-solid.svg",
       blur: true
     }
   ]
