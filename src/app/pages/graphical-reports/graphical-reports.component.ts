@@ -223,7 +223,7 @@ ngOnInit(): void {
   editGraph() {
     this.editState = true;
     this.graphBodyVisi = true;
-    this.getReportPreview();
+    this.getReportPreview(1);
   }
   resetAssignForm() {
     this.assign = {
@@ -599,7 +599,7 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
 
   editFilter(index) {
     console.log('edit data:', this.assign.filter[index]);
-    this.assign.filter[index].filterdata.map(ele => {
+    this.assign.filter[index].data.map(ele => {
       console.log('type of filterdata', typeof ele.r_threshold);
       if (typeof ele.r_threshold === 'string') { ele.r_threshold = JSON.parse(ele.r_threshold) };
     })

@@ -379,10 +379,10 @@ export class ReportEditComponent implements OnInit {
   getSavedReports() {
     this.api.get(`GraphicalReport/getGraphicalReportList`)
       .subscribe((res: any) => {
-        console.log('Res:', res);
         let data = JSON.parse(localStorage.getItem('dynamic-report')) || [];
 
 
+        console.log('chk Res:', res,data);
 
 
         this.reports = res.data.map(report => {
@@ -393,7 +393,7 @@ export class ReportEditComponent implements OnInit {
           // if (info && this.tabname == info.rpt_tabname) {
           //   report.isUsed = true;
           // }
-          if (info) {
+          if (info && (info.rpt_tabname == this.tabname)) {
             report.isUsed = true;
           }
 
