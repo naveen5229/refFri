@@ -83,13 +83,13 @@ export class GraphicalReportsComponent implements OnInit {
     {
       id: 3,
       type: 'line',
-      url: "./assets/images/charts/bubble.svg",
+      url: "./assets/images/charts/chart-line-solid.svg",
       blur: true
     },
     {
       id: 4,
       type: 'bubble',
-      url: "./assets/images/charts/chart-line-solid.svg",
+      url: "./assets/images/charts/bubble.svg",
       blur: true
     },
     {
@@ -204,10 +204,11 @@ ngOnInit(): void {
       this.assign.reportFileName = this.savedReportSelect['name'];
       this.graphBodyVisi = false;
       console.log('this.savedReportSelect:', this.savedReportSelect);
-      this.assign.x = this.savedReportSelect['jData']['info']["x"];
-      this.assign.y = this.savedReportSelect['jData']['info']["y"];
-      this.assign.filter = this.savedReportSelect['jData']['filter'];
-      this.getReportPreview();
+      this.assign.x = this.savedReportSelect['cols_str']["x"];
+      this.assign.y = this.savedReportSelect['cols_str']["y"];
+      this.assign.filter = this.savedReportSelect['filter_str'];
+      this.selectedChart = this.savedReportSelect['rpt_type'];
+      this.getReportPreview(1);
     } else {
       this.reportIdUpdate = null;
       this.assign.reportFileName = ''
@@ -741,8 +742,8 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
     }
   }
 
-  getReportPreview() {
-    console.log('complete data', this.assign)
+  getReportPreview(flag=0) {
+    console.log('complete data', this.assign,flag)
     this.assign.y.forEach(ele => {
       if (!ele.measure) {
         ele.measure = 'Count';
@@ -776,6 +777,8 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
     if(this.assign.filter){
       this.assign.filter.map((data)=>{
         let arrstring='';
+        let xarray:any;
+        if(flag == 0){
         data['filterdata'].map((fldata)=>{
           console.log('fffl data',fldata);
           fldata['r_threshold'][0]['r_value'].map((miningdata)=>{
@@ -789,12 +792,21 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
         console.log('arr',arrstring);
 
         
-        let xarray ={
+         xarray ={
           r_coltitle:data.r_coltitle,
           r_colcode:data.r_colcode,
           measure:data.dynamicfilterval,//'in'
           data:'['+(arrstring).slice(0, -1)+']'
         };
+      }
+      else{
+         xarray ={
+          r_coltitle:data.r_coltitle,
+          r_colcode:data.r_colcode,
+          measure:data.measure,//'in'
+          data:data.data
+        };
+      }
         newfilter.push(xarray);
       });
     }
@@ -867,9 +879,24 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
   }
 
   review() {
-    if (this.assign.x.length > 1 || this.assign.y.length > 1) {
+    console.log('chart data length',this.assign.x.length,this.assign.y.length)
+    // if (this.assign.y.length > 1 || this.assign.x.length > 1) {
+    //   console.log('chart data length 0',this.assign.x.length,this.assign.y.length)
+  
+    //     this.blurChartImage([true, false, false, false, false]);
+    //   } 
+    if (this.assign.x.length > 1) {
+    console.log('chart data length 0',this.assign.x.length,this.assign.y.length)
       this.blurChartImage([true, false, false, false, false]);
-    } else {
+    } else if (this.assign.y.length == 1) {
+    console.log('chart data length 1',this.assign.x.length,this.assign.y.length)
+      this.blurChartImage([false, false, false, true, false]);
+    }else if (this.assign.y.length > 1) {
+      console.log('chart data length 2',this.assign.x.length,this.assign.y.length)
+        this.blurChartImage([true, false, false, false, false]);
+      } 
+      else {
+    console.log('chart data length 3',this.assign.x.length,this.assign.y.length)
       this.blurChartImage([false, false, false, false, false]);
     }
     console.log('chart data', this.reportPreviewData,this.selectedChart)
@@ -1185,6 +1212,15 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
   generateChart(charDatas, type = 'pie') {
     let charts = [];
     console.log('chartData', charDatas, type);
+    this.showLedgend = (type == 'pie')? "yes":'no';
+    this.legendPosition = (type == 'pie')? "right":'top';
+   let labdata =  {
+      fontSize: 11,
+      padding:  3,
+      boxWidth: 22,
+      boxHeight:60
+    };
+
     this.finalcarttype = type;
     charDatas.forEach(chartData => {
       charts.push(new Chart(chartData.canvas.getContext('2d'), {
@@ -1196,7 +1232,8 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
         options: {
           legend: {
             position: this.legendPosition,
-            display: this.showLedgend === "yes" ? true : false
+            display: this.showLedgend === "yes" ? true : false,
+            labels: (type == 'pie')? labdata:''
           },
           tooltips: {
             mode: 'index',
