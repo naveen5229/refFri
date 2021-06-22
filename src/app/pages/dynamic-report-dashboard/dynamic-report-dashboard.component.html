@@ -53,7 +53,7 @@
                     [style.left]="dynamicreportcallreport.style.x">
                     <div class="report-container" *ngIf="dynamicreportcallreport.isUsed">
                         <dynamic-report [savedReportSelect]="dynamicreportcallreport" [startDate]="assign.startDate"
-                            [endDate]="assign.endDate"></dynamic-report>
+                            [endDate]="assign.endDate" [dynamicid]="i"></dynamic-report>
                     </div>
                 </div>
 
@@ -126,6 +126,13 @@
                         <worst-consignee-months *ngIf="challanWidget.type == 'worst-consignee-months'"></worst-consignee-months>
                         <worst-transporter *ngIf="challanWidget.type == 'worst-transporter'"></worst-transporter>
                         <worst-transporter-months *ngIf="challanWidget.type == 'worst-transporter-months'"></worst-transporter-months>
+                        <maintainance-work-trend *ngIf="challanWidget.type == 'maintainance-work-trend'"></maintainance-work-trend>
+                        <vehicle-maintainance-most-aged *ngIf="challanWidget.type == 'vehicle-maintainance-most-aged'"></vehicle-maintainance-most-aged>
+                        <vehicle-maintainance-max-dur *ngIf="challanWidget.type == 'vehicle-maintainance-max-dur'"></vehicle-maintainance-max-dur>
+                        <vehicle-maintainance-cost *ngIf="challanWidget.type == 'vehicle-maintainance-cost'"></vehicle-maintainance-cost>
+                        <vehicle-maintainance-count *ngIf="challanWidget.type == 'vehicle-maintainance-count'"></vehicle-maintainance-count>
+                        <top-workshop *ngIf="challanWidget.type == 'top-workshop'"></top-workshop>
+
                     </div>
                    
                 </div>

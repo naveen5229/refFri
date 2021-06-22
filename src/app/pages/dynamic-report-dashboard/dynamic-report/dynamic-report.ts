@@ -3,7 +3,7 @@ import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { CdkDragDrop, copyArrayItem } from '@angular/cdk/drag-drop';
 import * as Chart from 'chart.js';
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 
@@ -17,6 +17,8 @@ export class DynamicReportComponent implements OnInit {
   @Input() savedReportSelect = {};
   @Input() startDate: any = this.common.getDate(-15);
   @Input() endDate = new Date();
+  @Input() dynamicid : null;
+
   graphId: string = (Math.random() * 10000000).toFixed(0);
   isDisplayTable = false;
   reportIdUpdate = null;
@@ -98,7 +100,7 @@ export class DynamicReportComponent implements OnInit {
   ]
 
   dropdownFilter = [];
-
+  loderid=0;
   constructor(
     public common: CommonService,
     public api: ApiService,) {
@@ -109,7 +111,7 @@ export class DynamicReportComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.openPreviewModal();
+    //this.openPreviewModal();
   }
 
   ngOnChanges(changes) {
@@ -127,6 +129,11 @@ export class DynamicReportComponent implements OnInit {
 
     if (changes.endDate) {
       this.endDate = changes.endDate.currentValue;
+      isChanged = true;
+
+    }
+    if (changes.dynamicid) {
+      this.endDate = changes.dynamicid.currentValue;
       isChanged = true;
 
     }
@@ -194,9 +201,14 @@ export class DynamicReportComponent implements OnInit {
       this.assign.reportFileName = this.savedReportSelect['name'];
       this.graphBodyVisi = false;
       console.log('this.savedReportSelect:', this.savedReportSelect);
-      this.assign.x = this.savedReportSelect['jData']['info']["x"];
-      this.assign.y = this.savedReportSelect['jData']['info']["y"];
-      this.assign.filter = this.savedReportSelect['jData']['filter'];
+      //this.assign.x = this.savedReportSelect['jData']['info']["x"];
+     // this.assign.y = this.savedReportSelect['jData']['info']["y"];
+     // this.assign.filter = this.savedReportSelect['jData']['filter'];
+     this.assign.x = this.savedReportSelect['cols_str']["x"];
+      this.assign.y = this.savedReportSelect['cols_str']["y"];
+      this.assign.filter = this.savedReportSelect['filter_str'];
+      this.selectedChart = this.savedReportSelect['rpt_type'];
+      this.loderid = this.dynamicid;
       this.getReportPreview();
     } else {
       this.reportIdUpdate = null;
@@ -297,7 +309,8 @@ export class DynamicReportComponent implements OnInit {
     this.filterObject = _.clone(data);
     // console.log('filter_Object',this.filterObject)
     let params = {
-      info: JSON.stringify(this.filterObject),
+      //info: JSON.stringify(this.filterObject),
+      info: this.filterObject['r_colcode'],
       startTime: this.common.dateFormatter(this.assign.startDate),
       endTime: this.common.dateFormatter(this.assign.endDate),
     }
@@ -641,11 +654,57 @@ export class DynamicReportComponent implements OnInit {
         ele.measure = 'Count';
       }
     }); 
-    // console.log('data to send',this.assign.data)
-    // return;
-    let info = { x: this.assign.x, y: this.assign.y };
+    let xnewaaray = [];
+    this.assign.x.map((data)=>{
+      let xarray ={
+        r_coltitle:data.r_coltitle,
+        r_colcode:data.r_colcode,
+        measure:data.measure
+      };
+      xnewaaray.push(xarray);
+    });
+
+    let ynewaaray = [];
+    this.assign.y.map((data)=>{
+      let xarray ={
+        r_coltitle:data.r_coltitle,
+        r_colcode:data.r_colcode,
+        measure:data.measure
+      };
+      ynewaaray.push(xarray);
+    });
+    //let info = { x: this.assign.x, y: this.assign.y };
+    let info = { x: xnewaaray, y: ynewaaray };
+
+    let newfilter=[];
+    if(this.assign.filter){
+      this.assign.filter.map((data)=>{
+        // let arrstring='';
+        // data['filterdata'].map((fldata)=>{
+        //   console.log('fffl data',fldata);
+        //   fldata['r_threshold'][0]['r_value'].map((miningdata)=>{
+        //   console.log('fffl data2',miningdata);
+
+        //   if(miningdata['status']){
+        //     arrstring += `''`+miningdata.value+`'',`;
+        //   }
+        // })
+        // });
+        // console.log('arr',arrstring);
+
+        
+        let xarray ={
+          r_coltitle:data.r_coltitle,
+          r_colcode:data.r_colcode,
+          measure:data.measure,//'in'
+          //data:'['+(arrstring).slice(0, -1)+']'
+          data:data.data
+        };
+        newfilter.push(xarray);
+      });
+    }
     let params = {
-      reportFilter: this.assign.filter ? JSON.stringify(this.assign.filter) : [],
+      reportFilter: this.assign.filter ? JSON.stringify(newfilter) : [],
       info: JSON.stringify(info),
       startTime: this.common.dateFormatter(this.assign.startDate),
       endTime: this.common.dateFormatter(this.assign.endDate),
@@ -653,16 +712,47 @@ export class DynamicReportComponent implements OnInit {
 
     if (this.assign.x.length && this.assign.y.length) {
      // this.common.loading++;
-     this.showLoader(1);
-      let i = 0;
+     this.showLoader(this.loderid);
+      let i = 0; 
       this.api.post('GraphicalReport/getPreviewGraphicalReport', params).subscribe(res => {
-       this.hideLoader(1);
+       this.hideLoader(this.loderid);
        // this.common.loading--;
         if (res['code'] == 1) {
           console.log('Response reportPreviewData :',this.assign,i);
           i = i + 1;
           if (res['data']) {
-            this.reportPreviewData = res['data'];
+           // this.reportPreviewData = res['data'];
+           let dummmy = res['data'];
+            
+           let xname = dummmy.x;
+           let INIyname = dummmy.y;
+           let reviewdata=[];
+           INIyname.map((yname,intialindex)=>{
+           
+             let seriesmultiple =[];
+           dummmy.data.map((rundata,index)=>{
+             console.log('run data',rundata,yname);
+           let nextdata=  {
+               "x":index+1,
+               "y":rundata[yname],
+               "name":rundata['x'],
+             }
+             seriesmultiple.push(nextdata);
+           });
+          let freshdata = {
+            "xAxis":"["+dummmy.xAxis+"]",
+            "series":{
+            "data":seriesmultiple,
+            "y_name":yname
+            }
+          }
+           reviewdata.push(freshdata);
+           //console.log('freshdata',freshdata);
+         });
+         console.log('unique',reviewdata); 
+
+           this.reportPreviewData = reviewdata;
+           
             this.canvasname = this.assign['reportFileName'];
             this.review();
           } else {
@@ -675,7 +765,7 @@ export class DynamicReportComponent implements OnInit {
           this.common.showError(res['msg'])
         }
       }, err => {
-        this.hideLoader(1);
+        this.hideLoader(this.loderid);
         //this.common.loading--;
         console.log('Error:', err)
       })
@@ -700,6 +790,7 @@ export class DynamicReportComponent implements OnInit {
 
   getChartofType(chartType) {
     // if(this.reportPreviewData.length>0){
+      console.log('chart type',chartType);
     if (chartType === 'table') {
       this.isDisplayTable = true;
       document.getElementById(this.graphId).style.display = 'none';
@@ -832,7 +923,7 @@ export class DynamicReportComponent implements OnInit {
 
   showChart(stateTableData, chartType) {
     this.graphPieCharts.forEach(ele => ele.destroy());
-    console.log('data to send to chart module:', stateTableData);
+    console.log('data to send to chart module:', stateTableData,chartType);
     // const labels = stateTableData.map((e) => JSON.parse(e['xAxis']));
     // const data = stateTableData.map((e) => e['series']);
 
@@ -1070,7 +1161,8 @@ export class DynamicReportComponent implements OnInit {
     if (!this.active || this.chartTypes[this.active - 1].blur) {
       this.active = setIndex + 1;
     }
-    this.selectedChart = this.chartTypes[this.active - 1].type;
+    console.log('chat type list',this.chartTypes,this.active);
+  //  this.selectedChart = this.chartTypes[this.active - 1].type;
   }
 
   generateCollapsible() {
@@ -1089,10 +1181,12 @@ export class DynamicReportComponent implements OnInit {
     }
   }
   showLoader(index) {
+    console.log('loder count',index);
     setTimeout(() => {
       let outers = document.getElementsByClassName("outer");
       let loader = document.createElement('div');
       loader.className = 'loader';
+      console.log('show loader',index,outers);
       outers[index].appendChild(loader);
     }, 50);
   }

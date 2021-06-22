@@ -631,7 +631,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     CostmatrixComponent,
     SlowestTransporterComponent,
     CostGamificationComponent,
-    PlacementCostComponent
+    PlacementCostComponent,
+    
   ],
   entryComponents: [
     ...COMMON_COMPONENT,

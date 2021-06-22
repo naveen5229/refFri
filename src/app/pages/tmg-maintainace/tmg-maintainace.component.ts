@@ -207,7 +207,7 @@ ngOnInit() {
         console.log('Err:', err);
       });
   }
-
+ 
   getChallansLatest(index) {
     this.challansLatest = [];
     let startDate = new Date(new Date().setDate(new Date().getDate() - 180));

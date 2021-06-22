@@ -182,6 +182,12 @@ import { WorstConsigneeComponent } from '../widgets/unloading/worst-consignee/wo
 import { WorstConsigneeMonthsComponent } from '../widgets/unloading/worst-consignee-months/worst-consignee-months.component';
 import { WorstTransporterMonthsComponent } from '../widgets/unloading/worst-transporter-months/worst-transporter-months.component';
 import { WorstTransporterComponent } from '../widgets/unloading/worst-transporter/worst-transporter.component';
+import { MaintainanceWorkTrendComponent } from '../widgets/maitainance/maintainance-work-trend/maintainance-work-trend.component';
+import { VehicleMaintainanceCostComponent } from '../widgets/maitainance/vehicle-maintainance-cost/vehicle-maintainance-cost.component';
+import { VehicleMaintainanceCountComponent } from '../widgets/maitainance/vehicle-maintainance-count/vehicle-maintainance-count.component';
+import { TopWorkshopComponent } from '../widgets/maitainance/top-workshop/top-workshop.component';
+import { VehicleMaintainanceMostAgedComponent } from '../widgets/maitainance/vehicle-maintainance-most-aged/vehicle-maintainance-most-aged.component';
+import { VehicleMaintainanceMaxDurComponent } from '../widgets/maitainance/vehicle-maintainance-max-dur/vehicle-maintainance-max-dur.component';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -250,6 +256,12 @@ const PAGES_COMPONENTS = [
     WorstConsigneeMonthsComponent,
     WorstTransporterMonthsComponent,
     WorstTransporterComponent,
+    MaintainanceWorkTrendComponent,
+    VehicleMaintainanceCostComponent,
+    VehicleMaintainanceCountComponent,
+    TopWorkshopComponent,
+    VehicleMaintainanceMostAgedComponent,
+    VehicleMaintainanceMaxDurComponent
 ];
 
 @NgModule({

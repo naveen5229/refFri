@@ -34,6 +34,7 @@ export class ReportEditComponent implements OnInit {
   DocumentReports = [];
   TransportarReports = [];
   UnloadingReports = [];
+  MaintainanceReports = [];
   constructor(private api: ApiService, private common: CommonService, private activeModal: NgbActiveModal) {
     this.getSavedReports();
     this.getpredefinedReports();
@@ -82,9 +83,9 @@ export class ReportEditComponent implements OnInit {
         this.LoadingAnalysisReports = res['data'].filter(report => report.dashboard_name === ("Loading Analysis"));
         this.DocumentReports = res['data'].filter(report => report.dashboard_name === ("Document DashBoard"));
         this.TransportarReports = res['data'].filter(report => report.dashboard_name === ("Transporter Analysis"));
-        this.UnloadingReports = res['data'].filter(report => report.dashboard_name === ("Unloading Analysis"));
+        this.MaintainanceReports = res['data'].filter(report => report.dashboard_name === ("Maintenance Dashboard"));
 
-        console.log('UnloadingReports',this.UnloadingReports);
+        console.log('MaintainanceReports',this.MaintainanceReports);
 
         let data = JSON.parse(localStorage.getItem('dynamic-report')) || [];
 
@@ -341,6 +342,31 @@ export class ReportEditComponent implements OnInit {
             }
           });
         });
+        this.MaintainanceReports.map((rptdata, index) => {
+          data.map((stordata) => {
+          console.log('stro',stordata,rptdata);
+            if (stordata.type != 'dynamic' && rptdata.rpt_name == stordata.rpt_name) {
+              setTimeout(() => {
+                console.log('DocumentReports stored', stordata, this.tabname);
+
+                if(this.tabname == stordata.rpt_tabname){
+
+                this.MaintainanceReports[index].isUsed = true;
+                }
+                let info = stordata;
+                let target = document.getElementById('maintainance-report-' + rptdata.id);
+                let x = info.x_pos;
+                let y = info.y_pos;
+                target.style.width = info.rpt_width + 'px';
+                target.style.height = info.rpt_height + 'px';
+                target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+                target.setAttribute('data-x', x);
+                target.setAttribute('data-y', y);
+              }, 3000)
+
+            }
+          });
+        });
         console.log('tripReports',this.LoadingAnalysisReports);
 
 
@@ -467,6 +493,8 @@ export class ReportEditComponent implements OnInit {
       ele = document.getElementById('trip-report-' + this.draggingReport.id);
     } else if (this.draggingReportType === 'traffic') {
       ele = document.getElementById('traffic-report-' + this.draggingReport.id);
+    }else if (this.draggingReportType === 'maintainance') {
+      ele = document.getElementById('maintainance-report-' + this.draggingReport.id);
     } else {
       ele = document.getElementById('report-' + this.draggingReport._id);
     }
@@ -760,6 +788,31 @@ export class ReportEditComponent implements OnInit {
                               'xpos': parseInt(x.toString()) || 1
                             }
                           }));
+                          data.push(...this.MaintainanceReports
+                            .filter(report => report.isUsed)
+                            .map(report => {
+                              let ele = document.getElementById('maintainance-report-' + report.id);
+                              let width = ele.offsetWidth;
+                              let height = ele.offsetHeight;
+                              let x = parseFloat(ele.getAttribute('data-x'));
+                              let y = parseFloat(ele.getAttribute('data-y'));
+                              if (x < 0) {
+                                x = 0;
+                              }
+                              if (y < 0) {
+                                y = 0;
+                              }
+                              return {
+                                'rpttype': "DB",
+                                'rptwidth': width,
+                                'rptheight': height,
+                                'rptname': report.rpt_name,
+                                'tabname': this.tabname,
+                                'tabtitle': report.rpt_title,
+                                'ypos': parseInt(y.toString()) || 1,
+                                'xpos': parseInt(x.toString()) || 1
+                              }
+                            }));
       data.forEach((info, index) => {
         this.api
           .post('tmgreport/SaveDynamicReportMaster', info)
