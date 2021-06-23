@@ -14,12 +14,12 @@ export class AddMapVehicleComponentComponent implements OnInit {
   type = 1;
   listOfFoAdmins = [];
   showFoDrop: boolean = false;
-  isMap:boolean;
+  isMap: boolean;
   gpsData = [];
   transFoid = null;
   vType = 1;
-  
-  
+
+
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -69,16 +69,16 @@ export class AddMapVehicleComponentComponent implements OnInit {
       this.showFoDrop = false
       this.transFoid = null;
       this.vType = 1
-    } 
+    }
     else if (type === 2) {
       this.showFoDrop = false;
       this.transFoid = null;
       this.vType = 2
-    } 
+    }
     else if (type === 3) {
       this.showFoDrop = true
       this.vType = 3
-    } 
+    }
     else if (type === 4) {
       this.showFoDrop = true
       this.vType = 4
@@ -90,8 +90,8 @@ export class AddMapVehicleComponentComponent implements OnInit {
     console.log('searchFos :', this.transFoid)
   }
 
-  submitVehicle(){
-    let params ={
+  submitVehicle() {
+    let params = {
       regno: this.gpsData['vehicleName'],
       type: this.vType,
       transFoid: this.transFoid,
@@ -100,13 +100,17 @@ export class AddMapVehicleComponentComponent implements OnInit {
     }
 
     console.log('params is: ', params)
-    this.common.loading ++;
-    this.api.post('mapVehicleWithTransporter', params)
+    this.common.loading++;
+    this.api.post('Vehicles/mapVehicleWithTransporter', params)
       .subscribe((res) => {
-        this.common.loading -- ;
+        this.common.loading--;
         console.log('res is: ', res);
+        if (res['success'] == true) {
+          this.common.showToast(res['msg'])
+        }
+        this.closeModal();
       }, err => {
-        this.common.loading -- ;
+        this.common.loading--;
         console.log('err is: ', err)
       })
   }
