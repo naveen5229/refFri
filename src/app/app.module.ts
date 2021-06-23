@@ -323,6 +323,7 @@ import { CostmatrixComponent } from './modals/costmatrix/costmatrix.component';
 import { SlowestTransporterComponent } from './widgets/transportar/slowest-transporter/slowest-transporter.component';
 import { CostGamificationComponent } from './modals/cost-gamification/cost-gamification.component';
 import { PlacementCostComponent } from './modals/placement-cost/placement-cost.component';
+import { AddMapVehicleComponentComponent } from './modals/add-map-vehicle-component/add-map-vehicle-component.component';
 
 
 
@@ -600,7 +601,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   AddGpsNewRequesComponent,
   CostmatrixComponent,
   CostGamificationComponent,
-  PlacementCostComponent
+  PlacementCostComponent,
+  AddMapVehicleComponentComponent
 ];
 
 @NgModule({

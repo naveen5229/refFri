@@ -223,7 +223,7 @@ export class ConciseComponent implements OnInit {
             return {
               key: [column.col_name],
               order: column.col_order,
-              title: column.col_title_actual
+              title: column.col_title
             }
           }).filter(column => column.key);
           this.allKpis = res['data'].y_data;
