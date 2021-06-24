@@ -34,6 +34,13 @@
     <div class="chartbox">
         <h6 *ngIf="canvasname">{{ canvasname }}</h6>
         <canvas [id]="graphId"></canvas>
+        <div class="row mt-2" [hidden]="!isDisplayTable" id="table">
+          <div class="col-12" style="height: 369px;">
+            <smart-table [data]="tableGraph.data" [settings]="tableGraph.settings" id="tableLeadsForMe"
+              class="sl-smart-table">
+            </smart-table>
+          </div>
+        </div>
     </div>
   </div>
 </div>

@@ -113,8 +113,8 @@
                 <option selected disabled>--Select--</option>
                 <option>None</option>
                 <option>Date</option>
-                <option>Month</option>
                 <option>Week</option>
+                <option>Month</option>
               </select>
             </div>
           </div>
@@ -274,17 +274,18 @@
               </div>
             </div>
 
-            <div class="row mt-2">
+            <!-- <div class="row mt-2">
               <div class="col-4">
                 <button type="submit" class="btn btn-primary" (click)="addFilter()">Add Filter</button>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
 
         <div class="row mt-2" style="text-align: center;">
-          <div class="col-6">
-            <button type="button" class="btn btn-primary" (click)="rowFilter(btnName)">{{btnName}}</button></div>
+          <!-- <div class="col-6">
+            <button type="button" class="btn btn-primary" (click)="rowFilter(btnName)">{{btnName}}</button>
+          </div> -->
           <div class="col-6">
             <button type="button" class="btn btn-primary" (click)="storeFilter()">Save</button>
           </div>
@@ -308,12 +309,16 @@
       <!-- Modal body -->
       <div class="modal-body">
 
-        <div class="row mt-2" style="text-align: center;">
-          <div class="col-12">
+        <div class="row mt-4" style="text-align: center;">
+          <div class="col-6">
             <label>Name:</label><input type="text" [(ngModel)]="assign.reportFileName">
           </div>
+       
+          <div class="col-6">
+            <label>Default Days:</label><input type="number" [(ngModel)]="defaultdays" min="1" placeholder="Default Days">
+          </div>
         </div>
-
+        
         <div class="row mt-2" style="text-align: center;">
           <div class="col-12">
             <button type="button" class="btn btn-success"

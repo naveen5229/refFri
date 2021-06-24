@@ -841,7 +841,7 @@ export class DynamicReportComponent implements OnInit {
         if (key === ele.series.y_name) {
           ele.series.data.map((data, subindex) => {
             if (index == 0) {
-              console.log('data in loop', data)
+              //console.log('data in loop', data)
               column[key] = { value: data['y'] };
               columns.push(_.clone(column));
             } else {
@@ -975,7 +975,7 @@ export class DynamicReportComponent implements OnInit {
 
       console.log('DataSet from graphics', dataSet)
     }
-    console.log('data after end:', stateTableData);
+    console.log('data after end:', stateTableData,this.assign);
 
     // start:managed service data
     if (chartType === 'line') {
@@ -1020,10 +1020,14 @@ export class DynamicReportComponent implements OnInit {
       let yLeftTitle = '';
       let yRightTitle = '';
       this.assign.y.map(e => {
-        if (e.yaxis == 'y-left')
+        if (e.yaxis == 'y-left'){
           yLeftTitle += (e.r_coltitle + " -> " + e.measure) + sepratorAxisLabel;
-        if (e.yaxis == 'y-right')
+        }else if (e.yaxis == 'y-right'){
           yRightTitle += (e.r_coltitle + " -> " + e.measure) + sepratorAxisLabel;
+        }else{
+          yLeftTitle += (e.r_coltitle + " -> " + e.measure) + sepratorAxisLabel;
+
+        }
       });
       yLeftTitle = yLeftTitle.slice(0, -5);
       yRightTitle = yRightTitle.slice(0, -5);
