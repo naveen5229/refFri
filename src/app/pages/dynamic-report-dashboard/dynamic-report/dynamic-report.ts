@@ -991,7 +991,36 @@ export class DynamicReportComponent implements OnInit {
           borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
         })
       });
-    } else {
+    } else if (chartType === 'bar-line') {
+      dataSet.map((data, index) => {
+        console.log('bar-line',data,dataSet.length);
+        if(index == 0){
+        chartDataSet.push({
+          type: 'bar',
+          label: data.label,
+          data: data.data,
+          borderWidth: 1,
+          lineTension: 0,
+          borderColor: data.bgColor[index] ? data.bgColor[index] : '#33FF83',
+          yAxisID: data.yAxesGroup,
+          fill: true,
+          borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
+        })
+      }else if(index == 1){
+        chartDataSet.push({
+          type: 'line',
+          label: data.label,
+          data: data.data,
+          borderWidth: 1,
+          lineTension: 0,
+          borderColor: data.bgColor[index] ? data.bgColor[index] : '#FFA233',
+          yAxisID: data.yAxesGroup,
+          fill: false,
+          borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
+        })
+      }
+      });
+    }else {
       dataSet.map((data, index) => {
         console.log('data label',data);
         chartDataSet.push({

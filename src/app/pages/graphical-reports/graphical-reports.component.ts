@@ -97,6 +97,12 @@ export class GraphicalReportsComponent implements OnInit {
       type: 'table',
       url: "./assets/images/charts/table-solid.svg",
       blur: true
+    },
+    {
+      id: 6,
+      type: 'bar-line',
+      url: "./assets/images/charts/linebar.svg",
+      blur: true
     }
   ]
   dynamicFilter = ['IN','NOT IN','LIKE','NOT LIKE'];
@@ -249,7 +255,7 @@ ngOnInit(): void {
         tableHeight: '45vh',
       }
     }
-    this.blurChartImage([true, true, true, true, true]);
+    this.blurChartImage([true, true, true, true, true,true]);
     this.reportIdUpdate = null;
     this.reportPreviewData = [];
     this.graphPieCharts.forEach(ele => ele.destroy());
@@ -995,17 +1001,21 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
     //   } 
     if (this.assign.x.length > 1) {
     console.log('chart data length 0',this.assign.x.length,this.assign.y.length)
-      this.blurChartImage([true, false, false, false, false]);
+      this.blurChartImage([true, false, false, false, false,true]);
     } else if (this.assign.y.length == 1) {
-    console.log('chart data length 1',this.assign.x.length,this.assign.y.length)
-      this.blurChartImage([false, false, false, true, false]);
-    }else if (this.assign.y.length > 1) {
-      console.log('chart data length 2',this.assign.x.length,this.assign.y.length)
-        this.blurChartImage([true, false, false, false, false]);
+    console.log('chart data length 1--',this.assign.x.length,this.assign.y.length)
+      this.blurChartImage([false, false, false, true, false,true]);
+    }else if (this.assign.y.length == 2) {
+      console.log('chart data length 2==',this.assign.x.length,this.assign.y.length)
+        this.blurChartImage([true, false, false, false, false,false]);
       } 
+      else if (this.assign.y.length > 2) {
+        console.log('chart data length ~~',this.assign.x.length,this.assign.y.length)
+          this.blurChartImage([true, false, false, false, false,true]);
+        } 
       else {
     console.log('chart data length 3',this.assign.x.length,this.assign.y.length)
-      this.blurChartImage([false, false, false, false, false]);
+      this.blurChartImage([false, false, false, false, false,true]);
     }
     console.log('chart data', this.reportPreviewData,this.selectedChart)
     // this.showChart(this.reportPreviewData,'pie');
@@ -1214,6 +1224,35 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
           fill: false,
           borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
         })
+      });
+    }else if (chartType === 'bar-line') {
+      dataSet.map((data, index) => {
+        console.log('bar-line',data,dataSet.length);
+        if(index == 0){
+        chartDataSet.push({
+          type: 'bar',
+          label: data.label,
+          data: data.data,
+          borderWidth: 1,
+          lineTension: 0,
+          borderColor: data.bgColor[index] ? data.bgColor[index] : '#33FF83',
+          yAxisID: data.yAxesGroup,
+          fill: true,
+          borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
+        })
+      }else if(index == 1){
+        chartDataSet.push({
+          type: 'line',
+          label: data.label,
+          data: data.data,
+          borderWidth: 1,
+          lineTension: 0,
+          borderColor: data.bgColor[index] ? data.bgColor[index] : '#FFA233',
+          yAxisID: data.yAxesGroup,
+          fill: false,
+          borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
+        })
+      }
       });
     } else {
       dataSet.map((data, index) => {
