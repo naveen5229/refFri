@@ -56,7 +56,7 @@
                 </uj-date-time-picker>
               </td>
               <td style="padding:15px">
-                <span><i class="fa fa-plus add" (click)="addDates(i)" *ngIf="j == offDate.length-1" style="padding: 1px;
+                <span><i class="fa fa-plus add" (click)="addDates(j)" *ngIf="j == offDate.length-1" style="padding: 1px;
                                 color: green;"></i>
                   <i class="fa fa-minus minus" (click)="offDate.splice(j,1)" *ngIf="j !== 0" style="padding: 1px;
                                 color: red;"></i>
@@ -156,7 +156,7 @@
                   [dateTimeValue]="data.offDateSites">
                 </uj-date-time-picker>
 
-                <span><i class="fa fa-plus add" (click)="addDateSites(i)" *ngIf="i == item.siteOffDates.length-1" style="padding: 1px;
+                <span><i class="fa fa-plus add" (click)="addDateSites(j)" *ngIf="i == item.siteOffDates.length-1" style="padding: 1px;
                     color: green;"></i>
                 <i class="fa fa-minus minus" (click)="item.siteOffDates.splice(i,1)" *ngIf="i !== 0" style="padding: 1px;
                     color: red;"></i>
