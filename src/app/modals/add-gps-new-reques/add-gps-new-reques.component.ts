@@ -194,12 +194,6 @@ export class AddGpsNewRequesComponent implements OnInit {
           this.common.params = {isMap: type, data: data}
           const activeModal = this.modalService.open(AddMapVehicleComponentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });    
           
-          activeModal.result.then(response => {
-            console.log('activemodel receipt-bank res:', response)
-            if(!response.response){
-              this.getGpsData();
-            }
-          })
         }
         
       
