@@ -97,6 +97,12 @@ export class GraphicalReportsComponent implements OnInit {
       type: 'table',
       url: "./assets/images/charts/table-solid.svg",
       blur: true
+    },
+    {
+      id: 6,
+      type: 'bar-line',
+      url: "./assets/images/charts/linebar.svg",
+      blur: true
     }
   ]
   dynamicFilter = ['IN','NOT IN','LIKE','NOT LIKE'];
@@ -106,6 +112,8 @@ export class GraphicalReportsComponent implements OnInit {
   fliterflag = true;
   firstfilter='';
   secondfilter='';
+  defaultdays=30;
+  dynamicflag = 0;
   constructor(
     public common: CommonService,
     public api: ApiService,) {
@@ -208,7 +216,8 @@ ngOnInit(): void {
       this.assign.y = this.savedReportSelect['cols_str']["y"];
       this.assign.filter = this.savedReportSelect['filter_str'];
       this.selectedChart = this.savedReportSelect['rpt_type'];
-      this.getReportPreview(1);
+      this.dynamicflag = 1;
+      this.getReportPreview();
     } else {
       this.reportIdUpdate = null;
       this.assign.reportFileName = ''
@@ -223,6 +232,7 @@ ngOnInit(): void {
   editGraph() {
     this.editState = true;
     this.graphBodyVisi = true;
+    this.dynamicflag = 1;
     this.getReportPreview();
   }
   resetAssignForm() {
@@ -245,7 +255,7 @@ ngOnInit(): void {
         tableHeight: '45vh',
       }
     }
-    this.blurChartImage([true, true, true, true, true]);
+    this.blurChartImage([true, true, true, true, true,true]);
     this.reportIdUpdate = null;
     this.reportPreviewData = [];
     this.graphPieCharts.forEach(ele => ele.destroy());
@@ -325,7 +335,7 @@ ngOnInit(): void {
     } else {
       this.checked = false
     }
-    if(!(this.filterObject['r_coltype'].includes('number'|| 'int' || 'bigint' || 'decimal'))){
+    if(!((this.filterObject['r_coltype'] && this.filterObject['r_coltype'].includes('number'|| 'int' || 'bigint' || 'decimal')) || this.filterObject['measure'] && this.filterObject['measure'].includes('number'|| 'int' || 'bigint' || 'decimal'))){
     this.common.loading++;
     this.api.post('GraphicalReport/getFilterList', params).subscribe(res => {
       this.common.loading--;
@@ -398,7 +408,8 @@ ngOnInit(): void {
 
   assignFilteredValue() {
     console.log('filter obj',this.filterObject);
-    if(this.filterObject['r_coltype'].includes('number'|| 'int' || 'bigint' || 'decimal')){
+    this.dynamicflag = 0;
+    if((this.filterObject['r_coltype'] && this.filterObject['r_coltype'].includes('number'|| 'int' || 'bigint' || 'decimal'))|| this.filterObject['measure'] && this.filterObject['measure'].includes('number'|| 'int' || 'bigint' || 'decimal')){
 // this.dynamicFilter = [
 //   {id:'=',name:'='},{id:'>',name:'>'},{id:'<',name:'<'},{id:'!=',name:'!='},{id:'>=',name:'>='},{id:'<=',name:'<='},{id:'between ',name:'between '}
 // ];
@@ -435,8 +446,8 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
       //       return this.filterObject['filterdata'];
       //     }
       // })
-
-      if (this.filterObject['filterdata'][0].r_operators === 5 ||
+        console.log('filderdata with object',this.filterObject['filterdata'],((this.filterObject['filterdata']).split("'',''")));
+      if (this.filterObject['filterdata'][0].r_operators  && this.filterObject['filterdata'][0].r_operators === 5 ||
         this.filterObject['filterdata'][0].r_operators === 6) {
         this.filterObject['filterdata'].map(data => {
           if (data.r_operators === 5 || data.r_operators === 6) {
@@ -458,12 +469,68 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
             })
           }
         });
-      } else {
+      } else if (this.filterObject['filterdata'].length){
+       // this.dynamicflag = 2;
+        let newfilterobj =[];
+        this.filterObject['filterdata'].split("'',''").forEach((data,dindex) => {
+          if(dindex == 0 || dindex == (this.filterObject['filterdata'].split("'',''").length -1)){
+            if(dindex == 0 ){
+              data = data.substring(3,13)
+            }else{
+              data = data.substring(0,10);
+            }
+          }
+        //  console.log('data edit filter', data)
+          this.dropdownFilter.forEach(ele => {
+            if (ele.value === data) {
+              // console.log(ele)
+              let array = {
+              status : true,
+              value: ele.value
+              };
+              newfilterobj.push(array);
+            //  console.log('data edit filter 1', data);
+            }else{
+              let array = {
+                status : false,
+                value: ele.value
+                };
+                newfilterobj.push(array);
+            }
+          })
+        })
+        this.dropdownFilter = newfilterobj;
+        this.dynamicflag = 1;
+      }else {
         this.btnName = 'Cancel'
         document.getElementById('rowFilter').style.display = 'block';
         this.basicFilter = false
         return this.filterObject['filterdata'];
       }
+    }else if (this.filterObject['data'] && (this.filterObject['data'] != 'string')){
+      let newfilterobj =[];
+      this.filterObject['data'].forEach((data,dindex) => {
+       
+        this.dropdownFilter.forEach(ele => {
+          if (ele.value === data.value) {
+            let array = {
+            status : true,
+            value: ele.value
+            };
+            newfilterobj.push(array);
+          //  console.log('data edit filter 1', data);
+          }else{
+            let array = {
+              status : false,
+              value: ele.value
+              };
+              newfilterobj.push(array);
+          }
+        })
+      })
+      this.dropdownFilter = newfilterobj;
+      this.dynamicflag = 1;
+
     }
     this.filterObject['filterdata'] = [];
     this.manageCheckUncheckAll();
@@ -531,6 +598,7 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
   }
 
   storeFilter() {
+    console.log('before edit time filter object', this.filterObject,this.dropdownFilter)
     if(!this.fliterflag){
     this.dropdownFilter = [];
     this.dropdownFilter.push({value:this.firstfilter,status:true},{value:this.secondfilter,status:((this.dynamicfilterval == 'between')?true:false)})
@@ -553,7 +621,7 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
     let inEle = [];
     let notInEle = [];
     filterObject['dynamicfilterval']=this.dynamicfilterval;
-    console.log('edit time filter object', this.filterObject,this.dynamicfilterval)
+    console.log('edit time filter object', this.filterObject,this.dynamicfilterval,this.addFilterDropData)
 
     if (this.addFilterDropData) {
       console.log('edit time', this.dropdownFilter)
@@ -576,10 +644,21 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
         exists++;
         index = ind;
       };
-    })
-     console.log('check 3:',this.filterObject);
+    });
+   
+     // this.filterObject['data'] = this.dropdownFilter;
+     let newarray = []
+     this.dropdownFilter.map((data,index)=>{
+        if(data.status){
+          newarray.push(data);
+        }
+     });
+    // this.assign.filter[index]['data'] =  newarray;
+     filterObject['data'] =  newarray;
     if (exists > 0) {
-      this.assign.filter.splice(index, 1, filterObject);
+      this.assign.filter.splice(index, 1, filterObject) ;
+    console.log('data after filter add before:', this.assign)
+
     } else {
       this.assign.filter.push(filterObject);
     }
@@ -599,15 +678,24 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
 
   editFilter(index) {
     console.log('edit data:', this.assign.filter[index]);
-    this.assign.filter[index].filterdata.map(ele => {
-      console.log('type of filterdata', typeof ele.r_threshold);
-      if (typeof ele.r_threshold === 'string') { ele.r_threshold = JSON.parse(ele.r_threshold) };
-    })
-    if((this.assign.filter[index]['r_coltype'].includes('number'|| 'int' || 'bigint' || 'decimal'))){
+    if(this.assign.filter[index].filterdata){
+        this.assign.filter[index].filterdata.map(ele => {
+          console.log('type of filterdata', typeof ele.r_threshold);
+          if (typeof ele.r_threshold === 'string') { ele.r_threshold = JSON.parse(ele.r_threshold) };
+        })
+    }else{
+      let dummydata:any;
+      this.assign.filter[index]['filterdata'] = this.assign.filter[index].data;
+    }
+    if(this.assign.filter[index]['r_coltype'] && (this.assign.filter[index]['r_coltype'].includes('number'|| 'int' || 'bigint' || 'decimal'))){
       this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
       this.fliterflag = false;
+          }else if(this.assign.filter[index]['measure'] && (this.assign.filter[index]['measure'].includes('number'|| 'int' || 'bigint' || 'decimal'))){
+      this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
+            this.fliterflag = false;
           }else{
             this.fliterflag = false;
+          
           }
     this.openFilterModal(this.assign.filter[index], 'edit');
   }
@@ -681,8 +769,10 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
 
     let newfilter=[];
     if(this.assign.filter){
+      console.log('update data',this.assign.filter);
       this.assign.filter.map((data)=>{
         let arrstring='';
+        if(data['filterdata'].length){
         data['filterdata'].map((fldata)=>{
           console.log('fffl data',fldata);
           fldata['r_threshold'][0]['r_value'].map((miningdata)=>{
@@ -693,6 +783,14 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
           }
         })
         });
+      }else{
+        console.log(' data array', data['data']);
+        data['data'].map((fldata)=>{
+          if(fldata['status']){
+            arrstring += `''`+fldata.value+`'',`;
+          }
+        });
+      }
         console.log('arr',arrstring);
 
         
@@ -711,7 +809,8 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
       rpttype:this.finalcarttype,
      // jData: JSON.stringify({ filter: this.assign.filter, info: this.assign }),
       name: this.assign.reportFileName,
-      id: reqID
+      id: reqID,
+      defaultdays:this.defaultdays
     };
 
     if (params.name) {
@@ -742,8 +841,8 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
     }
   }
 
-  getReportPreview(flag=0) {
-    console.log('complete data', this.assign,flag)
+  getReportPreview() {
+    console.log('complete data', this.assign,this.dynamicflag)
     this.assign.y.forEach(ele => {
       if (!ele.measure) {
         ele.measure = 'Count';
@@ -778,7 +877,7 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
       this.assign.filter.map((data)=>{
         let arrstring='';
         let xarray:any;
-        if(flag == 0){
+        if(this.dynamicflag == 0){
         data['filterdata'].map((fldata)=>{
           console.log('fffl data',fldata);
           fldata['r_threshold'][0]['r_value'].map((miningdata)=>{
@@ -800,12 +899,27 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
         };
       }
       else{
-         xarray ={
-          r_coltitle:data.r_coltitle,
-          r_colcode:data.r_colcode,
-          measure:data.measure,//'in'
-          data:data.data
-        };
+        console.log('type of',typeof(data.data));
+            if(typeof(data.data) == 'string'){
+            xarray ={
+              r_coltitle:data.r_coltitle,
+              r_colcode:data.r_colcode,
+              measure:data.measure,//'in'
+              data:data.data
+            };
+            }else{
+              data.data.map((nrdata)=>{
+                if(nrdata['status']){
+                  arrstring += `''`+nrdata.value+`'',`;
+                }
+              })
+              xarray ={
+                r_coltitle:data.r_coltitle,
+                r_colcode:data.r_colcode,
+                measure:data.measure,//'in'
+                data:'['+(arrstring).slice(0, -1)+']'
+              };
+            }
       }
         newfilter.push(xarray);
       });
@@ -887,17 +1001,21 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
     //   } 
     if (this.assign.x.length > 1) {
     console.log('chart data length 0',this.assign.x.length,this.assign.y.length)
-      this.blurChartImage([true, false, false, false, false]);
+      this.blurChartImage([true, false, false, false, false,true]);
     } else if (this.assign.y.length == 1) {
-    console.log('chart data length 1',this.assign.x.length,this.assign.y.length)
-      this.blurChartImage([false, false, false, true, false]);
-    }else if (this.assign.y.length > 1) {
-      console.log('chart data length 2',this.assign.x.length,this.assign.y.length)
-        this.blurChartImage([true, false, false, false, false]);
+    console.log('chart data length 1--',this.assign.x.length,this.assign.y.length)
+      this.blurChartImage([false, false, false, true, false,true]);
+    }else if (this.assign.y.length == 2) {
+      console.log('chart data length 2==',this.assign.x.length,this.assign.y.length)
+        this.blurChartImage([true, false, false, false, false,false]);
       } 
+      else if (this.assign.y.length > 2) {
+        console.log('chart data length ~~',this.assign.x.length,this.assign.y.length)
+          this.blurChartImage([true, false, false, false, false,true]);
+        } 
       else {
     console.log('chart data length 3',this.assign.x.length,this.assign.y.length)
-      this.blurChartImage([false, false, false, false, false]);
+      this.blurChartImage([false, false, false, false, false,true]);
     }
     console.log('chart data', this.reportPreviewData,this.selectedChart)
     // this.showChart(this.reportPreviewData,'pie');
@@ -907,6 +1025,7 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
   getChartofType(chartType) {
     // if(this.reportPreviewData.length>0){
     if (chartType === 'table') {
+      this.finalcarttype = chartType;
       document.getElementById('table').style.display = 'block';
       document.getElementById('graph').style.display = 'none';
       this.getTable(this.reportPreviewData);
@@ -1090,7 +1209,7 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
 
       console.log('DataSet from graphics', dataSet)
     }
-    console.log('data after end:', stateTableData);
+    console.log('data after end:', stateTableData,this.assign);
 
     // start:managed service data
     if (chartType === 'line') {
@@ -1105,6 +1224,35 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
           fill: false,
           borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
         })
+      });
+    }else if (chartType === 'bar-line') {
+      dataSet.map((data, index) => {
+        console.log('bar-line',data,dataSet.length);
+        if(index == 0){
+        chartDataSet.push({
+          type: 'bar',
+          label: data.label,
+          data: data.data,
+          borderWidth: 1,
+          lineTension: 0,
+          borderColor: data.bgColor[index] ? data.bgColor[index] : '#33FF83',
+          yAxisID: 'y-axis-1',
+          fill: true,
+          borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
+        })
+      }else if(index == 1){
+        chartDataSet.push({
+          type: 'line',
+          label: data.label,
+          data: data.data,
+          borderWidth: 1,
+          lineTension: 0,
+          borderColor: data.bgColor[index] ? data.bgColor[index] : '#FFA233',
+          yAxisID: 'y-axis-2',
+          fill: false,
+          borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
+        })
+      }
       });
     } else {
       dataSet.map((data, index) => {
@@ -1170,6 +1318,42 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
           }
         });
       } else {
+        if(chartType == 'bar-line'){
+          yAxes.push({
+            type: "linear",
+            display: true,
+            position: "left",
+            id: "y-axis-1",
+            gridLines:{
+                display: false
+            },
+            labels: {
+                show:true,
+                
+            },
+            scaleLabel: {
+              display: true,
+              labelString: yLeftTitle.split('AND')[0]
+            },
+        });
+        yAxes.push({
+            type: "linear",
+            display: true,
+            position: "right",
+            id: "y-axis-2",
+            gridLines:{
+                display: false
+            },
+            labels: {
+                show:true,
+                
+            },
+            scaleLabel: {
+              display: true,
+              labelString: yLeftTitle.split('AND')[1]
+            },
+        });
+        }else{
         yAxes.push({
           name: 'y-left',
           id: 'y-left',
@@ -1184,6 +1368,7 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
             stepSize: 1
           }
         });
+      }
       }
       chartData = {
         canvas: document.getElementById('Graph'),

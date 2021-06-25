@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddGpsSupplierComponent } from '../add-gps-supplier/add-gps-supplier.component';
 import { AddVehicleComponent } from '../add-vehicle/add-vehicle.component';
+import { AddMapVehicleComponentComponent } from '../add-map-vehicle-component/add-map-vehicle-component.component';
 
 @Component({
   selector: 'add-gps-new-reques',
@@ -180,19 +181,27 @@ export class AddGpsNewRequesComponent implements OnInit {
               longitude: { value: res.longitude },
               ignition: { value: res.ignition },
               gmt: { value: res.gmt },
-              action: { value: res.vid==0? 'Add Vehicle':'', isHTML: true, action: this.addVehicle.bind(this, res), class: 'icon'  },
+              action: { value: res.vid==0? 'Add Vehicle':'Map Vehicle', isHTML: true, action: res.vid==0 ? this.addVehicle.bind(this, res, true) : this.addVehicle.bind(this, res, false), class: 'icon'  },
             };
             columns.push(column);
           });
           return columns;
         }
+
+        addVehicle(data, type){
+          console.log('data is:', data, type)
+
+          this.common.params = {isMap: type, data: data}
+          const activeModal = this.modalService.open(AddMapVehicleComponentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });    
+          
+        }
         
       
-        addVehicle(data){
-          this.common.params = { isAddVehicle:true,regNo:data['vehicleName']}
+        // addVehicle(data){
+        //   this.common.params = { isAddVehicle:true,regNo:data['vehicleName']}
             
-            const activeModal = this.modalService.open(AddVehicleComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-        }
+        //     const activeModal = this.modalService.open(AddVehicleComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+        // }
 
         addGpsRequest(){
           let params={
