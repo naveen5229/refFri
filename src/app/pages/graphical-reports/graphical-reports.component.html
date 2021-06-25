@@ -1,4 +1,4 @@
-<nb-card>
+<nb-card style="height: calc(100vh - 41px);overflow: auto;">
   <nb-card-header>
     <div class="row">
       <div class="col-3">
@@ -18,16 +18,14 @@
             <uj-date-time-picker (onChanged)="assign.endDate=$event" [dateTimeValue]="endDate" [isTime]="false">
             </uj-date-time-picker>
           </div>
-          <div class="col-4">
-            <span style="display: flex;">
+          <div class="col-3">
               <auto-suggestion class="form-controls col-9 p-0 searchselect" [data]="savedReports" display="name"
                 (onSelected)="savedReportSelect = $event"
                 [preSelected]="savedReportSelect['_id'] ? {name: savedReportSelect['name']}:{name:''}"
                 placeholder="Saved Report Preview" inputId="ProcessSearch" name="ProcessSearch">
               </auto-suggestion>
-              <button class="btn btn-primary btn-sm" (click)="openPreviewModal()">View</button>
-            </span>
           </div>
+          <div class="col-2">  <button class="btn btn-primary btn-sm" (click)="openPreviewModal()">View</button></div>
         </div>
       </div>
     </div>
@@ -113,8 +111,8 @@
                 <option selected disabled>--Select--</option>
                 <option>None</option>
                 <option>Date</option>
-                <option>Month</option>
                 <option>Week</option>
+                <option>Month</option>
               </select>
             </div>
           </div>
@@ -166,29 +164,30 @@
             <button class="btn btn-primary" (click)="resetAssignForm()">Clear</button>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="row mr-0" *ngIf="graphBodyVisi">
-      <div class="col-12 graph-panel">
-        <div class="row mt-2" id="graph">
-          <div class="col-8" style="margin-left: 18%;">
-            <div class="chartbox">
-              <canvas id="Graph"></canvas>
+        <div class="row mr-0" *ngIf="graphBodyVisi">
+          <div class="col-12 graph-panel">
+            <div class="row mt-2" id="graph">
+              <div class="col-8" style="margin-left: 18%;">
+                <div class="chartbox">
+                  <canvas id="Graph"></canvas>
+                </div>
+              </div>
+            </div>
+    
+    
+            <div class="row mt-2" id="table" style="display: none;">
+              <div class="col-12" style="height: 369px;">
+                <smart-table [data]="tableGraph.data" [settings]="tableGraph.settings" id="tableLeadsForMe"
+                  class="sl-smart-table">
+                </smart-table>
+              </div>
             </div>
           </div>
         </div>
-
-
-        <div class="row mt-2" id="table" style="display: none;">
-          <div class="col-12" style="height: 369px;">
-            <smart-table [data]="tableGraph.data" [settings]="tableGraph.settings" id="tableLeadsForMe"
-              class="sl-smart-table">
-            </smart-table>
-          </div>
-        </div>
       </div>
     </div>
+
+    
   </nb-card-body>
 </nb-card>
 
@@ -208,18 +207,21 @@
         <div class="row mt-2"  *ngIf="basicFilter">
          
             <div class="filter-Container">
-              <ul style="list-style-type: none;">
-                <label *ngIf="!fliterflag"> Operator &nbsp;&nbsp;</label>
-              <select [(ngModel)]="dynamicfilterval" #btw>
+           <div class="row">
+                <div class="col-2"><label> Operator </label></div>
+                <div class="col-6"><select [(ngModel)]="dynamicfilterval" #btw>
                 <option *ngFor="let sign of dynamicFilter" value="{{sign}}">{{sign}}</option>
               </select>
-
-              </ul>
+            </div>
+            </div>
               <!-- {{dropdownFilter | json}} -->
            
           </div>
         
             <div class="filter-Container" *ngIf="fliterflag">
+              <div class="row">
+                <div class="col-2"></div>
+                <div class="col-6">
               <ul style="list-style-type: none;">
                 <li>
                   <input type="checkbox" (click)="checkUncheckAll($event)" [checked]="checked">Select All
@@ -229,17 +231,19 @@
                     (click)="data.status = !data.status;manageCheckUncheckAll()">{{data.value}}
                 </li>
               </ul>
+            </div>
+            </div>
               <!-- {{dropdownFilter | json}} -->
             </div>
             <div class="filter-Container" *ngIf="!fliterflag">
                <div class="row">
-                <label *ngIf="!fliterflag"> Values &nbsp;&nbsp;</label>
+               <div class="col-2"> <label *ngIf="!fliterflag"> Values &nbsp;&nbsp;</label></div>
 
-                <div class="col-5 pl-0">
+                <div class="col-4">
                   <input type="text" [(ngModel)]="firstfilter">
                 </div> 
                 
-                <div class="col-7" *ngIf="dynamicfilterval == 'between' ">
+                <div class="col-6" *ngIf="dynamicfilterval == 'between' ">
                 <span class="pl-2 pr-5"> And </span> <input type="text" [(ngModel)]="secondfilter">
                 </div>
               </div>
@@ -274,19 +278,18 @@
               </div>
             </div>
 
-            <div class="row mt-2">
+            <!-- <div class="row mt-2">
               <div class="col-4">
                 <button type="submit" class="btn btn-primary" (click)="addFilter()">Add Filter</button>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
 
         <div class="row mt-2" style="text-align: center;">
-          <div class="col-6">
-            <button type="button" class="btn btn-primary" (click)="rowFilter(btnName)">{{btnName}}</button></div>
-          <div class="col-6">
-            <button type="button" class="btn btn-primary" (click)="storeFilter()">Save</button>
+          <div class="col-12">
+            <!-- <button type="button" class="btn btn-primary" (click)="rowFilter(btnName)">{{btnName}}</button> -->
+            <button type="button" class="btn btn-primary ml-3" (click)="storeFilter()">Save</button>
           </div>
         </div>
 
@@ -308,12 +311,16 @@
       <!-- Modal body -->
       <div class="modal-body">
 
-        <div class="row mt-2" style="text-align: center;">
-          <div class="col-12">
+        <div class="row mt-4" style="text-align: center;">
+          <div class="col-6">
             <label>Name:</label><input type="text" [(ngModel)]="assign.reportFileName">
           </div>
+       
+          <div class="col-6">
+            <label>Default Days:</label><input type="number" [(ngModel)]="defaultdays" min="1" placeholder="Default Days">
+          </div>
         </div>
-
+        
         <div class="row mt-2" style="text-align: center;">
           <div class="col-12">
             <button type="button" class="btn btn-success"

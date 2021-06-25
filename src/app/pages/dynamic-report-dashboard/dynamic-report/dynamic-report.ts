@@ -841,7 +841,7 @@ export class DynamicReportComponent implements OnInit {
         if (key === ele.series.y_name) {
           ele.series.data.map((data, subindex) => {
             if (index == 0) {
-              console.log('data in loop', data)
+              //console.log('data in loop', data)
               column[key] = { value: data['y'] };
               columns.push(_.clone(column));
             } else {
@@ -975,7 +975,7 @@ export class DynamicReportComponent implements OnInit {
 
       console.log('DataSet from graphics', dataSet)
     }
-    console.log('data after end:', stateTableData);
+    console.log('data after end:', stateTableData,this.assign);
 
     // start:managed service data
     if (chartType === 'line') {
@@ -991,7 +991,36 @@ export class DynamicReportComponent implements OnInit {
           borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
         })
       });
-    } else {
+    } else if (chartType === 'bar-line') {
+      dataSet.map((data, index) => {
+        console.log('bar-line',data,dataSet.length);
+        if(index == 0){
+        chartDataSet.push({
+          type: 'bar',
+          label: data.label,
+          data: data.data,
+          borderWidth: 1,
+          lineTension: 0,
+          borderColor: data.bgColor[index] ? data.bgColor[index] : '#33FF83',
+          yAxisID: data.yAxesGroup,
+          fill: true,
+          borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
+        })
+      }else if(index == 1){
+        chartDataSet.push({
+          type: 'line',
+          label: data.label,
+          data: data.data,
+          borderWidth: 1,
+          lineTension: 0,
+          borderColor: data.bgColor[index] ? data.bgColor[index] : '#FFA233',
+          yAxisID: data.yAxesGroup,
+          fill: false,
+          borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
+        })
+      }
+      });
+    }else {
       dataSet.map((data, index) => {
         console.log('data label',data);
         chartDataSet.push({
@@ -1020,10 +1049,14 @@ export class DynamicReportComponent implements OnInit {
       let yLeftTitle = '';
       let yRightTitle = '';
       this.assign.y.map(e => {
-        if (e.yaxis == 'y-left')
+        if (e.yaxis == 'y-left'){
           yLeftTitle += (e.r_coltitle + " -> " + e.measure) + sepratorAxisLabel;
-        if (e.yaxis == 'y-right')
+        }else if (e.yaxis == 'y-right'){
           yRightTitle += (e.r_coltitle + " -> " + e.measure) + sepratorAxisLabel;
+        }else{
+          yLeftTitle += (e.r_coltitle + " -> " + e.measure) + sepratorAxisLabel;
+
+        }
       });
       yLeftTitle = yLeftTitle.slice(0, -5);
       yRightTitle = yRightTitle.slice(0, -5);
