@@ -30,6 +30,7 @@ export class VehiclePriSecRoutemappingComponent implements OnInit {
   selectedAll = false;
   routes = [];
   assocType = 3
+  startType = 0;
   insertData = []
   routesDetails = [];
   updateData = [];
@@ -137,7 +138,8 @@ ngOnInit() {
       rowId: this.rowId,
       isPrimaryCheck: this.isPrimaryCheck,
       wefDate: wefdate,
-      expDate: expirydate
+      expDate: expirydate,
+      startType: this.startType
     };
 
 
