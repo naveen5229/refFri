@@ -1236,7 +1236,7 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
           borderWidth: 1,
           lineTension: 0,
           borderColor: data.bgColor[index] ? data.bgColor[index] : '#33FF83',
-          yAxisID: data.yAxesGroup,
+          yAxisID: 'y-axis-1',
           fill: true,
           borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
         })
@@ -1248,7 +1248,7 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
           borderWidth: 1,
           lineTension: 0,
           borderColor: data.bgColor[index] ? data.bgColor[index] : '#FFA233',
-          yAxisID: data.yAxesGroup,
+          yAxisID: 'y-axis-2',
           fill: false,
           borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
         })
@@ -1318,6 +1318,42 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
           }
         });
       } else {
+        if(chartType == 'bar-line'){
+          yAxes.push({
+            type: "linear",
+            display: true,
+            position: "left",
+            id: "y-axis-1",
+            gridLines:{
+                display: false
+            },
+            labels: {
+                show:true,
+                
+            },
+            scaleLabel: {
+              display: true,
+              labelString: yLeftTitle.split('AND')[0]
+            },
+        });
+        yAxes.push({
+            type: "linear",
+            display: true,
+            position: "right",
+            id: "y-axis-2",
+            gridLines:{
+                display: false
+            },
+            labels: {
+                show:true,
+                
+            },
+            scaleLabel: {
+              display: true,
+              labelString: yLeftTitle.split('AND')[1]
+            },
+        });
+        }else{
         yAxes.push({
           name: 'y-left',
           id: 'y-left',
@@ -1332,6 +1368,7 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
             stepSize: 1
           }
         });
+      }
       }
       chartData = {
         canvas: document.getElementById('Graph'),
