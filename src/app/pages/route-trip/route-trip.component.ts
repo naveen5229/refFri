@@ -91,7 +91,7 @@ ngOnInit() {
     console.log('params', params);
     this.common.loading++;
     // this.api.post('TripExpenseVoucher/getRouteTrips', params)
-    this.api.getJavaPortDost(8093, `getRouteTrips/${this.vehicleId}/${this.routeid}/${startDate}/${endDate}`)
+    this.api.getJavaPortDost(8093, `getRouteTrips/${this.vehicleId}/${this.routeid}/${endDate}/${startDate}`)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
