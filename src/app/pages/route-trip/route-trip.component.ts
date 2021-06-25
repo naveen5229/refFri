@@ -48,10 +48,11 @@ export class RouteTripComponent implements OnInit {
     let today, endDay, startday;
     today = new Date();
     // endDay = new Date(today.setDate(today.getDate() - 1))
-    this.endDate = new Date(today);
     //console.log('today', today);
 
     this.startDate = new Date();
+    this.endDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+
     console.log('start and enddate', this.startDate, this.endDate);
 
     this.getRouteTrips();
@@ -78,17 +79,19 @@ ngOnInit() {
         hideHeader: true
       }
     };
-    let startDate = this.common.dateFormatter(this.startDate);
-    let endDate = this.common.dateFormatter(this.endDate);
+    let startDate = this.common.dateFormatter1(this.startDate);
+    let endDate = this.common.dateFormatter1(this.endDate);
     console.log('start & end', startDate, endDate);
     const params = {
       vehicleId:this.vehicleId,
-      Date: startDate,
-      routeId : this.routeid
+      startDate: startDate,
+      routeId : this.routeid,
+      endDate: endDate
   };
     console.log('params', params);
     this.common.loading++;
-    this.api.post('TripExpenseVoucher/getRouteTrips', params)
+    // this.api.post('TripExpenseVoucher/getRouteTrips', params)
+    this.api.getJavaPortDost(8093, `getRouteTrips/${this.vehicleId}/${this.routeid}/${startDate}/${endDate}`)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -127,6 +130,12 @@ ngOnInit() {
         console.log('Err:', err);
       });
   }
+
+  dateChange(event){
+    console.log('event is: ', event)
+    this.endDate = new Date(event - 7 * 24 * 60 * 60 * 1000)
+  }
+
   getTableColumns() {
     let columns = [];
     for (var i = 0; i < this.vehicleTrips.length; i++) {
