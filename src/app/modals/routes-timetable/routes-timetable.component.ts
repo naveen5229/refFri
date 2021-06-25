@@ -17,6 +17,8 @@ export class RoutesTimetableComponent implements OnInit {
   routeTTId = null;
   isLastStop = -1;
   routetrip=0;
+  dataMiss: string = '';
+
   constructor(public api: ApiService,
     public common: CommonService,
     public activeModal: NgbActiveModal,
@@ -29,54 +31,74 @@ export class RoutesTimetableComponent implements OnInit {
       this.routeTTId = this.common.params.routeTime.routeTimeId;
       this.routetrip = (this.common.params.routeTime.routetrip)?this.common.params.routeTime.routetrip:0;
     }
-  if(this.routetrip==0){
-      this.getRoutes();
-  }else{
-    this.getRoutesHistory();
-  }
+    this.getRoutes();
+  // if(this.routetrip==0){
+  //     this.getRoutes();
+  // }else{
+  //   this.getRoutesHistory();
+  // }
   }
 
   ngOnDestroy(){}
 ngOnInit() {
   }
 
-  getRoutes() {
-    console.log('hello dear');
-    let params = {
-      vehicleId: this.vehId,
-      routeId: this.routeId,
-      routeTtId: this.routeTTId,
-    }
-
-    this.common.loading++;
-    this.api.post('ViaRoutes/getVehicleTimeTable1', params)
+  getRoutes(){
+    this.common.loading ++;
+    this.api.getJavaPortDost(8093, `getVehicleTimeTable/${this.routeId}`)
       .subscribe(res => {
-        this.common.loading--;
-        console.log('getRoutesWrtFo:', res);
+        this.common.loading --;
+        console.log('response is: ', res)
         this.routesDetails = res['data'];
+        if(res['is_data_missing'] == false){
+          this.dataMiss = 'Yes'
+        } else {
+          this.dataMiss = 'No'
+        }
         this.statusFinder();
       }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
+        this.common.loading --;
+        console.log('err is: ', err)
+      })
   }
-  getRoutesHistory() {
-    let params = {
-      routeId: this.routeId
-    }
 
-    this.common.loading++;
-    this.api.post('TripExpenseVoucher/getVehicleTimeTable', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('getRoutesWrtFo:', res);
-        this.routesDetails = res['data'];
-        this.statusFinder();
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
+  // getRoutes() {
+  //   console.log('hello dear');
+  //   let params = {
+  //     vehicleId: this.vehId,
+  //     routeId: this.routeId,
+  //     routeTtId: this.routeTTId,
+  //   }
+
+  //   this.common.loading++;
+  //   this.api.post('ViaRoutes/getVehicleTimeTable1', params)
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       console.log('getRoutesWrtFo:', res);
+  //       this.routesDetails = res['data'];
+  //       this.statusFinder();
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
+  // getRoutesHistory() {
+  //   let params = {
+  //     routeId: this.routeId
+  //   }
+
+  //   this.common.loading++;
+  //   this.api.post('TripExpenseVoucher/getVehicleTimeTable', params)
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       console.log('getRoutesWrtFo:', res);
+  //       this.routesDetails = res['data'];
+  //       this.statusFinder();
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
 
   statusFinder() {
     this.routesDetails.map((route, index) => {

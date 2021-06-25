@@ -33,7 +33,7 @@
     <div class="mt-2">
         <div class="row route-headings">
             <div class="col-1"></div>
-            <div class="col-3">
+            <div class="col-2">
                 <strong>Location</strong>
             </div>
             <div class="col-2">
@@ -51,6 +51,9 @@
             <div class="col-1 tat">
                 <strong>KM</strong>
             </div>
+            <div class="col-1 tat">
+                <strong>Data Missing</strong>
+            </div>
         </div>
         <div class="row routes" *ngFor="let data of routesDetails; let i = index;">
                 <div *ngIf="routetrip==1" class="col-1 route-container">
@@ -65,7 +68,7 @@
                 <div class="route-line" [ngClass]="{'running' : ((data.status == '0' || data.status == 1) && (isLastStop==-1 || isLastStop > i)),'upcoming' : (data.status == '2' && (isLastStop!=-1 && isLastStop <= i)) }">
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-2" style="word-break: break-all;">
                 <div>({{data.loc_name}})</div>
                 <div> {{data.name}}</div>
             </div>
@@ -94,6 +97,9 @@
             <div class="col-1 rowLine" >
                 <div *ngIf="routetrip==0">{{data.scheduled_kms || '--'}}</div>
                 <div>{{data.kms || '--'}}</div>
+            </div>
+            <div class="col-1 rowLine" >
+                <div *ngIf="routesDetails.length">{{dataMiss}}</div>
             </div>
         </div>
     </div>
