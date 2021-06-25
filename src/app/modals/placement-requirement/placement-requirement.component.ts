@@ -106,9 +106,11 @@ export class PlacementRequirementComponent implements OnInit {
   }
 
   addDateSites(j){
+    console.log('val of j: ', j)
     this.items[j].siteOffDates.push({
       offDatesSite: null
     });
+    console.log('this.items: ', this.items)
   }
 
   getPreviousPlacementRequirement() {
