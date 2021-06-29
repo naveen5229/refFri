@@ -224,10 +224,10 @@ export class RouteMapperComponent implements OnInit {
         this.vehicleEvents[index].position = (this.commonService.dateDiffInHours(
           realStart, this.vehicleEvents[index].start_time) / totalHourDiff) * 98;
         this.vehicleEvents[index].width = (this.commonService.dateDiffInHours(
-          this.vehicleEvents[index].start_time, this.vehicleEvents[index].end_time, true) / totalHourDiff) * 98;
-
-        this.vehicleEvents[index].duration = this.commonService.dateDiffInHoursAndMins(
-          this.vehicleEvents[index].start_time, this.vehicleEvents[index].end_time);
+          this.vehicleEvents[index].start_time, this.vehicleEvents[index].end_time?this.vehicleEvents[index].end_time:realEnd, true) / totalHourDiff) * 98;
+          console.log("totalHourDiff=",totalHourDiff,"this.vehicleEvents[index].position",this.vehicleEvents[index].position,"this.vehicleEvents[index].width",this.vehicleEvents[index].width)
+        this.vehicleEvents[index].duration = this.vehicleEvents[index].end_time ? this.commonService.dateDiffInHoursAndMins(
+          this.vehicleEvents[index].start_time, this.vehicleEvents[index].end_time):"-";
       
           this.vehicleEvents[index].color = this.vehicleEvents[index].rc
         }
@@ -662,7 +662,9 @@ export class RouteMapperComponent implements OnInit {
         this.circles = [];
         this.circleCenter = [];
         res['data'].forEach(element => {
+          console.log("element====",element);
           if(element.type === 3){
+            console.log("element1 in side====",element);
             let center = this.mapService.createLatLng(element.rlat, element.rlong)
             let circle = this.mapService.createCirclesOnPostion(center,1000);
             let circle1 = this.mapService.createCirclesOnPostion(center,15000);
