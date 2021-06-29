@@ -23,13 +23,13 @@
             </div>
         </div>
           <div class="col-3">
-            <label>To Date</label> <br />
-              <uj-date-time-picker (onChanged)="dateChange($event)" [dateTimeValue]="startDate"  [isTime]="false">
+            <label>From Date</label> <br />
+              <uj-date-time-picker (onChanged)="frmDate = $event" [dateTimeValue]="frmDate"  [isTime]="false">
               </uj-date-time-picker>
           </div>
           <div class="col-3">
-            <label>From Date</label> <br />
-              <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate"  [isTime]="false">
+            <label>To Date</label> <br />
+              <uj-date-time-picker (onChanged)="dateChange($event)" [dateTimeValue]="toDate"  [isTime]="false">
               </uj-date-time-picker>
           </div>
           <!-- <div class="col-3">
