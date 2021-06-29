@@ -62,7 +62,7 @@ export class RouteMapperComponent implements OnInit {
   constructor(private mapService: MapService,
     private apiService: ApiService, private cdr: ChangeDetectorRef,
     private activeModal: NgbActiveModal,
-    private commonService: CommonService,
+    public commonService: CommonService,
     public dateService: DateService) {
     this.startDate = new Date(this.commonService.params.fromTime);
     this.endDate = new Date(this.commonService.params.toTime);
@@ -84,6 +84,9 @@ export class RouteMapperComponent implements OnInit {
 
   ngOnInit() {
   }
+
+ 
+  
 
   ngAfterViewInit() {
     this.mapService.mapIntialize("route-mapper-map", 18, 25, 75, false, true);
@@ -225,8 +228,7 @@ export class RouteMapperComponent implements OnInit {
           realStart, this.vehicleEvents[index].start_time) / totalHourDiff) * 98;
         this.vehicleEvents[index].width = (this.commonService.dateDiffInHours(
           this.vehicleEvents[index].start_time, this.vehicleEvents[index].end_time?this.vehicleEvents[index].end_time:realEnd, true) / totalHourDiff) * 98;
-          console.log("totalHourDiff=",totalHourDiff,"this.vehicleEvents[index].position",this.vehicleEvents[index].position,"this.vehicleEvents[index].width",this.vehicleEvents[index].width)
-        this.vehicleEvents[index].duration = this.vehicleEvents[index].end_time ? this.commonService.dateDiffInHoursAndMins(
+          this.vehicleEvents[index].duration = this.vehicleEvents[index].end_time ? this.commonService.dateDiffInHoursAndMins(
           this.vehicleEvents[index].start_time, this.vehicleEvents[index].end_time):"-";
       
           this.vehicleEvents[index].color = this.vehicleEvents[index].rc
@@ -508,6 +510,8 @@ export class RouteMapperComponent implements OnInit {
       this.slideToolTipLeft = (document.getElementById('myRange').offsetWidth / 100) * index;
       this.zoomOnArrow(false);
       this.timelineValue = index;
+      this.cdr.detectChanges();
+      console.log("timeline value",this.timelineValue);
       if (this.breakPrevious) {
         break;
       }
