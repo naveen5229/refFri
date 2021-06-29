@@ -131,6 +131,7 @@ ngOnInit() {
       startDelay: { title: 'Start  delay ', placeholder: 'Start  delay' },
       totalDelay: { title: 'Total  delay ', placeholder: 'Total  delay' },
       lastHrKms: { title: 'Last Hr KMS', placeholder: 'Last Hr KMS' },
+      invoice_time: {title: 'Invoice Time', placeholder: 'Invoice Time'},
       action: { title: 'Action', placeholder: 'Action', hideSearch: true, class: 'del' },
 
     };
@@ -177,6 +178,7 @@ ngOnInit() {
         startDelay: { value: route.start_delay ? route.start_delay : '-' },
         totalDelay: { value: route.total_delay ? route.total_delay : '-', class:route.c_delay>0?'red':route.c_delay<0?'green':'' },
         lastHrKms: { value: route.last_hour_kms ? route.last_hour_kms : '-' },
+        invoice_time: {value: this.common.dateFormatter1(route.invoice_time)},
         action: {
           value: "",
           isHTML: false,
