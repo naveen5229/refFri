@@ -57,23 +57,26 @@
                     </tr>
                     <tr>
                         <td colspan="3">
-                            <table class="tbl table table-bordered table-hover">
-                                <thead class="thead">
-                                    <!-- <th style="width:40px;">Reason</th> -->
-                                    <!-- <th>Place</th> -->
-                                    <th style="width:40px;">Place</th>
-                                    <th>Location</th>
+                            <div class="tableFixHead">
+                                <table class="table table-bordered table-hover halts-show" style="border:1px gray solid">
+                                  <thead>
+                                      <th>S.No.</th>
+                                    <th style="width:80px;">Place</th>
+                                    <th style="width:80px;">Location</th>
                                     <th>Start</th>
                                     <th>End</th>
                                     <th>Duration</th>
                                     <th>ODO(Km,cum Km)</th>
-                                </thead>
-                                <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
+                                  </thead>
+                                  <!-- 'color':!vehicleEvent.lastType ? 'none':(vehicleEvent.lastType==21?'red':'green'), -->
+                                  <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
                                     <tr cdkDrag [id]="'vehicleEvent-row-'+i" (mouseover)="mapService.toggleBounceMF(i)"
                                         (mouseout)="mapService.toggleBounceMF(i,2)"
                                         [ngClass]="{'bg-yellow': vehicleEvent.halt_type_id === 801}"
-                                        [ngStyle]="{'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.rc :'#fff'}">
+                                        [ngStyle]="{'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.rc :'#fff'}"
+                                        >
                                         <!-- <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.halt_reason}}</td> -->
+                                        <td (click)="openSmartTool(i,vehicleEvent);">{{i+1}}</td>
                                         <td (click)="openSmartTool(i,vehicleEvent);">
                                             <label *ngIf="vehicleEvent.event_type=='state'"
                                                 [ngClass]="{'star' : vehicleEvent.event_type=='halt'}">*</label>
@@ -103,8 +106,11 @@
                                             </div>
                                         </td>
                                     </tr>
-                                </tbody>
-                            </table>
+                                  </tbody>
+                                </table>
+                              </div>
+
+                           
                         </td>
                     </tr>
                     <tr>

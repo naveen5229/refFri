@@ -196,6 +196,7 @@ export class RouteMapperComponent implements OnInit {
       let trailIndex = 0;
       let prevOdo = 0;
       for (let index = 0; index < this.vehicleEvents.length; index++) {
+        this.vehicleEvents[index]["subType"]="marker";
         for (let indexInner = trailIndex; indexInner < this.polypath.length; indexInner++) {
           const element = this.polypath[indexInner];
           if (new Date(element.time) >= new Date(this.vehicleEvents[index].start_time)) {
@@ -210,6 +211,8 @@ export class RouteMapperComponent implements OnInit {
           this.vehicleEvents[index].subType = 'marker';
           this.vehicleEvents[index].color = this.vehicleEvents[index].halt_reason == "Unloading" ? 'ff4d4d' : '88ff4d';
           this.vehicleEvents[index].rc = this.vehicleEvents[index].halt_reason == "Unloading" ? 'ff4d4d' : '88ff4d';
+        }else {
+          this.vehicleEvents[index].rc = this.vehicleEvents[index].site_id ? '00b8e6' : 'FFFF00';
         }
         if (this.vehicleEvents[index].tolls) {
           this.vehicleEvents[index].subType = 'marker';
@@ -225,7 +228,9 @@ export class RouteMapperComponent implements OnInit {
 
         this.vehicleEvents[index].duration = this.commonService.dateDiffInHoursAndMins(
           this.vehicleEvents[index].start_time, this.vehicleEvents[index].end_time);
-      }
+      
+          this.vehicleEvents[index].color = this.vehicleEvents[index].rc
+        }
       let markers = this.mapService.createMarkers(this.vehicleEvents, false, false);
       let markerIndex = 0
       for (const marker of markers) {
@@ -572,12 +577,19 @@ export class RouteMapperComponent implements OnInit {
         vEvent.isOpen = false;
     });
     vehicleEvents.isOpen = !vehicleEvents.isOpen;
+    
     this.zoomFunctionality(i, vehicleEvents);
+    
   }
   zoomFunctionality(i, vehicleEvents) {
     let latLng = this.mapService.getLatLngValue(vehicleEvents);
     let googleLatLng = this.mapService.createLatLng(latLng.lat, latLng.lng);
     this.mapService.zoomAt(googleLatLng);
+    console.log("vehicleEvents",vehicleEvents);
+    if(vehicleEvents.site_id){
+      this.getSites(vehicleEvents);
+      }
+    
   }
 
   setZoom(zoom, vehicleEvents) {
@@ -652,8 +664,12 @@ export class RouteMapperComponent implements OnInit {
         res['data'].forEach(element => {
           if(element.type === 3){
             let center = this.mapService.createLatLng(element.rlat, element.rlong)
-            let circle = this.mapService.createCirclesOnPostion(center,500)
+            let circle = this.mapService.createCirclesOnPostion(center,1000);
+            let circle1 = this.mapService.createCirclesOnPostion(center,15000);
+            let circle2 = this.mapService.createCirclesOnPostion(center,25000);
             this.circles.push(circle);
+            this.circles.push(circle1);
+            this.circles.push(circle2);
             this.mapService.addListerner(circle,'mouseover',() => {
               this.mapService.map.getDiv().setAttribute('title', element.name);
             });
@@ -675,4 +691,86 @@ export class RouteMapperComponent implements OnInit {
       })
     }
   }
+
+  siteMarkers=[];
+  getSites(vehicleEvents) {
+    if (this.mapService.map) {
+      // this.common.loading++;
+      let boundsx = this.mapService.map.getBounds();
+      let ne = boundsx.getNorthEast(); // LatLng of the north-east corner
+      let sw = boundsx.getSouthWest(); // LatLng of the south-west corder
+      let lat2 = ne.lat();
+      let lat1 = sw.lat();
+      let lng2 = ne.lng();
+      let lng1 = sw.lng();
+
+      let params = {
+        lat1: lat1,
+        lng1: lng1,
+        lat2: lat2,
+        lng2: lng2
+      };
+      this.apiService.post('VehicleStatusChange/getSiteAndSubSite?', params)
+        .subscribe(res => {
+          if (this.siteMarkers.length == 0) {
+            this.siteMarkers = this.mapService.createMarkers(res['data'], false,false);
+            // this.common.loading--;
+          }
+          else {
+            this.clearOtherMarker(this.siteMarkers);
+            this.siteMarkers = this.mapService.createMarkers(res['data'], false,false);
+
+            // this.common.loading--;
+          }
+          this.fnLoadGeofence(vehicleEvents);
+        }, err => {
+          // this.common.loading--;
+        });
+    }
+  }
+
+  clearOtherMarker(otherMarker) {
+    for (let i = 0; i < otherMarker.length; i++) {
+      otherMarker[i].setMap(null);
+    }
+    otherMarker = [];
+  }
+
+
+  Fences = null;
+  FencesPoly = null;
+  fnLoadGeofence(vehicleEvent) {
+    // this.common.loading++;
+
+    let params = {
+      siteId: vehicleEvent.site_id,
+      lat: vehicleEvent.lat,
+      lng: vehicleEvent.long
+    };
+
+    this.apiService.post('SiteFencing/getSiteFences', params)
+      .subscribe(res => {
+        let data = res['data'];
+        let count = Object.keys(data).length;
+        if (count > 0) {
+          let latLngsArray = [];
+          let mainLatLng = null;
+          for (const datax in data) {
+            if (data.hasOwnProperty(datax)) {
+              const datav = data[datax];
+              if (datax == vehicleEvent.y_site_id)
+                mainLatLng = datav.latLngs;
+              latLngsArray.push(datav.latLngs);
+            }
+          }
+          this.mapService.createPolygonsWithMainlatlng(latLngsArray, mainLatLng);
+        }
+        
+        // this.common.loading--;
+      }, err => {
+        // this.common.loading--;
+        this.commonService.showError(err);
+      });
+  }
+
 }
