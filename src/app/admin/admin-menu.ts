@@ -327,8 +327,8 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         home: true,
       },
       {
-        title: 'Routes',
-        icon: 'fa-pencil-square-o',
+        title: 'Manage Routes',
+        icon: 'fa-route',
         link: '/admin/via-routes',
       },
       {

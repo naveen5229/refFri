@@ -6,6 +6,7 @@ import { CsvService } from '../../services/csv/csv.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddDriverCompleteComponent } from '../../modals/DriverModals/add-driver-complete/add-driver-complete.component';
 import { ImportDocumentComponent } from '../../documents/documentation-modals/import-document/import-document.component';
+import { PdfService } from '../../services/pdf/pdf.service';
 @Component({
   selector: 'driver-preferences',
   templateUrl: './driver-preferences.component.html',
@@ -27,6 +28,7 @@ export class DriverPreferencesComponent implements OnInit {
   constructor(
     private common: CommonService,
     private csvService: CsvService,
+    public pdfService:PdfService,
     private modalService: NgbModal,
     public user: UserService,
     private api: ApiService) {
@@ -270,6 +272,24 @@ export class DriverPreferencesComponent implements OnInit {
         this.getDriverConsentList();
       }
     })
+  }
+
+
+  printPDF() {
+    let name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:", name);
+    let details = [
+      ['Name: ' + name, 'Report: ' + 'Driver-Preference-List']
+    ];
+    this.pdfService.jrxTablesPDF(['driverConsentList'], 'driverConsentList', details);
+  }
+
+  printCSV() {
+    let name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.name;
+    let details = [
+      { name: 'Name:' + name, report: "Report:Driver-Preference-List" }
+    ];
+    this.csvService.byMultiIds(['driverConsentList'], 'driverConsentList', details);
   }
 
 

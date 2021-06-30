@@ -3,7 +3,7 @@
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener  } from '@angular/core';
 import { AnalyticsService } from './@core/utils/analytics.service';
 import { CommonService } from './services/common.service';
 import { ActivityService } from './services/Activity/activity.service';
