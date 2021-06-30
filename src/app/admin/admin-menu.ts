@@ -327,7 +327,7 @@ export const ADMIN_MENU_ITEMS = JSON.stringify([
         home: true,
       },
       {
-        title: 'Manage Routes',
+        title: 'Manage Route',
         icon: 'fa-route',
         link: '/admin/via-routes',
       },
