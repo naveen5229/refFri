@@ -364,7 +364,7 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         home: true,
       },
       {
-        title: 'Manage Routes',
+        title: 'Manage Route',
         icon: 'fa-clone',
         link: '/pages/via-routes',
         home: true,

@@ -8,7 +8,14 @@
     </nb-card-header>
     <nb-card-body> 
           <div class="row">
-            
+            <div class="col-2">
+              <span>
+                  <span class="pdf-icon" title="PDF Export" (click)="printPDF('night-drive-report')" style="cursor: pointer;"><i
+                          class="fa fa-file-pdf"></i></span>
+                  <span class="exel-icon" title="CSV Export" (click)="printCsv('night-drive-report')"
+                      style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+              </span>
+          </div>
               <div class="col-2">
                 <label>Start Date</label>
                 <uj-date-time-picker (onChanged)="selectstartDate($event);" [dateTimeValue]="startDate" [isTime]="false">
@@ -36,7 +43,7 @@
           </div>
           <div class="row">&nbsp;</div>
           <div class="row" style="height:60vh;overflow-y:auto;">
-            <smart-table *ngIf="traficdata && traficdata.length" id="trafic" [data]="table.data"
+            <smart-table *ngIf="traficdata && traficdata.length" id="night-drive-report" [data]="table.data"
             [settings]="table.settings">
         </smart-table>
             </div>

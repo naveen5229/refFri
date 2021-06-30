@@ -6,7 +6,15 @@
     </nb-card-header>
     <nb-card-body>
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-2">
+                <span>
+                    <span class="pdf-icon" title="PDF Export" (click)="printPDF('Tripstaoppage')" style="cursor: pointer;"><i
+                            class="fa fa-file-pdf"></i></span>
+                    <span class="exel-icon" title="CSV Export" (click)="printCsv('Tripstaoppage')"
+                        style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+                </span>
+            </div>
+            <div class="col-sm-2">
                 <label>Vehicle</label>
                 <auto-suggestion style="min-height:300px;" (onSelected)="getVehicle($event)" url="Suggestion/getFoVehicleList"
                  display="regno" placeholder="Search by vehicle number and regno " [preSelected]="null">
@@ -36,7 +44,7 @@
         </div>
         <div  class="row" style="margin-top:15px;scrollbar-width:thin;" *ngIf="tripData && tripData.length>0">
             <div class="col-sm-12" style="height: 66vh;width: 100%;overflow: auto;">
-                <smart-table *ngIf="tripData && tripData.length" id="TripTat" [data]="table.data"
+                <smart-table *ngIf="tripData && tripData.length" id="Tripstaoppage" [data]="table.data"
                 [settings]="table.settings">
             </smart-table>
             

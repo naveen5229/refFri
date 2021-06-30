@@ -141,15 +141,16 @@ ngOnInit() {
   getTransportarSlowestUnloadingtat(index) {
     this.transportarSlowestUnloadingtat = [];
      this.showLoader(index);
-    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
-    let endDate = new Date();
-    let params = {
-      fromdate: this.common.dateFormatter(startDate),
-      todate: this.common.dateFormatter(endDate),
-      groupdays: 7,
-      totalrecord: 3
-    };
-    this.api.post('Tmgreport/GetTransportarSlowestUnloadingtat', params)
+     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+     let endDate = new Date();
+     let params = {
+       fromdate: this.common.dateFormatter(startDate),
+       todate: this.common.dateFormatter(endDate),
+       groupdays: 7,
+       isfo: false,
+       isadmin: true
+     };
+     this.api.post('Tmgreport/GetTripUnLoadindTime', params)
       .subscribe(res => {
         console.log('transportarSlowestUnloadingtat:', res);
         this.transportarSlowestUnloadingtat = res['data'];
@@ -495,7 +496,7 @@ ngOnInit() {
     let xaxis = [];
     this.transportarSlowestUnloadingtat.map(tlt => {
       xaxis.push(tlt['Period']);
-      yaxis.push(tlt['Avg hrs']);
+      yaxis.push(tlt['Unloading Duration(hrs)']);
     });
     let yaxisObj = this.common.chartScaleLabelAndGrid(yaxis);
     console.log("handleChart2", xaxis, yaxis);
@@ -537,12 +538,34 @@ ngOnInit() {
               display: true,
               labelString: 'Time (in Hrs.)' + yaxisObj.yaxisLabel
             },
-            ticks: { stepSize: yaxisObj.gridSize },
+            ticks: { stepSize: yaxisObj.gridSize }, //beginAtZero: true,min:0,
             suggestedMin: yaxisObj.minValue,
           }]
-        }
+        },
+        tooltips: {
+          enabled: true,
+          mode: 'single',
+          callbacks: {
+            label: function (tooltipItems, data) {
+              console.log('tooltipItems', tooltipItems);
+              // let tti = ('' + tooltipItems.yLabel).split(".");
+              // console.log('tooltipItems:s', tooltipItems.yLabel * 0.6);
+              // let min = tti[1] ? String(parseInt(tti[1]) * .60).substring(0, 2) : '00';
+              // console.log("tooltipItems", min, parseInt(tti[1]) + .0, parseInt("0" + (tti[1])));
+              let x = tooltipItems.yLabel;
+            // let z = (parseFloat(x.toFixed()) + parseFloat((x % 1).toFixed(10)) * 0.6).toString();
+            // z = z.slice(0, z.indexOf('.') + 3).split('.').join(':');
+            //   return tooltipItems.xLabel + " ( " + z + " Hrs. )";
+            let z = (parseFloat((x % 1).toFixed(10)) * 0.6).toString();
+            z = z.slice(0, z.indexOf('.') + 3).split('.').join(':') ;
+              let final = x.toString().split('.')[0] +':'+ z.split(':')[1];
+
+              return tooltipItems.xLabel + " ( " + final + " Hrs. )";
+            }
+          }
+        },
       };
-    }
+  }
     getDetials(url, params, value = 0,type='days') {
       let dataparams = {
         view: {
@@ -719,7 +742,7 @@ ngOnInit() {
     }
     chart3Clicked(event) {
       console.log('event[0]._index 2', event[0],event[0]._index);
-      let Date = this.transportarLoadingTat[event[0]._index]._id;
+      let Date = this.transportarSlowestUnloadingtat[event[0]._index]._id;
       console.log('event[0]._index 2', event[0]._index, event[0], Date);
       this.passingIdChart3Data(Date);
     }
