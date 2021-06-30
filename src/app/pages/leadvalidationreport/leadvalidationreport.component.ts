@@ -117,5 +117,44 @@ export class LeadvalidationreportComponent implements OnInit {
   }
 
   
+  printPDF(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = fodata['name'];
+        let center_heading = "Trip Tat Report";
+       // let time = "Start Date:"+this.datePipe.transform(this.startDate, 'dd-MM-yyyy')+"  End Date:"+this.datePipe.transform(this.endDate, 'dd-MM-yyyy');
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  printCsv(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = "FoName:" + fodata['name'];
+        let center_heading = "Report:" + "Trip Profit And Loss";
+       // let time = "Start Date:"+this.datePipe.transform(this.startDate, 'dd-MM-yyyy')+"  End Date:"+this.datePipe.transform(this.endDate, 'dd-MM-yyyy');
+        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, null);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
+
+  }
 
 }
