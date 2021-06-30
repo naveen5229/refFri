@@ -85,8 +85,8 @@ export class RouteMapperComponent implements OnInit {
   ngOnInit() {
   }
 
- 
-  
+
+
 
   ngAfterViewInit() {
     this.mapService.mapIntialize("route-mapper-map", 18, 25, 75, false, true);
@@ -199,7 +199,7 @@ export class RouteMapperComponent implements OnInit {
       let trailIndex = 0;
       let prevOdo = 0;
       for (let index = 0; index < this.vehicleEvents.length; index++) {
-        this.vehicleEvents[index]["subType"]="marker";
+        this.vehicleEvents[index]["subType"] = "marker";
         for (let indexInner = trailIndex; indexInner < this.polypath.length; indexInner++) {
           const element = this.polypath[indexInner];
           if (new Date(element.time) >= new Date(this.vehicleEvents[index].start_time)) {
@@ -214,7 +214,7 @@ export class RouteMapperComponent implements OnInit {
           this.vehicleEvents[index].subType = 'marker';
           this.vehicleEvents[index].color = this.vehicleEvents[index].halt_reason == "Unloading" ? 'ff4d4d' : '88ff4d';
           this.vehicleEvents[index].rc = this.vehicleEvents[index].halt_reason == "Unloading" ? 'ff4d4d' : '88ff4d';
-        }else {
+        } else {
           this.vehicleEvents[index].rc = this.vehicleEvents[index].site_id ? '00b8e6' : 'FFFF00';
         }
         if (this.vehicleEvents[index].tolls) {
@@ -227,12 +227,12 @@ export class RouteMapperComponent implements OnInit {
         this.vehicleEvents[index].position = (this.commonService.dateDiffInHours(
           realStart, this.vehicleEvents[index].start_time) / totalHourDiff) * 98;
         this.vehicleEvents[index].width = (this.commonService.dateDiffInHours(
-          this.vehicleEvents[index].start_time, this.vehicleEvents[index].end_time?this.vehicleEvents[index].end_time:realEnd, true) / totalHourDiff) * 98;
-          this.vehicleEvents[index].duration = this.vehicleEvents[index].end_time ? this.commonService.dateDiffInHoursAndMins(
-          this.vehicleEvents[index].start_time, this.vehicleEvents[index].end_time):"-";
-      
-          this.vehicleEvents[index].color = this.vehicleEvents[index].rc
-        }
+          this.vehicleEvents[index].start_time, this.vehicleEvents[index].end_time ? this.vehicleEvents[index].end_time : realEnd, true) / totalHourDiff) * 98;
+        this.vehicleEvents[index].duration = this.vehicleEvents[index].end_time ? this.commonService.dateDiffInHoursAndMins(
+          this.vehicleEvents[index].start_time, this.vehicleEvents[index].end_time) : "-";
+
+        this.vehicleEvents[index].color = this.vehicleEvents[index].rc
+      }
       let markers = this.mapService.createMarkers(this.vehicleEvents, false, false);
       let markerIndex = 0
       for (const marker of markers) {
@@ -283,9 +283,9 @@ export class RouteMapperComponent implements OnInit {
       let subscription = this.apiService.post('HaltOperations/getvehicleEvents', params)
         .subscribe(res => {
           console.log('response data : ', res['data']);
-          
+
           this.commonService.loading--;
-          if(!res['data']){
+          if (!res['data']) {
             res['data'] = [];
           }
           this.vehicleEvents = res['data'].reverse();
@@ -375,7 +375,7 @@ export class RouteMapperComponent implements OnInit {
         console.log('res:', res);
         res = res['data'];
 
-        if(!res.withSnap){
+        if (!res.withSnap) {
           res = {
             withSnap: res.raw,
             raw: res.raw,
@@ -511,7 +511,7 @@ export class RouteMapperComponent implements OnInit {
       this.zoomOnArrow(false);
       this.timelineValue = index;
       this.cdr.detectChanges();
-      console.log("timeline value",this.timelineValue);
+      console.log("timeline value", this.timelineValue);
       if (this.breakPrevious) {
         break;
       }
@@ -581,19 +581,19 @@ export class RouteMapperComponent implements OnInit {
         vEvent.isOpen = false;
     });
     vehicleEvents.isOpen = !vehicleEvents.isOpen;
-    
+
     this.zoomFunctionality(i, vehicleEvents);
-    
+
   }
   zoomFunctionality(i, vehicleEvents) {
     let latLng = this.mapService.getLatLngValue(vehicleEvents);
     let googleLatLng = this.mapService.createLatLng(latLng.lat, latLng.lng);
     this.mapService.zoomAt(googleLatLng);
-    console.log("vehicleEvents",vehicleEvents);
-    if(vehicleEvents.site_id){
+    console.log("vehicleEvents", vehicleEvents);
+    if (vehicleEvents.site_id) {
       this.getSites(vehicleEvents);
-      }
-    
+    }
+
   }
 
   setZoom(zoom, vehicleEvents) {
@@ -651,54 +651,58 @@ export class RouteMapperComponent implements OnInit {
     });
   }
 
-  getSingleTripInfoForView(){
-    if(this.vehicleTripId){
-    this.commonService.loading ++;
+  getSingleTripInfoForView() {
+    if (this.vehicleTripId) {
+      this.commonService.loading++;
       this.apiService.get(`TripsOperation/getSingleTripInfoForView?tripId=${this.vehicleTripId}`)
-      .subscribe(res => {
-        this.commonService.loading --;
-        this.circles.forEach(item => {
-          item.setMap(null);
-        });
-        this.circleCenter.forEach(item => {
-          item.setMap(null);
-        });
-        this.circles = [];
-        this.circleCenter = [];
-        res['data'].forEach(element => {
-          console.log("element====",element);
-          if(element.type === 3){
-            console.log("element1 in side====",element);
-            let center = this.mapService.createLatLng(element.rlat, element.rlong)
-            let circle = this.mapService.createCirclesOnPostion(center,1000);
-            let circle1 = this.mapService.createCirclesOnPostion(center,15000);
-            let circle2 = this.mapService.createCirclesOnPostion(center,25000);
-            this.circles.push(circle);
-            this.circles.push(circle1);
-            this.circles.push(circle2);
-            this.mapService.addListerner(circle,'mouseover',() => {
-              this.mapService.map.getDiv().setAttribute('title', element.name);
-            });
+        .subscribe(res => {
+          this.commonService.loading--;
+          this.circles.forEach(item => {
+            item.setMap(null);
+          });
+          this.circleCenter.forEach(item => {
+            item.setMap(null);
+          });
+          this.circles = [];
+          this.circleCenter = [];
+          res['data'].forEach(element => {
+            console.log("element====", element);
+            if (element.type === 3 || element.type === 1) {
+              console.log("element1 in side====", element);
+              let color = element.type === 1 ? '00FF00' : 'FF0000';
+              let center = this.mapService.createLatLng(element.rlat, element.rlong)
+              let circle = this.mapService.createCirclesOnPostion(center, 1000, '#' + color, '#' + color);
+              this.circles.push(circle);
+              if (element.type == 3) {
+                let circle1 = this.mapService.createCirclesOnPostion(center, 15000, '#' + color, '#' + color);
+                let circle2 = this.mapService.createCirclesOnPostion(center, 40000, '#' + color, '#' + color);
+                this.circles.push(circle1);
+                this.circles.push(circle2);
+              }
 
-            this.mapService.addListerner(circle,'mouseout',() => {
-              this.mapService.map.getDiv().removeAttribute('title');
-            });
-            let marker = [{
-              lat:element.rlat,
-              lng:element.rlong,
-              type:'site', subType: 'marker', color: 'FF0000'
-            }];
-            this.circleCenter.push(this.mapService.createMarkers(marker,false,false)[0]);
-          }
-        }); 
-      },err => {  
-        this.commonService.loading --;
-        console.error(err);
-      })
+              this.mapService.addListerner(circle, 'mouseover', () => {
+                this.mapService.map.getDiv().setAttribute('title', element.name);
+              });
+
+              this.mapService.addListerner(circle, 'mouseout', () => {
+                this.mapService.map.getDiv().removeAttribute('title');
+              });
+              let marker = [{
+                lat: element.rlat,
+                lng: element.rlong,
+                type: 'site', subType: 'marker', color: color
+              }];
+              this.circleCenter.push(this.mapService.createMarkers(marker, false, false)[0]);
+            }
+          });
+        }, err => {
+          this.commonService.loading--;
+          console.error(err);
+        })
     }
   }
 
-  siteMarkers=[];
+  siteMarkers = [];
   getSites(vehicleEvents) {
     if (this.mapService.map) {
       // this.common.loading++;
@@ -719,12 +723,12 @@ export class RouteMapperComponent implements OnInit {
       this.apiService.post('VehicleStatusChange/getSiteAndSubSite?', params)
         .subscribe(res => {
           if (this.siteMarkers.length == 0) {
-            this.siteMarkers = this.mapService.createMarkers(res['data'], false,false);
+            this.siteMarkers = this.mapService.createMarkers(res['data'], false, false);
             // this.common.loading--;
           }
           else {
             this.clearOtherMarker(this.siteMarkers);
-            this.siteMarkers = this.mapService.createMarkers(res['data'], false,false);
+            this.siteMarkers = this.mapService.createMarkers(res['data'], false, false);
 
             // this.common.loading--;
           }
@@ -771,7 +775,7 @@ export class RouteMapperComponent implements OnInit {
           }
           this.mapService.createPolygonsWithMainlatlng(latLngsArray, mainLatLng);
         }
-        
+
         // this.common.loading--;
       }, err => {
         // this.common.loading--;
