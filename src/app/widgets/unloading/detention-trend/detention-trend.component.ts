@@ -140,6 +140,10 @@ export class DetentionTrendComponent implements OnInit {
   
     }
     setChartOptions1() {
+      let ids = [];
+    this.unloadingWorstDestination.map(tlt => {
+      ids.push(tlt['destination']);
+    });
       let options = {
         responsive: true,
         hoverMode: 'index',
@@ -152,6 +156,21 @@ export class DetentionTrendComponent implements OnInit {
           mode: 'index',
           intersect: 'true'
         },
+        onClick: (e, item) => {
+          console.log('ids',ids);
+           let idx = item[0]['_index'];
+           let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+           let endDate = new Date();
+           let params = {
+             fromdate: this.common.dateFormatter(startDate),
+             todate: this.common.dateFormatter(endDate),
+             totalrecord: 5,
+             stepno: 1,
+             jsonparam: ids[idx],
+           };
+           this.getDetials('Tmgreport/GetUnLoadingWorstDestination', params)
+   
+         },
         maintainAspectRatio: false,
         title: {
           display: true,
