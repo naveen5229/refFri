@@ -263,7 +263,8 @@ ngOnInit() {
     let routeTime = {
       vehicleId: route.v_id,
       routeId: route.route_id,
-      routeTimeId: route.tt_id
+      routeTimeId: route.tt_id,
+      routeFlag: true
     };
     this.common.params = { routeTime };
     const activeModal = this.modalService.open(RoutesTimetableComponent, { size: "lg", container: "nb-layout", backdrop: 'static' });

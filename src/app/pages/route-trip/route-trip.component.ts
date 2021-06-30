@@ -179,7 +179,8 @@ console.log('hello dost');
       vehicleId: this.vehicleId,
       routeId: route.id,
       routeTimeId: 0,
-      routetrip:1
+      routetrip:1,
+      routeFlag: false
     };
     this.common.params = { routeTime };
     const activeModal = this.modalService.open(RoutesTimetableComponent, { size: "lg", container: "nb-layout", backdrop: 'static' });
