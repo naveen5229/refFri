@@ -99,7 +99,7 @@
                 <div>{{data.kms || '--'}}</div>
             </div>
             <div class="col-1 rowLine" >
-                <div *ngIf="routesDetails.length">{{dataMiss}}</div>
+                <div *ngIf="routesDetails.length">{{data.is_data_missing ? 'Yes' : 'No'}}</div>
             </div>
         </div>
     </div>

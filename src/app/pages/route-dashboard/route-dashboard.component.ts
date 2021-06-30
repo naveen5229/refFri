@@ -118,6 +118,7 @@ ngOnInit() {
       regno: { title: 'Regno', placeholder: 'Regno' },
       lastSeenTime: { title: 'Last Seen Time', placeholder: 'Last Seen Time' },
       routeName: { title: 'Route Name', placeholder: 'Route Name' },
+      invoice_time: {title: 'Invoice Time', placeholder: 'Invoice Time'},
       addtime: { title: 'Addtime', placeholder: 'Addtime' },
       startLocation: { title: 'Start Location', placeholder: 'Start Location' },
       startTime: { title: 'Start Time', placeholder: 'Start time' },
@@ -131,7 +132,6 @@ ngOnInit() {
       startDelay: { title: 'Start  delay ', placeholder: 'Start  delay' },
       totalDelay: { title: 'Total  delay ', placeholder: 'Total  delay' },
       lastHrKms: { title: 'Last Hr KMS', placeholder: 'Last Hr KMS' },
-      invoice_time: {title: 'Invoice Time', placeholder: 'Invoice Time'},
       action: { title: 'Action', placeholder: 'Action', hideSearch: true, class: 'del' },
 
     };
@@ -165,6 +165,7 @@ ngOnInit() {
         lastSeenTime: { value: route.v_time ? this.common.changeDateformat2(route.v_time) : '-', action: this.viewlocation.bind(this, route) },
         // routeName: { value: route.name ? route.name : '-', action: this.viewlocation.bind(this, route) },
         routeName: route.name ? this.getRouteAconym(route.name,route) : '-',// { value: route.name ? this.getRouteAconym(route.name) : '-', action: this.viewlocation.bind(this, route)  },
+        invoice_time: {value: this.common.dateFormatter1(route.invoice_time)},
         addtime:{value: route.addtime ? this.common.changeDateformat2(route.addtime) : '-', action:null },
         startLocation: { value: route.f_name ? route.f_name : '-', action: this.viewlocation.bind(this, route) },
         startTime: { value: route.f_end_time ? this.common.changeDateformat2(route.f_end_time) : '-', action: this.viewlocation.bind(this, route),class:route.f_delay>0?'red':route.f_delay<0?'green':'' },
@@ -178,7 +179,6 @@ ngOnInit() {
         startDelay: { value: route.start_delay ? route.start_delay : '-' },
         totalDelay: { value: route.total_delay ? route.total_delay : '-', class:route.c_delay>0?'red':route.c_delay<0?'green':'' },
         lastHrKms: { value: route.last_hour_kms ? route.last_hour_kms : '-' },
-        invoice_time: {value: this.common.dateFormatter1(route.invoice_time)},
         action: {
           value: "",
           isHTML: false,
