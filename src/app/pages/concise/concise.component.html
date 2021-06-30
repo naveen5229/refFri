@@ -266,6 +266,10 @@
                                     [settings]="table.settings" (action)="jrxActionHandler($event)" [returnFilteredData]="true" (filtered)="jrxFiltered($event)">
                                 </smart-table>
                             </div>
+                            <div class="dataCount">
+                                <span><label>Total Data: </label></span>
+                                <span class="count">{{dataCount}}</span>
+                            </div>
                         </div>
                         <!-- ============================= SMART TABLE END ============================= -->
 
