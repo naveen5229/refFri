@@ -51,7 +51,7 @@
             <div class="col-1 tat">
                 <strong>KM</strong>
             </div>
-            <div class="col-1 tat">
+            <div *ngIf="!routeFlag" class="col-1 tat">
                 <strong>Data Missing</strong>
             </div>
         </div>
@@ -98,8 +98,8 @@
                 <div>{{data.scheduled_kms || '--'}}</div>
                 <div>{{data.kms || '--'}}</div>
             </div>
-            <div class="col-1 rowLine" >
-                <div *ngIf="routesDetails.length">{{dataMiss}}</div>
+            <div *ngIf="!routeFlag" class="col-1 rowLine" >
+                <div *ngIf="routesDetails.length">{{data.is_data_missing ? 'Yes' : 'No'}}</div>
             </div>
         </div>
     </div>
