@@ -276,6 +276,38 @@ export class MapService {
 
   }
 
+  createPolygonsWithMainlatlng(latLngsMulti, mainLatLngs?, options?) {// strokeColor = '#', fillColor = '#') {
+    if (this.polygons.length > 0) {
+      this.polygons.forEach(polygon => {
+        polygon.setMap(null);
+      });
+      this.polygons = [];
+    }
+    latLngsMulti.forEach(latLngs => {
+      let colorBorder = '#228B22';
+      let colorFill = '#ADFF2F';
+      if (mainLatLngs != latLngs) {
+        colorBorder = '#550000';
+        colorFill = '#ff7f7f';
+      }
+      const defaultOptions = {
+        paths: latLngs,
+        strokeColor: colorBorder,
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        clickable: false,
+        fillColor: colorFill,
+        fillOpacity: 0.35
+      };
+      this.polygons.push(new google.maps.Polygon(options || defaultOptions));
+    });
+    this.polygons.forEach(polygon => {
+      polygon.setMap(this.map);
+    });
+
+  }
+
+
   addListerner(element, event, callback) {
     if (element)
       google.maps.event.addListener(element, event, callback);
@@ -294,6 +326,7 @@ export class MapService {
   }
 
   createMarkers(markers, dropPoly = false, changeBounds = true, infoKeys?, afterClick?) {
+    console.log("markers====",markers);
     try {
       let thisMarkers = [];
       let infoWindows = [];
@@ -310,6 +343,7 @@ export class MapService {
         let latlng = new google.maps.LatLng(lat, lng);
         let pinImage;
         //pin Image
+        console.log("pin color",pinColor);
         if (design) {
           pinImage = {
             path: design,

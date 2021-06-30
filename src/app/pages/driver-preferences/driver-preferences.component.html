@@ -4,10 +4,18 @@
             <div class="col-sm-6">
                 <h5>Driver Preferences</h5>
             </div>
-            <div class="col-sm-3 offset-2">
+            <div class="col-sm-3">
                 <button class="btn btn-primary" *ngIf="user._loggedInBy=='admin'" (click)="importDriverCSV()">Import CSV</button>
                 <button class="btn btn-primary ml-4" (click)="addDriver()">Add</button>
             </div>
+            <div class="col-3 text-right">
+                <span style="display: block;">
+                  <span class="pdf-icon" title="PDF Export" (click)="printPDF()" style="cursor: pointer;">
+                    <i class="fa fa-file-pdf"></i></span>
+                  <span class="exel-icon" title="CSV Export" (click)="printCSV()"
+                    style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
+                </span>
+              </div>
         </div>
     </nb-card-header>
     <nb-card-body>
