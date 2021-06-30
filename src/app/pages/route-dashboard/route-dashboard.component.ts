@@ -165,7 +165,7 @@ ngOnInit() {
         lastSeenTime: { value: route.v_time ? this.common.changeDateformat2(route.v_time) : '-', action: this.viewlocation.bind(this, route) },
         // routeName: { value: route.name ? route.name : '-', action: this.viewlocation.bind(this, route) },
         routeName: route.name ? this.getRouteAconym(route.name,route) : '-',// { value: route.name ? this.getRouteAconym(route.name) : '-', action: this.viewlocation.bind(this, route)  },
-        invoice_time: {value: this.common.dateFormatter1(route.invoice_time)},
+        invoice_time: {value: this.common.changeDateformat2(route.invoice_time)},
         addtime:{value: route.addtime ? this.common.changeDateformat2(route.addtime) : '-', action:null },
         startLocation: { value: route.f_name ? route.f_name : '-', action: this.viewlocation.bind(this, route) },
         startTime: { value: route.f_end_time ? this.common.changeDateformat2(route.f_end_time) : '-', action: this.viewlocation.bind(this, route),class:route.f_delay>0?'red':route.f_delay<0?'green':'' },
