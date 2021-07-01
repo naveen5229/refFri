@@ -144,7 +144,7 @@ export class TripstoppageComponent implements OnInit {
         Place: { value: this.getPlaceName(R), class: R.halt_type_id == 11 ? 'green' : R.halt_type_id == 21 ? 'red' : 'default' },
         Location: { value: R.loc_name },
         // Reason: { value: R.halt_reason, class: R.halt_type_id == 11 ? 'green' : R.halt_type_id == 21 ? 'red' : 'default' },
-        Duration: { value: this.duration[i] },
+        Duration: { value: R.halt_time }//{ value: this.duration[i] },
         //Action: { value: `<i class="fa fa-map-marker"></i>`, isHTML: true, action: this.showLocation.bind(this, R) },
       };
       columns.push(column);
