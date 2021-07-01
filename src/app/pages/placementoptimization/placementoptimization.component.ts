@@ -380,4 +380,16 @@ export class PlacementoptimizationComponent implements OnInit {
     this.common.params = {data: this.placementOPT, placementDate: this.placementDate}
     const activeModal = this.modalService.open(CostGamificationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
+
+  scrollToView(event){
+    console.log('event data is: ', event)
+    var element = document.getElementById('plant-details');
+    let siteId = event.target.value.siteId;
+    let dayIndex = event.target.value.dayIndex;
+    var ele2 = document.getElementById(siteId);
+    let activeObj = this.placementOPT.siteVehicleCostPackets.find(ele=> (ele.siteId == siteId && ele.dayIndex == dayIndex));
+    activeObj.active = true;
+    element.scrollIntoView();
+    ele2.scrollIntoView();
+  }
 }
