@@ -164,7 +164,7 @@
         </div>
       </div>
     </div>
-    <div class="row mt-3">
+    <div class="row mt-3" id="site-details">
       <div class="col-sm-12" style="text-align:center;" *ngIf="placementOPT">
         <label style="float:right;" [ngClass]="isActive ? 'red' : 'green'" [(ngModel)]="tblshowhide"
           (click)="tblShowHides(isActive)">{{tblshowhide}}</label>
@@ -267,6 +267,9 @@
       </div>
     </div>
 
+   
+    
+
     <div class="row mt-5" style="height:auto;overflow-y:auto;"
       *ngIf="unAllocatedVehicles && unAllocatedVehicles.length>0">
       <!-- <table class="table table-bordered" *ngIf="unAllocatedVehicles && unAllocatedVehicles.length>0">
@@ -315,4 +318,7 @@
 
 
   </nb-card-body>
+  <div class='multi-action' *ngIf="placementOPT && isActive">
+    <button class='action-button' (click)="backToScrollView()"><span class='fa fa-angle-up'></span></button>
+  </div>
 </nb-card>
