@@ -141,6 +141,7 @@ export class ConciseComponent implements OnInit {
   markersWithId = [];
   preferences = [];
   kpiHeadings = [];
+  dataCount;
 
   constructor(
     public api: Api,
@@ -218,6 +219,8 @@ export class ConciseComponent implements OnInit {
           //   "x_vehicle_type": "vehicleType",
           //   "x_showveh": "vehicle"
           // };
+
+          this.dataCount = res['data'].y_data.length;
 
           this.preferences = res['data'].y_columns.map(column => {
             return {

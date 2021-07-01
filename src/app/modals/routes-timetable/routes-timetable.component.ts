@@ -16,8 +16,8 @@ export class RoutesTimetableComponent implements OnInit {
   routeId = null;
   routeTTId = null;
   isLastStop = -1;
-  routetrip=0;
-  dataMiss: string = '';
+  routetrip = 0;
+  routeFlag: boolean;
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -29,88 +29,97 @@ export class RoutesTimetableComponent implements OnInit {
       this.vehId = this.common.params.routeTime.vehicleId;
       this.routeId = this.common.params.routeTime.routeId;
       this.routeTTId = this.common.params.routeTime.routeTimeId;
-      this.routetrip = (this.common.params.routeTime.routetrip)?this.common.params.routeTime.routetrip:0;
+      this.routetrip = (this.common.params.routeTime.routetrip) ? this.common.params.routeTime.routetrip : 0;
+      this.routeFlag = this.common.params.routeTime.routeFlag;
+      console.log('this.routeFlag: ', this.routeFlag)
     }
-    this.getRoutes();
-  // if(this.routetrip==0){
-  //     this.getRoutes();
-  // }else{
-  //   this.getRoutesHistory();
-  // }
+    this.getData();
+
   }
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() { }
+  ngOnInit() {
   }
 
-  getRoutes(){
-    this.common.loading ++;
+  getData() {
+    if (this.routeFlag) {
+      console.log('inside true')
+      if (this.routetrip == 0) {
+        this.getRoutesDashboard();
+      } else {
+        this.getRoutesHistory();
+      }
+    } else if (!this.routeFlag) {
+      console.log('inside routeflag false')
+      this.getRoutes();
+
+    }
+
+  }
+
+  getRoutes() {
+    this.common.loading++;
     this.api.getJavaPortDost(8093, `getVehicleTimeTable/${this.routeId}`)
       .subscribe(res => {
-        this.common.loading --;
+        this.common.loading--;
         console.log('response is: ', res)
         this.routesDetails = res['data'];
-        if(res['is_data_missing'] == false){
-          this.dataMiss = 'Yes'
-        } else {
-          this.dataMiss = 'No'
-        }
         this.statusFinder();
       }, err => {
-        this.common.loading --;
+        this.common.loading--;
         console.log('err is: ', err)
       })
   }
 
-  // getRoutes() {
-  //   console.log('hello dear');
-  //   let params = {
-  //     vehicleId: this.vehId,
-  //     routeId: this.routeId,
-  //     routeTtId: this.routeTTId,
-  //   }
+  getRoutesDashboard() {
+    console.log('hello dear');
+    let params = {
+      vehicleId: this.vehId,
+      routeId: this.routeId,
+      routeTtId: this.routeTTId,
+    }
 
-  //   this.common.loading++;
-  //   this.api.post('ViaRoutes/getVehicleTimeTable1', params)
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       console.log('getRoutesWrtFo:', res);
-  //       this.routesDetails = res['data'];
-  //       this.statusFinder();
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
-  // }
-  // getRoutesHistory() {
-  //   let params = {
-  //     routeId: this.routeId
-  //   }
+    this.common.loading++;
+    this.api.post('ViaRoutes/getVehicleTimeTable1', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('getRoutesWrtFo:', res);
+        this.routesDetails = res['data'];
+        this.statusFinder();
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+  getRoutesHistory() {
+    let params = {
+      routeId: this.routeId
+    }
 
-  //   this.common.loading++;
-  //   this.api.post('TripExpenseVoucher/getVehicleTimeTable', params)
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       console.log('getRoutesWrtFo:', res);
-  //       this.routesDetails = res['data'];
-  //       this.statusFinder();
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
-  // }
+    this.common.loading++;
+    this.api.post('TripExpenseVoucher/getVehicleTimeTable', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('getRoutesWrtFo:', res);
+        this.routesDetails = res['data'];
+        this.statusFinder();
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
 
   statusFinder() {
     this.routesDetails.map((route, index) => {
       if (index == 0) {
         route['status'] = '1';
-      }else if (route.delay) {
+      } else if (route.delay) {
         if (route.delay.charAt(0) == "-") {
           route['status'] = '1';
-          this.isLastStop=-1;
+          this.isLastStop = -1;
         } else {
           route['status'] = '0';
-          this.isLastStop=-1;
+          this.isLastStop = -1;
         }
       } else {
         route['status'] = '2';

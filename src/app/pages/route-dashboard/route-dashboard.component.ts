@@ -118,6 +118,7 @@ ngOnInit() {
       regno: { title: 'Regno', placeholder: 'Regno' },
       lastSeenTime: { title: 'Last Seen Time', placeholder: 'Last Seen Time' },
       routeName: { title: 'Route Name', placeholder: 'Route Name' },
+      invoice_time: {title: 'Invoice Time', placeholder: 'Invoice Time'},
       addtime: { title: 'Addtime', placeholder: 'Addtime' },
       startLocation: { title: 'Start Location', placeholder: 'Start Location' },
       startTime: { title: 'Start Time', placeholder: 'Start time' },
@@ -164,6 +165,7 @@ ngOnInit() {
         lastSeenTime: { value: route.v_time ? this.common.changeDateformat2(route.v_time) : '-', action: this.viewlocation.bind(this, route) },
         // routeName: { value: route.name ? route.name : '-', action: this.viewlocation.bind(this, route) },
         routeName: route.name ? this.getRouteAconym(route.name,route) : '-',// { value: route.name ? this.getRouteAconym(route.name) : '-', action: this.viewlocation.bind(this, route)  },
+        invoice_time: {value: this.common.changeDateformat2(route.invoice_time)},
         addtime:{value: route.addtime ? this.common.changeDateformat2(route.addtime) : '-', action:null },
         startLocation: { value: route.f_name ? route.f_name : '-', action: this.viewlocation.bind(this, route) },
         startTime: { value: route.f_end_time ? this.common.changeDateformat2(route.f_end_time) : '-', action: this.viewlocation.bind(this, route),class:route.f_delay>0?'red':route.f_delay<0?'green':'' },
@@ -261,7 +263,8 @@ ngOnInit() {
     let routeTime = {
       vehicleId: route.v_id,
       routeId: route.route_id,
-      routeTimeId: route.tt_id
+      routeTimeId: route.tt_id,
+      routeFlag: true
     };
     this.common.params = { routeTime };
     const activeModal = this.modalService.open(RoutesTimetableComponent, { size: "lg", container: "nb-layout", backdrop: 'static' });
