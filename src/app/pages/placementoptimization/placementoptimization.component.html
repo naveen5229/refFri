@@ -164,7 +164,7 @@
         </div>
       </div>
     </div>
-    <div class="row mt-3">
+    <div class="row mt-3" id="site-details">
       <div class="col-sm-12" style="text-align:center;" *ngIf="placementOPT">
         <label style="float:right;" [ngClass]="isActive ? 'red' : 'green'" [(ngModel)]="tblshowhide"
           (click)="tblShowHides(isActive)">{{tblshowhide}}</label>
@@ -189,7 +189,7 @@
           </td>
           <td>{{packet.minQuantity}}</td>
           <td>{{packet.maxQuantity}}</td>
-          <td>{{packet.allocatedVehicles}}</td>
+          <td class="link" [value]="packet" (click) ="scrollToView($event)">{{packet.allocatedVehicles}}</td>
           <td>{{packet.onward24Hrs}}</td>
           <td>{{packet.atPlant}}</td>
           <td>{{packet.towards}}</td>
@@ -210,11 +210,11 @@
           </tr>
         </thead>
       </table>
-      <div class="row" style="height:60vh;overflow-y:auto;">
+      <div class="row" style="height:60vh;overflow-y:auto;" id="plant-details">
         <table class="table table-bordered"
           *ngFor="let packet of placementOPT.siteVehicleCostPackets;let i = index; let active = false">
           <thead>
-            <tr>
+            <tr [id]="packet.siteId">
               <th colspan='5' class="col-sm-11 hdStyle">
                 <span>Plant:</span>
                 <span class="ml-2 grn">{{packet.siteName}}
@@ -267,6 +267,9 @@
       </div>
     </div>
 
+   
+    
+
     <div class="row mt-5" style="height:auto;overflow-y:auto;"
       *ngIf="unAllocatedVehicles && unAllocatedVehicles.length>0">
       <!-- <table class="table table-bordered" *ngIf="unAllocatedVehicles && unAllocatedVehicles.length>0">
@@ -315,4 +318,7 @@
 
 
   </nb-card-body>
+  <div class='multi-action' *ngIf="placementOPT && isActive">
+    <button class='action-button' (click)="backToScrollView()"><span class='fa fa-angle-up'></span></button>
+  </div>
 </nb-card>
