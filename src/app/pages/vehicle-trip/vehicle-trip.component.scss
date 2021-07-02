@@ -460,13 +460,54 @@ nb-card-body{
     transform: translate(-50%);
 
 }
-
-:host ::ng-deep td i.fa-box-tissue span{
-    background-color: black;
-    color: #fff;
+ // fa-box-tissue
+ :host ::ng-deep td i.fa-box-tissue{
+    background-color: #24ABAA;
+    color:black;
     padding: 5px;
     border-radius: 3px;
     margin-left: 4px;
+}
+:host ::ng-deep td i.fa-box-tissue:hover span{
+    display: block;
+}
+
+:host ::ng-deep .blue{
+    text-decoration: underline;
+    color:blue;
+}
+:host ::ng-deep td i.fa-box-tissue span{
+    position: absolute;
+    display: none;
+    padding: 11px 24px;
+    left: -8px;
+    top: -28px;
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 999;
+}
+:host ::ng-deep td i.fa-box-tissue span::before{
+    content: 'Action';
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #24ABAA;
+    border-radius: 3px;
+    padding: 5px 10px;
+}
+:host ::ng-deep td i.fa-box-tissue span::after{
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #24ABAA;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%);
+
 }
 
 .pdf-icon{
