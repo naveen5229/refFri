@@ -1,0 +1,21 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <span aria-hidden="true" style="color:white;">&times;</span>
+  </button>
+</div>
+<div class="modal-body" style="height: 200px;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <auto-suggestion (onSelected)="selectRoute($event);" [data]="routes" display="route_name"
+          placeholder="Search Plant" [preSelected]= "{route_name: routeName}">
+        </auto-suggestion>
+      </div>
+      <div class="col-3">
+        <button class="btn btn-primary" (click)="remapTripAndRoute()">Submit</button>
+      </div>
+    </div>
+
+  </div>
+</div>

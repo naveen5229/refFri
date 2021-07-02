@@ -1,0 +1,24 @@
+<div class="backmodal">
+    <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <div class="row" [innerHTML]="description">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel" style="cursor: pointer;">{{btn2}}</button>
+            </div>
+            <div class="col text-right">
+                <button class="btn btn-primary" type="button" outline (click)="submit()" id="submit" style="cursor: pointer;">{{btn1}}</button>
+            </div>
+        </div>
+    </div>
+    </div>

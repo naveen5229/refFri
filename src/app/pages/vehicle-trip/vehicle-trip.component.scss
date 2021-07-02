@@ -412,7 +412,6 @@ nb-card-body{
     transform: translate(-50%);
 }
 
-
 :host ::ng-deep td i.fa-road{
     background-color: yellow;
     color:black;
@@ -460,6 +459,14 @@ nb-card-body{
     left: 50%;
     transform: translate(-50%);
 
+}
+
+:host ::ng-deep td i.fa-box-tissue span{
+    background-color: black;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    margin-left: 4px;
 }
 
 .pdf-icon{
