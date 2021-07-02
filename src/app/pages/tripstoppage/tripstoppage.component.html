@@ -35,8 +35,8 @@
             </div>
             <div class="col-sm-2">
                 <label>Stoppage Minutes</label>
-                <input type="text" class="form-control" [(ngModel)]="min" 
-                placeholder="Stoppage" (input)=" min = (min < 5) ? 10 :min">
+                <input type="text"  [(ngModel)]="min" 
+                placeholder="Stoppage" (input)="customize()">
             </div>
             <div class="col-sm-2">
                 <button class="btn btn-primary mt-3" (click)="getTripMasterReport()">submit</button>
