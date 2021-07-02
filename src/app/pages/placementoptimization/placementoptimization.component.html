@@ -82,6 +82,7 @@
                 <th><label>Max Quantity</label></th>
                 <th><label>Min Penalty</label></th>
                 <th><label>Max Penalty</label></th>
+                <th><label>Placed</label></th>
                 <th style="min-width:140px;"><label>Qty till Date</label></th>
                 <th style="min-width:80px;"><label>Qty on Plant</label></th>
                 <th><label>Qty Towards</label></th>
@@ -126,6 +127,11 @@
                 <td>
                   <input type="number" [(ngModel)]="item.penaltyMax" min=0 oninput="validity.valid||(value='');"
                     class="form control" placeholder="Max Panalty">
+                </td>
+
+                <td>
+                  <input type="number" [(ngModel)]="item.alreadyPlaced" min=0 oninput="validity.valid||(value='');"
+                    class="form control" placeholder="Placed">
                 </td>
 
                 <td>
