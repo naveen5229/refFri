@@ -17,6 +17,8 @@ export class RemaptripandrouteComponent implements OnInit {
   vehicleTripRouteId;
   routeName;
   routes = [];
+  report;
+  vId;
 
 
   constructor(
@@ -27,9 +29,13 @@ export class RemaptripandrouteComponent implements OnInit {
   ) {
     this.tripId = this.common.params.tripId;
     this.vehicleTripRouteId = this.common.params.routeId;
+    this.report = this.common.params.title;
+    this.vId = this.common.params.vId;
     console.log('tripId: ', this.tripId, this.vehicleTripRouteId)
-    this.getSuggestions();
-
+    console.log('vehicle Id: ', this.vehicleTripRouteId, this.vId)
+  
+      this.getSuggestions();
+    
   }
 
   ngOnInit(): void {
@@ -64,6 +70,14 @@ export class RemaptripandrouteComponent implements OnInit {
     this.routeId = event['route_id']
   }
 
+  titleRemapTripAndRouteFun(){
+    if(this.title){
+      this.routeDashRemapTrip();
+    } else{
+      this.remapTripAndRoute();
+    }
+  }
+
   remapTripAndRoute() {
 
     let params = {
@@ -82,12 +96,12 @@ export class RemaptripandrouteComponent implements OnInit {
         this.common.showToast(res['msg']);
         if (res['code'] == (-3 || '-3')) {
           console.log('inside code');
-          this.common.params = {description: 'Do you want to forcefully map route?', btn1: 'Submit', btn2: 'Cancel', vehicleTripId: this.tripId, routeId: this.routeId}
+          this.common.params = { description: 'Do you want to forcefully map route?', btn1: 'Submit', btn2: 'Cancel', vehicleTripId: this.tripId, routeId: this.routeId }
           const activeModal = this.modalService.open(ForcellyRemappingRouteComponent, { size: 'lg', container: 'nb-layout' });
 
           activeModal.result.then(response => {
             console.log('resp: ', response)
-            if(response.response){
+            if (response.response) {
               this.closeModal(false)
             }
           });
@@ -97,6 +111,39 @@ export class RemaptripandrouteComponent implements OnInit {
         this.common.loading--;
         console.log('err is: ', err)
       })
+  }
 
+  routeDashRemapTrip(){
+    let params = {
+      vehicleId: this.vId,
+      routeId: this.routeId,
+      isForce: false,
+      associationType: 1
+    }
+
+    console.log('params is: ', params)
+
+    this.common.loading ++;
+    this.api.postJavaPortDost(8093, 'remapVehicleAndRoute', params)
+      .subscribe(res => {
+        this.common.loading --;
+        console.log('repsonse is: ', res)
+        this.common.showToast(res['msg']);
+        if (res['code'] == (-3 || '-3')) {
+          console.log('inside code');
+          this.common.params = { description: 'Do you want to forcefully map route?', btn1: 'Submit', btn2: 'Cancel', vehicleTripId: this.tripId, routeId: this.routeId }
+          const activeModal = this.modalService.open(ForcellyRemappingRouteComponent, { size: 'lg', container: 'nb-layout' });
+
+          activeModal.result.then(response => {
+            console.log('resp: ', response)
+            if (response.response) {
+              this.closeModal(false)
+            }
+          });
+        }
+      }, err => {
+        this.common.loading --;
+        console.log('err is: ', err)
+      })
   }
 }

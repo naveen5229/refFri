@@ -24,6 +24,7 @@ export class RouteTimeTableComponent implements OnInit {
   edit = 0;
   rowId = null;
   isNull: boolean = true;
+  startType = 0;
 
   routeTimeTable = [];
   table = {
@@ -92,6 +93,7 @@ export class RouteTimeTableComponent implements OnInit {
       routeId: this.routeId,
       startTime,
       assType: this.assocType,
+      startType: this.startType
     }
     console.log("Params:", params);
     this.common.loading++;
@@ -219,6 +221,7 @@ export class RouteTimeTableComponent implements OnInit {
     console.log("start Time", this.startTime);
     this.assocType = route._ass_type;
     this.rowId = route._rtt_id;
+    this.startType = route['_start_type']
   }
 
   editRoutes(route) {
