@@ -132,6 +132,16 @@ export class TripstoppageComponent implements OnInit {
     }
   }
 
+  customize(){
+    if(this.min < 5){
+      this.common.showToast('Minimum Val is 5');
+     // this.min = (this.min < 5) ? 10 :this.min;
+     this.min = 10;
+    }
+    
+    
+  }
+
   getTableColumns() {
     let columns = [];
     let i = 0;
