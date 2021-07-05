@@ -58,6 +58,7 @@ export class RouteMapperComponent implements OnInit {
   circleCenter = [];
   subTrailsPolyLines = [];
   vehicleTrailEvents = [];
+  latLngArr = []
 
   constructor(private mapService: MapService,
     private apiService: ApiService, private cdr: ChangeDetectorRef,
@@ -665,12 +666,14 @@ export class RouteMapperComponent implements OnInit {
           });
           this.circles = [];
           this.circleCenter = [];
+          this.latLngArr = [];
           res['data'].forEach(element => {
             console.log("element====", element);
             if (element.type === 3 || element.type === 1) {
               console.log("element1 in side====", element);
               let color = element.type === 1 ? '00FF00' : 'FF0000';
               let center = this.mapService.createLatLng(element.rlat, element.rlong)
+              this.latLngArr.push({lat:parseFloat(element.rlat),lng:parseFloat(element.rlong)})
               let circle = this.mapService.createCirclesOnPostion(center, 1000, '#' + color, '#' + color);
               this.circles.push(circle);
               if (element.type == 3) {
@@ -694,6 +697,10 @@ export class RouteMapperComponent implements OnInit {
               }];
               this.circleCenter.push(this.mapService.createMarkers(marker, false, false)[0]);
             }
+
+            console.log('this.latLngArr: ', this.latLngArr)
+            this.mapService.setMultiBounds(this.latLngArr, true);
+
           });
         }, err => {
           this.commonService.loading--;
