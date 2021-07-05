@@ -9,6 +9,7 @@ import { AddShortTargetComponent } from '../../modals/add-short-target/add-short
 import * as _ from "lodash";
 import { AdhocRouteComponent } from '../../modals/adhoc-route/adhoc-route.component';
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+import { RemaptripandrouteComponent } from '../../modals/remaptripandroute/remaptripandroute.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -161,7 +162,7 @@ ngOnInit() {
     let columns = [];
     this.routeData.map(route => {
       let column = {
-        regno: { value: route.v_regno ? route.v_regno : '-', },
+        regno: { value: route.v_regno ? route.v_regno : '-',  action: this.remapTripAndRoute.bind(this, route)},
         lastSeenTime: { value: route.v_time ? this.common.changeDateformat2(route.v_time) : '-', action: this.viewlocation.bind(this, route) },
         // routeName: { value: route.name ? route.name : '-', action: this.viewlocation.bind(this, route) },
         routeName: route.name ? this.getRouteAconym(route.name,route) : '-',// { value: route.name ? this.getRouteAconym(route.name) : '-', action: this.viewlocation.bind(this, route)  },
@@ -259,6 +260,8 @@ ngOnInit() {
   }
 
   viewRouteTimeTable(route) {
+
+    console.log('route is: ', route)
 
     let routeTime = {
       vehicleId: route.v_id,
@@ -401,5 +404,12 @@ ngOnInit() {
     this.viewType = this.viewOtions[this.viewIndex].key;
     this.viewName = this.viewOtions[this.viewIndex].name;
     this.grouping(this.viewType);
+  }
+
+  remapTripAndRoute(route){
+    this.common.params = {vId: route['v_id'], routeId: route['route_id'], title: 'route-dashboard'}
+    console.log('route is: ', route)
+    const activeModal = this.modalService.open(RemaptripandrouteComponent, { size: 'lg', container: 'nb-layout' });
+
   }
 }
