@@ -42,18 +42,19 @@ export class RoutesTimetableComponent implements OnInit {
   }
 
   getData() {
-    if (this.routeFlag) {
+    // if (this.routeFlag) {
       console.log('inside true')
       if (this.routetrip == 0) {
         this.getRoutesDashboard();
       } else {
-        this.getRoutesHistory();
+        this.getRoutes();
       }
-    } else if (!this.routeFlag) {
-      console.log('inside routeflag false')
-      this.getRoutes();
+    // }
+    //  else if (!this.routeFlag) {
+    //   console.log('inside routeflag false')
+      
 
-    }
+    // }
 
   }
 
@@ -73,14 +74,15 @@ export class RoutesTimetableComponent implements OnInit {
 
   getRoutesDashboard() {
     console.log('hello dear');
-    let params = {
-      vehicleId: this.vehId,
-      routeId: this.routeId,
-      routeTtId: this.routeTTId,
-    }
+    // let params = {
+    //   vehicleId: this.vehId,
+    //   routeId: this.routeId,
+    //   routeTtId: this.routeTTId,
+    // }
 
     this.common.loading++;
-    this.api.post('ViaRoutes/getVehicleTimeTable1', params)
+    // this.api.post('ViaRoutes/getVehicleTimeTable1', params)
+    this.api.getJavaPortDost(8093, `dynamicVehicleTimeTable/${this.vehId}`)
       .subscribe(res => {
         this.common.loading--;
         console.log('getRoutesWrtFo:', res);
@@ -97,6 +99,8 @@ export class RoutesTimetableComponent implements OnInit {
     }
 
     this.common.loading++;
+
+    // before 
     this.api.post('TripExpenseVoucher/getVehicleTimeTable', params)
       .subscribe(res => {
         this.common.loading--;
