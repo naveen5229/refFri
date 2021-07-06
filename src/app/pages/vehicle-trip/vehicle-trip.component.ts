@@ -27,6 +27,7 @@ import { AccountService } from '../../services/account.service';
 import { CsvErrorReportComponent } from '../../modals/csv-error-report/csv-error-report.component';
 import { TollpaymentmanagementComponent } from '../../modals/tollpaymentmanagement/tollpaymentmanagement.component';
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+import { RemaptripandrouteComponent } from '../../modals/remaptripandroute/remaptripandroute.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -238,6 +239,7 @@ export class VehicleTripComponent implements OnInit {
       { class: 'fa fa-chart-bar status', action: this.tollPaymentManagement.bind(this, trip) },
       { class: 'fa fa-handshake-o trip-settlement', action: this.tripSettlement.bind(this, trip) },
       { class: 'fa fa-road route-view', action: this.vehicleInfo.bind(this, trip) },
+      { class: 'fa fa-box-tissue fa-archway', action: this.actionHandler.bind(this, trip)}
     ];
     this.user.permission.edit && icons.push({ class: 'fas fa-edit  edit-btn', action: this.update.bind(this, trip) });
     this.user.permission.delete && icons.push({ class: " fa fa-trash remove", action: this.deleteTrip.bind(this, trip) });
@@ -482,5 +484,13 @@ export class VehicleTripComponent implements OnInit {
     else {
       this.common.showError("Atleast Two Points required");
     }
+  }
+
+  actionHandler(trip){
+    console.log('trip is: ', trip)
+
+    this.common.params = {tripId: trip['Trip Id'], routeId: trip['_route_id']}
+    const activeModal = this.modalService.open(RemaptripandrouteComponent, { size: 'lg', container: 'nb-layout' });
+    
   }
 }
