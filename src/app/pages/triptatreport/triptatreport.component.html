@@ -12,7 +12,14 @@
                  display="regno" placeholder="Search by vehicle number and regno " [preSelected]="null">
                 </auto-suggestion>
             </div> -->
-
+            <div class="col-sm-4">
+                <span>
+                    <span class="pdf-icon" title="PDF Export" (click)="printPDF('TripTat')" style="cursor: pointer;"><i
+                            class="fa fa-file-pdf"></i></span>
+                    <span class="exel-icon" title="CSV Export" (click)="printCsv('TripTat')"
+                        style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+                </span>
+            </div>
             <div class="col-sm-3">
                 <label>Start Date</label>
                 <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">

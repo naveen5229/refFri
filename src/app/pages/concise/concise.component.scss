@@ -1007,3 +1007,19 @@ mwlResizable {
         color: blue;
     }
 }
+
+
+.dataCount span.count {
+    font-weight: bold;
+    margin-left: 3px;
+}
+
+.dataCount {
+    display: flex;
+    position: relative;
+    top: -28px;
+    justify-content: center;
+    color: #007bff;
+    width: 50%;
+    left: 25%;
+}

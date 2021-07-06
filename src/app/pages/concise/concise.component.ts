@@ -141,6 +141,7 @@ export class ConciseComponent implements OnInit {
   markersWithId = [];
   preferences = [];
   kpiHeadings = [];
+  dataCount;
 
   constructor(
     public api: Api,
@@ -218,6 +219,8 @@ export class ConciseComponent implements OnInit {
           //   "x_vehicle_type": "vehicleType",
           //   "x_showveh": "vehicle"
           // };
+
+          this.dataCount = res['data'].y_data.length;
 
           this.preferences = res['data'].y_columns.map(column => {
             return {
@@ -1104,7 +1107,16 @@ export class ConciseComponent implements OnInit {
   }
 
   actionIcons(x_actions) {
-    let actions = x_actions || ["chvehstatus", "vehevent", "routemap", "trips", "vehstates", "rptissue", "nearby", "odometer", "entityflag", "vehorders", "calldriver", "nearby"];
+    
+    let actionIcons = ["chvehstatus", "vehevent", "routemap", "trips", "vehstates", "rptissue", "nearby", "odometer", "entityflag", "vehorders", "calldriver", "nearby"];
+    let actions : [] = JSON.parse(x_actions) || actionIcons
+
+    if(this.user._loggedInBy != 'admin'){
+      console.log('actions is: ', actions)
+      let data = actions.findIndex(e=>e==='chvehstatus')
+      actions.splice(data,1);
+      console.log('data is: ', data)
+    }
     let icons = [
       {
         class: "icon fa fa-chart-pie", action: '', key: "chvehstatus"
@@ -1162,7 +1174,7 @@ export class ConciseComponent implements OnInit {
     ];
 
     return icons.filter((icon, index) => {
-      if (actions.indexOf(icon.key) != -1) {
+      if (actions.findIndex(e=>e===icon.key) != -1) {
         return true;
       }
       return false;

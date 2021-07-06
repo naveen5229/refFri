@@ -16,7 +16,9 @@ export class RoutesTimetableComponent implements OnInit {
   routeId = null;
   routeTTId = null;
   isLastStop = -1;
-  routetrip=0;
+  routetrip = 0;
+  routeFlag: boolean;
+
   constructor(public api: ApiService,
     public common: CommonService,
     public activeModal: NgbActiveModal,
@@ -27,20 +29,49 @@ export class RoutesTimetableComponent implements OnInit {
       this.vehId = this.common.params.routeTime.vehicleId;
       this.routeId = this.common.params.routeTime.routeId;
       this.routeTTId = this.common.params.routeTime.routeTimeId;
-      this.routetrip = (this.common.params.routeTime.routetrip)?this.common.params.routeTime.routetrip:0;
+      this.routetrip = (this.common.params.routeTime.routetrip) ? this.common.params.routeTime.routetrip : 0;
+      this.routeFlag = this.common.params.routeTime.routeFlag;
+      console.log('this.routeFlag: ', this.routeFlag)
     }
-  if(this.routetrip==0){
-      this.getRoutes();
-  }else{
-    this.getRoutesHistory();
-  }
+    this.getData();
+
   }
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() { }
+  ngOnInit() {
+  }
+
+  getData() {
+    if (this.routeFlag) {
+      console.log('inside true')
+      if (this.routetrip == 0) {
+        this.getRoutesDashboard();
+      } else {
+        this.getRoutesHistory();
+      }
+    } else if (!this.routeFlag) {
+      console.log('inside routeflag false')
+      this.getRoutes();
+
+    }
+
   }
 
   getRoutes() {
+    this.common.loading++;
+    this.api.getJavaPortDost(8093, `getVehicleTimeTable/${this.routeId}`)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('response is: ', res)
+        this.routesDetails = res['data'];
+        this.statusFinder();
+      }, err => {
+        this.common.loading--;
+        console.log('err is: ', err)
+      })
+  }
+
+  getRoutesDashboard() {
     console.log('hello dear');
     let params = {
       vehicleId: this.vehId,
@@ -82,13 +113,13 @@ ngOnInit() {
     this.routesDetails.map((route, index) => {
       if (index == 0) {
         route['status'] = '1';
-      }else if (route.delay) {
+      } else if (route.delay) {
         if (route.delay.charAt(0) == "-") {
           route['status'] = '1';
-          this.isLastStop=-1;
+          this.isLastStop = -1;
         } else {
           route['status'] = '0';
-          this.isLastStop=-1;
+          this.isLastStop = -1;
         }
       } else {
         route['status'] = '2';

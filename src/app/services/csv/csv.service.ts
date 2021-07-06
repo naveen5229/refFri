@@ -21,8 +21,13 @@ export class CsvService {
     let headings = [{}];
     tableIds.map((tableId, index) => {
       this.findTableHeadings(tableId).map((col, index2) => {
-        xrows[0]['tabel-' + index + '-col-' + index2] = col;
-        headings[0]['tabel-' + index + '-col-' + index2] = col;
+        if(index2 > 9){
+          xrows[0]['tabel-' + index + '-col-' + index2] = col;
+          headings[0]['tabel-' + index + '-col-' + index2] = col;
+          }else{
+            xrows[0]['tabel-' + index + '-col-' +0+ index2] = col;
+            headings[0]['tabel-' + index + '-col-'+0 + index2] = col;
+          }
       });
     });
 
@@ -131,7 +136,12 @@ export class CsvService {
           keys.map(key => newRow[key] = '');
           xrows.push(newRow);
         }
+        if(index2 > 9){
         xrows[index]['tabel-' + table + '-col-' + index2] = col;
+        }else{
+        xrows[index]['tabel-' + table + '-col-' + 0+index2] = col;
+
+        }
       });
     });
 

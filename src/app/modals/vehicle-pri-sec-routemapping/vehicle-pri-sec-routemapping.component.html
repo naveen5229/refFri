@@ -9,7 +9,7 @@
         <div class="col-1 mt-1">
             <label>Vehicles:</label>
         </div>
-        <div class="col-3">
+        <div class="col-2">
             <auto-suggestion (onSelected)="searchVehicle($event)" [preSelected]="{regno:regno}" [id]='regno'
                 url="Suggestion/getFoVehicleList" display="regno" placeholder="Enter Reg No" [preSelected]="null">
             </auto-suggestion>
@@ -17,13 +17,22 @@
         <div class="col-1 mt-1">
             <label>Routes:</label>
         </div>
-        <div class="col-3">
+        <div class="col-2">
             <auto-suggestion [data]="routesDetails" [display]="['name','id']"
                 [preSelected]="name ? {name:name,id:routeId}: {name: '',id:''}" seperator="-"
                 (onSelected)="changeRefernceType($event)" inputId="routeId"></auto-suggestion>
         </div>
-        <div class="col-2 mt-1 ">
-            <label>Associatation Type:</label>
+        <div class="col-1 mt-1">
+            <label>Start Type:</label>
+        </div>
+        <div class="col-2 ">
+            <select [(ngModel)]="startType" class="form-control ">
+                <option value="0">GPS</option>
+                <option value="1">Invoice</option>
+            </select>
+        </div>
+        <div class="col-1 mt-1 ">
+            <label style="word-break: break-word;">Associatation Type:</label>
         </div>
         <div class="col-2 ">
             <select [(ngModel)]="assocType" class="form-control ">

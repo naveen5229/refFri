@@ -364,10 +364,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         home: true,
       },
       {
-        title: 'Routes',
-        icon: 'fa-pencil-square-o',
+        title: 'Manage Route',
+        icon: 'fa-clone',
         link: '/pages/via-routes',
-      },
+        home: true,
+      }
     ]
   },
   {
@@ -622,14 +623,14 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
       icon: 'fa-list',
       link: '/pages/driver-list',
       home: true,
-    }, {
+    }, 
+    {
 
       title: 'Driver On Side Images',
       icon: 'fa-map-marker',
       link: '/pages/driver-on-side-images',
       home: true,
     },
-
     {
       title: 'Vehicle Driver Mapping',
       icon: 'fa-street-view',
@@ -637,7 +638,6 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
       home: true,
     },
     {
-
       title: 'Attendance List',
       icon: 'fa-clock-o',
       link: '/pages/driver-attendance',
@@ -649,7 +649,6 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
       link: '/pages/driver-document',
       home: true,
     },
-
     {
       title: 'Advices',
       icon: 'fa-question',
