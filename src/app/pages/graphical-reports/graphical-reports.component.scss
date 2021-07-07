@@ -105,7 +105,7 @@
         padding: 0 10px;
     }
     .drophead {
-        font-size: 0.9rem;
+        font-size: 1rem;
         border: 1px solid #d0d0d0;
         padding: 0px 5px;
         margin-bottom: 0.2rem;
@@ -133,7 +133,7 @@
         // overflow: auto;
         li {
             font-family: "Poppins", sans-serif !important;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             border-bottom: 1px solid #dedede;
             padding-left: 5px;
             position: relative;
@@ -162,7 +162,7 @@
     }
 }
 .active {
-    border-bottom: 2px solid #000000;
+    border-bottom: 2px solid #36f;
 }
 .hoverChart:hover {
     cursor: pointer;
@@ -170,11 +170,12 @@
 .grptab{
     padding: 4px 0;
     width: 70px;
+    min-height: 32px;
     box-shadow: 0 4px 13px #ccc8c8;
     border-radius: 9px!important;
     background: #fff;
     border: 1px solid #e2e2e2;
-    border-top: 3px solid #36f;
+    border: 2px solid #36f;
     margin-bottom: 10%;
 }
 .centarize {
