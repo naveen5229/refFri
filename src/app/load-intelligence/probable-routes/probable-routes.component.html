@@ -89,29 +89,36 @@
       </div>
     </div>
     <div class="row" *ngIf="totalRoutes > 0">
-      <div class="col-8">
-        <label class="col-sm-2">Routes :</label>
-        <div class="route-list col-sm-10">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item list-group-item-action" *ngFor="let rd of result;let i = index">
-              <div class="route-wrapper">
-                <span class="route-check">
-                  <input type="checkbox" [value]="i+1" (click)="getRoutes($event,rd, i+1)" />
-                </span>
-                <span class="route-span">
-                  Route {{i+1}}
-                </span>
-                <span class="strength-span">
-                  strength: {{rd.routeStrength}}
-                </span>
-                <span class="toll-check">
-                  <button class="btn__accept" (click)="showTolls(rd)">Show Toll</button>
-                </span>
-              </div>
-            </li>
-          </ul>
+      <div class="col-6">
+        <div class="row">
+          <div class="col-4">
+            <label >Routes :</label>
+          </div>
+          <div class="col-8" style="z-index: 99;">
+            <div class="route-list">
+              <ul class="select" (click)="createSelect()">
+                <li  *ngFor="let rd of result;let i = index" style="height: 50px;" [class]="toggleClass ? 'open' : 'close'" >
+                  <div class="route-wrapper">
+                    <span class="route-check">
+                      <input type="checkbox" [value]="i+1" (click)="getRoutes($event,rd, i+1)" />
+                    </span>
+                    <span class="route-span">
+                      Route {{i+1}}
+                    </span>
+                    <span class="strength-span">
+                      Strength: {{rd.routeStrength}}
+                    </span>
+                    <span class="toll-check">
+                      <button class="btn__accept" (click)="showTolls(rd)">Show Toll</button>
+                    </span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
+      
     </div>
   </form>
 </div>

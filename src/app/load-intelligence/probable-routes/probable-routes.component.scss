@@ -11,57 +11,64 @@
   margin-top: 10px;
 }
 
-.btn-wrapper{
+.btn-wrapper {
   float: right;
 }
 
-.misMatch{
+.misMatch {
   font-size: 15px;
-    align-items: center;
-    margin-top: 5px;
-    font-weight: bold;
-    color: blue;
+  align-items: center;
+  margin-top: 5px;
+  font-weight: bold;
+  color: blue;
 }
 
-.map{
+.map {
   width: 100%;
   height: 50vh;
 }
 
-::ng-deep .mat-pseudo-checkbox{
+::ng-deep .mat-pseudo-checkbox {
   display: none !important;
 }
 
-::ng-deep .mat-select-panel, .mat-form-field-wrapper{
+::ng-deep .mat-select-panel,
+.mat-form-field-wrapper {
   width: 100%;
 }
-.route-list{
+
+.route-list {
   z-index: 1;
   height: 50px;
 }
-.route-list ul{
+
+.route-list ul {
   list-style-type: none;
-  padding: 5px;
+  // padding: 5px;
   // border: 1px solid black;
 }
 
-.route-check{
+.route-check {
   margin-left: 25px;
 }
 
-.route-span{
+.route-span {
   margin-left: 8px;
 }
 
-.strength-span{
+.strength-span {
   margin-left: 30px;
 }
 
-.toll-check{
- float: right;
+.toll-check {
+  float: right;
 }
 
-.toll-check button{
+.route-wrapper{
+  font-weight: 900;
+}
+
+.toll-check button {
   // margin: 1rem;
   border-radius: 20px;
   // background: white;
@@ -75,9 +82,62 @@
   background: greenyellow;
   color: white;
 }
+
 .btn__accept:hover {
   background: white;
   color: greenyellow;
   border-color: greenyellow;
 }
 
+
+/* select */
+.select li {
+  cursor: pointer;
+  padding: 5px 10px;
+  border-top: 1px solid black;
+  min-width: 150px;
+  background-color: #DCDFE1;
+  width: 100%;
+}
+
+.select li:first-child {
+  display: block;
+  border-top: 0px;
+}
+
+.select {
+  border: 1px solid black;
+  display: inline-block;
+  padding: 0;
+  border-radius: 4px;
+  position: relative;
+  width: 100%;
+}
+
+.select li:hover {
+  background-color: #ddd;
+}
+
+.select li:first-child:hover {
+  background-color: transparent;
+}
+
+.open {
+  display: block;
+}
+
+.close {
+  display: none;
+  opacity: 1 !important;
+}
+
+.select span:before {
+  position: absolute;
+  top: 5px;
+  right: 3px;
+  content: "\2193";
+}
+
+.select.open span:before {
+  content: "\2191";
+}
