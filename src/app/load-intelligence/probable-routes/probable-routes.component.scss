@@ -129,3 +129,7 @@
 ::ng-deep .mat-pseudo-checkbox{
   display: none !important;
 }
+
+::ng-deep .mat-select-panel, .mat-form-field-wrapper{
+  width: 100%;
+}

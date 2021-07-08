@@ -38,8 +38,7 @@ import {MatIconModule} from '@angular/material/icon';
     MatButtonModule,
     ReactiveFormsModule,
     MatSelectModule,
-    MatIconModule
-
+    MatIconModule,
     // NbSpinnerModule
 
   ]

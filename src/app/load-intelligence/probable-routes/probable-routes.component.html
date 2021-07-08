@@ -143,7 +143,7 @@
       <div class="col-8">
         <label class="col-sm-2">Routes</label>
         <div class="col-sm-8">
-          <mat-form-field appearance="fill">
+          <mat-form-field style="width: 100%;">
             <mat-select [formControl]="routeListForm" multiple>
               <mat-option  (click)="getdataRoute($event.target.innerText)" *ngFor="let routeListData of routeList;let i = index" [value]="i+1">{{routeListData}} 
                
