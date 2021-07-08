@@ -15,13 +15,30 @@ import { FindRouteComponent } from './find-route/find-route.component';
 import { PathViewverComponent } from './path-viewver/path-viewver.component';
 import { ZoneDetailsComponent } from './zone-details/zone-details.component';
 import { TollRecorrectionComponent } from './toll-recorrection/toll-recorrection.component';
+import { ProbableRoutesComponent } from './probable-routes/probable-routes.component';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSliderModule} from '@angular/material/slider';
+import {MatButtonModule} from '@angular/material/button';
+import { ReactiveFormsModule } from '@angular/forms';
+import {MatSelectModule} from '@angular/material/select';
+import {MatIconModule} from '@angular/material/icon';
+
+
 @NgModule({
-  declarations: [DashboardComponent, LoadIntelligenceComponent, ShowRoutesComponent, PopulateAltitudeComponent, UploadRoutesComponent, SpecialAreaComponent, HotspotSummaryComponent, FindRouteComponent, PathViewverComponent, ZoneDetailsComponent, TollRecorrectionComponent],
+  declarations: [DashboardComponent, LoadIntelligenceComponent, ShowRoutesComponent, PopulateAltitudeComponent, UploadRoutesComponent, SpecialAreaComponent, HotspotSummaryComponent, FindRouteComponent, PathViewverComponent, ZoneDetailsComponent, TollRecorrectionComponent, ProbableRoutesComponent],
   imports: [
     CommonModule,
     LoadIntelligenceRoutingModule,
     ThemeModule,
     DirectiveModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSliderModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatIconModule,
     // NbSpinnerModule
 
   ]

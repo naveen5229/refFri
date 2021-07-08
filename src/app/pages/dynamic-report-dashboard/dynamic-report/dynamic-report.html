@@ -32,7 +32,7 @@
   </div> -->
   <div class="outer" style="min-height: 130px;">
     <div class="chartbox">
-        <h6 *ngIf="canvasname">{{ canvasname }}</h6>
+        <h6 *ngIf="canvasname" style="text-transform: capitalize;font-size: 1.4rem;text-align: center;padding-bottom: 10px;">{{ canvasname }}</h6>
         <canvas [id]="graphId"></canvas>
         <div class="row mt-2" [hidden]="!isDisplayTable" id="table">
           <div class="col-12" style="height: 369px;">
