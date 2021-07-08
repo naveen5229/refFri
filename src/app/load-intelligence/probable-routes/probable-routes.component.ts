@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ApiService } from '../../services/api.service';
+import { CommonService } from '../../services/common.service';
+import { MapService } from '../../services/map.service';
 
 declare let google: any;
 declare let MarkerClusterer: any;
@@ -14,9 +17,10 @@ let map: any;
 
 export class ProbableRoutesComponent implements OnInit {
 
+  routeListForm = new FormControl();
   aerial: number = 1.4;
   frechet: number = 10000;
-  mismatchIndex: number = 0;
+  mismatchIndex = 0;
   origin: any;
   startname: any;
   destination: any;
@@ -32,7 +36,7 @@ export class ProbableRoutesComponent implements OnInit {
   // frechetDistance: any;
   // aerialDistance: any;
   radius: any;
-
+  routeList: string[] = [];
   map1: any;
   loading: boolean = false;
   getButtonVisible = true;
@@ -40,6 +44,24 @@ export class ProbableRoutesComponent implements OnInit {
   paths: any;
   zeroRoutes = false;
   colourful = ["#D8BFD8"];//this is responsible for providing different colour to the path
+
+
+  constructor(private http: HttpClient,
+    private fb: FormBuilder,
+    private common: CommonService,
+    private api: ApiService,
+    private map: MapService) {
+
+  }
+
+  ngOnInit(): void { }
+
+  ngAfterViewInit() {
+    this.map.mapIntialize('map')
+    this.radiusBoundary();
+  }
+
+
   formatLabel(value: number) {
     if (value >= 1000) {
       return Math.round(value / 1000) + 'k';
@@ -47,27 +69,6 @@ export class ProbableRoutesComponent implements OnInit {
 
     return value * 100;
   }
-
-  routeList: string[] = [];
-
-
-  constructor(private http: HttpClient,
-    private fb: FormBuilder) { }
-
-  ngOnInit(): void {
-    map = new google.maps.Map(document.getElementById("map"), {
-      center: { lat: 21.7679, lng: 78.8718 },
-      zoom: 8,
-    });
-    this.radiusBoundary();
-  }
-
-  onSubmit({ value, valid }: { value, valid: boolean }) {
-    console.log(value, valid);
-
-  }
-
-
 
   selectLocation(event, type) {
     console.log('on seletion event is: ', event)
@@ -78,7 +79,7 @@ export class ProbableRoutesComponent implements OnInit {
     } else if (type == 'destination') {
       this.endLat = event['lat'];
       this.endLong = event['long'];
-      this.destination = event['long'];
+      this.destination = event['location'];
     }
   }
 
@@ -95,6 +96,12 @@ export class ProbableRoutesComponent implements OnInit {
     }
 
   }
+
+  misMatchChanges(event) {
+    console.log('event mismatch is: ', event)
+    this.mismatchIndex = event.target.value
+  }
+
 
   getRandomColor() { // This function helps to get the random colour on string array colourful
     let letters: string = '0123456789ABCDEF';
@@ -142,84 +149,47 @@ export class ProbableRoutesComponent implements OnInit {
     console.log(checker)
   }
 
-  //This code is for auto complete
-  // onLocationSelectedOrigin(location:any) {
-  //   console.log('onLocationSelectedOrigin: ', location.latitude);
-
-  //   this.startLat=location.latitude; // Starting Latitude
-  //   this.startLong=location.longitude;//Starting Longitude
-
-
-  // }
   onLocationSelectedDestination(location: any) {
     console.log('onLocationSelectedDestination: ', location);
     this.endLat = location.latitude; //Ending Latitude
     this.endLong = location.longitude;//Ending Longitude
 
   }
-  clearAll() {
+  clearData() {
     console.log("hello");
     window.location.reload();
   }
 
-
-
-  getdata() {   // This function control by get button on front-end.
-
-    // if(!this.destination) return alert('Please complete all required field')
-
-    this.getButtonVisible = false;
-    this.loading = true;
-    console.log("Mismatch Index is ", this.mismatchIndex)
-    console.log("Start Name", this.startPointName);
-    console.log("start lat ", this.startLat);
-    console.log("start long ", this.startLong);
-    console.log("end lat", this.endLat);
-    console.log("end long", this.endLong);
-    console.log("end name ", this.endPointName);
-    console.log("aerial", this.aerial);
-    console.log("frechet", this.frechet);
-    this.fetchData();
+  routeChange(event) {
+    console.log('event is: ', event)
   }
-  async fetchData() {
 
-    console.log("Fetch is pressed")
+  getData() {
 
-    const headers = {
+    let params = {
+      aerial: this.aerial,
+      endLatitude: this.endLat,
+      endLongitude: this.endLong,
+      endPointName: this.destination,
+      frechet: this.frechet,
+      mismatchIndex: this.mismatchIndex / 100,
+      startLatitude: this.startLat,
+      startLongitude: this.startLong,
+      startPointName: this.origin
+    }
 
+    let headers = {
       "Accept": "application/json"
+    }
 
+    console.log('params is: ', params)
+    this.common.loading++;
 
-    };
-    const body = {
-
-      //  "aerial": "1.4",
-      //  "endLatitude": "26.2389469",
-      //  "endLongitude": "73.02430939999999",
-      //  "endPointName": "Jodhpur",
-      //  "frechet": "10000",
-      //  "mismatchIndex": "0",
-      //  "startLatitude": "26.9124336",
-      //  "startLongitude": "75.7872709",
-      //  "startPointName": "Jaipur"
-      "aerial": JSON.stringify(this.aerial),
-      "endLatitude": JSON.stringify(this.endLat),
-      "endLongitude": JSON.stringify(this.endLong),
-      "endPointName": JSON.stringify(this.endPointName),
-      "frechet": JSON.stringify(this.frechet),
-      "mismatchIndex": JSON.stringify(this.mismatchIndex),
-      "startLatitude": JSON.stringify(this.startLat),
-      "startLongitude": JSON.stringify(this.startLong),
-      "startPointName": JSON.stringify(this.endPointName)
-
-
-
-
-    };
-
-    await this.http.post<any>('http://198.20.124.18:8081/api/v0/load/intelligence/snappedData', body, { headers }).subscribe(async data => {
-      this.loading = false;
-
+    this.http.post<any>('http://198.20.124.18:8081/api/v0/load/intelligence/snappedData', params, { headers }).subscribe(data => {
+      this.common.loading--;
+      this.getButtonVisible = false
+      document.getElementById('get-btn').innerHTML = 'Clear All'
+      console.log('data is: ', data)
       this.result = data;
       console.log("The radius is ", this.result[0].radius);
       console.log("The result is ", this.result)
@@ -228,44 +198,30 @@ export class ProbableRoutesComponent implements OnInit {
       if (this.radius == 0) {
         this.loading = false;
         return window.alert("No route found");
-
       }
-      //  this.startLat = 26.9124336;
-      //  this.startLong = 75.7872709;
 
-      //  this.endLat = 26.2389469;
-
-
-      //  this.endLong = 73.02430939999999;
       this.radiusBoundary();
       console.log("The path is ", this.paths)
       console.log("the length is ", Object.keys(this.result).length)
-      this.totalRoutes = Object.keys(this.result).length // This will give total routes available between the path;
+      this.totalRoutes = Object.keys(this.result).length
       if (this.totalRoutes == 0) {
         this.zeroRoutes = true;
-
       }
-
       this.dropdownroutes(this.totalRoutes);
-
       console.log(this.result[0].latLongResponseList)
       console.log("the value of point is ", this.result[0].points);
       let pointpath = [this.result[0].points];
-
       let path2 = [this.result[0].latLongResponseList];
-
-
       this.radiusBoundary();
-
     }, err => {
-      this.loading = false;
-      let y = "Something went wrong....Error:" +
-
-        err.message
-      window.alert(y);
-      console.log(err);
+      this.common.loading--;
+      console.log('err is: ', err);
     });
+
   }
+
+
+
   mapPath3(path2: any[]) {
     console.log("The visible routes is ", this.visibleRoutes)
     this.map1 = new google.maps.Map(document.getElementById("map"),
@@ -308,6 +264,7 @@ export class ProbableRoutesComponent implements OnInit {
     }//if close statement;
 
   }
+  routesTomodify = []
   dropdownroutes(tr: any) // This control the Route List in front-end, Number of routes will present
   {
     console.log("the value of tr is", tr);
@@ -315,6 +272,8 @@ export class ProbableRoutesComponent implements OnInit {
       let s = `Route Number ${i}`
       this.routeList.push(s);
       this.visibleRoutes.push(false);
+
+      this.routesTomodify.push(false);
       // let ss=this.getRandomColor();
       this.colourful.push(this.getRandomColor())
       // mat-option-text
@@ -399,69 +358,126 @@ export class ProbableRoutesComponent implements OnInit {
       });
     }
   }
+  // getdataRoute(route: any) {  // This function is showing working on route paths.
+  //   console.log('route data is: ', route)
+  //   console.log('result is this.result: ', this.result)
+  //   console.log('routelist:  ', this.routeList)
+
+  //   // console.log('this.visibleRoute: ', this.visibleRoutes);
+    
+    
+
+    
+
+  //   // let localRoutes = JSON.parse(JSON.stringify(this.routesTomodify));
+
+
+
+  //   // for (let i = 0; i < route.length; i++) {
+  //   //   console.log(route[i]);
+  //   //   for (let j = 0; j < localRoutes.length; j++) {
+  //   //       if(route[i]===j){
+  //   //         localRoutes[i] = true;
+  //   //       }else{
+  //   //         localRoutes[i] = false;
+  //   //       }
+  //   //   }
+  //     // localRoutes.map((ele, index1) => {
+  //     //   console.log(ele, route[i], index1);
+  //     //   if (route[i] === index1) {
+  //     //     ele = true;
+  //     //   } else {
+  //     //     ele = false
+  //     //   }
+  //     // })
+  //   }
+  //   // route.foreach(index => {
+  //   //   this.routesTomodify.map((ele,index1) => {
+  //   //     if(index == index1){
+  //   //       ele = true;
+  //   //     }else{
+  //   //       ele = false
+  //   //     }
+  //   //   })
+  //   //   // this.routesTomodify[ele] = true;
+  //   // })
+  //   // console.log('modified routes:', localRoutes)
+  //   // this.visibleRoutes = JSON.parse(JSON.stringify(this.routesTomodify));
+  //   // console.log(this.visibleRoutes);
+  //   // let pathroute = [this.result[route].latLongResponseList]
+  //   // this.mapPath3(pathroute)
+  //   // let routes = this.visibleRoutes;
+  //   // for(let i=0;i<route.length;i++){
+  //   //   this.callAction(route[i],routes);
+  //   // }
+
+  //   // for (let i = 0; i < route.length; i++) {
+  //   //   let tt;
+  //   //   let ss = parseInt(route[i][route[i].length - 1]);
+  //   //   let yy = parseInt(route[i][route[i].length - 2]); // The type of yy will be "Not a number" until routes become two digits
+  //   //   //Suppose if the routes increased more then 9, we have to handle ss variable logic as we are using inner text which related to the length.
+  //   //   if (ss >= 0 && yy >= 0) {
+  //   //     ss = (yy * 10) + ss;
+  //   //   }
+  //   // if (this.visibleRoutes[ss - 1] == true) {
+  //   //   this.visibleRoutes[ss - 1] = false;
+  //   // }
+  //   // else {
+  //   //   this.visibleRoutes[ss - 1] = true;
+  //   // }
+
+  //   // if (this.visibleRoutes[route] == true) {
+  //   //   this.visibleRoutes[route] = false;
+  //   // }
+  //   // else {
+  //   //   this.visibleRoutes[route] = true;
+  //   // }
+
+  //   // console.log('visible arra: ', this.visibleRoutes)
+  //   // // console.log("The value of s is ", ss);
+  //   // let pathroute = [this.result[route].latLongResponseList]
+  //   // console.log("The value of path route is", pathroute)
+  //   // this.mapPath3(pathroute)
+  //   // }// This will call the function for visibilty
+  // }
+
+  // callAction(route, routes) {
+  //   if (routes[route] == true) {
+  //     routes[route] = false;
+  //   }
+  //   else {
+  //     routes[route] = true;
+  //   }
+
+  //   this.visibleRoutes = routes;
+  //   console.log('visible arra: ', this.visibleRoutes)
+  //   // console.log("The value of s is ", ss);
+
+  //   // console.log("The value of path route is", pathroute)
+  //   // this.mapPath3(pathroute)
+  // }
+
+
   getdataRoute(route: any) {  // This function is showing working on route paths.
-
-    // let toDisplay:any = [];
-    // if(toDisplay.includes(parseInt(route[route.length-1]))){
-    //   toDisplay.splice(toDisplay.indexOf(parseInt(route[route.length-1])),1)
-    // }else{
-    //   toDisplay.push(parseInt(route[route.length-1]));
-    // }
-
-    // console.log('toDisplay:',toDisplay,route,parseInt(route[route.length-1]),this.result);
-    let tt;
+     let tt;
     let ss = parseInt(route[route.length - 10]);
-    let yy = parseInt(route[route.length - 11]); // The type of yy will be "Not a number" until routes become two digits
-    //Suppose if the routes increased more then 9, we have to handle ss variable logic as we are using inner text which related to the length.
-    if (ss >= 0 && yy >= 0) {
-      ss = (yy * 10) + ss;
+    let yy=parseInt(route[route.length-11]); // The type of yy will be "Not a number" until routes become two digits
+     //Suppose if the routes increased more then 9, we have to handle ss variable logic as we are using inner text which related to the length.
+    if(ss>=0&&yy>=0)
+    {
+      ss=(yy*10)+ss;
     }
-    else { }
-
-
-
-
-
+    else{}
     if (this.visibleRoutes[ss - 1] == true) {
       this.visibleRoutes[ss - 1] = false;
     }
     else {
       this.visibleRoutes[ss - 1] = true;
     }
-    //this.mapPath3(this.paths)
-    //console.log(this.visibleRoutes);
     console.log("The value of s is ", ss);
     let pathroute = [this.result[ss - 1].latLongResponseList]
-    console.log("The value of path route is", pathroute)
-    this.mapPath3(pathroute)// This will call the function for visibilty
-
-
-
-
-
-    //this code works, temporary commented
-    //     console.log("The value of s is",ss);
-    //     console.log(this.result[parseInt(route[route.length-1])].latLongResponseList[ss]);
-    //     let pathroute=[this.result[ss].latLongResponseList]
-    //     //this.markingOnMap(path2);
-    //    //  console.log("I am get data route function",this.result[ss].points);
-    //      console.log("The value of points is",)
-    //      this.markPoints(pathroute, this.map1);
-    //      this.mapper();
-    //      this.mapPath(pathroute);
-    //      let pointInsideRadiusLatLng=[this.result[ss].points];
-    //      this.pointInsideRadius(this.map1,pointInsideRadiusLatLng,"InsideRadius","#990033")
-    // this.radiusBoundary();
-
-    //function for getting check value
-
-
-
-
-
-
-
+    console.log("The value of path route is",pathroute)
+    this.mapPath3(pathroute)
   }
-
-
 }
+

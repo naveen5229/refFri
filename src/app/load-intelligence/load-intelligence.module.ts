@@ -21,6 +21,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatButtonModule} from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
+import {MatSelectModule} from '@angular/material/select';
+import {MatIconModule} from '@angular/material/icon';
+
 
 @NgModule({
   declarations: [DashboardComponent, LoadIntelligenceComponent, ShowRoutesComponent, PopulateAltitudeComponent, UploadRoutesComponent, SpecialAreaComponent, HotspotSummaryComponent, FindRouteComponent, PathViewverComponent, ZoneDetailsComponent, TollRecorrectionComponent, ProbableRoutesComponent],
@@ -33,7 +36,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatFormFieldModule,
     MatSliderModule,
     MatButtonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatIconModule
 
     // NbSpinnerModule
 
