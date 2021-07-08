@@ -14,6 +14,7 @@ import { FindRouteComponent } from './find-route/find-route.component';
 import { PathViewverComponent } from './path-viewver/path-viewver.component';
 import { ZoneDetailsComponent } from './zone-details/zone-details.component';
 import { TollRecorrectionComponent } from './toll-recorrection/toll-recorrection.component';
+import { ProbableRoutesComponent } from './probable-routes/probable-routes.component';
 
 const routes: Routes = [{
   path: '',
@@ -67,6 +68,11 @@ const routes: Routes = [{
     {
     path: 'toll-recorrection',
     component: TollRecorrectionComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  },
+  {
+    path: 'probable-routes',
+    component: ProbableRoutesComponent,
     canActivate: [AuthGuard, RouteGuard]
   }
   ],
