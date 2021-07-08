@@ -1,162 +1,134 @@
-<!-- <div class="card shadow-lg">
-  <h3></h3>
-  <form class="example-form" (ngSubmit)="getdata()">
-    <table>
-      <tr>
-        <td>
-          <mat-form-field appearance="fill">
-            <mat-label>Origin</mat-label>
-            <input matInput matGoogleMapsAutocomplete (onLocationSelected)="onLocationSelectedOrigin($event)"
-              (onAutocompleteSelected)="onAutocompleteSelectedOrigin($event)" required>
-
-          </mat-form-field>
-        </td>
-        <td>
-          <mat-form-field appearance="fill">
-            <mat-label>Destination</mat-label>
-            <input matInput matGoogleMapsAutocomplete (onLocationSelected)="onLocationSelectedDestination($event)"
-              (onAutocompleteSelected)="onAutocompleteSelectedDestination($event)" required>
-          </mat-form-field>
-        </td>
-      </tr>
-    </table>
-    <table>
-      <tr>
-        <td>
-          <mat-form-field [(ngModel)]="aerial" class="example-full-width" appearance="fill">
-            <mat-label>Aerial Distance Multiplier</mat-label>
-            <input matInput required>
-          </mat-form-field>
-        </td>
-        <td>
-          <mat-form-field [(ngModel)]="frechet" class="example-full-width" appearance="fill">
-            <mat-label>Frechet</mat-label>
-            <input matInput required>
-          </mat-form-field>
-        </td>
-      </tr>
-    </table>
-
-    <label>Mis-match Index</label>
-    <mat-slider (change)="mismatchvalue($event.value)" thumbLabel [displayWith]="formatLabel" tickInterval="0.3"
-      step="0.1" min="0" max="1" aria-label="mismatchIndex" aria-labelledby="mismatchIndex"></mat-slider> :
-    {{mismatchIndex*100}}%
-    <div *ngIf="mismatchIndex>0.2">
-      <p style="font-size: smaller;color: crimson;">Value upto 20% will give Best Result.</p>
-    </div>
-
-    <table>
-      <tr>
-
-        <button mat-flat-button color="accent" *ngIf="getButtonVisible">Get</button> <button mat-stroked-button
-          *ngIf="!getButtonVisible" color='primary' (click)="clearAll()">Clear All</button>
-        <div *ngIf="loading">
-          <h3></h3>
-          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-        </div>
-      </tr>
-    </table>
-    <div *ngIf="routeList.length!=0">
-      <h5 style="font-style: italic;" *ngIf="totalRoutes!=0"> Total Routes found : {{totalRoutes}}</h5>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Routes</mat-label>
-        <mat-select [formControl]="routeListForm" multiple>
-          <mat-option *ngFor="let routeListData of routeList;let i = index" [value]="routeListData"
-            (click)="getdataRoute($event.target.innerText)">{{routeListData}} <mat-icon
-              [ngStyle]="{color: colourful[i]}">timeline</mat-icon>
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </form>
-</div>
-<div id="map">
-</div> -->
-
 <div class="card shadow-lg">
-  <form  class="form-horizontal" role="form">
+  <form class="form-horizontal" role="form">
     <div class="row">
-      <div class="col-5">
-        <label for="firstName" class="col-sm-2 control-label">Origin:</label>
-        <div class="col-sm-5">
-          <auto-suggestion (onSelected)="selectLocation($event,'origin')" (noDataFound)="takeAction($event, 'origin')"
-            [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis" display="location" inputId="endname"
-            placeholder="Location" [preSelected]='{location:origin}'>
-          </auto-suggestion>
+      <div class="col-6">
+        <div class="row">
+          <div class="col-4"><label for="firstName">Origin:</label></div>
+          <!-- <label for="firstName" class="col-sm-2 control-label">Origin:</label> -->
+          <div class="col-8">
+            <auto-suggestion (onSelected)="selectLocation($event,'origin')" (noDataFound)="takeAction($event, 'origin')"
+              [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis" display="location" inputId="endname"
+              placeholder="Location" [preSelected]='{location:origin}'>
+            </auto-suggestion>
+          </div>
         </div>
 
       </div>
 
-      <div class="col-7">
-        <label for="lastName" class="col-sm-3 control-label">Destination:</label>
-        <div class="col-sm-5">
-          <auto-suggestion (onSelected)="selectLocation($event, 'destination')"
-            (noDataFound)="takeAction($event, 'destination')" [isNoDataFoundEmit]="true"
-            url="Location/getPlaceFromRedis" display="location" inputId="endname" placeholder="Location"
-            [preSelected]='{location:destination}'>
-          </auto-suggestion>
+      <div class="col-6">
+        <div class="row">
+          <div class="col-4">
+            <label for="lastName">Destination:</label>
+          </div>
+          <!-- <label for="lastName" class="col-sm-3 control-label">Destination:</label> -->
+          <div class="col-8">
+            <auto-suggestion (onSelected)="selectLocation($event, 'destination')"
+              (noDataFound)="takeAction($event, 'destination')" [isNoDataFoundEmit]="true"
+              url="Location/getPlaceFromRedis" display="location" inputId="endname" placeholder="Location"
+              [preSelected]='{location:destination}'>
+            </auto-suggestion>
+          </div>
         </div>
       </div>
 
     </div>
     <div class="row">
       <div class="col-6">
-        <label for="dob" class="col-sm-4 control-label">Aerial Distance Multiplier</label>
-        <div class="col-sm-5">
-          <input type="text" class="form-control" [value]="aerial" />
+        <div class="row">
+          <div class="col-4"><label for="dob">Aerial Distance Multiplier:</label></div>
+          <!-- <label for="dob" class="col-sm-4 control-label">Aerial Distance Multiplier</label> -->
+          <div class="col-8">
+            <input type="text" class="form-control" [value]="aerial" />
+          </div>
         </div>
+
 
       </div>
       <div class="col-6">
-        <label for="firstName" class="col-sm-2 control-label">Frechet:</label>
-        <div class="col-sm-5">
-          <input type="text" class="form-control" [value]="frechet" />
+        <div class="row">
+          <div class="col-4"><label for="firstName">Frechet:</label></div>
+          <!-- <label for="firstName" class="col-sm-2 control-label">Frechet:</label> -->
+          <div class="col-8">
+            <input type="text" class="form-control" [value]="frechet" />
+          </div>
         </div>
-
       </div>
     </div>
+
+
     <div class="row">
 
       <div class="col-6">
-        <label for="firstName" class="col-sm-3 control-label">Mis-Match Index:</label>
-        <div class="col-sm-6">
-          <input type="range" min="0" max="100" [value]="mismatchIndex" (change)="misMatchChanges($event)">
+        <div class="row">
+          <div class="col-4"><label for="firstName">Mis-Match Index:</label></div>
+          <!-- <label for="firstName" class="col-sm-3 control-label">Mis-Match Index:</label> -->
+          <div class="col-6">
+            <input type="range" min="0" max="100" [value]="mismatchIndex" (change)="misMatchChanges($event)">
+          </div>
+          <span class="col-2 misMatch">{{mismatchIndex}} %</span>
         </div>
-        <span class="col-sm-2 misMatch">{{mismatchIndex}} %</span>
       </div>
     </div>
     <div class="row">
-      <div class="btn-wrapper">
-        <button class="btn btn-primary" id="get-btn" (click)="getButtonVisible ? getData() : clearData()">Get</button>
+      <div *ngIf="mismatchIndex > 20">
+        <p style="font-size: 12px;color: crimson; margin-left: 225px;">Value upto 20% will give Best Result.</p>
       </div>
     </div>
-    <div class="row" *ngIf="totalRoutes!=0">
-      <div class="col-3">
-        <div>
+    <div class="row">
+      <div class="col-8"></div>
+      <div class="col-4">
+        <button class="btn btn-primary" id="get-btn" style="float: right;" (click)="getData()">Get</button>
+      </div>
+    </div>
+    <div class="row" *ngIf="totalRoutes > 0">
+      <div class="col-12">
+        <div style="float: right;">
           <label>Total Routes Found: </label>
-          <span>{{totalRoutes}}</span>
+          <span style="margin-left: 5px;">{{totalRoutes}}</span>
         </div>
       </div>
     </div>
-    <div class="row" *ngIf="routeList.length!=0">
+    <div class="row" *ngIf="totalRoutes > 0">
       <div class="col-8">
-        <label class="col-sm-2">Routes</label>
-        <div class="col-sm-8">
-          <mat-form-field style="width: 100%;">
-            <mat-select [formControl]="routeListForm" multiple>
-              <mat-option  (click)="getdataRoute($event.target.innerText)" *ngFor="let routeListData of routeList;let i = index" [value]="i+1">{{routeListData}} 
-               
-                <mat-icon
-                  [ngStyle]="{color: colourful[i]}">timeline</mat-icon>
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+        <label class="col-sm-2">Routes :</label>
+        <div class="route-list col-sm-10">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item list-group-item-action" *ngFor="let rd of result;let i = index">
+              <div class="route-wrapper">
+                <span class="route-check">
+                  <input type="checkbox" [value]="i+1" (click)="getRoutes($event,rd, i+1)" />
+                </span>
+                <span class="route-span">
+                  Route {{i+1}}
+                </span>
+                <span class="strength-span">
+                  strength: {{rd.routeStrength}}
+                </span>
+                <span class="toll-check">
+                  <button class="btn__accept" (click)="showTolls(rd)">Show Toll</button>
+                </span>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
   </form>
 </div>
-<div id="map" class=" map">
-
+<div class="row">
+  <div [class]="showTollFlag ? 'col-9' : 'col-12'">
+    <div id="map" class="map"></div>
+  </div>
+  <div class="col-3" *ngIf="showTollFlag">
+    <table class="table table-hover table-nowrap">
+      <thead class="thead-light">
+        <th>Tolls</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let toll of tollData; let i=index">
+          <td (mouseover)="map.toggleBounceMF(i)" (mouseout)="map.toggleBounceMF(i,2)">{{toll.tollName}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

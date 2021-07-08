@@ -1,116 +1,18 @@
-// table {
-//   width: 100%;
- 
-// }
-// .mat-form-field {
-//   font-size: 14px;
-//   width: 100%;
-// }
-// table {
-//   width: 100%;
-// }
-
-// tr.example-detail-row {
-//   height: 0;
-// }
-
-// tr.example-element-row:not(.example-expanded-row):hover {
-//   background: whitesmoke;
-// }
-
-// tr.example-element-row:not(.example-expanded-row):active {
-//   background: #efefef;
-// }
-
-// .example-element-row td {
-//   border-bottom-width: 0;
-// }
-
-// .example-element-detail {
-//   overflow: hidden;
-//   display: flex;
-// }
-
-// .example-element-diagram {
-//   max-width: 80px;
-//   border: 2px solid black;
-//   padding: 8px;
-//   font-weight: lighter;
-//   margin: 8px 0;
-//   height: 10px;
-// }
-
-// .example-element-symbol {
-//   font-weight: bold;
-//   font-size: 20px;
-//   line-height: normal;
-// }
-
-// .example-element-description {
-//   padding: 16px;
-// }
-
-// .example-element-description-attribution {
-//   opacity: 0.5;
-// }
-// mat-grid-tile {
-//   background:white;
-// }
-// .example-element-detail
-// {
-//   max-width: fit-content;
-// }
-
-// #map {
-//   padding-top: 10%;
-//   height: 100%;
-  
-  
-// }
-// mat-slider {
-//   width: 300px;
-// }
-
-
-// /* Optional: Makes the sample page fill the window. */
-// html,
-// body {
-//   height: 100%;
-//   margin: 0;
-//   padding: 0;
-// }
-
-// .autocomplete {
-//   width:300px;
-// }
-
-// #target {
-//   width: 345px;
-// }
-// .mat-card {
-  
-//   border-radius: 10px;
-// }
-
-
-
-
 .card {
 
-  border-radius: 5px;
+  border-radius: 7px;
   width: 90;
   margin: 10px;
-  height: 300px;
+  height: 350px;
+  padding: 10px;
 }
 
 .row {
   margin-top: 10px;
 }
 
-
 .btn-wrapper{
-  margin-top: 20px;
-  margin-left: 25px;
+  float: right;
 }
 
 .misMatch{
@@ -133,3 +35,49 @@
 ::ng-deep .mat-select-panel, .mat-form-field-wrapper{
   width: 100%;
 }
+.route-list{
+  z-index: 1;
+  height: 50px;
+}
+.route-list ul{
+  list-style-type: none;
+  padding: 5px;
+  // border: 1px solid black;
+}
+
+.route-check{
+  margin-left: 25px;
+}
+
+.route-span{
+  margin-left: 8px;
+}
+
+.strength-span{
+  margin-left: 30px;
+}
+
+.toll-check{
+ float: right;
+}
+
+.toll-check button{
+  // margin: 1rem;
+  border-radius: 20px;
+  // background: white;
+  border-style: solid;
+  border-color: var(--light-grey);
+  padding: 0.5rem 1rem;
+  transition: 0.5s;
+}
+
+.btn__accept {
+  background: greenyellow;
+  color: white;
+}
+.btn__accept:hover {
+  background: white;
+  color: greenyellow;
+  border-color: greenyellow;
+}
+
