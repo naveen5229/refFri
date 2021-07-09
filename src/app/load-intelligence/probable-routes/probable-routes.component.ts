@@ -99,7 +99,7 @@ export class ProbableRoutesComponent implements OnInit {
   }
 
 
-  getRandomColor() { // This function helps to get the random colour on string array colourful
+  getRandomColor() { 
     let letters: string = '0123456789ABCDEF';
     let color: string = '#';
     for (let i = 0; i < 6; i++) {
@@ -137,10 +137,13 @@ export class ProbableRoutesComponent implements OnInit {
       this.common.loading--;
       this.getButtonVisible = false
       // document.getElementById('get-btn').innerHTML = 'Clear All'
-      console.log('data is: ', data)
       this.result = data;
       this.radius = this.result[0].radius;
+      this.result.map(item => {
+        item.color = this.getRandomColor()
+      })
 
+      console.log('result is: ', this.result)
       this.radiusBoundary();
       this.totalRoutes = this.result.length;
       console.log('total routes: ', this.totalRoutes);
