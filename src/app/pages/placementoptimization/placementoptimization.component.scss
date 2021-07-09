@@ -534,4 +534,36 @@ nb-card-body{
     float: right;
 }
 
+.link{
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.multi-action {
+    display: inline-block;
+    position: absolute;
+    right: 80px;
+    bottom: 90px;
+    // width: 56px;
+    // height: 56px;
+    // margin: 300px 0 0 -28px;
+    // left: 50%;
+  }
+  
+  .action-button {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 0;
+    outline: 0;
+    background: #f44336;
+    font-size: 24px;
+    color: white;
+    z-index: 2;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    transition: all .3s;
+  }
+
 

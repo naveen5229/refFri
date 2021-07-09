@@ -34,6 +34,17 @@
       </select>
     </div>
   </div>
+  <div class="row">
+    <div class="col-1 mt-1">
+      <label>Start Type:</label>
+    </div>
+    <div class="col-2">
+      <select [(ngModel)]="startType" class="form-control ">
+        <option value="0">GPS</option>
+        <option value="1">Invoice</option>
+    </select>
+    </div>
+  </div>
   <div class="row ">
     <div class="col-12 text-right mt-3 ">
       <button type="button " class="btn btn-primary " style="border-radius:3px " (click)="addrouteTime()">

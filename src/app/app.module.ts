@@ -324,6 +324,8 @@ import { SlowestTransporterComponent } from './widgets/transportar/slowest-trans
 import { CostGamificationComponent } from './modals/cost-gamification/cost-gamification.component';
 import { PlacementCostComponent } from './modals/placement-cost/placement-cost.component';
 import { AddMapVehicleComponentComponent } from './modals/add-map-vehicle-component/add-map-vehicle-component.component';
+import { RemaptripandrouteComponent } from './modals/remaptripandroute/remaptripandroute.component';
+import { ForcellyRemappingRouteComponent } from './modals/forcelly-remapping-route/forcelly-remapping-route.component';
 
 
 
@@ -602,7 +604,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   CostmatrixComponent,
   CostGamificationComponent,
   PlacementCostComponent,
-  AddMapVehicleComponentComponent
+  AddMapVehicleComponentComponent,
+  RemaptripandrouteComponent
 ];
 
 @NgModule({
@@ -634,7 +637,7 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     SlowestTransporterComponent,
     CostGamificationComponent,
     PlacementCostComponent,
-    
+    ForcellyRemappingRouteComponent
   ],
   entryComponents: [
     ...COMMON_COMPONENT,

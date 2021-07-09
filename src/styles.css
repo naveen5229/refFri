@@ -1,4 +1,7 @@
 @import "~ng-pick-datetime-ex/assets/style/picker.min.css";
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@include mat-core();
+@import '~@angular/material/theming';
 
 h1,
 h2,
