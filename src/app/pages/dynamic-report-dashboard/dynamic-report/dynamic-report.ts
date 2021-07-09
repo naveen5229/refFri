@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { CdkDragDrop, copyArrayItem } from '@angular/cdk/drag-drop';
@@ -16,9 +16,9 @@ import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 export class DynamicReportComponent implements OnInit {
   @Input() savedReportSelect = {};
   @Input() startDate: any;
-  @Input() endDate :any;
-  @Input() dynamicid : null;
-  @Input() defaultdays : null;
+  @Input() endDate: any;
+  @Input() dynamicid: null;
+  @Input() defaultdays: null;
 
   graphId: string = (Math.random() * 10000000).toFixed(0);
   isDisplayTable = false;
@@ -36,7 +36,7 @@ export class DynamicReportComponent implements OnInit {
   savedReports = [];
   legendPosition = 'top';
   showLedgend = 'no';
-  canvasname='';
+  canvasname = '';
   // measure = ['Date','Count','Average','Sum','distinct count']
   assign = {
     x: [],
@@ -101,7 +101,13 @@ export class DynamicReportComponent implements OnInit {
   ]
 
   dropdownFilter = [];
-  loderid=0;
+  loderid = 0;
+
+  @HostListener('document:click', ['$event'])
+  handleKeyboardEvent(event) {
+    console.log(event);
+  }
+
   constructor(
     public common: CommonService,
     public api: ApiService,) {
@@ -116,7 +122,7 @@ export class DynamicReportComponent implements OnInit {
   }
 
   ngOnChanges(changes) {
-    console.log('change model call',this.endDate);
+    console.log('change model call', this.endDate);
     let isChanged = false;
     if (changes.savedReportSelect) {
       this.savedReportSelect = changes.savedReportSelect.currentValue;
@@ -139,7 +145,7 @@ export class DynamicReportComponent implements OnInit {
       isChanged = true;
 
     }
-    if (isChanged){
+    if (isChanged) {
       this.openPreviewModal();
     }
   }
@@ -198,16 +204,16 @@ export class DynamicReportComponent implements OnInit {
   openPreviewModal() {
     let objectLength = Object.keys(this.savedReportSelect).length
 
-    console.log(this.savedReportSelect, 'preview data',this.endDate);
+    console.log(this.savedReportSelect, 'preview data', this.endDate);
     if (objectLength > 0) {
       this.reportIdUpdate = this.savedReportSelect['_id'];
       this.assign.reportFileName = this.savedReportSelect['name'];
       this.graphBodyVisi = false;
       console.log('this.savedReportSelect:', this.savedReportSelect);
       //this.assign.x = this.savedReportSelect['jData']['info']["x"];
-     // this.assign.y = this.savedReportSelect['jData']['info']["y"];
-     // this.assign.filter = this.savedReportSelect['jData']['filter'];
-     this.assign.x = this.savedReportSelect['cols_str']["x"];
+      // this.assign.y = this.savedReportSelect['jData']['info']["y"];
+      // this.assign.filter = this.savedReportSelect['jData']['filter'];
+      this.assign.x = this.savedReportSelect['cols_str']["x"];
       this.assign.y = this.savedReportSelect['cols_str']["y"];
       this.assign.filter = this.savedReportSelect['filter_str'];
       this.selectedChart = this.savedReportSelect['rpt_type'];
@@ -571,7 +577,7 @@ export class DynamicReportComponent implements OnInit {
 
   generateCOlorPallet() {
     let colors = [];
-    for (let angleIndex = 0; angleIndex < 360; angleIndex += 15) {
+    for (let angleIndex = 0; angleIndex < 360; angleIndex += 1) {
       colors.push(this.common.HSLToHex(angleIndex, 100, 70));
     }
     console.log('pallet', colors);
@@ -656,32 +662,32 @@ export class DynamicReportComponent implements OnInit {
       if (!ele.measure) {
         ele.measure = 'Count';
       }
-    }); 
+    });
     let xnewaaray = [];
-    this.assign.x.map((data)=>{
-      let xarray ={
-        r_coltitle:data.r_coltitle,
-        r_colcode:data.r_colcode,
-        measure:data.measure
+    this.assign.x.map((data) => {
+      let xarray = {
+        r_coltitle: data.r_coltitle,
+        r_colcode: data.r_colcode,
+        measure: data.measure
       };
       xnewaaray.push(xarray);
     });
 
     let ynewaaray = [];
-    this.assign.y.map((data)=>{
-      let xarray ={
-        r_coltitle:data.r_coltitle,
-        r_colcode:data.r_colcode,
-        measure:data.measure
+    this.assign.y.map((data) => {
+      let xarray = {
+        r_coltitle: data.r_coltitle,
+        r_colcode: data.r_colcode,
+        measure: data.measure
       };
       ynewaaray.push(xarray);
     });
     //let info = { x: this.assign.x, y: this.assign.y };
     let info = { x: xnewaaray, y: ynewaaray };
 
-    let newfilter=[];
-    if(this.assign.filter){
-      this.assign.filter.map((data)=>{
+    let newfilter = [];
+    if (this.assign.filter) {
+      this.assign.filter.map((data) => {
         // let arrstring='';
         // data['filterdata'].map((fldata)=>{
         //   console.log('fffl data',fldata);
@@ -695,70 +701,70 @@ export class DynamicReportComponent implements OnInit {
         // });
         // console.log('arr',arrstring);
 
-        
-        let xarray ={
-          r_coltitle:data.r_coltitle,
-          r_colcode:data.r_colcode,
-          measure:data.measure,//'in'
+
+        let xarray = {
+          r_coltitle: data.r_coltitle,
+          r_colcode: data.r_colcode,
+          measure: data.measure,//'in'
           //data:'['+(arrstring).slice(0, -1)+']'
-          data:data.data
+          data: data.data
         };
         newfilter.push(xarray);
       });
     }
-    console.log('defaultdays',this.endDate);
+    console.log('defaultdays', this.endDate);
     let params = {
       reportFilter: this.assign.filter ? JSON.stringify(newfilter) : [],
       info: JSON.stringify(info),
-      startTime: (this.defaultdays == 2)? this.common.dateFormatter(this.startDate): this.common.getDate(-(this.savedReportSelect['deflt_days'])),
+      startTime: (this.defaultdays == 2) ? this.common.dateFormatter(this.startDate) : this.common.getDate(-(this.savedReportSelect['deflt_days'])),
       endTime: this.common.dateFormatter(this.endDate),
-      yAddvance:(this.savedReportSelect['y_adv_str']) ? (this.savedReportSelect['y_adv_str']):''
+      yAddvance: (this.savedReportSelect['y_adv_str']) ? (this.savedReportSelect['y_adv_str']) : ''
 
     };
 
     if (this.assign.x.length && this.assign.y.length) {
-     // this.common.loading++;
-     this.showLoader(this.loderid);
-      let i = 0; 
+      // this.common.loading++;
+      this.showLoader(this.loderid);
+      let i = 0;
       this.api.post('GraphicalReport/getPreviewGraphicalReport', params).subscribe(res => {
-       this.hideLoader(this.loderid);
-       // this.common.loading--;
+        this.hideLoader(this.loderid);
+        // this.common.loading--;
         if (res['code'] == 1) {
-          console.log('Response reportPreviewData :',this.assign,i);
+          console.log('Response reportPreviewData :', this.assign, i);
           i = i + 1;
           if (res['data']) {
-           // this.reportPreviewData = res['data'];
-           let dummmy = res['data'];
-            
-           let xname = dummmy.x;
-           let INIyname = dummmy.y;
-           let reviewdata=[];
-           INIyname.map((yname,intialindex)=>{
-           
-             let seriesmultiple =[];
-           dummmy.data.map((rundata,index)=>{
-             console.log('run data',rundata,yname);
-           let nextdata=  {
-               "x":index+1,
-               "y":rundata[yname],
-               "name":rundata['x'],
-             }
-             seriesmultiple.push(nextdata);
-           });
-          let freshdata = {
-            "xAxis":"["+dummmy.xAxis+"]",
-            "series":{
-            "data":seriesmultiple,
-            "y_name":yname
-            }
-          }
-           reviewdata.push(freshdata);
-           //console.log('freshdata',freshdata);
-         });
-         console.log('unique',reviewdata); 
+            // this.reportPreviewData = res['data'];
+            let dummmy = res['data'];
 
-           this.reportPreviewData = reviewdata;
-           
+            let xname = dummmy.x;
+            let INIyname = dummmy.y;
+            let reviewdata = [];
+            INIyname.map((yname, intialindex) => {
+
+              let seriesmultiple = [];
+              dummmy.data.map((rundata, index) => {
+                console.log('run data', rundata, yname);
+                let nextdata = {
+                  "x": index + 1,
+                  "y": rundata[yname],
+                  "name": rundata['x'],
+                }
+                seriesmultiple.push(nextdata);
+              });
+              let freshdata = {
+                "xAxis": "[" + dummmy.xAxis + "]",
+                "series": {
+                  "data": seriesmultiple,
+                  "y_name": yname
+                }
+              }
+              reviewdata.push(freshdata);
+              //console.log('freshdata',freshdata);
+            });
+            console.log('unique', reviewdata);
+
+            this.reportPreviewData = reviewdata;
+
             this.canvasname = this.assign['reportFileName'];
             this.review();
           } else {
@@ -766,7 +772,7 @@ export class DynamicReportComponent implements OnInit {
             this.common.showError('No Data to Display');
             this.graphPieCharts.forEach(ele => ele.destroy());
           }
-          
+
         } else {
           this.common.showError(res['msg'])
         }
@@ -796,7 +802,7 @@ export class DynamicReportComponent implements OnInit {
 
   getChartofType(chartType) {
     // if(this.reportPreviewData.length>0){
-      console.log('chart type',chartType);
+    console.log('chart type', chartType);
     if (chartType === 'table') {
       this.isDisplayTable = true;
       document.getElementById(this.graphId).style.display = 'none';
@@ -929,7 +935,7 @@ export class DynamicReportComponent implements OnInit {
 
   showChart(stateTableData, chartType) {
     this.graphPieCharts.forEach(ele => ele.destroy());
-    console.log('data to send to chart module:', stateTableData,chartType);
+    console.log('data to send to chart module:', stateTableData, chartType);
     // const labels = stateTableData.map((e) => JSON.parse(e['xAxis']));
     // const data = stateTableData.map((e) => e['series']);
 
@@ -981,7 +987,7 @@ export class DynamicReportComponent implements OnInit {
 
       console.log('DataSet from graphics', dataSet)
     }
-    console.log('data after end:', stateTableData,this.assign);
+    console.log('data after end:', stateTableData, this.assign);
 
     // start:managed service data
     if (chartType === 'line') {
@@ -999,36 +1005,38 @@ export class DynamicReportComponent implements OnInit {
       });
     } else if (chartType === 'bar-line') {
       dataSet.map((data, index) => {
-        console.log('bar-line',data,dataSet.length);
-        if(index == 0){
-        chartDataSet.push({
-          type: 'bar',
-          label: data.label,
-          data: data.data,
-          borderWidth: 1,
-          lineTension: 0,
-          borderColor: data.bgColor[index] ? data.bgColor[index] : '#33FF83',
-          yAxisID: 'y-axis-1',
-          fill: true,
-          borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
-        })
-      }else if(index == 1){
-        chartDataSet.push({
-          type: 'line',
-          label: data.label,
-          data: data.data,
-          borderWidth: 1,
-          lineTension: 0,
-          borderColor: data.bgColor[index] ? data.bgColor[index] : '#FFA233',
-          yAxisID: 'y-axis-2',
-          fill: false,
-          borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
-        })
-      }
+        console.log('bar-line', data, dataSet.length);
+        if (index == 0) {
+          chartDataSet.push({
+            type: 'bar',
+            label: data.label,
+            data: data.data,
+            borderWidth: 1,
+            lineTension: 0,
+            borderColor: '#386ac4',
+            backgroundColor: '#386ac4',
+            yAxisID: 'y-axis-1',
+            fill: true,
+            borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
+          })
+        } else if (index == 1) {
+          chartDataSet.push({
+            type: 'line',
+            label: data.label,
+            data: data.data,
+            borderWidth: 1,
+            lineTension: 0,
+            borderColor: '#ed7d31',
+            backgroundColor: '#ed7d31',
+            yAxisID: 'y-axis-2',
+            fill: false,
+            borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
+          })
+        }
       });
-    }else {
+    } else {
       dataSet.map((data, index) => {
-        console.log('data label',data);
+        console.log('data label', data);
         chartDataSet.push({
           label: data.label,
           data: data.data,
@@ -1055,11 +1063,11 @@ export class DynamicReportComponent implements OnInit {
       let yLeftTitle = '';
       let yRightTitle = '';
       this.assign.y.map(e => {
-        if (e.yaxis == 'y-left'){
+        if (e.yaxis == 'y-left') {
           yLeftTitle += (e.r_coltitle + " -> " + e.measure) + sepratorAxisLabel;
-        }else if (e.yaxis == 'y-right'){
+        } else if (e.yaxis == 'y-right') {
           yRightTitle += (e.r_coltitle + " -> " + e.measure) + sepratorAxisLabel;
-        }else{
+        } else {
           yLeftTitle += (e.r_coltitle + " -> " + e.measure) + sepratorAxisLabel;
 
         }
@@ -1095,57 +1103,57 @@ export class DynamicReportComponent implements OnInit {
           }
         });
       } else {
-       if(chartType == 'bar-line'){
+        if (chartType == 'bar-line') {
           yAxes.push({
             type: "linear",
             display: true,
             position: "left",
             id: "y-axis-1",
-            gridLines:{
-                display: false
+            gridLines: {
+              display: false
             },
             labels: {
-                show:true,
-                
+              show: true,
+
             },
             scaleLabel: {
               display: true,
               labelString: yLeftTitle.split('AND')[0]
             },
-        });
-        yAxes.push({
+          });
+          yAxes.push({
             type: "linear",
             display: true,
             position: "right",
             id: "y-axis-2",
-            gridLines:{
-                display: false
+            gridLines: {
+              display: false
             },
             labels: {
-                show:true,
-                
+              show: true,
+
             },
             scaleLabel: {
               display: true,
               labelString: yLeftTitle.split('AND')[1]
             },
-        });
-        }else{
-        yAxes.push({
-          name: 'y-left',
-          id: 'y-left',
-          position: 'left',
-          scalePositionLeft: true,
-          scaleLabel: {
-            display: true,
-            labelString: yLeftTitle
-          },
-          ticks: {
-            beginAtZero: true,
-            stepSize: 1
-          }
-        });
-      }
+          });
+        } else {
+          yAxes.push({
+            name: 'y-left',
+            id: 'y-left',
+            position: 'left',
+            scalePositionLeft: true,
+            scaleLabel: {
+              display: true,
+              labelString: yLeftTitle
+            },
+            ticks: {
+              beginAtZero: true,
+              stepSize: 1
+            }
+          });
+        }
       }
       chartData = {
         canvas: document.getElementById(this.graphId),
@@ -1165,6 +1173,7 @@ export class DynamicReportComponent implements OnInit {
           }]
         },
         showLegend: true
+
       };
     }
     this.graphPieCharts = this.generateChart([chartData], chartType);
@@ -1174,13 +1183,13 @@ export class DynamicReportComponent implements OnInit {
   generateChart(charDatas, type = 'pie') {
     let charts = [];
     console.log('chartData', charDatas, type);
-    this.showLedgend = (type == 'pie')? "yes":'np';
-    this.legendPosition = (type == 'pie')? "right":'top';
-   let labdata =  {
+    this.showLedgend = (type == 'pie') ? "yes" : 'np';
+    this.legendPosition = (type == 'pie') ? "right" : 'top';
+    let labdata = {
       fontSize: 11,
-      padding:  3,
+      padding: 3,
       boxWidth: 22,
-      boxHeight:60
+      boxHeight: 60
     };
 
     charDatas.forEach(chartData => {
@@ -1195,7 +1204,7 @@ export class DynamicReportComponent implements OnInit {
           legend: {
             position: this.legendPosition,
             display: this.showLedgend === "yes" ? true : false,
-            labels: (type == 'pie')? labdata:''
+            labels: (type == 'pie') ? labdata : ''
           },
           tooltips: {
             mode: 'index',
@@ -1204,12 +1213,16 @@ export class DynamicReportComponent implements OnInit {
           },
           scales: chartData.scales,
           responsive: true,
-         
+          onClick: this.onClick.bind(this)
         }
       }));
     })
     console.log('chartData Final', charts);
     return charts;
+  }
+
+  onClick(event) {
+    console.log(event)
   }
 
   onHideShow(head, index) {
@@ -1237,8 +1250,8 @@ export class DynamicReportComponent implements OnInit {
     if (!this.active || this.chartTypes[this.active - 1].blur) {
       this.active = setIndex + 1;
     }
-    console.log('chat type list',this.chartTypes,this.active);
-  //  this.selectedChart = this.chartTypes[this.active - 1].type;
+    console.log('chat type list', this.chartTypes, this.active);
+    //  this.selectedChart = this.chartTypes[this.active - 1].type;
   }
 
   generateCollapsible() {
@@ -1257,16 +1270,16 @@ export class DynamicReportComponent implements OnInit {
     }
   }
   showLoader(index) {
-    console.log('loder count',index);
+    console.log('loder count', index);
     setTimeout(() => {
       let outers = document.getElementsByClassName("outer");
       let loader = document.createElement('div');
       loader.className = 'loader';
-      console.log('show loader',index,outers);
+      console.log('show loader', index, outers);
       outers[index].appendChild(loader);
     }, 50);
   }
-  
+
   hideLoader(index) {
     try {
       let outers = document.getElementsByClassName("outer");
@@ -1276,5 +1289,9 @@ export class DynamicReportComponent implements OnInit {
       console.log('Exception', e);
     }
   }
-
+  chartClicked(event) {
+    // let Date = this.tripOnwardKmd[event[0]._index]._id;
+    console.log('event[0]._index 2', event);
+    //this.passingIdChart2Data(Date);
+  }
 }
