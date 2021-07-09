@@ -45,9 +45,11 @@ export class ProbableRoutesComponent implements OnInit {
   tollData:any = [];
   checkData = [];
   showTollFlag: boolean = false;
+  colors = ["#3EA663", "#BC277D", "#D705B4"]
+
   toggleClass: boolean = false;
   // distance;
-  colourful = ["#D8BFD8"];//this is responsible for providing different colour to the path
+  // colourful = ["#D8BFD8"];//this is responsible for providing different colour to the path
 
 
   constructor(private http: HttpClient,
@@ -98,16 +100,6 @@ export class ProbableRoutesComponent implements OnInit {
     this.mismatchIndex = event.target.value
   }
 
-
-  getRandomColor() { // This function helps to get the random colour on string array colourful
-    let letters: string = '0123456789ABCDEF';
-    let color: string = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
-
   clearData() {
     console.log("hello");
     window.location.reload();
@@ -137,10 +129,13 @@ export class ProbableRoutesComponent implements OnInit {
       this.common.loading--;
       this.getButtonVisible = false
       // document.getElementById('get-btn').innerHTML = 'Clear All'
-      console.log('data is: ', data)
       this.result = data;
       this.radius = this.result[0].radius;
+      this.result.map((item, i) => {
+        item.color = this.colors[i]
+      })
 
+      console.log('result is: ', this.result)
       this.radiusBoundary();
       this.totalRoutes = this.result.length;
       console.log('total routes: ', this.totalRoutes);
@@ -165,6 +160,7 @@ export class ProbableRoutesComponent implements OnInit {
     console.log('event is: ', event, data, index,this.polylines)
 
     let dataList = [];
+    let colorDataList = [];
     if(this.checkData.length > 0 && this.checkData.includes(index)){
       this.checkData.splice(this.checkData.indexOf(index), 1)
     } else{
@@ -179,7 +175,8 @@ export class ProbableRoutesComponent implements OnInit {
     } )
     console.log('checkData is: ', this.checkData,dataList)
     this.map.resetPolyLines();
-    this.map.createPolyLines(dataList);
+    
+    this.map.createPolyLines(dataList, this.colors[index]);
   }
 
   showTolls(data){
