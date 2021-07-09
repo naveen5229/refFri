@@ -974,4 +974,60 @@ export class MapService {
     }
   }
 
+  polylines = [];
+  
+  createPolyLines(latLngsMulti, options?) {// strokeColor = '#', fillColor = '#') {
+    let index = 0;
+
+    latLngsMulti.forEach(latLngs => {
+      let colorBorder;
+      let colorFill;
+      let isMain = false;
+      if (latLngs.isSec) {
+        colorBorder = '#f00';
+        colorFill = '#f88';
+      } else if (latLngs.isMain) {
+        colorBorder = '#0f0';
+        colorFill = '#8f8';
+      } else {
+        colorBorder = '#00f';
+        colorFill = '#88f';
+      }
+      const defaultOptions = {
+        path: latLngs.data,
+        strokeColor: colorBorder,
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        clickable: !latLngs.isMain,
+        fillColor: colorFill,
+        fillOpacity: 0.35
+      };
+      let polyline = new google.maps.Polyline(options || defaultOptions);
+      this.polylines.push(polyline);
+      polyline.setMap(this.map);
+      let infoWindow = new google.maps.InfoWindow();
+      infoWindow.opened = false;
+      let showContent = latLngs.show;
+      google.maps.event.addListener(polyline, 'mouseover', function (evt) {
+        infoWindow.setContent("Info: " + showContent);
+        infoWindow.setPosition(evt.latLng); // or evt.latLng
+        infoWindow.open(this.map);
+      });
+      google.maps.event.addListener(polyline, 'mouseout', function (evt) {
+        infoWindow.close();
+        infoWindow.opened = false;
+      });
+      index++;
+    });
+    return this.polygons;
+
+  }
+
+  resetPolyLines(){
+    this.polylines.map(ployline=>{
+      ployline.setMap(null);
+    });
+    this.polylines=[];
+  }
+
 }
