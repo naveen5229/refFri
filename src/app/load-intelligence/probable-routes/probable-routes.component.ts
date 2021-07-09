@@ -19,7 +19,7 @@ export class ProbableRoutesComponent implements OnInit {
 
   routeListForm = new FormControl();
   aerial: number = 1.4;
-  frechet: number = 10000;
+  frechet: number = 5000;
   mismatchIndex = 0;
   origin: any;
   startname: any;
@@ -45,7 +45,7 @@ export class ProbableRoutesComponent implements OnInit {
   tollData:any = [];
   checkData = [];
   showTollFlag: boolean = false;
-  colors = ["#3EA663", "#BC277D", "#D705B4"]
+  colors = ["#3EA663", "#BC277D", "#000000"]
 
   toggleClass: boolean = false;
   // distance;
@@ -136,6 +136,7 @@ export class ProbableRoutesComponent implements OnInit {
       })
 
       console.log('result is: ', this.result)
+      this.map.clearAll()
       this.radiusBoundary();
       this.totalRoutes = this.result.length;
       console.log('total routes: ', this.totalRoutes);
@@ -179,14 +180,16 @@ export class ProbableRoutesComponent implements OnInit {
     this.map.createPolyLines(dataList, this.colors[index]);
   }
 
+  tollMarkers = [];
+
   showTolls(data){
     this.showTollFlag = true;
     console.log('data is: ', data)
     this.tollData = data['tolls']
 
     console.log('this.tollData: ', this.tollData)
-    this.map.clearAll();
-    this.map.createMarkers(this.tollData)
+    this.map.resetMarker(true, true, this.tollMarkers);
+    this.tollMarkers = this.map.createMarkers(this.tollData)
     
   }
 }
