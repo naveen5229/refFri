@@ -15,9 +15,10 @@ import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 })
 export class DynamicReportComponent implements OnInit {
   @Input() savedReportSelect = {};
-  @Input() startDate: any = this.common.getDate(-15);
-  @Input() endDate = new Date();
+  @Input() startDate: any;
+  @Input() endDate :any;
   @Input() dynamicid : null;
+  @Input() defaultdays : null;
 
   graphId: string = (Math.random() * 10000000).toFixed(0);
   isDisplayTable = false;
@@ -41,8 +42,8 @@ export class DynamicReportComponent implements OnInit {
     x: [],
     y: [],
     filter: [],
-    startDate: this.startDate,
-    endDate: this.endDate,
+    startDate: '',
+    endDate: '',
     reportFileName: '',
     // chart: []
   }
@@ -115,6 +116,7 @@ export class DynamicReportComponent implements OnInit {
   }
 
   ngOnChanges(changes) {
+    console.log('change model call',this.endDate);
     let isChanged = false;
     if (changes.savedReportSelect) {
       this.savedReportSelect = changes.savedReportSelect.currentValue;
@@ -133,12 +135,13 @@ export class DynamicReportComponent implements OnInit {
 
     }
     if (changes.dynamicid) {
-      this.endDate = changes.dynamicid.currentValue;
+      this.dynamicid = changes.dynamicid.currentValue;
       isChanged = true;
 
     }
-    if (isChanged)
+    if (isChanged){
       this.openPreviewModal();
+    }
   }
 
 
@@ -195,7 +198,7 @@ export class DynamicReportComponent implements OnInit {
   openPreviewModal() {
     let objectLength = Object.keys(this.savedReportSelect).length
 
-    console.log(this.savedReportSelect, 'preview data')
+    console.log(this.savedReportSelect, 'preview data',this.endDate);
     if (objectLength > 0) {
       this.reportIdUpdate = this.savedReportSelect['_id'];
       this.assign.reportFileName = this.savedReportSelect['name'];
@@ -648,7 +651,7 @@ export class DynamicReportComponent implements OnInit {
   }
 
   getReportPreview() {
-    console.log('complete data', this.assign)
+    console.log('complete data ::::::', this.assign)
     this.assign.y.forEach(ele => {
       if (!ele.measure) {
         ele.measure = 'Count';
@@ -703,11 +706,14 @@ export class DynamicReportComponent implements OnInit {
         newfilter.push(xarray);
       });
     }
+    console.log('defaultdays',this.endDate);
     let params = {
       reportFilter: this.assign.filter ? JSON.stringify(newfilter) : [],
       info: JSON.stringify(info),
-      startTime: this.common.dateFormatter(this.assign.startDate),
-      endTime: this.common.dateFormatter(this.assign.endDate),
+      startTime: (this.defaultdays == 2)? this.common.dateFormatter(this.startDate): this.common.getDate(-(this.savedReportSelect['deflt_days'])),
+      endTime: this.common.dateFormatter(this.endDate),
+      yAddvance:(this.savedReportSelect['y_adv_str']) ? (this.savedReportSelect['y_adv_str']):''
+
     };
 
     if (this.assign.x.length && this.assign.y.length) {

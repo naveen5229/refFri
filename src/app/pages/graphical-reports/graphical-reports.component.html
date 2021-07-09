@@ -80,14 +80,15 @@
       <div class="col-2 sidenavleft p-0">
         <div *ngFor="let data of sideBarData">
           <h6>{{data.title}}</h6>
+         
           <ul *ngIf="data.children && data.children.length >0" class="child-ul">
             <li class="top" *ngFor="let head of data.children;let i = index" style="font-weight:bold"
               (click)="onHideShow(head,i)">
               <!--(click)="head.children? head.hideMe = !head.hideMe: head.hideMe = head.hideMe"-->
-              <p class="drophead">{{head.title}} <span class="dropcaret"><i class="fas fa-sort-down"
-                    style="cursor: pointer"></i></span></p>
+              <p *ngIf="(!head.title.includes('Operator'))" class="drophead">{{head.title}} <span class="dropcaret"><i class="fas fa-sort-down" style="cursor: pointer"></i></span></p>
+              <p *ngIf="((head.title.includes('Operator')) && (addvanceflag))" class="drophead">{{head.title}} <span class="dropcaret"><i class="fas fa-sort-down" style="cursor: pointer"></i></span></p>
               <ul *ngIf="head.isHide" id="unassign" cdkDropList [cdkDropListData]="head.children"
-                [cdkDropListConnectedTo]="['assignDataRow','assignDataColumn','filter']" class="child-ul innerdrop"
+                [cdkDropListConnectedTo]="['assignDataRow','assignDataColumn','filter','assignDataColumnYadd']" class="child-ul innerdrop"
                 (cdkDropListDropped)="drop($event)" [cdkDropListEnterPredicate]="noReturnPredicate">
                 <li class="drag-list" *ngFor="let sub of head.children;let i = index" cdkDrag>
                   {{sub.r_coltitle}}
@@ -121,7 +122,7 @@
         <div class="row mt-2">
           <div class="col-2 text-right"><span style="color: red;">*</span><label>Y-Axis:</label> </div>
           <div id="assignDataColumn" cdkDropList [cdkDropListData]="assign.y" cdkDropListConnectedTo="menuList"
-            class="col-10 drag-container" (cdkDropListDropped)="drop($event)">
+            class="col-8 drag-container" (cdkDropListDropped)="drop($event)">
             <div class="example-box fieldStyle" *ngFor="let n of assign.y;let i =index" cdkDrag [cdkDragData]="n">
               {{n.r_coltitle}}
               <i class="far fa-times-circle cancelButtonCss" (click)="removeField(i,'y')"></i>
@@ -139,6 +140,42 @@
                 <!-- <option disabled selected>measure</option> -->
                 <option selected>y-left</option>
                 <option>y-right</option>
+                <!-- <option *ngFor="let subMeasure of measure">{{subMeasure}}</option> -->
+              </select>
+            </div>
+          </div>
+          <div class="col-2"><button class="btn btn-primary margin_right" (click)="addvanceflag=true">Add Addvance</button> </div>
+
+        </div>
+        <div class="row mt-2" *ngIf="addvanceflag">
+          <div class="col-2 text-right"><label>Addvance Y:</label> </div>
+          <div id="assignDataColumnYadd" cdkDropList [cdkDropListData]="assign.yAddvance" cdkDropListConnectedTo="menuList"
+            class="col-10 drag-container" (cdkDropListDropped)="drop($event)">
+            <div class="example-box fieldStyle" *ngFor="let n of assign.yAddvance;let i =index" cdkDrag [cdkDragData]="n">
+              <span *ngIf="(!(n.r_colcode.includes('op')))" >{{n.r_coltitle}}</span>
+              <i class="far fa-times-circle cancelButtonCss" (click)="removeField(i,'yAddvance')"></i>
+              <select class="selectInsideSelected" (change)="addMeasure(i,'yAddvance',$event.target.value)"
+                [(ngModel)]="n.measure" *ngIf="!(n.r_coltype.includes('operator'))">
+                <!-- <option disabled selected>measure</option> -->
+                <option *ngIf="n.r_coltype === 'timestamp'">Date</option>
+                <option selected>Count</option>
+                <option *ngIf="n.r_coltype === 'number'">Average</option>
+                <option *ngIf="n.r_coltype === 'number'">Sum</option>
+                <option>distinct count</option>
+                <!-- <option *ngFor="let subMeasure of measure">{{subMeasure}}</option> -->
+              </select>
+              <select *ngIf="assign.x.length > 1 && (!(n.r_colcode.includes('op')))" class="selectInsideSelected" [(ngModel)]="n.yaxis">
+                <!-- <option disabled selected>measure</option> -->
+                <option selected>y-left</option>
+                <option>y-right</option>
+                <!-- <option *ngFor="let subMeasure of measure">{{subMeasure}}</option> -->
+              </select>
+              <select *ngIf="((n.r_colcode.includes('op')))" class="selectInsideSelected" [(ngModel)]="n.measure">
+                <!-- <option disabled selected>measure</option> -->
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/" selected>/</option>
                 <!-- <option *ngFor="let subMeasure of measure">{{subMeasure}}</option> -->
               </select>
             </div>
@@ -317,7 +354,7 @@
           </div>
        
           <div class="col-6">
-            <label>Default Days:</label><input type="number" [(ngModel)]="defaultdays" min="1" placeholder="Default Days">
+            <label>Default Report Days:</label><input type="number" [(ngModel)]="defaultdays" min="1" placeholder="Default Days">
           </div>
         </div>
         

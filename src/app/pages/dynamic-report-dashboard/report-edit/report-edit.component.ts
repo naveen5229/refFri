@@ -12,7 +12,9 @@ import { prepareEventListenerParameters } from '@angular/compiler/src/render3/vi
   styleUrls: ['./report-edit.component.scss']
 })
 export class ReportEditComponent implements OnInit {
-
+  startDate = new Date(new Date().setDate(new Date().getDate() - 15));
+  endDate = new Date();
+  defaultdaystype = 2;
   reports = [];
   draggingReport = null;
   draggingReportType = '';
@@ -42,6 +44,10 @@ export class ReportEditComponent implements OnInit {
     if (this.common.params && this.common.params.caltabname) {
       this.tabname = this.common.params.caltabname;
       this.backtabname = true;
+      this.startDate =  this.common.params.startDate,
+      this.endDate = this.common.params.endDate,
+      this.defaultdaystype = this.common.params.defaultdaystype
+
     }
   }
 
