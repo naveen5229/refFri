@@ -472,6 +472,7 @@ export class MapService {
   }
 
 
+  circles = [];
   circle = null;
   createCirclesOnPostion(center, radius, stokecolor = '#FF0000', fillcolor = '#FF0000', fillOpacity = 0.1, strokeOpacity = 1) {
     this.circle = new google.maps.Circle({
@@ -484,6 +485,7 @@ export class MapService {
       center: center,
       radius: radius
     });
+    this.circles.push(this.circle);
     return this.circle;
   }
 
@@ -507,6 +509,7 @@ export class MapService {
     resetParams.marker && this.resetMarker(reset, boundsReset);
     resetParams.polygons && this.resetPolygons();
     resetParams.polypath && this.resetPolyPath();
+    this.resetCircles();
     this.options ? this.options.polypaths && this.resetPolyPaths() : '';
     this.options ? this.options.clearHeat && this.resetHeatMap() : '';
     this.customMarkers.map(marker => marker.setMap(null));
@@ -517,6 +520,19 @@ export class MapService {
       this.infoWindows = [];
     } catch (e) { console.log('Exception in clearing info windows : ', e) }
   }
+
+  resetCircles(){
+    try {
+      for (let i = 0; i < this.circles.length; i++) {
+        if (this.circles[i])
+        this.circles[i].setMap(null);
+      }
+      this.circles = [];
+    } catch (e) {
+      console.error('Exception in resetCircles:', e);
+    }
+  }
+
   resetHeatMap() {
     try {
       if (this.heatmap) {
@@ -976,47 +992,23 @@ export class MapService {
 
   polylines = [];
   
-  createPolyLines(latLngsMulti, options?) {// strokeColor = '#', fillColor = '#') {
+  createPolyLines(latLngsMulti, colorPoly, options?) {// strokeColor = '#', fillColor = '#') {
     let index = 0;
 
     latLngsMulti.forEach(latLngs => {
-      let colorBorder;
-      let colorFill;
-      let isMain = false;
-      if (latLngs.isSec) {
-        colorBorder = '#f00';
-        colorFill = '#f88';
-      } else if (latLngs.isMain) {
-        colorBorder = '#0f0';
-        colorFill = '#8f8';
-      } else {
-        colorBorder = '#00f';
-        colorFill = '#88f';
-      }
       const defaultOptions = {
         path: latLngs.data,
-        strokeColor: colorBorder,
+        strokeColor: colorPoly,
         strokeOpacity: 0.8,
         strokeWeight: 2,
         clickable: !latLngs.isMain,
-        fillColor: colorFill,
+        fillColor: colorPoly,
         fillOpacity: 0.35
       };
       let polyline = new google.maps.Polyline(options || defaultOptions);
       this.polylines.push(polyline);
       polyline.setMap(this.map);
-      let infoWindow = new google.maps.InfoWindow();
-      infoWindow.opened = false;
-      let showContent = latLngs.show;
-      google.maps.event.addListener(polyline, 'mouseover', function (evt) {
-        infoWindow.setContent("Info: " + showContent);
-        infoWindow.setPosition(evt.latLng); // or evt.latLng
-        infoWindow.open(this.map);
-      });
-      google.maps.event.addListener(polyline, 'mouseout', function (evt) {
-        infoWindow.close();
-        infoWindow.opened = false;
-      });
+      
       index++;
     });
     return this.polygons;
