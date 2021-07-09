@@ -46,6 +46,7 @@ export class ProbableRoutesComponent implements OnInit {
   checkData = [];
   showTollFlag: boolean = false;
   toggleClass: boolean = false;
+  // distance;
   colourful = ["#D8BFD8"];//this is responsible for providing different colour to the path
 
 
@@ -135,7 +136,7 @@ export class ProbableRoutesComponent implements OnInit {
     this.http.post<any>('http://198.20.124.18:8081/api/v0/load/intelligence/snappedData', params, { headers }).subscribe(data => {
       this.common.loading--;
       this.getButtonVisible = false
-      document.getElementById('get-btn').innerHTML = 'Clear All'
+      // document.getElementById('get-btn').innerHTML = 'Clear All'
       console.log('data is: ', data)
       this.result = data;
       this.radius = this.result[0].radius;
@@ -143,83 +144,11 @@ export class ProbableRoutesComponent implements OnInit {
       this.radiusBoundary();
       this.totalRoutes = this.result.length;
       console.log('total routes: ', this.totalRoutes);
-
-      for(let i=0; i<this.totalRoutes; i++){
-        this.visibleRoutes.push(false);
-      }
-
-      // this.dropdownroutes(this.totalRoutes, this.result);
-      // console.log(this.result[0].latLongResponseList)
-      // console.log("the value of point is ", this.result[0].points);
-      // let pointpath = [this.result[0].points];
-      // let path2 = [this.result[0].latLongResponseList];
-      // this.radiusBoundary();
     }, err => {
       this.common.loading--;
       console.log('err is: ', err);
     });
   }
-
-  // mapPath3(path2) {
-  //   console.log("The visible routes is ", this.visibleRoutes)
-  //   this.map1 = new google.maps.Map(document.getElementById("map"),
-  //     {
-  //       zoom: 8,
-  //       center: { lat: this.startLat, lng: this.startLong },
-  //       mapTypeId: "terrain",
-  //     });
-  //   this.radiusBoundary();
-  //   for (let i = 0; i < this.visibleRoutes.length; i++) {
-
-  //     if (this.visibleRoutes[i] == true) {
-  //       let pointInsideRadiusLatLngOrigin = [this.result[i].initialPoints];
-  //       let pointInsideRadiusLatLngDestination = [this.result[i].finalPoints];
-  //       this.pointInsideRadius(this.map1, pointInsideRadiusLatLngOrigin, "InsideRadius", '#FF0000')
-  //       this.pointInsideRadius(this.map1, pointInsideRadiusLatLngDestination, "InsideRadius", '#FF0000')
-  //       let pathshow = [this.result[i].latLongResponseList]
-  //       pathshow.forEach(flightPlanCoordinate => {
-  //         let path: { lat: any; lng: any; }[] = [];
-  //         let flightPlan = [];
-  //         flightPlan = flightPlanCoordinate;
-  //         flightPlan.map((e: { [x: string]: any; }) => {
-  //           path.push({ 'lat': e['lat'], 'lng': e['lng'] });
-  //         });
-  //         this.flightPath = new google.maps.Polyline({
-  //           path: path,
-  //           geodesic: true,
-  //           strokeColor: this.colourful[i],
-  //           strokeOpacity: 1.0,
-  //           strokeWeight: 2,
-  //           title: i
-  //         });
-  //         this.flightPath.setMap(this.map1);
-  //       });
-
-  //     }
-  //   }
-  // }
-
-  // dropdownroutes(tr: any, result) {
-  //   console.log("the value of tr is", tr);
-  //   for (let i = 1; i <= tr; i++) {
-  //     let s = `Route Number ${i}`
-      
-  //     this.routeStrength = this.result[i]['routeStrength']
-  //     console.log('this.routeStrength : ', this.routeStrength)
-  //     this.routeList.push({
-  //       name: s,
-  //       routeStrength: this.routeStrength
-  //     });
-
-  //     this.visibleRoutes.push(false);
-  //     this.routesTomodify.push(false);
-  //     this.colourful.push(this.getRandomColor())
-  //   }
-  // }
-
-  // showCircle(){
-  //   this.map.createCirclesOnPostion()
-  // }
 
   radiusBoundary() {
     console.log("Radius Boundary is called");
@@ -228,76 +157,8 @@ export class ProbableRoutesComponent implements OnInit {
     var endPoint = new google.maps.LatLng(this.endLat, this.endLong);
     this.map.createCirclesOnPostion(startPoint, this.radius, '#0000FF', '#FFFFFF');
     this.map.createCirclesOnPostion(endPoint, this.radius, '#FF0000', '#FFFFFF');
-    // this.map.zoomAt(endPoint, 8);
-    // this.map.setBounds(endPoint)
+    this.map.zoomAt(endPoint, 8);
   }
-
-  // createMarker(map: any, point: any, title: any) {
-  //   const svgMarker = {
-  //     path: google.maps.SymbolPath.CIRCLE,
-  //     fillColor: "blue",
-  //     fillOpacity: 0.6,
-  //     strokeWeight: 0,
-  //     rotation: 0,
-  //     scale: 2,
-  //     anchor: new google.maps.Point(1, 1),
-  //   };
-  //   return new google.maps.Marker({
-  //     icon: svgMarker,
-  //     map: map,
-  //     position: point,
-  //     title: title
-  //   });
-  // }
-
-  // pointInsideRadius(map: any, point: any, title: any, fillColour: any) {
-  //   console.log("Inside Marker", point[0][0].lat, " and ", point[0][1].lng);
-  //   console.log("Inside Marker", point[0][0].lat, " and ", point[0][1].lng);
-  //   console.log(point);
-
-  //   console.log("Object keys is ", Object.keys(point[0]).length);
-  //   let sizeofobject = Object.keys(point[0]).length;
-  //   console.log("The size of object is", sizeofobject)
-  //   const svgMarker = {
-  //     path: google.maps.SymbolPath.CIRCLE,
-  //     fillColor: fillColour,
-  //     fillOpacity: 0.6,
-  //     strokeWeight: 0,
-  //     rotation: 0,
-  //     scale: 2,
-  //     anchor: new google.maps.Point(1, 1),
-  //   };
-
-  //   for (var latlng = 0; latlng < sizeofobject; latlng++) {
-  //     new google.maps.Marker({
-  //       icon: svgMarker,
-  //       map: map,
-  //       position: { lat: point[0][latlng].latitude, lng: point[0][latlng].longitude },
-  //       title: title
-  //     });
-  //   }
-  // }
-  
-  // getdataRoute(route: any) { 
-  //    let tt;
-  //   let ss = parseInt(route[route.length - 10]);
-  //   let yy=parseInt(route[route.length-11]); 
-  //   if(ss>=0&&yy>=0)
-  //   {
-  //     ss=(yy*10)+ss;
-  //   }
-  //   else{}
-  //   if (this.visibleRoutes[ss - 1] == true) {
-  //     this.visibleRoutes[ss - 1] = false;
-  //   }
-  //   else {
-  //     this.visibleRoutes[ss - 1] = true;
-  //   }
-  //   console.log("The value of s is ", ss);
-  //   let pathroute = [this.result[ss - 1].latLongResponseList]
-  //   console.log("The value of path route is",pathroute)
-  //   this.mapPath3(pathroute)
-  // }
 
   polylines = {};
   getRoutes(event, data, index){
@@ -312,45 +173,13 @@ export class ProbableRoutesComponent implements OnInit {
 
     this.checkData.map(ele => {
       this.result.forEach((ele1,index) => {
-        if(index == ele){
+        if((index) == ele){
           dataList.push({data: ele1.latLongResponseList});
         }});
     } )
     console.log('checkData is: ', this.checkData,dataList)
-    this.map.createPolygons(dataList);
-    // let i = this.checkData.toString();
-    // console.log('index is: ', i)
-
-
-
-    //   if (this.visibleRoutes[i] == true) {
-    //   this.visibleRoutes[i] = false;
-    // }
-    // else {
-    //   this.visibleRoutes[i] = true;
-    // }
-
-    // // let i = this.checkData.toString();
-    // let pathRoute = this.result[i].latLongResponseList;
-    // console.log('index & pathRoute : ', pathRoute)
-
-    // this.mapPath3(pathRoute)
-
-    // if(this.polylines[index]){
-    //   if(!data.isSelected){
-    //     this.polylines[index].setMap(null);
-    //   }else{
-    //     this.polylines[index].setMap(this.map.map);
-    //   }
-    // }else{
-    //   let poly = this.map.createPolyline(data.latLongResponseList);
-    //   this.polylines[index] = poly;
-    //   if(!data.isSelected){
-    //     poly.setMap(null);
-    //   }
-    // }
-    
-    
+    this.map.resetPolyLines();
+    this.map.createPolyLines(dataList);
   }
 
   showTolls(data){
