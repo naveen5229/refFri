@@ -719,7 +719,7 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
 
   generateCOlorPallet() {
     let colors = [];
-    for (let angleIndex = 0; angleIndex < 360; angleIndex += 15) {
+    for (let angleIndex = 0; angleIndex < 360; angleIndex += 1) {
       colors.push(this.common.HSLToHex(angleIndex, 100, 70));
     }
     console.log('pallet', colors);
@@ -1287,7 +1287,8 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
           data: data.data,
           borderWidth: 1,
           lineTension: 0,
-          borderColor: data.bgColor[index] ? data.bgColor[index] : '#33FF83',
+          borderColor: '#386ac4',
+          backgroundColor: '#386ac4', 
           yAxisID: 'y-axis-1',
           fill: true,
           borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
@@ -1299,7 +1300,8 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
           data: data.data,
           borderWidth: 1,
           lineTension: 0,
-          borderColor: data.bgColor[index] ? data.bgColor[index] : '#FFA233',
+          borderColor: '#ed7d31',
+          backgroundColor: '#ed7d31',
           yAxisID: 'y-axis-2',
           fill: false,
           borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
