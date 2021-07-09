@@ -13,7 +13,7 @@ import * as _ from 'lodash';
 })
 export class DynamicReportDashboardComponent implements OnInit {
   reports = [];
- startDate = new Date(new Date().setDate(new Date().getDate() - 15));
+  startDate = new Date(new Date().setDate(new Date().getDate() - 15));
   endDate = new Date();
   assign = {
     startDate: this.startDate,
@@ -105,8 +105,11 @@ export class DynamicReportDashboardComponent implements OnInit {
   containerWidth = 0;
   challanReports = [];
   usedChallanWidgtets = [];
+  defaultdaystype =2;
+  rangedays=30;
   constructor(private api: ApiService, private modalService: NgbModal, private common: CommonService) {
     this.getDynamicReports();
+    console.log('endDate',this.endDate);
     //this.getpredefinedReports();
   }
 
@@ -213,11 +216,18 @@ export class DynamicReportDashboardComponent implements OnInit {
     if (flag) {
       localStorage.setItem('dynamic-report', JSON.stringify(this.dynamicReports));
       this.common.params = {
-        caltabname: this.caltabname
+        caltabname: this.caltabname,
+        startDate: this.startDate,
+        endDate : this.endDate,
+        defaultdaystype:this.defaultdaystype
       };
     } else {
       localStorage.removeItem("dynamic-report");
-      this.common.params = '';
+      this.common.params ={
+        startDate: this.startDate,
+        endDate : this.endDate,
+        defaultdaystype:this.defaultdaystype
+      };
     }
     console.log('common.params',this.common.params );
     let modal = this.modalService.open(ReportEditComponent, { size: 'lg', container: 'nb-layout' });
@@ -227,10 +237,12 @@ export class DynamicReportDashboardComponent implements OnInit {
   }
 
   getReport() {
+   
     this.assign = {
       startDate: this.startDate,
       endDate: this.endDate,
     }
+    console.log('select box',this.assign);
   }
 
 }

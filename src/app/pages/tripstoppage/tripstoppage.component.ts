@@ -133,8 +133,8 @@ export class TripstoppageComponent implements OnInit {
   }
 
   customize(){
-    if(this.min < 5){
-      this.common.showToast('Minimum Val is 5');
+    if(this.min < 10){
+      this.common.showToast('Minimum Val is 10');
      // this.min = (this.min < 5) ? 10 :this.min;
      this.min = 10;
     }

@@ -38,6 +38,7 @@ export class GraphicalReportsComponent implements OnInit {
   assign = {
     x: [],
     y: [],
+    yAddvance: [],
     filter: [],
     startDate: this.startDate,
     endDate: this.endDate,
@@ -114,6 +115,7 @@ export class GraphicalReportsComponent implements OnInit {
   secondfilter='';
   defaultdays=30;
   dynamicflag = 0;
+  addvanceflag = false;
   constructor(
     public common: CommonService,
     public api: ApiService,) {
@@ -162,8 +164,10 @@ ngOnInit(): void {
       this.resetAssignForm();
       let sideBarData = res['data'];
       sideBarData.map(ele => {
+        console.log('Data previous:', ele);
         this.sideBarData.map(data => {
           if (data.title == ele.reftype) {
+      
             data.children.push({ title: ele.title, children: JSON.parse(ele.children), isHide: false })
           }
         })
@@ -239,6 +243,7 @@ ngOnInit(): void {
     this.assign = {
       x: [],
       y: [],
+      yAddvance:[],
       filter: [],
       reportFileName: '',
       startDate: this.startDate,
@@ -288,11 +293,18 @@ ngOnInit(): void {
       } else if (event.container.id === "assignDataColumn") {
         // this.setMeasure(event.previousContainer.data[event.previousIndex])
         pushTo = 'y'
+      }else if (event.container.id === "assignDataColumnYadd") {
+        // this.setMeasure(event.previousContainer.data[event.previousIndex])
+        pushTo = 'yAddvance'
       } else if (event.container.id === "filter") {
+        if(event.previousContainer.data[event.previousIndex]['r_coltype'] != 'operator'){
         this.openFilterModal(event.previousContainer.data[event.previousIndex], null);
+        }
       }
 
       if (pushTo == 'x') {
+        console.log('data type casting:',event.previousContainer.data[event.previousIndex]['r_coltype']);
+        if(event.previousContainer.data[event.previousIndex]['r_coltype'] == 'operator') return;
         this.assign[pushTo].forEach(ele => {
           if (ele.r_colid === event.previousContainer.data[event.previousIndex]['r_colid'] &&
             (ele.r_isdynamic === event.previousContainer.data[event.previousIndex]['r_isdynamic'] &&
@@ -302,6 +314,11 @@ ngOnInit(): void {
         })
         if (exists > 0) return; this.assign[pushTo].push(_.clone(event.previousContainer.data[event.previousIndex]));
       } else if (pushTo == 'y') {
+        if(event.previousContainer.data[event.previousIndex]['r_coltype'] == 'operator'){
+          exists++;
+        }
+        if (exists == 0)  this.assign[pushTo].push(_.clone(event.previousContainer.data[event.previousIndex]));
+      }else if (pushTo == 'yAddvance') {
         this.assign[pushTo].push(_.clone(event.previousContainer.data[event.previousIndex]));
       }
 
@@ -764,6 +781,22 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
       };
       ynewaaray.push(xarray);
     });
+    let yaddvanceaaray = '{';
+    if(this.assign.yAddvance.length){
+    this.assign.yAddvance.map((data)=>{
+      if(data.r_coltype == 'operator'){
+        if(data.measure == 'c' || data.measure == 's'){
+           console.log('operator true',data);
+          yaddvanceaaray += data.r_colcode+',' ;
+        }else{
+          console.log('operator false',data);
+          yaddvanceaaray += data.measure+',' ;
+        }
+      }else{
+        yaddvanceaaray += data.r_colcode+','+data.measure+',' ;
+      }
+    });
+    }
     //let info = { x: this.assign.x, y: this.assign.y };
     let info = { x: xnewaaray, y: ynewaaray };
 
@@ -810,7 +843,8 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
      // jData: JSON.stringify({ filter: this.assign.filter, info: this.assign }),
       name: this.assign.reportFileName,
       id: reqID,
-      defaultdays:this.defaultdays
+      defaultdays:this.defaultdays,
+      yAddvance:yaddvanceaaray.substring(0,yaddvanceaaray.length-1)+'}'
     };
 
     if (params.name) {
@@ -869,8 +903,25 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
       };
       ynewaaray.push(xarray);
     });
+    let yaddvanceaaray = '{';
+    if(this.assign.yAddvance.length){
+    this.assign.yAddvance.map((data)=>{
+      if(data.r_coltype == 'operator'){
+        if(data.measure == 'c' || data.measure == 's'){
+           console.log('operator true',data);
+          yaddvanceaaray += data.r_colcode+',' ;
+        }else{
+          console.log('operator false',data);
+          yaddvanceaaray += data.measure+',' ;
+        }
+      }else{
+        yaddvanceaaray += data.r_colcode+','+data.measure+',' ;
+      }
+    });
+    }
+    
     //let info = { x: this.assign.x, y: this.assign.y };
-    let info = { x: xnewaaray, y: ynewaaray };
+    let info = { x: xnewaaray, y: ynewaaray  };
 
     let newfilter=[];
     if(this.assign.filter){
@@ -929,6 +980,7 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
       info: JSON.stringify(info),
       startTime: this.common.dateFormatter(this.assign.startDate),
       endTime: this.common.dateFormatter(this.assign.endDate),
+      yAddvance:yaddvanceaaray.substring(0,yaddvanceaaray.length-1)+'}'
     };
 
     if (this.assign.x.length && this.assign.y.length) {
