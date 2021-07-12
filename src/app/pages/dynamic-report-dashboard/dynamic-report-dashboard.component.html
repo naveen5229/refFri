@@ -27,7 +27,8 @@
             <div class="col-2 text-right">
                 <button class="btn btn-primary" (click)="editReport()"><i class="fa fa-plus"></i></button>
          
-                <button class="btn btn-primary ml-2" (click)="editReport(true)">Edit Report</button>
+                <button class="btn btn-primary ml-2" (click)="editReport(true)"><i class="fa fa-pencil-alt"></i></button>
+                <button class="btn btn-primary ml-2" (click)="showConfirm =true"><i class="fa fa-trash-alt"></i></button>
             </div>
         </div>
         <div class="toptab" *ngIf="tabsdata">
@@ -148,3 +149,12 @@
         </div>
     </nb-card-body>
 </nb-card>
+<div class="date-modal" *ngIf="showConfirm">
+    <div class="date-modal-body data_model_save">
+      <div>
+        <p>Are You Want Sure to Delete ?</p>
+        <button (click)="deletereport()">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
+          (click)="modelCondition()">No</button>
+      </div>
+    </div>
+  </div>

@@ -23,6 +23,7 @@ export class DynamicReportDashboardComponent implements OnInit {
   dynamicReports = [];
   dynamicreportcall = [];
   caltabname = '';
+  showConfirm = false;
   widgetsList = {
     "Challan Trends (Last 6 Months) ": "challan-trend",
     "State Wise Challans in Last 30 Days": "state-wise",
@@ -244,5 +245,23 @@ export class DynamicReportDashboardComponent implements OnInit {
     }
     console.log('select box',this.assign);
   }
+deletereport() {
+  let param = {
+    rptname: this.caltabname
+  }
+  this.api.post(`GraphicalReport/deleteGraphicalReport`,param)
+    .subscribe((res: any) => {
+      this.showConfirm = false;
+      console.log('Res11111:', res);
+      this.common.showToast('Report Successfully Delete');
+      this.getDynamicReports();
+      
 
+    })
+}
+modelCondition() {
+  this.showConfirm = false;
+  event.preventDefault();
+  return;
+}
 }

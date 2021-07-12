@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CdkDragDrop, copyArrayItem } from '@angular/cdk/drag-drop';
 import * as Chart from 'chart.js';
 import * as _ from 'lodash';
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 import { anyChanged } from '@progress/kendo-angular-common';
+import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -116,9 +118,12 @@ export class GraphicalReportsComponent implements OnInit {
   defaultdays=30;
   dynamicflag = 0;
   addvanceflag = false;
+paramconstant :any;
+
   constructor(
     public common: CommonService,
-    public api: ApiService,) {
+    public api: ApiService,
+    private modalService: NgbModal) {
   }
 
   ngOnDestroy(){}
@@ -975,12 +980,12 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
         newfilter.push(xarray);
       });
     }
-    let params = {
+    let params = this.paramconstant = {
       reportFilter: this.assign.filter ? JSON.stringify(newfilter) : [],
       info: JSON.stringify(info),
       startTime: this.common.dateFormatter(this.assign.startDate),
       endTime: this.common.dateFormatter(this.assign.endDate),
-      yAddvance:yaddvanceaaray.substring(0,yaddvanceaaray.length-1)+'}'
+      yAddvance:(this.assign.yAddvance.length)? (yaddvanceaaray.substring(0,yaddvanceaaray.length-1)+'}'):''
     };
 
     if (this.assign.x.length && this.assign.y.length) {
@@ -1274,7 +1279,7 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
           borderColor: data.bgColor[index] ? data.bgColor[index] : '#1AB399',
           yAxisID: data.yAxesGroup,
           fill: false,
-          borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
+          borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0]),
         })
       });
     }else if (chartType === 'bar-line') {
@@ -1441,13 +1446,17 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
             }
           }]
         },
-        showLegend: true
+        showLegend: true,
+        
       };
     }
     this.graphPieCharts = this.generateChart([chartData], chartType);
 
   }
 
+  onclick(){
+    console.log('click working' )
+  }
   generateChart(charDatas, type = 'pie') {
     let charts = [];
     console.log('chartData', charDatas, type);
@@ -1462,7 +1471,8 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
 
     this.finalcarttype = type;
     charDatas.forEach(chartData => {
-      charts.push(new Chart(chartData.canvas.getContext('2d'), {
+      //console.log('chartData label  11',chartData.data.label,chartData.data[0].label);
+     let subPerf = new Chart(chartData.canvas.getContext('2d'), {
         type: type,
         data: {
           labels: chartData.labels,
@@ -1472,7 +1482,7 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
           legend: {
             position: this.legendPosition,
             display: this.showLedgend === "yes" ? true : false,
-            labels: (type == 'pie')? labdata:''
+            labels: (type == 'pie') ? labdata : ''
           },
           tooltips: {
             mode: 'index',
@@ -1481,13 +1491,48 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
           },
           scales: chartData.scales,
           responsive: true,
+          
+          onClick: event => {
+            let point = Chart.helpers.getRelativePosition(event, subPerf.chart);
+            console.log('point',point);
+            let xIndex = subPerf.scales['x-axis-0'].getValueForPixel(point.x);
+            let label = subPerf.data.labels[xIndex];
+            console.log(label, + ' at index ' + xIndex);
+            
+            this.getPopUpDetials('GraphicalReport/getPreviewGraphicalReport',this.paramconstant, label);
+          },
+            //onclick:this.onclick.bind(this),
         }
-      }));
+      });
+      charts.push(subPerf);
+      console.log('chartindex', subPerf);
+
     })
     console.log('chartData Final', charts);
     return charts;
   }
-
+  getPopUpDetials(url, params,params2, value = 0,type='days') {
+    let dataparams = {
+      view: {
+        api: url,
+        param: params,
+        type: 'post'
+      },
+  
+      title: 'Details'
+    }
+    if (value) {
+      let startDate = type == 'months'? new Date(new Date().setMonth(new Date().getMonth() - value)): new Date(new Date().setDate(new Date().getDate() - value));
+      let endDate = new Date();
+      dataparams.view.param['fromdate'] = this.common.dateFormatter(this.startDate);
+      dataparams.view.param['todate'] = this.common.dateFormatter(this.endDate);
+    }
+    dataparams.view.param['drilldown'] = params2;
+    console.log("dataparams=", dataparams);
+    this.common.handleModalSize('class', 'modal-lg', '1700');
+    this.common.params = { data: dataparams };
+    const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
   onHideShow(head, index) {
     this.sideBarData.forEach(element => {
       let i = 0;
