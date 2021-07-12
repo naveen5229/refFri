@@ -67,38 +67,66 @@
           </div>
           <span class="col-2 misMatch">{{mismatchIndex}} %</span>
         </div>
+        <div class="row">
+          <div class="col-11">
+            <div class="col-3"></div>
+            <div class="col-8" style="float: right;">
+                <div *ngIf="mismatchIndex > 20">
+                  <p style="font-size: 12px;color: crimson;">Value upto 20% will give Best Result.</p>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="row">
+          <div class="col-6"></div>
+          <div class="col-6">
+            <button class="btn btn-primary" id="get-btn" style="float: right;" (click)="getData()">Get</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6"></div>
+          <div class="col-6">
+            <div style="float: right;">
+              <label>Total Routes Found: </label>
+              <span style="margin-left: 5px;">{{totalRoutes}}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="row">
+    <!-- <div class="row">
       <div *ngIf="mismatchIndex > 20">
         <p style="font-size: 12px;color: crimson; margin-left: 225px;">Value upto 20% will give Best Result.</p>
       </div>
-    </div>
-    <div class="row">
+    </div> -->
+    <!-- <div class="row">
       <div class="col-8"></div>
       <div class="col-4">
         <button class="btn btn-primary" id="get-btn" style="float: right;" (click)="getData()">Get</button>
       </div>
-    </div>
-    <div class="row" *ngIf="totalRoutes > 0">
+    </div> -->
+    <!-- <div class="row" *ngIf="totalRoutes > 0">
       <div class="col-12">
         <div style="float: right;">
           <label>Total Routes Found: </label>
           <span style="margin-left: 5px;">{{totalRoutes}}</span>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="row" *ngIf="totalRoutes > 0">
       <div class="col-8">
         <div class="row">
           <div class="col-3">
-            <label >Routes :</label>
+            <label>Routes :</label>
           </div>
           <div class="col-9" style="z-index: 99;">
             <div class="route-list">
               <ul class="select" (click)="createSelect()">
-                <li  *ngFor="let rd of result;let i = index" style="height: 35px;"  [class]="toggleClass ? 'open' : 'close'" >
-                  <div class="route-wrapper">
+                <li *ngFor="let rd of result;let i = index" style="height: 35px;"
+                  [class]="toggleClass ? 'open' : 'close'">
+                  <div class="route-wrapper" [ngStyle]="{color: rd.color}">
                     <span class="route-check">
                       <input type="checkbox" [value]="i+1" (click)="getRoutes($event,rd, i)" />
                     </span>
@@ -121,7 +149,7 @@
           </div>
         </div>
       </div>
-      
+
     </div>
   </form>
 </div>
