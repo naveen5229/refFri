@@ -161,7 +161,8 @@ export class ProbableRoutesComponent implements OnInit {
     console.log('event is: ', event, data, index,this.polylines)
 
     let dataList = [];
-    let colorDataList = [];
+    let initialDataList = [];
+    let finalDataList = [];
     if(this.checkData.length > 0 && this.checkData.includes(index)){
       this.checkData.splice(this.checkData.indexOf(index), 1)
     } else{
@@ -172,12 +173,16 @@ export class ProbableRoutesComponent implements OnInit {
       this.result.forEach((ele1,index) => {
         if((index) == ele){
           dataList.push({data: ele1.latLongResponseList});
+          initialDataList.push({data: ele1.initialPoints});
+          finalDataList.push({data: ele1.finalPoints});
         }});
     } )
     console.log('checkData is: ', this.checkData,dataList)
     this.map.resetPolyLines();
     
     this.map.createPolyLines(dataList, this.colors[index]);
+    this.map.createPolyLines(initialDataList, '	#0000FF');
+    this.map.createPolyLines(finalDataList, '	#FF0000')
   }
 
   tollMarkers = [];
