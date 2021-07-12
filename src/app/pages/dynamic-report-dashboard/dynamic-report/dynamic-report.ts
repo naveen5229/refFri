@@ -1,11 +1,13 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CdkDragDrop, copyArrayItem } from '@angular/cdk/drag-drop';
 import * as Chart from 'chart.js';
 import * as _ from "lodash";
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+import { GenericModelComponent } from '../../../modals/generic-modals/generic-model/generic-model.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -102,7 +104,7 @@ export class DynamicReportComponent implements OnInit {
 
   dropdownFilter = [];
   loderid = 0;
-
+paramconstant :any;
   @HostListener('document:click', ['$event'])
   handleKeyboardEvent(event) {
     console.log(event);
@@ -110,7 +112,8 @@ export class DynamicReportComponent implements OnInit {
 
   constructor(
     public common: CommonService,
-    public api: ApiService,) {
+    public api: ApiService,
+    private modalService: NgbModal) {
   }
 
   ngOnDestroy() { }
@@ -713,7 +716,7 @@ export class DynamicReportComponent implements OnInit {
       });
     }
     console.log('defaultdays', this.endDate);
-    let params = {
+    let params = this.paramconstant = {
       reportFilter: this.assign.filter ? JSON.stringify(newfilter) : [],
       info: JSON.stringify(info),
       startTime: (this.defaultdays == 2) ? this.common.dateFormatter(this.startDate) : this.common.getDate(-(this.savedReportSelect['deflt_days'])),
@@ -1194,7 +1197,7 @@ export class DynamicReportComponent implements OnInit {
 
     charDatas.forEach(chartData => {
       //console.log('chartData label  11',chartData.data.label,chartData.data[0].label);
-      charts.push(new Chart(chartData.canvas.getContext('2d'), {
+     let subPerf = new Chart(chartData.canvas.getContext('2d'), {
         type: type,
         data: {
           labels: chartData.labels,
@@ -1213,17 +1216,51 @@ export class DynamicReportComponent implements OnInit {
           },
           scales: chartData.scales,
           responsive: true,
-          onClick: this.onClick.bind(this)
+          
+          onClick: event => {
+            let point = Chart.helpers.getRelativePosition(event, subPerf.chart);
+            console.log('point',point);
+            let xIndex = subPerf.scales['x-axis-0'].getValueForPixel(point.x);
+            let label = subPerf.data.labels[xIndex];
+            console.log(label, + ' at index ' + xIndex);
+            
+            this.getPopUpDetials('GraphicalReport/getPreviewGraphicalReport',this.paramconstant, label);
+          },
+            //onclick:this.onclick.bind(this),
         }
-      }));
+      });
+      charts.push(subPerf);
+      console.log('chartindex', subPerf);
+
     })
     console.log('chartData Final', charts);
     return charts;
   }
-
-  onClick(event) {
-    console.log(event)
+  getPopUpDetials(url, params,params2, value = 0,type='days') {
+    let dataparams = {
+      view: {
+        api: url,
+        param: params,
+        type: 'post'
+      },
+  
+      title: 'Details'
+    }
+    if (value) {
+      let startDate = type == 'months'? new Date(new Date().setMonth(new Date().getMonth() - value)): new Date(new Date().setDate(new Date().getDate() - value));
+      let endDate = new Date();
+      dataparams.view.param['fromdate'] = this.common.dateFormatter(this.startDate);
+      dataparams.view.param['todate'] = this.common.dateFormatter(this.endDate);
+    }
+    dataparams.view.param['drilldown'] = params2;
+    console.log("dataparams=", dataparams);
+    this.common.handleModalSize('class', 'modal-lg', '1700');
+    this.common.params = { data: dataparams };
+    const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
+  // onclick(event) {
+  //   console.log(event)
+  // }
 
   onHideShow(head, index) {
     this.sideBarData.forEach(element => {
