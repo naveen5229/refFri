@@ -148,7 +148,7 @@
 
         </div>
         <div class="row mt-2" *ngIf="addvanceflag">
-          <div class="col-2 text-right"><label>Addvance Y:</label> </div>
+          <div class="col-2 text-right"><label>Advance Y:</label> </div>
           <div id="assignDataColumnYadd" cdkDropList [cdkDropListData]="assign.yAddvance" cdkDropListConnectedTo="menuList"
             class="col-10 drag-container" (cdkDropListDropped)="drop($event)">
             <div class="example-box fieldStyle" *ngFor="let n of assign.yAddvance;let i =index" cdkDrag [cdkDragData]="n">
@@ -349,15 +349,14 @@
       <div class="modal-body">
 
         <div class="row mt-4" style="text-align: center;">
-          <div class="col-6">
-            <label>Name:</label><input type="text" [(ngModel)]="assign.reportFileName">
-          </div>
-       
-          <div class="col-6">
-            <label>Default Report Days:</label><input type="number" [(ngModel)]="defaultdays" min="1" placeholder="Default Days">
-          </div>
+            <label>Report Name:</label><input type="text" [(ngModel)]="assign.reportFileName">
         </div>
-        
+        <div class="row mt-4" style="text-align: center;">
+          <label>Default period  last</label>
+          <input type="number" [(ngModel)]="fromdefaultdays" min="1" placeholder="Default From Days">
+          <label>To</label>
+          <input type="number" [(ngModel)]="defaultdays" min="1" placeholder="Default Days"><label>Days</label>
+      </div>
         <div class="row mt-2" style="text-align: center;">
           <div class="col-12">
             <button type="button" class="btn btn-success"
