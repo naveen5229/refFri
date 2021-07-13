@@ -99,6 +99,7 @@ export class TripstoppageComponent implements OnInit {
   }
   setTable() {
     let headings = {
+      trip_id: {title: 'Trip Id', placeholder: 'Trip Id'},
       Reg: { title: 'Reg No', placeholder: 'Reg No' },
       Start: { title: 'Start', placeholder: 'Start' },
       End: { title: 'End', placeholder: 'End' },
@@ -148,6 +149,7 @@ export class TripstoppageComponent implements OnInit {
     this.tripData.map(R => {
 
       let column = {
+        trip_id: {value: R.trip_id},
         Reg: { value: R.vehicle_name },
         Start: { value:R.event_type=='state' ? "* "+ this.datePipe.transform(R.start_time, 'dd MMM HH:mm '):this.datePipe.transform(R.start_time, 'dd MMM HH:mm ')},
         End: { value: this.datePipe.transform(R.end_time, 'dd MMM HH:mm') },
