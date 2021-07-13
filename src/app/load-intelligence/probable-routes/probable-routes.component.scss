@@ -96,7 +96,7 @@
   display: block;
   width: 100%;
   overflow-y: scroll;
-  max-height: 38vh;
+  max-height: calc(100vh - 533px);
 }
 
 

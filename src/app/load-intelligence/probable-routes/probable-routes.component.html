@@ -25,20 +25,18 @@
             </auto-suggestion>
           </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-4"><label for="dob">Aerial Distance Multiplier:</label></div>
-          <!-- <label for="dob" class="col-sm-4 control-label">Aerial Distance Multiplier</label> -->
           <div class="col-8">
             <input type="text" class="form-control" [value]="aerial" />
           </div>
         </div>
         <div class="row">
           <div class="col-4"><label for="firstName">Frechet:</label></div>
-          <!-- <label for="firstName" class="col-sm-2 control-label">Frechet:</label> -->
           <div class="col-8">
             <input type="text" class="form-control" [value]="frechet" />
           </div>
-        </div>
+        </div> -->
         <div class="row">
           <div class="col-4"><label for="firstName">Mis-Match Index:</label></div>
           <!-- <label for="firstName" class="col-sm-3 control-label">Mis-Match Index:</label> -->
@@ -75,10 +73,10 @@
     
       
           <div class="row" *ngIf="totalRoutes > 0">
-            <div class="col-2 pr-0">
+            <div class="col-12 pr-0">
               <label>Routes :</label>
             </div>
-            <div class="col-10" style="z-index: 99;">
+            <div class="col-12" style="z-index: 99;">
               <div class="route-list">
                 <ul class="select" (click)="createSelect()">
                   <li *ngFor="let rd of result;let i = index" style="height: 35px;"
