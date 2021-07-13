@@ -40,9 +40,9 @@ export class ProbableRoutesComponent implements OnInit {
   flightPath: any;
   totalRoutes = 0;
   routeStrength = '';
-  routes:any = [];
+  routes: any = [];
   routesTomodify = [];
-  tollData:any = [];
+  tollData: any = [];
   checkData = [];
   showTollFlag: boolean = false;
   colors = ["#3EA663", "#BC277D", "#000000"]
@@ -56,7 +56,7 @@ export class ProbableRoutesComponent implements OnInit {
     private fb: FormBuilder,
     private common: CommonService,
     private api: ApiService,
-    public map: MapService) {}
+    public map: MapService) { }
 
   ngOnInit(): void { }
 
@@ -65,8 +65,8 @@ export class ProbableRoutesComponent implements OnInit {
     this.radiusBoundary();
   }
 
-  createSelect(){
-   this.toggleClass = true;
+  createSelect() {
+    this.toggleClass = true;
   }
 
   selectLocation(event, type) {
@@ -106,6 +106,7 @@ export class ProbableRoutesComponent implements OnInit {
   }
 
   getData() {
+    this.showTollFlag = false;
     let params = {
       aerial: this.aerial,
       endLatitude: this.endLat,
@@ -128,7 +129,6 @@ export class ProbableRoutesComponent implements OnInit {
     this.http.post<any>('http://198.20.124.18:8081/api/v0/load/intelligence/snappedData', params, { headers }).subscribe(data => {
       this.common.loading--;
       this.getButtonVisible = false
-      // document.getElementById('get-btn').innerHTML = 'Clear All'
       this.result = data;
       this.radius = this.result[0].radius;
       this.result.map((item, i) => {
@@ -157,29 +157,30 @@ export class ProbableRoutesComponent implements OnInit {
   }
 
   polylines = {};
-  getRoutes(event, data, index){
-    console.log('event is: ', event, data, index,this.polylines)
+  getRoutes(event, data, index) {
+    console.log('event is: ', event, data, index, this.polylines)
 
     let dataList = [];
     let initialDataList = [];
     let finalDataList = [];
-    if(this.checkData.length > 0 && this.checkData.includes(index)){
+    if (this.checkData.length > 0 && this.checkData.includes(index)) {
       this.checkData.splice(this.checkData.indexOf(index), 1)
-    } else{
+    } else {
       this.checkData.push(index)
     }
 
     this.checkData.map(ele => {
-      this.result.forEach((ele1,index) => {
-        if((index) == ele){
-          dataList.push({data: ele1.latLongResponseList});
-          initialDataList.push({data: ele1.initialPoints});
-          finalDataList.push({data: ele1.finalPoints});
-        }});
-    } )
-    console.log('checkData is: ', this.checkData,dataList)
+      this.result.forEach((ele1, index) => {
+        if ((index) == ele) {
+          dataList.push({ data: ele1.latLongResponseList });
+          initialDataList.push({ data: ele1.initialPoints });
+          finalDataList.push({ data: ele1.finalPoints });
+        }
+      });
+    })
+    console.log('checkData is: ', this.checkData, dataList)
     this.map.resetPolyLines();
-    
+
     this.map.createPolyLines(dataList, this.colors[index]);
     this.map.createPolyLines(initialDataList, '	#0000FF');
     this.map.createPolyLines(finalDataList, '	#FF0000')
@@ -187,7 +188,7 @@ export class ProbableRoutesComponent implements OnInit {
 
   tollMarkers = [];
 
-  showTolls(data){
+  showTolls(data) {
     this.showTollFlag = true;
     console.log('data is: ', data)
     this.tollData = data['tolls']
@@ -195,7 +196,7 @@ export class ProbableRoutesComponent implements OnInit {
     console.log('this.tollData: ', this.tollData)
     this.map.resetMarker(true, true, this.tollMarkers);
     this.tollMarkers = this.map.createMarkers(this.tollData)
-    
+
   }
 }
 
