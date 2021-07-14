@@ -47,7 +47,7 @@ export class DrivercontactedComponent implements OnInit {
     }
     getCallsDrivar() {
       this.callsDrivar = [];
-     // this.showLoader(index);
+     this.showLoader();
       let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
       let endDate = new Date();
       let params = {
@@ -66,11 +66,11 @@ export class DrivercontactedComponent implements OnInit {
           //   return element
           // });
          // console.log('driver array :', this.driverIdArr);
+         this.hideLoader();;
   
           if (this.callsDrivar.length > 0) this.handleChart1();
-          //this.hideLoader(index);;
         }, err => {
-          //this.hideLoader(index);
+          this.hideLoader();
           console.log('Err:', err);
         });
     }
@@ -161,5 +161,23 @@ export class DrivercontactedComponent implements OnInit {
       this.getDetials('Tmgreport/GetCallsDriverDaywise', params)
     }
   
+    showLoader(index = 0) {
+      setTimeout(() => {
+        let outers = document.getElementsByClassName("callsload-3");
+        let loader = document.createElement('div');
+        loader.className = 'loader';
+        console.log('show loader', index, outers[index]);
+        outers[index].appendChild(loader);
+      }, 50);
+    }
   
+    hideLoader(index = 0) {
+      try {
+        let outers = document.getElementsByClassName("callsload-3");
+        let ele = outers[index].getElementsByClassName('loader')[0];
+        outers[index].removeChild(ele);
+      } catch (e) {
+        console.log('Exception', e);
+      }
+    }
 }

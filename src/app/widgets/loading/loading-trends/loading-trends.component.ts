@@ -48,7 +48,7 @@ export class LoadingTrendsComponent implements OnInit {
     }
     getLoadingAged() {
       this.loadingAged = [];
-     //  this.showLoader(index);
+      this.showLoader();
       let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
       let endDate = new Date();
       let params = {
@@ -64,9 +64,9 @@ export class LoadingTrendsComponent implements OnInit {
             this.loadingAged = res['data'].filter(aged => aged.Location);
           }
           if (this.loadingAged.length > 0) this.handleChart2(params.fromdate, params.todate);
-        //  this.hideLoader(index);
+         this.hideLoader();
         }, err => {
-         //  this.hideLoader(index);
+          this.hideLoader();
           console.log('Err:', err);
         });
     }
@@ -165,5 +165,24 @@ export class LoadingTrendsComponent implements OnInit {
   
       };
       console.log("chart2----", this.chart2);
+    }
+    showLoader(index = 0) {
+      setTimeout(() => {
+        let outers = document.getElementsByClassName("loading-2");
+        let loader = document.createElement('div');
+        loader.className = 'loader';
+        console.log('show loader', index, outers[index]);
+        outers[index].appendChild(loader);
+      }, 50);
+    }
+  
+    hideLoader(index = 0) {
+      try {
+        let outers = document.getElementsByClassName("loading-2");
+        let ele = outers[index].getElementsByClassName('loader')[0];
+        outers[index].removeChild(ele);
+      } catch (e) {
+        console.log('Exception', e);
+      }
     }
 }
