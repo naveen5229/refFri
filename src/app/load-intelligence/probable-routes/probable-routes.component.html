@@ -1,7 +1,7 @@
 <div class="card shadow-lg">
   <form class="form-horizontal" role="form">
     <div class="row">
-      <div class="col-6">
+      <div class="col-4 pr-0 pl-0">
         <div class="row">
           <div class="col-4"><label for="firstName">Origin:</label></div>
           <!-- <label for="firstName" class="col-sm-2 control-label">Origin:</label> -->
@@ -12,10 +12,6 @@
             </auto-suggestion>
           </div>
         </div>
-
-      </div>
-
-      <div class="col-6">
         <div class="row">
           <div class="col-4">
             <label for="lastName">Destination:</label>
@@ -29,36 +25,18 @@
             </auto-suggestion>
           </div>
         </div>
-      </div>
-
-    </div>
-    <div class="row">
-      <div class="col-6">
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-4"><label for="dob">Aerial Distance Multiplier:</label></div>
-          <!-- <label for="dob" class="col-sm-4 control-label">Aerial Distance Multiplier</label> -->
           <div class="col-8">
             <input type="text" class="form-control" [value]="aerial" />
           </div>
         </div>
-
-
-      </div>
-      <div class="col-6">
         <div class="row">
           <div class="col-4"><label for="firstName">Frechet:</label></div>
-          <!-- <label for="firstName" class="col-sm-2 control-label">Frechet:</label> -->
           <div class="col-8">
             <input type="text" class="form-control" [value]="frechet" />
           </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="row">
-
-      <div class="col-6">
+        </div> -->
         <div class="row">
           <div class="col-4"><label for="firstName">Mis-Match Index:</label></div>
           <!-- <label for="firstName" class="col-sm-3 control-label">Mis-Match Index:</label> -->
@@ -77,8 +55,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-6">
         <div class="row">
           <div class="col-6"></div>
           <div class="col-6">
@@ -94,8 +70,66 @@
             </div>
           </div>
         </div>
+    
+      
+          <div class="row" *ngIf="totalRoutes > 0">
+            <div class="col-12 pr-0">
+              <label>Routes :</label>
+            </div>
+            <div class="col-12" style="z-index: 99;">
+              <div class="route-list">
+                <ul class="select" (click)="createSelect()">
+                  <li *ngFor="let rd of result;let i = index" style="height: 35px;"
+                    [class]="toggleClass ? 'open' : 'close'">
+                    <div class="route-wrapper" [ngStyle]="{color: rd.color}">
+                      <span class="route-check">
+                        <input type="checkbox" [value]="i+1" (click)="getRoutes($event,rd, i)" />
+                      </span>
+                      <span class="route-span">
+                        Route {{i+1}}
+                      </span>
+                      <span class="strength-span">
+                        Strength: {{rd.routeStrength}}
+                      </span>
+                      <span class="distance">
+                        Distance: {{(rd.distance).toFixed(2)}}
+                      </span>
+                      <span class="toll-check">
+                        <button class="btn__accept" (click)="showTolls(rd)" style="font-size: 80% !important;">Show Toll</button>
+                      </span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="showTollFlag">
+            <table class="table table-hover table-nowrap">
+              <thead class="thead-light">
+                <th>Tolls</th>
+              </thead>
+              <tbody class="table-body">
+                <tr *ngFor="let toll of tollData; let i=index">
+                  <td (mouseover)="map.toggleBounceMF(i)" (mouseout)="map.toggleBounceMF(i,2)">{{toll.tollName}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+     
       </div>
+
+     
+    
+        <div class="col-8">
+          <div id="map" class="map"></div>
+        </div>
+        
+     
     </div>
+  
+
+
+  
     <!-- <div class="row">
       <div *ngIf="mismatchIndex > 20">
         <p style="font-size: 12px;color: crimson; margin-left: 225px;">Value upto 20% will give Best Result.</p>
@@ -115,46 +149,12 @@
         </div>
       </div>
     </div> -->
-    <div class="row" *ngIf="totalRoutes > 0">
-      <div class="col-8">
-        <div class="row">
-          <div class="col-3">
-            <label>Routes :</label>
-          </div>
-          <div class="col-9" style="z-index: 99;">
-            <div class="route-list">
-              <ul class="select" (click)="createSelect()">
-                <li *ngFor="let rd of result;let i = index" style="height: 35px;"
-                  [class]="toggleClass ? 'open' : 'close'">
-                  <div class="route-wrapper" [ngStyle]="{color: rd.color}">
-                    <span class="route-check">
-                      <input type="checkbox" [value]="i+1" (click)="getRoutes($event,rd, i)" />
-                    </span>
-                    <span class="route-span">
-                      Route {{i+1}}
-                    </span>
-                    <span class="strength-span">
-                      Strength: {{rd.routeStrength}}
-                    </span>
-                    <span class="distance">
-                      Distance: {{(rd.distance).toFixed(2)}}
-                    </span>
-                    <span class="toll-check">
-                      <button class="btn__accept" (click)="showTolls(rd)">Show Toll</button>
-                    </span>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
+   
   </form>
 </div>
-<div class="row">
-  <div [class]="showTollFlag ? 'col-9' : 'col-12'">
+
+<!-- <div class="row">
+  <div [class]="showTollFlag ? 'col-9' : 'col-6'">
     <div id="map" class="map"></div>
   </div>
   <div class="col-3" *ngIf="showTollFlag">
@@ -169,4 +169,4 @@
       </tbody>
     </table>
   </div>
-</div>
+</div> -->
