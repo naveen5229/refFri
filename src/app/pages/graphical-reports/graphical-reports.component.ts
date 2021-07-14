@@ -14,7 +14,10 @@ import { GenericModelComponent } from '../../modals/generic-modals/generic-model
 @Component({
   selector: 'graphical-reports',
   templateUrl: './graphical-reports.component.html',
-  styleUrls: ['./graphical-reports.component.scss']
+  styleUrls: ['./graphical-reports.component.scss'],
+  host: {
+    '(document:keydown)': 'keyHandler($event)'
+  }
 })
 export class GraphicalReportsComponent implements OnInit {
   startDate = this.common.getDate(-15);
@@ -118,9 +121,9 @@ export class GraphicalReportsComponent implements OnInit {
   defaultdays=15;
   dynamicflag = 0;
   addvanceflag = false;
-paramconstant :any;
-fromdefaultdays = 1;
-
+  paramconstant :any;
+  fromdefaultdays = 1;
+  lastindexof = '';
   constructor(
     public common: CommonService,
     public api: ApiService,
@@ -135,6 +138,29 @@ ngOnInit(): void {
     this.getSideBarList();
     this.getSavedReportList();
     this.generateCollapsible();
+  }
+
+  keyHandler(event) {
+    //event.stopPropagation();
+    const key = event.key.toLowerCase();
+    console.log('key preess',key);
+      
+    if (key.includes('tab') && this.addvanceflag && this.lastindexof == 'yAddvance') {
+     let arr = {
+      measure: "m",
+      r_colcode: "op",
+      r_colid: 100,
+      r_coltitle: "Arithmetic",
+      r_coltype: "operator",
+      r_isdynamic: 0,
+      r_ismasterfield: 1,
+      refid: null,
+      reftype: 2,
+      yaxis: "y-left"
+     };
+     if(this.assign['yAddvance'].length) this.assign['yAddvance'].push(arr);
+     this.lastindexof = '';
+    }
   }
 
   // getProcessList() {
@@ -325,8 +351,9 @@ ngOnInit(): void {
         }
         if (exists == 0)  this.assign[pushTo].push(_.clone(event.previousContainer.data[event.previousIndex]));
       }else if (pushTo == 'yAddvance') {
-        this.assign[pushTo].push(_.clone(event.previousContainer.data[event.previousIndex]));
+          this.assign[pushTo].push(_.clone(event.previousContainer.data[event.previousIndex]));
       }
+      this.lastindexof = pushTo;
 
       console.log('stored:', this.assign)
     }
@@ -882,7 +909,12 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
       this.common.showError('Please enter File Name')
     }
   }
-
+  arithmetic(arithmeticdata){
+    if(this.assign['yAddvance'].length){
+    this.assign['yAddvance'].push(arithmeticdata);
+    }
+    console.log('arithmeticdata',arithmeticdata);
+  }
   getReportPreview() {
     console.log('complete data', this.assign,this.dynamicflag)
     this.assign.y.forEach(ele => {
@@ -1537,7 +1569,7 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
     this.common.params = { data: dataparams };
     const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
-  onHideShow(head, index) {
+  onHideShow(event,head, index) {
     this.sideBarData.forEach(element => {
       let i = 0;
       if (element.children && element.children.length) {
@@ -1551,8 +1583,11 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
     });
     console.log("head:", head);
     setTimeout(() => {
+     console.log('head 2nd',this.sideBarData[0].children[index]);
       head.isHide = !head.isHide;
     }, 10);
+    event.stopPropagation();
+
   }
 
   blurChartImage(setBlur) {

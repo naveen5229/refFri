@@ -28,7 +28,7 @@ export class AvgUnloadingComponent implements OnInit {
 
     getTripUnLoadindTime() {
       this.tripUnLoadindTime = [];
-     // this.showLoader(index);
+      this.showLoader();
       let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
       let endDate = new Date();
       let params = {
@@ -43,9 +43,9 @@ export class AvgUnloadingComponent implements OnInit {
           console.log('tripUnLoadindTime:', res);
           this.tripUnLoadindTime = res['data'];
           if (this.tripUnLoadindTime.length > 0) this.handleChart2();
-         // this.hideLoader(index);;
+          this.hideLoader();;
         }, err => {
-         // this.hideLoader(index);;
+          this.hideLoader();
           console.log('Err:', err);
         });
     }
@@ -177,5 +177,24 @@ export class AvgUnloadingComponent implements OnInit {
       this.common.handleModalSize('class', 'modal-lg', '1100');
       this.common.params = { data: dataparams };
       const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    }
+    showLoader(index = 0) {
+      setTimeout(() => {
+        let outers = document.getElementsByClassName("tripload-3");
+        let loader = document.createElement('div');
+        loader.className = 'loader';
+        console.log('show loader', index, outers[index]);
+        outers[index].appendChild(loader);
+      }, 50);
+    }
+  
+    hideLoader(index = 0) {
+      try {
+        let outers = document.getElementsByClassName("tripload-3");
+        let ele = outers[index].getElementsByClassName('loader')[0];
+        outers[index].removeChild(ele);
+      } catch (e) {
+        console.log('Exception', e);
+      }
     }
 }

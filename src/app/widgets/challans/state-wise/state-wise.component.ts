@@ -25,7 +25,7 @@ export class StateWiseComponent implements OnInit {
     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     let endDate = new Date();
     this.challanStateWise = [];
-    // this.showLoader(index);
+    this.showLoader();
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate)
@@ -34,9 +34,9 @@ export class StateWiseComponent implements OnInit {
       .subscribe(res => {
         console.log('Res:', res['data']);
         this.challanStateWise = res['data'];
-       // this.hideLoader(index);
+       this.hideLoader();
       }, err => {
-        // this.hideLoader(index);
+        this.hideLoader();
         console.log('Err:', err);
       });
   }
@@ -60,5 +60,24 @@ export class StateWiseComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1100');
     this.common.params = { data: dataparams };
     const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+  showLoader(index = 0) {
+    setTimeout(() => {
+      let outers = document.getElementsByClassName("challan-3");
+      let loader = document.createElement('div');
+      loader.className = 'loader';
+      console.log('show loader', index, outers[index]);
+      outers[index].appendChild(loader);
+    }, 50);
+  }
+
+  hideLoader(index = 0) {
+    try {
+      let outers = document.getElementsByClassName("challan-3");
+      let ele = outers[index].getElementsByClassName('loader')[0];
+      outers[index].removeChild(ele);
+    } catch (e) {
+      console.log('Exception', e);
+    }
   }
 }
