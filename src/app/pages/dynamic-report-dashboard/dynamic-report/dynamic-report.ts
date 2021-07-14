@@ -720,7 +720,7 @@ paramconstant :any;
       reportFilter: this.assign.filter ? JSON.stringify(newfilter) : [],
       info: JSON.stringify(info),
       startTime: (this.defaultdays == 2) ? this.common.dateFormatter(this.startDate) : this.common.getDate(-(this.savedReportSelect['deflt_days'])),
-      endTime: this.common.dateFormatter(this.endDate),
+      endTime:(this.defaultdays == 2)?  this.common.dateFormatter(this.endDate): this.common.getDate(-(this.savedReportSelect['dft_from_day'])),
       yAddvance: (this.savedReportSelect['y_adv_str']) ? (this.savedReportSelect['y_adv_str']) : ''
 
     };

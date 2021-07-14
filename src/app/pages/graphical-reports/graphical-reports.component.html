@@ -148,7 +148,7 @@
 
         </div>
         <div class="row mt-2" *ngIf="addvanceflag">
-          <div class="col-2 text-right"><label>Addvance Y:</label> </div>
+          <div class="col-2 text-right"><label>Advance Y:</label> </div>
           <div id="assignDataColumnYadd" cdkDropList [cdkDropListData]="assign.yAddvance" cdkDropListConnectedTo="menuList"
             class="col-10 drag-container" (cdkDropListDropped)="drop($event)">
             <div class="example-box fieldStyle" *ngFor="let n of assign.yAddvance;let i =index" cdkDrag [cdkDragData]="n">
@@ -338,7 +338,7 @@
 
 <!-- start : save as -->
 <div class="modal" id="saveAs" #saveAs>
-  <div class="modal-dialog modal-md">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <!-- Modal Header -->
       <div class="modal-header">
@@ -347,17 +347,29 @@
       </div>
       <!-- Modal body -->
       <div class="modal-body">
-
-        <div class="row mt-4" style="text-align: center;">
-          <div class="col-6">
-            <label>Name:</label><input type="text" [(ngModel)]="assign.reportFileName">
+        <div class="row form-group mt-4 text-center">
+          <div class="col-4">
+            <label>Report Name:</label>
           </div>
-       
-          <div class="col-6">
-            <label>Default Report Days:</label><input type="number" [(ngModel)]="defaultdays" min="1" placeholder="Default Days">
+          <div class="col-8">
+            <input type="text" [(ngModel)]="assign.reportFileName">
           </div>
+  
         </div>
-        
+        <div class="row form-group mt-4 text-center">
+          <div class="col-3">
+            <label>Default period  last</label>
+          </div>
+          <div class="col-3">
+            <input type="number" [(ngModel)]="fromdefaultdays" min="1" placeholder="Default From Days">
+          </div>
+          <div class="col-2">
+            <label>   To</label>
+          </div>
+          <div class="col-4">
+            <input type="number" [(ngModel)]="defaultdays" min="1" placeholder="Default Days"><label>Days</label>
+          </div>
+      </div>
         <div class="row mt-2" style="text-align: center;">
           <div class="col-12">
             <button type="button" class="btn btn-success"

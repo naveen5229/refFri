@@ -23,14 +23,14 @@ export class LatestComponent implements OnInit {
   getChallansLatest() {
     this.challansLatest = [];
     let params = { totalrecord: 3 };
-     //this.showLoader(index);
+     this.showLoader();
     this.api.post('Tmgreport/GetChallansLatestChallans', params)
       .subscribe(res => {
         console.log('challansLatest:', res);
         this.challansLatest = res['data'];
-       // this.hideLoader(index);
+        this.hideLoader();
       }, err => {
-        // this.hideLoader(index);
+         this.hideLoader();
         console.log('Err:', err);
       });
   }
@@ -54,5 +54,26 @@ export class LatestComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1100');
     this.common.params = { data: dataparams };
     const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+
+  showLoader(index = 0) {
+    console.log('loder count ++ ', index);
+    setTimeout(() => {
+      let outers = document.getElementsByClassName("outer");
+      let loader = document.createElement('div');
+      loader.className = 'loader';
+      console.log('show loader', index, outers);
+      outers[index].appendChild(loader);
+    }, 50);
+  }
+
+  hideLoader(index = 0) {
+    try {
+      let outers = document.getElementsByClassName("outer");
+      let ele = outers[index].getElementsByClassName('loader')[0];
+      outers[index].removeChild(ele);
+    } catch (e) {
+      console.log('Exception', e);
+    }
   }
 }
