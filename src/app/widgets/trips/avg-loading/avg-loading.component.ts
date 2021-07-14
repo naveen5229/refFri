@@ -34,15 +34,15 @@ export class AvgLoadingComponent implements OnInit {
       isfo: false,
       isadmin: true
     };
-    //this.showLoader(index);
+    this.showLoader();
     this.api.post('Tmgreport/GetTripLoadindTime', params)
       .subscribe(res => {
         console.log('tripLoadindTime:', res);
         this.tripLoadindTime = res['data'];
         if (this.tripLoadindTime.length > 0) this.handleChart1();
-        //this.hideLoader(index);;
+        this.hideLoader();;
       }, err => {
-      //  this.hideLoader(index);;
+       this.hideLoader();
         console.log('Err:', err);
       });
   }
@@ -186,5 +186,23 @@ export class AvgLoadingComponent implements OnInit {
     //   });
     this.getDetials('Tmgreport/GetTripLoadindTime', params)
   }
+  showLoader(index = 0) {
+    setTimeout(() => {
+      let outers = document.getElementsByClassName("tripload-1");
+      let loader = document.createElement('div');
+      loader.className = 'loader';
+      console.log('show loader', index, outers[index]);
+      outers[index].appendChild(loader);
+    }, 50);
+  }
 
+  hideLoader(index = 0) {
+    try {
+      let outers = document.getElementsByClassName("tripload-1");
+      let ele = outers[index].getElementsByClassName('loader')[0];
+      outers[index].removeChild(ele);
+    } catch (e) {
+      console.log('Exception', e);
+    }
+  }
 }

@@ -83,14 +83,14 @@
          
           <ul *ngIf="data.children && data.children.length >0" class="child-ul">
             <li class="top" *ngFor="let head of data.children;let i = index" style="font-weight:bold"
-              (click)="onHideShow(head,i)">
+              >
               <!--(click)="head.children? head.hideMe = !head.hideMe: head.hideMe = head.hideMe"-->
-              <p *ngIf="(!head.title.includes('Operator'))" class="drophead">{{head.title}} <span class="dropcaret"><i class="fas fa-sort-down" style="cursor: pointer"></i></span></p>
-              <p *ngIf="((head.title.includes('Operator')) && (addvanceflag))" class="drophead">{{head.title}} <span class="dropcaret"><i class="fas fa-sort-down" style="cursor: pointer"></i></span></p>
+              <p *ngIf="(!head.title.includes('Operator'))" class="drophead" (click)="onHideShow($event,head,i)">{{head.title}} <span class="dropcaret"><i class="fas fa-sort-down" style="cursor: pointer"></i></span></p>
+              <p *ngIf="((head.title.includes('Operator')) && (addvanceflag))" class="drophead" (click)="onHideShow($event,head,i)">{{head.title}} <span class="dropcaret"><i class="fas fa-sort-down" style="cursor: pointer"></i></span></p>
               <ul *ngIf="head.isHide" id="unassign" cdkDropList [cdkDropListData]="head.children"
                 [cdkDropListConnectedTo]="['assignDataRow','assignDataColumn','filter','assignDataColumnYadd']" class="child-ul innerdrop"
                 (cdkDropListDropped)="drop($event)" [cdkDropListEnterPredicate]="noReturnPredicate">
-                <li class="drag-list" *ngFor="let sub of head.children;let i = index" cdkDrag>
+                <li class="drag-list" *ngFor="let sub of head.children;let i = index" cdkDrag (click)="(sub.r_coltype == 'operator')?arithmetic(sub):''">
                   {{sub.r_coltitle}}
                 </li>
               </ul>
