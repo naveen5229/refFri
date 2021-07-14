@@ -2145,4 +2145,58 @@ export class CommonService {
 
     return array;
   }
+
+  getCSVFromDataArray(dataArray, dataHeader, fileName, details?, doNotIncludes?) {
+    // let organization = { "elogist Solutions": "elogist Solutions" };
+    let name = (fileName && fileName != "") ? fileName : 'report';
+
+    // let info = [];
+    // let blankline = { "": "" };
+    // if (titles && titles.length > 0) {
+    //   info.push(titles);
+    //   info.push(blankline);
+    // }
+
+    let blankline: any = { "": "" };
+    let info: any[] = [];
+
+    if (details) {
+      details.forEach(detail => info.push({ "": "", ...detail }))
+    }
+    info.push(blankline);
+
+    console.log("given data array:", dataArray);
+    console.log("dataHeader:", dataHeader);
+    console.log('titles : ', details);
+    console.log('info : ', info);
+    if (dataArray.length > 0) {
+      let objectKeys = Object.keys;
+      let thArray = [];
+      let thArg = [];
+      for (let heading of objectKeys(dataHeader)) {
+        console.log("heading in array:", heading);
+        let dataHeaderTemp = dataHeader[heading].title;
+        if (dataHeaderTemp == '' || dataHeaderTemp == 'Action' || dataHeaderTemp == 'action')
+          continue;
+
+        thArg.push(dataHeaderTemp);
+        thArray.push(this.formatTitle(dataHeaderTemp));
+      }
+
+      // console.log("thArray:", thArray);
+      info.push(thArray);
+
+      dataArray.map(column => {
+        let tdArray = [];
+        for (let heading of thArg) {
+          let columnTemp = (column[heading]) ? column[heading] : '';
+          tdArray.push(columnTemp);
+        }
+        info.push(tdArray);
+      })
+    }
+    // console.log("csv data array:", info);
+    new AngularCsv(info, name);
+  }
+
 }
