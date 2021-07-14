@@ -32,6 +32,8 @@ export class IssuesReportComponent implements OnInit {
   endDate = new Date();
   startDate = new Date(new Date().setDate(new Date().getDate() - 15));
   clusterSize = 100
+  showExcel: boolean = false;
+
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -68,6 +70,7 @@ ngOnInit() {
     this.api.get(url+params)
       .subscribe(res => {
         this.common.loading--;
+        this.showExcel = true;
         console.log('Res: ', res['data']);
           this.reportData = res['data'] || [];
           this.gettingTableHeader(this.reportData);
@@ -192,6 +195,20 @@ ngOnInit() {
       size: "lg",
       container: "nb-layout"
     });
+  }
+
+  downloadCsv(){
+    let headerData = [
+      { "": "", "reportname": this.reportType },
+      {
+        "": "",
+        "startDate": "Start Date: " + this.common.changeDateformat(this.startDate, "dd MMM yyyy HH:mm"),
+        "End Date": "End Date: " + this.common.changeDateformat(this.endDate, "dd MMM yyyy HH:mm")
+      }
+    ];
+    // this.common.getCSVFromTableId('report', this.title, headerData)
+
+    this.common.getCSVFromDataArray(this.reportData, this.table.data.headings, this.reportType, headerData)  
   }
 
   }
