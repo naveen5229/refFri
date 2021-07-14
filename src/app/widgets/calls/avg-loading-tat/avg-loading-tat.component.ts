@@ -48,7 +48,7 @@ export class AvgLoadingTatComponent implements OnInit {
 
     getCallsSupervisorLoadingTat() {
       this.callsSupervisorLoadingTat = [];
-      //this.showLoader(index);
+      this.showLoader();
       let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
       let endDate = new Date();
       let params = {
@@ -62,10 +62,10 @@ export class AvgLoadingTatComponent implements OnInit {
         .subscribe(res => {
           console.log('callsSupervisorLoadingTat:', res);
           this.callsSupervisorLoadingTat = res['data'] || [];
+         this.hideLoader();
           if (this.callsSupervisorLoadingTat.length > 0) this.handleChart3();
-         // this.hideLoader(index);
         }, err => {
-        //  this.hideLoader(index);
+         this.hideLoader();
           console.log('Err:', err);
         });
     }
@@ -157,5 +157,24 @@ export class AvgLoadingTatComponent implements OnInit {
       };
       console.log('params :', params);
       this.getDetials('Tmgreport/GetCallsSupervisorLoadingTat', params)
+    }
+    showLoader(index = 0) {
+      setTimeout(() => {
+        let outers = document.getElementsByClassName("callsload-1");
+        let loader = document.createElement('div');
+        loader.className = 'loader';
+        console.log('show loader', index, outers[index]);
+        outers[index].appendChild(loader);
+      }, 50);
+    }
+  
+    hideLoader(index = 0) {
+      try {
+        let outers = document.getElementsByClassName("callsload-1");
+        let ele = outers[index].getElementsByClassName('loader')[0];
+        outers[index].removeChild(ele);
+      } catch (e) {
+        console.log('Exception', e);
+      }
     }
 }

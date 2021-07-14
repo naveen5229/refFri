@@ -47,7 +47,7 @@ export class LiveTrafficStatusComponent implements OnInit {
     }
     getTrafficLiveStatus() {
       this.trafficLiveStatus = [];
-     // this.showLoader(index);
+     this.showLoader();
       let params = {
         totalrecord: 7
       };
@@ -56,9 +56,9 @@ export class LiveTrafficStatusComponent implements OnInit {
           console.log('trafficLiveStatus:', res);
           this.trafficLiveStatus = res['data'];
           this.handleChart(this.trafficLiveStatus);
-        //  this.hideLoader(index);
+         this.hideLoader();
         }, err => {
-         // this.hideLoader(index);
+         this.hideLoader();
           console.log('Err:', err);
         });
     }
@@ -125,5 +125,24 @@ export class LiveTrafficStatusComponent implements OnInit {
       //     console.log('Err:', err);
       //   });
       this.getDetials('Tmgreport/GetTrafficLiveStatus', params)
+    }
+    showLoader(index = 0) {
+      setTimeout(() => {
+        let outers = document.getElementsByClassName("trafficload-1");
+        let loader = document.createElement('div');
+        loader.className = 'loader';
+        console.log('show loader', index, outers[index]);
+        outers[index].appendChild(loader);
+      }, 50);
+    }
+  
+    hideLoader(index = 0) {
+      try {
+        let outers = document.getElementsByClassName("trafficload-1");
+        let ele = outers[index].getElementsByClassName('loader')[0];
+        outers[index].removeChild(ele);
+      } catch (e) {
+        console.log('Exception', e);
+      }
     }
 }

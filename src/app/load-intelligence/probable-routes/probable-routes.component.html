@@ -83,7 +83,7 @@
                     [class]="toggleClass ? 'open' : 'close'">
                     <div class="route-wrapper" [ngStyle]="{color: rd.color}">
                       <span class="route-check">
-                        <input type="checkbox" [value]="i+1" (click)="getRoutes($event,rd, i)" />
+                        <input type="checkbox" [value]="i+1" (click)="getRoutes($event,rd, i)" [(ngModel)]="rd.isSelected" />
                       </span>
                       <span class="route-span">
                         Route {{i+1}}

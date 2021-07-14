@@ -46,12 +46,15 @@ export class TrendsComponent implements OnInit {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate)
     };
+    this.showLoader();
     this.api.post('Tmgreport/GetChallansMonthGraph', params)
       .subscribe(res => {
+        this.hideLoader();
         console.log('challansMonthGraph:', res);
         this.challansMonthGraph = res['data'];
         this.getlabelValue();
       }, err => {
+        this.hideLoader();
         console.log('Err:', err);
       });
   }
@@ -209,5 +212,23 @@ export class TrendsComponent implements OnInit {
     });
     return options;
   }
+  showLoader(index = 0) {
+    setTimeout(() => {
+      let outers = document.getElementsByClassName("challan-4");
+      let loader = document.createElement('div');
+      loader.className = 'loader';
+      console.log('show loader', index, outers[index]);
+      outers[index].appendChild(loader);
+    }, 50);
+  }
 
+  hideLoader(index = 0) {
+    try {
+      let outers = document.getElementsByClassName("challan-4");
+      let ele = outers[index].getElementsByClassName('loader')[0];
+      outers[index].removeChild(ele);
+    } catch (e) {
+      console.log('Exception', e);
+    }
+  }
 }
