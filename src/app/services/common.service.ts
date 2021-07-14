@@ -459,37 +459,30 @@ export class CommonService {
     // console.log(startTime,endTime,result);
     return result;
   }
-
   distanceFromAToB(lat1, lon1, lat2, lon2, unit, isFixed = true, isMultiply = true): any {
     if (lat1 == lat2 && lon1 == lon2) {
       return 0;
     } else {
-      let radlat1 = (Math.PI * lat1) / 180;
-      let radlat2 = (Math.PI * lat2) / 180;
-      let theta = lon1 - lon2;
-      let radtheta = (Math.PI * theta) / 180;
-      let dist =
-        Math.sin(radlat1) * Math.sin(radlat2) +
-        Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-      if (dist > 1) {
-        dist = 1;
+      function toRad(x) {
+        return x * Math.PI / 180;
       }
-      dist = Math.acos(dist);
-      dist = (dist * 180) / Math.PI;
-      dist = dist * 60 * 1.1515;
-      dist = dist * 1.609344 * 1000;
-      if(isMultiply)
-        dist = this.odoMultiplierWithMeter(dist);
-      dist /= 1.609344 * 1000;
+      var R = 6371; // km
 
+      var x1 = lat2 - lat1;
+      var dLat = toRad(x1);
+      var x2 = lon2 - lon1;
+      var dLon = toRad(x2)
+      var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      var dist = R * c;
+    
       if (unit == "K") {
-        dist = dist * 1.609344;
+        dist = dist;
       }
       if (unit == "Mt") {
-        dist = dist * 1.609344 * 1000;
-      }
-      if (unit == "N") {
-        dist = dist * 0.8684;
+        dist = dist * 1000;
       }
 
       if (!isFixed) {
@@ -500,7 +493,38 @@ export class CommonService {
     }
   }
 
-  odoMultiplierWithMeter(distance: number) {
+  // distanceFromAToB(lat1, lon1, lat2, lon2, unit, isFixed = true, isMultiply = true): any {
+  //   if (lat1 == lat2 && lon1 == lon2) {
+  //     return 0;
+  //   } else {
+  //     let radlat1 = (Math.PI * lat1) / 180;
+  //     let radlat2 = (Math.PI * lat2) / 180;
+  //     let theta = lon1 - lon2;
+  //     let radtheta = (Math.PI * theta) / 180;
+  //     let dist =
+  //       Math.sin(radlat1) * Math.sin(radlat2) +
+  //       Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+  //     if (dist > 1) {
+  //       dist = 1;
+  //     }
+  //     dist = Math.acos(dist);
+  //     dist = (dist * 180) / Math.PI;
+  //     dist = dist * 60 * 1.1515;
+  //     if(isMultiply)
+  //       dist = this.odoMultiplierWithMeter(dist);
+
+     
+
+  //     if (!isFixed) {
+  //       return parseFloat(dist.toFixed(2));
+  //     }
+
+  //     return parseInt(dist.toFixed(0));
+  //   }
+  // }
+
+  odoMultiplierWithMeter(dist: number) {
+    let distance = dist * 1609.344;
     if (distance < 200) {
       distance = distance * 1.02;
     } else if (distance > 200 && distance < 1000) {
