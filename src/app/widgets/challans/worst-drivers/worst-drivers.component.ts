@@ -30,14 +30,14 @@ export class WorstDriversComponent implements OnInit {
     };
 
    
-    // this.showLoader(index);
+    this.showLoader();
     this.api.post('Tmgreport/GetChallansdrivarcount', params)
       .subscribe(res => {
         console.log('challansdrivarcount:', res);
         this.challansdrivarcount = res['data'];
-        //this.hideLoader(index);
+        this.hideLoader();
       }, err => {
-        // this.hideLoader(index);
+        this.hideLoader();
         console.log('Err:', err);
       });
   }
@@ -62,5 +62,23 @@ export class WorstDriversComponent implements OnInit {
     this.common.params = { data: dataparams };
     const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
+  showLoader(index = 0) {
+    setTimeout(() => {
+      let outers = document.getElementsByClassName("challan-5");
+      let loader = document.createElement('div');
+      loader.className = 'loader';
+      console.log('show loader', index, outers[index]);
+      outers[index].appendChild(loader);
+    }, 50);
+  }
 
+  hideLoader(index = 0) {
+    try {
+      let outers = document.getElementsByClassName("challan-5");
+      let ele = outers[index].getElementsByClassName('loader')[0];
+      outers[index].removeChild(ele);
+    } catch (e) {
+      console.log('Exception', e);
+    }
+  }
 }

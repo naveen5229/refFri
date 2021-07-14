@@ -42,16 +42,35 @@ export class LongestDriverUnavailableComponent implements OnInit {
 
     getTrafficLongestDriverUnavailable() {
       this.trafficLongestDriverUnavailable = [];
-      //this.showLoader(index);
+      this.showLoader();
       let params = { totalrecord: 5 };
       this.api.post('Tmgreport/GetTrafficLongestDriverUnavailable', params)
         .subscribe(res => {
           console.log('tripSlowestOnward:', res);
           this.trafficLongestDriverUnavailable = res['data'];
-         // this.hideLoader(index);
+         this.hideLoader();
         }, err => {
-          //this.hideLoader(index);
+          this.hideLoader();
           console.log('Err:', err);
         });
+    }
+    showLoader(index = 0) {
+      setTimeout(() => {
+        let outers = document.getElementsByClassName("trafficload-2");
+        let loader = document.createElement('div');
+        loader.className = 'loader';
+        console.log('show loader', index, outers[index]);
+        outers[index].appendChild(loader);
+      }, 50);
+    }
+  
+    hideLoader(index = 0) {
+      try {
+        let outers = document.getElementsByClassName("trafficload-2");
+        let ele = outers[index].getElementsByClassName('loader')[0];
+        outers[index].removeChild(ele);
+      } catch (e) {
+        console.log('Exception', e);
+      }
     }
 }

@@ -54,15 +54,15 @@ export class LoadAllocationComponent implements OnInit {
         todate: this.common.dateFormatter(endDate),
         groupdays: 7
       };
-     //  this.showLoader(index);
+      this.showLoader();
       this.api.post('Tmgreport/GetTransportarLoadingTat', params)
         .subscribe(res => {
           console.log('GetTransportarLoadingTat:', res);
           this.transportarLoadingTat = res['data'];
-         // this.hideLoader(index);
+         this.hideLoader();
           if (this.transportarLoadingTat.length > 0) this.handleChart1();
         }, err => {
-          // this.hideLoader(index);
+          this.hideLoader();
           console.log('Err:', err);
         });
     }
@@ -162,5 +162,23 @@ export class LoadAllocationComponent implements OnInit {
       //   });
       this.getDetials('Tmgreport/GetTransportarLoadingTat', params)
     }
+    showLoader(index = 0) {
+      setTimeout(() => {
+        let outers = document.getElementsByClassName("transportar-2");
+        let loader = document.createElement('div');
+        loader.className = 'loader';
+        console.log('show loader', index, outers[index]);
+        outers[index].appendChild(loader);
+      }, 50);
+    }
   
+    hideLoader(index = 0) {
+      try {
+        let outers = document.getElementsByClassName("transportar-2");
+        let ele = outers[index].getElementsByClassName('loader')[0];
+        outers[index].removeChild(ele);
+      } catch (e) {
+        console.log('Exception', e);
+      }
+    }
 }

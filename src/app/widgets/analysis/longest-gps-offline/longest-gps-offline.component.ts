@@ -41,7 +41,7 @@ export class LongestGpsOfflineComponent implements OnInit {
     }
     getConsignmentLongestGpsIssue () {
       this.consignmentLongestGpsIssue  = [];
-       //this.showLoader(index);
+       this.showLoader();
       let startDate = new Date(new Date().setDate(new Date().getDate() - 15));
       let endDate = new Date();
       let params = {
@@ -53,10 +53,29 @@ export class LongestGpsOfflineComponent implements OnInit {
         .subscribe(res => {
           console.log('trafficLongestVehicleGpsIssue:', res['data']);
           this.consignmentLongestGpsIssue = res['data'];
-         // this.hideLoader(index);
+         this.hideLoader();
         }, err => {
-          // this.hideLoader(index);
+          this.hideLoader();
           console.log('Err:', err);
         });
+    }
+    showLoader(index = 0) {
+      setTimeout(() => {
+        let outers = document.getElementsByClassName("liveload-2");
+        let loader = document.createElement('div');
+        loader.className = 'loader';
+        console.log('show loader', index, outers[index]);
+        outers[index].appendChild(loader);
+      }, 50);
+    }
+  
+    hideLoader(index = 0) {
+      try {
+        let outers = document.getElementsByClassName("liveload-2");
+        let ele = outers[index].getElementsByClassName('loader')[0];
+        outers[index].removeChild(ele);
+      } catch (e) {
+        console.log('Exception', e);
+      }
     }
 }

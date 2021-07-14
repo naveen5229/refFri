@@ -42,7 +42,7 @@ export class LongestParkingVehicleComponent implements OnInit {
 
     getLiveLongestParking() { 
       this.liveLongestParking = [];
-      // this.showLoader(index);
+      this.showLoader();
       let params = {
         totalrecord : 3
       };
@@ -50,11 +50,30 @@ export class LongestParkingVehicleComponent implements OnInit {
         .subscribe(res => {
           console.log('LiveLongestParking:', res['data']);
           this.liveLongestParking = res['data'];
-         // this.hideLoader(index);
+         this.hideLoader();
         }, err => {
-          // this.hideLoader(index);
+          this.hideLoader();
           console.log('Err:', err);
         });
+    }
+    showLoader(index = 0) {
+      setTimeout(() => {
+        let outers = document.getElementsByClassName("liveload-5");
+        let loader = document.createElement('div');
+        loader.className = 'loader';
+        console.log('show loader', index, outers[index]);
+        outers[index].appendChild(loader);
+      }, 50);
+    }
+  
+    hideLoader(index = 0) {
+      try {
+        let outers = document.getElementsByClassName("liveload-5");
+        let ele = outers[index].getElementsByClassName('loader')[0];
+        outers[index].removeChild(ele);
+      } catch (e) {
+        console.log('Exception', e);
+      }
     }
 
 }
