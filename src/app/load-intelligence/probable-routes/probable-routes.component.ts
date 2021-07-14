@@ -109,6 +109,7 @@ export class ProbableRoutesComponent implements OnInit {
     this.showTollFlag = false;
     this.map.clearAll()
     this.map.resetPolyLines();
+    this.checkData = [];
 
 
     let params = {
@@ -137,6 +138,7 @@ export class ProbableRoutesComponent implements OnInit {
       this.radius = this.result[0].radius;
       this.result.map((item, i) => {
         item.color = this.colors[i]
+        item.isSelected = false;
       })
 
       console.log('result is: ', this.result)
