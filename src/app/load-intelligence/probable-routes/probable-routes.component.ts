@@ -107,6 +107,10 @@ export class ProbableRoutesComponent implements OnInit {
 
   getData() {
     this.showTollFlag = false;
+    this.map.clearAll()
+    this.map.resetPolyLines();
+
+
     let params = {
       aerial: this.aerial,
       endLatitude: this.endLat,
@@ -136,7 +140,6 @@ export class ProbableRoutesComponent implements OnInit {
       })
 
       console.log('result is: ', this.result)
-      this.map.clearAll()
       this.radiusBoundary();
       this.totalRoutes = this.result.length;
       console.log('total routes: ', this.totalRoutes);
@@ -161,8 +164,6 @@ export class ProbableRoutesComponent implements OnInit {
     console.log('event is: ', event, data, index, this.polylines)
 
     let dataList = [];
-    let initialDataList = [];
-    let finalDataList = [];
     if (this.checkData.length > 0 && this.checkData.includes(index)) {
       this.checkData.splice(this.checkData.indexOf(index), 1)
     } else {
@@ -172,18 +173,14 @@ export class ProbableRoutesComponent implements OnInit {
     this.checkData.map(ele => {
       this.result.forEach((ele1, index) => {
         if ((index) == ele) {
-          dataList.push({ data: ele1.latLongResponseList });
-          initialDataList.push({ data: ele1.initialPoints });
-          finalDataList.push({ data: ele1.finalPoints });
+          dataList.push({ data: ele1.latLongResponseList ,color: this.colors[index]});
         }
       });
     })
     console.log('checkData is: ', this.checkData, dataList)
     this.map.resetPolyLines();
 
-    this.map.createPolyLines(dataList, this.colors[index]);
-    this.map.createPolyLines(initialDataList, '	#0000FF');
-    this.map.createPolyLines(finalDataList, '	#FF0000')
+    this.map.createPolyLines(dataList);
   }
 
   tollMarkers = [];

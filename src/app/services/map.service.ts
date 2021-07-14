@@ -992,17 +992,17 @@ export class MapService {
 
   polylines = [];
   
-  createPolyLines(latLngsMulti, colorPoly, options?) {// strokeColor = '#', fillColor = '#') {
+  createPolyLines(latLngsMulti, options?) {// strokeColor = '#', fillColor = '#') {
     let index = 0;
 
-    latLngsMulti.forEach(latLngs => {
+    latLngsMulti.forEach((latLngs,i) => {
       const defaultOptions = {
         path: latLngs.data,
-        strokeColor: colorPoly,
+        strokeColor: latLngs.color,
         strokeOpacity: 0.8,
         strokeWeight: 2,
         clickable: !latLngs.isMain,
-        fillColor: colorPoly,
+        fillColor: latLngs.color,
         fillOpacity: 0.35
       };
       let polyline = new google.maps.Polyline(options || defaultOptions);
