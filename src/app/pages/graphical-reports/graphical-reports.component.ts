@@ -115,10 +115,11 @@ export class GraphicalReportsComponent implements OnInit {
   fliterflag = true;
   firstfilter='';
   secondfilter='';
-  defaultdays=30;
+  defaultdays=15;
   dynamicflag = 0;
   addvanceflag = false;
 paramconstant :any;
+fromdefaultdays = 1;
 
   constructor(
     public common: CommonService,
@@ -786,8 +787,9 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
       };
       ynewaaray.push(xarray);
     });
-    let yaddvanceaaray = '{';
+    let yaddvanceaaray = '';
     if(this.assign.yAddvance.length){
+     yaddvanceaaray = '{';
     this.assign.yAddvance.map((data)=>{
       if(data.r_coltype == 'operator'){
         if(data.measure == 'c' || data.measure == 's'){
@@ -849,7 +851,8 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
       name: this.assign.reportFileName,
       id: reqID,
       defaultdays:this.defaultdays,
-      yAddvance:yaddvanceaaray.substring(0,yaddvanceaaray.length-1)+'}'
+      defultfromdays:this.fromdefaultdays,
+      yAddvance:(yaddvanceaaray)?(yaddvanceaaray.substring(0,yaddvanceaaray.length-1)+'}'):''
     };
 
     if (params.name) {
@@ -908,8 +911,9 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
       };
       ynewaaray.push(xarray);
     });
-    let yaddvanceaaray = '{';
+    let yaddvanceaaray = '';
     if(this.assign.yAddvance.length){
+     yaddvanceaaray = '{';
     this.assign.yAddvance.map((data)=>{
       if(data.r_coltype == 'operator'){
         if(data.measure == 'c' || data.measure == 's'){
