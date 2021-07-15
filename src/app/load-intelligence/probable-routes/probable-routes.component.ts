@@ -46,11 +46,9 @@ export class ProbableRoutesComponent implements OnInit {
   checkData = [];
   showTollFlag: boolean = false;
   colors = ["#3EA663", "#BC277D", "#000000"]
-
+  tollMarkers = [];
+  polylines = {};
   toggleClass: boolean = false;
-  // distance;
-  // colourful = ["#D8BFD8"];//this is responsible for providing different colour to the path
-
 
   constructor(private http: HttpClient,
     private fb: FormBuilder,
@@ -111,7 +109,6 @@ export class ProbableRoutesComponent implements OnInit {
     this.map.resetPolyLines();
     this.checkData = [];
 
-
     let params = {
       aerial: this.aerial,
       endLatitude: this.endLat,
@@ -161,7 +158,6 @@ export class ProbableRoutesComponent implements OnInit {
     this.map.zoomAt(endPoint, 8);
   }
 
-  polylines = {};
   getRoutes(event, data, index) {
     console.log('event is: ', event, data, index, this.polylines)
 
@@ -181,21 +177,17 @@ export class ProbableRoutesComponent implements OnInit {
     })
     console.log('checkData is: ', this.checkData, dataList)
     this.map.resetPolyLines();
-
     this.map.createPolyLines(dataList);
+    this.map.resetMarker(true, true, this.tollMarkers);
   }
 
-  tollMarkers = [];
 
   showTolls(data) {
+    console.log('data is: ', )
     this.showTollFlag = true;
-    console.log('data is: ', data)
     this.tollData = data['tolls']
-
-    console.log('this.tollData: ', this.tollData)
     this.map.resetMarker(true, true, this.tollMarkers);
     this.tollMarkers = this.map.createMarkers(this.tollData)
-
   }
 }
 
