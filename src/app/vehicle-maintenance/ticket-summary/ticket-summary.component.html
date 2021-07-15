@@ -35,7 +35,7 @@
                     <div class="col-4 my-auto">
                         <auto-suggestion name="selected-area" [data]="servicetypes"
                             (onSelected)="summaryRange.serviceType = $event;filterSummary()" display="name"
-                            placeholder="Service type" [preSelected]="{name:summaryRange.serviceType.name}">
+                            placeholder="Service type" [preSelected]="summaryRange.serviceType" [isMultiSelect]="true">
                         </auto-suggestion>
                     </div>
                 </div>

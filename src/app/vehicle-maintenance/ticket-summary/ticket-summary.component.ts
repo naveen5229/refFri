@@ -30,7 +30,7 @@ export class TicketSummaryComponent implements OnInit {
     startDate: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
     endDate: new Date(),
     status: 'Pending',
-    serviceType: { id: -1, name: 'All' }
+    serviceType: []
   }
   constructor(
     public api: ApiService,
@@ -52,7 +52,7 @@ export class TicketSummaryComponent implements OnInit {
         this.common.loading--;
         console.log("Data :", res);
         this.servicetypes = res['data'] || [];
-        this.servicetypes.splice(0, 0, { id: -1, name: 'All' })
+        // this.servicetypes.splice(0, 0, { id: -1, name: 'All' })
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -80,17 +80,20 @@ export class TicketSummaryComponent implements OnInit {
 
   filterSummary() {
     this.resetTable();
-    if (this.summaryRange.serviceType.name === 'All') {
+    console.log(this.summaryRange.serviceType)
+    if (this.summaryRange.serviceType == null || this.summaryRange.serviceType.length === 0) {
       if (this.summaryRange.status === 'All') {
         this.data = this.dataForFilter;
       } else {
         this.data = this.dataForFilter.filter(summary => { return summary._status.toLowerCase() == this.summaryRange.status.toLowerCase() });
       }
     } else {
+      let serviceTypes = this.summaryRange.serviceType.map(type => type.name.toLowerCase());
+      console.log(serviceTypes)
       if (this.summaryRange.status === 'All') {
-        this.data = this.dataForFilter.filter(summary => { return summary.Service.toLowerCase() == this.summaryRange.serviceType.name.toLowerCase() });
+        this.data = this.dataForFilter.filter(summary => { return serviceTypes.includes(summary.Service.toLowerCase()) });
       } else {
-        this.data = this.dataForFilter.filter(summary => { return summary.Service.toLowerCase() == this.summaryRange.serviceType.name.toLowerCase() && summary._status.toLowerCase() == this.summaryRange.status.toLowerCase() });
+        this.data = this.dataForFilter.filter(summary => { return serviceTypes.includes(summary.Service.toLowerCase()) && summary._status.toLowerCase() == this.summaryRange.status.toLowerCase() });
       }
     }
     console.log(this.data);
