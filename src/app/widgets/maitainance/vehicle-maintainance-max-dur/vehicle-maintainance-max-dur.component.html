@@ -1,0 +1,24 @@
+<div class="">
+    <div class="outer maintainance-5" style="min-height:130px;">
+      <h6 style="text-align:center"><b class="charthead">Vehicles in Maintainance (Max. Dur.)</b></h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+        (click)="getDetials('Tmgreport/GetVehicleMaintainancelongperiod',{totalrecord: 3,stepno: 2},180,'days')"><i
+          title="More Details" class="fa fa-list"></i>
+      </p>
+      <table class="table">
+        <thead class="thead">
+          <th>Reg No</th>
+          <th>Start Date</th>
+          <th>Location</th>
+        </thead>
+        <tbody class="tbody">
+          <tr *ngFor="let cl of challansLatest">
+            <td class="link"
+            (click)="getDetials('Tmgreport/GetVehicleMaintainancelongperiod',{totalrecord: 3,stepno:3,xid:cl['_vid']},180,'days')">{{cl['Reg No']}}</td>
+            <td>{{cl['Start Date']}}</td>
+            <td>{{cl['Location']}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

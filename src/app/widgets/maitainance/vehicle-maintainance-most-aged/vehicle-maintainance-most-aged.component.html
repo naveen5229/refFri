@@ -1,0 +1,23 @@
+<div class="">
+    <div class="outer maintainance-6" style="min-height: 130px;">
+      <h6 style="text-align:center"><b class="charthead">Vehicle with Maint. Delay (Most Aged)</b></h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+        (click)="getDetials('Tmgreport/GetMaintainancevehicledelay',{totalrecord: 3,stepno: 2},90,'days')"><i
+          title="More Details" class="fa fa-list"></i>
+      </p>
+      <table class="table">
+        <thead class="thead">
+          <th>Reg No.</th>
+          <th>Due Date</th>
+          <th>Maint Type</th>
+        </thead>
+        <tbody class="tbody">
+          <tr *ngFor="let cma of challansMostAged">
+            <td>{{cma['Reg No']}}</td>
+            <td>{{cma['Due data\/Km']}}</td>
+            <td>{{cma['Maint Type']}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

@@ -1,0 +1,11 @@
+<div class="">
+    <div class="outer callsload-1">
+      <h6 style="text-align:center"><b class="charthead">Average Loading TAT </b></h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+      (click)="getDetials('Tmgreport/GetCallsSupervisorLoadingTat',{totalrecord: 3,stepno: -1, isfo: false,isadmin: true,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i>
+    </p>
+      <chart [type]="chart3.type" [data]="chart3.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
+        [options]="chart3.options" (clickElement)="chart3Clicked($event)">
+      </chart>
+    </div>
+  </div>

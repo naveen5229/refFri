@@ -18,8 +18,8 @@ import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
   styleUrls: ['./route-trip.component.scss']
 })
 export class RouteTripComponent implements OnInit {
-  startDate = null;
-  endDate = null;
+  frmDate = null;
+  toDate = null;
   vehicleId = -1;
   vehicleRegNo = null;
   vehicleTrips = [];
@@ -48,11 +48,10 @@ export class RouteTripComponent implements OnInit {
     let today, endDay, startday;
     today = new Date();
     // endDay = new Date(today.setDate(today.getDate() - 1))
-    this.endDate = new Date(today);
     //console.log('today', today);
 
-    this.startDate = new Date();
-    console.log('start and enddate', this.startDate, this.endDate);
+    this.toDate = new Date();
+    this.frmDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
 
     this.getRouteTrips();
     this.common.refresh = this.refresh.bind(this);
@@ -78,17 +77,19 @@ ngOnInit() {
         hideHeader: true
       }
     };
-    let startDate = this.common.dateFormatter(this.startDate);
-    let endDate = this.common.dateFormatter(this.endDate);
-    console.log('start & end', startDate, endDate);
-    const params = {
-      vehicleId:this.vehicleId,
-      Date: startDate,
-      routeId : this.routeid
-  };
-    console.log('params', params);
+    let frmDate = this.common.dateFormatter1(this.frmDate);
+    let toDate = this.common.dateFormatter1(this.toDate);
+
+  //   const params = {
+  //     vehicleId:this.vehicleId,
+  //     startDate: frmDate,
+  //     routeId : this.routeid,
+  //     endDate: toDate
+  // };
+  //   console.log('params', params);
     this.common.loading++;
-    this.api.post('TripExpenseVoucher/getRouteTrips', params)
+    // this.api.post('TripExpenseVoucher/getRouteTrips', params)
+    this.api.getJavaPortDost(8093, `getRouteTrips/${this.vehicleId}/${this.routeid}/${frmDate}/${toDate}`)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -127,6 +128,12 @@ ngOnInit() {
         console.log('Err:', err);
       });
   }
+
+  dateChange(event){
+    console.log('event is: ', event)
+    this.frmDate = new Date(event - 7 * 24 * 60 * 60 * 1000)
+  }
+
   getTableColumns() {
     let columns = [];
     for (var i = 0; i < this.vehicleTrips.length; i++) {

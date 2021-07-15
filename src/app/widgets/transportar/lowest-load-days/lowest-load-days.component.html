@@ -1,0 +1,24 @@
+<div class="">
+    <div class="outer transportar-5" style="min-height: 145px;">
+      <h6 style="text-align:center"><b class="charthead">Lowest Load (Last 7 Days)</b></h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+          (click)="getDetials('Tmgreport/GetTransportarSlowestLoad',{totalrecord: 3,stepno: -1,groupdays:7},7,'days')"><i title="More Details" class="fa fa-list"></i>
+        </p>
+      <table class="table table-bordered">
+        <thead class="thead">
+          <th>Transporter</th>
+          <th>Trips Count</th>
+          <!-- <th>Duration (Hrs)</th> -->
+        </thead>
+        <tbody class="tbody">
+          <tr *ngFor="let tsl of transportarSlowestLoad7days">
+            <td class="link" (click)="getDetials('Tmgreport/GetTransportarSlowestUnload',{totalrecord: 3,stepno: 1,xid: tsl['transporter'] ,groupdays:7},7,'days')">{{tsl['transporter']}}</td>
+            <td>{{tsl['tripcount']}}</td>
+            <!-- <td>{{tsl['duration_Hrs']}}</td> -->
+          </tr>
+        </tbody>
+        
+      </table>
+      
+    </div>
+  </div>

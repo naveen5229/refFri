@@ -23,11 +23,12 @@ export class ApiService {
   /********************* Common ***************** */
   URLJava: string = 'http://13.126.162.170:7070/';
   URLJavaPortDost: string = 'http://elogist.in';
+  // URLJavaPortDost: string = 'http://127.0.0.1';
   verifyHaltsUrl: string = 'http://elogist.in:8081/';
 
   /********************** Local Server ************* */
   // URL: string= 'http://107.6.151.122:8081/airtel'
-  //URL: string = 'http://192.168.0.109/booster_webservices/'; 
+  // URL: string = 'http://localhost/booster_webservices/'; 
   // UrlPrime:string='http://192.168.0.111/itrm_webservices/';
   // UrlTranstruckNew: string = 'http://192.168.1.101/webservices/';
   // verifyHaltsUrl: string = 'http://192.168.0.166:8081/';

@@ -1,0 +1,22 @@
+<div class="">
+    <div class="outer trafficload-8" style="min-height: 130px;">
+      <h6 style="text-align:center"><b class="charthead">Top Vehicles with RTO + Maintenance + Breakdown Issues</b></h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+      (click)="getDetials('Tmgreport/GetTrafficTopRmb',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+    </p>
+      <table class="table">
+        <thead class="thead">
+          <th>Vehicle No.</th>
+          <th>R + M + B (in Hrs)</th>
+          <th>RMB Type</th>
+        </thead>
+        <tbody class="tbody">
+          <tr *ngFor="let ttrmb of trafficTopRmb">
+            <td (click)="chart6Clicked(ttrmb)" class="link">{{ttrmb['Vehicle Name']}}</td>
+            <td>{{ttrmb['R + M + B (HH:MM)']}}</td>
+            <td>{{ttrmb['RMB Type']}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

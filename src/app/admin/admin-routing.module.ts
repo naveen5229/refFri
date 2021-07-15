@@ -72,6 +72,7 @@ import { CaptchaComponent } from './captcha/captcha.component';
 import { FinancialAccountSummaryComponent } from './financial-account-summary/financial-account-summary.component';
 import { TripVerificationComponent } from './trip-verification/trip-verification.component';
 import { VehdocmismatchComponent } from './vehdocmismatch/vehdocmismatch.component';
+import { LocPreferenceComponent } from './loc-preference/loc-preference.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -83,7 +84,7 @@ const routes: Routes = [{
         },
         {
             path: 'load-intelligence',
-            loadChildren: () => import('app/load-intelligence/load-intelligence.module').then(m => m.LoadIntelligenceModule),
+            loadChildren: () => import('../load-intelligence/load-intelligence.module').then(m => m.LoadIntelligenceModule),
             canActivate: [RouteGuard]
         },
         {
@@ -428,6 +429,11 @@ const routes: Routes = [{
         {
             path: 'vehdocmismatch',
             component: VehdocmismatchComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'loc-preference',
+            component: LocPreferenceComponent,
             canActivate: [RouteGuard]
         },
 

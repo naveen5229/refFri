@@ -7,7 +7,7 @@
               (click)="getDetials('Tmgreport/GetTripOnwardKmd',{totalrecord: 3,stepno: -1,groupdays:7},30,'days')"><i title="More Details" class="fa fa-list"></i>
             </p>
           <chart [type]="chart.type" [data]="chart.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
-          [options]="chart.options">
+          [options]="chart.options" (clickElement)="chart2Clicked($event)">
         </chart>
         </div>
       </div>
@@ -18,7 +18,7 @@
               (click)="getDetials('Tmgreport/GetTransportarLoadingTat',{totalrecord: 3,stepno: -1,groupdays:7},30,'days')"><i title="More Details" class="fa fa-list"></i>
             </p>
           <chart [type]="chart1.type" [data]="chart1.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
-            [options]="chart1.options">
+            [options]="chart1.options" (clickElement)="chart1Clicked($event)">
           </chart>
         </div>
       </div>
@@ -29,7 +29,7 @@
               (click)="getDetials('Tmgreport/GetTransportarSlowestUnloadingtat',{totalrecord: 3,stepno: -1,groupdays:7},30,'days')"><i title="More Details" class="fa fa-list"></i>
             </p>
           <chart [type]="chart2.type" [data]="chart2.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
-            [options]="chart2.options">
+            [options]="chart2.options" (clickElement)="chart3Clicked($event)">
           </chart>
         </div>
       </div>
@@ -49,7 +49,7 @@
             </thead>
             <tbody class="tbody">
               <tr *ngFor="let tso of transportarSlowestOnward">
-                <td>{{tso['transporter']}}</td>
+                <td class="link" (click)="getDetials('Tmgreport/GetTransportarSlowestOnward',{totalrecord: 3,stepno: 1,xid: tso['transporter'] ,groupdays:7},7,'days')">{{tso['transporter']}}</td>
                 <td>{{tso['tripcount']}}</td>
                 <td>{{tso['avg_kmpd']}}</td>
               </tr>
@@ -71,7 +71,7 @@
             </thead>
             <tbody class="tbody">
               <tr *ngFor="let tsl of transportarSlowestLoad">
-                <td>{{tsl['transporter']}}</td>
+                <td class="link" (click)="getDetials('Tmgreport/GetTransportarSlowestOnward',{totalrecord: 3,stepno: 1,xid: tsl['transporter'] ,groupdays:7},60,'days')">{{tsl['transporter']}}</td>
                 <td>{{tsl['tripcount']}}</td>
                 <!-- <td>{{tsl['duration_Hrs']}}</td> -->
               </tr>
@@ -95,7 +95,7 @@
               </thead>
               <tbody class="tbody">
                 <tr *ngFor="let tsu of transportarSlowestUnload">
-                  <td>{{tsu['transporter']}}</td>
+                  <td class="link" (click)="getDetials('Tmgreport/GetTransportarSlowestUnload',{totalrecord: 3,stepno: 1,xid: tsu['_id'] ,groupdays:7},60,'days')">{{tsu['transporter']}}</td>
                   <td>{{tsu['tripcount']}}</td>
                   <td>{{tsu['duration_Hrs']}}</td>
                 </tr>
@@ -119,7 +119,7 @@
             </thead>
             <tbody class="tbody">
               <tr *ngFor="let tso of transportarSlowestOnward7days">
-                <td>{{tso['transporter']}}</td>
+                <td class="link" (click)="getDetials('Tmgreport/GetTransportarSlowestOnward',{totalrecord: 3,stepno: 1,xid: tso['transporter'] ,groupdays:7},7,'days')">{{tso['transporter']}}</td>
                 <td>{{tso['tripcount']}}</td>
                 <td>{{tso['avg_kmpd']}}</td>
               </tr>
@@ -141,7 +141,7 @@
             </thead>
             <tbody class="tbody">
               <tr *ngFor="let tsl of transportarSlowestLoad7days">
-                <td>{{tsl['transporter']}}</td>
+                <td class="link" (click)="getDetials('Tmgreport/GetTransportarSlowestUnload',{totalrecord: 3,stepno: 1,xid: tsl['transporter'] ,groupdays:7},7,'days')">{{tsl['transporter']}}</td>
                 <td>{{tsl['tripcount']}}</td>
                 <!-- <td>{{tsl['duration_Hrs']}}</td> -->
               </tr>
@@ -165,7 +165,7 @@
             </thead>
             <tbody class="tbody">
               <tr *ngFor="let tsu of transportarSlowestUnload7days">
-                <td>{{tsu['transporter']}}</td>
+                <td  class="link" (click)="getDetials('Tmgreport/GetTransportarSlowestUnload',{totalrecord: 3,stepno: 1,xid: tsl['_id'] ,groupdays:7},7,'days')">{{tsu['transporter']}}</td>
                 <td>{{tsu['tripcount']}}</td>
                 <td>{{tsu['duration_Hrs']}}</td>
               </tr>

@@ -518,7 +518,7 @@ ngOnInit() {
         this.common.loading--;
         if(res['data'].length){
         this.fuelFilings = res['data'];
-        resolve();
+        resolve(true);
         }else {
           this.common.showError('please Select Correct date');
         }
@@ -543,7 +543,7 @@ ngOnInit() {
           console.log(res);
           this.common.loading--;
           this.VoucherEditTime = res['data'];
-          resolve();
+          resolve(true);
         }, err => {
           console.log(err);
           this.common.loading--;
@@ -688,7 +688,7 @@ ngOnInit() {
           console.log(res);
           this.common.loading--;
           this.TripEditData = res['data'];
-          resolve();
+          resolve(true);
         }, err => {
           console.log(err);
           this.common.loading--;
@@ -710,7 +710,7 @@ ngOnInit() {
           console.log(res);
           this.common.loading--;
           this.pendingDataEditTme = res['data'];
-          resolve();
+          resolve(true);
         }, err => {
           console.log(err);
           this.common.loading--;
@@ -730,7 +730,7 @@ ngOnInit() {
           console.log(res);
           this.common.loading--;
           this.tripExpDriver = res['data'];
-          resolve();
+          resolve(true);
         }, err => {
           console.log(err);
           this.common.loading--;
@@ -752,7 +752,7 @@ ngOnInit() {
           console.log(res);
           this.common.loading--;
           this.tripExpenseVoucherTrips = res['data'];
-          resolve();
+          resolve(true);
         }, err => {
           console.log(err);
           this.common.loading--;

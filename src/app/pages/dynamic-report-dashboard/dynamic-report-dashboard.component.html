@@ -1,31 +1,160 @@
 <nb-card style="border:0px;">
-    <nb-card-header>
-        <h5>Dynamic Report Dashboard</h5>
-    </nb-card-header>
-
-    <nb-card-body>
+    <nb-card-header class="p-2">
         <div class="row">
-            <div style="width: 100%">
-                <input type="text" [(ngModel)]="reportName">
-                <button class="btn btn-primary">Save</button>
+            <div class="col-2">
+                <h5>Business Dashboard</h5>
+            </div>
+            <div class="col-2">
+                <select [(ngModel)]="defaultdaystype">
+                <option value="1">Default </option>
+                <option value="2">Date Range </option>
+              </select>
+            </div>
+            <div class="col-4" *ngIf="defaultdaystype == 1">
+                &nbsp;
+            </div>
+            <div class="col-2" *ngIf="defaultdaystype == 2">
+                <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]="false">
+                </uj-date-time-picker>
+            </div>
+            <div class="col-2"  *ngIf="defaultdaystype == 2">
+                <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]="false">
+                </uj-date-time-picker>
+            </div>
+            <div class="col-2">
+                <button class="btn btn-primary" (click)="getReport()">Get Report</button>
+            </div>
+            <div class="col-2 text-right">
+                <button class="btn btn-primary" (click)="editReport()"><i class="fa fa-plus"></i></button>
+         
+                <button class="btn btn-primary ml-2" (click)="editReport(true)"><i class="fa fa-pencil-alt"></i></button>
+                <button class="btn btn-primary ml-2" (click)="showConfirm =true"><i class="fa fa-trash-alt"></i></button>
             </div>
         </div>
-
-        <div class="row" style="margin-top: 5px;">
-            <div class="col-4">
-                <div class="holdContainer">
-                    <div class="dataelements" *ngFor="let data of dataHolderContainer;let i = index" draggable="true"
-                        (dragstart)="dragstart(i)">
-                        {{data.text}}
-                    </div>
+        <div class="toptab" *ngIf="tabsdata">
+            <!-- <div class="col-2" >
+                <span>General</span>
+            </div> -->
+            <div *ngFor="let dynareport of tabsdata;let i = index " class="hiddenby">
+                <div class="hiddenby" *ngIf="dynareport.rpt_tabname != 'General'">
+                    <p [ngClass]="{'active' : caltabname == dynareport[0].rpt_tabname,'default':caltabname != dynareport[0].rpt_tabname }" (click)="callreport(dynareport)">{{dynareport[0].rpt_tabname}}</p>
                 </div>
             </div>
 
-            <div class="col-8">
-                <div class="placeContainer" id="canvas-container">
-                    <canvas id="c" width="652" height="600" style="z-index: 99;"></canvas>
+        </div>
+
+    </nb-card-header>
+
+    <nb-card-body>
+        <div class="jrx-container">
+            <div class="reports-container" id="reports" [style.height]="containerHeight + 'px' "
+                [style.width]="containerWidth + 'px'">
+                <!-- <div class="report" *ngFor="let report of reports;let i = index" [id]="'xreport-' + report._id"
+                [style.width]="report.style.width" [style.height]="report.style.height" [style.top]="report.style.y"
+                [style.left]="report.style.x">
+                <div class="report-container">
+                    <dynamic-report [savedReportSelect]="report" [startDate]="assign.startDate" [endDate]="assign.endDate"></dynamic-report>
+                </div>
+            </div> -->
+
+                <div class="report" *ngFor="let dynamicreportcallreport of dynamicreportcall;let i = index"
+                    [id]="'xreport-' + dynamicreportcallreport._id" [style.width]="dynamicreportcallreport.style.width"
+                    [style.height]="dynamicreportcallreport.style.height" [style.top]="dynamicreportcallreport.style.y"
+                    [style.left]="dynamicreportcallreport.style.x">
+                    <div class="report-container" *ngIf="dynamicreportcallreport.isUsed">
+                        <dynamic-report [savedReportSelect]="dynamicreportcallreport" [startDate]="startDate" [endDate]="endDate" [dynamicid]="i" [defaultdays]="defaultdaystype"></dynamic-report>
+                    </div>
+                </div>
+
+                <div class="report" *ngFor="let challanWidget of usedChallanWidgtets"
+                    [style.width]="challanWidget.rpt_width + 'px'" [style.height]="challanWidget.rpt_height + 'px'"
+                    [style.top]="challanWidget.y_pos + 'px'" [style.left]="challanWidget.x_pos + 'px'">
+                    <div class="report-container">
+                        <challan-trends *ngIf="challanWidget.type == 'challan-trend'"></challan-trends>
+                        <state-wise *ngIf="challanWidget.type == 'state-wise'"></state-wise>
+                        <worst-drivers *ngIf="challanWidget.type == 'worst-drivers'"></worst-drivers>
+                        <most-aged *ngIf="challanWidget.type == 'most-aged'"></most-aged>
+                        <latest *ngIf="challanWidget.type == 'latest'"></latest>
+                        <worst-drivers-years *ngIf="challanWidget.type == 'worst-drivers-years'"></worst-drivers-years>
+                        <trip-onward-kmpd *ngIf="challanWidget.type == 'trip-onward-kmpd'"></trip-onward-kmpd>
+                        <avg-loading *ngIf="challanWidget.type == 'avg-loading'"></avg-loading>
+                        <avg-unloading *ngIf="challanWidget.type == 'avg-unloading'"></avg-unloading>
+                        <worst-vehicles *ngIf="challanWidget.type == 'worst-vehicles'"></worst-vehicles>
+                        <longest-loading *ngIf="challanWidget.type == 'longest-loading'"></longest-loading>
+                        <longest-unloading *ngIf="challanWidget.type == 'longest-unloading'"></longest-unloading>
+                        <slowest-onward *ngIf="challanWidget.type == 'slowest-onward'"></slowest-onward>
+                        <longest-unloading-sites *ngIf="challanWidget.type == 'longest-unloading-sites'"></longest-unloading-sites>
+                        <gps-performance *ngIf="challanWidget.type == 'gps-performance'"></gps-performance>
+                        <live-traffic-status *ngIf="challanWidget.type == 'live-traffic-status'"></live-traffic-status>
+                        <longest-driver-unavailable *ngIf="challanWidget.type == 'longest-driver-unavailable'"></longest-driver-unavailable>
+                        <longest-gps-offline *ngIf="challanWidget.type == 'longest-gps-offline'"></longest-gps-offline>
+                        <top-vehicle-rto *ngIf="challanWidget.type == 'top-vehicle-rto'"></top-vehicle-rto>
+                        <longest-loading-sites *ngIf="challanWidget.type == 'longest-loading-sites'"></longest-loading-sites>
+                        <longest-unloading-offline *ngIf="challanWidget.type == 'longest-unloading-offline'"></longest-unloading-offline>
+                        <slowest-onward-veicles *ngIf="challanWidget.type == 'slowest-onward-veicles'"></slowest-onward-veicles>
+                        <longest-empty-vehicle *ngIf="challanWidget.type == 'longest-empty-vehicle'"></longest-empty-vehicle>
+                        <drivercontacted *ngIf="challanWidget.type == 'drivercontacted'"></drivercontacted>
+                        <supervisor-wise-unrespond *ngIf="challanWidget.type == 'supervisor-wise-unrespond'"></supervisor-wise-unrespond>
+                        <unrespond-driver-calls *ngIf="challanWidget.type == 'unrespond-driver-calls'"></unrespond-driver-calls>
+                        <worst-driver *ngIf="challanWidget.type == 'worst-driver'"></worst-driver>
+                        <avg-loading-tat *ngIf="challanWidget.type == 'avg-loading-tat'"></avg-loading-tat>
+                        <calls-onward-kmpd *ngIf="challanWidget.type == 'calls-onward-kmpd'"></calls-onward-kmpd>
+                        <avg-unloading-tat *ngIf="challanWidget.type == 'avg-unloading-tat'"></avg-unloading-tat>
+                        <alert-ack-tat *ngIf="challanWidget.type == 'alert-ack-tat'"></alert-ack-tat>
+                        <alert-call-tat *ngIf="challanWidget.type == 'alert-call-tat'"></alert-call-tat>
+                        <vsc-tat *ngIf="challanWidget.type == 'vsc-tat'"></vsc-tat>
+                        <longest-alert-not-ack *ngIf="challanWidget.type == 'longest-alert-not-ack'"></longest-alert-not-ack>
+                        <longest-alert-not-called *ngIf="challanWidget.type == 'longest-alert-not-called'"></longest-alert-not-called>
+                        <longest-pending-vsc-tat *ngIf="challanWidget.type == 'longest-pending-vsc-tat'"></longest-pending-vsc-tat>
+                        <longest-open-alert *ngIf="challanWidget.type == 'longest-open-alert'"></longest-open-alert>
+                        <worst-call-tat *ngIf="challanWidget.type == 'worst-call-tat'"></worst-call-tat>
+                        <worst-vsc-tat *ngIf="challanWidget.type == 'worst-vsc-tat'"></worst-vsc-tat>
+                        <live-traffic-status-analysys *ngIf="challanWidget.type == 'live-traffic-status-analysys'"></live-traffic-status-analysys>
+                        <longest-onward-halt *ngIf="challanWidget.type == 'longest-onward-halt'"></longest-onward-halt>
+                        <longest-gps-offline-analysys *ngIf="challanWidget.type == 'longest-gps-offline-analysys'"></longest-gps-offline-analysys>
+                        <longest-loading-site *ngIf="challanWidget.type == 'longest-loading-site'"></longest-loading-site>
+                        <longest-unloading-vehicle *ngIf="challanWidget.type == 'longest-unloading-vehicle'"></longest-unloading-vehicle>
+                        <slowest-onward-vehicle *ngIf="challanWidget.type == 'slowest-onward-vehicle'"></slowest-onward-vehicle>
+                        <longest-parking-vehicle *ngIf="challanWidget.type == 'longest-parking-vehicle'"></longest-parking-vehicle>
+                        <avg-loading-time-graph *ngIf="challanWidget.type == 'avg-loading-time-graph'"></avg-loading-time-graph>
+                        <worst-loading-sites *ngIf="challanWidget.type == 'worst-loading-sites'"></worst-loading-sites>
+                        <worst-loading-sites-days *ngIf="challanWidget.type == 'worst-loading-sites-days'"></worst-loading-sites-days>
+                        <loading-trends *ngIf="challanWidget.type == 'loading-trends'"></loading-trends>
+                        <worst-parking-sites *ngIf="challanWidget.type == 'worst-parking-sites'"></worst-parking-sites>
+                        <worst-parking-sites-days *ngIf="challanWidget.type == 'worst-parking-sites-days'"></worst-parking-sites-days>
+                        <load-allocation *ngIf="challanWidget.type == 'load-allocation'"></load-allocation>
+                        <avg-unloading-time-slowest *ngIf="challanWidget.type == 'avg-unloading-time-slowest'"></avg-unloading-time-slowest>
+                        <slowest-transporter *ngIf="challanWidget.type == 'slowest-transporter'"></slowest-transporter>
+                        <lowest-loads *ngIf="challanWidget.type == 'lowest-loads'"></lowest-loads>
+                        <lowest-load-days *ngIf="challanWidget.type == 'lowest-load-days'"></lowest-load-days>
+                        <longest-unloading *ngIf="challanWidget.type == 'longest-unloading'"></longest-unloading>
+                        <longest-unloading-days *ngIf="challanWidget.type == 'longest-unloading-days'"></longest-unloading-days>
+                        <avg-uloading-time *ngIf="challanWidget.type == 'avg-uloading-time'"></avg-uloading-time>
+                        <detention-trend *ngIf="challanWidget.type == 'detention-trend'"></detention-trend>
+                        <worst-consignee *ngIf="challanWidget.type == 'worst-consignee'"></worst-consignee>
+                        <worst-consignee-months *ngIf="challanWidget.type == 'worst-consignee-months'"></worst-consignee-months>
+                        <worst-transporter *ngIf="challanWidget.type == 'worst-transporter'"></worst-transporter>
+                        <worst-transporter-months *ngIf="challanWidget.type == 'worst-transporter-months'"></worst-transporter-months>
+                        <maintainance-work-trend *ngIf="challanWidget.type == 'maintainance-work-trend'"></maintainance-work-trend>
+                        <vehicle-maintainance-most-aged *ngIf="challanWidget.type == 'vehicle-maintainance-most-aged'"></vehicle-maintainance-most-aged>
+                        <vehicle-maintainance-max-dur *ngIf="challanWidget.type == 'vehicle-maintainance-max-dur'"></vehicle-maintainance-max-dur>
+                        <vehicle-maintainance-cost *ngIf="challanWidget.type == 'vehicle-maintainance-cost'"></vehicle-maintainance-cost>
+                        <vehicle-maintainance-count *ngIf="challanWidget.type == 'vehicle-maintainance-count'"></vehicle-maintainance-count>
+                        <top-workshop *ngIf="challanWidget.type == 'top-workshop'"></top-workshop>
+
+                    </div>
+                   
                 </div>
             </div>
         </div>
     </nb-card-body>
 </nb-card>
+<div class="date-modal" *ngIf="showConfirm">
+    <div class="date-modal-body data_model_save">
+      <div>
+        <p>Are You Want Sure to Delete ?</p>
+        <button (click)="deletereport()">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
+          (click)="modelCondition()">No</button>
+      </div>
+    </div>
+  </div>

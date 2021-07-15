@@ -10,19 +10,28 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PlacementoptimizeComponent } from '../../modals/placementoptimize/placementoptimize.component';
 import { PlacementOptimisationOnMapComponent } from '../../modals/placement-optimisation-on-map/placement-optimisation-on-map.component';
 import { PlacementConstraintsComponent } from '../../modals/placement-constraints/placement-constraints.component';
+import { PlacementRequirementComponent } from '../../modals/placement-requirement/placement-requirement.component';
+import { CostmatrixComponent } from '../../modals/costmatrix/costmatrix.component';
+import * as _ from 'lodash';
+import { CostGamificationComponent } from '../../modals/cost-gamification/cost-gamification.component';
+import { PlacementCostComponent } from '../../modals/placement-cost/placement-cost.component';
 
 @Component({
   selector: 'placementoptimization',
   templateUrl: './placementoptimization.component.html',
   styleUrls: ['./placementoptimization.component.scss']
 })
+
 export class PlacementoptimizationComponent implements OnInit {
 
+  unAllocatedVehicles = [];
+  unAllocateIsActive = false;
+  unallocatedtblshowhide = '+';
   placementProblemDTO = [];
   totalCost = null;
   totalPanelty = null;
-  days=1;
-
+  days = 1;
+  subAllocType = 0;
   isTblActive = false;
   isVisible = true;
   isActive = true;
@@ -46,10 +55,17 @@ export class PlacementoptimizationComponent implements OnInit {
   placementOPT = null;
   optimizeArray = [];
   select = 0;
-  name = '';
   placementDate = new Date();
   plcId = -1;
-  dayindx=1;
+  dayindx = 1;
+  quantityType = 1;
+  placmenetSelChecbox = 1;
+  vehicleIdList = [];
+  allSite = [];
+  allUnAllocatedVehiclesDetails = [];
+  showCostGameBtn: boolean = false;
+
+
 
   items = [
     {
@@ -60,16 +76,13 @@ export class PlacementoptimizationComponent implements OnInit {
       maxQuantity: 0,
       penaltyMin: 0,
       penaltyMax: 200000,
-      onward24Hrs: 0,
-      atPlant: 0,
-      towards: 0,
-      dayIndex:1
+      alreadyPlaced: 0,
+      quantityTillDate: 0,
+      quantityOnPlant: 0,
+      quantityTowards: 0,
+      dayIndex: 1
     }
   ];
-
-
-
-
 
   constructor(
     private datePipe: DatePipe,
@@ -80,7 +93,6 @@ export class PlacementoptimizationComponent implements OnInit {
     public modalService: NgbModal,
     public user: UserService,
     public map: MapService) {
-    // this.getPreviousData(null);
   }
 
   ngOnInit(): void {
@@ -96,8 +108,6 @@ export class PlacementoptimizationComponent implements OnInit {
     }
   }
 
-  
-
   showHide(isvisible) {
     if (isvisible) {
       this.isVisible = false;
@@ -108,14 +118,43 @@ export class PlacementoptimizationComponent implements OnInit {
     }
   }
 
+  tblShowHideForUnAllocatedData(data) {
+    if (data) {
+      this.unAllocateIsActive = false;
+      this.unallocatedtblshowhide = '+'
+    } else {
+      this.unAllocateIsActive = true;
+      this.unallocatedtblshowhide = '-';
+    }
+  }
+
   getDate(event) {
     this.placementDate = event;
-    this.getPreviousData(this.placementDate);
+    // this.getPreviousData(this.days, this.placementDate);
+  }
+
+  selectDays(event) {
+    let day = 0;
+    day = event['target']['options']['selectedIndex'] + 1;
+    console.log("daysEvent:", event['target']['options']['selectedIndex']);
+    this.days = day;
+    // this.getPreviousData(this.days, this.placementDate,);
+  }
+
+  subAllocTypeChange(event){
+    let subAllocType = event['target']['options']['selectedIndex'] ;
+    console.log("daysEvent:", event['target']['options']['selectedIndex']);
+    this.subAllocType = subAllocType;
   }
 
   showDataOnMap(event, latitude, longitude, name) {
     console.log(event, latitude, longitude, name);
     this.common.params = { data: event, latitude: latitude, longitude: longitude, regno: name }
+    const activeModal = this.modalService.open(PlacementoptimizeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+
+  showUnallocatedVehAndSitesOnMap() {
+    this.common.params = { data: [...this.allUnAllocatedVehiclesDetails, ...this.allSite] };
     const activeModal = this.modalService.open(PlacementoptimizeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
@@ -125,104 +164,64 @@ export class PlacementoptimizationComponent implements OnInit {
     const activeModal = this.modalService.open(PlacementOptimisationOnMapComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
-  constraints(){
+  placementReq() {
+    const activeModal = this.modalService.open(PlacementRequirementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+
+  constraints() {
     const activeModal = this.modalService.open(PlacementConstraintsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
-
-  getPreviousData(date?) {
-    if (date) {
-      this.placementDate = date;
-    }
-    this.common.loading++;
-    this.api.getJavaPortDost(8084, 'getPreviousData/' + this.common.dateFormatter1(this.placementDate))
-      .subscribe(res => {
-        this.common.loading--;
-        // console.log("getPreviousData:",res['placementProblemDetailsDTO']);
-        if (res['placementProblemDetailsDTO'] && res['placementProblemDetailsDTO'].length > 0) {
-          this.name = res['name'];
-          this.select = res['allocType'];
-          this.items = res['placementProblemDetailsDTO'];
-          this.plcId = res['id'];
-        } else {
-          console.log("Test");
-          this.plcId = res['id'];
-          this.placementOPT = null;
-          this.items = [];
-          this.items.push({
-            siteId: 0,
-            siteName: '',
-            waitingTime: 0,
-            minQuantity: 0,
-            maxQuantity: 0,
-            penaltyMin: 0,
-            penaltyMax: 200000,
-            onward24Hrs: 0,
-            atPlant: 0,
-            towards: 0,
-            dayIndex:1
-          });
-
-        }
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
+  placementCost(){
+    const activeModal = this.modalService.open(PlacementCostComponent, { size: 'xl', container: 'nb-layout', backdrop: 'static' });
   }
 
-  selectplnt(plant, index,num) {
+  selectplnt(plant, index, num) {
     this.items[index]['siteId'] = plant['id'];
     this.items[index]['siteName'] = plant['name'];
-    this.getSiteDetails(plant['id'],plant['name'], index);
+    this.getSiteDetails(plant['id'], plant['name'], index);
   }
 
-  getSiteDetails(plantid,plantname, index) {
+  getSiteDetails(plantid, plantname, index) {
     console.log("siteDetails:", plantid);
-    let onwards=null;
-    let atPlant=null;
-    let towards=null;
+    let quantityTillDate = null;
+    let quantityOnPlant = null;
+    let quantityTowards = null;
     this.common.loading++;
     this.api.getJavaPortDost(8084, 'getSiteDetails/' + plantid)
       .subscribe(res => {
         this.common.loading--;
         console.log("siteDet:", res);
-        onwards=res['onward24Hrs']
-        atPlant=res['atPlant'];
-        towards=res['towards'];
-
-        this.items[index].onward24Hrs = res['onward24Hrs'];
-        this.items[index].atPlant = res['atPlant'];
-        this.items[index].towards = res['towards'];
-
-        this.addItems(plantid,plantname,onwards,atPlant,towards);
-
-        
-
-        
+        quantityTillDate = res['quantityTillDate']
+        quantityOnPlant = res['quantityOnPlant'];
+        quantityTowards = res['quantityTowards'];
+        this.items[index].quantityTillDate = res['quantityTillDate'];
+        this.items[index].quantityOnPlant = res['quantityOnPlant'];
+        this.items[index].quantityTowards = res['quantityTowards'];
+        this.addItems(plantid, plantname, quantityTillDate, quantityOnPlant, quantityTowards);
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
 
-  addItems(plantid,plantname,onwards,atplant,towards) {
-    
-    for (let i =1; i <= this.days-1; i++) {
+  addItems(plantid, plantname, quantityTillDate, quantityOnPlant, quantityTowards) {
+    for (let i = 1; i <= this.days - 1; i++) {
       this.items.push({
         siteId: plantid,
-        siteName:plantname,
+        siteName: plantname,
         waitingTime: 0,
         minQuantity: 0,
         maxQuantity: 0,
         penaltyMin: 0,
         penaltyMax: 200000,
-        onward24Hrs: onwards,
-        atPlant: atplant,
-        towards: towards,
-        dayIndex:i+1
+        alreadyPlaced:0,
+        quantityTillDate: quantityTillDate,
+        quantityOnPlant: quantityOnPlant,
+        quantityTowards: quantityTowards,
+        dayIndex: i + 1
       })
     }
-    
   }
 
   addMoreItems(index) {
@@ -234,35 +233,44 @@ export class PlacementoptimizationComponent implements OnInit {
       maxQuantity: 0,
       penaltyMin: 0,
       penaltyMax: 200000,
-      onward24Hrs: 0,
-      atPlant: 0,
-      towards: 0,
-      dayIndex:1
+      alreadyPlaced:0,
+      quantityTillDate: 0,
+      quantityOnPlant: 0,
+      quantityTowards: 0,
+      dayIndex: 1
     });
-    console.log("items:",this.items)
   }
-
-  
 
   savePlacementOptimization() {
-    console.log("jsonData:", JSON.stringify(this.items))
+    this.unAllocatedVehicles = [];
     let params = {
-      name: this.name,
       allocType: this.select,
       placementDate: this.common.dateFormatter1(this.placementDate),
-      placementProblemDetailsDTO: (this.items),
+      quantityType: this.quantityType,
+      subAllocType: this.subAllocType,
+      placementProblemDetailsDTOS: (this.items),
       id: this.plcId
     }
-    console.log("param:", params);
-
-
+    console.log('savePlacementOptimization params is: ', params)
     this.common.loading++;
-    this.api.postJavaPortDost(8084, 'addPlacement', params)
+    this.api.postJavaPortDost(8084, 'PlacementResult', params)
       .subscribe(res => {
         this.common.loading--;
+        this.showCostGameBtn = true;
         if (res['success']) {
+          console.log("-----------", res['data']);
           this.common.showToast(res['msg']);
-          this.showData(res['data']);
+          this.placementOPT = res['data'];
+          this.allSite = [];
+          this.placementOPT['siteVehicleCostPackets'].map(item => {
+            this.allSite.push({ lat: item.siteLatitude, lng: item.siteLongitude, truckRegno: item.siteName, type: 'site', color: '00FF00' });
+          });
+          this.totalCost = this.placementOPT['completeCost'];
+          this.totalPanelty = this.placementOPT['completePenalty'];
+          this.unAllocatedVehicles = this.placementOPT['unallocatedVehicles'];
+          this.unAllocatedVehicles.map(item => {
+            this.allUnAllocatedVehiclesDetails.push({ lat: item.latitude, lng: item.longitude, truckRegno: item.regno, type: 'vehicles', color: 'FF0000' })
+          })
         }
       }, err => {
         this.common.loading--;
@@ -270,26 +278,132 @@ export class PlacementoptimizationComponent implements OnInit {
       });
   }
 
+  costMatrix() {
+    this.common.params = {
+      allocType: this.select, placementDate: this.common.dateFormatter1(this.placementDate),
+      quantityType: this.quantityType, placementProblemDetailsDTOS: (this.items), id: this.plcId
+    }
+    const activeModal = this.modalService.open(CostmatrixComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
 
-  showData(placementId) {
-    console.log("param:", placementId);
+  fillingFields(id) {
+    let params = {
+      date: this.common.dateFormatter1(this.placementDate),
+      days: this.days,
+      quantityType: this.quantityType,
+      select: this.select
+    }
+    if (id === 1) {
+      this.manualFill(params);
+    } else if (id === 2) {
+      this.autoFill(params);
+    }
+  }
+
+  manualFill(params) {
     this.common.loading++;
-    this.api.getJavaPortDost(8084, 'placementOP/' + placementId)
+    this.api.getJavaPortDost(8084, `manualFill/${params.date}/${params.days}/${params.quantityType}/${params.select}`)
       .subscribe(res => {
         this.common.loading--;
-        if (res['success']) {
-          this.placementOPT = res['data'];
-          // this.optimizeArray=this.placementOPT.map(o => {return { name: o.name, courseid: o.courseid };
-          // });
-          this.totalCost = this.placementOPT['completeCost'];
-          this.totalPanelty = this.placementOPT['completePenalty'];
-
-
-          console.log("siteData:", this.placementOPT);
-        }
+        this.items = [];
+        res['placementProblemDetailsDTOS'].map(item => {
+          this.items.push(item);
+        })
       }, err => {
         this.common.loading--;
         console.log(err);
-      });
+      })
+  }
+
+  autoFill(params) {
+    this.common.loading++;
+    this.api.getJavaPortDost(8084, `autoFill/${params.date}/${params.days}/${params.quantityType}/${params.select}`)
+      .subscribe(res => {
+        this.common.loading--;
+        this.items = [];
+        res['placementProblemDetailsDTOS'].map(item => {
+          this.items.push(item);
+        });
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      })
+  }
+
+  resetFields() {
+    this.items = [];
+    this.items.push({
+      siteId: 0,
+      siteName: '',
+      waitingTime: 0,
+      minQuantity: 0,
+      maxQuantity: 0,
+      penaltyMin: 0,
+      penaltyMax: 200000,
+      alreadyPlaced:0,
+      quantityTillDate: 0,
+      quantityOnPlant: 0,
+      quantityTowards: 0,
+      dayIndex: 1
+    });
+  }
+
+  placementSelectionSubmit(data) {
+    let params = {
+      vehicleId: this.vehicleIdList,
+      placementType: 11,
+      locationName: data.siteName,
+      locationLat: data.siteLatitude,
+      locationLng: data.siteLongitude,
+      siteId: data.siteId,
+      dayIndex: data.dayIndex,
+      placementDate: this.common.dateFormatter1(this.placementDate)
+    }
+    console.log('params is: ', params)
+    this.common.loading++;
+    this.api.postJavaPortDost(8084, 'savePlacementData', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('savePlacementData res is: ', res)
+      }, err => {
+        this.common.loading--;
+        console.log('error is: ', err);
+      })
+  }
+
+  gettingPlacementList(event) {
+    this.vehicleIdList.push(event.srcElement.value);
+  }
+
+  showSiteUnAllocatedMarkerMap() {
+    console.log('allSite: ', this.allSite, ' unAllocatedVehicles: ', this.allUnAllocatedVehiclesDetails)
+  }
+
+  costGamification() {
+    console.log('inside costGamification');
+    this.common.params = {data: this.placementOPT, placementDate: this.placementDate}
+    const activeModal = this.modalService.open(CostGamificationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+
+  scrollToView(event){
+    
+    console.log('event data is: ', event)
+    var element = document.getElementById('plant-details');
+    let siteId = event.target.value.siteId;
+    let dayIndex = event.target.value.dayIndex;
+    var ele2 = document.getElementById(siteId);
+    this.placementOPT.siteVehicleCostPackets.forEach(element => {
+      element.active = false;
+    });
+    let activeObj = this.placementOPT.siteVehicleCostPackets.find(ele=> (ele.siteId == siteId && ele.dayIndex == dayIndex));
+    activeObj.active = true;
+    element.scrollIntoView();
+    ele2.scrollIntoView();
+  }
+
+  // site-details
+  backToScrollView(){
+    var ele = document.getElementById('site-details');
+    ele.scrollIntoView()
   }
 }

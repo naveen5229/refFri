@@ -99,6 +99,7 @@ export class TripstoppageComponent implements OnInit {
   }
   setTable() {
     let headings = {
+      trip_id: {title: 'Trip Id', placeholder: 'Trip Id'},
       Reg: { title: 'Reg No', placeholder: 'Reg No' },
       Start: { title: 'Start', placeholder: 'Start' },
       End: { title: 'End', placeholder: 'End' },
@@ -132,19 +133,30 @@ export class TripstoppageComponent implements OnInit {
     }
   }
 
+  customize(){
+    if(this.min < 10){
+      this.common.showToast('Minimum Val is 10');
+     // this.min = (this.min < 5) ? 10 :this.min;
+     this.min = 10;
+    }
+    
+    
+  }
+
   getTableColumns() {
     let columns = [];
     let i = 0;
     this.tripData.map(R => {
 
       let column = {
+        trip_id: {value: R.trip_id},
         Reg: { value: R.vehicle_name },
         Start: { value:R.event_type=='state' ? "* "+ this.datePipe.transform(R.start_time, 'dd MMM HH:mm '):this.datePipe.transform(R.start_time, 'dd MMM HH:mm ')},
         End: { value: this.datePipe.transform(R.end_time, 'dd MMM HH:mm') },
         Place: { value: this.getPlaceName(R), class: R.halt_type_id == 11 ? 'green' : R.halt_type_id == 21 ? 'red' : 'default' },
         Location: { value: R.loc_name },
         // Reason: { value: R.halt_reason, class: R.halt_type_id == 11 ? 'green' : R.halt_type_id == 21 ? 'red' : 'default' },
-        Duration: { value: this.duration[i] },
+        Duration: { value: R.halt_time }//{ value: this.duration[i] },
         //Action: { value: `<i class="fa fa-map-marker"></i>`, isHTML: true, action: this.showLocation.bind(this, R) },
       };
       columns.push(column);
@@ -193,7 +205,45 @@ export class TripstoppageComponent implements OnInit {
 
   }
 
-  
+  printPDF(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = fodata['name'];
+        let center_heading = "Trip Tat Report";
+       // let time = "Start Date:"+this.datePipe.transform(this.startDate, 'dd-MM-yyyy')+"  End Date:"+this.datePipe.transform(this.endDate, 'dd-MM-yyyy');
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  printCsv(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = "FoName:" + fodata['name'];
+        let center_heading = "Report:" + "Trip Profit And Loss";
+       // let time = "Start Date:"+this.datePipe.transform(this.startDate, 'dd-MM-yyyy')+"  End Date:"+this.datePipe.transform(this.endDate, 'dd-MM-yyyy');
+        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, null);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
+
+  }
 
 }
 

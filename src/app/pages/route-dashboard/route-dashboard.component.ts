@@ -9,6 +9,7 @@ import { AddShortTargetComponent } from '../../modals/add-short-target/add-short
 import * as _ from "lodash";
 import { AdhocRouteComponent } from '../../modals/adhoc-route/adhoc-route.component';
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+import { RemaptripandrouteComponent } from '../../modals/remaptripandroute/remaptripandroute.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -118,6 +119,8 @@ ngOnInit() {
       regno: { title: 'Regno', placeholder: 'Regno' },
       lastSeenTime: { title: 'Last Seen Time', placeholder: 'Last Seen Time' },
       routeName: { title: 'Route Name', placeholder: 'Route Name' },
+      invoice_time: {title: 'Invoice Time', placeholder: 'Invoice Time'},
+      addtime: { title: 'Addtime', placeholder: 'Addtime' },
       startLocation: { title: 'Start Location', placeholder: 'Start Location' },
       startTime: { title: 'Start Time', placeholder: 'Start time' },
       endLocation: { title: 'Last Location', placeholder: 'Last Location' },
@@ -159,10 +162,12 @@ ngOnInit() {
     let columns = [];
     this.routeData.map(route => {
       let column = {
-        regno: { value: route.v_regno ? route.v_regno : '-', },
+        regno: { value: route.v_regno ? route.v_regno : '-',  action: this.remapTripAndRoute.bind(this, route)},
         lastSeenTime: { value: route.v_time ? this.common.changeDateformat2(route.v_time) : '-', action: this.viewlocation.bind(this, route) },
         // routeName: { value: route.name ? route.name : '-', action: this.viewlocation.bind(this, route) },
         routeName: route.name ? this.getRouteAconym(route.name,route) : '-',// { value: route.name ? this.getRouteAconym(route.name) : '-', action: this.viewlocation.bind(this, route)  },
+        invoice_time: {value: this.common.changeDateformat2(route.invoice_time)},
+        addtime:{value: route.addtime ? this.common.changeDateformat2(route.addtime) : '-', action:null },
         startLocation: { value: route.f_name ? route.f_name : '-', action: this.viewlocation.bind(this, route) },
         startTime: { value: route.f_end_time ? this.common.changeDateformat2(route.f_end_time) : '-', action: this.viewlocation.bind(this, route),class:route.f_delay>0?'red':route.f_delay<0?'green':'' },
         endLocation: { value: route.l_name ? route.l_name : '-', action: this.viewlocation.bind(this, route) },
@@ -256,10 +261,13 @@ ngOnInit() {
 
   viewRouteTimeTable(route) {
 
+    console.log('route is: ', route)
+
     let routeTime = {
       vehicleId: route.v_id,
       routeId: route.route_id,
-      routeTimeId: route.tt_id
+      routeTimeId: route.tt_id,
+      routeFlag: true
     };
     this.common.params = { routeTime };
     const activeModal = this.modalService.open(RoutesTimetableComponent, { size: "lg", container: "nb-layout", backdrop: 'static' });
@@ -293,7 +301,7 @@ ngOnInit() {
   }
 
   getRouteAconym(route,routeData) {
-    let sortend = route.substring(0, 20);
+    let sortend = route.substring(0, 30);
     // route = route.replace(/\s/g,'');
     route = "\'" + route + "\'";
     let acy = { value: route ? '<acronym title=' + route + '>' + sortend + '</acronym>' : '-', action: this.viewlocation.bind(this, routeData), isHTML: true };
@@ -396,5 +404,12 @@ ngOnInit() {
     this.viewType = this.viewOtions[this.viewIndex].key;
     this.viewName = this.viewOtions[this.viewIndex].name;
     this.grouping(this.viewType);
+  }
+
+  remapTripAndRoute(route){
+    this.common.params = {vId: route['v_id'], routeId: route['route_id'], title: 'route-dashboard'}
+    console.log('route is: ', route)
+    const activeModal = this.modalService.open(RemaptripandrouteComponent, { size: 'lg', container: 'nb-layout' });
+
   }
 }

@@ -1,0 +1,11 @@
+<div class="">
+    <div class="outer alertload-7">
+      <h6 style="text-align:center"><b class="charthead">VSC TAT in Last 7 Days</b></h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+      (click)="getDetials('Tmgreport/GetAlertVscTat',{totalrecord: 3,stepno: -1,groupdays: 1},7,'days')"><i title="More Details" class="fa fa-list"></i>
+    </p>
+      <chart [type]="chart2.type" [data]="chart2.data" style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;"
+        [options]="chart2.options" (clickElement)="chart3Clicked($event)">
+      </chart>
+    </div>
+  </div>

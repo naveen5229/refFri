@@ -1,0 +1,10 @@
+<div class="">
+    <div class="outer loading-1" style="min-height: 300px;">
+      <h6 style="text-align:center"><b class="charthead">Avg. Loading Time Graph</b></h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+        (click)="getDetials('Tmgreport/GetTripLoadindTime',{totalrecord: 3,stepno: -1,groupdays: 7},30,'days')"><i title="More Details" class="fa fa-list"></i></p>
+      <chart [type]="chart.type" [data]="chart.data"
+        style="margin-right:5px;margin-top:-20px;min-height: 250px;max-height: 250px;" [options]="chart.options">
+      </chart>
+    </div>
+  </div>

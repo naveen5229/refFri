@@ -1,6 +1,6 @@
 {
   "name": "dost",
-  "version": "0.0.106",
+  "version": "0.0.234",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -73,6 +73,7 @@
     "file-saver": "^2.0.2",
     "html2canvas": "^1.0.0-rc.7",
     "html2pdf.js": "^0.9.1",
+    "interactjs": "^1.10.11",
     "intl": "1.2.5",
     "iv-viewer": "^2.0.1",
     "jquery": "^3.5.1",

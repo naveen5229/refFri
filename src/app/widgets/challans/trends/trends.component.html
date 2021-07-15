@@ -1,0 +1,12 @@
+<div class="">
+    <div class="outer challan-4" style="min-height: 300px;">
+        <h6 style="text-align:center"><b class="charthead"> Challan Trends (Last 6 Months) </b></h6>
+        <p style="text-align: right; margin-top: -25px;" class="link"
+            (click)="getDetials('Tmgreport/GetChallansMonthGraph',{totalrecord: 3,stepno: -1},180,'days')"><i
+                title="More Details" class="fa fa-list"></i>
+        </p>
+        <chart *ngIf="chart.type" [type]="chart.type" [data]="chart.dataSet"
+            style="margin-right:5px;min-height: 300px;max-height: 300px;" [options]="chart.options">
+        </chart>
+    </div>
+</div>

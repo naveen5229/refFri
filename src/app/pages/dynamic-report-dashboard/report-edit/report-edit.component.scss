@@ -1,0 +1,72 @@
+.holdContainer {
+   
+    margin-top: 7%;
+    border: 1px solid #d4d4d4;
+    padding: 0px 5px;
+  
+.collas-head{
+    display: flex;
+    cursor: pointer;
+    justify-content: space-between;
+    padding: 8px 0;
+    p{
+        margin-bottom: 0;
+    }
+
+}
+
+}
+.placeContainer {
+    height: calc(100vh - 180px);
+    border: groove;
+    padding: 20px;
+}
+
+.dataelements {
+    background: white;
+    padding: 4px 6px;
+    color: #000;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    box-shadow: 0px 1px 4px #dcdada;
+    font-size: 12px;
+}
+.topholdreport{
+    height: calc(100vh - 155px);
+    overflow: auto;
+    background: #f7f9fc;
+    .head{
+        font-size: 16px;
+        font-weight: 700;
+        padding: 5px 0;
+    }
+}
+.reports-container {
+    position: relative;
+    height: calc(100vh - 155px);
+    overflow: auto;
+    background: #f7f9fc;
+    border: 1px solid #f2f2f2;
+    .report {
+        // resize: both;
+        position: absolute;
+        overflow: hidden;
+        border: 1px solid #f2f2f2;
+        background: #fefefe;
+        cursor: move;
+        width: 300px;
+        height: 300px;
+        .report-container{
+            position: relative;
+            .report-close{
+                position: absolute;
+                right: -1px;
+                top: -2px;
+                background: #fff;
+                z-index: 99999;
+                font-size: 20px;
+                cursor: pointer;
+            }
+        }
+    }
+}

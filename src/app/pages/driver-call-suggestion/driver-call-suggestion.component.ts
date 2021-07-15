@@ -28,6 +28,7 @@ export class DriverCallSuggestionComponent implements OnInit {
   loadingDelay=null;
   unloadingTotal=null;
   unloadingDelay=null;
+  emptyStoppageData = [];
   driverData = [];
   headings = [];
   kmpdval = 300;
@@ -46,6 +47,8 @@ export class DriverCallSuggestionComponent implements OnInit {
       hideHeader: true
     }
   };
+
+  tableES = null;
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -83,6 +86,9 @@ ngOnInit() {
       this.getDelayFaults();
     } else if (dis_all == 'st') {
       this.getShortTarget();
+    } else if (dis_all == 'es') {
+      let type = '31'
+      this.getEmptyStoppageData(type);
     }
   }
 
@@ -823,7 +829,7 @@ ngOnInit() {
           this.valobj6[this.headings[j]] = { value: this.longUnLoading[i][this.headings[j]], class: 'blue', action: this.showLocation.bind(this, this.longUnLoading[i]) };
 
         }
-        else if (this.headings[j] == 'Act') {
+        else if (this.headings[j] == 'Act') { 
           this.valobj6[this.headings[j]] = {
             value: '', isHTML: true, action: null, icons: [
               { class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.longUnLoading[i]) },
@@ -987,4 +993,81 @@ ngOnInit() {
       this.common.showError();
     })
   }
+
+  // ---------Empty Stoppage -----------
+
+  getEmptyStoppageData(type){
+    let hrs = this.hours;
+    if (this.hoursType == 'days') {
+      hrs = this.hours * 24;
+    }
+    this.onwardDelayData = [];
+    this.common.loading++;
+    let params = "type=" + type +
+      "&hours=" + hrs;
+    this.api.get('TripsOperation/tripOnwardDelay?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+
+        console.log("result", res['data']);
+        this.emptyStoppageData = res['data'];
+        this.tableES = this.setTable();
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
+
+
+  setTable() {
+    let headings = {
+      Regno: { title: 'Vehicle No', placeholder: 'Vehicle No' },
+      ['Stoppage Start Time']: { title: 'Stoppage Start Time', placeholder: 'Stoppage Start Time' },
+      ['Stoppage Time']: { title: 'Stoppage Time ', placeholder: 'Stoppage Time' },
+      ['Dis. Left']: { title: 'Dis. Left', placeholder: 'Dis. Left' },
+      ['Target Time']: { title: 'Target Time', placeholder: 'Target Time' },
+      ['Updated ETA']: { title: 'Updated ETA', placeholder: 'Updated ETA'},
+      ['Trip']: { title: 'Trip', placeholder: 'Trip'},
+      ['Current Loc']: { title: 'Current Loc', placeholder: 'Current Loc'},
+      ['Driver Name']: { title: 'Driver Name', placeholder: 'Driver Name'},
+      ['Driver Mobile']: { title: 'Driver Mobile', placeholder: 'Driver Mobile'},
+    };
+    return {
+      data: {
+        headings: headings,
+        columns: this.getTableColumnsES()
+      },
+      settings: {
+        hideHeader: true,
+        tableHeight: "72vh"
+
+      }
+    }
+  }
+  getTableColumnsES() {
+    let columns = [];
+    this.emptyStoppageData.map(data => {
+      let column = {
+        Regno: { value: data.Regno },
+        ['Stoppage Start Time']: { value: data['Stoppage Start Time'] },
+        ['Stoppage Time']: { value: data['Stoppage Time'] },
+        ['Dis. Left']: { value: data['Dis. Left'] },
+        ['Target Time']: { value: data['Target Time']},
+        ['Updated ETA']: { value: data['Updated ETA']},
+        ['Trip']: { value: this.common.getJSONTripStatusHTML(data), isHTML: true, class: 'black', action: this.openPlacementModal.bind(this, data) },
+        ['Current Loc']: { value: data['Current Loc'], class: 'blue', action: this.showLocation.bind(this, data) },
+        ['Driver Name']: { value: data['Driver Name']},
+        ['Driver Mobile']: { value: data['Driver Mobile']},
+
+        rowActions: {
+          click: 'selectRow'
+        }
+
+      };
+      columns.push(column);
+    });
+    return columns;
+  }
+
 }

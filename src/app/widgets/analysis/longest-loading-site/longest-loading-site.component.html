@@ -1,0 +1,24 @@
+<div class="">
+    <div class="outer liveload-3" style="min-height: 130px;">
+    <h6 style="text-align:center"><b class="charthead">Longest Loading Site</b></h6>
+    <p style="text-align: right; margin-top: -25px;" class="link"
+    (click)="getDetials('Tmgreport/GetConsignmentLongestLoading',{totalrecord: 3,stepno: -1},15,'days')"><i title="More Details" class="fa fa-list"></i>
+  </p>
+    <table class="table table-bordered">
+      <thead class="thead">
+        <th>Site Name</th>
+        <!-- <td>Transporter</td> -->
+        <th>Duration(in Hrs)</th>
+        <th>Vehicle Count</th>
+      </thead>
+      <tbody class="tbody">
+        <tr *ngFor="let cll of consignmentLongestLoading">
+          <td class="link" (click)="getDetials('Tmgreport/GetConsignmentLongestLoading',{totalrecord: 3,stepno: 1,location: cll['Location'] },15,'days')">{{cll['Location']}}</td>
+          <!-- <td>{{cll['Transporter']}}</td> -->
+          <td>{{cll['Duration (HH:MM)']}}</td>
+          <td>{{cll['Vehicle Count']}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>

@@ -109,12 +109,159 @@ import { LeadvalidationreportComponent } from './leadvalidationreport/leadvalida
 import { TripdeliverycomplinancereportComponent } from './tripdeliverycomplinancereport/tripdeliverycomplinancereport.component';
 import { TripstoppageComponent } from './tripstoppage/tripstoppage.component';
 import { DynamicReportDashboardComponent } from './dynamic-report-dashboard/dynamic-report-dashboard.component';
+import { DynamicReportComponent } from './dynamic-report-dashboard/dynamic-report/dynamic-report';
+import { ReportViewComponent } from './dynamic-report-dashboard/report-view/report-view.component';
+import { ReportEditComponent } from './dynamic-report-dashboard/report-edit/report-edit.component';
+import { DriverPreferencesComponent } from './driver-preferences/driver-preferences.component';
+import { ConsignmentComponent } from './consignment/consignment.component';
+
+import { TrendsComponent as ChallanTrends } from '../widgets/challans/trends/trends.component';
+import { StateWiseComponent } from '../widgets/challans/state-wise/state-wise.component';
+import { MostAgedComponent } from '../widgets/challans/most-aged/most-aged.component';
+import { LatestComponent } from '../widgets/challans/latest/latest.component';
+import { WorstDriversComponent } from '../widgets/challans/worst-drivers/worst-drivers.component';
+import { WorstDriversYearsComponent } from '../widgets/challans/worst-drivers-years/worst-drivers-years.component';
+import { OnwardKmpdComponent as tripOnwardKmpd } from '../widgets/trips/onward-kmpd/onward-kmpd.component';
+import { AvgLoadingComponent } from '../widgets/trips/avg-loading/avg-loading.component';
+import { AvgUnloadingComponent } from '../widgets/trips/avg-unloading/avg-unloading.component';
+import { WorstVehiclesComponent } from '../widgets/trips/worst-vehicles/worst-vehicles.component';
+import { LongestLoadingComponent } from '../widgets/trips/longest-loading/longest-loading.component';
+import { LongestUnloadingComponent } from '../widgets/trips/longest-unloading/longest-unloading.component';
+import { SlowestOnwardComponent } from '../widgets/trips/slowest-onward/slowest-onward.component';
+import { LongestUnloadingSitesComponent } from '../widgets/trips/longest-unloading-sites/longest-unloading-sites.component';
+import { GpsPerformanceComponent } from '../widgets/trips/gps-performance/gps-performance.component';
+import { LiveTrafficStatusComponent } from '../widgets/traffic/live-traffic-status/live-traffic-status.component';
+import { LongestDriverUnavailableComponent } from '../widgets/traffic/longest-driver-unavailable/longest-driver-unavailable.component';
+import { LongestEmptyVehicleComponent } from '../widgets/traffic/longest-empty-vehicle/longest-empty-vehicle.component';
+import { LongestGpsOfflineComponent } from '../widgets/traffic/longest-gps-offline/longest-gps-offline.component';
+import { LongestLoadingSitesComponent } from '../widgets/traffic/longest-loading-sites/longest-loading-sites.component';
+import { SlowestOnwardVeiclesComponent } from '../widgets/traffic/slowest-onward-veicles/slowest-onward-veicles.component';
+import { TopVehicleRtoComponent } from '../widgets/traffic/top-vehicle-rto/top-vehicle-rto.component';
+import { LongestUnloadingOfflineComponent } from '../widgets/traffic/longest-unloading-offline/longest-unloading-offline.component';
+import { DrivercontactedComponent } from '../widgets/calls/drivercontacted/drivercontacted.component';
+import { SupervisorWiseUnrespondComponent } from '../widgets/calls/supervisor-wise-unrespond/supervisor-wise-unrespond.component';
+import { UnrespondDriverCallsComponent } from '../widgets/calls/unrespond-driver-calls/unrespond-driver-calls.component';
+import { WorstDriverComponent } from '../widgets/calls/worst-driver/worst-driver.component';
+import { AvgLoadingTatComponent } from '../widgets/calls/avg-loading-tat/avg-loading-tat.component';
+import { AvgUnloadingTatComponent } from '../widgets/calls/avg-unloading-tat/avg-unloading-tat.component';
+import { OnwardKmpdComponent as callonwardkmpd} from '../widgets/calls/onward-kmpd/onward-kmpd.component';
+import { AlertAckTatComponent } from '../widgets/alert/alert-ack-tat/alert-ack-tat.component';
+import { AlertCallTatComponent } from '../widgets/alert/alert-call-tat/alert-call-tat.component';
+import { VscTatComponent } from '../widgets/alert/vsc-tat/vsc-tat.component';
+import { LongestAlertNotAckComponent } from '../widgets/alert/longest-alert-not-ack/longest-alert-not-ack.component';
+import { LongestAlertNotCalledComponent } from '../widgets/alert/longest-alert-not-called/longest-alert-not-called.component';
+import { LongestPendingVscTatComponent } from '../widgets/alert/longest-pending-vsc-tat/longest-pending-vsc-tat.component';
+import { LongestOpenAlertComponent } from '../widgets/alert/longest-open-alert/longest-open-alert.component';
+import { WorstCallTatComponent } from '../widgets/alert/worst-call-tat/worst-call-tat.component';
+import { WorstVscTatComponent } from '../widgets/alert/worst-vsc-tat/worst-vsc-tat.component';
+
+import { LiveTrafficStatusComponent as livetraficanalysis } from '../widgets/analysis/live-traffic-status/live-traffic-status.component';
+import { LongestGpsOfflineComponent as longestgpsanalysys} from '../widgets/analysis/longest-gps-offline/longest-gps-offline.component';
+import { LongestOnwardHaltComponent } from '../widgets/analysis/longest-onward-halt/longest-onward-halt.component';
+import { LongestLoadingSiteComponent } from '../widgets/analysis/longest-loading-site/longest-loading-site.component';
+import { LongestUnloadingVehicleComponent } from '../widgets/analysis/longest-unloading-vehicle/longest-unloading-vehicle.component';
+import { LongestParkingVehicleComponent } from '../widgets/analysis/longest-parking-vehicle/longest-parking-vehicle.component';
+import { SlowestOnwardVehicleComponent } from '../widgets/analysis/slowest-onward-vehicle/slowest-onward-vehicle.component';
 
 
+import { AvgLoadingTimeGraphComponent } from '../widgets/loading/avg-loading-time-graph/avg-loading-time-graph.component';
+import { WorstLoadingSitesComponent } from '../widgets/loading/worst-loading-sites/worst-loading-sites.component';
+import { WorstLoadingSitesDaysComponent } from '../widgets/loading/worst-loading-sites-days/worst-loading-sites-days.component';
+import { WorstParkingSitesDaysComponent } from '../widgets/loading/worst-parking-sites-days/worst-parking-sites-days.component';
+import { WorstParkingSitesComponent } from '../widgets/loading/worst-parking-sites/worst-parking-sites.component';
+import { LoadingTrendsComponent } from '../widgets/loading/loading-trends/loading-trends.component';
+import { LoadAllocationComponent } from '../widgets/transportar/load-allocation/load-allocation.component';
+import { AvgUnloadingTimeComponent } from '../widgets/transportar/avg-unloading-time/avg-unloading-time.component';
+import { LowestLoadsComponent } from '../widgets/transportar/lowest-loads/lowest-loads.component';
+import { LongestUnloadingComponent as transportuloading } from '../widgets/transportar/longest-unloading/longest-unloading.component';
+import { LowestLoadDaysComponent } from '../widgets/transportar/lowest-load-days/lowest-load-days.component';
+import { LongestUnloadingDaysComponent } from '../widgets/transportar/longest-unloading-days/longest-unloading-days.component';
+import { AvgUloadingTimeComponent } from '../widgets/unloading/avg-uloading-time/avg-uloading-time.component';
+import { DetentionTrendComponent } from '../widgets/unloading/detention-trend/detention-trend.component';
+import { WorstConsigneeComponent } from '../widgets/unloading/worst-consignee/worst-consignee.component';
+import { WorstConsigneeMonthsComponent } from '../widgets/unloading/worst-consignee-months/worst-consignee-months.component';
+import { WorstTransporterMonthsComponent } from '../widgets/unloading/worst-transporter-months/worst-transporter-months.component';
+import { WorstTransporterComponent } from '../widgets/unloading/worst-transporter/worst-transporter.component';
+import { MaintainanceWorkTrendComponent } from '../widgets/maitainance/maintainance-work-trend/maintainance-work-trend.component';
+import { VehicleMaintainanceCostComponent } from '../widgets/maitainance/vehicle-maintainance-cost/vehicle-maintainance-cost.component';
+import { VehicleMaintainanceCountComponent } from '../widgets/maitainance/vehicle-maintainance-count/vehicle-maintainance-count.component';
+import { TopWorkshopComponent } from '../widgets/maitainance/top-workshop/top-workshop.component';
+import { VehicleMaintainanceMostAgedComponent } from '../widgets/maitainance/vehicle-maintainance-most-aged/vehicle-maintainance-most-aged.component';
+import { VehicleMaintainanceMaxDurComponent } from '../widgets/maitainance/vehicle-maintainance-max-dur/vehicle-maintainance-max-dur.component';
 
 const PAGES_COMPONENTS = [
-  PagesComponent
-
+  PagesComponent,
+  DynamicReportComponent,
+  ChallanTrends,
+  StateWiseComponent,
+  MostAgedComponent,
+  LatestComponent,
+  WorstDriversComponent,
+  WorstDriversYearsComponent,
+  tripOnwardKmpd,
+  AvgLoadingComponent,
+  AvgUnloadingComponent,
+  WorstVehiclesComponent,
+  LongestLoadingComponent,
+  LongestUnloadingComponent,
+  SlowestOnwardComponent,
+  GpsPerformanceComponent,
+  LiveTrafficStatusComponent,
+  LongestDriverUnavailableComponent,
+  LongestEmptyVehicleComponent,
+  LongestGpsOfflineComponent,
+  LongestLoadingSitesComponent,
+  LongestUnloadingSitesComponent,
+  SlowestOnwardVeiclesComponent,
+  TopVehicleRtoComponent,
+  LongestUnloadingOfflineComponent,
+  DrivercontactedComponent,
+  SupervisorWiseUnrespondComponent,
+  UnrespondDriverCallsComponent,
+  WorstDriverComponent,
+  AvgLoadingTatComponent,
+  callonwardkmpd,
+  AvgUnloadingTatComponent,
+  AlertAckTatComponent,
+  AlertCallTatComponent,
+  VscTatComponent,
+  LongestAlertNotAckComponent,
+  LongestAlertNotCalledComponent,
+  LongestPendingVscTatComponent,
+  LongestOpenAlertComponent,
+  WorstCallTatComponent,
+  WorstVscTatComponent,
+  livetraficanalysis,
+  LongestOnwardHaltComponent,
+  longestgpsanalysys,
+  LongestLoadingSiteComponent,
+  LongestUnloadingVehicleComponent,
+  LongestParkingVehicleComponent,
+  SlowestOnwardVehicleComponent,
+  AvgLoadingTimeGraphComponent,
+    WorstLoadingSitesComponent,
+    WorstLoadingSitesDaysComponent,
+    WorstParkingSitesDaysComponent,
+    WorstParkingSitesComponent,
+    LoadingTrendsComponent,
+    LoadAllocationComponent,
+    AvgUnloadingTimeComponent,
+    LowestLoadsComponent,
+    transportuloading,
+    LowestLoadDaysComponent,
+    LongestUnloadingDaysComponent,
+    AvgUloadingTimeComponent,
+    DetentionTrendComponent,
+    WorstConsigneeComponent,
+    WorstConsigneeMonthsComponent,
+    WorstTransporterMonthsComponent,
+    WorstTransporterComponent,
+    MaintainanceWorkTrendComponent,
+    VehicleMaintainanceCostComponent,
+    VehicleMaintainanceCountComponent,
+    TopWorkshopComponent,
+    VehicleMaintainanceMostAgedComponent,
+    VehicleMaintainanceMaxDurComponent
 ];
 
 @NgModule({
@@ -221,7 +368,12 @@ const PAGES_COMPONENTS = [
     LeadvalidationreportComponent,
     TripdeliverycomplinancereportComponent,
     TripstoppageComponent,
-    DynamicReportDashboardComponent
+    DynamicReportDashboardComponent,
+    ReportViewComponent,
+    ReportEditComponent,
+    DriverPreferencesComponent,
+    ConsignmentComponent,
+    
   ],
   exports: [
     FuelAverageAnalysisComponent,

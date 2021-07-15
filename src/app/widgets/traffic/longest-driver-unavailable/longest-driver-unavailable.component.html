@@ -1,0 +1,23 @@
+<div class="">
+    <div class="outer trafficload-2" style="min-height: 130px;">
+      <h6 style="text-align:center"><b class="charthead">Longest Driver Unavailable</b></h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+      (click)="getDetials('Tmgreport/GetTrafficLongestDriverUnavailable',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+    </p>
+      <table class="table">
+        <thead class="thead">
+          <th>Vehicle No.</th>
+          <th>Unavailable Hours</th>
+          <th>Location</th>
+        </thead>
+        <tbody class="tbody">
+          <tr *ngFor="let tldu of trafficLongestDriverUnavailable">
+            <td (click)="chart4Clicked(tldu)" class="link">{{tldu['Vehicle Name']}}</td>
+            <td>{{tldu['Duration (HH:MM)']}}</td>
+            <td>{{tldu['Location']}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>

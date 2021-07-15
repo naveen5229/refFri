@@ -111,7 +111,7 @@ ngOnInit() {
         console.log('Err:', err);
       });
   }
-
+ 
  
 
  getConsignmentLongestLoading(index) {

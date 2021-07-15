@@ -1,0 +1,21 @@
+<div class="">
+<div class="mt-3 outer challan-5" style="min-height: 130px;">
+    <h6 style="text-align:center"><b class="charthead">Worst 3 Drivers(Count Wise) Last 15 Days</b></h6>
+    <p style="text-align: right; margin-top: -25px;" class="link"
+      (click)="getDetials('Tmgreport/GetChallansdrivarcount',{totalrecord: 3,stepno: -1},15,'days')"><i
+        title="More Details" class="fa fa-list"></i>
+    </p>
+    <table class="table">
+      <thead class="thead">
+        <th>Driver Name</th>
+        <th>Challan Count</th>
+      </thead>
+      <tbody class="tbody">
+        <tr *ngFor="let cdc of challansdrivarcount">
+          <td>{{cdc['Driver']}}</td>
+          <td>{{cdc['Challan Count']}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

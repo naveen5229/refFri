@@ -62,7 +62,7 @@ export class NightDriveReportComponent implements OnInit {
     let entime = this.common.changeDateformat(this.endTime,'HH:mm:ss');
     let foid=this.user._customer.foid;
     ++this.common.loading;
-    const subscription = this.api.getJavaPortDost(8082, 'report/' + foid+'/'+startDate+'/'+endDate+'/'+sttime+'/'+entime)
+    const subscription = this.api.getJavaPortDost(8082, 'report/' +startDate+'/'+endDate+'/'+sttime+'/'+entime)
     .subscribe((res: any) => {
         --this.common.loading;
         console.log('Res:',res,res['reports']);
@@ -134,5 +134,46 @@ export class NightDriveReportComponent implements OnInit {
 
     console.log('Columns:', columns);
     return columns;
+  }
+
+  
+  printPDF(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = fodata['name'];
+        let center_heading = "Trip Tat Report";
+       // let time = "Start Date:"+this.datePipe.transform(this.startDate, 'dd-MM-yyyy')+"  End Date:"+this.datePipe.transform(this.endDate, 'dd-MM-yyyy');
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  printCsv(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = "FoName:" + fodata['name'];
+        let center_heading = "Report:" + "Trip Profit And Loss";
+       // let time = "Start Date:"+this.datePipe.transform(this.startDate, 'dd-MM-yyyy')+"  End Date:"+this.datePipe.transform(this.endDate, 'dd-MM-yyyy');
+        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, null);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
+
   }
 }

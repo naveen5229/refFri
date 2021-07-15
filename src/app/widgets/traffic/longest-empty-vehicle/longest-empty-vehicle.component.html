@@ -1,0 +1,22 @@
+<div class="">
+    <div class="outer trafficload-3" style="min-height: 130px;">
+      <h6 style="text-align:center"><b class="charthead">Longest Empty Vehicles</b></h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+    (click)="getDetials('Tmgreport/GetTrafficLongestVehicleEmpty',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+  </p>
+      <table class="table">
+        <thead class="thead">
+          <th>Vehicle No.</th>
+          <th>Available Hours</th>
+          <th>Location</th>
+        </thead>
+        <tbody class="tbody">
+          <tr *ngFor="let tlve of trafficLongestVehicleEmpty">
+            <td (click)="chart10Clicked(tlve)" class="link">{{tlve['Vehicle Name']}}</td>
+            <td>{{tlve['Duration (HH:MM)']}}</td>
+            <td>{{tlve['Location']}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

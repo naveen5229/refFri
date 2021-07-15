@@ -1,0 +1,24 @@
+<div>
+<div class="outer maintainance-3" style="min-height: 195px;">
+    <h6 style="text-align:center"><b class="charthead">Vehicle With Highest Maintainance Cost (Last 90 Days)</b></h6>
+    <p style="text-align: right; margin-top: -25px;" class="link"
+      (click)="getDetials('Tmgreport/GetVehicleMaintainancereportcost',{totalrecord: 3,stepno: 2},90,'days')"><i
+        title="More Details" class="fa fa-list"></i>
+    </p>
+    <table class="table">
+      <thead class="thead">
+        <th>Reg NO</th>
+        <th>Cost</th>
+        
+      </thead>
+      <tbody class="tbody">
+        <tr *ngFor="let csw of challanStateWise">
+          <td class="link"
+          (click)="getDetials('Tmgreport/GetVehicleMaintainancereportcost',{totalrecord: 3,stepno: 3,xid:csw['_vid']},90,'days')"><b>{{csw['Reg No']}}</b></td>
+          <td><b>{{csw['Cost']}}</b></td>
+          
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

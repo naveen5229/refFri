@@ -30,16 +30,21 @@
         </ul>
       </div>  
     </div>  
-    <div class="row">
-      <label style="margin-left: 20px;margin-right: 10px;">From :</label>
-          <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate"  [isTime]=false>
-          </uj-date-time-picker>
-          <label style="margin-left: 20px;margin-right: 10px;">To :</label>
-          <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate"  [isTime]=false  [isStart]=false>
-          </uj-date-time-picker>
-          <label style="margin-left: 20px;margin-right: 10px;" *ngIf="reportType != 'misTripReject'&& reportType != 'misDiffLocUnloadSameName' ">Cluster Size</label>
-          <input type="number"  [(ngModel)]="clusterSize" *ngIf="reportType != 'misTripReject' && reportType != 'misDiffLocUnloadSameName'" class="clu-input">
-          <button class="btn btn-primary text-capitalize" style="margin-left: 20px;" (click)="getReportData(reportType)">OK</button>
+    <div class="right">
+     <div  class="row" ><label class="ml-1 mr-1">From :</label>
+      <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate"  [isTime]=false>
+      </uj-date-time-picker>
+      <label  class="ml-1 mr-1">To :</label>
+      <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate"  [isTime]=false  [isStart]=false>
+      </uj-date-time-picker>
+      <label  class="ml-1 mr-1" *ngIf="reportType != 'misTripReject'&& reportType != 'misDiffLocUnloadSameName' ">Cluster Size</label>
+      <input type="number"  [(ngModel)]="clusterSize" *ngIf="reportType != 'misTripReject' && reportType != 'misDiffLocUnloadSameName'" class="clu-input">
+      <button class="btn btn-primary text-capitalize" style="margin-left: 20px;" (click)="getReportData(reportType)">OK</button>
+
+    </div> 
+            <span *ngIf="showExcel" class="exel-icon" title="CSV Export" (click)="downloadCsv()"
+                        style="cursor: pointer; margin-left: 150px;"><i class="fas fa-file-excel"></i></span>
+         
     </div>
     <smart-table *ngIf="reportData && reportData.length" id="reportData" [data]="table.data"
     [settings]="table.settings" [ngClass]="reportType == 'misTripMultiDestSingleUnload' ? 'lastcolumn':''">

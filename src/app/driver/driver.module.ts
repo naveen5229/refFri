@@ -27,6 +27,7 @@ const PAGES_COMPONENTS = [
   ],
   exports: [
     DriverListComponent,
+
   ],
   providers: [DatePipe],
   declarations: [

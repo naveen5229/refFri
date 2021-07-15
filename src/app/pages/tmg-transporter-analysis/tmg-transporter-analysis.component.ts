@@ -92,13 +92,17 @@ ngOnInit() {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 7
+      groupdays: 7,
+      isfo: false,
+      isadmin: true
     };
     this.api.post('Tmgreport/GetTripOnwardKmd', params)
       .subscribe(res => {
         console.log('tripOnwardKmd:', res);
         this.tripOnwardKmd = res['data'];
-        this.getlabelValue();
+       // this.getlabelValue();
+    this.handleChart();
+
         this.hideLoader(index);
       }, err => {
          this.hideLoader(index);
@@ -137,15 +141,16 @@ ngOnInit() {
   getTransportarSlowestUnloadingtat(index) {
     this.transportarSlowestUnloadingtat = [];
      this.showLoader(index);
-    let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
-    let endDate = new Date();
-    let params = {
-      fromdate: this.common.dateFormatter(startDate),
-      todate: this.common.dateFormatter(endDate),
-      groupdays: 7,
-      totalrecord: 3
-    };
-    this.api.post('Tmgreport/GetTransportarSlowestUnloadingtat', params)
+     let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+     let endDate = new Date();
+     let params = {
+       fromdate: this.common.dateFormatter(startDate),
+       todate: this.common.dateFormatter(endDate),
+       groupdays: 7,
+       isfo: false,
+       isadmin: true
+     };
+     this.api.post('Tmgreport/GetTripUnLoadindTime', params)
       .subscribe(res => {
         console.log('transportarSlowestUnloadingtat:', res);
         this.transportarSlowestUnloadingtat = res['data'];
@@ -351,75 +356,75 @@ ngOnInit() {
     return options;
   }
 
-  handleChart() {
-    let yaxis = [];
-    let xaxis = [];
-    this.tripOnwardKmd.map(tlt => {
-      xaxis.push(tlt['Period']);
-      yaxis.push(tlt['Onward KMs']);
-    });
-    let yaxisObj = this.common.chartScaleLabelAndGrid(yaxis);
-    console.log("handleChart", xaxis, yaxis);
-    this.chart.type = 'bar'
-    this.chart.data = {
-      labels: xaxis,
-      datasets: [
-        {
-          label: 'Onward KMs',
-          data: yaxisObj.scaleData,
-          borderColor: '#3d6fc9',
-          backgroundColor: '#3d6fc9',
-          fill: false,
-          pointHoverRadius: 8,
-          pointHoverBackgroundColor: '#FFEB3B',
-        },
-      ]
-    },
-      this.chart.options = {
-        responsive: true,
-        legend: {
-          position: 'bottom',
-          display: false
-        },
-        scaleLabel: {
-          display: true,
-          labelString: 'Onward KMS' + yaxisObj.yaxisLabel,
-          fontSize: 17,
-        },
+  // handleChart() {
+  //   let yaxis = [];
+  //   let xaxis = [];
+  //   this.tripOnwardKmd.map(tlt => {
+  //     xaxis.push(tlt['Period']);
+  //     yaxis.push(tlt['Onward KMs']);
+  //   });
+  //   let yaxisObj = this.common.chartScaleLabelAndGrid(yaxis);
+  //   console.log("handleChart", xaxis, yaxis);
+  //   this.chart.type = 'bar'
+  //   this.chart.data = {
+  //     labels: xaxis,
+  //     datasets: [
+  //       {
+  //         label: 'Onward KMs',
+  //         data: yaxisObj.scaleData,
+  //         borderColor: '#3d6fc9',
+  //         backgroundColor: '#3d6fc9',
+  //         fill: false,
+  //         pointHoverRadius: 8,
+  //         pointHoverBackgroundColor: '#FFEB3B',
+  //       },
+  //     ]
+  //   },
+  //     this.chart.options = {
+  //       responsive: true,
+  //       legend: {
+  //         position: 'bottom',
+  //         display: false
+  //       },
+  //       scaleLabel: {
+  //         display: true,
+  //         labelString: 'Onward KMS' + yaxisObj.yaxisLabel,
+  //         fontSize: 17,
+  //       },
 
-        maintainAspectRatio: false,
-        title: {
-          display: true,
-        },
-        display: true,
-        elements: {
-          line: {
-            tension: 0
-          }
-        },
-        scales: {
-          yAxes: [{
-            scaleLabel: {
-              display: true,
-              labelString: 'Onward KMS' + yaxisObj.yaxisLabel
-            },
-            ticks: { stepSize: yaxisObj.gridSize },
-            suggestedMin: yaxisObj.minValue,
-          },
-
-
-          ]
-        }
-        // scales: {
-        //   yAxes: [{
-        //     ticks: { stepSize: 50000},
-        //   }]
-        //  },
-
-      };
+  //       maintainAspectRatio: false,
+  //       title: {
+  //         display: true,
+  //       },
+  //       display: true,
+  //       elements: {
+  //         line: {
+  //           tension: 0
+  //         }
+  //       },
+  //       scales: {
+  //         yAxes: [{
+  //           scaleLabel: {
+  //             display: true,
+  //             labelString: 'Onward KMS' + yaxisObj.yaxisLabel
+  //           },
+  //           ticks: { stepSize: yaxisObj.gridSize },
+  //           suggestedMin: yaxisObj.minValue,
+  //         },
 
 
-  }
+  //         ]
+  //       }
+  //       // scales: {
+  //       //   yAxes: [{
+  //       //     ticks: { stepSize: 50000},
+  //       //   }]
+  //       //  },
+
+  //     };
+
+
+  // }
 
   handleChart1() {
     let yaxis = [];
@@ -491,7 +496,7 @@ ngOnInit() {
     let xaxis = [];
     this.transportarSlowestUnloadingtat.map(tlt => {
       xaxis.push(tlt['Period']);
-      yaxis.push(tlt['Avg hrs']);
+      yaxis.push(tlt['Unloading Duration(hrs)']);
     });
     let yaxisObj = this.common.chartScaleLabelAndGrid(yaxis);
     console.log("handleChart2", xaxis, yaxis);
@@ -533,12 +538,34 @@ ngOnInit() {
               display: true,
               labelString: 'Time (in Hrs.)' + yaxisObj.yaxisLabel
             },
-            ticks: { stepSize: yaxisObj.gridSize },
+            ticks: { stepSize: yaxisObj.gridSize }, //beginAtZero: true,min:0,
             suggestedMin: yaxisObj.minValue,
           }]
-        }
+        },
+        tooltips: {
+          enabled: true,
+          mode: 'single',
+          callbacks: {
+            label: function (tooltipItems, data) {
+              console.log('tooltipItems', tooltipItems);
+              // let tti = ('' + tooltipItems.yLabel).split(".");
+              // console.log('tooltipItems:s', tooltipItems.yLabel * 0.6);
+              // let min = tti[1] ? String(parseInt(tti[1]) * .60).substring(0, 2) : '00';
+              // console.log("tooltipItems", min, parseInt(tti[1]) + .0, parseInt("0" + (tti[1])));
+              let x = tooltipItems.yLabel;
+            // let z = (parseFloat(x.toFixed()) + parseFloat((x % 1).toFixed(10)) * 0.6).toString();
+            // z = z.slice(0, z.indexOf('.') + 3).split('.').join(':');
+            //   return tooltipItems.xLabel + " ( " + z + " Hrs. )";
+            let z = (parseFloat((x % 1).toFixed(10)) * 0.6).toString();
+            z = z.slice(0, z.indexOf('.') + 3).split('.').join(':') ;
+              let final = x.toString().split('.')[0] +':'+ z.split(':')[1];
+
+              return tooltipItems.xLabel + " ( " + final + " Hrs. )";
+            }
+          }
+        },
       };
-    }
+  }
     getDetials(url, params, value = 0,type='days') {
       let dataparams = {
         view: {
@@ -578,5 +605,171 @@ ngOnInit() {
       } catch (e) {
         console.log('Exception', e);
       }
+    }
+
+    handleChart() {
+      let yaxis = [];
+      let xaxis = [];
+      this.tripOnwardKmd.map(tlt => {
+        xaxis.push(tlt['Period']);
+        yaxis.push(tlt['Onward KMs']);
+      });
+      let yaxisObj = this.common.chartScaleLabelAndGrid(yaxis);
+      console.log("handleChart", xaxis, yaxis);
+      this.chart.type = 'bar'
+      this.chart.data = {
+        labels: xaxis,
+        datasets: [
+          {
+            label: 'Onward KMs',
+            data: yaxisObj.scaleData,
+            borderColor: '#3d6fc9',
+            backgroundColor: '#3d6fc9',
+            fill: false,
+            pointHoverRadius: 8,
+            pointHoverBackgroundColor: '#FFEB3B',
+          },
+        ]
+      },
+        this.chart.options = {
+          responsive: true,
+          legend: {
+            position: 'bottom',
+            display: false
+          },
+          scaleLabel: {
+            display: true,
+            labelString: 'Onward KMS' + yaxisObj.yaxisLabel,
+            fontSize: 17,
+          },
+  
+          maintainAspectRatio: false,
+          title: {
+            display: true,
+          },
+          display: true,
+          elements: {
+            line: {
+              tension: 0
+            }
+          },
+          scales: {
+            yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Onward KMS' + yaxisObj.yaxisLabel
+              },
+              ticks: { stepSize: yaxisObj.gridSize },//beginAtZero: true,min:0, 
+              suggestedMin: yaxisObj.minValue,
+            },
+  
+  
+            ]
+          }
+          // scales: {
+          //   yAxes: [{
+          //     ticks: { stepSize: 50000},
+          //   }]
+          //  },
+  
+        };
+  
+  
+    }
+    chart2Clicked(event) {
+      console.log('event[0]._index 2', event[0],event[0]._index);
+      let Date = this.tripOnwardKmd[event[0]._index]._id;
+      console.log('event[0]._index 2', event[0]._index, event[0], Date);
+      this.passingIdChart2Data(Date);
+    }
+  
+    passingIdChart2Data(parseDate) {
+      //   this.showLoader(id);
+      let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+      let endDate = new Date();
+      let params = {
+        fromdate: this.common.dateFormatter(startDate),
+        todate: this.common.dateFormatter(endDate),
+        groupdays: 7,
+        isadmin: false,
+        isfo: false,
+        xid: parseDate,
+        // ref: 'tmg-calls'
+      };
+      // this.api.post('Tmgreport/GetCallsDrivar', params)
+      //   .subscribe(res => {
+      //     console.log('callsDrivar 111 :', res);
+  
+      //     this.hideLoader(id);;
+      //   }, err => {
+      //     this.hideLoader(id);;
+      //     console.log('Err:', err);
+      //   });
+      this.getDetials('Tmgreport/GetTripOnwardKmd', params)
+    }
+
+    chart1Clicked(event) {
+      console.log('event[0]._index 2', event[0],event[0]._index);
+      let Date = this.transportarLoadingTat[event[0]._index]._id;
+      console.log('event[0]._index 2', event[0]._index, event[0], Date);
+      this.passingIdChart1Data(Date);
+    }
+  
+    passingIdChart1Data(parseDate) {
+      //   this.showLoader(id);
+      let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+      let endDate = new Date();
+      let params = {
+        fromdate: this.common.dateFormatter(startDate),
+        todate: this.common.dateFormatter(endDate),
+        groupdays: 7,
+        isadmin: false,
+        isfo: false,
+        xid: parseDate,
+        stepno:1
+        // ref: 'tmg-calls'
+      };
+      // this.api.post('Tmgreport/GetCallsDrivar', params)
+      //   .subscribe(res => {
+      //     console.log('callsDrivar 111 :', res);
+  
+      //     this.hideLoader(id);;
+      //   }, err => {
+      //     this.hideLoader(id);;
+      //     console.log('Err:', err);
+      //   });
+      this.getDetials('Tmgreport/GetTransportarLoadingTat', params)
+    }
+    chart3Clicked(event) {
+      console.log('event[0]._index 2', event[0],event[0]._index);
+      let Date = this.transportarSlowestUnloadingtat[event[0]._index]._id;
+      console.log('event[0]._index 2', event[0]._index, event[0], Date);
+      this.passingIdChart3Data(Date);
+    }
+  
+    passingIdChart3Data(parseDate) {
+      //   this.showLoader(id);
+      let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+      let endDate = new Date();
+      let params = {
+        fromdate: this.common.dateFormatter(startDate),
+        todate: this.common.dateFormatter(endDate),
+        isadmin: false,
+        isfo: false,
+        xid: parseDate,
+        stepno:1,
+        totalrecord: 3
+        // ref: 'tmg-calls'
+      };
+      // this.api.post('Tmgreport/GetCallsDrivar', params)
+      //   .subscribe(res => {
+      //     console.log('callsDrivar 111 :', res);
+  
+      //     this.hideLoader(id);;
+      //   }, err => {
+      //     this.hideLoader(id);;
+      //     console.log('Err:', err);
+      //   });
+      this.getDetials('Tmgreport/GetTransportarSlowestUnloadingtat', params)
     }
 }

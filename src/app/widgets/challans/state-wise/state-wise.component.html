@@ -1,0 +1,27 @@
+<div class="">
+    <div class="outer challan-3" style="min-height: 195px;">
+        <h6 style="text-align:center"><b class="charthead">State Wise Challans in Last 30 Days</b></h6>
+        <p style="text-align: right; margin-top: -25px;" class="link"
+        (click)="getDetials('Tmgreport/getChallansstatewize',{totalrecord: 3,stepno: -1},30,'days')"><i
+            title="More Details" class="fa fa-list"></i>
+        </p>
+        <table class="table">
+        <thead class="thead">
+            <th>State</th>
+            <th>Total Count</th>
+            <th>Total Amount</th>
+            <th>Pending Count</th>
+            <th>Pending Amount</th>
+        </thead>
+        <tbody class="tbody">
+            <tr *ngFor="let csw of challanStateWise">
+            <td><b>{{csw['state']}}</b></td>
+            <td><b>{{csw['Total Count']}}</b></td>
+            <td><b>{{csw['Total Challan Amount']}}</b></td>
+            <td><b>{{csw['Pending Challan Count']}}</b></td>
+            <td><b>{{csw['Pending']}}</b></td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+</div>

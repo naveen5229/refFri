@@ -1,0 +1,46 @@
+<div>
+  <!-- <div class="row centarize">
+    <div class="col-2">
+      <div class="hoverChart" [ngClass]="{'disablePieClick': image.blur}" *ngFor="let image of chartTypes;let i = index"
+        (click)="active = image.id;getChartofType(image.type);selectedChart = image.type">
+        <span>
+          <img src="{{image.url}}" height="20px" width="20px" [ngClass]="active==image.id?'active':''">
+        </span>
+      </div>
+    </div>
+    <div class="col-10 graph-panel">
+      <div class="row mr-0">
+        <div class="col-12 graph-panel">
+          <div class="row mt-2" id="graph">
+            <div class="col-8" style="margin-left: 18%;">
+              <div class="chartbox">
+                <canvas [id]="graphId"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-2" [hidden]="!isDisplayTable" id="table">
+            <div class="col-12" style="height: 369px;">
+              <smart-table [data]="tableGraph.data" [settings]="tableGraph.settings" id="tableLeadsForMe"
+                class="sl-smart-table">
+              </smart-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div class="outer" style="min-height: 130px;">
+    <div class="chartbox">
+        <h6 *ngIf="canvasname" style="text-transform: capitalize;font-size: 1.4rem;text-align: center;padding-bottom: 10px;">{{ canvasname }}</h6>
+        <canvas [id]="graphId"></canvas>
+        <div class="row mt-2" [hidden]="!isDisplayTable" id="table">
+          <div class="col-12" style="height: 369px;">
+            <smart-table [data]="tableGraph.data" [settings]="tableGraph.settings" id="tableLeadsForMe"
+              class="sl-smart-table">
+            </smart-table>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

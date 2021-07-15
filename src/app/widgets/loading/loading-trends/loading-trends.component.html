@@ -1,0 +1,24 @@
+<div class="">
+    <div class="outer loading-2" style="min-height: 145px;">
+      <h6 style="text-align:center"><b class="charthead">Loading Trends (Top 3 sites)</b></h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+        (click)="getDetials('Tmgreport/GetLoadingAged',{groupdays: 7,totalrecord: 3,stepno: -1},30,'days')"><i title="More Details" title="More Details"
+          class="fa fa-list"></i></p>
+      <chart *ngIf="chart2.type" [type]="chart2.type" [data]="chart2.data"
+        style="margin-right:5px;min-height: 300px;max-height: 300px;" [options]="chart2.options"></chart>
+      <!-- <table class="table table-bordered">
+          <thead class="thead">
+            <th>Location</th>
+            <th>Loading Count</th>
+            <th>Avg. Loading Time (Hrs)</th>
+          </thead>
+          <tbody class="tbody">
+            <tr *ngFor="let la of loadingAged">
+              <td>{{la['Location']}}</td>
+              <td>{{la['Loading Count']}}</td>
+              <td>{{la['Avg hrs']}}</td>
+            </tr>
+          </tbody>
+        </table> -->
+    </div>
+  </div>

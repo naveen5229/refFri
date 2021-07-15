@@ -1,0 +1,435 @@
+<nb-card style="border:0px;">
+  <nb-card-header>
+    <div class="row">
+      <div class="col-4">
+        <h5>Business Dashboard</h5>
+      </div>
+      <div class="col-2 text-right">
+        <label> Tab Name </label>
+      </div>
+      <div class="col-3 text-right">
+        <input type="text" [(ngModel)]=tabname class="form-control" placeholder="Enter Tab Name"
+          [readonly]="backtabname">
+      </div>
+      <div class="col-3 text-right">
+        <button class="btn btn-primary" (click)="saveReport()">Save</button>
+      </div>
+    </div>
+
+  </nb-card-header>
+
+  <nb-card-body class="p-0">
+
+    <div class="row" style="margin-top: 5px;">
+
+      <div class="col-2 topholdreport pr-2 pl-2">
+
+        <p class="head">Dynamic Reports</p>
+        <div class="holdContainer" style="border:none;">
+          <div title="drag it" class="dataelements" *ngFor="let report of reports;let i = index"
+            [hidden]="report.isUsed" draggable="true" [id]="'option-' + report._id"
+            (dragstart)="selectDraggable(report)">
+            <span>{{report.name}}</span>
+          </div>
+        </div>
+        <p class="head">Global Reports</p>
+        <div class="holdContainer" *ngIf="challanReports.length">
+          <div class="collas-head" (click)="callToShow = 1">
+            <p>Challan Reports</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span>
+          </div>
+          <div *ngIf="callToShow==1" class="collapseitem">
+            <div title="drag it" class="dataelements" *ngFor="let challanReport of challanReports; let i = index"
+              [hidden]="challanReport.isUsed" draggable="true" [id]="'challan-option-' + challanReport.id"
+              (dragstart)="selectDraggable(challanReport, 'challan')">
+              <span>{{challanReport.rpt_title}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="holdContainer" *ngIf="tripReports.length">
+          <div class="collas-head" (click)="callToShow = 2">
+            <p>Trip Reports</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span>
+          </div>
+          <div *ngIf="callToShow==2" class="collapseitem">
+            <div title="drag it" class="dataelements" *ngFor="let challanReport of tripReports; let i = index"
+              [hidden]="challanReport.isUsed" draggable="true" [id]="'trip-option-' + challanReport.id"
+              (dragstart)="selectDraggable(challanReport, 'trip')">
+              <span>{{challanReport.rpt_title}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="holdContainer" *ngIf="trafficReports.length">
+          <div class="collas-head" (click)="callToShow = 3">
+            <p>Traffic Reports</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span>
+          </div>
+          <div *ngIf="callToShow==3" class="collapseitem">
+            <div title="drag it" class="dataelements" *ngFor="let challanReport of trafficReports; let i = index"
+              [hidden]="challanReport.isUsed" draggable="true" [id]="'trip-option-' + challanReport.id"
+              (dragstart)="selectDraggable(challanReport, 'traffic')">
+              <span>{{challanReport.rpt_title}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="holdContainer" *ngIf="CallsReports.length">
+         <div class="collas-head" (click)="callToShow = 4">
+            <p>Calls Reports</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span>
+          </div>
+          <div *ngIf="callToShow==4" class="collapseitem">
+          <div class="dataelements" *ngFor="let challanReport of CallsReports; let i = index"
+            [hidden]="challanReport.isUsed" draggable="true" [id]="'calls-option-' + challanReport.id"
+            (dragstart)="selectDraggable(challanReport, 'calls')">
+            <span>{{challanReport.rpt_title}}</span>
+          </div>
+          </div>
+        </div>
+        <div class="holdContainer" *ngIf="AlertReports.length">
+          <div class="collas-head" (click)="callToShow = 5">
+             <p>Alert Reports</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span>
+           </div>
+           <div *ngIf="callToShow==5" class="collapseitem">
+           <div class="dataelements" *ngFor="let challanReport of AlertReports; let i = index"
+             [hidden]="challanReport.isUsed" draggable="true" [id]="'alert-option-' + challanReport.id"
+             (dragstart)="selectDraggable(challanReport, 'alert')">
+             <span>{{challanReport.rpt_title}}</span>
+           </div>
+           </div>
+         </div>
+         <div class="holdContainer" *ngIf="AnalysisReports.length">
+          <div class="collas-head" (click)="callToShow = 6">
+             <p>Live Analysis</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span>
+           </div>
+           <div *ngIf="callToShow==6" class="collapseitem">
+           <div class="dataelements" *ngFor="let challanReport of AnalysisReports; let i = index"
+             [hidden]="challanReport.isUsed" draggable="true" [id]="'analysis-option-' + challanReport.id"
+             (dragstart)="selectDraggable(challanReport, 'analysis')">
+             <span>{{challanReport.rpt_title}}</span>
+           </div>
+           </div>
+         </div>
+         <div class="holdContainer" *ngIf="LoadingAnalysisReports.length">
+          <div class="collas-head" (click)="callToShow =7 ">
+             <p>Loading Analysis</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span>
+           </div>
+           <div *ngIf="callToShow==7" class="collapseitem">
+           <div class="dataelements" *ngFor="let challanReport of LoadingAnalysisReports; let i = index"
+             [hidden]="challanReport.isUsed" draggable="true" [id]="'loading-option-' + challanReport.id"
+             (dragstart)="selectDraggable(challanReport, 'loading')">
+             <span>{{challanReport.rpt_title}}</span>
+           </div>
+           </div>
+         </div>
+         <div class="holdContainer" *ngIf="DocumentReports.length">
+          <div class="collas-head" (click)="callToShow =8 ">
+             <p>Document Report</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span>
+           </div>
+           <div *ngIf="callToShow==8" class="collapseitem">
+           <div class="dataelements" *ngFor="let challanReport of DocumentReports; let i = index"
+             [hidden]="challanReport.isUsed" draggable="true" [id]="'document-option-' + challanReport.id"
+             (dragstart)="selectDraggable(challanReport, 'document')">
+             <span>{{challanReport.rpt_title}}</span>
+           </div>
+           </div>
+         </div>
+         <div class="holdContainer" *ngIf="TransportarReports.length">
+          <div class="collas-head" (click)="callToShow =9 ">
+             <p>Transportar Report</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span>
+           </div>
+           <div *ngIf="callToShow==9" class="collapseitem">
+           <div class="dataelements" *ngFor="let challanReport of TransportarReports; let i = index"
+             [hidden]="challanReport.isUsed" draggable="true" [id]="'transportar-option-' + challanReport.id"
+             (dragstart)="selectDraggable(challanReport, 'transportar')">
+             <span>{{challanReport.rpt_title}}</span>
+           </div>
+           </div>
+         </div>
+         <div class="holdContainer" *ngIf="UnloadingReports.length">
+          <div class="collas-head" (click)="callToShow =10 ">
+             <p>Unloading Report</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span>
+           </div>
+           <div *ngIf="callToShow==10" class="collapseitem">
+           <div class="dataelements" *ngFor="let challanReport of UnloadingReports; let i = index"
+             [hidden]="challanReport.isUsed" draggable="true" [id]="'unloading-option-' + challanReport.id"
+             (dragstart)="selectDraggable(challanReport, 'unloading')">
+             <span>{{challanReport.rpt_title}}</span>
+           </div>
+           </div>
+         </div>
+         <div class="holdContainer" *ngIf="MaintainanceReports.length">
+          <div class="collas-head" (click)="callToShow =11 ">
+             <p>Maintenance Report</p> <span><i class="fas fa-sort-down" style="cursor: pointer"></i></span>
+           </div>
+           <div *ngIf="callToShow==11" class="collapseitem">
+           <div class="dataelements" *ngFor="let challanReport of MaintainanceReports; let i = index"
+             [hidden]="challanReport.isUsed" draggable="true" [id]="'maintainance-option-' + challanReport.id"
+             (dragstart)="selectDraggable(challanReport, 'maintainance')">
+             <span>{{challanReport.rpt_title}}</span>
+           </div>
+           </div>
+         </div>
+      </div>
+ 
+      <div class="col-10 reports-container" (drop)="handleDropped($event)" (dragover)="handleDragOver($event)">
+        <div class="report draggable" *ngFor="let report of reports;let i = index" [hidden]="!report.isUsed"
+          [style.width]="report.rpt_width + 'px'" [style.height]="report.rpt_height + 'px'"
+          [style.top]="report.y_pos + 'px'" [style.left]="report.x_pos + 'px'" [id]="'report-' + report._id">
+          <div class="report-container" *ngIf="report.isUsed">
+            <dynamic-report [savedReportSelect]="report"  [dynamicid]="i" [startDate]="startDate" [endDate]="endDate" [defaultdays]="defaultdaystype"></dynamic-report>
+            <i class="fa fa-window-close report-close" (click)="deleteReport(report)"></i>
+          </div>
+        </div>
+        <div class="report draggable" *ngFor="let challanReport of challanReports; let i = index"
+          [hidden]="!challanReport.isUsed" [id]="'challan-report-' + challanReport.id"
+          [style.width]="challanReport.rpt_width + 'px'" [style.height]="challanReport.rpt_height + 'px'"
+          [style.top]="challanReport.y_pos + 'px'" [style.left]="challanReport.x_pos + 'px'">
+          <div class="report-container">
+            <challan-trends *ngIf="challanReport.id == 1 && challanReport.isUsed"></challan-trends>
+            <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
+            <state-wise *ngIf="challanReport.id == 2 && challanReport.isUsed"></state-wise>
+            <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
+            <worst-drivers *ngIf="challanReport.id == 3 && challanReport.isUsed"></worst-drivers>
+            <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
+            <most-aged *ngIf="challanReport.id == 4 && challanReport.isUsed"></most-aged>
+            <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
+            <latest *ngIf="challanReport.id == 5 && challanReport.isUsed"></latest>
+            <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
+            <worst-drivers-years *ngIf="challanReport.id == 6 && challanReport.isUsed"></worst-drivers-years>
+            <i class="fa fa-window-close report-close" (click)="deleteChallanReport(challanReport)"></i>
+          </div>
+        </div>
+        <!-- <div class="report draggable" *ngFor="let trreport of tripReports;let i = index" [hidden]="!trreport.isUsed" [style.width]="trreport.rpt_width + 'px'"
+                [style.height]="trreport.rpt_height + 'px'"
+                [style.top]="trreport.y_pos + 'px'" [style.left]="trreport.x_pos + 'px'" 
+                    [id]="'trip-report-' + trreport._id">
+                    <div class="trreport-container">
+                        <dynamic-report [savedReportSelect]="trreport"></dynamic-report>
+                        <i class="fa fa-window-close report-close" (click)="deleteReport(trreport)"></i>
+                    </div>
+                </div> -->
+        <div class="report draggable" *ngFor="let singletripReport of tripReports; let i = index"
+          [hidden]="!singletripReport.isUsed" [id]="'trip-report-' + singletripReport.id"
+          [style.width]="singletripReport.rpt_width + 'px'" [style.height]="singletripReport.rpt_height + 'px'"
+          [style.top]="singletripReport.y_pos + 'px'" [style.left]="singletripReport.x_pos + 'px'">
+          <div class="report-container">
+            <trip-onward-kmpd *ngIf="singletripReport.id == 1 && singletripReport.isUsed"></trip-onward-kmpd>
+            <i class="fa fa-window-close report-close" (click)="deleteTripReport(singletripReport)"></i>
+            <avg-loading *ngIf="singletripReport.id == 2 && singletripReport.isUsed"></avg-loading>
+            <i class="fa fa-window-close report-close" (click)="deleteTripReport(singletripReport)"></i>
+            <avg-unloading *ngIf="singletripReport.id == 3 && singletripReport.isUsed"></avg-unloading>
+            <i class="fa fa-window-close report-close" (click)="deleteTripReport(singletripReport)"></i>
+            <worst-vehicles *ngIf="singletripReport.id == 4 && singletripReport.isUsed"></worst-vehicles>
+            <i class="fa fa-window-close report-close" (click)="deleteTripReport(singletripReport)"></i>
+            <longest-loading *ngIf="singletripReport.id == 5 && singletripReport.isUsed"></longest-loading>
+            <i class="fa fa-window-close report-close" (click)="deleteTripReport(singletripReport)"></i>
+            <longest-unloading *ngIf="singletripReport.id == 6 && singletripReport.isUsed"></longest-unloading>
+            <i class="fa fa-window-close report-close" (click)="deleteTripReport(singletripReport)"></i>
+            <slowest-onward *ngIf="singletripReport.id == 7 && singletripReport.isUsed"></slowest-onward>
+            <i class="fa fa-window-close report-close" (click)="deleteTripReport(singletripReport)"></i>
+            <longest-unloading-sites *ngIf="singletripReport.id == 8 && singletripReport.isUsed">
+            </longest-unloading-sites>
+            <i class="fa fa-window-close report-close" (click)="deleteTripReport(singletripReport)"></i>
+            <gps-performance *ngIf="singletripReport.id == 9 && singletripReport.isUsed"></gps-performance>
+            <i class="fa fa-window-close report-close" (click)="deleteTripReport(singletripReport)"></i>
+          </div>
+        </div>
+        <!-- <div class="report draggable" *ngFor="let trafficreport of trafficReports;let i = index" [hidden]="!trafficreport.isUsed" [style.width]="trafficreport.rpt_width + 'px'"
+                [style.height]="trafficreport.rpt_height + 'px'"
+                [style.top]="trafficreport.y_pos + 'px'" [style.left]="trafficreport.x_pos + 'px'" 
+                    [id]="'traffic-report-' + trafficreport._id">
+                    <div class="trreport-container">
+                        <dynamic-report [savedReportSelect]="trafficreport"></dynamic-report>
+                        <i class="fa fa-window-close report-close" (click)="deleteReport(trafficreport)"></i>
+                    </div>
+                </div> -->
+        <div class="report draggable" *ngFor="let singletrafficReport of trafficReports; let i = index"
+          [hidden]="!singletrafficReport.isUsed" [id]="'traffic-report-' + singletrafficReport.id"
+          [style.width]="singletrafficReport.rpt_width + 'px'" [style.height]="singletrafficReport.rpt_height + 'px'"
+          [style.top]="singletrafficReport.y_pos + 'px'" [style.left]="singletrafficReport.x_pos + 'px'">
+          <div class="report-container">
+            <live-traffic-status *ngIf="singletrafficReport.id == 1 && singletrafficReport.isUsed">
+            </live-traffic-status>
+            <i class="fa fa-window-close report-close" (click)="deleteTrafficReport(singletrafficReport)"></i>
+            <longest-driver-unavailable *ngIf="singletrafficReport.id == 2 && singletrafficReport.isUsed">
+            </longest-driver-unavailable>
+            <i class="fa fa-window-close report-close" (click)="deleteTrafficReport(singletrafficReport)"></i>
+            <longest-gps-offline *ngIf="singletrafficReport.id == 3 && singletrafficReport.isUsed">
+            </longest-gps-offline>
+            <i class="fa fa-window-close report-close" (click)="deleteTrafficReport(singletrafficReport)"></i>
+            <top-vehicle-rto *ngIf="singletrafficReport.id == 4 && singletrafficReport.isUsed"></top-vehicle-rto>
+            <i class="fa fa-window-close report-close" (click)="deleteTrafficReport(singletrafficReport)"></i>
+            <longest-loading-sites *ngIf="singletrafficReport.id == 5 && singletrafficReport.isUsed">
+            </longest-loading-sites>
+            <i class="fa fa-window-close report-close" (click)="deleteTrafficReport(singletrafficReport)"></i>
+            <longest-unloading-offline *ngIf="singletrafficReport.id == 6 && singletrafficReport.isUsed">
+            </longest-unloading-offline>
+            <i class="fa fa-window-close report-close" (click)="deleteTrafficReport(singletrafficReport)"></i>
+            <slowest-onward-veicles *ngIf="singletrafficReport.id == 7 && singletrafficReport.isUsed">
+            </slowest-onward-veicles>
+            <i class="fa fa-window-close report-close" (click)="deleteTrafficReport(singletrafficReport)"></i>
+            <longest-empty-vehicle *ngIf="singletrafficReport.id == 8 && singletrafficReport.isUsed">
+            </longest-empty-vehicle>
+            <i class="fa fa-window-close report-close" (click)="deleteTrafficReport(singletrafficReport)"></i>
+          </div>
+        </div>
+
+            <div class="report draggable" *ngFor="let singlecallsReport of CallsReports; let i = index"
+            [hidden]="!singlecallsReport.isUsed" [id]="'traffic-report-' + singlecallsReport.id"  [style.width]="singlecallsReport.rpt_width + 'px'"
+            [style.height]="singlecallsReport.rpt_height + 'px'"
+            [style.top]="singlecallsReport.y_pos + 'px'" [style.left]="singlecallsReport.x_pos + 'px'" >
+                <div class="report-container">
+                    <drivercontacted *ngIf="singlecallsReport.id == 1 && singlecallsReport.isUsed"></drivercontacted>
+                    <i class="fa fa-window-close report-close" (click)="deleteTrafficReport(singlecallsReport)"></i>
+                      <supervisor-wise-unrespond *ngIf="singlecallsReport.id == 2 && singlecallsReport.isUsed"></supervisor-wise-unrespond>
+                    <i class="fa fa-window-close report-close" (click)="deleteCallReport(singlecallsReport)"></i>
+                    <unrespond-driver-calls *ngIf="singlecallsReport.id == 3 && singlecallsReport.isUsed"></unrespond-driver-calls>
+                    <i class="fa fa-window-close report-close" (click)="deleteCallReport(singlecallsReport)"></i>
+                      <worst-driver *ngIf="singlecallsReport.id == 4 && singlecallsReport.isUsed"></worst-driver>
+                    <i class="fa fa-window-close report-close" (click)="deleteCallReport(singlecallsReport)"></i>
+                    <avg-loading-tat *ngIf="singlecallsReport.id == 5 && singlecallsReport.isUsed"></avg-loading-tat>
+                    <i class="fa fa-window-close report-close" (click)="deleteCallReport(singlecallsReport)"></i>
+                    <calls-onward-kmpd *ngIf="singlecallsReport.id == 6 && singlecallsReport.isUsed"></calls-onward-kmpd>
+                      <i class="fa fa-window-close report-close" (click)="deleteCallReport(singlecallsReport)"></i>
+                    <avg-unloading-tat *ngIf="singlecallsReport.id == 7 && singlecallsReport.isUsed"></avg-unloading-tat>
+                    <i class="fa fa-window-close report-close" (click)="deleteCallReport(singlecallsReport)"></i>
+                      </div>
+            </div>
+            <div class="report draggable" *ngFor="let singlealertReport of AlertReports; let i = index"
+            [hidden]="!singlealertReport.isUsed" [id]="'analysis-report-' + singlealertReport.id"
+            [style.width]="singlealertReport.rpt_width + 'px'" [style.height]="singlealertReport.rpt_height + 'px'"
+            [style.top]="singlealertReport.y_pos + 'px'" [style.left]="singlealertReport.x_pos + 'px'">
+            <div class="report-container">
+               <alert-ack-tat *ngIf="singlealertReport.id == 1 && singlealertReport.isUsed"></alert-ack-tat>
+              <i class="fa fa-window-close report-close" (click)="deleteAlertReport(singlealertReport)"></i>
+              <alert-call-tat *ngIf="singlealertReport.id == 2 && singlealertReport.isUsed"></alert-call-tat>
+              <i class="fa fa-window-close report-close" (click)="deleteAlertReport(singlealertReport)"></i>
+              <vsc-tat *ngIf="singlealertReport.id == 3 && singlealertReport.isUsed"></vsc-tat>
+              <i class="fa fa-window-close report-close" (click)="deleteAlertReport(singlealertReport)"></i>
+              <longest-alert-not-ack *ngIf="singlealertReport.id == 4 && singlealertReport.isUsed"></longest-alert-not-ack>
+              <i class="fa fa-window-close report-close" (click)="deleteAlertReport(singlealertReport)"></i>
+              <longest-alert-not-called *ngIf="singlealertReport.id == 5 && singlealertReport.isUsed"></longest-alert-not-called>
+              <i class="fa fa-window-close report-close" (click)="deleteAlertReport(singlealertReport)"></i>
+              <longest-pending-vsc-tat *ngIf="singlealertReport.id == 6 && singlealertReport.isUsed"></longest-pending-vsc-tat>
+              <i class="fa fa-window-close report-close" (click)="deleteAlertReport(singlealertReport)"></i>
+              <longest-open-alert *ngIf="singlealertReport.id == 7 && singlealertReport.isUsed"></longest-open-alert>
+              <i class="fa fa-window-close report-close" (click)="deleteAlertReport(singlealertReport)"></i>
+              <worst-call-tat *ngIf="singlealertReport.id == 8 && singlealertReport.isUsed">
+              </worst-call-tat>
+              <i class="fa fa-window-close report-close" (click)="deleteAlertReport(singlealertReport)"></i>
+             <worst-vsc-tat *ngIf="singlealertReport.id == 9 && singlealertReport.isUsed"></worst-vsc-tat>
+              <i class="fa fa-window-close report-close" (click)="deleteAlertReport(singlealertReport)"></i>
+            </div>
+          </div>
+          <div class="report draggable" *ngFor="let singleanalysisReport of AnalysisReports; let i = index"
+          [hidden]="!singleanalysisReport.isUsed" [id]="'alert-report-' + singleanalysisReport.id"
+          [style.width]="singleanalysisReport.rpt_width + 'px'" [style.height]="singleanalysisReport.rpt_height + 'px'"
+          [style.top]="singleanalysisReport.y_pos + 'px'" [style.left]="singleanalysisReport.x_pos + 'px'">
+          <div class="report-container">
+            <live-traffic-status-analysys *ngIf="singleanalysisReport.id == 1 && singleanalysisReport.isUsed"></live-traffic-status-analysys>
+            <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(singleanalysisReport)"></i>
+             <longest-onward-halt *ngIf="singleanalysisReport.id == 2 && singleanalysisReport.isUsed"></longest-onward-halt>
+            <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(singleanalysisReport)"></i>
+            <longest-gps-offline-analysys *ngIf="singleanalysisReport.id == 3 && singleanalysisReport.isUsed"></longest-gps-offline-analysys>
+            <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(singleanalysisReport)"></i>
+             <longest-loading-site *ngIf="singleanalysisReport.id == 4 && singleanalysisReport.isUsed"></longest-loading-site>
+            <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(singleanalysisReport)"></i>
+            <longest-unloading-vehicle *ngIf="singleanalysisReport.id == 5 && singleanalysisReport.isUsed"></longest-unloading-vehicle>
+            <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(singleanalysisReport)"></i>
+           <slowest-onward-vehicle *ngIf="singleanalysisReport.id == 6 && singleanalysisReport.isUsed"></slowest-onward-vehicle>
+            <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(singleanalysisReport)"></i>
+            <longest-parking-vehicle *ngIf="singleanalysisReport.id == 7 && singleanalysisReport.isUsed"></longest-parking-vehicle>
+            <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(singleanalysisReport)"></i>
+            </div>
+        </div>
+        <div class="report draggable" *ngFor="let loadinganalysis of LoadingAnalysisReports; let i = index"
+        [hidden]="!loadinganalysis.isUsed" [id]="'loading-report-' + loadinganalysis.id"
+        [style.width]="loadinganalysis.rpt_width + 'px'" [style.height]="loadinganalysis.rpt_height + 'px'"
+        [style.top]="loadinganalysis.y_pos + 'px'" [style.left]="loadinganalysis.x_pos + 'px'">
+        <div class="report-container">
+           <avg-loading-time-graph *ngIf="loadinganalysis.id == 1 && loadinganalysis.isUsed"></avg-loading-time-graph>
+          <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(loadinganalysis)"></i>
+          <loading-trends *ngIf="loadinganalysis.id == 2 && loadinganalysis.isUsed"></loading-trends>
+          <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(loadinganalysis)"></i>
+          <worst-loading-sites *ngIf="loadinganalysis.id == 3 && loadinganalysis.isUsed"></worst-loading-sites>
+          <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(loadinganalysis)"></i>
+          <worst-loading-sites-days *ngIf="loadinganalysis.id == 4 && loadinganalysis.isUsed"></worst-loading-sites-days>
+          <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(loadinganalysis)"></i>
+         <worst-parking-sites *ngIf="loadinganalysis.id == 5 && loadinganalysis.isUsed"></worst-parking-sites>
+          <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(loadinganalysis)"></i>
+         <worst-parking-sites-days *ngIf="loadinganalysis.id == 6 && loadinganalysis.isUsed"></worst-parking-sites-days>
+          <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(loadinganalysis)"></i>
+         
+          </div>
+      </div>
+      <div class="report draggable" *ngFor="let document of DocumentReports; let i = index"
+      [hidden]="!document.isUsed" [id]="'document-report-' + document.id"
+      [style.width]="document.rpt_width + 'px'" [style.height]="document.rpt_height + 'px'"
+      [style.top]="document.y_pos + 'px'" [style.left]="document.x_pos + 'px'">
+      <div class="report-container">
+         <tmg-documents *ngIf="document.id == 1 && document.isUsed"></tmg-documents>
+        <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(document)"></i>
+      
+        </div>
+    </div>
+    <div class="report draggable" *ngFor="let tranportar of TransportarReports; let i = index"
+    [hidden]="!tranportar.isUsed" [id]="'transportar-report-' + tranportar.id"
+    [style.width]="tranportar.rpt_width + 'px'" [style.height]="tranportar.rpt_height + 'px'"
+    [style.top]="tranportar.y_pos + 'px'" [style.left]="tranportar.x_pos + 'px'">
+    <div class="report-container">
+        <load-allocation *ngIf="tranportar.id == 1 && tranportar.isUsed"></load-allocation>
+      <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(tranportar)"></i>
+      <avg-unloading-time-slowest *ngIf="tranportar.id == 2 && tranportar.isUsed"></avg-unloading-time-slowest>
+      <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(tranportar)"></i>
+      <slowest-transporter *ngIf="tranportar.id == 3 && tranportar.isUsed"></slowest-transporter>
+      <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(tranportar)"></i>
+      <lowest-loads *ngIf="tranportar.id == 4 && tranportar.isUsed"></lowest-loads>
+      <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(tranportar)"></i>
+    <lowest-load-days *ngIf="tranportar.id == 5 && tranportar.isUsed"></lowest-load-days>
+      <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(tranportar)"></i>
+     <longest-unloading *ngIf="tranportar.id == 6 && tranportar.isUsed"></longest-unloading>
+      <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(tranportar)"></i>
+      <longest-unloading-days *ngIf="tranportar.id == 6 && tranportar.isUsed"></longest-unloading-days>
+      <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(tranportar)"></i>
+      </div>
+  </div>
+  <div class="report draggable" *ngFor="let unloading of UnloadingReports; let i = index"
+  [hidden]="!unloading.isUsed" [id]="'unloading-report-' + unloading.id"
+  [style.width]="unloading.rpt_width + 'px'" [style.height]="unloading.rpt_height + 'px'"
+  [style.top]="unloading.y_pos + 'px'" [style.left]="unloading.x_pos + 'px'">
+  <div class="report-container">
+       <avg-uloading-time *ngIf="unloading.id == 1 && unloading.isUsed"></avg-uloading-time>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(unloading)"></i>
+   <detention-trend *ngIf="unloading.id == 2 && unloading.isUsed"></detention-trend>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(unloading)"></i>
+    <worst-consignee *ngIf="unloading.id == 3 && unloading.isUsed"></worst-consignee>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(unloading)"></i>
+     <worst-consignee-months *ngIf="unloading.id == 4 && unloading.isUsed"></worst-consignee-months>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(unloading)"></i>
+  <worst-transporter *ngIf="unloading.id == 5 && unloading.isUsed"></worst-transporter>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(unloading)"></i>
+ <worst-transporter-months *ngIf="unloading.id == 6 && unloading.isUsed"></worst-transporter-months>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(unloading)"></i>
+   
+    </div>
+</div>
+<div class="report draggable" *ngFor="let maintainance of MaintainanceReports; let i = index"
+  [hidden]="!maintainance.isUsed" [id]="'maintainance-report-' + maintainance.id"
+  [style.width]="maintainance.rpt_width + 'px'" [style.height]="maintainance.rpt_height + 'px'"
+  [style.top]="maintainance.y_pos + 'px'" [style.left]="maintainance.x_pos + 'px'">
+  <div class="report-container">
+       <maintainance-work-trend *ngIf="maintainance.id == 1 && maintainance.isUsed"></maintainance-work-trend>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(maintainance)"></i>
+ <vehicle-maintainance-most-aged *ngIf="maintainance.id == 2 && maintainance.isUsed"></vehicle-maintainance-most-aged>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(maintainance)"></i>
+       <vehicle-maintainance-max-dur *ngIf="maintainance.id == 3 && maintainance.isUsed"></vehicle-maintainance-max-dur>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(maintainance)"></i>
+  <vehicle-maintainance-cost *ngIf="maintainance.id == 4 && maintainance.isUsed"></vehicle-maintainance-cost>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(maintainance)"></i>
+   <vehicle-maintainance-count *ngIf="maintainance.id == 5 && maintainance.isUsed"></vehicle-maintainance-count>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(maintainance)"></i>
+ <top-workshop *ngIf="maintainance.id == 6 && maintainance.isUsed"></top-workshop>
+    <i class="fa fa-window-close report-close" (click)="deleteAnalysisReport(maintainance)"></i> 
+   
+    </div>
+</div>
+            </div>
+        </div>
+  </nb-card-body>
+</nb-card>

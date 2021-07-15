@@ -3,8 +3,10 @@ import { MapService } from '../../services/map.service';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+declare let google: any;
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+import { PdfService } from '../../services/pdf/pdf.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -14,6 +16,7 @@ import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 })
 export class PoliceStationComponent implements OnInit {
   PoliceStation = [];
+  vehicles = [];
   // PoliceStation;
   lat;
   long;
@@ -26,16 +29,20 @@ export class PoliceStationComponent implements OnInit {
   dateVal = []
 
   resData = [];
-
-
+  policeStationMarkers = [];
+  vehiclesMarkers = [];
+  actionType = "police";
   constructor(
     public mapService: MapService,
     public api: ApiService,
-    private activeModal: NgbActiveModal,
+    private activeModal: NgbActiveModal, private pdf: PdfService,
     public common: CommonService) {
     this.common.handleModalSize('class', 'modal-lg', '1000');
     this.lat = this.common.params.lat;
     this.long = this.common.params.long;
+    this.name = this.common.params.name || '';
+    this.vehicles = this.common.params.vehicles || [];
+
     console.log("------------", this.lat);
     this.getPoliceStation();
     this.location = [{
@@ -55,7 +62,7 @@ export class PoliceStationComponent implements OnInit {
     this.mapService.mapIntialize("police-station-map", 18, 25, 75, true, true);
   }
 
-  ngOnDestroy() { 
+  ngOnDestroy() {
     this.mapService.events.next({ type: 'closed' });
   }
 
@@ -95,9 +102,15 @@ export class PoliceStationComponent implements OnInit {
 
         setTimeout(() => {
           this.mapService.clearAll();
-          this.mapService.createMarkers(this.PoliceStation, false, true, ["Vicinity", "phone"]);
+          this.policeStationMarkers = this.mapService.createMarkers(this.PoliceStation, false, true, ["Vicinity", "phone"]);
+          this.vehiclesMarkers = this.mapService.createMarkers(this.vehicles, false, true, ["name", "distance"]);
+          this.vehiclesMarkers.map(marker => marker && marker.setMap(null))
           this.mapService.createMarkers(this.location, false, true);
           this.mapService.zoomMap(10.5);
+          console.log('this.location', this.location);
+          let lat = parseFloat(this.location[0].lat);
+          let lng = parseFloat(this.location[0].long);
+          this.mapService.map.setCenter({ lat, lng });
         }, 2500);
 
       }, err => {
@@ -105,6 +118,7 @@ export class PoliceStationComponent implements OnInit {
         this.common.showError();
       })
   }
+
 
   openSmartTool(i, value) {
     this.PoliceStation.forEach(vEvent => {
@@ -125,5 +139,45 @@ export class PoliceStationComponent implements OnInit {
 
   dismiss() {
     this.activeModal.close();
+  }
+
+  handleMarkers() {
+    if (this.actionType == 'police') {
+      this.policeStationMarkers.map(marker => marker && marker.setMap(this.mapService.map));
+      this.vehiclesMarkers.map(marker => marker && marker.setMap(null));
+    } else if (this.actionType == 'vehicle') {
+      this.policeStationMarkers.map(marker => marker && marker.setMap(null));
+      this.vehiclesMarkers.map(marker => marker && marker.setMap(this.mapService.map));
+    }
+  }
+
+  toggleBounceMF(id, markers, evtype = 1) {
+    console.log("id=", id);
+    if (markers[id]) {
+      if (markers[id].getAnimation() == null && evtype == 1) {
+        markers[id].setAnimation(google.maps.Animation.BOUNCE);
+      } else if (evtype == 2 && markers[id].getAnimation() != null) {
+        markers[id].setAnimation(null);
+      }
+    }
+  }
+
+  downloadPDF() {
+    let details = [
+      ['Vehicle: ' + this.name]
+    ];
+    if (this.actionType == 'police') {
+      this.pdf.jrxTablesPDF(['near-police'], this.name, details);
+    } else {
+      this.pdf.jrxTablesPDF(['near-vehicles'], this.name, details);
+    }
+  }
+
+  downloadExcel() {
+    if (this.actionType == 'police') {
+      this.common.getCSVFromTableId('near-police', '', this.name);
+    } else {
+      this.common.getCSVFromTableId('near-vehicles', '', this.name);
+    }
   }
 }

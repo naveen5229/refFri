@@ -119,6 +119,10 @@ import { LeadvalidationreportComponent } from './leadvalidationreport/leadvalida
 import { TripdeliverycomplinancereportComponent } from './tripdeliverycomplinancereport/tripdeliverycomplinancereport.component';
 import { TripstoppageComponent } from './tripstoppage/tripstoppage.component';
 import { DynamicReportDashboardComponent } from './dynamic-report-dashboard/dynamic-report-dashboard.component';
+import { DriverConsentListComponent } from '../modals/driver-consent-list/driver-consent-list.component';
+import { DriverPreferencesComponent } from './driver-preferences/driver-preferences.component';
+import { ConsignmentComponent } from './consignment/consignment.component';
+import { TmgMaintainaceComponent } from './tmg-maintainace/tmg-maintainace.component';
 
 
 const routes: Routes = [{
@@ -736,6 +740,21 @@ const routes: Routes = [{
     path: 'dynamic-report-dashboard',
     component: DynamicReportDashboardComponent,
     canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'driver-preference',
+    component: DriverPreferencesComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'consignment',
+    component: ConsignmentComponent,
+    canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path: 'tmg-maintainace',
+    component: TmgMaintainaceComponent,
+    canActivate: [AuthGuard, RouteGuard]
   },
   ],
 }];

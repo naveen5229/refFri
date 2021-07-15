@@ -1,0 +1,23 @@
+<div class="">
+    <div class="outer alertload-6" style="min-height: 170px;">
+      <h6 style="text-align:center"><b class="charthead">Longest Pending VSC TAT </b></h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+      (click)="getDetials('Tmgreport/GetAlertVscPending',{totalrecord: 3,stepno: -1},30,'days')"><i title="More Details" class="fa fa-list"></i>
+    </p>
+      <table class="table">
+        <thead class="thead">
+          <td>Executive</td>
+          <th>TAT (Hrs)</th>
+          <th>Oldest VSC Date </th>
+        </thead>
+        <tbody class="tbody">
+          <tr *ngFor="let lud of alertVscPending">
+            <td>{{lud['Executive']}}</td>
+            <td>{{lud['TAT(Hrs)']}}</td>
+            <td>{{lud['VSC Time']}}</td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

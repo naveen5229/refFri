@@ -41,8 +41,6 @@ export class PlacementoptimizeComponent implements OnInit {
     }]
   }
 
-
-
   ngOnInit(): void {
   }
 
@@ -50,23 +48,36 @@ export class PlacementoptimizeComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-  
-
-
   ngAfterViewInit() {
     this.mapService.mapIntialize("placementoptimize-map");
     this.mapService.clearAll();
     setTimeout(() => {
       this.mapService.setMapType(0);
-      // this.placementData.map(e=>{return e.title = e.truckRegno;});
-      // console.log("Testing-data:",this.placementData);
-      this.markers=this.mapService.createMarkers(this.placementData).map((siteMarker,i) =>{
-        const siteDetails=this.placementData[i];
-        siteMarker.setTitle(siteDetails.truckRegno);
-        return {marker:siteMarker};
+      // this.markers=this.mapService.createMarkers(this.placementData).map((siteMarker,i) =>{
+      //   const siteDetails=this.placementData[i];
+      //   siteMarker.setTitle(siteDetails.truckRegno);
+      //   return {marker:siteMarker};
+      // });
+
+      let newPlacementData = []
+      this.placementData.map(item => {
+       newPlacementData.push({
+          lat: item.latitude,
+          long: item.longitude,
+          truckRegno: item.truckRegno,
+          type: 'vehicles',
+          color: this.colorPicker(item.status)
+        });
       });
+      this.markers=this.mapService.createMarkers(newPlacementData).map((siteMarker,i) =>{
+          const siteDetails=this.placementData[i];
+          siteMarker.setTitle(siteDetails.truckRegno);
+          return {marker:siteMarker};
+        });
+  
     }, 1000);
-    this.mapService.createMarkers(this.headingData);
+    if(this.headingData[0].latitude)
+      this.mapService.createMarkers(this.headingData);
   }
 
   handleMarkerCluster() {
@@ -76,11 +87,6 @@ export class PlacementoptimizeComponent implements OnInit {
     } else {
       this.clearCluster();
       this.markers= this.mapService.createMarkers(this.placementData)
-      // .map((siteMarker,i) =>{
-      //   const siteDetails=this.placementData[i];
-      //   siteMarker.setTitle(siteDetails.truckRegno);
-      //   return {marker:siteMarker};
-      // });
     }
   }
 
@@ -131,6 +137,26 @@ export class PlacementoptimizeComponent implements OnInit {
       this.infoWindow.close();
       this.infoWindow.opened = false;
     }
+  }
+
+  colorPicker(status){
+    const newStatus = status.split(",");
+    console.log('newStatus is: ', newStatus[0]);
+    let color;
+
+
+    if(newStatus[0] === 'Available'){
+      color = 'ff0000';
+    } else if(newStatus[0] === 'Onward'){
+      color ='00ff00'
+    }
+    else if(newStatus[0] === 'Unloading'){
+        color = '0040ff'
+    } else{
+        color = 'ff00ff'
+    }
+
+     return color;
   }
 
 }

@@ -6,14 +6,14 @@
 </div>
 <div class="modal-body">
   <div class="row" style="margin-bottom:10px">
-    <div class="col">
+    <div class="col" *ngIf="!addVehicle">
       <auto-suggestion (onSelected)="selectFoVehicle($event)" url="Suggestion/getVehicleList"
         [display]="['regno','foid']" seperator="-" placeholder=" Search By Vehicle Number and Id"></auto-suggestion>
 
     </div>
   </div>
   <div class="row" style="margin-bottom:10px">
-    <div class="col-4">
+    <div class="col-4" *ngIf="!addVehicle">
       <div class="form-group">
 
         <!-- <div class="row"> -->
@@ -40,6 +40,8 @@
       <button class="btn btn-primary" type="submit" (click)="importDriverCsv()" name="button"
         style="margin-right:108px;">Import Csv</button>
     </div>
+
+  
     <!-- <div class="col-2"> <button class="btn btn-primary" id="submit" name="button" (click)="Submit()">Submit</button>
         </div> -->
     <!-- <div class="col-4 text-right">

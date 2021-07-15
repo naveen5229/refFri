@@ -1,17 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CdkDragDrop, copyArrayItem } from '@angular/cdk/drag-drop';
 import * as Chart from 'chart.js';
 import * as _ from 'lodash';
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+import { anyChanged } from '@progress/kendo-angular-common';
+import { GenericModelComponent } from '../../modals/generic-modals/generic-model/generic-model.component';
 
 @AutoUnsubscribe()
 @Component({
   selector: 'graphical-reports',
   templateUrl: './graphical-reports.component.html',
-  styleUrls: ['./graphical-reports.component.scss']
+  styleUrls: ['./graphical-reports.component.scss'],
+  host: {
+    '(document:keydown)': 'keyHandler($event)'
+  }
 })
 export class GraphicalReportsComponent implements OnInit {
   startDate = this.common.getDate(-15);
@@ -30,11 +36,14 @@ export class GraphicalReportsComponent implements OnInit {
   graphPieCharts = [];
   savedReports = [];
   legendPosition = 'top';
-  showLedgend = 'no'
+  showLedgend = 'no';
+  basicFilter:boolean = false;
+
   // measure = ['Date','Count','Average','Sum','distinct count']
   assign = {
     x: [],
     y: [],
+    yAddvance: [],
     filter: [],
     startDate: this.startDate,
     endDate: this.endDate,
@@ -60,45 +69,65 @@ export class GraphicalReportsComponent implements OnInit {
       tableHeight: '45vh',
     }
   }
+  // dynamicFilter = [
+  //   {id:'in',name:'in'},{id:'not in',name:'not in'},{id:'like',name:'like'},{id:'not like',name:'not like'}
+  // ];
 
   chartTypes = [
     {
       id: 1,
       type: 'pie',
-      url: "./assets/images/charts/piechart.jpg",
+      url: "./assets/images/charts/chart-pie-solid.svg",
       blur: true
     },
     {
       id: 2,
       type: 'bar',
-      url: "./assets/images/charts/barchart.png",
+      url: "./assets/images/charts/chart-bar-solid.svg",
       blur: true
     },
     {
       id: 3,
       type: 'line',
-      url: "./assets/images/charts/linechart.png",
+      url: "./assets/images/charts/chart-line-solid.svg",
       blur: true
     },
     {
       id: 4,
       type: 'bubble',
-      url: "./assets/images/charts/bubblechart.png",
+      url: "./assets/images/charts/bubble.svg",
       blur: true
     },
     {
       id: 5,
       type: 'table',
-      url: "./assets/images/charts/table.webp",
+      url: "./assets/images/charts/table-solid.svg",
+      blur: true
+    },
+    {
+      id: 6,
+      type: 'bar-line',
+      url: "./assets/images/charts/linebar.svg",
       blur: true
     }
   ]
-
+  dynamicFilter = ['IN','NOT IN','LIKE','NOT LIKE'];
+  dynamicfilterval = this.dynamicFilter[0];
   dropdownFilter = [];
-
+  finalcarttype='';
+  fliterflag = true;
+  firstfilter='';
+  secondfilter='';
+  defaultdays=15;
+  dynamicflag = 0;
+  addvanceflag = false;
+  paramconstant :any;
+  fromdefaultdays = 1;
+  lastindexof = '';
   constructor(
     public common: CommonService,
-    public api: ApiService,) {
+    public api: ApiService,
+    private modalService: NgbModal) {
   }
 
   ngOnDestroy(){}
@@ -109,6 +138,29 @@ ngOnInit(): void {
     this.getSideBarList();
     this.getSavedReportList();
     this.generateCollapsible();
+  }
+
+  keyHandler(event) {
+    //event.stopPropagation();
+    const key = event.key.toLowerCase();
+    console.log('key preess',key);
+      
+    if (key.includes('tab') && this.addvanceflag && this.lastindexof == 'yAddvance') {
+     let arr = {
+      measure: "m",
+      r_colcode: "op",
+      r_colid: 100,
+      r_coltitle: "Arithmetic",
+      r_coltype: "operator",
+      r_isdynamic: 0,
+      r_ismasterfield: 1,
+      refid: null,
+      reftype: 2,
+      yaxis: "y-left"
+     };
+     if(this.assign['yAddvance'].length) this.assign['yAddvance'].push(arr);
+     this.lastindexof = '';
+    }
   }
 
   // getProcessList() {
@@ -144,8 +196,10 @@ ngOnInit(): void {
       this.resetAssignForm();
       let sideBarData = res['data'];
       sideBarData.map(ele => {
+        console.log('Data previous:', ele);
         this.sideBarData.map(data => {
           if (data.title == ele.reftype) {
+      
             data.children.push({ title: ele.title, children: JSON.parse(ele.children), isHide: false })
           }
         })
@@ -194,9 +248,11 @@ ngOnInit(): void {
       this.assign.reportFileName = this.savedReportSelect['name'];
       this.graphBodyVisi = false;
       console.log('this.savedReportSelect:', this.savedReportSelect);
-      this.assign.x = this.savedReportSelect['jData']['info']["x"];
-      this.assign.y = this.savedReportSelect['jData']['info']["y"];
-      this.assign.filter = this.savedReportSelect['jData']['filter'];
+      this.assign.x = this.savedReportSelect['cols_str']["x"];
+      this.assign.y = this.savedReportSelect['cols_str']["y"];
+      this.assign.filter = this.savedReportSelect['filter_str'];
+      this.selectedChart = this.savedReportSelect['rpt_type'];
+      this.dynamicflag = 1;
       this.getReportPreview();
     } else {
       this.reportIdUpdate = null;
@@ -212,12 +268,14 @@ ngOnInit(): void {
   editGraph() {
     this.editState = true;
     this.graphBodyVisi = true;
+    this.dynamicflag = 1;
     this.getReportPreview();
   }
   resetAssignForm() {
     this.assign = {
       x: [],
       y: [],
+      yAddvance:[],
       filter: [],
       reportFileName: '',
       startDate: this.startDate,
@@ -234,7 +292,7 @@ ngOnInit(): void {
         tableHeight: '45vh',
       }
     }
-    this.blurChartImage([true, true, true, true, true]);
+    this.blurChartImage([true, true, true, true, true,true]);
     this.reportIdUpdate = null;
     this.reportPreviewData = [];
     this.graphPieCharts.forEach(ele => ele.destroy());
@@ -267,11 +325,18 @@ ngOnInit(): void {
       } else if (event.container.id === "assignDataColumn") {
         // this.setMeasure(event.previousContainer.data[event.previousIndex])
         pushTo = 'y'
+      }else if (event.container.id === "assignDataColumnYadd") {
+        // this.setMeasure(event.previousContainer.data[event.previousIndex])
+        pushTo = 'yAddvance'
       } else if (event.container.id === "filter") {
+        if(event.previousContainer.data[event.previousIndex]['r_coltype'] != 'operator'){
         this.openFilterModal(event.previousContainer.data[event.previousIndex], null);
+        }
       }
 
       if (pushTo == 'x') {
+        console.log('data type casting:',event.previousContainer.data[event.previousIndex]['r_coltype']);
+        if(event.previousContainer.data[event.previousIndex]['r_coltype'] == 'operator') return;
         this.assign[pushTo].forEach(ele => {
           if (ele.r_colid === event.previousContainer.data[event.previousIndex]['r_colid'] &&
             (ele.r_isdynamic === event.previousContainer.data[event.previousIndex]['r_isdynamic'] &&
@@ -281,8 +346,14 @@ ngOnInit(): void {
         })
         if (exists > 0) return; this.assign[pushTo].push(_.clone(event.previousContainer.data[event.previousIndex]));
       } else if (pushTo == 'y') {
-        this.assign[pushTo].push(_.clone(event.previousContainer.data[event.previousIndex]));
+        if(event.previousContainer.data[event.previousIndex]['r_coltype'] == 'operator'){
+          exists++;
+        }
+        if (exists == 0)  this.assign[pushTo].push(_.clone(event.previousContainer.data[event.previousIndex]));
+      }else if (pushTo == 'yAddvance') {
+          this.assign[pushTo].push(_.clone(event.previousContainer.data[event.previousIndex]));
       }
+      this.lastindexof = pushTo;
 
       console.log('stored:', this.assign)
     }
@@ -293,11 +364,12 @@ ngOnInit(): void {
 
   openFilterModal(data, type) {
     document.getElementById('rowFilter').style.display = 'none';
-    document.getElementById('basicFilter').style.display = 'block';
+    this.basicFilter = true;
     this.filterObject = _.clone(data);
-    // console.log('filter_Object',this.filterObject)
+   //  console.log('filter_Object',data);
     let params = {
-      info: JSON.stringify(this.filterObject),
+       //info: JSON.stringify(this.filterObject),
+       info: this.filterObject['r_colcode'],
       startTime: this.common.dateFormatter(this.assign.startDate),
       endTime: this.common.dateFormatter(this.assign.endDate),
     }
@@ -313,13 +385,16 @@ ngOnInit(): void {
     } else {
       this.checked = false
     }
-
+    if(!((this.filterObject['r_coltype'] && this.filterObject['r_coltype'].includes('number'|| 'int' || 'bigint' || 'decimal')) || this.filterObject['measure'] && this.filterObject['measure'].includes('number'|| 'int' || 'bigint' || 'decimal'))){
     this.common.loading++;
     this.api.post('GraphicalReport/getFilterList', params).subscribe(res => {
       this.common.loading--;
       if (res['code'] == 1) {
+        this.fliterflag = true;
         this.dropdownFilter = res['data'];
         this.assignFilteredValue();
+  this.dynamicfilterval = this.dynamicFilter[0];
+
       } else {
         this.common.showError(res['msg'])
       }
@@ -328,6 +403,12 @@ ngOnInit(): void {
       this.common.loading--;
       console.log('Error:', err)
     })
+  }else{
+    this.fliterflag = false;
+  this.dynamicfilterval = this.dynamicFilter[0];
+    this.assignFilteredValue();
+
+  }
 
     if (this.filterObject['r_coltype'] === "number") {
       this.Operators = [
@@ -376,16 +457,26 @@ ngOnInit(): void {
   }
 
   assignFilteredValue() {
+    console.log('filter obj',this.filterObject);
+    this.dynamicflag = 0;
+    if((this.filterObject['r_coltype'] && this.filterObject['r_coltype'].includes('number'|| 'int' || 'bigint' || 'decimal'))|| this.filterObject['measure'] && this.filterObject['measure'].includes('number'|| 'int' || 'bigint' || 'decimal')){
+// this.dynamicFilter = [
+//   {id:'=',name:'='},{id:'>',name:'>'},{id:'<',name:'<'},{id:'!=',name:'!='},{id:'>=',name:'>='},{id:'<=',name:'<='},{id:'between ',name:'between '}
+// ];
+this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
+    }else{
+    this.dynamicFilter = ['IN','NOT IN','LIKE','NOT LIKE'];
+    }
+    console.log('dynamicFilter',this.dynamicFilter);
     if (this.filterObject['filterdata'] && this.filterObject['filterdata'].length) {
 
-      console.log(this.filterObject['filterdata'][0].r_operators)
 
       // this.filterObject['filterdata'].map(data=>{
       //   if(data.r_operators === 5 || data.r_operators ===6){
 
       //     this.btnName ='Filter Raw Data'
       //     document.getElementById('rowFilter').style.display = 'none';
-      //     document.getElementById('basicFilter').style.display = 'block';
+      //     this.basicFilter = true;
 
       //       console.log('datafiltered',this.filterObject['filterdata'])
       //       this.filterObject['filterdata'][0].r_threshold[0]['r_value'].forEach((data)=> {
@@ -401,19 +492,19 @@ ngOnInit(): void {
       //     }else{
       //       this.btnName ='Cancel'
       //       document.getElementById('rowFilter').style.display = 'block';
-      //       document.getElementById('basicFilter').style.display = 'none';
+      //       this.basicFilter = false
       //       return this.filterObject['filterdata'];
       //     }
       // })
-
-      if (this.filterObject['filterdata'][0].r_operators === 5 ||
+        console.log('filderdata with object',this.filterObject['filterdata'],((this.filterObject['filterdata']).split("'',''")));
+      if (this.filterObject['filterdata'][0].r_operators  && this.filterObject['filterdata'][0].r_operators === 5 ||
         this.filterObject['filterdata'][0].r_operators === 6) {
         this.filterObject['filterdata'].map(data => {
           if (data.r_operators === 5 || data.r_operators === 6) {
 
             this.btnName = 'Filter Raw Data'
             document.getElementById('rowFilter').style.display = 'none';
-            document.getElementById('basicFilter').style.display = 'block';
+            this.basicFilter = true;
 
             console.log('datafiltered', this.filterObject['filterdata'])
             this.filterObject['filterdata'][0].r_threshold[0]['r_value'].forEach((data) => {
@@ -428,12 +519,68 @@ ngOnInit(): void {
             })
           }
         });
-      } else {
+      } else if (this.filterObject['filterdata'].length){
+       // this.dynamicflag = 2;
+        let newfilterobj =[];
+        this.filterObject['filterdata'].split("'',''").forEach((data,dindex) => {
+          if(dindex == 0 || dindex == (this.filterObject['filterdata'].split("'',''").length -1)){
+            if(dindex == 0 ){
+              data = data.substring(3,13)
+            }else{
+              data = data.substring(0,10);
+            }
+          }
+        //  console.log('data edit filter', data)
+          this.dropdownFilter.forEach(ele => {
+            if (ele.value === data) {
+              // console.log(ele)
+              let array = {
+              status : true,
+              value: ele.value
+              };
+              newfilterobj.push(array);
+            //  console.log('data edit filter 1', data);
+            }else{
+              let array = {
+                status : false,
+                value: ele.value
+                };
+                newfilterobj.push(array);
+            }
+          })
+        })
+        this.dropdownFilter = newfilterobj;
+        this.dynamicflag = 1;
+      }else {
         this.btnName = 'Cancel'
         document.getElementById('rowFilter').style.display = 'block';
-        document.getElementById('basicFilter').style.display = 'none';
+        this.basicFilter = false
         return this.filterObject['filterdata'];
       }
+    }else if (this.filterObject['data'] && (this.filterObject['data'] != 'string')){
+      let newfilterobj =[];
+      this.filterObject['data'].forEach((data,dindex) => {
+       
+        this.dropdownFilter.forEach(ele => {
+          if (ele.value === data.value) {
+            let array = {
+            status : true,
+            value: ele.value
+            };
+            newfilterobj.push(array);
+          //  console.log('data edit filter 1', data);
+          }else{
+            let array = {
+              status : false,
+              value: ele.value
+              };
+              newfilterobj.push(array);
+          }
+        })
+      })
+      this.dropdownFilter = newfilterobj;
+      this.dynamicflag = 1;
+
     }
     this.filterObject['filterdata'] = [];
     this.manageCheckUncheckAll();
@@ -477,31 +624,54 @@ ngOnInit(): void {
     } else if (count == this.dropdownFilter.length) {
       this.checked = true;
     }
+    if(count > 1 && (!this.dynamicfilterval.includes('NOT IN'))) { 
+      this.dynamicfilterval = 'IN';
+     }
+    console.log('dropdownFilter',this.dropdownFilter);
   }
 
   rowFilter(btn) {
     if (btn === 'Filter Raw Data') {
       this.addFilterDropData = false;
       document.getElementById('rowFilter').style.display = 'block';
-      document.getElementById('basicFilter').style.display = 'none';
+      this.basicFilter = false
       this.filterObject['filterdata'] = [{ r_threshold: [{ r_value: [{ value: '' }] }], r_operators: '' }];
       this.btnName = 'Cancel'
     }
     else if (btn === 'Cancel') {
       this.addFilterDropData = true;
       document.getElementById('rowFilter').style.display = 'none';
-      document.getElementById('basicFilter').style.display = 'block';
+      this.basicFilter = true;
       this.filterObject['filterdata'] = [];
       this.btnName = 'Filter Raw Data'
     }
   }
 
   storeFilter() {
+    console.log('before edit time filter object', this.filterObject,this.dropdownFilter)
+    if(!this.fliterflag){
+    this.dropdownFilter = [];
+    this.dropdownFilter.push({value:this.firstfilter,status:true},{value:this.secondfilter,status:((this.dynamicfilterval == 'between')?true:false)})
+    }
+    if(this.dynamicfilterval == 'between' && (!this.firstfilter || !this.secondfilter)){
+      this.common.showError('both min And max are mandatory');
+      return false;
+    }else if(this.dynamicfilterval == ('LIKE' || 'NOT LIKE' )){
+      let count = 0;
+        this.dropdownFilter.forEach((rdata)=>{
+          if(rdata.status){
+            count +=1;
+          }
+        });
+        if((count > 1) &&  (!this.dynamicfilterval.includes('NOT IN'))) { 
+         this.dynamicfilterval = 'IN';
+        }
+    }
     let filterObject = _.clone(this.filterObject)
     let inEle = [];
     let notInEle = [];
-
-    console.log('edit time filter object', this.filterObject)
+    filterObject['dynamicfilterval']=this.dynamicfilterval;
+    console.log('edit time filter object', this.filterObject,this.dynamicfilterval,this.addFilterDropData)
 
     if (this.addFilterDropData) {
       console.log('edit time', this.dropdownFilter)
@@ -524,10 +694,21 @@ ngOnInit(): void {
         exists++;
         index = ind;
       };
-    })
-    // console.log('check 3:',this.filterObject['filterdata'])
+    });
+   
+     // this.filterObject['data'] = this.dropdownFilter;
+     let newarray = []
+     this.dropdownFilter.map((data,index)=>{
+        if(data.status){
+          newarray.push(data);
+        }
+     });
+    // this.assign.filter[index]['data'] =  newarray;
+     filterObject['data'] =  newarray;
     if (exists > 0) {
-      this.assign.filter.splice(index, 1, filterObject);
+      this.assign.filter.splice(index, 1, filterObject) ;
+    console.log('data after filter add before:', this.assign)
+
     } else {
       this.assign.filter.push(filterObject);
     }
@@ -540,22 +721,38 @@ ngOnInit(): void {
   }
 
   removeField(index, axis) {
-    this.assign[axis].splice(index, 1)
+    this.assign[axis].splice(index, 1);
+    this.fliterflag = true;
     console.log('deleted:', index, 'from:', this.assign)
   }
 
   editFilter(index) {
     console.log('edit data:', this.assign.filter[index]);
-    this.assign.filter[index].filterdata.map(ele => {
-      console.log('type of filterdata', typeof ele.r_threshold);
-      if (typeof ele.r_threshold === 'string') { ele.r_threshold = JSON.parse(ele.r_threshold) };
-    })
+    if(this.assign.filter[index].filterdata){
+        this.assign.filter[index].filterdata.map(ele => {
+          console.log('type of filterdata', typeof ele.r_threshold);
+          if (typeof ele.r_threshold === 'string') { ele.r_threshold = JSON.parse(ele.r_threshold) };
+        })
+    }else{
+      let dummydata:any;
+      this.assign.filter[index]['filterdata'] = this.assign.filter[index].data;
+    }
+    if(this.assign.filter[index]['r_coltype'] && (this.assign.filter[index]['r_coltype'].includes('number'|| 'int' || 'bigint' || 'decimal'))){
+      this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
+      this.fliterflag = false;
+          }else if(this.assign.filter[index]['measure'] && (this.assign.filter[index]['measure'].includes('number'|| 'int' || 'bigint' || 'decimal'))){
+      this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
+            this.fliterflag = false;
+          }else{
+            this.fliterflag = false;
+          
+          }
     this.openFilterModal(this.assign.filter[index], 'edit');
   }
 
   generateCOlorPallet() {
     let colors = [];
-    for (let angleIndex = 0; angleIndex < 360; angleIndex += 15) {
+    for (let angleIndex = 0; angleIndex < 360; angleIndex += 1) {
       colors.push(this.common.HSLToHex(angleIndex, 100, 70));
     }
     console.log('pallet', colors);
@@ -598,12 +795,91 @@ ngOnInit(): void {
     } else {
       reqID = this.reportIdUpdate;
     }
+    let xnewaaray = [];
+    this.assign.x.map((data)=>{
+      let xarray ={
+        r_coltitle:data.r_coltitle,
+        r_colcode:data.r_colcode,
+        measure:data.measure
+      };
+      xnewaaray.push(xarray);
+    });
 
-    let info = { x: this.assign.x, y: this.assign.y };
+    let ynewaaray = [];
+    this.assign.y.map((data)=>{
+      let xarray ={
+        r_coltitle:data.r_coltitle,
+        r_colcode:data.r_colcode,
+        measure:data.measure
+      };
+      ynewaaray.push(xarray);
+    });
+    let yaddvanceaaray = '';
+    if(this.assign.yAddvance.length){
+     yaddvanceaaray = '{';
+    this.assign.yAddvance.map((data)=>{
+      if(data.r_coltype == 'operator'){
+        if(data.measure == 'c' || data.measure == 's'){
+           console.log('operator true',data);
+          yaddvanceaaray += data.r_colcode+',' ;
+        }else{
+          console.log('operator false',data);
+          yaddvanceaaray += data.measure+',' ;
+        }
+      }else{
+        yaddvanceaaray += data.r_colcode+','+data.measure+',' ;
+      }
+    });
+    }
+    //let info = { x: this.assign.x, y: this.assign.y };
+    let info = { x: xnewaaray, y: ynewaaray };
+
+    let newfilter=[];
+    if(this.assign.filter){
+      console.log('update data',this.assign.filter);
+      this.assign.filter.map((data)=>{
+        let arrstring='';
+        if(data['filterdata'].length){
+        data['filterdata'].map((fldata)=>{
+          console.log('fffl data',fldata);
+          fldata['r_threshold'][0]['r_value'].map((miningdata)=>{
+          console.log('fffl data2',miningdata);
+
+          if(miningdata['status']){
+            arrstring += `''`+miningdata.value+`'',`;
+          }
+        })
+        });
+      }else{
+        console.log(' data array', data['data']);
+        data['data'].map((fldata)=>{
+          if(fldata['status']){
+            arrstring += `''`+fldata.value+`'',`;
+          }
+        });
+      }
+        console.log('arr',arrstring);
+
+        
+        let xarray ={
+          r_coltitle:data.r_coltitle,
+          r_colcode:data.r_colcode,
+          measure:data.dynamicfilterval,//'in'
+          data:'['+(arrstring).slice(0, -1)+']'
+        };
+        newfilter.push(xarray);
+      });
+    }
     let params = {
-      jData: JSON.stringify({ filter: this.assign.filter, info: this.assign }),
+      reportFilter: this.assign.filter ? JSON.stringify(newfilter) : [],
+      info: JSON.stringify(info),
+      rpttype:this.finalcarttype,
+     // jData: JSON.stringify({ filter: this.assign.filter, info: this.assign }),
       name: this.assign.reportFileName,
-      id: reqID
+      id: reqID,
+      defaultdays:this.defaultdays,
+      defultfromdays:this.fromdefaultdays,
+      yAddvance:(yaddvanceaaray)?(yaddvanceaaray.substring(0,yaddvanceaaray.length-1)+'}'):''
     };
 
     if (params.name) {
@@ -633,9 +909,14 @@ ngOnInit(): void {
       this.common.showError('Please enter File Name')
     }
   }
-
+  arithmetic(arithmeticdata){
+    if(this.assign['yAddvance'].length){
+    this.assign['yAddvance'].push(arithmeticdata);
+    }
+    console.log('arithmeticdata',arithmeticdata);
+  }
   getReportPreview() {
-    console.log('complete data', this.assign)
+    console.log('complete data', this.assign,this.dynamicflag)
     this.assign.y.forEach(ele => {
       if (!ele.measure) {
         ele.measure = 'Count';
@@ -643,12 +924,104 @@ ngOnInit(): void {
     });
     // console.log('data to send',this.assign.data)
     // return;
-    let info = { x: this.assign.x, y: this.assign.y };
-    let params = {
-      reportFilter: this.assign.filter ? JSON.stringify(this.assign.filter) : [],
+    let xnewaaray = [];
+    this.assign.x.map((data)=>{
+      let xarray ={
+        r_coltitle:data.r_coltitle,
+        r_colcode:data.r_colcode,
+        measure:data.measure
+      };
+      xnewaaray.push(xarray);
+    });
+
+    let ynewaaray = [];
+    this.assign.y.map((data)=>{
+      let xarray ={
+        r_coltitle:data.r_coltitle,
+        r_colcode:data.r_colcode,
+        measure:data.measure
+      };
+      ynewaaray.push(xarray);
+    });
+    let yaddvanceaaray = '';
+    if(this.assign.yAddvance.length){
+     yaddvanceaaray = '{';
+    this.assign.yAddvance.map((data)=>{
+      if(data.r_coltype == 'operator'){
+        if(data.measure == 'c' || data.measure == 's'){
+           console.log('operator true',data);
+          yaddvanceaaray += data.r_colcode+',' ;
+        }else{
+          console.log('operator false',data);
+          yaddvanceaaray += data.measure+',' ;
+        }
+      }else{
+        yaddvanceaaray += data.r_colcode+','+data.measure+',' ;
+      }
+    });
+    }
+    
+    //let info = { x: this.assign.x, y: this.assign.y };
+    let info = { x: xnewaaray, y: ynewaaray  };
+
+    let newfilter=[];
+    if(this.assign.filter){
+      this.assign.filter.map((data)=>{
+        let arrstring='';
+        let xarray:any;
+        if(this.dynamicflag == 0){
+        data['filterdata'].map((fldata)=>{
+          console.log('fffl data',fldata);
+          fldata['r_threshold'][0]['r_value'].map((miningdata)=>{
+          console.log('fffl data2',miningdata);
+
+          if(miningdata['status']){
+            arrstring += `''`+miningdata.value+`'',`;
+          }
+        })
+        });
+        console.log('arr',arrstring);
+
+        
+         xarray ={
+          r_coltitle:data.r_coltitle,
+          r_colcode:data.r_colcode,
+          measure:data.dynamicfilterval,//'in'
+          data:'['+(arrstring).slice(0, -1)+']'
+        };
+      }
+      else{
+        console.log('type of',typeof(data.data));
+            if(typeof(data.data) == 'string'){
+            xarray ={
+              r_coltitle:data.r_coltitle,
+              r_colcode:data.r_colcode,
+              measure:data.measure,//'in'
+              data:data.data
+            };
+            }else{
+              data.data.map((nrdata)=>{
+                if(nrdata['status']){
+                  arrstring += `''`+nrdata.value+`'',`;
+                }
+              })
+              xarray ={
+                r_coltitle:data.r_coltitle,
+                r_colcode:data.r_colcode,
+                measure:data.measure,//'in'
+                data:'['+(arrstring).slice(0, -1)+']'
+              };
+            }
+      }
+        newfilter.push(xarray);
+      });
+    }
+    let params = this.paramconstant = {
+      reportFilter: this.assign.filter ? JSON.stringify(newfilter) : [],
       info: JSON.stringify(info),
       startTime: this.common.dateFormatter(this.assign.startDate),
       endTime: this.common.dateFormatter(this.assign.endDate),
+      yAddvance:(this.assign.yAddvance.length)? (yaddvanceaaray.substring(0,yaddvanceaaray.length-1)+'}'):''
     };
 
     if (this.assign.x.length && this.assign.y.length) {
@@ -657,11 +1030,43 @@ ngOnInit(): void {
         this.common.loading--;
         if (res['code'] == 1) {
           console.log('Response:', res);
-          if (res['data']) {
-            this.reportPreviewData = res['data'];
+          if (res['data']['data']) {
+           let dummmy = res['data'];
+            
+            let xname = dummmy.x;
+            let INIyname = dummmy.y;
+            let reviewdata=[];
+            INIyname.map((yname,intialindex)=>{
+            
+              let seriesmultiple =[];
+            dummmy.data.map((rundata,index)=>{
+              console.log('run data',rundata,yname);
+            let nextdata=  {
+                "x":index+1,
+                "y":rundata[yname],
+                "name":rundata['x'],
+              }
+              seriesmultiple.push(nextdata);
+            });
+           let freshdata = {
+             "xAxis":"["+dummmy.xAxis+"]",
+             "series":{
+             "data":seriesmultiple,
+             "y_name":yname
+             }
+           }
+            reviewdata.push(freshdata);
+            //console.log('freshdata',freshdata);
+          });
+          console.log('unique',reviewdata); 
+
+            this.reportPreviewData = reviewdata;
+
             this.review();
           } else {
             // this.resetAssignForm();
+            document.getElementById('table').style.display = 'none';
+            document.getElementById('graph').style.display = 'none';
             this.common.showError('No Data to Display');
             this.graphPieCharts.forEach(ele => ele.destroy());
           }
@@ -681,12 +1086,31 @@ ngOnInit(): void {
   }
 
   review() {
-    if (this.assign.x.length > 1 || this.assign.y.length > 1) {
-      this.blurChartImage([true, false, false, false, false]);
-    } else {
-      this.blurChartImage([false, false, false, false, false]);
+    console.log('chart data length',this.assign.x.length,this.assign.y.length)
+    // if (this.assign.y.length > 1 || this.assign.x.length > 1) {
+    //   console.log('chart data length 0',this.assign.x.length,this.assign.y.length)
+  
+    //     this.blurChartImage([true, false, false, false, false]);
+    //   } 
+    if (this.assign.x.length > 1) {
+    console.log('chart data length 0',this.assign.x.length,this.assign.y.length)
+      this.blurChartImage([true, false, false, false, false,true]);
+    } else if (this.assign.y.length == 1) {
+    console.log('chart data length 1--',this.assign.x.length,this.assign.y.length)
+      this.blurChartImage([false, false, false, true, false,true]);
+    }else if (this.assign.y.length == 2) {
+      console.log('chart data length 2==',this.assign.x.length,this.assign.y.length)
+        this.blurChartImage([true, false, false, false, false,false]);
+      } 
+      else if (this.assign.y.length > 2) {
+        console.log('chart data length ~~',this.assign.x.length,this.assign.y.length)
+          this.blurChartImage([true, false, false, false, false,true]);
+        } 
+      else {
+    console.log('chart data length 3',this.assign.x.length,this.assign.y.length)
+      this.blurChartImage([false, false, false, false, false,true]);
     }
-    console.log('chart data', this.reportPreviewData)
+    console.log('chart data', this.reportPreviewData,this.selectedChart)
     // this.showChart(this.reportPreviewData,'pie');
     this.getChartofType(this.selectedChart);
   }
@@ -694,6 +1118,7 @@ ngOnInit(): void {
   getChartofType(chartType) {
     // if(this.reportPreviewData.length>0){
     if (chartType === 'table') {
+      this.finalcarttype = chartType;
       document.getElementById('table').style.display = 'block';
       document.getElementById('graph').style.display = 'none';
       this.getTable(this.reportPreviewData);
@@ -877,7 +1302,7 @@ ngOnInit(): void {
 
       console.log('DataSet from graphics', dataSet)
     }
-    console.log('data after end:', stateTableData);
+    console.log('data after end:', stateTableData,this.assign);
 
     // start:managed service data
     if (chartType === 'line') {
@@ -890,8 +1315,39 @@ ngOnInit(): void {
           borderColor: data.bgColor[index] ? data.bgColor[index] : '#1AB399',
           yAxisID: data.yAxesGroup,
           fill: false,
+          borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0]),
+        })
+      });
+    }else if (chartType === 'bar-line') {
+      dataSet.map((data, index) => {
+        console.log('bar-line',data,dataSet.length);
+        if(index == 0){
+        chartDataSet.push({
+          type: 'bar',
+          label: data.label,
+          data: data.data,
+          borderWidth: 1,
+          lineTension: 0,
+          borderColor: '#386ac4',
+          backgroundColor: '#386ac4', 
+          yAxisID: 'y-axis-1',
+          fill: true,
           borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
         })
+      }else if(index == 1){
+        chartDataSet.push({
+          type: 'line',
+          label: data.label,
+          data: data.data,
+          borderWidth: 1,
+          lineTension: 0,
+          borderColor: '#ed7d31',
+          backgroundColor: '#ed7d31',
+          yAxisID: 'y-axis-2',
+          fill: false,
+          borderDash: (data.yAxesGroup == 'y-right' ? [5, 5] : [5, 0])
+        })
+      }
       });
     } else {
       dataSet.map((data, index) => {
@@ -957,6 +1413,42 @@ ngOnInit(): void {
           }
         });
       } else {
+        if(chartType == 'bar-line'){
+          yAxes.push({
+            type: "linear",
+            display: true,
+            position: "left",
+            id: "y-axis-1",
+            gridLines:{
+                display: false
+            },
+            labels: {
+                show:true,
+                
+            },
+            scaleLabel: {
+              display: true,
+              labelString: yLeftTitle.split('AND')[0]
+            },
+        });
+        yAxes.push({
+            type: "linear",
+            display: true,
+            position: "right",
+            id: "y-axis-2",
+            gridLines:{
+                display: false
+            },
+            labels: {
+                show:true,
+                
+            },
+            scaleLabel: {
+              display: true,
+              labelString: yLeftTitle.split('AND')[1]
+            },
+        });
+        }else{
         yAxes.push({
           name: 'y-left',
           id: 'y-left',
@@ -971,6 +1463,7 @@ ngOnInit(): void {
             stepSize: 1
           }
         });
+      }
       }
       chartData = {
         canvas: document.getElementById('Graph'),
@@ -989,19 +1482,33 @@ ngOnInit(): void {
             }
           }]
         },
-        showLegend: true
+        showLegend: true,
+        
       };
     }
     this.graphPieCharts = this.generateChart([chartData], chartType);
 
   }
 
+  onclick(){
+    console.log('click working' )
+  }
   generateChart(charDatas, type = 'pie') {
     let charts = [];
     console.log('chartData', charDatas, type);
+    this.showLedgend = (type == 'pie')? "yes":'no';
+    this.legendPosition = (type == 'pie')? "right":'top';
+   let labdata =  {
+      fontSize: 11,
+      padding:  3,
+      boxWidth: 22,
+      boxHeight:60
+    };
 
+    this.finalcarttype = type;
     charDatas.forEach(chartData => {
-      charts.push(new Chart(chartData.canvas.getContext('2d'), {
+      //console.log('chartData label  11',chartData.data.label,chartData.data[0].label);
+     let subPerf = new Chart(chartData.canvas.getContext('2d'), {
         type: type,
         data: {
           labels: chartData.labels,
@@ -1010,7 +1517,8 @@ ngOnInit(): void {
         options: {
           legend: {
             position: this.legendPosition,
-            display: this.showLedgend === "yes" ? true : false
+            display: this.showLedgend === "yes" ? true : false,
+            labels: (type == 'pie') ? labdata : ''
           },
           tooltips: {
             mode: 'index',
@@ -1019,14 +1527,49 @@ ngOnInit(): void {
           },
           scales: chartData.scales,
           responsive: true,
+          
+          onClick: event => {
+            let point = Chart.helpers.getRelativePosition(event, subPerf.chart);
+            console.log('point',point);
+            let xIndex = subPerf.scales['x-axis-0'].getValueForPixel(point.x);
+            let label = subPerf.data.labels[xIndex];
+            console.log(label, + ' at index ' + xIndex);
+            
+            this.getPopUpDetials('GraphicalReport/getPreviewGraphicalReport',this.paramconstant, label);
+          },
+            //onclick:this.onclick.bind(this),
         }
-      }));
+      });
+      charts.push(subPerf);
+      console.log('chartindex', subPerf);
+
     })
     console.log('chartData Final', charts);
     return charts;
   }
-
-  onHideShow(head, index) {
+  getPopUpDetials(url, params,params2, value = 0,type='days') {
+    let dataparams = {
+      view: {
+        api: url,
+        param: params,
+        type: 'post'
+      },
+  
+      title: 'Details'
+    }
+    if (value) {
+      let startDate = type == 'months'? new Date(new Date().setMonth(new Date().getMonth() - value)): new Date(new Date().setDate(new Date().getDate() - value));
+      let endDate = new Date();
+      dataparams.view.param['fromdate'] = this.common.dateFormatter(this.startDate);
+      dataparams.view.param['todate'] = this.common.dateFormatter(this.endDate);
+    }
+    dataparams.view.param['drilldown'] = params2;
+    console.log("dataparams=", dataparams);
+    this.common.handleModalSize('class', 'modal-lg', '1700');
+    this.common.params = { data: dataparams };
+    const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+  onHideShow(event,head, index) {
     this.sideBarData.forEach(element => {
       let i = 0;
       if (element.children && element.children.length) {
@@ -1040,8 +1583,11 @@ ngOnInit(): void {
     });
     console.log("head:", head);
     setTimeout(() => {
+     console.log('head 2nd',this.sideBarData[0].children[index]);
       head.isHide = !head.isHide;
     }, 10);
+    event.stopPropagation();
+
   }
 
   blurChartImage(setBlur) {

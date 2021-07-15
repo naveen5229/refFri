@@ -1,0 +1,24 @@
+<div class="">
+<div class="outer loading-4" style="min-height: 150px;">
+    <h6 style="text-align:center"><b class="charthead">Worst 3 Loading Sites (7 days)</b></h6>
+    <p style="text-align: right; margin-top: -25px;" class="link"
+      (click)="getDetials('Tmgreport/getLoadingSlowest',{totalrecord: 3,stepno: -1},7,'days')"><i title="More Details" class="fa fa-list"></i>
+    </p>
+    <table class="table table-bordered">
+      <thead class="thead">
+        <th>Location</th>
+        <th>Loading Count</th>
+        <th>Duration (Hrs)</th>
+      </thead>
+      <tbody class="tbody">
+        <tr *ngFor="let ls of loadingSlowest7days">
+          <td class="link"
+            (click)="getDetials(ls._url,{ts:'tst',fromdate:ls._fromdate,todate:ls._todate,stepno:'1',totalrecord:ls._totalrecord,jsonparam:ls.Location})">
+            {{ls['Location']}}</td>
+          <td>{{ls['Loading Count']}}</td>
+          <td>{{ls['Avg Loading Time(in Hrs)']}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

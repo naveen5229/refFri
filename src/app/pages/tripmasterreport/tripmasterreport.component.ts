@@ -14,7 +14,9 @@ import { RouteMapper } from '../../modals';
   templateUrl: './tripmasterreport.component.html',
   styleUrls: ['./tripmasterreport.component.scss']
 })
+
 export class TripmasterreportComponent implements OnInit {
+
   tripData = [];
   tripMasterReportData = [];
   selectedVehicle = {
@@ -52,94 +54,128 @@ export class TripmasterreportComponent implements OnInit {
     console.log('test fase', this.selectedVehicle.id);
   }
 
-  // getTripMasterReport(){
-
-  // }
-
   getTripMasterReport() {
-    this.tripData = [];
     const params = "vid=" + this.selectedVehicle.id + "&startTime=" + this.common.dateFormatter(this.startTime) +
       "&endTime=" + this.common.dateFormatter(this.endTime);
     this.common.loading++;
-    this.api.get('TripsOperation/getTripMasterReport?' + params)
+    this.api.get('TripsOperation/getTripMasterReportv1?' + params)
       .subscribe(res => {
         this.common.loading--;
-        if (res['code'] > 0) {
-          this.tripMasterReportData = res['data'] ? res['data'] : [];
-          this.tripData = this.tripMasterReportData.map(item => {
-            item.origin = item['trp_points'][0];
-            let last = item['trp_points'].length - 1;
-            item.via = item['trp_points'].length > 2 ? item['trp_points'][1] : '';
-            item.destination = item['trp_points'].length >= 2 ? item['trp_points'][last] : '';
+        this.tripData = res['data'];
+        let tripDataKey = this.tripData[0];
+        console.log('response is: ', this.tripData);
 
-            console.log("origin:", item.origin);
-            console.log("via:", item.via);
-            console.log("destination:", item.destination);
-
-            // item['trp_points'][1]='Via';
-            // item['trp_points'][last]='Destination';
-            return item;
-          })
-
-          console.log("tripData:", this.tripData);
-
-
-          console.log("data:", this.tripMasterReportData);
-        } else {
-          this.common.showError(res['msg']);
+        let headings = {};
+        for (var key in tripDataKey) {
+          if (key.charAt(0) != "_") {
+            this.headings.push(key);
+            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            headings[key] = headerObj;
+          }
         }
+        this.table.data = {
+          headings: headings,
+          columns: this.getTableColumns()
+        };
       }, err => {
         this.common.loading--;
         this.common.showError();
       })
   }
 
+
+  getTableColumns() {
+    let columns = [];
+    this.tripData.map(matrix => {
+      this.valobj = {};
+      for (let i = 0; i < this.headings.length; i++) {
+        if (this.headings[i] === 'AI Repaired Distance') {
+          if (matrix[this.headings[i]] > 0) {
+            this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'blue', action: this.openTripKmRepair.bind(this, matrix) };
+          } else {
+            this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'black', action: '' };
+          }
+        } else if (this.headings[i] === 'Toll Count') {
+          if (matrix[this.headings[i]] > 0) {
+            this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'blue', action: this.tollPaymentManagement.bind(this, matrix) };
+          } else {
+            this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'black', action: '' };
+          }
+        } else if (this.headings[i] === 'Halt') {
+          if (matrix[this.headings[i]] > 0) {
+            this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'blue', action: this.showRouteMapper.bind(this, matrix) };
+          } else {
+            this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'black', action: '' };
+          }
+        } else this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'black', action: '' };
+      }
+      columns.push(this.valobj);
+    });
+    return columns;
+  }
+
+  formatTitle(strval) {
+    let pos = strval.indexOf('_');
+    if (pos > 0) {
+      return strval.toLowerCase().split('_').map(x => x[0].toUpperCase() + x.slice(1)).join(' ')
+    } else {
+      return strval.charAt(0).toUpperCase() + strval.substr(1);
+    }
+  }
+
   openTripKmRepair(data) {
     console.log("KMdata:", data);
-    if (!data['route_kms']) {
+    if (!data['_routekm']) {
       this.common.showError('No Data');
       return;
     }
     let tripData = {
-      tripId: data['trip_id'],
-      vId: data['vid']
+      tripId: data['_tripid'],
+      vId: data['_vid']
     };
     this.common.params = tripData;
     console.log("tripData", this.common.params);
 
     const activeModal = this.modalService.open(TripKmRepairViewComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
-      // this.getVehicleTrips();
     });
   }
 
   tollPaymentManagement(trip) {
     console.log("trip------", trip);
-    let fromTime = trip._startdate;
-    let toTime = trip._enddate;
+    let fromTime = trip._sdate;
+    let toTime = trip._edate;
     console.log("trip------", fromTime, toTime);
-    this.common.params = { vehId: trip.vid, vehRegNo: trip.regno, startDate: trip['origin']['act_start_time'], endDate: trip['destination']['act_end_time'], startDatedis: trip['origin']['act_start_time'], endDatedis: trip['destination']['act_end_time'] };
+    this.common.params = { vehId: trip._vid, vehRegNo: trip._regno, startDate: fromTime, endDate: toTime, startDatedis: fromTime, endDatedis: toTime,vClass: '5' };
     this.common.openType = "modal";
-    // this.common.handleModalHeightWidth('class', 'modal-lg', '200', '1500');
     this.modalService.open(TollpaymentmanagementComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "mycustomModalClass" });
   }
 
   showRouteMapper(trip) {
     console.log('trip', trip);
-    let fromTime = this.common.dateFormatter(trip.start_time);
-    let toTime = this.common.dateFormatter(trip.end_time);
+    let fromTime = this.common.dateFormatter(trip._sdate);
+    let toTime = this.common.dateFormatter(trip._edate);
     this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
     this.common.params = {
-      vehicleId: trip.vid,
-      vehicleRegNo: trip.regno,
+      vehicleId: trip._vid,
+      vehicleRegNo: trip._regno,
       fromTime: fromTime,
-      toTime: toTime
+      toTime: toTime,
+      vehicleTripId: trip._tripid
     };
     this.modalService.open(RouteMapper, {
       size: "lg",
       container: "nb-layout",
       windowClass: "myCustomModalClass"
     });
+  }
+
+  downloadPdf() {
+    this.common.getPDFFromTableId('trip-master-report');
+  }
+
+  downloadExcel() {
+    this.common.getCSVFromTableId('trip-master-report');
   }
 
 }

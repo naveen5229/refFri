@@ -78,8 +78,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
     if (this.ref_page != 'vsc') {
       this.toTime = new Date(this.VehicleStatusData.tTime)
     }
-    this.common.handleModalSize('class', 'modal-lg', '1600', 'px', 0);
-    this.common.handleModalSize('class', 'modal-lg', '1600', 'px', 1);
+    // this.common.handleModalSize('class', 'modal-lg', '1600', 'px', 0);
+    this.common.handleModalHeightWidth('class', 'modal-lg', '1600', '2000', 'px', 0);
     this.getLastIndDetails();
     this.getEvents();
   }
@@ -784,16 +784,23 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   addAutomaticHalt() {
     this.common.loading++;
-    let params = {
-      fromTime: this.common.dateFormatter(this.VehicleStatusData.latch_time),
-      vehicleId: this.VehicleStatusData.vehicle_id,
-      tLat: 0.0,
-      tLong: 0.0,
-      tTime: this.common.dateFormatter(this.toTime),
+    // let params = {
+    //   fromTime: this.common.dateFormatter(this.VehicleStatusData.latch_time),
+    //   vehicleId: this.VehicleStatusData.vehicle_id,
+    //   tLat: 0.0,
+    //   tLong: 0.0,
+    //   tTime: this.common.dateFormatter(this.toTime),
+    // }
+
+    let stringParams = {
+      vehId: this.VehicleStatusData.vehicle_id,
+      receivedStartTime: this.common.dateFormatter(this.VehicleStatusData.latch_time),
+      receivedEndTime: this.common.dateFormatter(this.toTime)
     }
 
 
-    this.api.post('AutoHalts/addSingleVehicleAutoHalts', params)
+
+    this.api.postJavaPortDost(8081, `haltsgenerate?vehId=${stringParams.vehId}&receivedStartTime=${stringParams.receivedStartTime}&receivedEndTime=${stringParams.receivedEndTime}`, null)
       .subscribe(res => {
         this.common.loading--;
         if (res['success']) {

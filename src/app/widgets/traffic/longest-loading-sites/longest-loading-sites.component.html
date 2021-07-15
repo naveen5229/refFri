@@ -1,0 +1,20 @@
+<div class="">
+    <div class="outer trafficload-5" style="min-height: 130px;">
+    <h6 style="text-align:center"><b class="charthead">Longest Loading Sites</b></h6>
+    <p style="text-align: right; margin-top: -25px;" class="link"
+    (click)="getDetials('Tmgreport/GetTrafficLongestLoadingSites',{totalrecord: 3,stepno: -1},30)"><i title="More Details" class="fa fa-list"></i>
+  </p>
+    <table class="table">
+      <thead class="thead">
+        <th>Site Name</th>
+        <th>Avg Loading Aging Time(in Hrs)</th>
+      </thead>
+      <tbody class="tbody">
+        <tr *ngFor="let tlls of trafficLongestLoadingSites">
+          <td (click)="chart7Clicked(tlls)" class="link">{{tlls['Location']}}</td>
+          <td>{{tlls['Duration (HH:MM)']}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>

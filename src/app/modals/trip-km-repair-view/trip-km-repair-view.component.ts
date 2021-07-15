@@ -37,14 +37,27 @@ export class TripKmRepairViewComponent implements OnInit {
   ngOnDestroy() { }
   ngOnInit(): void {
   }
-  ngAfterViewInit(): void {
-    const ids = [28124, 16295, 28116, 28115, 29033];
-    if (ids.includes(this.vId)) {
-      this.routeRestoreSnapped();
-      return;
-    }
-    this.getTripKmData();
 
+  ngAfterViewInit(): void {
+    const ids = [28124, 16295, 28116, 28115, 29033, 88634];
+    this.common.loading++;
+    const subscription1 = this.api.getJavaPortDost(8083, `switchesfromtrip/${this.common.params.tripId}`)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('response of getJavaPortDost is: ', res);
+
+        res = res['data'];
+        if (res['loc_data_type'] === 'is_single') {
+          console.log('res loc_data_type :', res['loc_data_type']);
+          this.getTripKmData();
+        } else {
+          this.routeRestoreSnapped();
+          return;
+        }
+      }, err => {
+        this.common.loading--;
+        console.error(err);
+      });
   }
 
   getTripKmData() {
@@ -77,10 +90,24 @@ export class TripKmRepairViewComponent implements OnInit {
   routeRestoreSnapped() {
     ++this.common.loading
     // const subscription = this.apiService.postJavaPortDost(8086, 'routerestore/true', params)
-    const subscription = this.api.getJavaPortDost(8086, 'routerestore/' + this.vId)
+    const subscription = this.api.getJavaPortDost(8083, `getrawdatafromtrip/${this.common.params.tripId}`)
       .subscribe((res: any) => {
-        console.log('res:', res);
         --this.common.loading;
+        console.log('res:', res);
+        if(!res['success']){
+          this.common.showError(res['message'])
+          return
+        }
+        res = res['data'];
+       
+        if (!res.withSnap) {
+          res = {
+            withSnap: res.raw,
+            raw: res.raw,
+            events: res.events || [],
+            google: res.raw
+          }
+        }
         this.GPSData = res.raw;
         this.GPSDis = this.calculateDistance(res.raw);
         this.GoogleData = res.google;
@@ -107,7 +134,7 @@ export class TripKmRepairViewComponent implements OnInit {
       if (bPoint[1]) {
         data.push({ lat: bPoint[1], long: bPoint[0] });
         if (p) {
-          dis += this.common.distanceFromAToB(bPoint[1], bPoint[0], p[1], p[0], 'Mt');
+          dis += this.common.distanceFromAToB(bPoint[1], bPoint[0], p[1], p[0], 'Mt',true,false);
         }
         p = bPoint;
       }
@@ -120,7 +147,7 @@ export class TripKmRepairViewComponent implements OnInit {
     for (let i = 0; i < points.length - 1; i++) {
       const pointA = points[i];
       const pointB = points[i + 1];
-      distance += this.common.distanceFromAToB(pointA.lat, pointA.lng, pointB.lat, pointB.lng, 'Mt');
+      distance += this.common.distanceFromAToB(pointA.lat, pointA.lng, pointB.lat, pointB.lng, 'Mt', false);
     }
     return Math.round(distance / 1000)
   }

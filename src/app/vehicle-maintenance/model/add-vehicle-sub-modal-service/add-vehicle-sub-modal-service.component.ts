@@ -58,7 +58,7 @@ ngOnInit() {
       .subscribe(res => {
         this.common.loading--;
         if (res['data'][0].r_id > 0) {
-          this.common.showToast("Successfully added", 3000);
+          this.common.showToast(res['data'][0].r_msg);
           this.closeModal({ response: true, modelId: this.modelId });
         } else
           this.common.showError(res['data'][0].r_msg);

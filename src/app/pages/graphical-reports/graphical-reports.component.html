@@ -1,4 +1,4 @@
-<nb-card>
+<nb-card style="height: calc(100vh - 41px);overflow: auto;">
   <nb-card-header>
     <div class="row">
       <div class="col-3">
@@ -18,28 +18,31 @@
             <uj-date-time-picker (onChanged)="assign.endDate=$event" [dateTimeValue]="endDate" [isTime]="false">
             </uj-date-time-picker>
           </div>
-          <div class="col-4">
-            <span style="display: flex;">
+          <div class="col-3">
               <auto-suggestion class="form-controls col-9 p-0 searchselect" [data]="savedReports" display="name"
                 (onSelected)="savedReportSelect = $event"
                 [preSelected]="savedReportSelect['_id'] ? {name: savedReportSelect['name']}:{name:''}"
                 placeholder="Saved Report Preview" inputId="ProcessSearch" name="ProcessSearch">
               </auto-suggestion>
-              <button class="btn btn-primary btn-sm" (click)="openPreviewModal()">View</button>
-            </span>
           </div>
+          <div class="col-2">  <button class="btn btn-primary btn-sm" (click)="openPreviewModal()">View</button></div>
         </div>
       </div>
     </div>
   </nb-card-header>
   <nb-card-body class="bodyclass">
-    <div class="row mt-2 centarize">
-      <div class="col-1 hoverChart" [ngClass]="{'disablePieClick': image.blur}"
+    <div class="row pb-1 pt-1 centarize">
+      <div class="hoverChart ml-4 mr-4" [ngClass]="{'disablePieClick': image.blur}"
         *ngFor="let image of chartTypes;let i = index"
         (click)="active = image.id;getChartofType(image.type);selectedChart = image.type">
-        <span>
+        <div class="pl-2 pr-2" [ngClass]="active==image.id?'active':''">
+          <div class="grptab">
+            <img src="{{image.url}}" width="20px">
+          </div>
+      </div>
+        <!-- <span>
           <img src="{{image.url}}" height="80px" width="80px" [ngClass]="active==image.id?'active':''">
-        </span>
+        </span> -->
       </div>
     </div>
 
@@ -77,16 +80,17 @@
       <div class="col-2 sidenavleft p-0">
         <div *ngFor="let data of sideBarData">
           <h6>{{data.title}}</h6>
+         
           <ul *ngIf="data.children && data.children.length >0" class="child-ul">
             <li class="top" *ngFor="let head of data.children;let i = index" style="font-weight:bold"
-              (click)="onHideShow(head,i)">
+              >
               <!--(click)="head.children? head.hideMe = !head.hideMe: head.hideMe = head.hideMe"-->
-              <p class="drophead">{{head.title}} <span class="dropcaret"><i class="fas fa-sort-down"
-                    style="cursor: pointer"></i></span></p>
+              <p *ngIf="(!head.title.includes('Operator'))" class="drophead" (click)="onHideShow($event,head,i)">{{head.title}} <span class="dropcaret"><i class="fas fa-sort-down" style="cursor: pointer"></i></span></p>
+              <p *ngIf="((head.title.includes('Operator')) && (addvanceflag))" class="drophead" (click)="onHideShow($event,head,i)">{{head.title}} <span class="dropcaret"><i class="fas fa-sort-down" style="cursor: pointer"></i></span></p>
               <ul *ngIf="head.isHide" id="unassign" cdkDropList [cdkDropListData]="head.children"
-                [cdkDropListConnectedTo]="['assignDataRow','assignDataColumn','filter']" class="child-ul innerdrop"
+                [cdkDropListConnectedTo]="['assignDataRow','assignDataColumn','filter','assignDataColumnYadd']" class="child-ul innerdrop"
                 (cdkDropListDropped)="drop($event)" [cdkDropListEnterPredicate]="noReturnPredicate">
-                <li class="drag-list" *ngFor="let sub of head.children;let i = index" cdkDrag>
+                <li class="drag-list" *ngFor="let sub of head.children;let i = index" cdkDrag (click)="(sub.r_coltype == 'operator')?arithmetic(sub):''">
                   {{sub.r_coltitle}}
                 </li>
               </ul>
@@ -108,8 +112,8 @@
                 <option selected disabled>--Select--</option>
                 <option>None</option>
                 <option>Date</option>
-                <option>Month</option>
                 <option>Week</option>
+                <option>Month</option>
               </select>
             </div>
           </div>
@@ -118,7 +122,7 @@
         <div class="row mt-2">
           <div class="col-2 text-right"><span style="color: red;">*</span><label>Y-Axis:</label> </div>
           <div id="assignDataColumn" cdkDropList [cdkDropListData]="assign.y" cdkDropListConnectedTo="menuList"
-            class="col-10 drag-container" (cdkDropListDropped)="drop($event)">
+            class="col-8 drag-container" (cdkDropListDropped)="drop($event)">
             <div class="example-box fieldStyle" *ngFor="let n of assign.y;let i =index" cdkDrag [cdkDragData]="n">
               {{n.r_coltitle}}
               <i class="far fa-times-circle cancelButtonCss" (click)="removeField(i,'y')"></i>
@@ -136,6 +140,42 @@
                 <!-- <option disabled selected>measure</option> -->
                 <option selected>y-left</option>
                 <option>y-right</option>
+                <!-- <option *ngFor="let subMeasure of measure">{{subMeasure}}</option> -->
+              </select>
+            </div>
+          </div>
+          <div class="col-2"><button class="btn btn-primary margin_right" (click)="addvanceflag=true">Add Addvance</button> </div>
+
+        </div>
+        <div class="row mt-2" *ngIf="addvanceflag">
+          <div class="col-2 text-right"><label>Advance Y:</label> </div>
+          <div id="assignDataColumnYadd" cdkDropList [cdkDropListData]="assign.yAddvance" cdkDropListConnectedTo="menuList"
+            class="col-10 drag-container" (cdkDropListDropped)="drop($event)">
+            <div class="example-box fieldStyle" *ngFor="let n of assign.yAddvance;let i =index" cdkDrag [cdkDragData]="n">
+              <span *ngIf="(!(n.r_colcode.includes('op')))" >{{n.r_coltitle}}</span>
+              <i class="far fa-times-circle cancelButtonCss" (click)="removeField(i,'yAddvance')"></i>
+              <select class="selectInsideSelected" (change)="addMeasure(i,'yAddvance',$event.target.value)"
+                [(ngModel)]="n.measure" *ngIf="!(n.r_coltype.includes('operator'))">
+                <!-- <option disabled selected>measure</option> -->
+                <option *ngIf="n.r_coltype === 'timestamp'">Date</option>
+                <option selected>Count</option>
+                <option *ngIf="n.r_coltype === 'number'">Average</option>
+                <option *ngIf="n.r_coltype === 'number'">Sum</option>
+                <option>distinct count</option>
+                <!-- <option *ngFor="let subMeasure of measure">{{subMeasure}}</option> -->
+              </select>
+              <select *ngIf="assign.x.length > 1 && (!(n.r_colcode.includes('op')))" class="selectInsideSelected" [(ngModel)]="n.yaxis">
+                <!-- <option disabled selected>measure</option> -->
+                <option selected>y-left</option>
+                <option>y-right</option>
+                <!-- <option *ngFor="let subMeasure of measure">{{subMeasure}}</option> -->
+              </select>
+              <select *ngIf="((n.r_colcode.includes('op')))" class="selectInsideSelected" [(ngModel)]="n.measure">
+                <!-- <option disabled selected>measure</option> -->
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/" selected>/</option>
                 <!-- <option *ngFor="let subMeasure of measure">{{subMeasure}}</option> -->
               </select>
             </div>
@@ -161,36 +201,37 @@
             <button class="btn btn-primary" (click)="resetAssignForm()">Clear</button>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="row mr-0" *ngIf="graphBodyVisi">
-      <div class="col-12 graph-panel">
-        <div class="row mt-2" id="graph">
-          <div class="col-8" style="margin-left: 18%;">
-            <div class="chartbox">
-              <canvas id="Graph"></canvas>
+        <div class="row mr-0" *ngIf="graphBodyVisi">
+          <div class="col-12 graph-panel">
+            <div class="row mt-2" id="graph">
+              <div class="col-8" style="margin-left: 18%;">
+                <div class="chartbox">
+                  <canvas id="Graph"></canvas>
+                </div>
+              </div>
+            </div>
+    
+    
+            <div class="row mt-2" id="table" style="display: none;">
+              <div class="col-12" style="height: 369px;">
+                <smart-table [data]="tableGraph.data" [settings]="tableGraph.settings" id="tableLeadsForMe"
+                  class="sl-smart-table">
+                </smart-table>
+              </div>
             </div>
           </div>
         </div>
-
-
-        <div class="row mt-2" id="table" style="display: none;">
-          <div class="col-12" style="height: 369px;">
-            <smart-table [data]="tableGraph.data" [settings]="tableGraph.settings" id="tableLeadsForMe"
-              class="sl-smart-table">
-            </smart-table>
-          </div>
-        </div>
       </div>
     </div>
+
+    
   </nb-card-body>
 </nb-card>
 
 
 <!-- start:filter modal  -->
 <div class="modal" id="filterModal" #filterModal>
-  <div class="modal-dialog modal-lg" class="filterModalClass">
+  <div class="modal-dialog modal-md" class="filterModalClass">
     <div class="modal-content">
       <!-- Modal Header -->
       <div class="modal-header">
@@ -199,10 +240,25 @@
       </div>
       <!-- Modal body -->
       <div class="modal-body">
-
-        <div class="row mt-2" id="basicFilter">
-          <div class="col-12">
+        
+        <div class="row mt-2"  *ngIf="basicFilter">
+         
             <div class="filter-Container">
+           <div class="row">
+                <div class="col-2"><label> Operator </label></div>
+                <div class="col-6"><select [(ngModel)]="dynamicfilterval" #btw>
+                <option *ngFor="let sign of dynamicFilter" value="{{sign}}">{{sign}}</option>
+              </select>
+            </div>
+            </div>
+              <!-- {{dropdownFilter | json}} -->
+           
+          </div>
+        
+            <div class="filter-Container" *ngIf="fliterflag">
+              <div class="row">
+                <div class="col-2"></div>
+                <div class="col-6">
               <ul style="list-style-type: none;">
                 <li>
                   <input type="checkbox" (click)="checkUncheckAll($event)" [checked]="checked">Select All
@@ -212,9 +268,25 @@
                     (click)="data.status = !data.status;manageCheckUncheckAll()">{{data.value}}
                 </li>
               </ul>
+            </div>
+            </div>
               <!-- {{dropdownFilter | json}} -->
             </div>
-          </div>
+            <div class="filter-Container" *ngIf="!fliterflag">
+               <div class="row">
+               <div class="col-2"> <label *ngIf="!fliterflag"> Values &nbsp;&nbsp;</label></div>
+
+                <div class="col-4">
+                  <input type="text" [(ngModel)]="firstfilter">
+                </div> 
+                
+                <div class="col-6" *ngIf="dynamicfilterval == 'between' ">
+                <span class="pl-2 pr-5"> <label> And </label></span> <input type="text" [(ngModel)]="secondfilter">
+                </div>
+              </div>
+              <!-- {{dropdownFilter | json}} -->
+            </div>
+        
         </div>
 
         <div class="row mt-2" id="rowFilter" style="display: none;">
@@ -243,19 +315,18 @@
               </div>
             </div>
 
-            <div class="row mt-2">
+            <!-- <div class="row mt-2">
               <div class="col-4">
                 <button type="submit" class="btn btn-primary" (click)="addFilter()">Add Filter</button>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
 
         <div class="row mt-2" style="text-align: center;">
-          <div class="col-6">
-            <button type="button" class="btn btn-primary" (click)="rowFilter(btnName)">{{btnName}}</button></div>
-          <div class="col-6">
-            <button type="button" class="btn btn-primary" (click)="storeFilter()">Save</button>
+          <div class="col-12">
+            <!-- <button type="button" class="btn btn-primary" (click)="rowFilter(btnName)">{{btnName}}</button> -->
+            <button type="button" class="btn btn-primary ml-3" (click)="storeFilter()">Save</button>
           </div>
         </div>
 
@@ -267,7 +338,7 @@
 
 <!-- start : save as -->
 <div class="modal" id="saveAs" #saveAs>
-  <div class="modal-dialog modal-md">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <!-- Modal Header -->
       <div class="modal-header">
@@ -276,13 +347,29 @@
       </div>
       <!-- Modal body -->
       <div class="modal-body">
-
-        <div class="row mt-2" style="text-align: center;">
-          <div class="col-12">
-            <label>Name:</label><input type="text" [(ngModel)]="assign.reportFileName">
+        <div class="row form-group mt-4 text-center">
+          <div class="col-4">
+            <label>Report Name:</label>
           </div>
+          <div class="col-8">
+            <input type="text" [(ngModel)]="assign.reportFileName">
+          </div>
+  
         </div>
-
+        <div class="row form-group mt-4 text-center">
+          <div class="col-3">
+            <label>Default period  last</label>
+          </div>
+          <div class="col-3">
+            <input type="number" [(ngModel)]="fromdefaultdays" min="1" placeholder="Default From Days">
+          </div>
+          <div class="col-2">
+            <label>   To</label>
+          </div>
+          <div class="col-4">
+            <input type="number" [(ngModel)]="defaultdays" min="1" placeholder="Default Days"><label>Days</label>
+          </div>
+      </div>
         <div class="row mt-2" style="text-align: center;">
           <div class="col-12">
             <button type="button" class="btn btn-success"

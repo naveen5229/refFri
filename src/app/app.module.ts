@@ -313,6 +313,26 @@ import { PlacementOptimisationOnMapComponent } from './modals/placement-optimisa
 import { PlacementConstraintsComponent } from './modals/placement-constraints/placement-constraints.component';
 import { PlacementRequirementComponent } from './modals/placement-requirement/placement-requirement.component';
 
+import { PlacementProblemGenerationComponent } from './modals/placement-problem-generation/placement-problem-generation.component';
+import { DriverConsentListComponent } from './modals/driver-consent-list/driver-consent-list.component';
+import { NearByVehiclesComponent } from './modals/near-by-vehicles/near-by-vehicles.component';
+import { ConciseColumnPrefrenceComponent } from './modals/concise-column-prefrence/concise-column-prefrence.component';
+import {MatRadioModule} from '@angular/material/radio';
+import { AddGpsNewRequesComponent } from './modals/add-gps-new-reques/add-gps-new-reques.component';
+import { CostmatrixComponent } from './modals/costmatrix/costmatrix.component';
+import { SlowestTransporterComponent } from './widgets/transportar/slowest-transporter/slowest-transporter.component';
+import { CostGamificationComponent } from './modals/cost-gamification/cost-gamification.component';
+import { PlacementCostComponent } from './modals/placement-cost/placement-cost.component';
+import { AddMapVehicleComponentComponent } from './modals/add-map-vehicle-component/add-map-vehicle-component.component';
+import { RemaptripandrouteComponent } from './modals/remaptripandroute/remaptripandroute.component';
+import { ForcellyRemappingRouteComponent } from './modals/forcelly-remapping-route/forcelly-remapping-route.component';
+
+
+
+
+
+
+
 const COMMON_COMPONENT = [UnMergeStateComponent,
   PdfViewerComponent,
   FreightRateRulesComponent,
@@ -576,7 +596,16 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   VerifyHaltsComponent,
   PlacementoptimizeComponent,
   PlacementOptimisationOnMapComponent,
-  PlacementConstraintsComponent
+  PlacementConstraintsComponent,
+  DriverConsentListComponent,
+  PlacementProblemGenerationComponent,
+  ConciseColumnPrefrenceComponent,
+  AddGpsNewRequesComponent,
+  CostmatrixComponent,
+  CostGamificationComponent,
+  PlacementCostComponent,
+  AddMapVehicleComponentComponent,
+  RemaptripandrouteComponent
 ];
 
 @NgModule({
@@ -601,11 +630,19 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     PlacementOptimisationOnMapComponent,
     PlacementConstraintsComponent,
     PlacementRequirementComponent,
+    PlacementProblemGenerationComponent,
+    NearByVehiclesComponent,
+    AddGpsNewRequesComponent,
+    CostmatrixComponent,
+    SlowestTransporterComponent,
+    CostGamificationComponent,
+    PlacementCostComponent,
+    ForcellyRemappingRouteComponent
   ],
   entryComponents: [
     ...COMMON_COMPONENT,
     VehicleInfoComponent,
-    
+
   ],
   imports: [
     BrowserModule,
@@ -629,7 +666,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     PdfViewerModule,
     ResizableModule,
     DateInputsModule,
-    ScrollingModule
+    ScrollingModule,
+    MatRadioModule,
   ],
 
   bootstrap: [AppComponent],

@@ -1,0 +1,24 @@
+<div class="">
+    <div class="outer liveload-7" style="min-height: 130px;">
+    <h6 style="text-align:center"><b class="charthead">Slowest Onward Vehicles</b></h6>
+    <p style="text-align: right; margin-top: -25px;" class="link"
+      (click)="getDetials('Tmgreport/GetConsignmentSlowestOnward',{totalrecord: 3,stepno: -1},15,'days')"><i title="More Details" class="fa fa-list"></i>
+    </p>
+    <table class="table table-bordered">
+      <thead class="thead">
+        <th>Vehicle No.</th>
+        <th>Transporter</th>
+        <th>Trip</th>
+        <th>KMPD</th>
+      </thead>
+      <tbody class="tbody">
+        <tr *ngFor="let cso of consignmentSlowestOnward">
+          <td class="link" (click)="getDetials('Tmgreport/GetConsignmentSlowestOnward',{totalrecord: 3,stepno: 1,vid: cso['_vid'] },7,'days')">{{cso['Vehicle Name']}}</td>
+          <td>{{cso['Transporter']}}</td>
+          <td>{{cso['Trip']}}</td>
+          <td>{{cso['KMPD']}}</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>

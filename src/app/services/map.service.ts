@@ -163,7 +163,7 @@ export class MapService {
     let latLng = new google.maps.LatLng(lat, long);
     this.clearAll();
     this.mapDiv = document.getElementById(div);
-    if (this.mapLoadDiv) {
+    if (this.mapLoadDiv & this.map) {
       this.map.panTo(latLng);
       if (options) {
         this.map.set(options);
@@ -276,6 +276,38 @@ export class MapService {
 
   }
 
+  createPolygonsWithMainlatlng(latLngsMulti, mainLatLngs?, options?) {// strokeColor = '#', fillColor = '#') {
+    if (this.polygons.length > 0) {
+      this.polygons.forEach(polygon => {
+        polygon.setMap(null);
+      });
+      this.polygons = [];
+    }
+    latLngsMulti.forEach(latLngs => {
+      let colorBorder = '#228B22';
+      let colorFill = '#ADFF2F';
+      if (mainLatLngs != latLngs) {
+        colorBorder = '#550000';
+        colorFill = '#ff7f7f';
+      }
+      const defaultOptions = {
+        paths: latLngs,
+        strokeColor: colorBorder,
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        clickable: false,
+        fillColor: colorFill,
+        fillOpacity: 0.35
+      };
+      this.polygons.push(new google.maps.Polygon(options || defaultOptions));
+    });
+    this.polygons.forEach(polygon => {
+      polygon.setMap(this.map);
+    });
+
+  }
+
+
   addListerner(element, event, callback) {
     if (element)
       google.maps.event.addListener(element, event, callback);
@@ -294,6 +326,7 @@ export class MapService {
   }
 
   createMarkers(markers, dropPoly = false, changeBounds = true, infoKeys?, afterClick?) {
+    console.log("markers====",markers);
     try {
       let thisMarkers = [];
       let infoWindows = [];
@@ -310,6 +343,7 @@ export class MapService {
         let latlng = new google.maps.LatLng(lat, lng);
         let pinImage;
         //pin Image
+        console.log("pin color",pinColor);
         if (design) {
           pinImage = {
             path: design,
@@ -438,6 +472,7 @@ export class MapService {
   }
 
 
+  circles = [];
   circle = null;
   createCirclesOnPostion(center, radius, stokecolor = '#FF0000', fillcolor = '#FF0000', fillOpacity = 0.1, strokeOpacity = 1) {
     this.circle = new google.maps.Circle({
@@ -450,6 +485,7 @@ export class MapService {
       center: center,
       radius: radius
     });
+    this.circles.push(this.circle);
     return this.circle;
   }
 
@@ -473,6 +509,7 @@ export class MapService {
     resetParams.marker && this.resetMarker(reset, boundsReset);
     resetParams.polygons && this.resetPolygons();
     resetParams.polypath && this.resetPolyPath();
+    this.resetCircles();
     this.options ? this.options.polypaths && this.resetPolyPaths() : '';
     this.options ? this.options.clearHeat && this.resetHeatMap() : '';
     this.customMarkers.map(marker => marker.setMap(null));
@@ -483,6 +520,19 @@ export class MapService {
       this.infoWindows = [];
     } catch (e) { console.log('Exception in clearing info windows : ', e) }
   }
+
+  resetCircles(){
+    try {
+      for (let i = 0; i < this.circles.length; i++) {
+        if (this.circles[i])
+        this.circles[i].setMap(null);
+      }
+      this.circles = [];
+    } catch (e) {
+      console.error('Exception in resetCircles:', e);
+    }
+  }
+
   resetHeatMap() {
     try {
       if (this.heatmap) {
@@ -500,6 +550,24 @@ export class MapService {
       for (let i = 0; i < actualMarker.length; i++) {
         if (actualMarker[i])
           actualMarker[i].setMap(null);
+      }
+      if (reset)
+        actualMarker = [];
+      if (boundsReset) {
+        this.bounds = new google.maps.LatLngBounds();
+      }
+      this.markers = [];
+    } catch (e) {
+      console.error('Exception in resetMarker:', e);
+    }
+  }
+
+  resetMarkerNested(reset = true, boundsReset = true, markers?) {
+    try {
+      let actualMarker = markers || this.markers;
+      for (let i = 0; i < actualMarker.length; i++) {
+        if (actualMarker[i].marker)
+          actualMarker[i].marker.setMap(null);
       }
       if (reset)
         actualMarker = [];
@@ -920,6 +988,38 @@ export class MapService {
       google.maps.event.clearListeners(marker, 'click');
     } catch (e) {
     }
+  }
+
+  polylines = [];
+  
+  createPolyLines(latLngsMulti, options?) {// strokeColor = '#', fillColor = '#') {
+    let index = 0;
+
+    latLngsMulti.forEach((latLngs,i) => {
+      const defaultOptions = {
+        path: latLngs.data,
+        strokeColor: latLngs.color,
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        clickable: !latLngs.isMain,
+        fillColor: latLngs.color,
+        fillOpacity: 0.35
+      };
+      let polyline = new google.maps.Polyline(options || defaultOptions);
+      this.polylines.push(polyline);
+      polyline.setMap(this.map);
+      
+      index++;
+    });
+    return this.polygons;
+
+  }
+
+  resetPolyLines(){
+    this.polylines.map(ployline=>{
+      ployline.setMap(null);
+    });
+    this.polylines=[];
   }
 
 }

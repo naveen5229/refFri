@@ -1,0 +1,26 @@
+<div class="col-6 pl-0 pr-0">
+    <div class="outer liveload-6" style="min-height: 130px;">
+      <h6 style="text-align:center"><b class="charthead"></b></h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+      (click)="getDetials('Tmgreport/GetConsignmentLongestUnLoading',{totalrecord: 3,stepno: -1},15,'days')"><i title="More Details" class="fa fa-list"></i>
+    </p>
+      <table class="table table-bordered">
+        <thead class="thead">
+            <th>Vehicle No.</th>
+            <!-- <th>Site</th> -->
+            <th>Transporter</th>
+            <!-- <th>Trip</th> -->
+            <th>Duration(in Hrs)</th>
+        </thead>
+        <tbody class="tbody">
+          <tr *ngFor="let clu of consignmentLongestUnLoading">
+          <td class="link" (click)="getDetials('Tmgreport/GetConsignmentLongestUnLoading',{totalrecord: 3,stepno: 1,vid: clu['_vid'] },15,'days')">{{clu['Vehicle Name']}}</td>
+          <td>{{clu['Transporter']}}</td>
+          <!-- <td>{{clu['trip']}}</td> -->
+          <td>{{clu['Duration (HH:MM)']}}</td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

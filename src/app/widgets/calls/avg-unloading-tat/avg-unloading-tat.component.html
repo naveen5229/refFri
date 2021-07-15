@@ -1,0 +1,11 @@
+<div class="">
+    <div class="outer callsload-2">
+      <h6 style="text-align:center"><b class="charthead">Average Unloading TAT</b></h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+      (click)="getDetials('Tmgreport/GetCallsSupervisorUnLoadingTat',{totalrecord: 3,stepno: -1, isfo: false,isadmin: true,groupdays: 15},30,'days')"><i title="More Details" class="fa fa-list"></i>
+    </p>
+      <chart [type]="chart5.type" [data]="chart5.data" style="margin-right:5px;min-height: 350px;max-height: 350px;"
+        [options]="chart5.options" (clickElement)="chart5Clicked($event)">
+      </chart> 
+    </div>
+  </div>

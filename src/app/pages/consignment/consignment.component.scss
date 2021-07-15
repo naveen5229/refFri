@@ -1,0 +1,62 @@
+.holdContainer {
+    height: calc(100vh - 180px);
+    border: groove;
+    padding: 20px;
+    overflow: auto;
+}
+.placeContainer {
+    height: calc(100vh - 180px);
+    border: groove;
+    padding: 20px;
+}
+
+.dataelements {
+    background: lightgray;
+    padding: 15px;
+    text-align: center;
+    margin-top: 2px;
+}
+
+.reports-container {
+    position: relative;
+    height: calc(100vh - 137px);
+    overflow: auto;
+    .report {
+        // resize: both;
+        //position: absolute;
+        overflow: hidden;
+        // border: 2px solid black;
+        //width: 300px;
+       // height: 300px;
+        .report-container{
+            position: relative;
+            width: 100%;
+            .report-close{
+                position: absolute;
+                right: -1px;
+                top: -2px;
+                background: #fff;
+                z-index: 99999;
+                font-size: 20px;
+                cursor: pointer;
+            }
+        }
+        span.title {
+            font-size: 10px;
+        }
+       
+        input{
+            width: -webkit-fill-available;
+            border-radius: 5px;
+            border: 1px solid #e8e5e5;
+            height: 22px !important;
+            padding: 0 6px!important;
+
+        }
+      input[type="checkbox"] {
+        width: auto;
+        display: block;
+        height: 14px!important;
+        }
+    }
+}

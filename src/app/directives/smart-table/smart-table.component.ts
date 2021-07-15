@@ -106,6 +106,7 @@ export class SmartTableComponent implements OnInit {
         } else {
           this.columns = this.data.columns;
         }
+
       } else {
         for (let i = 0; i < this.data.columns.length; i++) {
           let value = this.data.columns[i][key].value;
@@ -133,8 +134,12 @@ export class SmartTableComponent implements OnInit {
         if (search.includes('>')) this.sortColumn(key, 'asc')
         else this.sortColumn(key, 'desc')
       } else {
-        if (this.returnFilteredData)
-          this.filtered.emit(this.columns);
+        if (this.returnFilteredData) {
+          if (!search.length)
+            this.filtered.emit(this.data.columns);
+          else
+            this.filtered.emit(this.columns);
+        }
       }
       this.cdr.detectChanges();
     }, this.data.columns.length > 150 ? 500 : 300);

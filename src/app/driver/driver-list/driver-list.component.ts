@@ -15,6 +15,7 @@ import { UploadDocsComponent } from '../../modals/upload-docs/upload-docs.compon
 import { DriverLedgerMappingComponent } from '../../modals/DriverModals/driver-ledger-mapping/driver-ledger-mapping.component';
 import { DriverPersonalInfoComponent } from '../../modals/driver-personal-info/driver-personal-info.component';
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+import { DriverConsentListComponent } from '../../modals/driver-consent-list/driver-consent-list.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -22,11 +23,12 @@ import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
   templateUrl: './driver-list.component.html',
   styleUrls: ['./driver-list.component.scss', '../../pages/pages.component.css']
 })
+
 export class DriverListComponent implements OnInit {
+
   driverLists = [];
   data = [];
   table = null;
-
 
   constructor(public api: ApiService,
     private pdfService: PdfService,
@@ -37,35 +39,25 @@ export class DriverListComponent implements OnInit {
     public user: UserService) {
     this.getdriverLists();
     this.common.refresh = this.refresh.bind(this);
-
   }
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() { }
+
+  ngOnInit() {
   }
+
   refresh() {
     this.getdriverLists();
-
   }
+
   addDriver() {
-    // this.router.navigate(['/driver/add-driver']);
-    // const activeModal =
     const activeModal = this.modalService.open(AddDriverCompleteComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
       if (data.response) {
-        // console.log('hrithik');
-
-
         this.getdriverLists();
-
-        // this.getdriverLists();
-
       }
     })
   }
-
-
-
 
   getdriverLists() {
     this.driverLists = [];
@@ -88,8 +80,8 @@ ngOnInit() {
         console.log(err);
       });
     return response;
-
   }
+
   updateDriverInfo(driver) {
     this.common.params = { driver };
     const activeModal = this.modalService
@@ -113,7 +105,6 @@ ngOnInit() {
       mobileno: { title: 'Mobile No', placeholder: 'Mobile No' },
       mobileno2: { title: 'Mobile No 2', placeholder: 'Mobile No 2' },
       action: { title: 'Action ', placeholder: 'Action', hideSearch: true, class: 'tag' },
-
     };
     return {
       driverLists: {
@@ -126,6 +117,7 @@ ngOnInit() {
       }
     }
   }
+
   getTableColumns() {
     let columns = [];
     this.driverLists.map(req => {
@@ -145,8 +137,6 @@ ngOnInit() {
         rowActions: {
           click: 'selectRow'
         }
-
-
       };
       columns.push(column);
     });
@@ -166,7 +156,6 @@ ngOnInit() {
       driverId: driverdata.id,
     }
     const activeModal = this.modalService.open(DriverPersonalInfoComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-
   }
 
 
@@ -192,4 +181,8 @@ ngOnInit() {
     this.csvService.byMultiIds(['driverList'], 'driver-list', details);
   }
 
+  checkSimConsent() {
+    console.log('inside checkSimCOnsent func');
+    this.modalService.open(DriverConsentListComponent, { size: 'xl', container: 'nb-layout' });
+  }
 }

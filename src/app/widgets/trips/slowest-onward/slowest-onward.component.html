@@ -1,0 +1,23 @@
+<div class="">
+    <div class="outer tripload-8" style="min-height: 145px;">
+      <h6 style="text-align:center"><b class="charthead">Slowest 3 Onward Drivers in Last 7 Days</b></h6>
+      <p style="text-align: right; margin-top: -25px;" class="link"
+        (click)="getDetials('Tmgreport/GetTripSlowestOnward',{totalrecord: 3,stepno: -1},7,'days')"><i title="More Details"
+          class="fa fa-list"></i>
+      </p>
+      <table class="table">
+        <thead class="thead">
+          <th>Driver Name </th>
+          <th>Vehicle No.</th>
+          <th>Avg KMPD</th>
+        </thead>
+        <tbody class="tbody">
+          <tr *ngFor="let tso of tripSlowestOnward">
+            <td class="link" (click)="getDetials('Tmgreport/GetTripSlowestOnward',{totalrecord: 3,stepno: 1,isfo: tso['_vehicleid'] },7,'days')">{{tso['Driver Name']}}</td>
+            <td>{{tso['Vehicle Name']}}</td>
+            <td>{{tso['Avg Speed KM\/Hrs']}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

@@ -81,9 +81,11 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      groupdays: 7
+      groupdays: 7,
+      isfo: false,
+      isadmin: true
     };
-    this.api.post('Tmgreport/GetUnLoadingtat', params)
+    this.api.post('Tmgreport/GetTripUnLoadindTime', params)
       .subscribe(res => {
         console.log('getUnloadingtat:', res);
         this.unloadingtat = res['data'];
@@ -150,7 +152,7 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
     let params = {
       fromdate: this.common.dateFormatter(startDate),
       todate: this.common.dateFormatter(endDate),
-      totalrecord: 3
+      totalrecord: 5
     };
     this.api.post('Tmgreport/GetUnLoadingWorstDestination', params)
       .subscribe(res => {
@@ -218,7 +220,7 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
     let ids = [];
     this.unloadingtat.map(tlt => {
       xaxis.push(tlt['Period']);
-      yaxis.push(tlt['Avg hrs']);
+      yaxis.push(tlt['Unloading Duration(hrs)']);
       ids.push(tlt['_id']);
     });
     if (!yaxis.length) return;
@@ -310,12 +312,12 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
 
 
   }
-
+ 
   getlabelValue1() {
     this.xAxisData1 = [];
     if (this.unloadingWorstDestination) {
       this.unloadingWorstDestination.forEach((cmg) => {
-        this.chart1.data.line.push(cmg['detention_days']);
+        this.chart1.data.line.push(cmg['Detention Days']);
         this.chart1.data.bar.push(cmg['tripcount']);
         this.xAxisData1.push(cmg['destination']);
       });
@@ -359,6 +361,7 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
       yAxisName: 'Trips',
     });
 
+
     this.chart1 = {
       data: {
         line: [],
@@ -373,6 +376,10 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
   }
 
   setChartOptions1() {
+    let ids = [];
+    this.unloadingWorstDestination.map(tlt => {
+      ids.push(tlt['destination']);
+    });
     let options = {
       responsive: true,
       hoverMode: 'index',
@@ -384,6 +391,21 @@ export class TmgUnloadingAnalysisComponent implements OnInit {
       tooltips: {
         mode: 'index',
         intersect: 'true'
+      },
+      onClick: (e, item) => {
+       console.log('ids',ids);
+        let idx = item[0]['_index'];
+        let startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+        let endDate = new Date();
+        let params = {
+          fromdate: this.common.dateFormatter(startDate),
+          todate: this.common.dateFormatter(endDate),
+          totalrecord: 5,
+          stepno: 1,
+          jsonparam: ids[idx],
+        };
+        this.getDetials('Tmgreport/GetUnLoadingWorstDestination', params)
+
       },
       maintainAspectRatio: false,
       title: {

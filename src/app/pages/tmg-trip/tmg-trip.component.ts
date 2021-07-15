@@ -75,7 +75,7 @@ export class TmgTripComponent implements OnInit {
 
   refresh() {
     this.xAxisData = [];
-    this.getTripOnwardKmd(0);
+    this.getTripOnwardKmd(0); 
     this.getTripLoadindTime(1);
     this.getTripUnLoadindTime(2);
     this.getTripLongHalt(3);
@@ -407,7 +407,7 @@ export class TmgTripComponent implements OnInit {
     });
     return options;
   }
-
+ 
   handleChart() {
     let yaxis = [];
     let xaxis = [];

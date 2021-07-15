@@ -459,43 +459,72 @@ export class CommonService {
     // console.log(startTime,endTime,result);
     return result;
   }
-
-  distanceFromAToB(lat1, lon1, lat2, lon2, unit) {
+  distanceFromAToB(lat1, lon1, lat2, lon2, unit, isFixed = true, isMultiply = true): any {
     if (lat1 == lat2 && lon1 == lon2) {
       return 0;
     } else {
-      let radlat1 = (Math.PI * lat1) / 180;
-      let radlat2 = (Math.PI * lat2) / 180;
-      let theta = lon1 - lon2;
-      let radtheta = (Math.PI * theta) / 180;
-      let dist =
-        Math.sin(radlat1) * Math.sin(radlat2) +
-        Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-      if (dist > 1) {
-        dist = 1;
+      function toRad(x) {
+        return x * Math.PI / 180;
       }
-      dist = Math.acos(dist);
-      dist = (dist * 180) / Math.PI;
-      dist = dist * 60 * 1.1515;
-      dist = dist * 1.609344 * 1000;
-      dist = this.odoMultiplierWithMeter(dist);
-      dist /= 1.609344 * 1000;
+      var R = 6371; // km
 
+      var x1 = lat2 - lat1;
+      var dLat = toRad(x1);
+      var x2 = lon2 - lon1;
+      var dLon = toRad(x2)
+      var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      var dist = R * c;
+    
       if (unit == "K") {
-        dist = dist * 1.609344;
+        dist = dist;
       }
       if (unit == "Mt") {
-        dist = dist * 1.609344 * 1000;
+        dist = dist * 1000;
       }
-      if (unit == "N") {
-        dist = dist * 0.8684;
+
+      if (!isFixed) {
+        return parseFloat(dist.toFixed(2));
       }
 
       return parseInt(dist.toFixed(0));
     }
   }
 
-  odoMultiplierWithMeter(distance: number) {
+  // distanceFromAToB(lat1, lon1, lat2, lon2, unit, isFixed = true, isMultiply = true): any {
+  //   if (lat1 == lat2 && lon1 == lon2) {
+  //     return 0;
+  //   } else {
+  //     let radlat1 = (Math.PI * lat1) / 180;
+  //     let radlat2 = (Math.PI * lat2) / 180;
+  //     let theta = lon1 - lon2;
+  //     let radtheta = (Math.PI * theta) / 180;
+  //     let dist =
+  //       Math.sin(radlat1) * Math.sin(radlat2) +
+  //       Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+  //     if (dist > 1) {
+  //       dist = 1;
+  //     }
+  //     dist = Math.acos(dist);
+  //     dist = (dist * 180) / Math.PI;
+  //     dist = dist * 60 * 1.1515;
+  //     if(isMultiply)
+  //       dist = this.odoMultiplierWithMeter(dist);
+
+     
+
+  //     if (!isFixed) {
+  //       return parseFloat(dist.toFixed(2));
+  //     }
+
+  //     return parseInt(dist.toFixed(0));
+  //   }
+  // }
+
+  odoMultiplierWithMeter(dist: number) {
+    let distance = dist * 1609.344;
     if (distance < 200) {
       distance = distance * 1.02;
     } else if (distance > 200 && distance < 1000) {
@@ -1010,19 +1039,22 @@ export class CommonService {
     let organization = { "elogist Solutions": "elogist Solutions" };
     let blankline = { "": "" };
 
-    let leftData = { left_heading };
-    let centerData = { center_heading };
+    let leftData = { left_heading: left_heading || '' };
+    let centerData = { center_heading: center_heading || '' };
     let lowerLeft = lower_left_heading ? { lower_left_heading } : {};
-    let doctime = { time };
+    let doctime = { time: time || '' };
 
     let info = []; lower_left_heading
     let hdgs = {};
     let arr_hdgs = [];
     info.push(organization);
     info.push(blankline);
-    info.push(leftData);
-    info.push(centerData, doctime);
-    info.push(lowerLeft);
+    if (left_heading)
+      info.push(leftData);
+    if (center_heading)
+      info.push(centerData, doctime);
+    if (lower_left_heading)
+      info.push(lowerLeft);
     let hdgCols = tblelt.querySelectorAll('th');
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
@@ -2113,4 +2145,58 @@ export class CommonService {
 
     return array;
   }
+
+  getCSVFromDataArray(dataArray, dataHeader, fileName, details?, doNotIncludes?) {
+    // let organization = { "elogist Solutions": "elogist Solutions" };
+    let name = (fileName && fileName != "") ? fileName : 'report';
+
+    // let info = [];
+    // let blankline = { "": "" };
+    // if (titles && titles.length > 0) {
+    //   info.push(titles);
+    //   info.push(blankline);
+    // }
+
+    let blankline: any = { "": "" };
+    let info: any[] = [];
+
+    if (details) {
+      details.forEach(detail => info.push({ "": "", ...detail }))
+    }
+    info.push(blankline);
+
+    console.log("given data array:", dataArray);
+    console.log("dataHeader:", dataHeader);
+    console.log('titles : ', details);
+    console.log('info : ', info);
+    if (dataArray.length > 0) {
+      let objectKeys = Object.keys;
+      let thArray = [];
+      let thArg = [];
+      for (let heading of objectKeys(dataHeader)) {
+        console.log("heading in array:", heading);
+        let dataHeaderTemp = dataHeader[heading].title;
+        if (dataHeaderTemp == '' || dataHeaderTemp == 'Action' || dataHeaderTemp == 'action')
+          continue;
+
+        thArg.push(dataHeaderTemp);
+        thArray.push(this.formatTitle(dataHeaderTemp));
+      }
+
+      // console.log("thArray:", thArray);
+      info.push(thArray);
+
+      dataArray.map(column => {
+        let tdArray = [];
+        for (let heading of thArg) {
+          let columnTemp = (column[heading]) ? column[heading] : '';
+          tdArray.push(columnTemp);
+        }
+        info.push(tdArray);
+      })
+    }
+    // console.log("csv data array:", info);
+    new AngularCsv(info, name);
+  }
+
 }
