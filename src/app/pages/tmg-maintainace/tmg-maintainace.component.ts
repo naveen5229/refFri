@@ -114,9 +114,10 @@ ngOnInit() {
     this.chart5.data = {
       labels: Object.keys(executives),
       "datasets": [
-        { "data": newdatasets[0].data, "label": newdatasets[0].label,backgroundColor: "#7cbfe5", borderColor: "#7cbfe5",borderWidth: 1 },
-        { "data": newdatasets[1].data, "label": newdatasets[1].label,backgroundColor: "#108361", borderColor: "#108361",borderWidth: 1 },
-        { "data": oneresults, "label": "Cost", "type": "line" }
+        { "data": newdatasets[0].data, "label": newdatasets[0].label,backgroundColor: "#386ac4", borderColor: "#386ac4",borderWidth: 1 },
+        { "data": newdatasets[1].data, "label": newdatasets[1].label,backgroundColor: "#6aa225", borderColor: "#6aa225",borderWidth: 1 },
+        { "data": oneresults, "label": "Cost", "type": "line",fill: false,  borderColor: '#ed7d31',
+        backgroundColor: '#ed7d31',pointHoverRadius: 8,}
       ],
     };
 
@@ -158,7 +159,7 @@ ngOnInit() {
             console.log("tooltipItems", tooltipItems, "data", data);
             let tti = ('' + tooltipItems.yLabel).split(".");
             let min = tti[1] ? String(parseInt(tti[1]) * 6).substring(0,2) : '00';
-            return tooltipItems.xLabel + " ( " + tti[0] + " thousand. )";
+            return (tooltipItems.datasetIndex == 2)?tooltipItems.xLabel + " ( " + tti[0] + " thousand. )":tooltipItems.xLabel + " ( " + tti[0] + " )";
            // return tooltipItems.xLabel + " ( " + tti[0] + ":" + min + " thousand. )";
           }
         }
