@@ -347,34 +347,32 @@
       </div>
       <!-- Modal body -->
       <div class="modal-body">
-        <div class="row form-group mt-4 text-center">
-          <div class="col-4">
+        <div class="row form-group mt-4">
+          <div class="col-3">
             <label>Report Name:</label>
           </div>
-          <div class="col-8">
+          <div class="col-3">
             <input type="text" [(ngModel)]="assign.reportFileName">
           </div>
   
         </div>
-        <div class="row form-group mt-4 text-center">
+        <div class="row form-group mt-4">
           <div class="col-3">
-            <label>Default period  last</label>
+            <label>Default period last</label>
           </div>
           <div class="col-3">
             <input type="number" [(ngModel)]="fromdefaultdays" min="1" placeholder="Default From Days">
           </div>
-          <div class="col-2">
-            <label>   To</label>
+          <div class="col-1">
+            <label> To</label>
           </div>
-          <div class="col-4">
-            <input type="number" [(ngModel)]="defaultdays" min="1" placeholder="Default Days"><label>Days</label>
+          <div class="col-5">
+            <input type="number" [(ngModel)]="defaultdays" min="1" placeholder="Default Days"><label class="ml-2">Days</label>
           </div>
       </div>
-        <div class="row mt-2" style="text-align: center;">
-          <div class="col-12">
+        <div class="col-12 mt-2 text-right">
             <button type="button" class="btn btn-success"
               (click)="saveGraphicReport()">{{editState && reportIdUpdate?'Update':'Save'}}</button>
-          </div>
         </div>
       </div>
     </div>
