@@ -90,8 +90,8 @@
                     {{data.actual_halt_time || '--'}}</div>
             </div>
             <div class="col-1 rowLine ">
-                <div>{{data.schedule_tat || '--'}}</div>
-                <div [ngClass]="data.schedule_tat == data.actual_tat ?'text-black':(data.schedule_tat > data.actual_tat  ? 'text-green' :'text-red') ">{{data.actual_tat || '--'}}</div>
+                <div>{{data.scheduleTat || '--'}}</div>
+                <div [ngClass]="data.schedule_tat == data.actual_tat ?'text-black':(data.schedule_tat > data.actual_tat  ? 'text-green' :'text-red') ">{{data.actualTat || '--'}}</div>
 
             </div>
             <div class="col-1 rowLine" >
