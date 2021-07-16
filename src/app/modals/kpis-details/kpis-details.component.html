@@ -17,7 +17,12 @@
     </thead>
     <tbody>
       <tr>
-        <td>{{kpi.x_showveh}} </td>
+        <!-- <td>{{kpi.x_showveh}} </td> -->
+        <td>
+          <auto-suggestion (onSelected)="vehicleSelectionChange($event)"
+                                url="Vehicles/getVehicleListForFoid" display="regno" placeholder="Enter Vehicle Number"
+                                [preSelected]="{regno:kpi.x_showveh}" style="width:60%;"></auto-suggestion>
+        </td>
         <td>{{kpi.showprim_status}}</td>
         <td>{{kpi.x_hrssince}}</td>
         <!-- <td><span>{{kpi.x_showtripstart}}</span> <span *ngIf="kpi.x_showtripend"> ->
