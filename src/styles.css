@@ -1004,7 +1004,11 @@ input[type="number"] {
 }
 .graphspopup  .modal-dialog {
       max-width: 90%;
+      
   }
+  .graphspopup  .modal-dialog .tableFixHead th{
+    width: 200px;
+}
 
 @media (max-width: 1024px) and (min-width: 768px) {
   table thead,
