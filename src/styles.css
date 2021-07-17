@@ -1002,6 +1002,9 @@ input[type="number"] {
   border-radius: 0.75rem;
   border-color: #8b000000 !important;
 }
+.graphspopup  .modal-dialog {
+      max-width: 90%;
+  }
 
 @media (max-width: 1024px) and (min-width: 768px) {
   table thead,

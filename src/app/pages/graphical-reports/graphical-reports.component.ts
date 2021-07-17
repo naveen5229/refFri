@@ -1567,7 +1567,7 @@ this.dynamicFilter = ['=','>','<','!=','>=','<=','between'];
     console.log("dataparams=", dataparams);
     this.common.handleModalSize('class', 'modal-lg', '1700');
     this.common.params = { data: dataparams };
-    const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(GenericModelComponent, { container: 'nb-layout', backdrop: 'static', windowClass: "graphspopup" });
   }
   onHideShow(event,head, index) {
     this.sideBarData.forEach(element => {
