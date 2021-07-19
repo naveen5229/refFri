@@ -142,12 +142,13 @@ export class TicketSummaryComponent implements OnInit {
       }
       this.valobj['Action'] = {
         icons: [
-          { class: "fa fa-edit mr-3", action: this.addMaintenance.bind(this, doc) }
+          { class: "fa fa-retweet mr-3", action: this.addMaintenance.bind(this, doc) }
         ]
         , action: null
       };
       columns.push(this.valobj);
     });
+    console.log(this.table)
     return columns;
   }
 
