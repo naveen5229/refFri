@@ -101,4 +101,10 @@ ngOnInit() {
       });
 
   }
+
+  vehicleSelectionChange(event){
+    console.log('event is: ', event);
+    this.kpi.x_vehicle_id = event['id'];
+    this.getVehicleInformation();
+  }
 }
