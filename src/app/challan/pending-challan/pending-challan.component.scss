@@ -292,4 +292,222 @@
     padding-top: 14px;
     font-family: sans-serif;
   }
+
+  // for fa-times-circle
+  :host ::ng-deep td i.fa-times-circle {
+    background-color: black;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    position: relative;
+    padding-top: 11px;
+    height: 29px;
+    margin-left: 5px;
+  }
   
+  :host ::ng-deep td i.fa-times-circle:hover span {
+    display: block;
+  }
+  
+  :host ::ng-deep td i.fa-times-circle span {
+    position: absolute;
+    display: none;
+    padding: 11px 57px;
+    left: -44px;
+    top: -28px;
+    font-family: Roboto;
+    z-index: 999;
+  }
+  
+  :host ::ng-deep td i.fa-times-circle span::before {
+    content: "Not accepting Online Payment";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: black;
+    border-radius: 3px;
+    padding: 5px 10px;
+  }
+  
+  :host ::ng-deep td i.fa-times-circle span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid black;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%);
+  }
+  
+  :host ::ng-deep .fa-times-circle:hover span {
+    display: block;
+  }
+
+  // fa-hourglass-end
+  :host ::ng-deep td i.fa-hourglass-end {
+    background-color: #FD7E14;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    position: relative;
+    padding-top: 11px;
+    height: 29px;
+    margin-left: 5px;
+  }
+  
+  :host ::ng-deep td i.fa-hourglass-end:hover span {
+    display: block;
+  }
+  
+  :host ::ng-deep td i.fa-hourglass-end span {
+    position: absolute;
+    display: none;
+    padding: 11px 57px;
+    left: -44px;
+    top: -28px;
+    font-family: Roboto;
+    z-index: 999;
+  }
+  
+  :host ::ng-deep td i.fa-hourglass-end span::before {
+    content: "Payment under Processing";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #FD7E14;
+    border-radius: 3px;
+    padding: 5px 10px;
+  }
+  
+  :host ::ng-deep td i.fa-hourglass-end span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #FD7E14;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%);
+  }
+  
+  :host ::ng-deep .fa-hourglass-end:hover span {
+    display: block;
+  }
+
+
+  // fa-check-circle
+  :host ::ng-deep td i.fa-check {
+    background-color: green;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    position: relative;
+    padding-top: 11px;
+    height: 29px;
+    margin-left: 5px;
+  }
+  
+  :host ::ng-deep td i.fa-check:hover span {
+    display: block;
+  }
+  
+  :host ::ng-deep td i.fa-check span {
+    position: absolute;
+    display: none;
+    padding: 11px 57px;
+    left: -44px;
+    top: -28px;
+    font-family: Roboto;
+    z-index: 999;
+  }
+  
+  :host ::ng-deep td i.fa-check span::before {
+    content: "Payment Done";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #217346;
+    border-radius: 3px;
+    padding: 5px 10px;
+  }
+  
+  :host ::ng-deep td i.fa-check span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #217346;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%);
+  }
+  
+  :host ::ng-deep .fa-check:hover span {
+    display: block;
+  }
+
+  // fa-redo-alt
+
+    :host ::ng-deep td i.fa-backspace {
+    background-color: red;
+    width: 25px;
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+    position: relative;
+    padding-top: 11px;
+    height: 29px;
+    margin-left: 3px;
+  }
+  
+  // :host ::ng-deep td i.fa-backspace {
+  //   display: block;
+  // }
+  
+  :host ::ng-deep td i.fa-backspace span {
+    position: absolute;
+    display: none;
+    padding: 11px 57px;
+    left: -44px;
+    top: -28px;
+    font-family: Roboto;
+    z-index: 999;
+  }
+  
+  :host ::ng-deep td i.fa-backspace span::before {
+    content: "Payment under Processing";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: red;
+    border-radius: 3px;
+    padding: 5px 10px;
+  }
+  
+  :host ::ng-deep td i.fa-backspace span::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid red;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%);
+  }
+  
+  :host ::ng-deep .fa-backspace:hover span {
+    display: block;
+  }
