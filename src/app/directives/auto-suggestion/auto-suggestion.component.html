@@ -5,7 +5,8 @@
             <p *ngFor="let selectedSuggestion of selectedSuggestions; let i= index;">
                 <!-- <input [value]="generateString(selectedSuggestion)" readonly> -->
                 <span>{{generateString(selectedSuggestion)}}</span>
-                <i class="far fa-times-circle" (click)="selectedSuggestions.splice(i,1)"></i>
+                <!-- <i class="far fa-times-circle" (click)="selectedSuggestions.splice(i,1)"></i> -->
+                <i class="far fa-times-circle" (click)="removeSuggestion(i)"></i>
             </p>
             <span>
                 <input type="text" autocomplete="off" [formControlName]="controlName || 'search'"

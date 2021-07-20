@@ -43,14 +43,14 @@ export class AddVehicleMaintenanceComponent implements OnInit {
     private modalService: NgbModal) {
   }
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() { }
+  ngOnInit() {
   }
 
   getvehicleData(vehicle) {
     console.log("Data::", vehicle);
-    this.selectedVehicle = vehicle.id;
-    this.vehicleRegno = vehicle.regno;
+    this.selectedVehicle = vehicle ? vehicle.id : null;
+    this.vehicleRegno = vehicle ? vehicle.regno : null;
     console.log('Vehicle Data: ', this.selectedVehicle);
   }
 
@@ -83,7 +83,9 @@ ngOnInit() {
             this.table.data.headings[key] = headerObj;
           }
         }
-       
+        // let action = { title: this.formatTitle('Action'), placeholder: this.formatTitle('Action') };
+        // this.table.data.headings['Action'] = action;
+
         this.table.data.columns = this.getTableColumns();
       }, err => {
         this.common.loading--;
@@ -92,26 +94,47 @@ ngOnInit() {
   }
 
   getTableColumns() {
-    let action = { title: this.formatTitle('Action'), placeholder: this.formatTitle('Action') };
-    this.table.data.headings['Action'] = action;
+    // let action = { title: this.formatTitle('Action'), placeholder: this.formatTitle('Action') };
+    // this.table.data.headings['Action'] = action;
+    console.log("user:", this.user)
     let columns = [];
     console.log("Data=", this.data);
     this.data.map(doc => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
-        console.log("doc index value:", doc[this.headings[i]]);
+        // console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
       }
+      // this.valobj['Action'] = {
+      //   icons: [
+      //     (this.user.permission.edit && doc._aduserid == this.user._details.id) && { class: "fa fa-edit", action: this.editMaintenance.bind(this, doc) },
+      //     // { class: "fa fa-cog mr-3", action: this.viewDetails.bind(this, doc) },
+      //     (this.user.permission.delete && doc._aduserid == this.user._details.id) && { class: "fa fa-trash pl-1", action: this.deleteMaintenance.bind(this, doc) }]
+      //   , action: null
+      //   // icons: this.acionIcons(doc)
+      // };
       this.valobj['Action'] = {
-        icons: [
-          // { class: "fa fa-pencil-square", action: this.editMaintenance.bind(this, doc) },
-          { class: "fa fa-cog mr-3", action: this.viewDetails.bind(this, doc) },
-          this.user.permission.delete && { class: "fa fa-trash", action: this.deleteMaintenance.bind(this, doc) }]
-        , action: null
-      };
+        icons: this.acionIcons(doc),
+        action: null
+      }
       columns.push(this.valobj);
     });
+    console.log('columns', columns, this.table)
     return columns;
+  }
+
+  acionIcons(doc) {
+    let icons = [
+      // { class: "fa fa-cog mr-3", action: this.viewDetails.bind(this, doc) }
+    ];
+    
+    if (this.user.permission.edit && doc._aduserid == this.user._details.id) {
+      icons.push({ class: "fa fa-edit", action: this.editMaintenance.bind(this, doc) })
+    }
+    if (this.user.permission.delete && doc._aduserid == this.user._details.id) {
+      icons.push({ class: "fa fa-trash pl-1", action: this.deleteMaintenance.bind(this, doc) })
+    }
+    return icons;
   }
 
   viewDetails(doc) {
@@ -132,12 +155,12 @@ ngOnInit() {
       this.common.showError("Please select Vehicle Number");
       return false;
     }
-    this.common.params = { title: 'Add Maintenance', vehicleId: this.selectedVehicle, regno: this.vehicleRegno };
+    this.common.params = { title: 'Add Maintenance', vehicleId: this.selectedVehicle, regno: this.vehicleRegno, isEdit: false };
     const activeModal = this.modalService.open(AddMaintenanceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.vehicleMaintenanceData();
-        this.getTableColumns();
+        // this.getTableColumns();
       }
     });
   }
@@ -152,22 +175,24 @@ ngOnInit() {
     activeModal.result.then(data => {
       if (data.response) {
         this.vehicleMaintenanceData();
-        this.getTableColumns();
+        // this.getTableColumns();
       }
     });
   }
 
   editMaintenance(row) {
-    if (!this.selectedVehicle) {
-      this.common.showError("Please select Vehicle Number");
-      return false;
-    }
-    this.common.params = { title: 'Edit Maintenance', vehicleId: this.selectedVehicle, regno: this.vehicleRegno, row };
-    const activeModal = this.modalService.open(AddMaintenanceComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    // if (!this.selectedVehicle) {
+    //   this.common.showError("Please select Vehicle Number");
+    //   return false;
+    // }
+    // return console.log(row)
+    console.log(row)
+    this.common.params = { title: 'Edit Maintenance', vehicleId: row['_vid'], regno: row['Vehicle'], row, isEdit: true };
+    const activeModal = this.modalService.open(AddMaintenanceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.vehicleMaintenanceData();
-        this.getTableColumns();
+        // this.getTableColumns();
       }
     });
   }
