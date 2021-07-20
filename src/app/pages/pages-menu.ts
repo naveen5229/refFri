@@ -153,6 +153,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         title: 'Placement Optimization',
         icon: 'fa-home',
         link: '/pages/placementoptimization',
+      },
+      {
+        title: 'E-Way-Bill',
+        icon: 'fa-home',
+        link: '/pages/e-way-bill',
       }
     ]
   },

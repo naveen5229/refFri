@@ -236,4 +236,11 @@ export class AutoSuggestionComponent implements OnInit {
       this.showSuggestions = false, 300);
   }
 
+  removeSuggestion(index) {
+    if (this.isMultiSelect) {
+      this.selectedSuggestions.splice(index, 1);
+      this.onSelected.emit(this.selectedSuggestions);
+    }
+  }
+
 }

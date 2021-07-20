@@ -1,10 +1,62 @@
-
 <nb-card style=" margin:0px; padding-top: 0px; border: 0px; height: 100%;">
     <nb-card-header>
-        <h6>Ticket Summary</h6>
+        <div class="row">
+            <div class="col-6">
+                <h6>Ticket Summary</h6>
+            </div>
+            <div class="col-6">
+                <div class="text-right" *ngIf='data && data.length>0'>
+                    <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('ticket-Maintenance')"
+                        style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+                    <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('ticket-Maintenance')"
+                        style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+                </div>
+            </div>
+        </div>
+
     </nb-card-header>
     <nb-card-body style="padding-bottom: 0px;">
-        <smart-table class="maintenance-details" *ngIf="data && data.length>0" [data]="table.data"
-            [settings]="table.settings" id="ticket-Maintenance"></smart-table>
+        <div class="row">
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-2 my-auto p-0">Start Date:</div>
+                    <div class="col-3 my-auto p-0">
+                        <uj-date-time-picker [isTime]="false" (onChanged)="summaryRange.startDate= $event"
+                            [dateTimeValue]="summaryRange.startDate"></uj-date-time-picker>
+                    </div>
+                    <div class="col-2 my-auto p-0">End Date:</div>
+                    <div class="col-3 my-auto p-0">
+                        <uj-date-time-picker [isTime]="false" (onChanged)="summaryRange.endDate= $event"
+                            [dateTimeValue]="summaryRange.endDate"></uj-date-time-picker>
+                    </div>
+                    <div class="col-2 my-auto p-0"><button class="btn btn-primary btn-sm"
+                            (click)="ticketSummary()">Submit</button></div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-2 my-auto p-0"></div>
+                    <div class="col-1 my-auto">Status:</div>
+                    <div class="col-3 my-auto">
+                        <select [(ngModel)]="summaryRange.status" (change)="filterSummary()">
+                            <Option value="Pending">Pending</Option>
+                            <Option value="Closed">Closed</Option>
+                            <Option value="All">All</Option>
+                        </select>
+                    </div>
+                    <div class="col-2 my-auto p-0">Service type:</div>
+                    <div class="col-4 my-auto">
+                        <auto-suggestion name="selected-area" [data]="servicetypes"
+                            (onSelected)="summaryRange.serviceType = $event;filterSummary()" display="name"
+                            placeholder="Service type" [preSelected]="summaryRange.serviceType" [isMultiSelect]="true">
+                        </auto-suggestion>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <smart-table class="maintenance-details" *ngIf="data && data.length>0" [data]="table.data"
+                [settings]="table.settings" id="ticket-Maintenance"></smart-table>
+        </div>
     </nb-card-body>
 </nb-card>

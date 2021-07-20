@@ -123,6 +123,7 @@ import { DriverConsentListComponent } from '../modals/driver-consent-list/driver
 import { DriverPreferencesComponent } from './driver-preferences/driver-preferences.component';
 import { ConsignmentComponent } from './consignment/consignment.component';
 import { TmgMaintainaceComponent } from './tmg-maintainace/tmg-maintainace.component';
+import { EWayBillTripComponent } from './e-way-bill-trip/e-way-bill-trip.component';
 
 
 const routes: Routes = [{
@@ -157,6 +158,11 @@ const routes: Routes = [{
     path: 'tripissues',
     component: TripissuesComponent,
     canActivate: [AuthGuard, RouteGuard],
+  },
+  {
+    path:'e-way-bill',
+    component:EWayBillTripComponent,
+    canActivate:[AuthGuard,RouteGuard]
   },
   {
     path: 'tmg-trip',
