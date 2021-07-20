@@ -158,7 +158,8 @@ ngOnInit() {
             console.log("tooltipItems", tooltipItems, "data", data);
             let tti = ('' + tooltipItems.yLabel).split(".");
             let min = tti[1] ? String(parseInt(tti[1]) * 6).substring(0,2) : '00';
-            return tooltipItems.xLabel + " ( " + tti[0] + ":" + min + " thousand. )";
+            return tooltipItems.xLabel + " ( " + tti[0] + " thousand. )";
+           // return tooltipItems.xLabel + " ( " + tti[0] + ":" + min + " thousand. )";
           }
         }
       },
@@ -168,10 +169,18 @@ ngOnInit() {
   chart5Clicked(event) {
     console.log('chart 5 event is: ', event);
     console.log('passingDataInsideChart5Modal :', this.challansMonthGraph[event[0]._index]._adminusers_id);
-    let xid = event[0]._datasetIndex + 1;
+    let xid = event[0]._index;
     //let xid = this.callsSupervisorUnLoadingTat[event[0]._index]._id;
-    let isFoId = this.challansMonthGraph[event[0]._index]._adminusers_id;
-    this.passingDataInsideChart5Modal(xid, isFoId);
+    let isFoId = this.challansMonthGraph[(event[0]._index + 1)]._monthyr;
+    let executives = _.groupBy(this.challansMonthGraph, '_monthyr');
+    let newdatasets = Object.keys(executives)
+      .map(period => {
+        return period;
+      });
+    console.log('DataSets:', newdatasets,xid, newdatasets[xid]);
+
+    console.log('trendata ',isFoId,xid,this.challansMonthGraph,executives);
+    this.passingDataInsideChart5Modal(xid, newdatasets[xid]);
   }
 
   passingDataInsideChart5Modal(id, isFoId) {
@@ -182,8 +191,8 @@ ngOnInit() {
       todate: this.common.dateFormatter(endDate),
       groupdays: 15,
       isadmin: true,
-      isfo: isFoId,
-      xid: id,
+      stepno:3,
+      xid: isFoId,
     };
     console.log('params :', params);
     this.getDetials('Tmgreport/GetMaintainanceworktrend', params)
@@ -253,7 +262,7 @@ ngOnInit() {
 
   getChallansdrivaramount(index) {
     this.challansdrivaramount = [];
-    let startDate = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 90));
     let endDate = new Date();
     let params = {
       totalrecord: 3,
