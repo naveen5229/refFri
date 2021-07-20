@@ -59,13 +59,13 @@
                 <!-- <div  class="col-1 route-container">
                 </div> -->
             <div class="col-1 route-container">
-                <div class="route-truck" *ngIf="isLastStop == i">
+                <div class="route-truck" *ngIf="data.isLastStop">
                     <img src="assets/icons/truck.svg" alt="truck">
                 </div>
-                <div class="route-line" [ngClass]="{'running' : ((data.status == '0' || data.status == 1) && (isLastStop==-1 || isLastStop > i)),'upcoming' : (data.status == '2' && (isLastStop!=-1 && isLastStop <= i)) }" style="top: 0"></div>
-                <div class="route-circle" [ngClass]="{'route-circle-red' : data.status == '0', 'route-circle-green' : data.status == '1','route-circle-blue': (data.status == '2' && isLastStop <= i), 'route-circle-gray': (data.status == '2' && (isLastStop==-1 || isLastStop > i)) }">
+                <div class="route-line" [ngClass]="{'running' : data.isLastStop == 'false','upcoming' : data.isLastStop == 'true' }" style="top: 0"></div>
+                <div class="route-circle" [ngClass]="{'route-circle-red' : data.status == 'delay', 'route-circle-green' : data.status == 'onTime','route-circle-blue': data.status == 'upcoming', 'route-circle-gray': data.status == 'dataMissing'}">
                 </div>
-                <div class="route-line" [ngClass]="{'running' : ((data.status == '0' || data.status == 1) && (isLastStop==-1 || isLastStop > i)),'upcoming' : (data.status == '2' && (isLastStop!=-1 && isLastStop <= i)) }">
+                <div class="route-line" [ngClass]="{'running' : data.isLastStop == 'false','upcoming' : data.isLastStop == 'true' }">
                 </div>
             </div>
             <div class="col-2" style="word-break: break-all;">
@@ -74,24 +74,24 @@
             </div>
             <div class="col-2">
                 <div>{{data.scheduled_arrival_time || '--'}}</div>
-                <div [ngClass]="data.delay!=null && data.delay==' 00:00'?'text-black':(data.delay !=null && data.delay.charAt(0) == '-'  ? 'text-green' :'text-red') ">
+                <div [ngClass]="{'text-red' : data.status == 'delay', 'text-green' : data.status == 'onTime','text-blue': data.status == 'upcoming', 'text-black': data.status == 'dataMissing'}">
                     {{data.actual_arrival_time?data.actual_arrival_time:'--'}}</div>
             </div>
 
             <div class="col-2">
                 <div>{{data.scheduled_departure_time || '--'}}</div>
-                <div [ngClass]="data.deptDelay!=null && data.deptDelay==' 00:00'?'text-black':(data.deptDelay !=null && data.deptDelay.charAt(0) == '-' ? 'text-green' :'text-red') ">
+                <div [ngClass]="{'text-red' : data.status == 'delay', 'text-green' : data.status == 'onTime','text-blue': data.status == 'upcoming', 'text-black': data.status == 'dataMissing'}">
                     {{data.departure_time ? data.departure_time : '--'}}</div>
             </div>
 
             <div class="col-2">
                 <div>{{data.scheduled_halt_time || '--'}}</div>
-                <div [ngClass]="data.scheduled_halt_time == data.actual_halt_time ?'text-black':(data.scheduled_halt_time > data.actual_halt_time  ? 'text-green' :'text-red') ">
+                <div [ngClass]="{'text-red' : data.status == 'delay', 'text-green' : data.status == 'onTime','text-blue': data.status == 'upcoming', 'text-black': data.status == 'dataMissing'}">
                     {{data.actual_halt_time || '--'}}</div>
             </div>
             <div class="col-1 rowLine ">
                 <div>{{data.scheduleTat || '--'}}</div>
-                <div [ngClass]="data.schedule_tat == data.actual_tat ?'text-black':(data.schedule_tat > data.actual_tat  ? 'text-green' :'text-red') ">{{data.actualTat || '--'}}</div>
+                <div [ngClass]="{'text-red' : data.status == 'delay', 'text-green' : data.status == 'onTime','text-blue': data.status == 'upcoming', 'text-black': data.status == 'dataMissing'}">{{data.actualTat || '--'}}</div>
 
             </div>
             <div class="col-1 rowLine" >

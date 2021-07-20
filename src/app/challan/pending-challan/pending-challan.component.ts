@@ -147,8 +147,13 @@ ngOnInit() {
       for (let key in this.generateHeadings(chHeadings)) {
         if (key == "Action") {
           column[key] = {
-            value: "", action: null, icons: [{ class: item._ch_doc_id ? 'far fa-file-alt' : 'far fa-file-alt text-color', action: this.paymentDocImage.bind(this, item._ch_doc_id) }, { class: item._payment_doc_id ? 'far fa-file-pdf' : 'far far fa-file-pdf text-color', action: this.paymentDocImage.bind(this, item['_payment_doc_id1']?item['_payment_doc_id1']:item['_payment_doc_id']) },
-            { class: item['Payment Type'] == 'Pending' && item._ch_doc_id && item._req_status == 0 && (!(item._payment_doc_id)) && (!(item.State.includes('PB') || item.State.includes('BR') || item.State.includes('UK')))? 'far fa-money-bill-alt' : '', action: this.challanPendingRequest.bind(this, item) },]
+            value: "", action: null, icons: [
+            { class: item._ch_doc_id ? 'far fa-file-alt' : 'far fa-file-alt text-color', action: this.paymentDocImage.bind(this, item._ch_doc_id) }, 
+            { class: item._payment_doc_id ? 'far fa-file-pdf' : 'far far fa-file-pdf text-color', action: this.paymentDocImage.bind(this, item['_payment_doc_id1']?item['_payment_doc_id1']:item['_payment_doc_id']) },
+            { class: item['Payment Type'] == 'Pending' && item._ch_doc_id && item._req_status == 0 && (!(item._payment_doc_id)) && (!(item.State.includes('PB') || item.State.includes('BR') || item.State.includes('UK')))? 'far fa-money-bill-alt' : '', action: this.challanPendingRequest.bind(this, item) },
+            {class: this.classList(item), action: ''}
+           
+          ]
           };
         } else if (key == "Challan Date") {
           column[key] = { value: item[key], class: 'black', action: '' };
@@ -159,6 +164,20 @@ ngOnInit() {
       columns.push(column);
     });
     return columns;
+  }
+
+  classList(item){
+    if(item['Payment Type'] == 'Pending' && (item.State.includes('PB') || item.State.includes('BR') || item.State.includes('UK'))){
+      return 'fas fa-times-circle'
+    } else{
+      if(item['_req_status'] == 1 && item['_payment_doc_id'] == null){
+        return 'fas fa-hourglass-end'
+      } else if(item['_req_status'] ==  3 && item['_payment_doc_id']){
+        return 'fas fa-check'
+      } else if(item['_req_status'] == -1 && item['_payment_doc_id'] == null){
+        return 'fas fa-backspace'
+      }
+    }
   }
 
   challanPendingRequest(challan) {

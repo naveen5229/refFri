@@ -65,7 +65,7 @@ export class RoutesTimetableComponent implements OnInit {
         this.common.loading--;
         console.log('response is: ', res)
         this.routesDetails = res['data'];
-        this.statusFinder();
+        // this.statusFinder();
       }, err => {
         this.common.loading--;
         console.log('err is: ', err)
@@ -87,7 +87,7 @@ export class RoutesTimetableComponent implements OnInit {
         this.common.loading--;
         console.log('getRoutesWrtFo:', res);
         this.routesDetails = res['data'];
-        this.statusFinder();
+        // this.statusFinder();
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -106,33 +106,33 @@ export class RoutesTimetableComponent implements OnInit {
         this.common.loading--;
         console.log('getRoutesWrtFo:', res);
         this.routesDetails = res['data'];
-        this.statusFinder();
+        // this.statusFinder();
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
 
-  statusFinder() {
-    this.routesDetails.map((route, index) => {
-      if (index == 0) {
-        route['status'] = '1';
-      } else if (route.delay) {
-        if (route.delay.charAt(0) == "-") {
-          route['status'] = '1';
-          this.isLastStop = -1;
-        } else {
-          route['status'] = '0';
-          this.isLastStop = -1;
-        }
-      } else {
-        route['status'] = '2';
-        if (this.routesDetails[index - 1].status == 0 || this.routesDetails[index - 1].status == 1) {
-          this.isLastStop = index;
-        }
-      }
-    });
-  }
+  // statusFinder() {
+  //   this.routesDetails.map((route, index) => {
+  //     if (index == 0) {
+  //       route['status'] = '1';
+  //     } else if (route.delay) {
+  //       if (route.delay.charAt(0) == "-") {
+  //         route['status'] = '1';
+  //         this.isLastStop = -1;
+  //       } else {
+  //         route['status'] = '0';
+  //         this.isLastStop = -1;
+  //       }
+  //     } else {
+  //       route['status'] = '2';
+  //       if (this.routesDetails[index - 1].status == 0 || this.routesDetails[index - 1].status == 1) {
+  //         this.isLastStop = index;
+  //       }
+  //     }
+  //   });
+  // }
 
   closeModal() {
     this.activeModal.close();
