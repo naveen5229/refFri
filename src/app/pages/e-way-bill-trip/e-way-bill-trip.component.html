@@ -1,0 +1,56 @@
+<nb-card style=" margin:0px; padding-top: 0px; border: 0px; height: 100%;">
+    <nb-card-header>
+        <div class="row">
+            <div class="col-6">
+                <h6>E-Way-Bill</h6>
+            </div>
+        </div>
+
+    </nb-card-header>
+    <nb-card-body>
+        <div class="row">
+
+            <div class="col-6">
+                <canvas id="Graph"></canvas>
+            </div>
+
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-5 cardStyle" *ngFor="let card of dashboardData.cards;let i = index"
+                        (click)="openDrillDown(card.data,common.formatTitle(card.title))">
+                        <div class="row h-100 p-2">
+                        <div class="col-8 heading" [ngStyle]="{'border-right':'7px solid' + colors[i]}">
+                           <span> {{card.title}}</span>
+                        </div>
+                        <div class="col-4 count">
+                            <h3>{{card.count}}</h3>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </nb-card-body>
+
+    <!-- start: drill Down -->
+    <div class="modal" id="drillDown" #drillDown>
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title">{{table.heading}}</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                        (click)="cloaseDrillDown()">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="row">
+                        <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- drill Down -->
+</nb-card>
