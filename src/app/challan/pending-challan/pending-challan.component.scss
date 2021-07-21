@@ -160,7 +160,7 @@
     position: relative;
     padding-top: 11px;
     height: 29px;
-    // margin-right: 5px;
+    margin-left: 3px;
   }
   
   :host ::ng-deep td i.fa-money-bill-alt:hover span {
@@ -511,3 +511,5 @@
   :host ::ng-deep .fa-backspace:hover span {
     display: block;
   }
+
+  .cls-hide { display: none !important;}

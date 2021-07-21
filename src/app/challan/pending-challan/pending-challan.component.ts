@@ -25,7 +25,7 @@ export class PendingChallanComponent implements OnInit {
   challan = [];
   paidAmount = '';
   pendingAmount = '';
-  totalAmount='';
+  totalAmount = '';
   table = {
     data: {
       headings: {},
@@ -36,6 +36,9 @@ export class PendingChallanComponent implements OnInit {
     }
   };
   pdfUrl = '';
+  newChallanList: any = [];
+  changedData: boolean = false;
+  newChallan:any = [];
 
   constructor(public common: CommonService,
     private pdfService: PdfService,
@@ -47,8 +50,8 @@ export class PendingChallanComponent implements OnInit {
 
   }
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() { }
+  ngOnInit() {
   }
 
 
@@ -74,38 +77,9 @@ ngOnInit() {
             this.common.showError("Data Not Found");
             return;
           }
-          this.challan = res['data'];
-          console.log("ChallanData:",this.challan);
-          // this.pendingChallan = 0;
-          // this.paidChallan = 0;
-
-          const pending = this.challan.filter(item => item['Payment Type'] === 'Pending')
-                        .reduce((pending, current) => pending + current.Amount, 0);
-                        // this.pendingChallan=numberWithCommas(pending);
-                        var pen=Number(pending).toLocaleString('en-GB')
-                        this.pendingAmount=pen;
-
-
-          const cash = this.challan.filter(item => item['Payment Type'] === 'Cash')
-          .reduce((cash, current) => cash + current.Amount, 0);
-          var cashamt=Number(cash).toLocaleString('en-GB')
-          this.paidAmount=cashamt;
-
-          const total=pending+cash;
-          var totl=Number(total).toLocaleString('en-GB');
-          this.totalAmount=totl;
-
-
+          this.newChallan = res['data'];
           
-
-                        
-          // for (let i = 0; i < this.challan.length; i++) {
-          //   if (this.challan[i]['Payment Type'] == 'Cash')
-          //     this.paidChallan++;
-          //   else
-          //     this.pendingChallan++;
-          // }
-          this.setTable();
+          this.getData(res['data'], true);
         },
           err => {
             this.common.loading--;
@@ -113,6 +87,31 @@ ngOnInit() {
           });
     }
 
+  }
+
+  getData(res, status) {
+    console.log('res is: ', res);
+    
+    this.challan = res;
+    console.log("ChallanData:", this.challan);
+    if (status == true) {
+      const pending = this.challan.filter(item => item['Payment Type'] === 'Pending')
+        .reduce((pending, current) => pending + current.Amount, 0);
+      var pen = Number(pending).toLocaleString('en-GB')
+      this.pendingAmount = pen;
+
+
+      const cash = this.challan.filter(item => item['Payment Type'] === 'Cash')
+        .reduce((cash, current) => cash + current.Amount, 0);
+      var cashamt = Number(cash).toLocaleString('en-GB')
+      this.paidAmount = cashamt;
+
+      const total = pending + cash;
+      var totl = Number(total).toLocaleString('en-GB');
+      this.totalAmount = totl;
+    }
+
+    this.setTable();
   }
 
   setTable() {
@@ -148,12 +147,12 @@ ngOnInit() {
         if (key == "Action") {
           column[key] = {
             value: "", action: null, icons: [
-            { class: item._ch_doc_id ? 'far fa-file-alt' : 'far fa-file-alt text-color', action: this.paymentDocImage.bind(this, item._ch_doc_id) }, 
-            { class: item._payment_doc_id ? 'far fa-file-pdf' : 'far far fa-file-pdf text-color', action: this.paymentDocImage.bind(this, item['_payment_doc_id1']?item['_payment_doc_id1']:item['_payment_doc_id']) },
-            { class: item['Payment Type'] == 'Pending' && item._ch_doc_id && item._req_status == 0 && (!(item._payment_doc_id)) && (!(item.State.includes('PB') || item.State.includes('BR') || item.State.includes('UK')))? 'far fa-money-bill-alt' : '', action: this.challanPendingRequest.bind(this, item) },
-            {class: this.classList(item), action: ''}
-           
-          ]
+              { class: item._ch_doc_id ? 'far fa-file-alt' : 'far fa-file-alt text-color', action: this.paymentDocImage.bind(this, item._ch_doc_id) },
+              { class: item._payment_doc_id ? 'far fa-file-pdf' : 'far far fa-file-pdf text-color', action: this.paymentDocImage.bind(this, item['_payment_doc_id1'] ? item['_payment_doc_id1'] : item['_payment_doc_id']) },
+              { class: item['Payment Type'] == 'Pending' && item._ch_doc_id && item._req_status == 0 && (!(item._payment_doc_id)) && (!(item.State.includes('PB') || item.State.includes('BR') || item.State.includes('UK'))) ? 'far fa-money-bill-alt' : '', action: this.challanPendingRequest.bind(this, item) },
+              { class: this.classList(item), action: '' }
+
+            ]
           };
         } else if (key == "Challan Date") {
           column[key] = { value: item[key], class: 'black', action: '' };
@@ -166,29 +165,53 @@ ngOnInit() {
     return columns;
   }
 
-  classList(item){
-    if(item['Payment Type'] == 'Pending' && (item.State.includes('PB') || item.State.includes('BR') || item.State.includes('UK'))){
+  classList(item) {
+    if (item['Payment Type'] == 'Pending' && (item.State.includes('PB') || item.State.includes('BR') || item.State.includes('UK'))) {
       return 'fas fa-times-circle'
-    } else{
-      if(item['_req_status'] == 1 && item['_payment_doc_id'] == null){
+    } else {
+      if (item['_req_status'] == 1 && item['_payment_doc_id'] == null) {
         return 'fas fa-hourglass-end'
-      } else if(item['_req_status'] ==  3 && item['_payment_doc_id']){
+      } else if (item['_req_status'] == 3 && item['_payment_doc_id']) {
         return 'fas fa-check'
-      } else if(item['_req_status'] == -1 && item['_payment_doc_id'] == null){
+      } else if (item['_req_status'] == -1 && item['_payment_doc_id'] == null) {
         return 'fas fa-backspace'
       }
     }
   }
 
-  filterRows(event){
-    let tblelt = document.getElementById('tbldocs');
-    var rows = tblelt.querySelectorAll('tr');
+  filterRows(value) {
+    this.newChallanList = [];
+    console.log('value is: ', value);
+    this.newChallan.forEach(item => {
+      if(value == 1){
+        if (item['Payment Type'] == 'Pending' && (item.State.includes('PB') || item.State.includes('BR') || item.State.includes('UK'))){
+          this.newChallanList.push(item);
+        }
+      } else if(value == 2){
+        if(item['Payment Type'] == 'Pending' && item._ch_doc_id && item._req_status == 0 && (!(item._payment_doc_id)) && (!(item.State.includes('PB') || item.State.includes('BR') || item.State.includes('UK')))){
+          this.newChallanList.push(item);
+        }
 
-    console.log('tblelt is: ', tblelt);
-    console.log('rows is: ', rows)
+      } else if(value == 3){
+        if (item['_req_status'] == 1 && item['_payment_doc_id'] == null) {
+          this.newChallanList.push(item);
+        }
+      }else if(value == 4){
+        if(item['_req_status'] == 3 && item['_payment_doc_id']){
+          this.newChallanList.push(item);
+        }
+      } else if(value == 5){
+        if(item['_req_status'] == -1 && item['_payment_doc_id'] == null){
+        }
+      } else if(value == 6){
+        this.newChallanList.push(item);
+      }
+    })
+    this.getData(this.newChallanList, false);
   }
 
-  showAllRecords(event){
+
+  showAllRecords(event) {
     console.log('show all event is: ', event)
   }
 
@@ -249,68 +272,68 @@ ngOnInit() {
   }
 
 
-  lastchecked(){
-      let dataparams = {
-        view: {
-          api: 'Challans/getPendingLastCheckedReport',
-          param: {}
-        },
-        
-        title: 'Last Checked Report '
-      }
-      this.common.handleModalSize('class', 'modal-lg', '1100');
-      this.common.params = { data: dataparams };
-      const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    }
+  lastchecked() {
+    let dataparams = {
+      view: {
+        api: 'Challans/getPendingLastCheckedReport',
+        param: {}
+      },
 
-    printPDF(){
-      let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
-      console.log("Name:",name);
-      let details = [
-        ['Name: ' + name,'Start Date: '+this.common.dateFormatter1(this.startDate),'End Date: '+this.common.dateFormatter1(this.endDate),  'Report: '+'Challan']
-      ];
-      this.pdfService.jrxTablesPDF(['pendingChallan'], 'challan', details);
+      title: 'Last Checked Report '
     }
-  
-    // printCSV(tblEltId){
-    //   let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
-    //   let details = [
-    //     { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter1(this.startDate),enddate:'End Date:'+this.common.dateFormatter1(this.endDate), report:"Report:Challan"}
-    //   ];
-    //   this.csvService.byMultiIds(['pendingChallan'], 'challan', details);
-    //   this.common.getCSVFromTableId(tblEltId, details, '', '', '');
-    // }
+    this.common.handleModalSize('class', 'modal-lg', '1100');
+    this.common.params = { data: dataparams };
+    const activeModal = this.modalService.open(GenericModelComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
 
-    generateExcel() {
-      
-      let startDate= this.common.dateFormatter1(this.startDate);
-      let endDate=   this.common.dateFormatter1(this.endDate);
-      let foName =   this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
-      let headerDetails=[];
-      headerDetails=[
-        {sDate:startDate},
-        {eDate:endDate},
-        {name:foName}
-      ]
-      let headersArray = ["RegNo", "Challan Date", "Challan No", "Dl Rc No", "Payment", "Payment Source", "State", "Payment Type","Amount","Transaction Id","Violator Name","Driver"];
-      let json = this.challan.map(challan => {
-        return {
-          "RegNo": challan['Regno'],
-          "Challan Date":challan['Challan Date'],
-          "Challan No": challan['Challan No'],
-          "Dl Rc No": challan['Dl Rc No'],
-          "Payment": challan['Payment'],
-          "Payment Source": challan['Payment Source'],
-          "State": challan['State'],
-          "Payment Type": challan['Payment Type'],
-          "Amount": challan['Amount'],
-          "Transaction Id":challan['Transaction Id'],
-          "Violator Name":challan['Violator Name'],
-          "Driver":challan['Driver'],
-        };
-      });
-  
-      this.excelService.jrxExcel("Pending Challan",headerDetails,headersArray, json, 'Pending Challan', false);
-    }
+  printPDF() {
+    let name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:", name);
+    let details = [
+      ['Name: ' + name, 'Start Date: ' + this.common.dateFormatter1(this.startDate), 'End Date: ' + this.common.dateFormatter1(this.endDate), 'Report: ' + 'Challan']
+    ];
+    this.pdfService.jrxTablesPDF(['pendingChallan'], 'challan', details);
+  }
+
+  // printCSV(tblEltId){
+  //   let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+  //   let details = [
+  //     { name: 'Name:' + name,startdate:'Start Date:'+this.common.dateFormatter1(this.startDate),enddate:'End Date:'+this.common.dateFormatter1(this.endDate), report:"Report:Challan"}
+  //   ];
+  //   this.csvService.byMultiIds(['pendingChallan'], 'challan', details);
+  //   this.common.getCSVFromTableId(tblEltId, details, '', '', '');
+  // }
+
+  generateExcel() {
+
+    let startDate = this.common.dateFormatter1(this.startDate);
+    let endDate = this.common.dateFormatter1(this.endDate);
+    let foName = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.name;
+    let headerDetails = [];
+    headerDetails = [
+      { sDate: startDate },
+      { eDate: endDate },
+      { name: foName }
+    ]
+    let headersArray = ["RegNo", "Challan Date", "Challan No", "Dl Rc No", "Payment", "Payment Source", "State", "Payment Type", "Amount", "Transaction Id", "Violator Name", "Driver"];
+    let json = this.challan.map(challan => {
+      return {
+        "RegNo": challan['Regno'],
+        "Challan Date": challan['Challan Date'],
+        "Challan No": challan['Challan No'],
+        "Dl Rc No": challan['Dl Rc No'],
+        "Payment": challan['Payment'],
+        "Payment Source": challan['Payment Source'],
+        "State": challan['State'],
+        "Payment Type": challan['Payment Type'],
+        "Amount": challan['Amount'],
+        "Transaction Id": challan['Transaction Id'],
+        "Violator Name": challan['Violator Name'],
+        "Driver": challan['Driver'],
+      };
+    });
+
+    this.excelService.jrxExcel("Pending Challan", headerDetails, headersArray, json, 'Pending Challan', false);
+  }
 
 }
