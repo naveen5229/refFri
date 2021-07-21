@@ -174,7 +174,7 @@ export class PendingChallanComponent implements OnInit {
       } else if (item['_req_status'] == 3 && item['_payment_doc_id']) {
         return 'fas fa-check'
       } else if (item['_req_status'] == -1 && item['_payment_doc_id'] == null) {
-        return 'fas fa-backspace'
+        return 'fas fa-times'
       }
     }
   }
