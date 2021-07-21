@@ -1,89 +1,133 @@
 .fa-edit {
-    color: blue;
+  color: blue;
+}
+
+.pdf-iconnew {
+  font-size: 20px;
+  color: #9F0001;
+}
+
+.exel-iconnew {
+  font-size: 20px;
+  color: #217346;
+}
+
+:host ::ng-deep td i.fa-file-alt {
+  background-color: #04a9f5;
+  color: #fff;
+  padding: 5px;
+  border-radius: 3px;
+  position: relative;
+  padding-top: 11px;
+  height: 29px;
+  // margin-right: 5px;
+}
+
+:host ::ng-deep td i.fa-file-alt:hover span {
+  display: block;
+}
+
+:host ::ng-deep td i.fa-file-alt span {
+  position: absolute;
+  display: none;
+  padding: 11px 57px;
+  left: -44px;
+  top: -28px;
+  font-family: Roboto;
+  z-index: 999;
+}
+
+:host ::ng-deep td i.fa-file-alt span::before {
+  content: "Challan";
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: #04a9f5;
+  border-radius: 3px;
+  padding: 5px 10px;
+}
+
+:host ::ng-deep td i.fa-file-alt span::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #04a9f5;
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+:host ::ng-deep .fa-file-alt:hover span {
+  display: block;
+}
+
+:host ::ng-deep td i.fa-file-pdf {
+  background-color: red;
+  color: #fff;
+  padding: 5px;
+  border-radius: 3px;
+  position: relative;
+}
+
+:host ::ng-deep td i.fa-file-pdf span {
+  position: absolute;
+  display: none;
+  padding: 11px 70px;
+  left: -59px;
+  top: -28px;
+  font-family: Roboto;
+  z-index: 999;
+}
+
+:host ::ng-deep td i.fa-file-pdf span::before {
+  content: "Payment Receipt";
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: red;
+  border-radius: 3px;
+  padding: 5px 10px;
+}
+
+:host ::ng-deep td i.fa-file-pdf span::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid red;
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+:host ::ng-deep .fa-file-pdf {
+  color: red;
+  font-size: 24px;
+  margin-left: 6px;
+
+  span {
+    position: absolute;
+    display: none;
+    padding: 10px 33px;
+    font-weight: normal;
+    font-size: 11px;
+    left: -22px;
+    top: -28px;
+    -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 9999;
   }
 
-  .pdf-iconnew{
-    font-size: 20px;
-    color: #9F0001;
-  }
-  .exel-iconnew{
-    font-size: 20px;
-    color: #217346;
-  }
-  
-  :host ::ng-deep td i.fa-file-alt {
-    background-color: #04a9f5;
-    color: #fff;
-    padding: 5px;
-    border-radius: 3px;
-    position: relative;
-    padding-top: 11px;
-    height: 29px;
-    // margin-right: 5px;
-  }
-  
-  :host ::ng-deep td i.fa-file-alt:hover span {
-    display: block;
-  }
-  
-  :host ::ng-deep td i.fa-file-alt span {
-    position: absolute;
-    display: none;
-    padding: 11px 57px;
-    left: -44px;
-    top: -28px;
-    font-family: Roboto;
-    z-index: 999;
-  }
-  
-  :host ::ng-deep td i.fa-file-alt span::before {
-    content: "Challan";
-    display: block;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    background-color: #04a9f5;
-    border-radius: 3px;
-    padding: 5px 10px;
-  }
-  
-  :host ::ng-deep td i.fa-file-alt span::after {
-    content: "";
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid #04a9f5;
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translate(-50%);
-  }
-  
-  :host ::ng-deep .fa-file-alt:hover span {
-    display: block;
-  }
-  
-  :host ::ng-deep td i.fa-file-pdf {
-    background-color: red;
-    color: #fff;
-    padding: 5px;
-    border-radius: 3px;
-    position: relative;
-  }
-  
-  :host ::ng-deep td i.fa-file-pdf span {
-    position: absolute;
-    display: none;
-    padding: 11px 70px;
-    left: -59px;
-    top: -28px;
-    font-family: Roboto;
-    z-index: 999;
-  }
-  
-  :host ::ng-deep td i.fa-file-pdf span::before {
-    content: "Payment Receipt";
+  span::before {
+    content: "Delete";
     display: block;
     position: absolute;
     top: 0px;
@@ -91,411 +135,11 @@
     background-color: red;
     border-radius: 3px;
     padding: 5px 10px;
-  }
-  
-  :host ::ng-deep td i.fa-file-pdf span::after {
-    content: "";
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid red;
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translate(-50%);
-  }
-  
-  :host ::ng-deep .fa-file-pdf {
-    color: red;
-    font-size: 24px;
-    margin-left: 6px;
-    span {
-      position: absolute;
-      display: none;
-      padding: 10px 33px;
-      font-weight: normal;
-      font-size: 11px;
-      left: -22px;
-      top: -28px;
-      -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
-      box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
-      font-family: Roboto;
-      z-index: 9999;
-    }
-    span::before {
-      content: "Delete";
-      display: block;
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      background-color: red;
-      border-radius: 3px;
-      padding: 5px 10px;
-      color: #fff;
-      width: 100%;
-    }
-    span::after {
-      content: "";
-      width: 0;
-      height: 0;
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-top: 5px solid red;
-      position: absolute;
-      bottom: -5px;
-      right: 24px;
-    }
-  }
-  
-  :host ::ng-deep .fa-file-pdf:hover span {
-    display: block;
-  }
-  
-  :host ::ng-deep td i.fa-money-bill-alt {
-    background-color: #04a9f5;
     color: #fff;
-    padding: 5px;
-    border-radius: 3px;
-    position: relative;
-    padding-top: 11px;
-    height: 29px;
-    // margin-right: 5px;
-  }
-  
-  :host ::ng-deep td i.fa-money-bill-alt:hover span {
-    display: block;
-  }
-  
-  :host ::ng-deep td i.fa-money-bill-alt span {
-    position: absolute;
-    display: none;
-    padding: 11px 57px;
-    left: -44px;
-    top: -28px;
-    font-family: Roboto;
-    z-index: 999;
-  }
-  
-  :host ::ng-deep td i.fa-money-bill-alt span::before {
-    content: "challan Payment";
-    display: block;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    background-color: #04a9f5;
-    border-radius: 3px;
-    padding: 5px 10px;
-  }
-  
-  :host ::ng-deep td i.fa-money-bill-alt span::after {
-    content: "";
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid #04a9f5;
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translate(-50%);
-  }
-  
-  :host ::ng-deep .fa-money-bill-alt:hover span {
-    display: block;
-  }
-  
-  :host ::ng-deep.fa-file-alt.text-color {
-    // background: lightblue !important;
-    // color: #fff !important;
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
-  
-  :host ::ng-deep.fa-file-pdf.text-color {
-    // background: lightcoral !important;
-    // color: #fff !important;
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
-  
-  :host ::ng-deep.fa-money-bill-alt.text-color {
-    // background: lightcoral !important;
-    // color: #fff !important;
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
-  
-  table {
-    border-collapse: collapse;
     width: 100%;
   }
-  
-  th {
-    //background-color: black;
-    border: 1px solid #dddddd;
-    text-align: center;
-    padding: 8px;
-    color: #fff;
-  }
-  
-  td {
-    border: 1px solid #dddddd;
-    text-align: center;
-    padding: 8px;
-    color: #000;
-  }
-  
-  // .solid {
-  //   border: 2px solid black;
-  //   text-align: center;
-  // }
-  // .solid > span {
-  //   font-size: 20px;
-  // }
 
-  .boxStyle{
-    height: 120px;
-    box-shadow: 0px 0px 4px 2px lightgrey;
-    margin-bottom: 20px;
-    border-radius: 10px;
-  }
-
-  .heading{
-    // padding:7px;
-    // text-align:center;
-    padding-left:10px;
-    font-size:22px;
-    font-weight:500;
-  }
-
-  .data1{
-    text-align:center;
-    font-size:46px;
-    color:red;
-    padding-top: 14px;
-    font-family: sans-serif;
-  }
-
-  .data{
-    text-align:center;
-    font-size:46px;
-    color:blue;
-    padding-top: 14px;
-    font-family: sans-serif;
-  }
-
-  .data2{
-    text-align:center;
-    font-size:46px;
-    color:green;
-    padding-top: 14px;
-    font-family: sans-serif;
-  }
-
-  // for fa-times-circle
-  :host ::ng-deep td i.fa-times-circle {
-    background-color: black;
-    color: #fff;
-    padding: 5px;
-    border-radius: 3px;
-    position: relative;
-    padding-top: 11px;
-    height: 29px;
-    margin-left: 5px;
-  }
-  
-  :host ::ng-deep td i.fa-times-circle:hover span {
-    display: block;
-  }
-  
-  :host ::ng-deep td i.fa-times-circle span {
-    position: absolute;
-    display: none;
-    padding: 11px 57px;
-    left: -44px;
-    top: -28px;
-    font-family: Roboto;
-    z-index: 999;
-  }
-  
-  :host ::ng-deep td i.fa-times-circle span::before {
-    content: "Not accepting Online Payment";
-    display: block;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    background-color: black;
-    border-radius: 3px;
-    padding: 5px 10px;
-  }
-  
-  :host ::ng-deep td i.fa-times-circle span::after {
-    content: "";
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid black;
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translate(-50%);
-  }
-  
-  :host ::ng-deep .fa-times-circle:hover span {
-    display: block;
-  }
-
-  // fa-hourglass-end
-  :host ::ng-deep td i.fa-hourglass-end {
-    background-color: #FD7E14;
-    color: #fff;
-    padding: 5px;
-    border-radius: 3px;
-    position: relative;
-    padding-top: 11px;
-    height: 29px;
-    margin-left: 5px;
-  }
-  
-  :host ::ng-deep td i.fa-hourglass-end:hover span {
-    display: block;
-  }
-  
-  :host ::ng-deep td i.fa-hourglass-end span {
-    position: absolute;
-    display: none;
-    padding: 11px 57px;
-    left: -44px;
-    top: -28px;
-    font-family: Roboto;
-    z-index: 999;
-  }
-  
-  :host ::ng-deep td i.fa-hourglass-end span::before {
-    content: "Payment under Processing";
-    display: block;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    background-color: #FD7E14;
-    border-radius: 3px;
-    padding: 5px 10px;
-  }
-  
-  :host ::ng-deep td i.fa-hourglass-end span::after {
-    content: "";
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid #FD7E14;
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translate(-50%);
-  }
-  
-  :host ::ng-deep .fa-hourglass-end:hover span {
-    display: block;
-  }
-
-
-  // fa-check-circle
-  :host ::ng-deep td i.fa-check {
-    background-color: green;
-    color: #fff;
-    padding: 5px;
-    border-radius: 3px;
-    position: relative;
-    padding-top: 11px;
-    height: 29px;
-    margin-left: 5px;
-  }
-  
-  :host ::ng-deep td i.fa-check:hover span {
-    display: block;
-  }
-  
-  :host ::ng-deep td i.fa-check span {
-    position: absolute;
-    display: none;
-    padding: 11px 57px;
-    left: -44px;
-    top: -28px;
-    font-family: Roboto;
-    z-index: 999;
-  }
-  
-  :host ::ng-deep td i.fa-check span::before {
-    content: "Payment Done";
-    display: block;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    background-color: #217346;
-    border-radius: 3px;
-    padding: 5px 10px;
-  }
-  
-  :host ::ng-deep td i.fa-check span::after {
-    content: "";
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid #217346;
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translate(-50%);
-  }
-  
-  :host ::ng-deep .fa-check:hover span {
-    display: block;
-  }
-
-  // fa-redo-alt
-
-    :host ::ng-deep td i.fa-backspace {
-    background-color: red;
-    width: 25px;
-    color: white;
-    padding: 5px;
-    border-radius: 3px;
-    position: relative;
-    padding-top: 11px;
-    height: 29px;
-    margin-left: 3px;
-  }
-  
-  // :host ::ng-deep td i.fa-backspace {
-  //   display: block;
-  // }
-  
-  :host ::ng-deep td i.fa-backspace span {
-    position: absolute;
-    display: none;
-    padding: 11px 57px;
-    left: -44px;
-    top: -28px;
-    font-family: Roboto;
-    z-index: 999;
-  }
-  
-  :host ::ng-deep td i.fa-backspace span::before {
-    content: "Payment under Processing";
-    display: block;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    background-color: red;
-    border-radius: 3px;
-    padding: 5px 10px;
-  }
-  
-  :host ::ng-deep td i.fa-backspace span::after {
+  span::after {
     content: "";
     width: 0;
     height: 0;
@@ -504,10 +148,424 @@
     border-top: 5px solid red;
     position: absolute;
     bottom: -5px;
-    left: 50%;
-    transform: translate(-50%);
+    right: 24px;
   }
-  
-  :host ::ng-deep .fa-backspace:hover span {
-    display: block;
-  }
+}
+
+:host ::ng-deep .fa-file-pdf:hover span {
+  display: block;
+}
+
+:host ::ng-deep td i.fa-money-bill-alt {
+  background-color: #04a9f5;
+  color: #fff;
+  padding: 5px;
+  border-radius: 3px;
+  position: relative;
+  padding-top: 11px;
+  height: 29px;
+  margin-left: 3px;
+}
+
+:host ::ng-deep td i.fa-money-bill-alt:hover span {
+  display: block;
+}
+
+:host ::ng-deep td i.fa-money-bill-alt span {
+  position: absolute;
+  display: none;
+  padding: 11px 57px;
+  left: -44px;
+  top: -28px;
+  font-family: Roboto;
+  z-index: 999;
+}
+
+:host ::ng-deep td i.fa-money-bill-alt span::before {
+  content: "Pay Now";
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: #04a9f5;
+  border-radius: 3px;
+  padding: 5px 10px;
+}
+
+:host ::ng-deep td i.fa-money-bill-alt span::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #04a9f5;
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+:host ::ng-deep .fa-money-bill-alt:hover span {
+  display: block;
+}
+
+:host ::ng-deep.fa-file-alt.text-color {
+  // background: lightblue !important;
+  // color: #fff !important;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+:host ::ng-deep.fa-file-pdf.text-color {
+  // background: lightcoral !important;
+  // color: #fff !important;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+:host ::ng-deep.fa-money-bill-alt.text-color {
+  // background: lightcoral !important;
+  // color: #fff !important;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th {
+  //background-color: black;
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+  color: #fff;
+}
+
+td {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+  color: #000;
+}
+
+// .solid {
+//   border: 2px solid black;
+//   text-align: center;
+// }
+// .solid > span {
+//   font-size: 20px;
+// }
+
+.boxStyle {
+  height: 80px;
+  box-shadow: 0px 0px 4px 2px lightgrey;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+
+.heading {
+  // padding:7px;
+  // text-align:center;
+  padding-left: 10px;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.data1 {
+  text-align: center;
+  font-size: 46px;
+  color: red;
+  padding-top: 14px;
+  font-family: sans-serif;
+}
+
+.data {
+  text-align: center;
+  font-size: 46px;
+  color: blue;
+  padding-top: 14px;
+  font-family: sans-serif;
+}
+
+.data2 {
+  text-align: center;
+  font-size: 46px;
+  color: green;
+  padding-top: 14px;
+  font-family: sans-serif;
+}
+
+// for fa-times-circle
+:host ::ng-deep td i.fa-times-circle {
+  // background-color: black;
+  color: black;
+  // padding: 5px;
+  border-radius: 3px;
+  position: relative;
+  // padding-top: 11px;
+  height: 29px;
+  margin-left: 5px;
+  font-size: 15px;
+}
+
+:host ::ng-deep td i.fa-times-circle:hover span {
+  display: block;
+}
+
+:host ::ng-deep td i.fa-times-circle span {
+  position: absolute;
+  display: none;
+  padding: 11px 57px;
+  left: -44px;
+  top: -28px;
+  font-family: Roboto;
+  z-index: 999;
+}
+
+:host ::ng-deep td i.fa-times-circle span::before {
+  content: "Not accepting Online Payment";
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: black;
+  border-radius: 3px;
+  color: white;
+  padding: 5px 10px;
+  font-size: 10px;
+}
+
+:host ::ng-deep td i.fa-times-circle span::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid black;
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+:host ::ng-deep .fa-times-circle:hover span {
+  display: block;
+}
+
+// fa-hourglass-end
+:host ::ng-deep td i.fa-hourglass-end {
+  background-color: #FD7E14;
+  color: #fff;
+  padding: 5px;
+  border-radius: 3px;
+  position: relative;
+  padding-top: 11px;
+  height: 29px;
+  margin-left: 5px;
+}
+
+:host ::ng-deep td i.fa-hourglass-end:hover span {
+  display: block;
+}
+
+:host ::ng-deep td i.fa-hourglass-end span {
+  position: absolute;
+  display: none;
+  padding: 11px 57px;
+  left: -44px;
+  top: -28px;
+  font-family: Roboto;
+  z-index: 999;
+}
+
+:host ::ng-deep td i.fa-hourglass-end span::before {
+  content: "Payment under Processing";
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: #FD7E14;
+  border-radius: 3px;
+  padding: 5px 10px;
+}
+
+:host ::ng-deep td i.fa-hourglass-end span::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #FD7E14;
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+:host ::ng-deep .fa-hourglass-end:hover span {
+  display: block;
+}
+
+
+// fa-check-circle
+:host ::ng-deep td i.fa-check {
+  color: green;
+  // padding: 5px;
+  border-radius: 3px;
+  position: relative;
+  // padding-top: 11px;
+  height: 29px;
+  margin-left: 5px;
+  font-size: 15px;
+}
+
+:host ::ng-deep td i.fa-check:hover span {
+  display: block;
+}
+
+:host ::ng-deep td i.fa-check span {
+  position: absolute;
+  display: none;
+  padding: 11px 57px;
+  left: -44px;
+  top: -28px;
+  font-family: Roboto;
+  z-index: 999;
+}
+
+:host ::ng-deep td i.fa-check span::before {
+  content: "Payment Done";
+  font-size: 10px;
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: #217346;
+  border-radius: 3px;
+  padding: 5px 10px;
+  color: white;
+}
+
+:host ::ng-deep td i.fa-check span::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #217346;
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+:host ::ng-deep .fa-check:hover span {
+  display: block;
+}
+
+// fa-redo-alt
+
+:host ::ng-deep td i.fa-times {
+  // background-color: red;
+  width: 25px;
+  color: red;
+  // padding: 5px;
+  border-radius: 3px;
+  position: relative;
+  // padding-top: 11px;
+  font-size: 15px;
+  height: 29px;
+  margin-left: 3px;
+}
+
+// :host ::ng-deep td i.fa-backspace {
+//   display: block;
+// }
+
+:host ::ng-deep td i.fa-times span {
+  position: absolute;
+  display: none;
+  padding: 11px 57px;
+  left: -44px;
+  top: -28px;
+  font-family: Roboto;
+  z-index: 999;
+}
+
+:host ::ng-deep td i.fa-times span::before {
+  content: "Payment Request Rejected";
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: red;
+  border-radius: 3px;
+  padding: 5px 10px;
+  font-size: 10px;
+  color: white;
+}
+
+:host ::ng-deep td i.fa-times span::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid red;
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+:host ::ng-deep .fa-times:hover span {
+  display: block;
+}
+
+.cls-hide {
+  display: none !important;
+}
+
+.document-heading_box tr td {
+  padding: 0px !important;
+  display: flex;
+}
+
+.document-heading_box tr td>span {
+  align-items: center;
+  display: flex;
+  position: relative;
+  padding: 8px;
+  width: 100%;
+  text-align: center;
+  border-right: 1px solid #cbcaca;
+  align-items: center;
+}
+
+.document-heading_box tr td>span i {
+  vertical-align: middle;
+  margin-right: 5px;
+  height: auto;
+}
+
+.document-heading_box tr td input {
+  position: absolute;
+  width: 100%;
+  height: 100% !important;
+  top: 0px;
+  margin: 0px;
+  left: 0px;
+  z-index: 99;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.document-heading_box tbody tr:hover {
+  background-color: transparent;
+}
+
+.document-heading_box tbody tr td:hover {
+  background-color: rgba(0, 0, 0, 0.075);
+}
