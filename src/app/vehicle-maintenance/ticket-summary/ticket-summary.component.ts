@@ -154,7 +154,7 @@ export class TicketSummaryComponent implements OnInit {
 
   addMaintenance(doc) {
     console.log("doc:", doc);
-    this.common.params = { title: 'Add Maintenance', vehicleId: doc['_vid'], regno: doc['Vehicle'], sId: doc['_partid'], modal: 'tktSummary' };
+    this.common.params = { title: 'Add Maintenance', vehicleId: doc['_vid'], regno: doc['Vehicle'],doc, sId: doc['_partid'], modal: 'tktSummary' };
     const activeModal = this.modalService.open(AddMaintenanceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {

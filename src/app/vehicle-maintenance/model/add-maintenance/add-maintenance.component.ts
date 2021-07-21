@@ -83,7 +83,7 @@ export class AddMaintenanceComponent implements OnInit {
           serviceCategory: this.common.params.row['_is_scheduled'] ? '1' : '2',
           scheduleServices: `${this.common.params.row['_is_companyservice']}`,
           lastServiceKm: this.common.params.row['Service Odometer'],
-          nextServiceDate: this.common.params.row['Target Service Date'],
+          nextServiceDate: new Date(this.common.params.row['Target Service Date']),
           nextServiceKm: this.common.params.row['Target Odometer'],
           serviceCenter: this.common.params.row['Service Centre'],
           serviceLocation: this.common.params.row['_service_location'],
@@ -101,12 +101,14 @@ export class AddMaintenanceComponent implements OnInit {
           }
         });
 
-        this.items = this.common.params.row['_items'] ? this.common.params.row['_items'] : [{name: null,quantity: null,amount: null},{name: null,quantity: null,amount: null}];
+        this.items = this.common.params.row['_items'] ? this.common.params.row['_items'] : [{ name: null, quantity: null, amount: null }, { name: null, quantity: null, amount: null }];
         this.isItem = (this.common.params.row['_items'] && this.common.params.row['_items'].length > 0) ? 1 : 0;
       }
     }, 1000);
 
     if (this.common.params.modal) {
+      this.serviceDetails.nextServiceDate = new Date(this.common.params.doc['Target Service Date']);
+      this.serviceDetails.nextServiceKm = this.common.params.doc['Target Odometer'];
       this.sId = this.common.params.sId;
       if (this.sId == "47") {
         this.serviceDetails.scheduleServices = "true"
@@ -196,8 +198,8 @@ export class AddMaintenanceComponent implements OnInit {
       serviceCategory: this.serviceDetails.serviceCategory,
       lastServiceDate: this.common.dateFormatter(this.serviceDetails.lastServiceDate),
       lastServiceKm: this.serviceDetails.lastServiceKm,
-      nextServiceDays: null,
-      nextServiceKm: null,
+      nextServiceDays: this.common.dateFormatter(this.serviceDetails.nextServiceDate),
+      nextServiceKm: this.serviceDetails.nextServiceKm,
       serviceCenter: this.serviceDetails.serviceCenter,
       serviceLocation: this.serviceDetails.serviceLocation,
       amount: this.serviceDetails.amount,
