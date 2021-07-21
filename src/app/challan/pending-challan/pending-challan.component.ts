@@ -180,6 +180,18 @@ ngOnInit() {
     }
   }
 
+  filterRows(event){
+    let tblelt = document.getElementById('tbldocs');
+    var rows = tblelt.querySelectorAll('tr');
+
+    console.log('tblelt is: ', tblelt);
+    console.log('rows is: ', rows)
+  }
+
+  showAllRecords(event){
+    console.log('show all event is: ', event)
+  }
+
   challanPendingRequest(challan) {
     this.common.params = {
       regNo: challan.Regno,

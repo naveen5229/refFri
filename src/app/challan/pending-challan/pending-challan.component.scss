@@ -255,7 +255,7 @@
   // }
 
   .boxStyle{
-    height: 120px;
+    height: 80px;
     box-shadow: 0px 0px 4px 2px lightgrey;
     margin-bottom: 20px;
     border-radius: 10px;
@@ -485,7 +485,7 @@
   }
   
   :host ::ng-deep td i.fa-backspace span::before {
-    content: "Payment under Processing";
+    content: "Payment Request Rejected";
     display: block;
     position: absolute;
     top: 0px;
