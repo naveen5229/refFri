@@ -98,7 +98,7 @@ export class EWayUpdateComponent implements OnInit {
         TransDocNumber: this.common.params.data.trans_doc_number,
         TransDocDate: this.common.params.data.trans_doc_date,
         TransportMode: null,
-        RemainingDistance: '',
+        RemainingDistance: this.common.params.data.distleft,
         TransitType: '',
         FromPincode: null,
         AddressLine1: '',
@@ -153,8 +153,9 @@ export class EWayUpdateComponent implements OnInit {
     this.api.post('Suggestion/GetCity', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res:', res['data']);
+        // console.log('Res:', res['data']);
         this.citydata = res['data'];
+        console.log('Res:', this.citydata);
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
