@@ -1,91 +1,91 @@
 <nb-card style="border: 0px; height: 100%;">
-    <nb-card-header class="toll-soft-recovery">
-        <div class="row">
-            <div class="col-sm-9">
-                <h5 class="col-sm-10">Pending Challan</h5>
-            </div>
-            <div class="col-sm-3" *ngIf="challan && challan.length">
-                <span style="display: block;">
-                    <span class="pdf-icon" title="PDF Export" (click)="printPDF();" style="cursor: pointer;"><i
-                        class="fa fa-file-pdf"></i></span>
-                    <span class="exel-icon" title="CSV Export" (click)="generateExcel()"
-                      style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
-                  </span>
-            </div>
-        </div>
-        
-        
+  <nb-card-header class="toll-soft-recovery">
+    <div class="row">
+      <div class="col-sm-9">
+        <h5 class="col-sm-10">Pending Challan</h5>
+      </div>
+      <div class="col-sm-3" *ngIf="challan && challan.length">
+        <span style="display: block;">
+          <span class="pdf-icon" title="PDF Export" (click)="printPDF();" style="cursor: pointer;"><i
+              class="fa fa-file-pdf"></i></span>
+          <span class="exel-icon" title="CSV Export" (click)="generateExcel()"
+            style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
+        </span>
+      </div>
+    </div>
 
-    </nb-card-header>
-    <nb-card-body>
-        <div class="Pending_challan">
-            <div class="row">
-                <div class="col-12">
-                    <div class="row mb-3">
-                        <div class="col-3">
-                            <div class="row row align-items-center">
-                                <div class="col-5 pl-0 pr-0">
-                                    <label>From Date :</label>
-                                </div>
-                                <div class="col-7 pl-0">
-                                    <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate"
-                                        [isTime]="false">
-                                    </uj-date-time-picker>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="row align-items-center">
-                                <div class="col-4 pr-0 pl-0">
-                                    <label>To Date :</label>
-                                </div>
-                                <div class="col-8">
-                                    <uj-date-time-picker (onChanged)="endDate=$event" [dateTimeValue]="endDate"
-                                        [isTime]="false" [isStart]="false">
-                                    </uj-date-time-picker>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2">
-                            <select [(ngModel)]="challanStatus" class="form-control"
-                                style=" border: 2px solid darkcyan; font-size: 13px; ">
-                                <option value="-1">All</option>
-                                <option value="0">Pending</option>
-                            </select>
-                        </div>
-                        <div class="col-4">
-                            <button type="button" class="btn btn-primary" (click)="getPendingChallans()">OK</button>
-                            <button type="button" class="btn btn-primary" (click)="lastchecked()" style="margin-left: 15px;">Last Check Report</button>
-                        
-                        </div>
-                        
-                    </div>
+
+
+  </nb-card-header>
+  <nb-card-body>
+    <div class="Pending_challan">
+      <div class="row">
+        <div class="col-12">
+          <div class="row mb-3">
+            <div class="col-3">
+              <div class="row row align-items-center">
+                <div class="col-5 pl-0 pr-0">
+                  <label>From Date :</label>
                 </div>
-            </div>
-        </div>
-        <div class="row" *ngIf="this.challan && this.challan.length">
-
-            <div class="col-4">
-                <div class="solid boxStyle">
-                    <div class="heading" style="color:blue;"> Total Amount</div>
-                    <div class="data"><span class="data" style="padding-right:5px;color:blue">₹</span>{{totalAmount}}</div>
-                    </div>
-            </div>
-
-            <div class="col-4">
-                <div class="solid boxStyle">
-                    <div class="heading" style="color:red"> Pending Amount</div>
-                        <div class="data1"><span class="data1" style="padding-right:5px;color:red">₹</span>{{pendingAmount }}</div> 
-                     </div>
-            </div>
-            <div class="col-4">
-                <div class="solid boxStyle">
-                    <div class="heading" style="color:green;"> Paid Amount</div>
-                     <div class="data2"><span class="data2" style="padding-right:5px;color:green;">₹</span>{{paidAmount}}</div>
+                <div class="col-7 pl-0">
+                  <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate" [isTime]="false">
+                  </uj-date-time-picker>
                 </div>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="row align-items-center">
+                <div class="col-4 pr-0 pl-0">
+                  <label>To Date :</label>
+                </div>
+                <div class="col-8">
+                  <uj-date-time-picker (onChanged)="endDate=$event" [dateTimeValue]="endDate" [isTime]="false"
+                    [isStart]="false">
+                  </uj-date-time-picker>
+                </div>
+              </div>
+            </div>
+            <div class="col-2">
+              <select [(ngModel)]="challanStatus" class="form-control"
+                style=" border: 2px solid darkcyan; font-size: 13px; ">
+                <option value="-1">All</option>
+                <option value="0">Pending</option>
+              </select>
+            </div>
+            <div class="col-4">
+              <button type="button" class="btn btn-primary" (click)="getPendingChallans()">OK</button>
+              <button type="button" class="btn btn-primary" (click)="lastchecked()" style="margin-left: 15px;">Last
+                Check Report</button>
+
             </div>
 
-            <!-- <div *ngIf="this.challan && this.challan.length" style="margin-left: 340px;">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="this.challan && this.challan.length">
+
+      <div class="col-4">
+        <div class="solid boxStyle">
+          <div class="heading" style="color:blue;"> Total Amount</div>
+          <div class="data"><span class="data" style="padding-right:5px;color:blue">₹</span>{{totalAmount}}</div>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div class="solid boxStyle">
+          <div class="heading" style="color:red"> Pending Amount</div>
+          <div class="data1"><span class="data1" style="padding-right:5px;color:red">₹</span>{{pendingAmount }}</div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="solid boxStyle">
+          <div class="heading" style="color:green;"> Paid Amount</div>
+          <div class="data2"><span class="data2" style="padding-right:5px;color:green;">₹</span>{{paidAmount}}</div>
+        </div>
+      </div>
+
+      <!-- <div *ngIf="this.challan && this.challan.length" style="margin-left: 340px;">
                 <table frame="box" style="width:100%">
                     <thead>
                         <tr>
@@ -103,11 +103,51 @@
                     </tbody>
                 </table>
             </div> -->
-        </div>
-        <div class='mt-1'>
-            <smart-table *ngIf="challan && challan.length" [data]="table.data" [settings]="table.settings"
-                id="pendingChallan">
-            </smart-table>
-        </div>
-    </nb-card-body>
+    </div>
+
+    <div class="row document-heading_box" *ngIf="newChallan.length">
+      <div class="col-sm-12">
+        <table class="table table-bordered table-hover">
+          <tr>
+            <td>
+              <span><i class="fas fa-times-circle"></i><input type='radio' name='rdostatus' value='1'
+                (click)="filterRows($event.target.value)"><span>Not Accepting Payment</span> 
+              </span>
+           
+              <span><i class="far fa-money-bill-alt"></i><input type='radio' name='rdostatus' value='2'
+                  (click)="filterRows($event.target.value)"> Pay Now
+                </span>
+            
+              <span><i class="fas fa-hourglass-end"></i> <input type='radio' name='rdostatus' value='3'
+                  (click)="filterRows($event.target.value)"> Payment Under Processing
+                </span>
+              
+              <span><i class="fas fa-check"></i><input type='radio' name='rdostatus' value='4'
+                  (click)="filterRows($event.target.value)"><span>Done</span> 
+                </span>
+              
+              <span><i class="fas fa-times"></i><input type='radio' name='rdostatus' value='5'
+                  (click)="filterRows($event.target.value)"> Payment Request Rejected
+                </span>
+              
+            <span>
+              <input
+                type='radio' name='rdostatus' value='6' (click)="filterRows($event.target.value)">Show All
+            </span>
+          </td>
+          </tr>
+        </table>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class='mt-1' id="tbldocs">
+        <smart-table *ngIf="challan && challan.length" [data]="table.data" [settings]="table.settings"
+          id="pendingChallan">
+        </smart-table>
+      </div>
+    </div>
+
+  </nb-card-body>
 </nb-card>
