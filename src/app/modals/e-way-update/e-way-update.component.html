@@ -197,12 +197,12 @@
     </div>
 
     <div class="row mt-2">
-      <div class="col-4">Trans Doc Number:<label *ngIf="partsInfo.TransportMode!='Road' || partsInfo.TransportMode!=''" style="color: red;">*</label></div>
+      <div class="col-4">Trans Doc Number:<label *ngIf="partsInfo.TransportMode && partsInfo.TransportMode!='Road'" style="color: red;">*</label></div>
       <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.TransDocNumber"></div>
     </div>
 
     <div class="row mt-2">
-      <div class="col-4">Trans Doc Date:<label *ngIf="partsInfo.TransportMode!='Road' || partsInfo.TransportMode!=''" style="color: red;">*</label></div>
+      <div class="col-4">Trans Doc Date:<label *ngIf="partsInfo.TransportMode && partsInfo.TransportMode!='Road'" style="color: red;">*</label></div>
       <div class="col-8">
         <!-- <input type="text" class="form-control"> -->
         <uj-date-time-picker [dateTimeValue]="partsInfo.TransDocDate" [isTime]="false"
