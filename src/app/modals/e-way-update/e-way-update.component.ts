@@ -13,10 +13,11 @@ export class EWayUpdateComponent implements OnInit {
 
   title = '';
   formType = 1;
-  updateAt = ''
+  updateAt = '';
 
   billDateExtend = {
     action: 'EXTENDVALIDITY',
+    eWid: null,
     GeneratorGstin: "",
     EwbNo: "",
     VehicleNo: "",
@@ -45,11 +46,12 @@ export class EWayUpdateComponent implements OnInit {
     StateName: "",
     TransportMode: null,
     VehicleReason: "",
-    VehicleType: "",
+    VehicleType: "Normal",
     Remarks: "",
     TransDocDate: new Date()
   }
 
+  stateData = [];
   citydata = [];
   transmodeOptions = [
     { id: 1, name: 'Road' },
@@ -85,6 +87,7 @@ export class EWayUpdateComponent implements OnInit {
     if (this.formType == 1) {
       this.billDateExtend = {
         action: 'EXTENDVALIDITY',
+        eWid: this.common.params.data_ewid,
         GeneratorGstin: this.common.params.data.generator_gstin,
         EwbNo: this.common.params.data.ewbno,
         VehicleNo: this.common.params.data.regno,
@@ -93,7 +96,7 @@ export class EWayUpdateComponent implements OnInit {
         ExtnRsn: '',
         ExtnRemarks: '',
         TransDocNumber: this.common.params.data.trans_doc_number,
-        TransDocDate: new Date(this.common.params.data.trans_doc_date),
+        TransDocDate: this.common.params.data.trans_doc_date,
         TransportMode: null,
         RemainingDistance: '',
         TransitType: '',
@@ -113,7 +116,7 @@ export class EWayUpdateComponent implements OnInit {
         StateName: '',
         TransportMode: null,
         VehicleReason: '',
-        VehicleType: '',
+        VehicleType: 'Normal',
         Remarks: '',
         TransDocDate: new Date()
       }
@@ -133,12 +136,31 @@ export class EWayUpdateComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
+        this.stateData = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
+
+  GetCity(stateid) {
+    let params = {
+      state: stateid
+    };
+
+    this.common.loading++;
+    this.api.post('Suggestion/GetCity', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
         this.citydata = res['data'];
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
       });
+
   }
 
   closeModal(state) {
@@ -210,6 +232,7 @@ export class EWayUpdateComponent implements OnInit {
   resetFields() {
     this.billDateExtend = {
       action: 'EXTENDVALIDITY',
+      eWid:null,
       GeneratorGstin: "",
       EwbNo: "",
       VehicleNo: "",
@@ -238,7 +261,7 @@ export class EWayUpdateComponent implements OnInit {
       StateName: "",
       TransportMode: null,
       VehicleReason: "",
-      VehicleType: "",
+      VehicleType: "Normal",
       Remarks: "",
       TransDocDate: new Date()
     }

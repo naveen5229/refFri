@@ -28,15 +28,22 @@
       <div class="col-4">From State:<label style="color: red;">*</label></div>
       <div class="col-8">
         <!-- <input type="text" class="form-control" [(ngModel)]="billDateExtend.FromState"> -->
-        <auto-suggestion *ngIf="citydata" [data]="citydata" targetId="select-state" display="name"
-          (onSelected)="billDateExtend.FromState = $event.name"></auto-suggestion>
+        <auto-suggestion *ngIf="stateData" [data]="stateData" placeholder="select-state" display="name"
+          (onSelected)="billDateExtend.FromState = $event.name;GetCity($event.id)"></auto-suggestion>
       </div>
     </div>
 
 
     <div class="row mt-2">
       <div class="col-4">From City:<label style="color: red;">*</label></div>
-      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="billDateExtend.FromCity"></div>
+      <div class="col-8">
+        <!-- <input type="text" class="form-control" [(ngModel)]="billDateExtend.FromCity"> -->
+        <!-- <auto-suggestion [data]="cityData" placeholder="select-City" display="city_name"
+          (onSelected)="billDateExtend.FromCity = $event.city_name"></auto-suggestion> -->
+        <auto-suggestion (onSelected)="billDateExtend.FromCity = $event.city_name" url="Suggestion/GetCity" display="name"
+          [inputId]="'city-' + i" [name]="'city-' + i" placeholder="Enter City" [preSelected]="null">
+        </auto-suggestion>
+      </div>
     </div>
 
 
@@ -166,31 +173,42 @@
 
     <div class="row mt-2">
       <div class="col-4">Vehicle Type:<label *ngIf="partsInfo.TransportMode=='Road'" style="color: red;">*</label></div>
-      <div class="col-8"><input type="text" class="form-control" value="Normal" [(ngModel)]="partsInfo.VehicleType"></div>
+      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.VehicleType" readonly></div>
     </div>
 
     <div class="row mt-2">
-      <div class="col-4">Vehicle Number:<label *ngIf="partsInfo.TransportMode=='Road'" style="color: red;">*</label></div>
+      <div class="col-4">Vehicle Number:<label *ngIf="partsInfo.TransportMode=='Road'" style="color: red;">*</label>
+      </div>
       <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.VehicleNo"></div>
     </div>
 
     <div class="row mt-2">
       <div class="col-4">From State:</div>
-      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.StateName"></div>
+      <div class="col-8">
+        <!-- <input type="text" class="form-control" [(ngModel)]="partsInfo.StateName"> -->
+        <auto-suggestion *ngIf="stateData" [data]="stateData" placeholder="select-state" display="name"
+          (onSelected)="partsInfo.StateName = $event.name;GetCity($event.id)"></auto-suggestion>
+      </div>
     </div>
 
     <div class="row mt-2">
       <div class="col-4">From City:</div>
-      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.FromCityPlace"></div>
+      <div class="col-8">
+        <!-- <input type="text" class="form-control" [(ngModel)]="partsInfo.FromCityPlace"> -->
+        <auto-suggestion [data]="cityData" placeholder="select-City" display="city_name"
+          (onSelected)="partsInfo.FromCityPlace = $event.city_name"></auto-suggestion>
+      </div>
     </div>
 
     <div class="row mt-2">
-      <div class="col-4">Trans Doc Number:<label *ngIf="partsInfo.TransportMode!='Road' && partsInfo.TransportMode!=''" style="color: red;">*</label></div>
+      <div class="col-4">Trans Doc Number:<label *ngIf="partsInfo.TransportMode!='Road' && partsInfo.TransportMode!=''"
+          style="color: red;">*</label></div>
       <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.TransDocNumber"></div>
     </div>
 
     <div class="row mt-2">
-      <div class="col-4">Trans Doc Date:<label *ngIf="partsInfo.TransportMode!='Road' && partsInfo.TransportMode!=''" style="color: red;">*</label></div>
+      <div class="col-4">Trans Doc Date:<label *ngIf="partsInfo.TransportMode!='Road' && partsInfo.TransportMode!=''"
+          style="color: red;">*</label></div>
       <div class="col-8">
         <!-- <input type="text" class="form-control"> -->
         <uj-date-time-picker [dateTimeValue]="partsInfo.TransDocDate" [isTime]="false"
