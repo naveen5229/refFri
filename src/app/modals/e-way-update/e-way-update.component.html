@@ -1,92 +1,89 @@
 <div class="modal-header">
   <h5 class="modal-title">{{title}}</h5>
-  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 
 <div class="modal-body" *ngIf="formType==1">
   <div class="container">
-    <div class="row mt-2">
-      <div class="col-4">Action:</div>
-      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="billDateExtend.action" readonly></div>
-    </div>
-
 
     <div class="row mt-2">
-      <div class="col-4">GenGst:</div>
+      <div class="col-4">GenGst:<label style="color: red;">*</label></div>
       <div class="col-8"><input type="text" class="form-control" [(ngModel)]="billDateExtend.GeneratorGstin" readonly>
       </div>
     </div>
 
     <div class="row mt-2">
-      <div class="col-4">EWB No:</div>
+      <div class="col-4">EWB No:<label style="color: red;">*</label></div>
       <div class="col-8"><input type="text" class="form-control" [(ngModel)]="billDateExtend.EwbNo" readonly></div>
     </div>
 
     <div class="row mt-2">
-      <div class="col-4">Vehicle No:</div>
+      <div class="col-4">Vehicle No:<label style="color: red;">*</label></div>
       <div class="col-8"><input type="text" class="form-control" [(ngModel)]="billDateExtend.VehicleNo" readonly></div>
     </div>
 
-
-    <div class="row mt-2">
-      <div class="col-4">From City:<label style="color: red;">*</label></div>
-      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="billDateExtend.FromCity"></div>
-    </div>
-
-
     <div class="row mt-2">
       <div class="col-4">From State:<label style="color: red;">*</label></div>
-      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="billDateExtend.FromState"></div>
-    </div>
-
-    <div class="row mt-2">
-      <div class="col-4">Enter Rsn:</div>
-      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="billDateExtend.ExtnRsn" readonly></div>
-    </div>
-
-
-
-    <div class="row mt-2">
-      <div class="col-4">Enter Remarks:</div>
-      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="billDateExtend.ExtnRemarks" readonly>
+      <div class="col-8">
+        <!-- <input type="text" class="form-control" [(ngModel)]="billDateExtend.FromState"> -->
+        <auto-suggestion *ngIf="stateData" [data]="stateData" placeholder="select-state" display="name"
+          (onSelected)="billDateExtend.FromState = $event.name;GetCity($event.id)"></auto-suggestion>
       </div>
     </div>
 
 
     <div class="row mt-2">
-      <div class="col-4">Trans Doc Nuber:</div>
+      <div class="col-4">From City:<label style="color: red;">*</label></div>
+      <div class="col-8">
+        <!-- <input type="text" class="form-control" [(ngModel)]="billDateExtend.FromCity"> -->
+        <auto-suggestion [data]="cityData" placeholder="select-City" display="city_name"
+          (onSelected)="billDateExtend.FromCity = $event.city_name"></auto-suggestion>
+      </div>
+    </div>
+
+
+    <div class="row mt-2">
+      <div class="col-4">Trans Doc Number:</div>
       <div class="col-8"><input type="text" class="form-control" [(ngModel)]="billDateExtend.TransDocNumber" readonly>
       </div>
     </div>
 
 
     <div class="row mt-2">
-      <div class="col-4">Transs Doc Date:</div>
+      <div class="col-4">Trans Doc Date:</div>
       <div class="col-8">
-        <uj-date-time-picker [dateTimeValue]="billDateExtend.TransDocDate" [isTime]="false"
-          [(ngModel)]="billDateExtend.TransDocDate"></uj-date-time-picker>
-        <!-- <input type="text" class="form-control" [(ngModel)]="billDateExtend.TransDocDate" readonly> -->
+        <!-- <uj-date-time-picker [dateTimeValue]="billDateExtend.TransDocDate" [isTime]="false"
+          [(ngModel)]="billDateExtend.TransDocDate"></uj-date-time-picker> -->
+        <input type="text" class="form-control" [(ngModel)]="billDateExtend.TransDocDate" readonly>
       </div>
     </div>
 
 
     <div class="row mt-2">
-      <div class="col-4">Transport Mode:</div>
+      <div class="col-4">Transport Mode:<label style="color: red;">*</label></div>
       <div class="col-8">
         <select class="form-control" [(ngModel)]="billDateExtend.TransportMode">
           <option selected disabled>--Select Transport Mode--</option>
-          <option *ngFor="let option of transmodeOptions" value="{{option.id}}">
+          <option *ngFor="let option of transmodeOptions" value="{{option.name}}">
             {{option.name}}
           </option>
         </select>
       </div>
     </div>
 
-    <div class="row mt-2">
-      <div class="col-4">Transit Type:</div>
-      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="billDateExtend.TransitType"></div>
+    <div class="row mt-2" *ngIf="billDateExtend.TransportMode=='In-Transit'">
+      <div class="col-4">Transit Type:<label style="color: red;">*</label></div>
+      <div class="col-8">
+        <!-- <input type="text" class="form-control" [(ngModel)]="billDateExtend.TransitType"> -->
+        <select class="form-control" [(ngModel)]="billDateExtend.TransitType">
+          <option selected disabled>--Select Transport Mode--</option>
+          <option *ngFor="let option of transitType" value="{{option.name}}">
+            {{option.name}}
+          </option>
+        </select>
+      </div>
     </div>
 
     <div class="row mt-2">
@@ -101,21 +98,43 @@
     </div>
 
 
-    <div class="row mt-2">
-      <div class="col-4">Address Line 1:</div>
+    <div class="row mt-2" *ngIf="billDateExtend.TransportMode=='In-Transit'">
+      <div class="col-4">Address Line 1:<label style="color: red;">*</label></div>
       <div class="col-8"><input type="text" class="form-control" [(ngModel)]="billDateExtend.AddressLine1"></div>
     </div>
 
 
-    <div class="row mt-2">
+    <div class="row mt-2" *ngIf="billDateExtend.TransportMode=='In-Transit'">
       <div class="col-4">Address Line 2:</div>
       <div class="col-8"><input type="text" class="form-control" [(ngModel)]="billDateExtend.AddressLine2"></div>
     </div>
 
 
-    <div class="row mt-2">
+    <div class="row mt-2" *ngIf="billDateExtend.TransportMode=='In-Transit'">
       <div class="col-4">Address Line 3:</div>
       <div class="col-8"><input type="text" class="form-control" [(ngModel)]="billDateExtend.AddressLine3"></div>
+    </div>
+
+
+    <div class="row mt-2">
+      <div class="col-4">Enter Reason:</div>
+      <div class="col-8">
+        <!-- <input type="text" class="form-control" [(ngModel)]="billDateExtend.ExtnRsn"> -->
+        <select class="form-control" [(ngModel)]="billDateExtend.ExtnRsn">
+          <option selected disabled>--Select Reason--</option>
+          <option *ngFor="let option of ExtnRsn" value="{{option.id}}">
+            {{option.name}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row mt-2">
+      <div class="col-4">Enter Remarks:</div>
+      <div class="col-8">
+        <!-- <input type="text" class="form-control" [(ngModel)]="billDateExtend.ExtnRemarks"> -->
+        <textarea class="form-control" [(ngModel)]="billDateExtend.ExtnRemarks"></textarea>
+      </div>
     </div>
 
   </div>
@@ -127,55 +146,69 @@
   <div class="container">
 
     <div class="row mt-2">
-      <div class="col-4">Action:</div>
-      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.action" readonly></div>
-    </div>
-
-
-    <div class="row mt-2">
       <div class="col-4">GenGst:</div>
-      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.GeneratorGstin"></div>
+      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.GeneratorGstin" readonly></div>
     </div>
 
 
     <div class="row mt-2">
       <div class="col-4">EWB no:</div>
-      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.EwbNo"></div>
+      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.EwbNo" readonly></div>
     </div>
 
-
     <div class="row mt-2">
-      <div class="col-4">From City:</div>
-      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.FromCityPlace"></div>
+      <div class="col-4">Transport Mode:<label style="color: red;">*</label></div>
+      <div class="col-8">
+        <select class="form-control" [(ngModel)]="partsInfo.TransportMode">
+          <option selected disabled>--Select Transport Mode--</option>
+          <option *ngFor="let option of transmodeOptions" value="{{option.name}}">
+            {{option.name}}
+          </option>
+        </select>
+      </div>
     </div>
 
-
+    <div class="row mt-2">
+      <div class="col-4">Vehicle Type:<label *ngIf="partsInfo.TransportMode=='Road'" style="color: red;">*</label></div>
+      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.VehicleType" readonly></div>
+    </div>
 
     <div class="row mt-2">
-      <div class="col-4">Vehicle Number:</div>
+      <div class="col-4">Vehicle Number:<label *ngIf="partsInfo.TransportMode=='Road'" style="color: red;">*</label></div>
       <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.VehicleNo"></div>
     </div>
 
+    <div class="row mt-2">
+      <div class="col-4">From State:</div>
+      <div class="col-8">
+        <!-- <input type="text" class="form-control" [(ngModel)]="partsInfo.StateName"> -->
+        <auto-suggestion *ngIf="stateData" [data]="stateData" placeholder="select-state" display="name"
+        (onSelected)="partsInfo.StateName = $event.name;GetCity($event.id)"></auto-suggestion>
+      </div>
+    </div>
 
     <div class="row mt-2">
-      <div class="col-4">Trans Doc Nuber:</div>
+      <div class="col-4">From City:</div>
+      <div class="col-8">
+        <!-- <input type="text" class="form-control" [(ngModel)]="partsInfo.FromCityPlace"> -->
+        <auto-suggestion [data]="cityData" placeholder="select-City" display="city_name"
+          (onSelected)="partsInfo.FromCityPlace = $event.city_name"></auto-suggestion>
+      </div>
+    </div>
+
+    <div class="row mt-2">
+      <div class="col-4">Trans Doc Number:<label *ngIf="partsInfo.TransportMode!='Road' && partsInfo.TransportMode!=''" style="color: red;">*</label></div>
       <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.TransDocNumber"></div>
     </div>
 
-
-
     <div class="row mt-2">
-      <div class="col-4">State Name:</div>
-      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.StateName"></div>
+      <div class="col-4">Trans Doc Date:<label *ngIf="partsInfo.TransportMode!='Road' && partsInfo.TransportMode!=''" style="color: red;">*</label></div>
+      <div class="col-8">
+        <!-- <input type="text" class="form-control"> -->
+        <uj-date-time-picker [dateTimeValue]="partsInfo.TransDocDate" [isTime]="false"
+          [(ngModel)]="partsInfo.TransDocDate"></uj-date-time-picker>
+      </div>
     </div>
-
-
-    <div class="row mt-2">
-      <div class="col-4">Transport Mode:</div>
-      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.TransportMode"></div>
-    </div>
-
-
 
     <div class="row mt-2">
       <div class="col-4">Vehicle Reason:</div>
@@ -183,24 +216,10 @@
     </div>
 
     <div class="row mt-2">
-      <div class="col-4">Vehicle Type:</div>
-      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.VehicleType"></div>
-    </div>
-
-
-
-    <div class="row mt-2">
       <div class="col-4">Remarks:</div>
-      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.Remarks"></div>
-    </div>
-
-
-    <div class="row mt-2">
-      <div class="col-4">Trans Doc Date:</div>
       <div class="col-8">
-        <!-- <input type="text" class="form-control"> -->
-        <uj-date-time-picker [dateTimeValue]="partsInfo.TransDocDate" [isTime]="false"
-          [(ngModel)]="partsInfo.TransDocDate"></uj-date-time-picker>
+        <!-- <input type="text" class="form-control" [(ngModel)]="partsInfo.Remarks"> -->
+        <textarea class="form-control" [(ngModel)]="partsInfo.Remarks"></textarea>
       </div>
     </div>
   </div>
@@ -208,6 +227,6 @@
 
 <div class="modal-footer">
   <div class="row">
-    <button class="btn btn-primary btn-sm">Save</button>
+    <button class="btn btn-primary btn-sm" (click)="updateForm()">Save</button>
   </div>
 </div>

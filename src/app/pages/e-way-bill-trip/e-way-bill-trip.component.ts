@@ -189,11 +189,12 @@ export class EWayBillTripComponent implements OnInit {
   }
 
   editBill(data) {
-    return this.common.showToast('Under Development');
     console.log(data);
     this.common.params = {
       title: 'E-Way-Bill Date Extend',
-      type: 1
+      type: 1,
+      api:'trobo/extndValidity',
+      data
     };
 
     const activeModal = this.modalService.open(EWayUpdateComponent, {
@@ -208,11 +209,12 @@ export class EWayBillTripComponent implements OnInit {
   }
 
   updatePartInfo(data) {
-    return this.common.showToast('Under Development');
     console.log(data);
     this.common.params = {
       title: 'Update Part-B Info',
-      type: 2
+      type: 2,
+      api:'trobo/updatePartB',
+      data
     };
 
     const activeModal = this.modalService.open(EWayUpdateComponent, {
