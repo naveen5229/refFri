@@ -15,6 +15,11 @@ export class EWayBillTripComponent implements OnInit {
   public doughnutChartLabels: string[] = ['test', 'In-Store Sales', 'Mail-Order Sales'];
   public doughnutChartData: number[] = [350, 450, 100];
 
+  dataRange = {
+    startDate: new Date(new Date().setMonth(new Date().getMonth() - 1)),
+    endDate: new Date()
+  }
+
   colors = ['#f4a522', '#6092cd', '#61b546', '#aa4498', '#d62728', '#89cdf0', '#9467bd']
   dashBoardData: any;;
   dashboardData = {
@@ -43,8 +48,9 @@ export class EWayBillTripComponent implements OnInit {
   }
 
   getDashboard() {
+    let params = `?fromDate=${this.common.dateFormatter1(this.dataRange.startDate)}&toDate=${this.common.dateFormatter1(this.dataRange.endDate)}`;
     this.common.loading++;
-    this.api.get(`Eway/getEwayBillSummary`).subscribe(res => {
+    this.api.get(`Eway/getEwayBillSummary` + params).subscribe(res => {
       this.common.loading--;
       this.dashBoardData = {};
       if (res['code'] == 1) {
@@ -62,6 +68,8 @@ export class EWayBillTripComponent implements OnInit {
   }
 
   arrangeDashboardData() {
+    this.dashboardData.cards = [];
+    this.dashboardData.pieChart = [];
     Object.keys(this.dashBoardData.billDetail).map(key => {
       this.dashboardData.cards.push({ title: this.formatTitle(key), count: this.dashBoardData.billDetail[key]['count'], data: this.dashBoardData.billDetail[key]['data'] ? this.dashBoardData.billDetail[key]['data'] : [] });
     });
@@ -74,23 +82,32 @@ export class EWayBillTripComponent implements OnInit {
   }
 
   renderDashboardScreen() {
-    let labels = [];
-    let chartDataSet = [];
+    let labelsPie = [];
+    let chartDataSetPie = [];
+    let labelsDoughnut = [];
+    let chartDataSetDoughnut = [];
     this.dashboardData.pieChart.map((data, index) => {
-      labels.push(data.title);
-      chartDataSet.push(data.count)
-    })
+      labelsPie.push(data.title);
+      chartDataSetPie.push(data.count)
+    });
 
-    console.log('chartData', chartDataSet)
+    this.dashboardData.cards.map((data, index) => {
+      labelsDoughnut.push(data.title);
+      chartDataSetDoughnut.push(data.count)
+    });
 
-    var ctx = $('#Graph');
-    var graph = new Chart(ctx, {
+    console.log('chartData', chartDataSetPie, chartDataSetDoughnut)
+
+    var ctxPie = $('#pieGraph');
+    var ctxDoughnut = $('#doughnutGraph');
+
+    var graphPie = new Chart(ctxPie, {
       type: 'pie',
       data: {
-        labels: labels,
+        labels: labelsPie,
         datasets: [{
           label: "Sales",
-          data: chartDataSet,
+          data: chartDataSetPie,
           fill: true,
           backgroundColor: ['#f50000', '#ff2e2e', '#ff4242', '#ff6b6b', '#00cc00', '#89cdf0', '#9467bd'],
           hoverOffset: 6
@@ -99,16 +116,40 @@ export class EWayBillTripComponent implements OnInit {
       options: {
         onClick: (event, i) => {
           console.log(i, i[0]._index);
-          this.findDrillDownData(i[0]._index);
+          this.findDrillDownData(i[0]._index, 0);
+        }
+      }
+    });
+
+    var graphDoughnut = new Chart(ctxDoughnut, {
+      type: 'doughnut',
+      data: {
+        labels: labelsDoughnut,
+        datasets: [{
+          label: "Sales",
+          data: chartDataSetDoughnut,
+          fill: true,
+          backgroundColor: ['#f4a522', '#6092cd', '#61b546', '#aa4498', '#d62728', '#89cdf0', '#9467bd'],
+          hoverOffset: 6
+        }]
+      },
+      options: {
+        onClick: (event, i) => {
+          console.log(i, i[0]._index);
+          this.findDrillDownData(i[0]._index, 1);
         }
       }
     });
   }
 
-  findDrillDownData(index) {
-    console.log(this.dashboardData.pieChart, this.dashboardData.pieChart[index].data)
+  findDrillDownData(index, findFrom) {
+    // console.log(this.dashboardData.pieChart, this.dashboardData.pieChart[index].data)
     this.resetTable();
-    this.openDrillDown(this.dashboardData.pieChart[index].data, this.common.formatTitle(this.dashboardData.pieChart[index].title))
+    if (!findFrom) {
+      this.openDrillDown(this.dashboardData.pieChart[index].data, this.common.formatTitle(this.dashboardData.pieChart[index].title))
+    } else {
+      this.openDrillDown(this.dashboardData.cards[index].data, this.common.formatTitle(this.dashboardData.cards[index].title))
+    }
   }
 
   formatTitle(title) {
@@ -181,10 +222,9 @@ export class EWayBillTripComponent implements OnInit {
   }
 
   actionIcons(data) {
-    let icons = [
-      { class: "fa fa-edit", action: this.editBill.bind(this, data), txt: "", title: 'E-Way-Bill Date Extend' },
-      { class: "fas fa-cog pl-1", action: this.updatePartInfo.bind(this, data), txt: "", title: 'Update Part-B Info' },
-    ];
+    let icons = [];
+    if (data._isextval) icons.push({ class: "fa fa-edit", action: this.editBill.bind(this, data), txt: "", title: 'E-Way-Bill Date Extend' });
+    if (data._isupdpartb) icons.push({ class: "fas fa-cog pl-1", action: this.updatePartInfo.bind(this, data), txt: "", title: 'Update Part-B Info' })
     return icons;
   }
 
@@ -193,7 +233,7 @@ export class EWayBillTripComponent implements OnInit {
     this.common.params = {
       title: 'E-Way-Bill Date Extend',
       type: 1,
-      api:'trobo/extndValidity',
+      api: 'trobo/extndValidity',
       data
     };
 
@@ -213,7 +253,7 @@ export class EWayBillTripComponent implements OnInit {
     this.common.params = {
       title: 'Update Part-B Info',
       type: 2,
-      api:'trobo/updatePartB',
+      api: 'trobo/updatePartB',
       data
     };
 
