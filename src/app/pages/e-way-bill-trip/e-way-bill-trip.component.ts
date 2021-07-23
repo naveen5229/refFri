@@ -12,8 +12,6 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./e-way-bill-trip.component.scss']
 })
 export class EWayBillTripComponent implements OnInit {
-  public doughnutChartLabels: string[] = ['test', 'In-Store Sales', 'Mail-Order Sales'];
-  public doughnutChartData: number[] = [350, 450, 100];
 
   dataRange = {
     startDate: new Date(new Date().setMonth(new Date().getMonth() - 1)),
@@ -24,7 +22,8 @@ export class EWayBillTripComponent implements OnInit {
   dashBoardData: any;;
   dashboardData = {
     cards: [],
-    pieChart: []
+    pieChart: [],
+    doughnutChart: []
   };
 
   data = [];
@@ -74,6 +73,12 @@ export class EWayBillTripComponent implements OnInit {
       this.dashboardData.cards.push({ title: this.formatTitle(key), count: this.dashBoardData.billDetail[key]['count'], data: this.dashBoardData.billDetail[key]['data'] ? this.dashBoardData.billDetail[key]['data'] : [] });
     });
 
+    Object.keys(this.dashBoardData.billDetail).map(key => {
+      if (key != 'total_eway_bill' && key != 'total_trips') {
+        this.dashboardData.doughnutChart.push({ title: this.formatTitle(key), count: this.dashBoardData.billDetail[key]['count'], data: this.dashBoardData.billDetail[key]['data'] ? this.dashBoardData.billDetail[key]['data'] : [] });
+      }
+    });
+
     Object.keys(this.dashBoardData.chartDetail).map(key => {
       this.dashboardData.pieChart.push({ title: this.formatTitle(key), count: this.dashBoardData.chartDetail[key]['count'], data: this.dashBoardData.chartDetail[key]['data'] ? this.dashBoardData.chartDetail[key]['data'] : [] });
     });
@@ -91,7 +96,7 @@ export class EWayBillTripComponent implements OnInit {
       chartDataSetPie.push(data.count)
     });
 
-    this.dashboardData.cards.map((data, index) => {
+    this.dashboardData.doughnutChart.map((data, index) => {
       labelsDoughnut.push(data.title);
       chartDataSetDoughnut.push(data.count)
     });
@@ -117,6 +122,10 @@ export class EWayBillTripComponent implements OnInit {
         onClick: (event, i) => {
           console.log(i, i[0]._index);
           this.findDrillDownData(i[0]._index, 0);
+        },
+        legend:{
+          display:true,
+          position:'bottom'
         }
       }
     });
@@ -129,7 +138,7 @@ export class EWayBillTripComponent implements OnInit {
           label: "Sales",
           data: chartDataSetDoughnut,
           fill: true,
-          backgroundColor: ['#f4a522', '#6092cd', '#61b546', '#aa4498', '#d62728', '#89cdf0', '#9467bd'],
+          backgroundColor: ['#CCFF99', '#9999FF', '#FF99FF', '#B266FF', '#FF9999', '#66B2FF', '#FFCCFF'],
           hoverOffset: 6
         }]
       },
@@ -137,6 +146,10 @@ export class EWayBillTripComponent implements OnInit {
         onClick: (event, i) => {
           console.log(i, i[0]._index);
           this.findDrillDownData(i[0]._index, 1);
+        },
+        legend:{
+          display:true,
+          position:'bottom'
         }
       }
     });
@@ -148,7 +161,7 @@ export class EWayBillTripComponent implements OnInit {
     if (!findFrom) {
       this.openDrillDown(this.dashboardData.pieChart[index].data, this.common.formatTitle(this.dashboardData.pieChart[index].title))
     } else {
-      this.openDrillDown(this.dashboardData.cards[index].data, this.common.formatTitle(this.dashboardData.cards[index].title))
+      this.openDrillDown(this.dashboardData.doughnutChart[index].data, this.common.formatTitle(this.dashboardData.doughnutChart[index].title))
     }
   }
 
