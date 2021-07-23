@@ -223,8 +223,8 @@ export class EWayBillTripComponent implements OnInit {
 
   actionIcons(data) {
     let icons = [];
-    if (data._isextval) icons.push({ class: "fa fa-edit", action: this.editBill.bind(this, data), txt: "", title: 'E-Way-Bill Date Extend' });
-    if (data._isupdpartb) icons.push({ class: "fas fa-cog pl-1", action: this.updatePartInfo.bind(this, data), txt: "", title: 'Update Part-B Info' })
+    if (data._isextval) icons.push({ class: "fa fa-edit", action: this.editBill.bind(this, data), txt: "", title: '' });
+    if (data._isupdpartb) icons.push({ class: "fas fa-cog partB pl-1", action: this.updatePartInfo.bind(this, data), txt: "", title: '' })
     return icons;
   }
 
@@ -233,7 +233,7 @@ export class EWayBillTripComponent implements OnInit {
     this.common.params = {
       title: 'E-Way-Bill Date Extend',
       type: 1,
-      api: 'trobo/extndValidity',
+      api: 'Ewaybill/extndValidity',
       data
     };
 
@@ -253,7 +253,7 @@ export class EWayBillTripComponent implements OnInit {
     this.common.params = {
       title: 'Update Part-B Info',
       type: 2,
-      api: 'trobo/updatePartB',
+      api: 'Ewaybill/updatePartB',
       data
     };
 

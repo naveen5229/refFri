@@ -88,15 +88,15 @@ export class EWayUpdateComponent implements OnInit {
       this.billDateExtend = {
         action: 'EXTENDVALIDITY',
         eWid: this.common.params.data_ewid,
-        GeneratorGstin: this.common.params.data.generator_gstin,
+        GeneratorGstin: this.common.params.data._gengst,
         EwbNo: this.common.params.data.ewbno,
         VehicleNo: this.common.params.data.regno,
         FromCity: '',
         FromState: '',
         ExtnRsn: '',
         ExtnRemarks: '',
-        TransDocNumber: this.common.params.data.trans_doc_number,
-        TransDocDate: this.common.params.data.trans_doc_date,
+        TransDocNumber: this.common.params.data._trdocno,
+        TransDocDate: this.common.params.data._trdocdate,
         TransportMode: null,
         RemainingDistance: this.common.params.data.distleft,
         TransitType: '',
@@ -108,7 +108,7 @@ export class EWayUpdateComponent implements OnInit {
     } else if (this.formType == 2) {
       this.partsInfo = {
         eWayBillId: this.common.params.data._ewid,
-        GeneratorGstin: this.common.params.data.generator_gstin,
+        GeneratorGstin: this.common.params.data._gengst,
         EwbNo: this.common.params.data.ewbno,
         FromCityPlace: '',
         VehicleNo: null,
@@ -174,7 +174,7 @@ export class EWayUpdateComponent implements OnInit {
 
     let params = {};
     if (this.formType == 1) {
-      let requiredFields = ['FromState', 'FromCity', 'TransportMode'];
+      let requiredFields = ['FromState', 'FromCity', 'TransportMode','FromPincode'];
       if (this.billDateExtend.TransportMode == 'In-Transit') {
         let otherValidation = ['TransitType', 'AddressLine1'];
         requiredFields = requiredFields.concat(otherValidation);
@@ -193,11 +193,14 @@ export class EWayUpdateComponent implements OnInit {
     } else if (this.formType == 2) {
       let requiredFields = ['TransportMode'];
       if (this.partsInfo.TransportMode == 'Road') {
-        let otherValidation = ['VehicleType', 'VehicleNo'];
+        let otherValidation = ['VehicleType', 'VehicleNo', 'StateName', 'FromCityPlace', 'VehicleReason'];
         requiredFields = requiredFields.concat(otherValidation);
       } else {
-        let otherValidation = ['TransDocNumber', 'TransDocDate'];
+        let otherValidation = ['StateName', 'FromCityPlace', 'TransDocNumber', 'TransDocDate','VehicleReason'];
         requiredFields = requiredFields.concat(otherValidation);
+      }
+      if (this.partsInfo.VehicleReason == 'Others') {
+        requiredFields.push('Remarks');
       }
       let ValidationFound = [];
       requiredFields.forEach(key => {
@@ -233,7 +236,7 @@ export class EWayUpdateComponent implements OnInit {
   resetFields() {
     this.billDateExtend = {
       action: 'EXTENDVALIDITY',
-      eWid:null,
+      eWid: null,
       GeneratorGstin: "",
       EwbNo: "",
       VehicleNo: "",
@@ -266,5 +269,11 @@ export class EWayUpdateComponent implements OnInit {
       Remarks: "",
       TransDocDate: new Date()
     }
+  }
+
+  getvehicleData(vehicle) {
+    console.log("Data::", vehicle);
+    this.partsInfo.VehicleNo = vehicle ? vehicle.regno : null;
+    // this.vehicleRegno = vehicle ? vehicle.regno : null;
   }
 }

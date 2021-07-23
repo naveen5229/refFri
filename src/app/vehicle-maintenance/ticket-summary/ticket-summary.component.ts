@@ -144,7 +144,11 @@ export class TicketSummaryComponent implements OnInit {
         icons: [
           { class: "fa fa-retweet mr-3", action: this.addMaintenance.bind(this, doc) }
         ]
-        , action: null
+        , 
+        action:null,
+        // icons: doc.isChecked ? [{ class: "fa fa-retweet mr-3", action: this.addMaintenance.bind(this, doc) }] : [],
+        // action: this.handleChecBoxClick.bind(this, doc),
+        // isCheckbox: true
       };
       columns.push(this.valobj);
     });
@@ -152,9 +156,29 @@ export class TicketSummaryComponent implements OnInit {
     return columns;
   }
 
+  commonTransportCollection = [];
+  handleChecBoxClick(doc) {
+    if (this.commonTransportCollection && this.commonTransportCollection.length > 0) {
+      this.commonTransportCollection.forEach(ele => {
+        if ((ele.Vehicle).toLowerCase() != (doc.Vehicle).toLowerCase()) {
+          return this.common.showError('Vehicle Not Matched');
+        } else {
+          doc.isChecked = true;
+          this.commonTransportCollection.push(doc)
+        }
+      })
+    } else {
+      doc.isChecked = true;
+      this.commonTransportCollection.push(doc)
+    }
+    this.getTableColumns();
+    console.log("handleChecBoxClick ~ doc", this.commonTransportCollection,this.data)
+  }
+
   addMaintenance(doc) {
+    let services = this.commonTransportCollection.map(ele => ele._partid);
     console.log("doc:", doc);
-    this.common.params = { title: 'Add Maintenance', vehicleId: doc['_vid'], regno: doc['Vehicle'],doc, sId: doc['_partid'], modal: 'tktSummary' };
+    this.common.params = { title: 'Add Maintenance', vehicleId: doc['_vid'], regno: doc['Vehicle'], doc, sId: doc['_partid'], modal: 'tktSummary' };
     const activeModal = this.modalService.open(AddMaintenanceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {

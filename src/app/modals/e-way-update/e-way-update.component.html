@@ -93,8 +93,10 @@
     </div>
 
     <div class="row mt-2">
-      <div class="col-4">From Pincode</div>
-      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="billDateExtend.FromPincode"></div>
+      <div class="col-4">From Pincode:<label style="color: red;">*</label></div>
+      <div class="col-8">
+        <input type="text" class="form-control" [pattern]="'/^\d{4} ?[a-z]{2}$/i'" [(ngModel)]="billDateExtend.FromPincode">
+      </div>
     </div>
 
 
@@ -122,7 +124,7 @@
         <!-- <input type="text" class="form-control" [(ngModel)]="billDateExtend.ExtnRsn"> -->
         <select class="form-control" [(ngModel)]="billDateExtend.ExtnRsn">
           <option selected disabled>--Select Reason--</option>
-          <option *ngFor="let option of ExtnRsn" value="{{option.id}}">
+          <option *ngFor="let option of ExtnRsn" value="{{option.name}}">
             {{option.name}}
           </option>
         </select>
@@ -174,21 +176,26 @@
     </div>
 
     <div class="row mt-2">
-      <div class="col-4">Vehicle Number:<label *ngIf="partsInfo.TransportMode=='Road'" style="color: red;">*</label></div>
-      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.VehicleNo"></div>
-    </div>
-
-    <div class="row mt-2">
-      <div class="col-4">From State:</div>
+      <div class="col-4">Vehicle Number:<label *ngIf="partsInfo.TransportMode=='Road'" style="color: red;">*</label>
+      </div>
       <div class="col-8">
-        <!-- <input type="text" class="form-control" [(ngModel)]="partsInfo.StateName"> -->
-        <auto-suggestion *ngIf="stateData" [data]="stateData" placeholder="select-state" display="name"
-        (onSelected)="partsInfo.StateName = $event.name;GetCity($event.id)"></auto-suggestion>
+        <!-- <input type="text" class="form-control" [(ngModel)]="partsInfo.VehicleNo"> -->
+        <auto-suggestion (onSelected)="getvehicleData($event)" (unSelected)="getvehicleData($event)"
+          url="Vehicles/getVehicleListForFoid" display="regno" placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
       </div>
     </div>
 
     <div class="row mt-2">
-      <div class="col-4">From City:</div>
+      <div class="col-4">State Name:<label style="color: red;">*</label></div>
+      <div class="col-8">
+        <!-- <input type="text" class="form-control" [(ngModel)]="partsInfo.StateName"> -->
+        <auto-suggestion *ngIf="stateData" [data]="stateData" placeholder="select-state" display="name"
+          (onSelected)="partsInfo.StateName = $event.name;GetCity($event.id)"></auto-suggestion>
+      </div>
+    </div>
+
+    <div class="row mt-2">
+      <div class="col-4">From City Place:<label style="color: red;">*</label></div>
       <div class="col-8">
         <!-- <input type="text" class="form-control" [(ngModel)]="partsInfo.FromCityPlace"> -->
         <auto-suggestion [data]="citydata" placeholder="select-City" display="city_name"
@@ -197,12 +204,14 @@
     </div>
 
     <div class="row mt-2">
-      <div class="col-4">Trans Doc Number:<label *ngIf="partsInfo.TransportMode && partsInfo.TransportMode!='Road'" style="color: red;">*</label></div>
+      <div class="col-4">Trans Doc Number:<label *ngIf="partsInfo.TransportMode && partsInfo.TransportMode!='Road'"
+          style="color: red;">*</label></div>
       <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.TransDocNumber"></div>
     </div>
 
     <div class="row mt-2">
-      <div class="col-4">Trans Doc Date:<label *ngIf="partsInfo.TransportMode && partsInfo.TransportMode!='Road'" style="color: red;">*</label></div>
+      <div class="col-4">Trans Doc Date:<label *ngIf="partsInfo.TransportMode && partsInfo.TransportMode!='Road'"
+          style="color: red;">*</label></div>
       <div class="col-8">
         <!-- <input type="text" class="form-control"> -->
         <uj-date-time-picker [dateTimeValue]="partsInfo.TransDocDate" [isTime]="false"
@@ -211,12 +220,17 @@
     </div>
 
     <div class="row mt-2">
-      <div class="col-4">Vehicle Reason:</div>
-      <div class="col-8"><input type="text" class="form-control" [(ngModel)]="partsInfo.VehicleReason"></div>
+      <div class="col-4">Vehicle Reason:<label style="color: red;">*</label></div>
+      <div class="col-8">
+        <!-- <input type="text" class="form-control" [(ngModel)]="partsInfo.VehicleReason"> -->
+        <select class="form-control" [(ngModel)]="partsInfo.VehicleReason">
+          <option selected disabled>--Select Reason--</option>
+          <option *ngFor="let option of ExtnRsn" value="{{option.name}}">{{option.name}}</option>
+        </select></div>
     </div>
 
     <div class="row mt-2">
-      <div class="col-4">Remarks:</div>
+      <div class="col-4">Remarks:<label *ngIf="partsInfo.VehicleReason=='Others'" style="color: red;">*</label></div>
       <div class="col-8">
         <!-- <input type="text" class="form-control" [(ngModel)]="partsInfo.Remarks"> -->
         <textarea class="form-control" [(ngModel)]="partsInfo.Remarks"></textarea>
