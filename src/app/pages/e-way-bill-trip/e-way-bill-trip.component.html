@@ -4,6 +4,20 @@
             <div class="col-6">
                 <h6>E-Way-Bill</h6>
             </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-5">
+                        <uj-date-time-picker [dateTimeValue]="dataRange.startDate" [isTime]="false"
+                            (onChanged)="dataRange.startDate=$event"></uj-date-time-picker>
+                    </div>
+                    <div class="col-5">
+                        <uj-date-time-picker [dateTimeValue]="dataRange.endDate" [isTime]="false"
+                            (onChanged)="dataRange.endDate=$event"></uj-date-time-picker>
+                    </div>
+                    <div class="col-2"><button class="btn btn-sm btn-primary" (click)="getDashboard()">Submit</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </nb-card-header>
@@ -11,7 +25,12 @@
         <div class="row">
 
             <div class="col-6">
-                <canvas id="Graph"></canvas>
+                <div class="row">
+                    <canvas id="pieGraph"></canvas>
+                </div>
+                <div class="row">
+                    <canvas id="doughnutGraph"></canvas>
+                </div>
             </div>
 
             <div class="col-6">
@@ -19,13 +38,13 @@
                     <div class="col-5 cardStyle" *ngFor="let card of dashboardData.cards;let i = index"
                         (click)="openDrillDown(card.data,common.formatTitle(card.title))">
                         <div class="row h-100 p-2">
-                        <div class="col-8 heading" [ngStyle]="{'border-right':'7px solid' + colors[i]}">
-                           <span> {{card.title}}</span>
+                            <div class="col-8 heading" [ngStyle]="{'border-right':'7px solid' + colors[i]}">
+                                <span> {{card.title}}</span>
+                            </div>
+                            <div class="col-4 count">
+                                <h3>{{card.count}}</h3>
+                            </div>
                         </div>
-                        <div class="col-4 count">
-                            <h3>{{card.count}}</h3>
-                        </div>
-                    </div>
                     </div>
                 </div>
             </div>

@@ -94,6 +94,8 @@ thead {
 
 .route-container {
     position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .route-line {
@@ -207,7 +209,15 @@ thead {
     background: gray;
 }
 
-.route-truck img {
+.route-truck-true {
+    width: 20px;
+    position: absolute;
+    left: 12.5px;
+    z-index: 99999;
+    top: 50px;
+}
+
+.route-truck-false{
     width: 20px;
     position: absolute;
     left: 12.5px;

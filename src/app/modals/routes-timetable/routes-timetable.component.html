@@ -1,106 +1,112 @@
 <div class="modal-header">
-    <h5>Vehicle Running Status</h5>
-    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-        <span aria-hidden="true">&times;</span>
-    </button>
+  <h5>Vehicle Running Status <span *ngIf="routeFlag">- {{regno}}</span> </h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
 </div>
 
-
 <div class="modal-body">
-    <div>
-        <div class="row">
-            <div class="col-2">
+  <div>
+    <div class="row">
+      <div class="col-2">
 
-            </div>
-            <div class="col-2">
-                <span style="margin-top: -24px" class="route-circle-red"></span>
-                <span> <strong style="margin-left: 25px;">Delay</strong></span>
-            </div>
-            <div class="col-2">
-                <span style="margin-top: -24px" class="route-circle-green"></span>
-                <span> <strong style="margin-left: 25px;">OnTime</strong></span>
-            </div>
-            <div  class="col-2">
-                <span style="margin-top: -24px" class="route-circle-blue"></span>
-                <span> <strong style="margin-left: 25px;">Upcoming</strong></span>
-            </div>
-            <div class="col-3">
-                <span style="margin-top: -24px" class="route-circle-gray"></span>
-                <span> <strong style="margin-left: 25px;">Data Missing</strong></span>
-            </div>
-        </div>
+      </div>
+      <div class="col-2">
+        <span style="margin-top: -24px" class="route-circle-red"></span>
+        <span> <strong style="margin-left: 25px;">Delay</strong></span>
+      </div>
+      <div class="col-2">
+        <span style="margin-top: -24px" class="route-circle-green"></span>
+        <span> <strong style="margin-left: 25px;">OnTime</strong></span>
+      </div>
+      <div class="col-2">
+        <span style="margin-top: -24px" class="route-circle-blue"></span>
+        <span> <strong style="margin-left: 25px;">Upcoming</strong></span>
+      </div>
+      <div class="col-3">
+        <span style="margin-top: -24px" class="route-circle-gray"></span>
+        <span> <strong style="margin-left: 25px;">Data Missing</strong></span>
+      </div>
     </div>
-    <div class="mt-2">
-        <div class="row route-headings">
-            <div class="col-1"></div>
-            <div class="col-2">
-                <strong>Location</strong>
-            </div>
-            <div class="col-2">
-                <strong>Arrival</strong>
-            </div>
-            <div class="col-2">
-                <strong>Departure</strong>
-            </div>
-            <div class="col-2">
-                <strong>Halt(Hours)</strong>
-            </div>
-            <div class="col-1 tat">
-                <strong>TAT</strong>
-            </div>
-            <div class="col-1 tat">
-                <strong>KM</strong>
-            </div>
-            <div *ngIf="!routeFlag" class="col-1 tat">
-                <strong>Data Missing</strong>
-            </div>
-        </div>
-        <div class="row routes" *ngFor="let data of routesDetails; let i = index;">
-                <!-- <div  class="col-1 route-container">
-                </div> -->
-            <div class="col-1 route-container">
-                <div class="route-truck" *ngIf="data.isLastStop">
-                    <img src="assets/icons/truck.svg" alt="truck">
-                </div>
-                <div class="route-line" [ngClass]="{'running' : data.isLastStop == 'false','upcoming' : data.isLastStop == 'true' }" style="top: 0"></div>
-                <div class="route-circle" [ngClass]="{'route-circle-red' : data.status == 'delay', 'route-circle-green' : data.status == 'onTime','route-circle-blue': data.status == 'upcoming', 'route-circle-gray': data.status == 'dataMissing'}">
-                </div>
-                <div class="route-line" [ngClass]="{'running' : data.isLastStop == 'false','upcoming' : data.isLastStop == 'true' }">
-                </div>
-            </div>
-            <div class="col-2" style="word-break: break-all;">
-                <div>({{data.loc_name}})</div>
-                <div> {{data.name}}</div>
-            </div>
-            <div class="col-2">
-                <div>{{data.scheduled_arrival_time || '--'}}</div>
-                <div [ngClass]="{'text-red' : data.status == 'delay', 'text-green' : data.status == 'onTime','text-blue': data.status == 'upcoming', 'text-black': data.status == 'dataMissing'}">
-                    {{data.actual_arrival_time?data.actual_arrival_time:'--'}}</div>
-            </div>
-
-            <div class="col-2">
-                <div>{{data.scheduled_departure_time || '--'}}</div>
-                <div [ngClass]="{'text-red' : data.status == 'delay', 'text-green' : data.status == 'onTime','text-blue': data.status == 'upcoming', 'text-black': data.status == 'dataMissing'}">
-                    {{data.departure_time ? data.departure_time : '--'}}</div>
-            </div>
-
-            <div class="col-2">
-                <div>{{data.scheduled_halt_time || '--'}}</div>
-                <div [ngClass]="{'text-red' : data.status == 'delay', 'text-green' : data.status == 'onTime','text-blue': data.status == 'upcoming', 'text-black': data.status == 'dataMissing'}">
-                    {{data.actual_halt_time || '--'}}</div>
-            </div>
-            <div class="col-1 rowLine ">
-                <div>{{data.scheduleTat || '--'}}</div>
-                <div [ngClass]="{'text-red' : data.status == 'delay', 'text-green' : data.status == 'onTime','text-blue': data.status == 'upcoming', 'text-black': data.status == 'dataMissing'}">{{data.actualTat || '--'}}</div>
-
-            </div>
-            <div class="col-1 rowLine" >
-                <div>{{data.scheduled_kms || '--'}}</div>
-                <div>{{data.kms || '--'}}</div>
-            </div>
-            <div *ngIf="!routeFlag" class="col-1 rowLine" >
-                <div *ngIf="routesDetails.length">{{data.is_data_missing ? 'Yes' : 'No'}}</div>
-            </div>
-        </div>
+  </div>
+  <div class="mt-2">
+    <div class="row route-headings">
+      <div class="col-1"></div>
+      <div class="col-2">
+        <strong>Location</strong>
+      </div>
+      <div class="col-2">
+        <strong>Arrival</strong>
+      </div>
+      <div class="col-2">
+        <strong>Departure</strong>
+      </div>
+      <div class="col-2">
+        <strong>Halt(Hours)</strong>
+      </div>
+      <div class="col-1 tat">
+        <strong>TAT</strong>
+      </div>
+      <div class="col-1 tat">
+        <strong>KM</strong>
+      </div>
+      <div *ngIf="!routeFlag" class="col-1 tat">
+        <strong>Data Missing</strong>
+      </div>
     </div>
+    <div class="row routes" *ngFor="let data of routesDetails; let i = index;">
+      <div class="col-1 route-container">
+        <div class="route-truck" *ngIf="data.isLastStop">
+          <img [ngClass]="data.isLastStop ? 'route-truck-true' : 'route-truck-false'" src="assets/icons/truck.svg" alt="truck">
+        </div>
+        <div class="route-line"
+          [ngClass]="{'running' : data.isLastStop == 'false','upcoming' : data.isLastStop == 'true' }" style="top: 0">
+        </div>
+        <div class="route-circle"
+          [ngClass]="{'route-circle-red' : data.status == 'delay', 'route-circle-green' : data.status == 'onTime','route-circle-blue': data.status == 'upcoming', 'route-circle-gray': data.status == 'dataMissing'}">
+        </div>
+        <div class="route-line"
+          [ngClass]="{'running' : data.isLastStop == 'false','upcoming' : data.isLastStop == 'true' }">
+        </div>
+      </div>
+      <div class="col-2" style="word-break: break-all;">
+        <div>({{data.loc_name}})</div>
+        <div> {{data.name}}</div>
+      </div>
+      <div class="col-2">
+        <div>{{data.scheduled_arrival_time || '--'}}</div>
+        <div
+          [ngClass]="{'text-red' : data.status == 'delay', 'text-green' : data.status == 'onTime','text-blue': data.status == 'upcoming', 'text-black': data.status == 'dataMissing'}">
+          {{data.actual_arrival_time?data.actual_arrival_time:'--'}}</div>
+      </div>
+
+      <div class="col-2">
+        <div>{{data.scheduled_departure_time || '--'}}</div>
+        <div
+          [ngClass]="{'text-red' : data.status == 'delay', 'text-green' : data.status == 'onTime','text-blue': data.status == 'upcoming', 'text-black': data.status == 'dataMissing'}">
+          {{data.departure_time ? data.departure_time : '--'}}</div>
+      </div>
+
+      <div class="col-2">
+        <div>{{data.scheduled_halt_time || '--'}}</div>
+        <div
+          [ngClass]="{'text-red' : data.status == 'delay', 'text-green' : data.status == 'onTime','text-blue': data.status == 'upcoming', 'text-black': data.status == 'dataMissing'}">
+          {{data.actual_halt_time || '--'}}</div>
+      </div>
+      <div class="col-1 rowLine ">
+        <div>{{data.scheduleTat || '--'}}</div>
+        <div
+          [ngClass]="{'text-red' : data.status == 'delay', 'text-green' : data.status == 'onTime','text-blue': data.status == 'upcoming', 'text-black': data.status == 'dataMissing'}">
+          {{data.actualTat || '--'}}</div>
+
+      </div>
+      <div class="col-1 rowLine">
+        <div>{{data.scheduled_kms || '--'}}</div>
+        <div>{{data.kms || '--'}}</div>
+      </div>
+      <div *ngIf="!routeFlag" class="col-1 rowLine">
+        <div *ngIf="routesDetails.length">{{data.is_data_missing ? 'Yes' : 'No'}}</div>
+      </div>
+    </div>
+  </div>
 </div>
