@@ -70,8 +70,13 @@ export class RoutesTimetableComponent implements OnInit {
     this.api.getJavaPortDost(8093, `dynamicVehicleTimeTable/${this.vehId}`)
       .subscribe(res => {
         this.common.loading--;
-        console.log('getRoutesWrtFo:', res);
+        console.log('getRoutesWrtFo:', res['msg']);
+        if(res['success'] == true){
         this.routesDetails = res['data'];
+        } else{
+          console.log('inside else block')
+          this.common.showError(res['msg'])
+        }
       }, err => {
         this.common.loading--;
         console.log(err);

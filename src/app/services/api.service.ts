@@ -25,7 +25,7 @@ export class ApiService {
   URLJavaPortDost: string = 'http://elogist.in';
   // URLJavaPortDost: string = 'http://127.0.0.1';
   verifyHaltsUrl: string = 'http://elogist.in:8081/';
-  eWayURL: string = 'http://elogist.in:8090/'
+  eWayURL: string = 'http://107.6.151.122:8080/'
 
   /********************** Local Server ************* */
   // URL: string= 'http://107.6.151.122:8081/airtel'

@@ -23,32 +23,28 @@
     </nb-card-header>
     <nb-card-body>
         <div class="row">
-
-            <div class="col-6">
-                <div class="row">
-                    <canvas id="pieGraph"></canvas>
-                </div>
-                <div class="row">
-                    <canvas id="doughnutGraph"></canvas>
-                </div>
-            </div>
-
-            <div class="col-6">
-                <div class="row">
-                    <div class="col-5 cardStyle" *ngFor="let card of dashboardData.cards;let i = index"
-                        (click)="openDrillDown(card.data,common.formatTitle(card.title))">
-                        <div class="row h-100 p-2">
-                            <div class="col-8 heading" [ngStyle]="{'border-right':'7px solid' + colors[i]}">
-                                <span> {{card.title}}</span>
-                            </div>
-                            <div class="col-4 count">
-                                <h3>{{card.count}}</h3>
-                            </div>
-                        </div>
+            <div class="col-3 cardStyle" *ngFor="let card of dashboardData.cards;let i = index"
+                (click)="openDrillDown(card.data,common.formatTitle(card.title))">
+                <div class="row h-100 p-2">
+                    <div class="col-8 heading" [ngStyle]="{'border-right':'7px solid' + colors[i]}">
+                        <span> {{card.title}}</span>
+                    </div>
+                    <div class="col-4 count">
+                        <h5>{{card.count}}</h5>
                     </div>
                 </div>
             </div>
+        </div>
 
+        <div class="row graphArea">
+            <div class="col-6 my-auto">
+                <div class="row"><div class="span6 text-center"><h4>Issues To Address</h4></div></div>
+                <div class="row"><canvas id="doughnutGraph"></canvas></div>
+            </div>
+            <div class="col-6 my-auto">
+                <div class="row"><div class="span6 text-center"><h4>E-Way Bill Heat Map (Ongoing Trips)</h4></div></div>
+                <div class="row"><canvas id="pieGraph"></canvas></div>
+            </div>
         </div>
     </nb-card-body>
 
