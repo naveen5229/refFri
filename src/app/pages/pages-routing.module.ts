@@ -123,6 +123,7 @@ import { DriverConsentListComponent } from '../modals/driver-consent-list/driver
 import { DriverPreferencesComponent } from './driver-preferences/driver-preferences.component';
 import { ConsignmentComponent } from './consignment/consignment.component';
 import { TmgMaintainaceComponent } from './tmg-maintainace/tmg-maintainace.component';
+import { TripsharedComponent } from './tripshared/tripshared.component';
 
 
 const routes: Routes = [{
@@ -754,6 +755,11 @@ const routes: Routes = [{
   {
     path: 'tmg-maintainace',
     component: TmgMaintainaceComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  },
+  {
+    path: 'tripshared',
+    component: TripsharedComponent,
     canActivate: [AuthGuard, RouteGuard]
   },
   ],
