@@ -583,7 +583,9 @@ export class CommonService {
     return status;
   }
 
-  getPDFFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lower_left_heading?) {
+  getPDFFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, getPDFFromTableId?, lower_left_heading?,title?) {
+    let fileName = title ? title : `report.pdf`;
+    console.log(fileName,title);
     // console.log("Action Data:", doNotIncludes); return;
     //remove table cols with del class
     let tblelt = document.getElementById(tblEltId);
@@ -765,7 +767,7 @@ export class CommonService {
     });
 
 
-    doc.save("report.pdf");
+    doc.save(fileName);
   }
 
 
@@ -1029,7 +1031,8 @@ export class CommonService {
 
   }
 
-  getCSVFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lower_left_heading?) {
+  getCSVFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lower_left_heading?,title?) {
+    let fileName = title ? title : `report`;
     let tblelt = document.getElementById(tblEltId);
     console.log(tblelt);
     if (tblelt.nodeName != "TABLE") {
@@ -1135,7 +1138,7 @@ export class CommonService {
         info.push(rowdata);
       }
     }
-    new AngularCsv(info, "report");
+    new AngularCsv(info, fileName);
   }
 
   getCSVFromTableIdNew(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lastheading?) {
