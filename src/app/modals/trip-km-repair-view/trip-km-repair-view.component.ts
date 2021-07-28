@@ -210,6 +210,7 @@ export class TripKmRepairViewComponent implements OnInit {
         this.common.showToast('Unknown Type');
         break;
     }
+    this.getSingleTripInfoForView();
   }
 
   showPoly(data, options) {
@@ -221,6 +222,60 @@ export class TripKmRepairViewComponent implements OnInit {
     let boundData = data.map(e => { return { lat: parseFloat(e.lat), lng: e.long ? parseFloat(e.long) : parseFloat(e.lng) }; });
     this.map.setMultiBounds(boundData, true);
     return polyPath;
+  }
+  circles = [];
+  circleCenter = [];
+  getSingleTripInfoForView() {
+    if (this.tripId) {
+      this.common.loading++;
+      this.api.get(`TripsOperation/getSingleTripInfoForView?tripId=${this.tripId}`)
+        .subscribe(res => {
+          this.common.loading--;
+          this.circles.forEach(item => {
+            item.setMap(null);
+          });
+          this.circleCenter.forEach(item => {
+            item.setMap(null);
+          });
+          this.circles = [];
+          this.circleCenter = [];
+          res['data'].forEach(element => {
+            console.log("element====", element);
+            if (element.type === 3 || element.type === 1) {
+              console.log("element1 in side====", element);
+              let color = element.type === 1 ? '00FF00' : 'FF0000';
+              let center = this.map.createLatLng(element.rlat, element.rlong);
+              let radius = element.type === 1 ? 1000 : 5000;
+              let circle = this.map.createCirclesOnPostion(center, radius, '#' + color, '#' + color);
+              this.circles.push(circle);
+              // if (element.type == 3) {
+              //   let circle1 = this.map.createCirclesOnPostion(center, 15000, '#' + color, '#' + color);
+              //   // let circle2 = this.map.createCirclesOnPostion(center, 40000, '#' + color, '#' + color);
+              //   this.circles.push(circle1);
+              //   // this.circles.push(circle2);
+              // }
+
+              this.map.addListerner(circle, 'mouseover', () => {
+                this.map.map.getDiv().setAttribute('title', element.name);
+              });
+
+              this.map.addListerner(circle, 'mouseout', () => {
+                this.map.map.getDiv().removeAttribute('title');
+              });
+              let marker = [{
+                lat: element.rlat,
+                lng: element.rlong,
+                type: 'site', subType: 'marker', color: color,
+                name:element.name
+              }];
+              this.circleCenter.push(this.map.createMarkers(marker, false, false,["name"])[0]);
+            }
+          });
+        }, err => {
+          this.common.loading--;
+          console.error(err);
+        })
+    }
   }
 
   closeModal() {
