@@ -95,7 +95,7 @@
     <div class="row mt-2">
       <div class="col-4">From Pincode:<label style="color: red;">*</label></div>
       <div class="col-8">
-        <input type="text" class="form-control" [pattern]="'/^\d{4} ?[a-z]{2}$/i'" [(ngModel)]="billDateExtend.FromPincode">
+        <input type="number" class="form-control" onKeyPress="if(this.value.length==6) return false;" [(ngModel)]="billDateExtend.FromPincode">
       </div>
     </div>
 
@@ -119,7 +119,7 @@
 
 
     <div class="row mt-2">
-      <div class="col-4">Enter Reason:</div>
+      <div class="col-4">Enter Reason:<label style="color: red;">*</label></div>
       <div class="col-8">
         <!-- <input type="text" class="form-control" [(ngModel)]="billDateExtend.ExtnRsn"> -->
         <select class="form-control" [(ngModel)]="billDateExtend.ExtnRsn">
@@ -132,7 +132,7 @@
     </div>
 
     <div class="row mt-2">
-      <div class="col-4">Enter Remarks:</div>
+      <div class="col-4">Enter Remarks:<label style="color: red;" *ngIf="billDateExtend.ExtnRsn=='Others'">*</label></div>
       <div class="col-8">
         <!-- <input type="text" class="form-control" [(ngModel)]="billDateExtend.ExtnRemarks"> -->
         <textarea class="form-control" [(ngModel)]="billDateExtend.ExtnRemarks"></textarea>

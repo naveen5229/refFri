@@ -59,22 +59,22 @@ export class EWayBillTripComponent implements OnInit {
       } else {
         this.common.showError(res['msg']);
       }
-      console.log('savedData:', this.dashBoardData);
     }, err => {
       this.common.loading--;
-      console.log(err);
+      this.common.showError();
     });
   }
 
   arrangeDashboardData() {
     this.dashboardData.cards = [];
     this.dashboardData.pieChart = [];
+    this.dashboardData.doughnutChart = [];
     Object.keys(this.dashBoardData.billDetail).map(key => {
       this.dashboardData.cards.push({ title: this.formatTitle(key), count: this.dashBoardData.billDetail[key]['count'], data: this.dashBoardData.billDetail[key]['data'] ? this.dashBoardData.billDetail[key]['data'] : [] });
     });
 
     Object.keys(this.dashBoardData.billDetail).map(key => {
-      if (key != 'total_eway_bill' && key != 'total_trips') {
+      if (key == 'Trip_Without_Eway_BIll' || key == 'Eway_Bill_Without_Vehicle' || key == 'Eway_BIll_With_Veh_Without_Trip') {
         this.dashboardData.doughnutChart.push({ title: this.formatTitle(key), count: this.dashBoardData.billDetail[key]['count'], data: this.dashBoardData.billDetail[key]['data'] ? this.dashBoardData.billDetail[key]['data'] : [] });
       }
     });
@@ -82,7 +82,6 @@ export class EWayBillTripComponent implements OnInit {
     Object.keys(this.dashBoardData.chartDetail).map(key => {
       this.dashboardData.pieChart.push({ title: this.formatTitle(key), count: this.dashBoardData.chartDetail[key]['count'], data: this.dashBoardData.chartDetail[key]['data'] ? this.dashBoardData.chartDetail[key]['data'] : [] });
     });
-    console.log(this.dashboardData)
     this.renderDashboardScreen();
   }
 
@@ -92,7 +91,7 @@ export class EWayBillTripComponent implements OnInit {
     let labelsDoughnut = [];
     let chartDataSetDoughnut = [];
     this.dashboardData.pieChart.map((data, index) => {
-      labelsPie.push(data.title);
+      labelsPie.push(`${data.title}(${data.count})`);
       chartDataSetPie.push(data.count)
     });
 
@@ -100,8 +99,6 @@ export class EWayBillTripComponent implements OnInit {
       labelsDoughnut.push(data.title);
       chartDataSetDoughnut.push(data.count)
     });
-
-    console.log('chartData', chartDataSetPie, chartDataSetDoughnut)
 
     var ctxPie = $('#pieGraph');
     var ctxDoughnut = $('#doughnutGraph');
@@ -120,12 +117,13 @@ export class EWayBillTripComponent implements OnInit {
       },
       options: {
         onClick: (event, i) => {
-          console.log(i, i[0]._index);
-          this.findDrillDownData(i[0]._index, 0);
+          if (i && i.length > 0) {
+            this.findDrillDownData(i[0]._index, 0);
+          }
         },
-        legend:{
-          display:true,
-          position:'bottom'
+        legend: {
+          display: true,
+          position: 'right'
         }
       }
     });
@@ -144,19 +142,19 @@ export class EWayBillTripComponent implements OnInit {
       },
       options: {
         onClick: (event, i) => {
-          console.log(i, i[0]._index);
-          this.findDrillDownData(i[0]._index, 1);
+          if (i && i.length > 0) {
+            this.findDrillDownData(i[0]._index, 1);
+          }
         },
-        legend:{
-          display:true,
-          position:'bottom'
+        legend: {
+          display: true,
+          position: 'bottom'
         }
       }
     });
   }
 
   findDrillDownData(index, findFrom) {
-    // console.log(this.dashboardData.pieChart, this.dashboardData.pieChart[index].data)
     this.resetTable();
     if (!findFrom) {
       this.openDrillDown(this.dashboardData.pieChart[index].data, this.common.formatTitle(this.dashboardData.pieChart[index].title))
@@ -175,7 +173,6 @@ export class EWayBillTripComponent implements OnInit {
   }
 
   openDrillDown(smartTableData, title) {
-    console.log('smartTableData', smartTableData)
     this.data = smartTableData;
     this.table.heading = title;
     if (this.data && this.data.length > 100) {
@@ -242,7 +239,6 @@ export class EWayBillTripComponent implements OnInit {
   }
 
   editBill(data) {
-    console.log(data);
     this.common.params = {
       title: 'E-Way-Bill Date Extend',
       type: 1,
@@ -262,7 +258,6 @@ export class EWayBillTripComponent implements OnInit {
   }
 
   updatePartInfo(data) {
-    console.log(data);
     this.common.params = {
       title: 'Update Part-B Info',
       type: 2,

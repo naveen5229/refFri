@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { AddMaintenanceComponent } from '../model/add-maintenance/add-maintenance.component';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'ticket-summary',
@@ -12,6 +13,7 @@ import { AddMaintenanceComponent } from '../model/add-maintenance/add-maintenanc
 })
 export class TicketSummaryComponent implements OnInit {
 
+  csvTitle = null;
   servicetypes = [];
   data = [];
   dataForFilter = [];
@@ -21,7 +23,9 @@ export class TicketSummaryComponent implements OnInit {
       columns: []
     },
     settings: {
-      hideHeader: true
+      hideHeader: true,
+      pagination: true,
+      pageLimit: 200
     }
   };
   headings = [];
@@ -40,6 +44,7 @@ export class TicketSummaryComponent implements OnInit {
   ) {
     this.ticketSummary();
     this.getServiceType();
+    console.log(this.user)
   }
 
   ngOnInit(): void {
@@ -120,7 +125,9 @@ export class TicketSummaryComponent implements OnInit {
         columns: []
       },
       settings: {
-        hideHeader: true
+        hideHeader: true,
+        pagination: true,
+        pageLimit: 200
       }
     };
   }
@@ -130,49 +137,84 @@ export class TicketSummaryComponent implements OnInit {
   }
 
   getTableColumns() {
-    let action = { title: this.formatTitle('Action'), placeholder: this.formatTitle('Action') };
-    this.table.data.headings['Action'] = action;
+    // let action = { title: this.formatTitle('Action'), placeholder: this.formatTitle('Action') };
+    // this.table.data.headings['Action'] = action;
     let columns = [];
     console.log("Data=", this.data);
-    this.data.map(doc => {
+    this.data.map((doc, index) => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
-        console.log("doc index value:", doc[this.headings[i]]);
+        // console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
       }
       this.valobj['Action'] = {
-        icons: [
-          { class: "fa fa-retweet mr-3", action: this.addMaintenance.bind(this, doc) }
-        ]
-        , 
-        action:null,
-        // icons: doc.isChecked ? [{ class: "fa fa-retweet mr-3", action: this.addMaintenance.bind(this, doc) }] : [],
-        // action: this.handleChecBoxClick.bind(this, doc),
-        // isCheckbox: true
+        // icons: [
+        //   { class: "fa fa-retweet mr-3", action: this.addMaintenance.bind(this, doc) }
+        // ]
+        // , 
+        // action:null,
+        icons: [],
+        action: this.handleChecBoxClick.bind(this, doc, index),
+        isCheckbox: true
       };
       columns.push(this.valobj);
     });
     console.log(this.table)
+    this.csvTitle = `${this.user._customer.name},Ticket-Summary,${this.common.dateFormatter1(this.summaryRange.startDate)}-${this.common.dateFormatter1(this.summaryRange.endDate)}`;
     return columns;
   }
 
   commonTransportCollection = [];
-  handleChecBoxClick(doc) {
+  handleChecBoxClick(doc, index) {
+    // if (this.commonTransportCollection && this.commonTransportCollection.length > 0) {
+    //   this.commonTransportCollection.forEach(ele => {
+    //     if ((ele.Vehicle).toLowerCase() != (doc.Vehicle).toLowerCase()) {
+    //       return this.common.showError('Vehicle Not Matched');
+    //     } else {
+    //       this.data[index].isChecked = true;
+    //       this.commonTransportCollection.push(doc)
+    //     }
+    //   })
+    // } else {
+    //   this.data[index].isChecked = true;
+    //   this.commonTransportCollection.push(doc)
+    // }
+    // setTimeout(() => {
+    //   this.getTableColumns();
+    // }, 1000);
+    // console.log("handleChecBoxClick ~ doc", this.commonTransportCollection, this.data)
+
+    let existAtIndex = null;
     if (this.commonTransportCollection && this.commonTransportCollection.length > 0) {
-      this.commonTransportCollection.forEach(ele => {
-        if ((ele.Vehicle).toLowerCase() != (doc.Vehicle).toLowerCase()) {
-          return this.common.showError('Vehicle Not Matched');
-        } else {
-          doc.isChecked = true;
-          this.commonTransportCollection.push(doc)
-        }
-      })
+      existAtIndex = this.commonTransportCollection.findIndex((ele) => { return ele._ticket_id === doc._ticket_id });
     } else {
-      doc.isChecked = true;
-      this.commonTransportCollection.push(doc)
+      let docEle = JSON.parse(JSON.stringify(doc));
+      docEle._partid = [docEle._partid];
+      this.addMaintenance(docEle);
     }
-    this.getTableColumns();
-    console.log("handleChecBoxClick ~ doc", this.commonTransportCollection,this.data)
+    console.log(existAtIndex)
+    if (existAtIndex == 0 || existAtIndex > 0) {
+      this.commonTransportCollection.splice(existAtIndex, 1);
+    } else {
+      this.commonTransportCollection.push(doc);
+    }
+
+    console.log(this.commonTransportCollection)
+
+  }
+
+  closeTickets() {
+    let group = _.groupBy(this.commonTransportCollection, 'Vehicle');
+    console.log(group, Object.keys(group).length);
+    if (Object.keys(group).length > 1) return this.common.showError(`Please Select Same Vehicle number`);
+    let serviceIds = [];
+    this.commonTransportCollection.map(ele => {
+      serviceIds.push(ele['_partid']);
+    });
+    let doc = JSON.parse(JSON.stringify(this.commonTransportCollection[0]));
+    doc._partid = serviceIds
+    console.log(doc);
+    this.addMaintenance(doc);
   }
 
   addMaintenance(doc) {
@@ -183,6 +225,7 @@ export class TicketSummaryComponent implements OnInit {
     activeModal.result.then(data => {
       if (data.response) {
         this.ticketSummary();
+        this.commonTransportCollection = [];
       }
     });
   }

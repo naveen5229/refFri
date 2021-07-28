@@ -174,15 +174,16 @@ export class EWayUpdateComponent implements OnInit {
 
     let params = {};
     if (this.formType == 1) {
-      let requiredFields = ['FromState', 'FromCity', 'TransportMode','FromPincode'];
+      let requiredFields = ['FromState', 'FromCity', 'TransportMode'];
       if (this.billDateExtend.TransportMode == 'In-Transit') {
-        let otherValidation = ['TransitType', 'AddressLine1'];
+        let otherValidation = ['TransitType','FromPincode', 'AddressLine1'];
         requiredFields = requiredFields.concat(otherValidation);
       } else {
         this.billDateExtend.TransitType = '';
         this.billDateExtend.AddressLine1 = '';
         this.billDateExtend.AddressLine2 = '';
         this.billDateExtend.AddressLine3 = '';
+        requiredFields.push('FromPincode');
       }
       let ValidationFound = [];
       requiredFields.forEach(key => {
@@ -190,6 +191,7 @@ export class EWayUpdateComponent implements OnInit {
       });
       if (ValidationFound && ValidationFound.length > 0) return this.common.showError(`${this.common.formatTitle(ValidationFound[0])} is Required Field.`);
       params = this.billDateExtend;
+      params['TransDocDate'] = this.common.dateFormatter1(new Date(params['TransDocDate']));
     } else if (this.formType == 2) {
       let requiredFields = ['TransportMode'];
       if (this.partsInfo.TransportMode == 'Road') {
@@ -208,6 +210,7 @@ export class EWayUpdateComponent implements OnInit {
       });
       if (ValidationFound && ValidationFound.length > 0) return this.common.showError(`${this.common.formatTitle(ValidationFound[0])} is Required Field.`)
       params = this.partsInfo;
+      params['TransDocDate'] = this.common.dateFormatter1(new Date(params['TransDocDate']));
     }
     console.log('test going ahead', params);
 
@@ -226,6 +229,7 @@ export class EWayUpdateComponent implements OnInit {
         }
       } else {
         this.common.showError(res['msg']);
+        console.log('res',res);
       }
     }, err => {
       this.common.loading--;
