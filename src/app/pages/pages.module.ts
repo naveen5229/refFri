@@ -188,6 +188,7 @@ import { VehicleMaintainanceCountComponent } from '../widgets/maitainance/vehicl
 import { TopWorkshopComponent } from '../widgets/maitainance/top-workshop/top-workshop.component';
 import { VehicleMaintainanceMostAgedComponent } from '../widgets/maitainance/vehicle-maintainance-most-aged/vehicle-maintainance-most-aged.component';
 import { VehicleMaintainanceMaxDurComponent } from '../widgets/maitainance/vehicle-maintainance-max-dur/vehicle-maintainance-max-dur.component';
+import { TripsharedComponent } from './tripshared/tripshared.component';
 import { EWayBillTripComponent } from './e-way-bill-trip/e-way-bill-trip.component';
 
 const PAGES_COMPONENTS = [
@@ -374,7 +375,11 @@ const PAGES_COMPONENTS = [
     ReportEditComponent,
     DriverPreferencesComponent,
     ConsignmentComponent,
+<<<<<<< HEAD
+    TripsharedComponent,
+=======
     EWayBillTripComponent,
+>>>>>>> 820875de4404ca844f98535ffe716e3ba250561c
     
   ],
   exports: [
