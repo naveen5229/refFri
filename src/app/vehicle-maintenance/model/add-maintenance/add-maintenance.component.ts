@@ -28,6 +28,7 @@ export class AddMaintenanceComponent implements OnInit {
   isItem = 0;
   isChecks = {};
   serviceDetails = {
+    reqId: null,
     lastServiceDate: new Date(),
     invoiceNo: null,
     serviceCategory: '1',
@@ -72,10 +73,45 @@ export class AddMaintenanceComponent implements OnInit {
 
     this.serviceMaintenanceType();
     this.getServiceCenters();
+
+    setTimeout(() => {
+      if (this.common.params.isEdit && !this.common.params.modal) {
+        this.serviceDetails = {
+          reqId: this.common.params.row['_jobid'],
+          lastServiceDate: this.common.params.row['Service Date'] ? new Date(this.common.params.row['Service Date']) : new Date(),
+          invoiceNo: this.common.params.row['Invoice No'],
+          serviceCategory: this.common.params.row['_is_scheduled'] ? '1' : '2',
+          scheduleServices: `${this.common.params.row['_is_companyservice']}`,
+          lastServiceKm: this.common.params.row['Service Odometer'],
+          nextServiceDate: new Date(this.common.params.row['Target Service Date']),
+          nextServiceKm: this.common.params.row['Target Odometer'],
+          serviceCenter: this.common.params.row['Service Centre'],
+          serviceLocation: this.common.params.row['_service_location'],
+          amount: this.common.params.row['_amount'],
+          totalAmount: this.common.params.row['Cost'],
+          tax: this.common.params.row['_tax_amt'],
+          labourCost: this.common.params.row['_labour_cost'],
+          remark: this.common.params.row['remarks'],
+        }
+
+        this.services = this.common.params.row['_serviceids'];
+        this.serviceType.map((type, index) => {
+          if (this.services.includes(type.id)) {
+            this.isChecks[index] = true;
+          }
+        });
+
+        this.items = this.common.params.row['_items'] ? this.common.params.row['_items'] : [{ name: null, quantity: null, amount: null }, { name: null, quantity: null, amount: null }];
+        this.isItem = (this.common.params.row['_items'] && this.common.params.row['_items'].length > 0) ? 1 : 0;
+      }
+    }, 1000);
+
     if (this.common.params.modal) {
+      this.serviceDetails.nextServiceDate = new Date(this.common.params.doc['Target Service Date']);
+      this.serviceDetails.nextServiceKm = this.common.params.doc['Target Odometer'];
       this.sId = this.common.params.sId;
-      if(this.sId=="47"){
-        this.serviceDetails.scheduleServices="true"
+      if (this.sId == "47") {
+        this.serviceDetails.scheduleServices = "true"
       }
       // console.log("test", this.common.params.sId);
       // this.addType(this.sId, true);
@@ -92,45 +128,45 @@ export class AddMaintenanceComponent implements OnInit {
   }
 
   serviceMaintenanceType() {
-    this.serviceType=[];
-    let data=[];
+    this.serviceType = [];
+    let data = [];
 
     this.common.loading++;
     this.api.get('VehicleMaintenance/getHeadMaster')
       .subscribe(res => {
         this.common.loading--;
         data = res['data'];
-        data.map((ele,i)=>{
-          if(ele.name=="GENERAL"){
+        data.map((ele, i) => {
+          if (ele.name == "GENERAL") {
             this.serviceType.unshift(ele);
-          } 
-          else{
+          }
+          else {
             this.serviceType.push(ele);
           }
           return this.serviceType;
         })
 
-        this.serviceType.map((ele,i)=>{
-         if(ele.id==this.sId){
-           if(this.sId=='47'){
-             if( this.serviceDetails.scheduleServices!='false'){
-              this.isChecks[i]=true;
-              this.addType(ele['id'],true);
-             }else{
-              this.serviceDetails.scheduleServices="false";
-              this.isChecks[i]=false;
-              this.addType(ele['id'],true);
-             }
-              
-           }else{
-              this.serviceDetails.scheduleServices="false";
-              this.isChecks[i]=true;
-              this.addType(ele['id'],true);
-           }
+        this.serviceType.map((ele, i) => {
+          if (ele.id == this.sId) {
+            if (this.sId == '47') {
+              if (this.serviceDetails.scheduleServices != 'false') {
+                this.isChecks[i] = true;
+                this.addType(ele['id'], true);
+              } else {
+                this.serviceDetails.scheduleServices = "false";
+                this.isChecks[i] = false;
+                this.addType(ele['id'], true);
+              }
+
+            } else {
+              this.serviceDetails.scheduleServices = "false";
+              this.isChecks[i] = true;
+              this.addType(ele['id'], true);
+            }
           }
           return;
         })
-       
+
         console.log("Maintenance Type", this.serviceType);
       }, err => {
         this.common.loading--;
@@ -153,6 +189,7 @@ export class AddMaintenanceComponent implements OnInit {
 
   addService() {
     let params = {
+      reqId: this.serviceDetails.reqId,
       id: this.serviceId ? this.serviceId : null,
       vId: this.vehicleId,
       regno: this.regno,
@@ -162,7 +199,8 @@ export class AddMaintenanceComponent implements OnInit {
       lastServiceDate: this.common.dateFormatter(this.serviceDetails.lastServiceDate),
       lastServiceKm: this.serviceDetails.lastServiceKm,
       nextServiceDays: null,
-      nextServiceKm: null,
+      nextServiceDate:this.common.dateFormatter(this.serviceDetails.nextServiceDate),
+      nextServiceKm: this.serviceDetails.nextServiceKm,
       serviceCenter: this.serviceDetails.serviceCenter,
       serviceLocation: this.serviceDetails.serviceLocation,
       amount: this.serviceDetails.amount,
@@ -173,7 +211,7 @@ export class AddMaintenanceComponent implements OnInit {
       services: this.arrayToString(this.services)
     };
     console.log("Params:", params);
-    // return ;
+    // return;
     this.common.loading++;
     this.api.post('VehicleMaintenance/add', params)
       .subscribe(res => {
@@ -227,6 +265,7 @@ export class AddMaintenanceComponent implements OnInit {
     } else {
       this.services.splice(this.services.findIndex((element) => { return element == serviceId }), 1);
     }
+    console.log('services', this.services, this.isChecks)
   }
 
   calculateAmount() {

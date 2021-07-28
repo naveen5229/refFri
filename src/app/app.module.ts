@@ -326,6 +326,7 @@ import { PlacementCostComponent } from './modals/placement-cost/placement-cost.c
 import { AddMapVehicleComponentComponent } from './modals/add-map-vehicle-component/add-map-vehicle-component.component';
 import { RemaptripandrouteComponent } from './modals/remaptripandroute/remaptripandroute.component';
 import { ForcellyRemappingRouteComponent } from './modals/forcelly-remapping-route/forcelly-remapping-route.component';
+import { EWayUpdateComponent } from './modals/e-way-update/e-way-update.component';
 
 
 
@@ -637,7 +638,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     SlowestTransporterComponent,
     CostGamificationComponent,
     PlacementCostComponent,
-    ForcellyRemappingRouteComponent
+    ForcellyRemappingRouteComponent,
+    EWayUpdateComponent
   ],
   entryComponents: [
     ...COMMON_COMPONENT,

@@ -152,6 +152,11 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         title: 'Trip Shared',
         icon: 'fa-exchange-alt',
         link: '/pages/tripshared',
+      },
+      {
+        title: 'E-Way-Bill',
+        icon: 'fa-home',
+        link: '/pages/e-way-bill',
       }
     ]
   },

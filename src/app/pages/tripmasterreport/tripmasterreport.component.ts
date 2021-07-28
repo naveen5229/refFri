@@ -28,7 +28,8 @@ export class TripmasterreportComponent implements OnInit {
       columns: []
     },
     settings: {
-      hideHeader: true
+      hideHeader: true,
+      pagination: true,
     }
   };
   headings = [];
@@ -174,8 +175,11 @@ export class TripmasterreportComponent implements OnInit {
     this.common.getPDFFromTableId('trip-master-report');
   }
 
+  reportData:any = [];
+
   downloadExcel() {
-    this.common.getCSVFromTableId('trip-master-report');
+    // this.common.getCSVFromTableId('trip-master-report');
+    this.common.getCSVFromDataArray(this.tripData, this.table.data.headings, 'trip master report')
   }
 
 }
