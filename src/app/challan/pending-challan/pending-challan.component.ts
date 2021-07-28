@@ -184,11 +184,11 @@ export class PendingChallanComponent implements OnInit {
     console.log('value is: ', value);
     this.newChallan.forEach(item => {
       if(value == 1){
-        if (item['Payment Type'] == 'Pending' && (item.State.includes('PB') || item.State.includes('BR') || item.State.includes('UK'))){
+        if (item['Payment Type'] == 'Pending' && (item.State.includes('PB') || item.State.includes('BR') || item.State.includes('UK')) && (!item['_payment_doc_id'])){
           this.newChallanList.push(item);
         }
       } else if(value == 2){
-        if(item['Payment Type'] == 'Pending' && item._ch_doc_id && item._req_status == 0 && (!(item._payment_doc_id)) && (!(item.State.includes('PB') || item.State.includes('BR') || item.State.includes('UK')))){
+        if(item['Payment Type'] == 'Pending' && item._req_status == 0 && (!(item._payment_doc_id)) && (!(item.State.includes('PB') || item.State.includes('BR') || item.State.includes('UK')))){
           this.newChallanList.push(item);
         }
 
@@ -315,7 +315,7 @@ export class PendingChallanComponent implements OnInit {
       { eDate: endDate },
       { name: foName }
     ]
-    let headersArray = ["RegNo", "Challan Date", "Challan No", "Dl Rc No", "Payment", "Payment Source", "State", "Payment Type", "Amount", "Transaction Id", "Violator Name", "Driver"];
+    let headersArray = ["RegNo", "Challan Date", "Challan No", "Dl Rc No", "Payment", "Payment Source", "State", "Payment Type", "Amount", "Transaction Id", "Violator Name", "Driver","Action"];
     let json = this.challan.map(challan => {
       return {
         "RegNo": challan['Regno'],
@@ -330,6 +330,7 @@ export class PendingChallanComponent implements OnInit {
         "Transaction Id": challan['Transaction Id'],
         "Violator Name": challan['Violator Name'],
         "Driver": challan['Driver'],
+        "Action": challan['Action']
       };
     });
 
