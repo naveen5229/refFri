@@ -18,6 +18,7 @@ export class RoutesTimetableComponent implements OnInit {
   isLastStop = -1;
   routetrip = 0;
   routeFlag: boolean;
+  regno = null;
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -31,10 +32,10 @@ export class RoutesTimetableComponent implements OnInit {
       this.routeTTId = this.common.params.routeTime.routeTimeId;
       this.routetrip = (this.common.params.routeTime.routetrip) ? this.common.params.routeTime.routetrip : 0;
       this.routeFlag = this.common.params.routeTime.routeFlag;
+      this.regno = this.common.params.routeTime.v_regno
       console.log('this.routeFlag: ', this.routeFlag)
     }
     this.getData();
-
   }
 
   ngOnDestroy() { }
@@ -42,20 +43,12 @@ export class RoutesTimetableComponent implements OnInit {
   }
 
   getData() {
-    // if (this.routeFlag) {
-      console.log('inside true')
-      if (this.routetrip == 0) {
-        this.getRoutesDashboard();
-      } else {
-        this.getRoutes();
-      }
-    // }
-    //  else if (!this.routeFlag) {
-    //   console.log('inside routeflag false')
-      
-
-    // }
-
+    console.log('inside true')
+    if (this.routetrip == 0) {
+      this.getRoutesDashboard();
+    } else {
+      this.getRoutes();
+    }
   }
 
   getRoutes() {
@@ -65,7 +58,6 @@ export class RoutesTimetableComponent implements OnInit {
         this.common.loading--;
         console.log('response is: ', res)
         this.routesDetails = res['data'];
-        // this.statusFinder();
       }, err => {
         this.common.loading--;
         console.log('err is: ', err)
@@ -74,39 +66,33 @@ export class RoutesTimetableComponent implements OnInit {
 
   getRoutesDashboard() {
     console.log('hello dear');
-    // let params = {
-    //   vehicleId: this.vehId,
-    //   routeId: this.routeId,
-    //   routeTtId: this.routeTTId,
-    // }
-
     this.common.loading++;
-    // this.api.post('ViaRoutes/getVehicleTimeTable1', params)
     this.api.getJavaPortDost(8093, `dynamicVehicleTimeTable/${this.vehId}`)
       .subscribe(res => {
         this.common.loading--;
-        console.log('getRoutesWrtFo:', res);
+        console.log('getRoutesWrtFo:', res['msg']);
+        if(res['success'] == true){
         this.routesDetails = res['data'];
-        // this.statusFinder();
+        } else{
+          console.log('inside else block')
+          this.common.showError(res['msg'])
+        }
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
+
   getRoutesHistory() {
     let params = {
       routeId: this.routeId
     }
-
     this.common.loading++;
-
-    // before 
     this.api.post('TripExpenseVoucher/getVehicleTimeTable', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('getRoutesWrtFo:', res);
         this.routesDetails = res['data'];
-        // this.statusFinder();
       }, err => {
         this.common.loading--;
         console.log(err);
