@@ -21,8 +21,10 @@ export class DriverPreferencesComponent implements OnInit {
       columns: []
     },
     settings: {
-      hideHeader: true
+      hideHeader: true,
+      pagination:true
     }
+   
   };
 
   constructor(
@@ -64,10 +66,23 @@ export class DriverPreferencesComponent implements OnInit {
   }
 
   setConsentTable() {
+    this.table = {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true,
+        pagination: true
+      },
+      
+    };
+
     this.table.data = {
       headings: this.generateHeadingsNormal(),
       columns: this.getTableColumnsNormal(),
     };
+    // this.table.settings.pagination=true;
     return true;
   }
 
