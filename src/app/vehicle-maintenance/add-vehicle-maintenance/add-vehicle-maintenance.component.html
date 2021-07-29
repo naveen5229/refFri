@@ -5,9 +5,9 @@
                 <form class="w-100">
                     <div class="row">
                         <div class="col-md-2 pr-0">
-                            <auto-suggestion (onSelected)="getvehicleData($event)" (unSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid"
-                                display="regno" placeholder="Enter Vehicle Number" style="width:60%;" 
-                                >
+                            <auto-suggestion (onSelected)="getvehicleData($event)" (unSelected)="getvehicleData($event)"
+                                url="Vehicles/getVehicleListForFoid" display="regno" placeholder="Enter Vehicle Number"
+                                style="width:60%;">
                                 <!-- (change)="resetData($event)" -->
                             </auto-suggestion>
                         </div>
@@ -40,12 +40,14 @@
                             </button> -->
 
                             <div class="col-12 text-right" *ngIf='data.length>0'>
-                                <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('maintenance')" style="cursor: pointer;"><i
-                                    class="fa fa-file-pdf"></i></span>
-                                <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('maintenance')"
-                                  style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
-                              </div>
+                                <span class="pdf-icon" title="PDF Export"
+                                    (click)="common.getPDFFromTableId('maintenance',csvDetails.headings.title,csvDetails.headings.foDetail,null,null,csvDetails.headings.dateRange,csvDetails.csvTitle)"
+                                    style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+                                <span class="exel-icon" title="CSV Export"
+                                    (click)="common.getCSVFromTableId('maintenance',csvDetails.headings.title,csvDetails.headings.foDetail,null,null,csvDetails.headings.dateRange,csvDetails.csvTitle)"
+                                    style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
                             </div>
+                        </div>
                     </div>
                 </form>
             </div>
