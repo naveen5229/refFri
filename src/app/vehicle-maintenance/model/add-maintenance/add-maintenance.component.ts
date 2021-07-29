@@ -109,10 +109,26 @@ export class AddMaintenanceComponent implements OnInit {
     if (this.common.params.modal) {
       this.serviceDetails.nextServiceDate = new Date(this.common.params.doc['Target Service Date']);
       this.serviceDetails.nextServiceKm = this.common.params.doc['Target Odometer'];
-      this.sId = this.common.params.sId;
-      if (this.sId == "47") {
-        this.serviceDetails.scheduleServices = "true"
-      }
+      // old code for completing single ticket summary
+      // this.sId = this.common.params.sId;
+      // if (this.sId == "47") {
+      //   this.serviceDetails.scheduleServices = "true"
+      // }
+      // old code for completing single ticket summary
+
+      // new code for completing single ticket summary -- ngx
+      this.services = this.common.params.sId;
+      setTimeout(() => {
+        (this.services.includes(47)) ? this.serviceDetails.scheduleServices = "true" : this.serviceDetails.scheduleServices = "false";
+        this.serviceType.map((type, index) => {
+          if (this.services.includes(type.id)) {
+            this.isChecks[index] = true;
+          }
+        });
+        console.log(this.services, this.isChecks, this.serviceType);
+      }, 1000);
+      // new code for completing single ticket summary-- ngx
+
       // console.log("test", this.common.params.sId);
       // this.addType(this.sId, true);
     }
@@ -146,26 +162,28 @@ export class AddMaintenanceComponent implements OnInit {
           return this.serviceType;
         })
 
-        this.serviceType.map((ele, i) => {
-          if (ele.id == this.sId) {
-            if (this.sId == '47') {
-              if (this.serviceDetails.scheduleServices != 'false') {
-                this.isChecks[i] = true;
-                this.addType(ele['id'], true);
-              } else {
-                this.serviceDetails.scheduleServices = "false";
-                this.isChecks[i] = false;
-                this.addType(ele['id'], true);
-              }
+        // old code for completing single ticket summary
+        // this.serviceType.map((ele, i) => {
+        //   if (ele.id == this.sId) {
+        //     if (this.sId == '47') {
+        //       if (this.serviceDetails.scheduleServices != 'false') {
+        //         this.isChecks[i] = true;
+        //         this.addType(ele['id'], true);
+        //       } else {
+        //         this.serviceDetails.scheduleServices = "false";
+        //         this.isChecks[i] = false;
+        //         this.addType(ele['id'], true);
+        //       }
 
-            } else {
-              this.serviceDetails.scheduleServices = "false";
-              this.isChecks[i] = true;
-              this.addType(ele['id'], true);
-            }
-          }
-          return;
-        })
+        //     } else {
+        //       this.serviceDetails.scheduleServices = "false";
+        //       this.isChecks[i] = true;
+        //       this.addType(ele['id'], true);
+        //     }
+        //   }
+        //   return;
+        // })
+        // old code for completing single ticket summary
 
         console.log("Maintenance Type", this.serviceType);
       }, err => {
@@ -199,7 +217,7 @@ export class AddMaintenanceComponent implements OnInit {
       lastServiceDate: this.common.dateFormatter(this.serviceDetails.lastServiceDate),
       lastServiceKm: this.serviceDetails.lastServiceKm,
       nextServiceDays: null,
-      nextServiceDate:this.common.dateFormatter(this.serviceDetails.nextServiceDate),
+      nextServiceDate: this.common.dateFormatter(this.serviceDetails.nextServiceDate),
       nextServiceKm: this.serviceDetails.nextServiceKm,
       serviceCenter: this.serviceDetails.serviceCenter,
       serviceLocation: this.serviceDetails.serviceLocation,

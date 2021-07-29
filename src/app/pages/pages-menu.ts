@@ -144,15 +144,14 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         icon: 'fa-home',
         link: '/pages/ulheatmap',
       },
-
-
-
-
-
       {
         title: 'Placement Optimization',
         icon: 'fa-home',
         link: '/pages/placementoptimization',
+      },{
+        title: 'Trip Shared',
+        icon: 'fa-exchange-alt',
+        link: '/pages/tripshared',
       },
       {
         title: 'E-Way-Bill',

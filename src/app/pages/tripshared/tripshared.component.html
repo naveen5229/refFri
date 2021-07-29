@@ -1,0 +1,68 @@
+<nb-card>
+    <nb-card-header>
+      <div class="row">
+          <h5>Trip Shared</h5>
+      </div>
+    </nb-card-header>
+    <nb-card-body>
+        <div class="row">
+            
+            <div class="col-sm-1" *ngFor="let veh of tripData; let i = index; ">
+                <input type="checkbox" [(ngModel)]="veh.status">
+                <label>{{veh['r_regno'] }}</label>
+            </div>
+
+            
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <label>Active Hours</label>
+                <select [(ngModel)]="activehour" #btw>
+                    <option *ngFor="let sign of hourdata" value="{{sign}}">{{sign}}</option>
+                  </select>
+            </div>
+            <div class="col-sm-2">
+                <label>Share Name : </label>
+                <input type="text"  [(ngModel)]="sharedname">
+               
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-primary mt-3" (click)="saveTripStatus()">submit</button>
+            </div>
+        </div>
+        <div  class="row" style="margin-top:15px;scrollbar-width:thin;" *ngIf="tripData && tripData.length>0">
+            <div class="col-sm-12" style="height: 66vh;width: 100%;overflow: auto;">
+                <table *ngIf="sharedvehicledata && sharedvehicledata.length" id="Tripshared">
+                    <thead style="background-color: #263238; color: #fff; white-space: nowrap;">
+                        <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Shared Type</th>
+                          <th>Shared By</th>
+                          <th>Created On</th>
+                          <th>Expired On</th>
+                          <th>Shared Url</th>
+                          <th>Ref-Details</th>
+                          <!-- <th>Action</th> -->
+                        </tr>
+                      </thead>
+                      <tbody>
+                            <tr *ngFor="let row of sharedvehicledata; let i = index;">
+                            <td>{{i + 1}}</td>
+                            <td>{{row.Name}}</td>
+                            <td>{{row['Shared Type']}}</td>
+                            <td>{{row['Shared By']}}</td>
+                            <td>{{row['Created On']}}</td>
+                            <td>{{row['Expired On']}}</td>
+                            <td>{{row['Shared Url']}}</td>
+                            <td>{{row['Ref-Details']}}</td>
+
+                            </tr>
+                     </tbody>
+                          
+            </table>
+            
+            </div>
+        </div>
+    </nb-card-body>
+  </nb-card>
