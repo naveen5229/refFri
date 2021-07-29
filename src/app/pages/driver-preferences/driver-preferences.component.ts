@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddDriverCompleteComponent } from '../../modals/DriverModals/add-driver-complete/add-driver-complete.component';
 import { ImportDocumentComponent } from '../../documents/documentation-modals/import-document/import-document.component';
 import { PdfService } from '../../services/pdf/pdf.service';
+import { ExcelService } from '../../services/excel/excel.service';
 @Component({
   selector: 'driver-preferences',
   templateUrl: './driver-preferences.component.html',
@@ -21,16 +22,21 @@ export class DriverPreferencesComponent implements OnInit {
       columns: []
     },
     settings: {
-      hideHeader: true
+      hideHeader: true,
+      pagination: true
     }
+   
   };
+
+  tableHeadings;
 
   constructor(
     private common: CommonService,
     private csvService: CsvService,
-    public pdfService:PdfService,
+    public pdfService: PdfService,
     private modalService: NgbModal,
     public user: UserService,
+    public excelService: ExcelService,
     private api: ApiService) {
     this.getDriverConsentList();
     this.common.refresh = this.refresh.bind(this);
@@ -64,10 +70,23 @@ export class DriverPreferencesComponent implements OnInit {
   }
 
   setConsentTable() {
+    this.table = {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true,
+        pagination: true
+      },
+      
+    };
+
     this.table.data = {
       headings: this.generateHeadingsNormal(),
       columns: this.getTableColumnsNormal(),
     };
+    // this.table.settings.pagination=true;
     return true;
   }
 
@@ -80,10 +99,12 @@ export class DriverPreferencesComponent implements OnInit {
       status: { title: 'Status', placeholder: 'Status' },
       pendingTime: { title: 'Start Time', placeholder: 'Start Time' },
       expireTime: { title: 'Expire Time', placeholder: 'Expire Time' },
-      isActive: {title: 'isActive', placeholder: 'isActive'},
+      isActive: { title: 'isActive', placeholder: 'isActive' },
       modes: { title: 'Modes', placeholder: 'Modes' },
       action: { title: 'Action ', placeholder: 'Action', hideSearch: true, class: 'tag' },
     };
+
+    this.tableHeadings = headings;
     return headings;
   }
 
@@ -110,8 +131,8 @@ export class DriverPreferencesComponent implements OnInit {
         } else if (key === 'expireTime') {
           column[key] = { value: consent[key] ? this.common.dateFormatter(consent[key]) : '', class: "black", action: "" };
         } else if (key === 'isActive') {
-          column[key] = { value: "", isHTML: true, action: null, icons: this.isActiveIcon(consent['isActive'])};
-        }  else if (key === 'modes') {
+          column[key] = { value: "", isHTML: true, action: null, icons: this.isActiveIcon(consent['isActive']) };
+        } else if (key === 'modes') {
           column[key] = { value: consent[key], class: "black", action: "" };
         } else {
           column['action'] = { value: "", isHTML: true, action: null, icons: actionIcon };
@@ -122,10 +143,10 @@ export class DriverPreferencesComponent implements OnInit {
     return columns;
   }
 
-  isActiveIcon(isActive){
+  isActiveIcon(isActive) {
     console.log('isActive', isActive)
     let icons = []
-    if(isActive == true){
+    if (isActive == true) {
       icons = [
         {
           class: "fa fa-check",
@@ -134,7 +155,7 @@ export class DriverPreferencesComponent implements OnInit {
           title: null,
         },
       ]
-    } else if(isActive == false){
+    } else if (isActive == false) {
       icons = [
         {
           class: "fa fa-times",
@@ -168,7 +189,7 @@ export class DriverPreferencesComponent implements OnInit {
     ]
 
     this.enableDisableActionIcon(consent, icons);
-    
+
     return icons;
   }
 
@@ -185,8 +206,8 @@ export class DriverPreferencesComponent implements OnInit {
     return icons;
   }
 
-  enableDisableActionIcon(consent, icons){
-    if(consent['isActive'] == true){
+  enableDisableActionIcon(consent, icons) {
+    if (consent['isActive'] == true) {
       icons.push(
         {
           class: "fa fa-window-close ml-2",
@@ -195,7 +216,7 @@ export class DriverPreferencesComponent implements OnInit {
           title: null,
         }
       )
-    } else if(consent['isActive'] == false){
+    } else if (consent['isActive'] == false) {
       icons.push(
         {
           class: "fa fa-check-square ml-2",
@@ -207,24 +228,24 @@ export class DriverPreferencesComponent implements OnInit {
     }
   }
 
-  enableDisableConsentData(consent, value){
-    let params ={
+  enableDisableConsentData(consent, value) {
+    let params = {
       id: consent['id'],
       data: value
     }
-    this.common.loading ++;
+    this.common.loading++;
     this.api.postJavaPortDost(8083, `simdataconsent/activate/${params.id}/${params.data}`, null)
-    .subscribe((res) => {
-      this.common.loading--;
-      console.log('response is: ', res);
-      this.common.showToast(res['message']);
-      this.refresh();
-    },
-      err => {
+      .subscribe((res) => {
         this.common.loading--;
-        console.log('error is:', err);
+        console.log('response is: ', res);
+        this.common.showToast(res['message']);
+        this.refresh();
+      },
+        err => {
+          this.common.loading--;
+          console.log('error is:', err);
 
-      });
+        });
   }
 
 
@@ -260,12 +281,12 @@ export class DriverPreferencesComponent implements OnInit {
       });
   }
 
-  importDriverCSV(){
+  importDriverCSV() {
     this.common.params = { title: 'Bulk Import Driver', };
     const activeModal = this.modalService.open(ImportDocumentComponent, { container: 'nb-layout', backdrop: 'static' });
   }
 
-  addDriver(){
+  addDriver() {
     const activeModal = this.modalService.open(AddDriverCompleteComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
       if (data.response) {
@@ -287,9 +308,31 @@ export class DriverPreferencesComponent implements OnInit {
   printCSV() {
     let name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.name;
     let details = [
-      { name: 'Name:' + name, report: "Report:Driver-Preference-List" }
+      {
+        name: name,
+      }
     ];
-    this.csvService.byMultiIds(['driverConsentList'], 'driverConsentList', details);
+    // this.csvService.byMultiIds(['driverConsentList'], 'driverConsentList', details);
+
+
+    let headersArray = ["Driver", "Reg No", "Mobile No1", "Mobile No2", "Status", "Start Time", "Expire Time", "isActive", "Modes"];
+    let json = this.driverConsentList.map(challan => {
+      return {
+        "Driver": challan['empName'],
+        "Reg No": challan['regNo'],
+        "Mobile No1": challan['mobileNo'],
+        "Mobile No2": challan['mobileNo2'],
+        "Status": challan['status'],
+        "Start Time": challan['pendingTime'],
+        "Expire Time": challan['expireTime'],
+        "isActive": challan['isActive'],
+        "Modes": challan['modes'],
+      };
+    });
+
+    // this.common.getCSVFromDataArray(this.tableHeadings, this.driverConsentList, 'Driver-Prefrence', details)
+
+    this.excelService.dkgExcel("Driver Prefrence", details, headersArray, json, 'Driver Prefrence', false);
   }
 
 
