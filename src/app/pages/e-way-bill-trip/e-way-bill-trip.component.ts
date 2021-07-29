@@ -91,7 +91,7 @@ export class EWayBillTripComponent implements OnInit {
     let labelsDoughnut = [];
     let chartDataSetDoughnut = [];
     this.dashboardData.pieChart.map((data, index) => {
-      labelsPie.push(`${data.title}(${data.count})`);
+      labelsPie.push(`${data.title} (${data.count})`);
       chartDataSetPie.push(data.count)
     });
 
