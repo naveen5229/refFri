@@ -13,7 +13,14 @@ import * as _ from 'lodash';
 })
 export class TicketSummaryComponent implements OnInit {
 
-  csvTitle = null;
+  csvDetails = {
+    csvTitle: null,
+    headings:{
+      title:null,
+      foDetail:null,
+      dateRange:null
+    }
+  }
   servicetypes = [];
   data = [];
   dataForFilter = [];
@@ -163,7 +170,14 @@ export class TicketSummaryComponent implements OnInit {
       columns.push(this.valobj);
     });
     console.log(this.table)
-    this.csvTitle = `${this.user._customer.name},Ticket-Summary,${this.common.dateFormatter1(this.summaryRange.startDate)}-${this.common.dateFormatter1(this.summaryRange.endDate)}`;
+    this.csvDetails = {
+      csvTitle:`${this.user._customer.name},Ticket-Summary,${this.common.dateFormatter1(this.summaryRange.startDate)}-${this.common.dateFormatter1(this.summaryRange.endDate)}`,
+      headings:{
+        title:'Ticket Summary',
+        foDetail:`FO-Name:${this.user._customer.name}`,
+        dateRange:`From:${this.common.dateFormatter1(this.summaryRange.startDate)}-To:${this.common.dateFormatter1(this.summaryRange.endDate)}`
+      }
+    }
     return columns;
   }
 
