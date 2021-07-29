@@ -6,9 +6,9 @@
             </div>
             <div class="col-6">
                 <div class="text-right" *ngIf='data && data.length>0'>
-                    <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('ticket-Maintenance',null,null,null,null,null,csvTitle)"
+                    <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('ticket-Maintenance',csvDetails.headings.title,csvDetails.headings.foDetail,null,null,csvDetails.headings.dateRange,csvDetails.csvTitle)"
                         style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
-                    <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('ticket-Maintenance',null,null,null,null,null,csvTitle)"
+                    <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('ticket-Maintenance',csvDetails.headings.title,csvDetails.headings.foDetail,null,null,csvDetails.headings.dateRange,csvTitle)"
                         style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
                 </div>
             </div>
