@@ -113,6 +113,9 @@ export class TicketSummaryComponent implements OnInit {
         let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
         this.table.data.headings[key] = headerObj;
       }
+      if (key === "Mf Date" || key === "Target Service Date" || key === "Gen Date") {
+        this.table.data.headings[key]["type"] = "date";
+      }
     }
 
     this.table.data.columns = this.getTableColumns();
