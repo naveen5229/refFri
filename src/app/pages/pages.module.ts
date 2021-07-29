@@ -375,11 +375,8 @@ const PAGES_COMPONENTS = [
     ReportEditComponent,
     DriverPreferencesComponent,
     ConsignmentComponent,
-<<<<<<< HEAD
-    TripsharedComponent,
-=======
     EWayBillTripComponent,
->>>>>>> 820875de4404ca844f98535ffe716e3ba250561c
+    TripsharedComponent
     
   ],
   exports: [
