@@ -113,6 +113,47 @@ export class ExcelService {
     });
   }
 
+  dkgExcel(title:string,headerDetail:any[], headers: any[], json: any[], filename: string, autoWidth = true): void {
+      console.log("HeaderDetails:",headerDetail);
+      let workbook = new Workbook();
+      let worksheet = workbook.addWorksheet(filename);
+  
+      let firstRow = worksheet.getCell('A1');
+      let secondRow = worksheet.getCell('A2');
+  
+      firstRow.value = "Report Name :"+" "+title ;
+      firstRow.font = {
+        name: 'Calibri',
+        size: 16,
+        bold: true,
+        color: { argb: '000000' }
+      }
+  
+      if(headerDetail){
+      secondRow.value = "Customer Name: "+headerDetail[0]['name'];
+      secondRow.font = {
+        name: 'Calibri',
+        size: 16,
+        bold: true,
+        color: { argb: '000000' }
+      }
+
+    }
+  
+  
+      this.jrxExcelHeader(worksheet, headers);
+      this.jrxExcelData(worksheet, json, headers);
+      autoWidth && this.jrxExcelCellAutoWidth(worksheet);
+  
+      //Generate Excel File with given name
+      workbook.xlsx.writeBuffer().then((data) => {
+        let blob = new Blob([data], { type: EXCEL_TYPE });
+        FileSaver.saveAs(blob, filename + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+      });
+    
+  
+  }
+
   jrxExcelHeader(worksheet, headers){
     let headerRow = worksheet.addRow(headers);
     headerRow.eachCell((cell, number) => {
