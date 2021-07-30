@@ -40,11 +40,9 @@
                             </button> -->
 
                             <div class="col-12 text-right" *ngIf='data.length>0'>
-                                <span class="pdf-icon" title="PDF Export"
-                                    (click)="common.getPDFFromTableId('maintenance',csvDetails.headings.title,csvDetails.headings.foDetail,null,null,csvDetails.headings.dateRange,csvDetails.csvTitle)"
+                                <span class="pdf-icon" title="PDF Export" (click)="printPDF()"
                                     style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
-                                <span class="exel-icon" title="CSV Export"
-                                    (click)="common.getCSVFromTableId('maintenance',csvDetails.headings.title,csvDetails.headings.foDetail,null,null,csvDetails.headings.dateRange,csvDetails.csvTitle)"
+                                <span class="exel-icon" title="CSV Export" (click)="printCSV()"
                                     style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
                             </div>
                         </div>
