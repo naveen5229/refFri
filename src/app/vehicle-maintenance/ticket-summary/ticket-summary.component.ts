@@ -5,6 +5,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { AddMaintenanceComponent } from '../model/add-maintenance/add-maintenance.component';
 import * as _ from 'lodash';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
 
 @Component({
   selector: 'ticket-summary',
@@ -13,14 +15,7 @@ import * as _ from 'lodash';
 })
 export class TicketSummaryComponent implements OnInit {
 
-  csvDetails = {
-    csvTitle: null,
-    headings:{
-      title:null,
-      foDetail:null,
-      dateRange:null
-    }
-  }
+  csvTitle = null;
   servicetypes = [];
   data = [];
   dataForFilter = [];
@@ -47,7 +42,9 @@ export class TicketSummaryComponent implements OnInit {
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private pdfService: PdfService,
+    private csvService: CsvService
   ) {
     this.ticketSummary();
     this.getServiceType();
@@ -170,14 +167,7 @@ export class TicketSummaryComponent implements OnInit {
       columns.push(this.valobj);
     });
     console.log(this.table)
-    this.csvDetails = {
-      csvTitle:`${this.user._customer.name},Ticket-Summary,${this.common.dateFormatter1(this.summaryRange.startDate)}-${this.common.dateFormatter1(this.summaryRange.endDate)}`,
-      headings:{
-        title:'Ticket Summary',
-        foDetail:`FO-Name:${this.user._customer.name}`,
-        dateRange:`From:${this.common.dateFormatter1(this.summaryRange.startDate)}-To:${this.common.dateFormatter1(this.summaryRange.endDate)}`
-      }
-    }
+    this.csvTitle = `${this.user._customer.name},Ticket-Summary,${this.common.dateFormatter1(this.summaryRange.startDate)}-${this.common.dateFormatter1(this.summaryRange.endDate)}`;
     return columns;
   }
 
@@ -247,4 +237,24 @@ export class TicketSummaryComponent implements OnInit {
     });
   }
 
+  printPDF() {
+    let name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.foName;
+    console.log("Name:", name);
+    let details = [
+      ['Name: ' + name, 'Report: ' + 'Ticket Summary'],
+      ['Start Date: ' + this.common.dateFormatter(new Date(this.summaryRange.startDate)), 'End Date: ' + this.common.dateFormatter(new Date(this.summaryRange.endDate))]
+    ];
+    this.pdfService.jrxTablesPDF(['ticket-Maintenance'], this.csvTitle, details);
+  }
+
+  printCSV() {
+    let name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.foName;
+    let details = [
+      { name: 'Name:' + name },
+      { report: "Report:Ticket Summary" },
+      { startdate: 'Start Date:' + this.common.dateFormatter(new Date(this.summaryRange.startDate)) },
+      { enddate: 'End Date:' + this.common.dateFormatter(new Date(this.summaryRange.endDate)) }
+    ];
+    this.csvService.byMultiIds(['ticket-Maintenance'], this.csvTitle, details);
+  }
 }
