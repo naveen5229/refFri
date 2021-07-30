@@ -6,9 +6,9 @@
             </div>
             <div class="col-6">
                 <div class="text-right" *ngIf='data && data.length>0'>
-                    <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('ticket-Maintenance')"
+                    <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('ticket-Maintenance',csvDetails.headings.title,csvDetails.headings.foDetail,null,null,csvDetails.headings.dateRange,csvDetails.csvTitle)"
                         style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
-                    <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('ticket-Maintenance')"
+                    <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('ticket-Maintenance',csvDetails.headings.title,csvDetails.headings.foDetail,null,null,csvDetails.headings.dateRange,csvTitle)"
                         style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
                 </div>
             </div>
@@ -35,7 +35,7 @@
             </div>
             <div class="col-6">
                 <div class="row">
-                    <div class="col-2 my-auto p-0"></div>
+                    <div class="col-2 my-auto p-0" *ngIf="!commonTransportCollection.length"></div>
                     <div class="col-1 my-auto">Status:</div>
                     <div class="col-3 my-auto">
                         <select [(ngModel)]="summaryRange.status" (change)="filterSummary()">
@@ -50,6 +50,10 @@
                             (onSelected)="summaryRange.serviceType = $event;filterSummary()" display="name"
                             placeholder="Service type" [preSelected]="summaryRange.serviceType" [isMultiSelect]="true">
                         </auto-suggestion>
+                    </div>
+                    <div class="col-2 my-auto p-0"
+                        *ngIf="commonTransportCollection.length && commonTransportCollection.length>0">
+                        <button class="btn btn-sm btn-primary" (click)="closeTickets()">Save</button>
                     </div>
                 </div>
             </div>

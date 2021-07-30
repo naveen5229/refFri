@@ -375,8 +375,8 @@ const PAGES_COMPONENTS = [
     ReportEditComponent,
     DriverPreferencesComponent,
     ConsignmentComponent,
-    TripsharedComponent,
     EWayBillTripComponent,
+    TripsharedComponent
     
   ],
   exports: [

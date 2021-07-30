@@ -32,3 +32,21 @@
     font-size: 30px;
     color: #217346;
 }
+.vech_num_outer{
+    height: 178px;
+    overflow: auto;
+    background: #f7f7f7;
+    input{
+        vertical-align: text-top;
+        margin-right: 5px;
+    }
+}
+.table-responsive{
+    table{
+        width: 100%;
+        th, td{
+            padding: 5px 2px;
+            font-size: 13px;
+        }
+    }
+}
