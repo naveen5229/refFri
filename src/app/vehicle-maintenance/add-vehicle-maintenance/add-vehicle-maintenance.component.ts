@@ -18,6 +18,14 @@ import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
   styleUrls: ['./add-vehicle-maintenance.component.scss', '../../pages/pages.component.css']
 })
 export class AddVehicleMaintenanceComponent implements OnInit {
+  csvDetails = {
+    csvTitle: null,
+    headings: {
+      title: null,
+      foDetail: null,
+      dateRange: null
+    }
+  }
   suggestionData = [];
   selectedVehicle = null;
   vehicleRegno = null;
@@ -87,6 +95,14 @@ export class AddVehicleMaintenanceComponent implements OnInit {
         // this.table.data.headings['Action'] = action;
 
         this.table.data.columns = this.getTableColumns();
+        this.csvDetails = {
+          csvTitle: `${this.user._customer.name},Vehicle-Maitenance,${this.common.dateFormatter1(this.startTime)}-${this.common.dateFormatter1(this.endTime)}`,
+          headings: {
+            title: 'Vehicle-Maitenance',
+            foDetail: `FO-Name:${this.user._customer.name}`,
+            dateRange: `From:${this.common.dateFormatter1(this.startTime)}-To:${this.common.dateFormatter1(this.endTime)}`
+          }
+        }
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -127,7 +143,7 @@ export class AddVehicleMaintenanceComponent implements OnInit {
     let icons = [
       // { class: "fa fa-cog mr-3", action: this.viewDetails.bind(this, doc) }
     ];
-    
+
     if (this.user.permission.edit && doc._aduserid == this.user._details.id) {
       icons.push({ class: "fa fa-edit", action: this.editMaintenance.bind(this, doc) })
     }

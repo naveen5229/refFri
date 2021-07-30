@@ -327,6 +327,7 @@ import { AddMapVehicleComponentComponent } from './modals/add-map-vehicle-compon
 import { RemaptripandrouteComponent } from './modals/remaptripandroute/remaptripandroute.component';
 import { ForcellyRemappingRouteComponent } from './modals/forcelly-remapping-route/forcelly-remapping-route.component';
 import { EWayUpdateComponent } from './modals/e-way-update/e-way-update.component';
+import { SharedvehicleComponent } from './direct/sharedvehicle/sharedvehicle.component';
 
 
 
@@ -639,7 +640,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     CostGamificationComponent,
     PlacementCostComponent,
     ForcellyRemappingRouteComponent,
-    EWayUpdateComponent
+    EWayUpdateComponent,
+    SharedvehicleComponent
   ],
   entryComponents: [
     ...COMMON_COMPONENT,

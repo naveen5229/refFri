@@ -233,8 +233,8 @@ export class EWayBillTripComponent implements OnInit {
 
   actionIcons(data) {
     let icons = [];
-    if (data._isextval) icons.push({ class: "fa fa-edit", action: this.editBill.bind(this, data), txt: "", title: '' });
-    if (data._isupdpartb) icons.push({ class: "fas fa-cog partB pl-1", action: this.updatePartInfo.bind(this, data), txt: "", title: '' })
+    if (data._isextval) icons.push({ class: "far fa-calendar-check", action: this.editBill.bind(this, data), txt: "", title: '' });
+    if (data._isupdpartb) icons.push({ class: "fa fa-edit partB pl-1", action: this.updatePartInfo.bind(this, data), txt: "", title: '' })
     return icons;
   }
 
