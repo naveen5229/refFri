@@ -132,14 +132,14 @@ ngOnInit() {
     let icons = [];
     if (data['Action'].isAdd) {
       icons.push({
-        class: " icon fas fa-edit blue",
+        class: " icon fas fa-edit blue mr-3",
         action: this.openAddOrder.bind(this, data),
       });
     }
     
     if (data['Action'].isEdit) {
       icons.push({
-        class: " icon fas fa-edit blue",
+        class: " icon fas fa-edit blue mr-3",
         action: this.openAddOrder.bind(this, data),
       });
     }
@@ -147,14 +147,14 @@ ngOnInit() {
     if (data['Action'].isDelete) {
       icons.push(
         {
-          class: " icon fa fa-trash red",
+          class: " icon fa fa-trash red mr-3",
           action: this.deleteBid.bind(this, data),
         });
     }
     if (data['Action'].isView) {
       icons.push(
         {
-          class: " icon fa fa-eye gray",
+          class: " icon fa fa-eye gray mr-3",
           action: this.viewOrder.bind(this, data),
 
         });
