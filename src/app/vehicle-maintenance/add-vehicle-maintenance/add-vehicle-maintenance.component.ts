@@ -10,6 +10,8 @@ import { AddAdvancedMaintenanceComponent } from '../model/add-advanced-maintenan
 import { UserService } from '../../services/user.service';
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
+import { CsvService } from '../../services/csv/csv.service';
+import { PdfService } from '../../services/pdf/pdf.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -18,14 +20,7 @@ import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
   styleUrls: ['./add-vehicle-maintenance.component.scss', '../../pages/pages.component.css']
 })
 export class AddVehicleMaintenanceComponent implements OnInit {
-  csvDetails = {
-    csvTitle: null,
-    headings: {
-      title: null,
-      foDetail: null,
-      dateRange: null
-    }
-  }
+  csvTitle = null;
   suggestionData = [];
   selectedVehicle = null;
   vehicleRegno = null;
@@ -48,7 +43,9 @@ export class AddVehicleMaintenanceComponent implements OnInit {
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    private pdfService: PdfService,
+    private csvService: CsvService) {
   }
 
   ngOnDestroy() { }
@@ -95,14 +92,7 @@ export class AddVehicleMaintenanceComponent implements OnInit {
         // this.table.data.headings['Action'] = action;
 
         this.table.data.columns = this.getTableColumns();
-        this.csvDetails = {
-          csvTitle: `${this.user._customer.name},Vehicle-Maitenance,${this.common.dateFormatter1(this.startTime)}-${this.common.dateFormatter1(this.endTime)}`,
-          headings: {
-            title: 'Vehicle-Maitenance',
-            foDetail: `FO-Name:${this.user._customer.name}`,
-            dateRange: `From:${this.common.dateFormatter1(this.startTime)}-To:${this.common.dateFormatter1(this.endTime)}`
-          }
-        }
+        this.csvTitle = `${this.user._customer.name},Vehicle-Maitenance,${this.common.dateFormatter1(this.startTime)}-${this.common.dateFormatter1(this.endTime)}`;
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -242,5 +232,26 @@ export class AddVehicleMaintenanceComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
+  }
+
+  printPDF() {
+    let name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.foName;
+    console.log("Name:", name);
+    let details = [
+      ['Name: ' + name, 'Report: ' + 'Vehicle Maintenance'],
+      ['Start Date: ' + this.common.dateFormatter(new Date(this.startTime)), 'End Date: ' + this.common.dateFormatter(new Date(this.endTime))]
+    ];
+    this.pdfService.jrxTablesPDF(['maintenance'], this.csvTitle, details);
+  }
+
+  printCSV() {
+    let name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.foName;
+    let details = [
+      { name: 'Name:' + name },
+      { report: "Report:Vehicle Maintenance" },
+      { startdate: 'Start Date:' + this.common.dateFormatter(new Date(this.startTime)) },
+      { enddate: 'End Date:' + this.common.dateFormatter(new Date(this.endTime)) }
+    ];
+    this.csvService.byMultiIds(['maintenance'], this.csvTitle, details);
   }
 }
