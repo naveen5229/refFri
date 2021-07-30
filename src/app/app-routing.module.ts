@@ -3,8 +3,13 @@ import { NgModule } from '@angular/core';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './auth/login/login.component';
 import { CheckloginandredirectComponent } from './auth/checkloginandredirect/checkloginandredirect.component';
+import { SharedvehicleComponent } from './direct/sharedvehicle/sharedvehicle.component';
 
 const routes: Routes = [
+  {
+    path:'direct/sharedvehicles',
+    component:SharedvehicleComponent
+  },
   {
     path: 'pages',
     loadChildren: () => import('../app/pages/pages.module').then(m => m.PagesModule),
