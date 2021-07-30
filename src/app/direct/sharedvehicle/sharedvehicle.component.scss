@@ -609,8 +609,9 @@
     -webkit-box-pack: center;
     justify-content: center;
     position: fixed;
-    top: 13px;
+    top: 7px;
     z-index: 99999;
+    right: 5px;
 }
 .radio-tile-group .input-container {
     position: relative;
@@ -870,6 +871,18 @@
         } 
       
         td{
+            height: 100px;
+            
+        }
+        .Online {
+            background: #2fe62f  !important;
+        }
+        
+        .Idle {
+            background: #efc74f !important;
+        }
+        .Offline{
+            background: #de5858 !important;
             height: 70px;
         }
         td:first-child p{

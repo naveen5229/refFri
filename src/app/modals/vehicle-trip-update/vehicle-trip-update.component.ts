@@ -291,7 +291,7 @@ ngOnInit() {
       console.log("Here", this.keepGoing, this.searchString.length, this.searchString);
 
       if (this.keepGoing && this.searchString.length) {
-        this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
+        this.common.params = { placeholder: 'select Location', title: 'Select Location' };
 
         const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         this.keepGoing = false;
