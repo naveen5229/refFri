@@ -1,15 +1,45 @@
-<div class="row" style="margin:0;">
+<div class="card-body">
+
+<div class="row m-0">
     <div class="col-6">
-      <h4 style="padding-left:4px;padding-top:5px;">Shared Vehicles Detail</h4>
+      <h4>Shared Vehicles Detail</h4>
     </div>
-    <div *ngIf="data.length" class="col-1 refresh" (click)="refresh()"><i class="icon ion-refresh"
-        style="font-size:24px!important;"></i>
+    <div *ngIf="data.length" class="col-1 refresh" (click)="refresh()"><i class="icon ion-refresh"></i>
     </div>
   </div>
   <div class="row">
     <label style="margin-left:43%;font-size:20px;color:red;">{{msg}}</label>
   </div>
   <div class="card-view">
+    <div class="x-status-container radio-tile-group">
+      <div class="input-container">
+        <input class="radio-button" type="radio" name="view" [(ngModel)]="selected.status" value=""
+          (ngModelChange)="filterVehicles()" title="Total Available">
+        <div class="radio-tile">
+          <label class="radio-tile-label">{{data.length}}</label>
+        </div>
+      </div>
+
+
+      <div class="input-container">
+        <input class="radio-button" type="radio" name="view" [(ngModel)]="selected.status" value="Online"
+          (ngModelChange)="filterVehicles()" title="Moving">
+
+        <div class="radio-tile"><label>{{count.moving }}</label></div>
+      </div>
+
+      <div class="input-container">
+        <input class="radio-button" type="radio" name="view" [(ngModel)]="selected.status" value="Idle"
+          (ngModelChange)="filterVehicles()" title="Idle">
+        <div class="radio-tile"><label>{{count.idle}}</label></div>
+      </div>
+      <div class="input-container">
+        <input class="radio-button" type="radio" name="view" [(ngModel)]="selected.status" value="Offline"
+          (ngModelChange)="filterVehicles()" title="Unreachable">
+        <div class="radio-tile"><label>{{count.unreachable}}</label> </div>
+      </div>
+    </div>
+
     <div class="row mr-0 ml-0 mt-2">
       <div [hidden]="viewType == 'Map'" [ngClass]="viewType == 'List & Map' ? 'col-sm-7': 'col-sm-12'" class="table-col">
         <smart-table [data]="table.data" [settings]="table.settings" [ngClass]="(panelId==1 && utype=='U') ? 'tab1':(panelId==1 && utype=='P')?'tab2': 'tab2'">
@@ -64,4 +94,4 @@
       </div>
     </div>
 
-  
+  </div>
