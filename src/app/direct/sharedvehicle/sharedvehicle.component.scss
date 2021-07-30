@@ -836,6 +836,17 @@
         display: block;  
         td{
             height: 100px;
+            
+        }
+        .Online {
+            background: #2fe62f  !important;
+        }
+        
+        .Idle {
+            background: #efc74f !important;
+        }
+        .Offline{
+            background: #de5858 !important;
         }
       }
   
