@@ -1,0 +1,67 @@
+<div class="row" style="margin:0;">
+    <div class="col-6">
+      <h4 style="padding-left:4px;padding-top:5px;">Shared Vehicles Detail</h4>
+    </div>
+    <div *ngIf="data.length" class="col-1 refresh" (click)="refresh()"><i class="icon ion-refresh"
+        style="font-size:24px!important;"></i>
+    </div>
+  </div>
+  <div class="row">
+    <label style="margin-left:43%;font-size:20px;color:red;">{{msg}}</label>
+  </div>
+  <div class="card-view">
+    <div class="row mr-0 ml-0 mt-2">
+      <div [hidden]="viewType == 'Map'" [ngClass]="viewType == 'List & Map' ? 'col-sm-7': 'col-sm-12'" class="table-col">
+        <smart-table [data]="table.data" [settings]="table.settings" [ngClass]="(panelId==1 && utype=='U') ? 'tab1':(panelId==1 && utype=='P')?'tab2': 'tab2'">
+        </smart-table>
+      </div>
+      <div *ngIf="!isModal" [hidden]="viewType == 'List'" class="map-col" [ngClass]="viewType == 'List & Map' ? 'col-sm-5': 'col-sm-12'">
+        <!-- <div class="map-site-option">
+          <input *ngIf="!isShowSites" type="checkbox" id="chkShowSiteName" name="show-site-label"
+            [(ngModel)]="isShowSiteLabel" title="Show Site Name with site icon">
+          <input *ngIf="!isShowSites" type="text" id="txtMapSiteSearch" name="site-name" [(ngModel)]="siteName"
+            size="12">
+          <button *ngIf="!isShowSites" class="btn btn2 btnmap" (click)="createSiteMarker()">
+            Show Sites
+          </button>
+
+          <button *ngIf="isShowSites" class="btn btn2 btnmap" (click)="hideSites()">
+            Hide Sites
+          </button>
+        </div> -->
+
+        <!-- Marker Options -->
+        <!-- <div class="marker-options">
+          <div class="inline">
+            <input type="checkbox" [(ngModel)]="selected.markerCluster" (ngModelChange)="handleMarkerCluster()">
+            <span class="map-filter-class">Density Cluster</span>
+          </div>
+          <div class="inline mrgn">
+            <input type="checkbox" (change)="showHideMarkerLabel($event.target.checked)">
+            <span class="map-filter-class">Marker with Vehicle Name</span>
+          </div>
+        </div> -->
+        <!-- Marker Options Ended  -->
+        <div [ngClass]="(panelId==1 && utype=='U') ? 'map':(panelId==1 && utype=='P')?'map2': 'map2'"  id="map">
+        </div>
+        <!-- Near By -->
+        <div class="nearby" *ngIf="user._dostToken">
+          <label>Near By</label>
+          <select class="form-control" name="nearby" [(ngModel)]="isShowNearBy.selected" (ngModelChange)="nearByAction()">
+            <option value="3">Vehicle</option>
+            <option value="1">Police</option>
+            <option value="2">Crane</option>
+          </select>
+        </div>
+        <!-- End of Near By -->
+
+        <div class="angle-container">
+          <img src="assets/map/arrow.png" id="angle">
+        </div>
+        <div id="map-lat-lng"></div>
+      </div>
+
+      </div>
+    </div>
+
+  
