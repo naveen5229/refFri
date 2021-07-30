@@ -302,7 +302,7 @@ ngOnInit() {
         let pinColor = markers[index]["color"] ? markers[index]["color"] : "FFFF00";
         let lat = markers[index]["lat"] ? markers[index]["lat"] : 25;
         let lng = markers[index]["long"] ? markers[index]["long"] : 75;
-        let title = markers[index]["title"] ? markers[index]["title"] : "Untitled";
+        let title = markers[index]["loc"] ? markers[index]["loc"] : "Untitled";
         let latlng = new google.maps.LatLng(lat, lng);
         let pinImage;
         //pin Image  
