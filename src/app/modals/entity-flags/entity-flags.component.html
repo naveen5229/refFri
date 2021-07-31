@@ -6,29 +6,23 @@
 </div>
 <div class="modal-body">
   <div class="row mb-2">
-    <div class="col-5 pr-0">
-      <div class="row">
-        <div class="col-3 pr-0">
+ 
+        <div class="col-4 pr-0">
           <span><b>Vehicle No</b></span>
 
         </div>
-        <div class="col-9">
+        <div class="col-8 pr-0">
           <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
             placeholder=" " (change)="resetvehicle()" inputId="vehicleno"
             [preSelected]="{regno:entityFlag.vehicleRegNo}">
           </auto-suggestion>
         </div>
       </div>
-
-
-    </div>
-    <div class="col-4 pr-0">
-      <div class="row">
-        <div class="col-5 pr-0">
+      <div class="row mb-2">
+        <div class="col-4 pr-0">
           <span><b>Reference Type</b></span>
-
         </div>
-        <div class="col-6 pr-0">
+        <div class="col-4 pr-0">
           <select class="form-control" name="reftype" [(ngModel)]="entityFlag.refernceType"
             (change)="resetRefernceType(false);refernceTypes()">
             <option value="0">Select Type</option>
@@ -38,39 +32,31 @@
             <option value="14">Trip</option>
           </select>
         </div>
-
-
+        <div class="col-4 pl-2 pr-0">
+          <auto-suggestion (onSelected)="entityFlag.refId=$event.id;entityFlag.refTypeName=$event.source_dest"
+            display="source_dest" placeholder="Reference Value " style="width:60%;" [data]="refernceData" inputId="referncetype"
+            [preSelected]="{source_dest:entityFlag.refTypeName}">
+          </auto-suggestion>
+        </div>
       </div>
-    </div>
-
-    <div class="col-3">
-      <auto-suggestion (onSelected)="entityFlag.refId=$event.id;entityFlag.refTypeName=$event.source_dest"
-        display="source_dest" placeholder=" " style="width:60%;" [data]="refernceData" inputId="referncetype"
-        [preSelected]="{source_dest:entityFlag.refTypeName}">
-      </auto-suggestion>
-    </div>
-  </div>
-
-  <div class="row mb-3">
-    <div class="col-5">
-      <div class="row">
-        <div class="col-3">
+  <div class="row mb-2">
+        <div class="col-4">
           <span><b>Time</b></span>
         </div>
-        <div class="col-9 pr-0">
+        <div class="col-8 pr-0">
           <uj-date-time-picker (onChanged)="entityFlag.date = $event" [dateTimeValue]="entityFlag.date" [isTime]="true">
           </uj-date-time-picker>
 
         </div>
+ 
       </div>
-    </div>
 
-    <div class="col-4">
-      <div class="row">
-        <div class="col-5 pl-1 pr-0">
+   
+      <div class="row mb-2">
+        <div class="col-4 pr-0">
           <span><b>Entity Type</b></span>
         </div>
-        <div class="col-7 pl-0">
+        <div class="col-4 pr-0">
           <select name="enititytype" class="form-control" (change)="selectList($event.target.value)"
             [(ngModel)]="entityFlag.entityType">
             <option class="form-control" value="1">Driver</option>
@@ -78,53 +64,44 @@
             <option class="form-control" value="3">Consignee</option>
           </select>
         </div>
-      </div>
-
-    </div>
-    <div class="col-3">
-      <div class="row">
-        <div class="col-12" *ngIf="entityFlag.entityType==1">
+        
+        <div class="col-4 pl-2 pr-0" *ngIf="entityFlag.entityType==1">
           <auto-suggestion (onSelected)="entityFlag.entityTypeId=$event.id;entityFlag.entityName=$event.empname"
-            url="Booster/getDrivers" display="empname" placeholder=" " inputId="driverData">
+            url="Booster/getDrivers" display="empname" placeholder="Driver name " inputId="driverData">
           </auto-suggestion>
         </div>
-        <div class="col-12" *ngIf="entityFlag.entityType!=1">
+        <div class="col-4 pl-2 pr-0" *ngIf="entityFlag.entityType!=1">
           <auto-suggestion (onSelected)="entityFlag.entityTypeId=$event.id;entityFlag.entityName=$event.name"
-            url="Suggestion/GetCompanies2?type=ALL" display="name" placeholder=" " inputId="GetCompanies">
+            url="Suggestion/GetCompanies2?type=ALL" display="name" placeholder="Driver name" inputId="GetCompanies">
           </auto-suggestion>
         </div>
       </div>
-    </div>
-
-  </div>
-
-  <div class="row">
-    <div class="col-4">
-      <div class="row">
-        <div class="col-4 pl-3 pr-0">
+ 
+  
+      <div class="row mb-2">
+        <div class="col-4 pr-0">
           <span><b>Flag Type</b></span>
         </div>
-        <div class="col-8 ">
+        <div class="col-8 pr-0">
           <select class="form-control" name="type" [(ngModel)]="entityFlag.flagType">
             <option *ngFor="let data of mastertypes" [value]="data.id">{{data.description}}</option>
           </select>
         </div>
       </div>
-    </div>
-    <div class="col-4">
-      <div class="row">
-        <div class="col-3">
+ 
+      <div class="row mb-2">
+        <div class="col-4">
           <span><b>Remark</b></span>
         </div>
-        <div class="col-9 pl-0 pr-0">
+        <div class="col-8 pr-0">
           <textarea cols="10" name="remark" id="remark" rows="3" class="form-control"
             [(ngModel)]="entityFlag.remark"></textarea>
         </div>
       </div>
-    </div>
+   
 
 
-  </div>
+
 
 
 
