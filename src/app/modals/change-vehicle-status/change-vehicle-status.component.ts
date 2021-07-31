@@ -322,6 +322,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
   bounds = null;
   Markers = [];
   createMarkers(markers, changeBounds = true, drawPoly = false, scale = 1) {
+
+    console.log('marker is: ', markers)
     let thisMarkers = [];
     this.bounds = new google.maps.LatLngBounds();
     for (let index = 0; index < markers.length; index++) {
@@ -333,7 +335,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       let pinColor = markers[index]["color"] ? markers[index]["color"] : "FFFF00";
       let lat = markers[index]["lat"] ? markers[index]["lat"] : 25;
       let lng = markers[index]["long"] ? markers[index]["long"] : 75;
-      let title = markers[index]["title"] ? markers[index]["title"] : "Untitled";
+      let title = markers[index]["loc"] ? markers[index]["loc"] : "Untitled";
       let latlng = new google.maps.LatLng(lat, lng);
       let pinImage;
       //pin Image  
