@@ -252,6 +252,9 @@ export class PdfService {
           if (textColor) col.styles['textColor'] = textColor;
           if (fontSize) col.styles['fontSize'] = fontSize;
 
+          //action row null
+          if (col.content == null) col.content = '';
+          //action row null
           rowdata.push(col);
         }
         rows.push(rowdata);

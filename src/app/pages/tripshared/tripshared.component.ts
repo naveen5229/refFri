@@ -22,7 +22,7 @@ export class TripsharedComponent implements OnInit {
     private modalService: NgbModal,
     public user: UserService) {
       this.getVehicleFowise();
-
+      this.getSharedVehicles();
       for(let i=1; i<=6;i++){
         if(i == 1){
           this.hourdata.push(6);
@@ -86,10 +86,13 @@ export class TripsharedComponent implements OnInit {
     this.api.get('Vehicles/getSharedVehicles')
       .subscribe(res => {
         this.common.loading--;
+        if(res['data']){
         this.sharedvehicledata = res['data'];
         
         console.log('res shared vehicle: ',this.sharedvehicledata);
-        
+        }else{
+          this.common.showToast('Data Are Not Available');
+        }
 
       }, err => {
         this.common.loading--;
