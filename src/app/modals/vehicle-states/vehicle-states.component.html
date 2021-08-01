@@ -47,7 +47,7 @@
     </uj-date-time-picker>
   </div>
   <div class="col-2">
-    <button class="btn btn-primary" (click)="getVehicleEvent()">OK</button>
+    <button class="btn btn-primary mt-3" (click)="getVehicleEvent()">OK</button>
   </div>
   </div>
   <div class="row mt-3" *ngIf="changeCategory=='halts'">
@@ -73,7 +73,7 @@
     </div>
     <div class="col-sm-4">
       <uj-date-time-picker (onChanged)="site.site_date = $event" [dateTimeValue]="site.site_date" [isTime]="true"
-        class="col-6">
+        class="col-12 d-block">
       </uj-date-time-picker>
     </div>
   </div>
@@ -94,7 +94,7 @@
     </div>
     <div class="col-sm-4">
       <uj-date-time-picker (onChanged)="location.loc_date = $event" [dateTimeValue]="location.loc_date" [isTime]="true"
-        class="col-6">
+        class="col-12 d-block ">
       </uj-date-time-picker>
     </div>
   </div>
