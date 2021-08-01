@@ -152,6 +152,7 @@ export class EWayBillTripComponent implements OnInit {
         }
       }
     });
+    console.log(graphDoughnut,graphPie)
   }
 
   findDrillDownData(index, findFrom) {
@@ -295,6 +296,24 @@ export class EWayBillTripComponent implements OnInit {
         pageLimit: null
       }
     };
+  }
+
+  fetchLatest() {
+    let params = {
+      date: this.common.dateFormatter1(new Date())
+    }
+    this.common.loading++;
+    this.api.postEway(`Ewaybill/getData`, params).subscribe(res => {
+      this.common.loading--;
+      if (res['code'] == 1) {
+        this.common.showToast(res['msg']);
+      } else {
+        this.common.showError(res['msg']);
+      }
+    }, err => {
+      this.common.loading--;
+      this.common.showError();
+    });
   }
 
 }
