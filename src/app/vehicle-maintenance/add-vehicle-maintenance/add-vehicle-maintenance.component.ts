@@ -86,6 +86,9 @@ export class AddVehicleMaintenanceComponent implements OnInit {
             this.headings.push(key);
             let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
             this.table.data.headings[key] = headerObj;
+            if (key === 'Service Date' || key === 'Target Service Date') {
+              this.table.data.headings[key]['type'] = 'date';
+            }
           }
         }
         // let action = { title: this.formatTitle('Action'), placeholder: this.formatTitle('Action') };

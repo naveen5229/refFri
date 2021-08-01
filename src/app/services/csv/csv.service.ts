@@ -21,13 +21,13 @@ export class CsvService {
     let headings = [{}];
     tableIds.map((tableId, index) => {
       this.findTableHeadings(tableId).map((col, index2) => {
-        if(index2 > 9){
+        if (index2 > 9) {
           xrows[0]['tabel-' + index + '-col-' + index2] = col;
           headings[0]['tabel-' + index + '-col-' + index2] = col;
-          }else{
-            xrows[0]['tabel-' + index + '-col-' +0+ index2] = col;
-            headings[0]['tabel-' + index + '-col-'+0 + index2] = col;
-          }
+        } else {
+          xrows[0]['tabel-' + index + '-col-' + 0 + index2] = col;
+          headings[0]['tabel-' + index + '-col-' + 0 + index2] = col;
+        }
       });
     });
 
@@ -121,6 +121,9 @@ export class CsvService {
             rowdata.push(plainText);
           }
         }
+        //action row null
+        if (rowdata[rowdata.length - 1] == null) rowdata[rowdata.length - 1] = '';
+        //action row null
         rows.push(rowdata);
       }
     }
@@ -136,10 +139,10 @@ export class CsvService {
           keys.map(key => newRow[key] = '');
           xrows.push(newRow);
         }
-        if(index2 > 9){
-        xrows[index]['tabel-' + table + '-col-' + index2] = col;
-        }else{
-        xrows[index]['tabel-' + table + '-col-' + 0+index2] = col;
+        if (index2 > 9) {
+          xrows[index]['tabel-' + table + '-col-' + index2] = col;
+        } else {
+          xrows[index]['tabel-' + table + '-col-' + 0 + index2] = col;
 
         }
       });
