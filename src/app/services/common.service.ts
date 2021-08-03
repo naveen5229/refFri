@@ -213,6 +213,19 @@ export class CommonService {
     //return dat + "-" + month + "-" + year;
     return year + "-" + month + "-" + dat;
   }
+
+  dateFormatterGen(date) {
+    let d = new Date(date);
+    let year = d.getFullYear();
+    let month = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
+    let dat = d.getDate() <= 9 ? "0" + d.getDate() : d.getDate();
+
+    // console.log(year + "-" + month + "-" + dat);
+
+    //return dat + "-" + month + "-" + year;
+    return dat + "/" + month + "/" + year;
+  } 
+
   dateFormatter2(date) {
     let d = new Date(date);
     let year = d.getFullYear();
