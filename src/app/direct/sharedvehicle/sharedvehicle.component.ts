@@ -77,6 +77,7 @@ export class SharedvehicleComponent implements OnInit {
     public mapService: MapService
   ) { 
   let params = window.location.href.substr(window.location.href.indexOf('?') + 1).split('&');
+  console.log('debug');
   params.forEach(param => {
     if (param.startsWith('token=')) {
       this.token = param.split('token=')[1];
@@ -88,10 +89,8 @@ export class SharedvehicleComponent implements OnInit {
   ngOnInit(): void {
   }
   ngAfterViewInit() {
-
-
-    setTimeout(() => {
-
+    document.getElementById('nb-global-spinner').style.display = 'none';
+        setTimeout(() => {
   if (!this.isModal) {
     this.mapService.mapIntialize("map", 10);
     setTimeout(() => {
@@ -330,6 +329,7 @@ export class SharedvehicleComponent implements OnInit {
     return title.charAt(0).toUpperCase() + title.slice(1)
   }
   getColumns(challanList, chHeadings) {
+    console.log('viewType',this.viewType);
     let columns = [];
     challanList.map((item) => {
       let column = {};
