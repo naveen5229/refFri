@@ -1,5 +1,5 @@
 <tmg *ngIf="user._customer.foid==20632 || user._details.foid==20632"></tmg>
-<div *ngIf="user._customer.foid != 20632 && user._details.foid!=20632 ">
+<div *ngIf="user._customer.foid != 20632 && user._details.foid!=20632 " class="position-relative">
   <div>
     <div class="status-print-view pt-0" id="page-1">
       <div class="row">
@@ -258,7 +258,7 @@
                 class="fas fa-file-excel"></i></span>
           </ng-container>
         </div>
-        <div class="" *ngIf="table" [ngClass]="isMapView || isHidePie ? 'col-sm-12 p-0' : 'col-sm-9 p-0'">
+        <div  *ngIf="table" [ngClass]="isMapView || isHidePie ? 'col-sm-12 p-0 ' : 'col-sm-9 p-0'">
 
           <!-- ============================= SMART TABLE VIEW ============================= -->
           <div mwlResizable [enableGhostResize]="true" class="map-table-container"

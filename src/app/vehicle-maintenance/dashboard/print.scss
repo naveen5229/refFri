@@ -1,7 +1,8 @@
 .nb_card_box {
     position: absolute;
-    top: 70px;
+    top: 48px;
     z-index: 998;
+    width: 100%;
 }
 
 .status-print-view2 {
@@ -25,7 +26,7 @@
 
 .status-print-view {
     padding: 15px;
-    height: 310mm;
+    //height: 310mm;
     font-size: 24px;
 }
 
