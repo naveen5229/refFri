@@ -1,3 +1,11 @@
+.triptop{
+    position: relative !important;
+    height: calc(100vh - 42px);
+    overflow: auto;
+}
+
+
+
 .headings {
     background: #e2e2e2;
     font-size: 11px;
@@ -874,7 +882,7 @@ mwlResizable {
 
 :host ::ng-deep.tableFixHead {
     height: auto !important;
-    max-height: calc(100vh - 115px);
+    max-height: calc(100vh - 136px);
     .table>tbody>tr>td,
     .table>tbody>tr>th,
     .table>tfoot>tr>td,
@@ -1016,12 +1024,12 @@ mwlResizable {
 
 .dataCount {
     display: flex;
-    position: relative;
-    top: -28px;
+    position: absolute;
+    bottom: 5px;
     justify-content: center;
     color: #007bff;
-    width: 50%;
-    left: 25%;
+    width: 20%;
+    left: 40%;
 }
 
 .noDataFound{
