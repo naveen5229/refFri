@@ -25,7 +25,7 @@ export class ApiService {
   URLJavaPortDost: string = 'http://elogist.in';
   // URLJavaPortDost: string = 'http://127.0.0.1';
   verifyHaltsUrl: string = 'http://elogist.in:8081/';
-  eWayURL: string = 'http://107.6.151.122:8080/'
+  eWayURL: string = 'http://elogist.in:7000/'
 
   /********************** Local Server ************* */
   // URL: string= 'http://107.6.151.122:8081/airtel'
@@ -57,6 +57,28 @@ export class ApiService {
       reqOpts.headers['authkey'] = localStorage.getItem('TOKEN');
     }
     return this.http.post(this.eWayURL + endpoint, body, reqOpts);
+  }
+
+  getEway(endpoint: string) {
+    const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
+    let reqOpts = {
+      headers: {
+        'Content-Type': 'application/json',
+        'version': '0.1.0',
+        'foAdminId': this.user._customer.id.toString(),
+        'entryMode': entryMode
+      }
+    };
+
+    if (this.user._details && this.user._details.isDemo) {
+      reqOpts.headers['pageId'] = this.user.findPageIdByRoute(this.router.url);
+    }
+
+    if (localStorage.getItem('USER_TOKEN')) {
+      reqOpts.headers['authkey'] = localStorage.getItem('USER_TOKEN');
+    }
+    console.log("headers:", reqOpts);
+    return this.http.get(this.eWayURL + "/" + endpoint, reqOpts);
   }
 
 
