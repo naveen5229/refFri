@@ -78,7 +78,7 @@ export class ApiService {
       reqOpts.headers['authkey'] = localStorage.getItem('USER_TOKEN');
     }
     console.log("headers:", reqOpts);
-    return this.http.get(this.eWayURL + "/" + endpoint, reqOpts);
+    return this.http.get(this.eWayURL  + endpoint, reqOpts);
   }
 
 
