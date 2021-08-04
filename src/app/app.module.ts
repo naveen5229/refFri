@@ -328,6 +328,7 @@ import { RemaptripandrouteComponent } from './modals/remaptripandroute/remaptrip
 import { ForcellyRemappingRouteComponent } from './modals/forcelly-remapping-route/forcelly-remapping-route.component';
 import { EWayUpdateComponent } from './modals/e-way-update/e-way-update.component';
 import { SharedvehicleComponent } from './direct/sharedvehicle/sharedvehicle.component';
+import { TripconsignmentComponent } from './direct/tripconsignment/tripconsignment.component';
 
 
 
@@ -641,7 +642,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
     PlacementCostComponent,
     ForcellyRemappingRouteComponent,
     EWayUpdateComponent,
-    SharedvehicleComponent
+    SharedvehicleComponent,
+    TripconsignmentComponent
   ],
   entryComponents: [
     ...COMMON_COMPONENT,
