@@ -70,7 +70,7 @@
       </div>
       <div class="row" id="page-2" *ngIf="allKpis && allKpis.length">
         <div class="col-sm-3 pl-5">
-          <div class="" style="overflow: hidden;" [hidden]="isMapView">
+          <div style="overflow: auto;height: calc(100vh - 460px);" [hidden]="isMapView">
             <div
               style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
               class="row">
@@ -100,7 +100,7 @@
         </div>
         <div class="col-6"></div>
         <div class="col-sm-3 pr-5">
-          <div class="" style="overflow: hidden;" [hidden]="isMapView">
+          <div style="overflow: auto;height: calc(100vh - 460px);" [hidden]="isMapView">
             <div
               style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
               class="row">
@@ -173,7 +173,7 @@
               <chart class="dashboard_chart" type="pie" [data]="chartData" [options]="chartOptions" id="chart">
               </chart>
             </div>
-            <div class="status_box" style="overflow: auto; height: calc(90vh - 196px);">
+            <div class="status_box" style="overflow: auto; height: calc(90vh - 239px);">
               <nb-card>
                 <nb-card-body (click)="allData()" style="cursor: pointer;">
                   <div class="col-sm-1 p-0">
