@@ -231,7 +231,19 @@
   //     width: 100%;
   //   }
   // }
-  
+  .vech-no{
+    position: absolute;
+    display: flex;
+    font-weight: 800;
+    top: 4px;
+    left: -18px;
+    background: #00b8e6;
+    color: #fff;
+    padding: 0px 15px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    align-items: center;
+  }
   .lite {
     margin-left: 50vh !important;
     font-weight: 1000;
