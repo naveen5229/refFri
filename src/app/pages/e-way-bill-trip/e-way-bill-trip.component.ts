@@ -301,7 +301,7 @@ export class EWayBillTripComponent implements OnInit {
   fetchLatest() {
     let params = `?date=${this.common.dateFormatterGen(new Date())}`;
     this.common.loading++;
-    this.api.getEway(`Ewaybill/getData`+params).subscribe(res => {
+    this.api.getJavaPortDost(7000,`Ewaybill/getData`+params).subscribe(res => {
       this.common.loading--;
       if (res['code'] == 1) {
         this.common.showToast(res['msg']);
