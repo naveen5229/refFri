@@ -4,11 +4,16 @@ import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './auth/login/login.component';
 import { CheckloginandredirectComponent } from './auth/checkloginandredirect/checkloginandredirect.component';
 import { SharedvehicleComponent } from './direct/sharedvehicle/sharedvehicle.component';
+import { TripconsignmentComponent } from './direct/tripconsignment/tripconsignment.component';
 
 const routes: Routes = [
   {
     path:'direct/sharedvehicles',
     component:SharedvehicleComponent
+  },
+  {
+    path:'direct/tripconsignment',
+    component:TripconsignmentComponent
   },
   {
     path: 'pages',
