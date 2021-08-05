@@ -6,6 +6,31 @@
 //     background-repeat: no-repeat;
 //     background-size: cover;
 // }
+.card-body{
+  padding-top: 0;
+  background-color: #d9d9d9;
+}
+.head{
+ 
+    height: auto;
+    margin: auto;
+    z-index: 999999;
+    overflow: visible;
+    border-radius: 0.17rem;
+    padding: 6px 20px;
+    background-color: #c9c2de;
+    border-bottom: 1px solid #fff;
+    -webkit-box-shadow: 0 16px 26px -10px rgba(63, 106, 216, 0.56), 0 4px 25px 0 rgba(0, 0, 0, 0.12),
+        0 8px 10px -5px rgba(63, 106, 216, 0.2);
+    box-shadow: 0 16px 26px -10px rgba(63, 106, 216, 0.56), 0 4px 25px 0 rgba(0, 0, 0, 0.12),
+        0 8px 10px -5px rgba(63, 106, 216, 0.2);
+    display: inline-block;
+    color: #000;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
+
+}
 .our_store{
 	width: 70%;
     background: #fff;
@@ -27,18 +52,20 @@
 	padding: 0 15px;
 }
 .vech-info-list p:first-child{
-	margin-right: 15px;
-	width: 20%;
+	padding-right: 5px;
+	width: 40%;
+	font-weight: 500;
+}
+.vech-info-list p:nth-child(2){
+	width: 60%;
 	font-weight: 500;
 }
 
 
 .vech-info {
-      margin: 25px 30px;
-          padding: 10px 0;
+    margin: 25px 0px;
+    padding: 10px 0;
     background: #fafbff;
-    border: 1px solid #d0d9ff;
-    box-shadow: 0px 6px 8px #ececec;
     border-radius: 8px;
 }
 .modal-header {
@@ -64,10 +91,11 @@
     vertical-align: middle;
     display: inline-block;
     height: 68px;
-    border: 2px solid #909090;
+    border: 1px solid #909090;
     position: relative;
     width: 100%;
     margin-top: 10px;
+    background: #aadaff;
   }
   .time-line-event {
     position: absolute;
@@ -220,7 +248,7 @@
   .tableFixHead {
     overflow-y: auto;
     height: auto;
-    max-height: calc(100vh - 215px);
+    max-height: calc(100vh - 245px);
   }
   
   .tableFixHead th {
