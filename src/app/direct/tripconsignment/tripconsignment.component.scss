@@ -235,14 +235,16 @@
     position: absolute;
     display: flex;
     font-weight: 800;
-    top: 4px;
+    top: 6px;
     left: -18px;
     background: #00b8e6;
     color: #fff;
-    padding: 0px 15px;
+    padding: 5px 20px;
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
     align-items: center;
+    -webkit-box-shadow: 2px 1px 5px #b9b3b3;
+    box-shadow: 2px 1px 5px #b9b3b3;
   }
   .lite {
     margin-left: 50vh !important;
@@ -260,7 +262,7 @@
   .tableFixHead {
     overflow-y: auto;
     height: auto;
-    max-height: calc(100vh - 238px);
+    max-height: calc(100vh - 203px);
   }
   
   .tableFixHead th {
