@@ -56,6 +56,11 @@ export class TripstoppageComponent implements OnInit {
 
   getTripMasterReport() {
     this.tripData = [];
+    if(this.min < 10){
+      this.common.showError('Minimum Val is 10');
+     // this.min = (this.min < 5) ? 10 :this.min;
+     this.min = 10;
+    }
     const params = "startTime=" + this.common.dateFormatter(this.startdate) +
       "&endTime=" + this.common.dateFormatter(this.enddate)+"&vehid="+this.selectedVehicle.id+"&min="+this.min;
     this.common.loading++;
