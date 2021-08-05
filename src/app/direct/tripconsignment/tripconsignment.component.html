@@ -1,11 +1,11 @@
 <div class="card-body">
 
     <div class="row m-0">
-        <div class="col-6">
-          <h4>Track Your Consignment</h4>
+        <div class="col-12 text-center">
+            <div class="vech-no"> <p class="mr-3 mb-0">Vehicle </p> <p class="mb-0">{{tripvehicle}}</p></div>   <h4 class="head">Track Your Consignment</h4>
         </div>
-        <div *ngIf="data" class="col-1 refresh" (click)="refresh()"><i class="icon ion-refresh"></i>
-        </div>
+        <!-- <div *ngIf="data" class="col-1 refresh" (click)="refresh()"><i class="icon ion-refresh"></i>
+        </div> -->
       </div>
   <div class="card-view">
       <div class="card-view">
@@ -17,33 +17,27 @@
             <div class="col-2"> <button class="btn btn-primary" (click)="showData()">Search</button>    </div>    
            </div> -->
            
-             <div class="vech-info" *ngIf="data">
+             <div class="row vech-info" *ngIf="data">
                
                 
-                <div class="vech-info-list">          <p>Vehicle : </p>          <p>{{tripvehicle}}</p>          </div>
-                 <div class="vech-info-list">          <p>Origin : </p>          <p>{{data.start_name}}</p>          </div>
-
-
+                 <div class="col-4 pl-2 pr-2  vech-info-list">          <p>Invoice Number</p>          <p>{{data.invoice_no}}</p>          </div>
+                 <div class="col-4 pl-2 pr-2  vech-info-list">          <p>Trip Start Time </p>          <p>{{data.start_time}}</p>          </div>
+                 <div class="col-4 pl-2 pr-2  vech-info-list">          <p>Trip End Time </p>          <p>{{data.end_time}}</p>          </div>                
+                 <div class="col-4 pl-2 pr-2  vech-info-list">          <p>Origin </p>          <p>{{data.start_name}}</p>          </div>
+                 <div class="col-4 pl-2 pr-2  vech-info-list">          <p>Destination </p>          <p>{{data.end_name}}</p>          </div>
+                 <div class="col-4 pl-2 pr-2  vech-info-list">          <p>Route Name </p>          <p>{{data.qty}}</p>          </div> 
+                 <div class="col-4 pl-2 pr-2  vech-info-list">          <p>Lead Distance </p>          <p>{{data.google_dist}}</p>          </div>
+                 <div class="col-4 pl-2 pr-2  vech-info-list">          <p>Qty </p>          <p>{{data.qty}}</p>          </div>
+               
+                 <div class="col-4 pl-2 pr-2  vech-info-list">          <p>Trip Run KM</p>          <p>{{data.actual_dist}}</p>          </div>    
+                
+                
        
-                 <div class="vech-info-list">          <p>Destination : </p>          <p>{{data.end_name}}</p>          </div>
-       
-                 <div class="vech-info-list">          <p>Trip Start Time : </p>          <p>{{data.start_time}}</p>          </div>
-       
-                 <div class="vech-info-list">          <p>Trip End Time : </p>          <p>{{data.end_time}}</p>          </div>
-       
-                 <div class="vech-info-list">          <p>Lead Distance : </p>          <p>{{data.google_dist}}</p>          </div>
-       
-                 <div class="vech-info-list">          <p>Trip Run KM</p>          <p>{{data.actual_dist}}</p>          </div>
-       
-                 <div class="vech-info-list">          <p>Route Name : </p>          <p>{{data.route_name}}</p>          </div>
-       
-                 <div class="vech-info-list">          <p>Invoice Number : </p>          <p>{{data.invoice_no}}</p>          </div>
-       
-                 <div class="vech-info-list">          <p>Qty : </p>          <p>{{data.qty}}</p>          </div>
+               
              </div>
       </div>
     <div class="row mr-0 ml-0 mt-2" >
-        <div Class="col-sm-5" *ngIf="vehicleEvents">
+        <div Class="col-sm-5 pl-0" *ngIf="vehicleEvents">
             <div class="tableFixHead">
                 <table class="table table-bordered table-hover halts-show" style="border:1px gray solid">
                   <thead>
@@ -98,8 +92,8 @@
               </div>
                  
         </div>
-        <div Class="col-sm-7" style="text-align: center;">
-            <div id="route-mapper-map" style="width: 100%; height:68vh">
+        <div Class="col-sm-7 p-0" style="text-align: center;">
+            <div id="route-mapper-map" style="width: 100%; height: calc(100vh - 283px);">
             </div>
             <div class="slide-bar">
                 <div class="row player_inner">
