@@ -171,6 +171,7 @@ export class SharedvehicleComponent implements OnInit {
       headings: this.generateHeadings(data[0]),
       columns: this.getColumns(data, data[0])
     };
+    console.log('table.data',this.table.data.headings);
     this.vehicleStatusCounter();
   }
   vehicleStatusCounter() {
@@ -218,6 +219,7 @@ export class SharedvehicleComponent implements OnInit {
         }
       }
     }
+    
     return headings;
   }
   filterVehicles(options: any = {}) {
