@@ -167,10 +167,10 @@ ngOnInit() {
       return {
         "Vehicle Number": challan['regno'],
         "Primary Driver": challan['md_name'],
-        "Mapped Since": this.common.dateFormatter1(challan['m_entry_dt']),
+        "Mapped Since": challan.m_entry_dt?this.common.dateFormatter1(challan.m_entry_dt):null,
         "Mobile Number": challan['md_no'],
         "Secondary Driver": challan['sd_name'],
-        "Mapped Since 2": this.common.dateFormatter1(challan['s_entry_dt']),
+        "Mapped Since 2": challan.s_entry_dt? this.common.dateFormatter1(challan.s_entry_dt):null,
         "Mobile  Number": challan['sd_no'],
       };
     });
