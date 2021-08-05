@@ -55,7 +55,8 @@ export class TripconsignmentComponent implements OnInit {
   infoStart = null;
   placeName = '';
   breakPrevious = false;
-
+  tokan = '907273XXRJ14GE4947061503';
+  alldata:any;
   constructor(private mapService: MapService,
     private route: ActivatedRoute,
     private commonService: CommonService,
@@ -64,6 +65,13 @@ export class TripconsignmentComponent implements OnInit {
     private dataService: DataService,
     private api: ApiService,
     private cdr: ChangeDetectorRef,) { 
+      let params = window.location.href.substr(window.location.href.indexOf('?') + 1).split('&');
+      console.log('debug');
+      params.forEach(param => {
+        if (param.startsWith('token=')) {
+          this.tokan = param.split('token=')[1];
+        }
+      })
       console.log('nput trip consignmnt');
       this.showData();
     }
@@ -89,9 +97,9 @@ export class TripconsignmentComponent implements OnInit {
     // console.info('Login Params:', this.queryStringParam);
   
     this.commonService.loading++;
-    this.api.post('TripConsignment/GetTripConsignment',{tripid:this.tripid,vehicle:this.tripvehicle})
+    this.api.post('TripConsignment/GetTripConsignment',{tokan:this.tokan})
       .subscribe((res: any) => {
-        console.log("respose:", res);
+        console.log("respose:", res,(JSON.parse(res['data'][0]['trip_masterdata'])));
         if (res['success']) {
           this.commonService.loading--;
           // this.data = JSON.parse(res['data']).map(x => {
@@ -99,7 +107,8 @@ export class TripconsignmentComponent implements OnInit {
           //   delete x.Vehicle;
           //   return { vehicle, _lngt: x._long, ...x };
           // });
-          this.data = res['data'][0];
+          this.alldata= res['data'][0];
+          this.data =  (JSON.parse(this.alldata['trip_masterdata']))[0];
           this.vehicleSelected = this.data._vid;
           this.startDate = this.data._start_time;
           this.endDate = this.data._end_time;
@@ -119,7 +128,10 @@ export class TripconsignmentComponent implements OnInit {
   }
   initFunctionality() {
     if (!this.validateDates()) return;
-    let promises = [this.getHaltTrails(), this.getVehicleTrailAll()]
+    //let promises = [this.getHaltTrails(), this.getVehicleTrailAll()]
+    this.vehicleEvents = JSON.parse(this.alldata['trip_eventdata']);
+    let promises = [this.getVehicleTrailAll()]
+    //this.vehicleEvents = this.alldata['z_jsontripinfo'];
     Promise.all(promises).then((result) => {
       this.getSingleTripInfoForView();
       console.log('vehicleEvents', this.vehicleEvents);
@@ -403,10 +415,7 @@ export class TripconsignmentComponent implements OnInit {
   }
   getSingleTripInfoForView() {
     if (this.vehicleTripId) {
-      this.commonService.loading++;
-      this.api.get(`TripsOperation/getSingleTripInfoForView?tripId=${this.vehicleTripId}`)
-        .subscribe(res => {
-          this.commonService.loading--;
+     
           this.circles.forEach(item => {
             item.setMap(null);
           });
@@ -416,7 +425,7 @@ export class TripconsignmentComponent implements OnInit {
           this.circles = [];
           this.circleCenter = [];
           this.latLngArr = [];
-          res['data'].forEach(element => {
+          (JSON.parse(this.alldata['z_jsontripinfo'])).forEach(element => {
             console.log("element====", element);
             if (element.type === 3 || element.type === 1) {
               console.log("element1 in side====", element);
@@ -451,10 +460,7 @@ export class TripconsignmentComponent implements OnInit {
             this.mapService.setMultiBounds(this.latLngArr, true);
 
           });
-        }, err => {
-          this.commonService.loading--;
-          console.error(err);
-        })
+        
     }
   }
   getVehicleTrailAll() {
@@ -469,47 +475,23 @@ export class TripconsignmentComponent implements OnInit {
       console.time('getVehicleTrailAll');
       const ids = [28124, 16295, 28116, 28115, 29033];
 
-      this.commonService.loading++;
-      const subscription1 = this.api.getJavaPortDost(8083, `switches/${params.vehicleId}/${params.startTime}/${params.toTime}`)
-        .subscribe(res => {
-          this.commonService.loading--;
-          console.log('response of getJavaPortDost is: ', res);
-          res = res['data'];
-          if (res['loc_data_type'] === 'is_single') {
-            console.log('res loc_data_type :', res['loc_data_type']);
-
-            this.commonService.loading++;
-            const subscription = this.api.post('VehicleTrail/getVehicleTrailAll', params)
-              .subscribe(res => {
-                this.commonService.loading--;
-                if (res['code'] == 2)
-                  this.isLite = true;
-                else
-                  this.isLite = false;
-                this.trails = res['data'];
-                console.timeEnd('getVehicleTrailAll');
-
-                resolve(true);
-                subscription.unsubscribe();
-              }, err => {
-                this.commonService.loading--;
-                console.error(err);
-                resolve(false);
-                subscription.unsubscribe();
-              });
-
-          } else {
+      // this.commonService.loading++;
+      // const subscription1 = this.api.getJavaPortDost(8083, `switches/${params.vehicleId}/${params.startTime}/${params.toTime}`)
+      //   .subscribe(res => {
+          // this.commonService.loading--;
+          // console.log('response of getJavaPortDost is: ', res);
+          // res = res['data'];
+         
             this.routeRestoreSnapped(resolve);
             return;
-          }
           // resolve(true);
           // subscription1.unsubscribe();
-        }, err => {
-          this.commonService.loading--;
-          console.error(err);
-          resolve(false);
-          subscription1.unsubscribe();
-        });
+        // }, err => {
+        //   this.commonService.loading--;
+        //   console.error(err);
+        //   resolve(false);
+        //   subscription1.unsubscribe();
+        // });
     })
   }
   routeRestoreSnapped(resolve) {
