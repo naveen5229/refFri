@@ -17,7 +17,7 @@ export class EWayUpdateComponent implements OnInit {
 
   billDateExtend = {
     action: 'EXTENDVALIDITY',
-    eWid: null,
+    eWayBillId: null,
     GeneratorGstin: "",
     EwbNo: "",
     VehicleNo: "",
@@ -87,7 +87,7 @@ export class EWayUpdateComponent implements OnInit {
     if (this.formType == 1) {
       this.billDateExtend = {
         action: 'EXTENDVALIDITY',
-        eWid: this.common.params.data_ewid,
+        eWayBillId: this.common.params.data._ewid,
         GeneratorGstin: this.common.params.data._gengst,
         EwbNo: this.common.params.data.ewbno,
         VehicleNo: this.common.params.data.regno,
@@ -176,18 +176,19 @@ export class EWayUpdateComponent implements OnInit {
     if (this.formType == 1) {
       let requiredFields = ['FromState', 'FromCity', 'TransportMode'];
       if (this.billDateExtend.TransportMode == 'In-Transit') {
-        let otherValidation = ['TransitType','FromPincode', 'AddressLine1'];
+        let otherValidation = ['TransitType','FromPincode', 'AddressLine1','ExtnRsn'];
         requiredFields = requiredFields.concat(otherValidation);
       } else {
         this.billDateExtend.TransitType = '';
         this.billDateExtend.AddressLine1 = '';
         this.billDateExtend.AddressLine2 = '';
         this.billDateExtend.AddressLine3 = '';
-        requiredFields.push('FromPincode');
+        requiredFields.push('FromPincode','ExtnRsn');
       }
       let ValidationFound = [];
       requiredFields.forEach(key => {
         if (!this.billDateExtend[key]) ValidationFound.push(key);
+        if(this.billDateExtend['ExtnRsn'] && this.billDateExtend['ExtnRsn']=="Others") ValidationFound.push('Enter Remarks');
       });
       if (ValidationFound && ValidationFound.length > 0) return this.common.showError(`${this.common.formatTitle(ValidationFound[0])} is Required Field.`);
       params = this.billDateExtend;
@@ -240,7 +241,7 @@ export class EWayUpdateComponent implements OnInit {
   resetFields() {
     this.billDateExtend = {
       action: 'EXTENDVALIDITY',
-      eWid: null,
+      eWayBillId: null,
       GeneratorGstin: "",
       EwbNo: "",
       VehicleNo: "",

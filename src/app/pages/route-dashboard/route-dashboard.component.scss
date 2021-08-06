@@ -2,14 +2,62 @@
   color: black;
   background: cornsilk;
 }
-
-
+:host ::ng-deep.bgblue {
+  background: rgb(26, 1, 247);
+  color: rgb(38, 0, 255);
+}
+:host ::ng-deep.byellow {
+  background: yellow;
+  color: #fff;
+}
+:host ::ng-deep.bgreen{
+  background-color: rgb(181, 243, 124);
+}
 :host ::ng-deep.green{
   background-color: rgb(181, 243, 124);
 }
 :host ::ng-deep.red {
   background-color:rgb(243, 124, 124);
 }
+
+:host ::ng-deep {
+  .ball {
+      margin-top: 3px;
+      float: left;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-left: 4px;
+      -webkit-animation: up-right 1s infinite;
+      -moz-animation: up-right 1s infinite;
+      -o-animation: up-right 1s infinite;
+      animation: up-right 1s infinite;
+  }
+  @keyframes up-right {
+      0% {
+          transform: scale(1);
+          opacity: 0.25;
+      }
+      50% {
+          transform: scale (1, 5);
+          opacity: 1;
+      }
+      100% {
+          transform: scale(1);
+          opacity: 0.25;
+      }
+  }
+}
+.right-status {
+  padding-top: 6px;
+  u {
+      font-size: 14px;
+      margin-left: 3px;
+      cursor: pointer;
+      vertical-align: top;
+  }
+}
+
 :host ::ng-deep .fa-route {
   color: black;
   font-size: 14px;
@@ -238,3 +286,62 @@ th:nth-child(19) {
   width: 100px;
 }
   }
+  .status-print-title h4{
+    height: auto;
+    margin: auto;
+    z-index: 999999;
+    overflow: visible;
+    border-radius: 0.17rem;
+    padding: 4px 20px;
+    background-color: #c9c2de;
+    border-bottom: 1px solid #fff;
+    -webkit-box-shadow: 0 16px 26px -10px rgba(63, 106, 216, 0.56), 0 4px 25px 0 rgba(0, 0, 0, 0.12),
+        0 8px 10px -5px rgba(63, 106, 216, 0.2);
+    box-shadow: 0 16px 26px -10px rgba(63, 106, 216, 0.56), 0 4px 25px 0 rgba(0, 0, 0, 0.12),
+        0 8px 10px -5px rgba(63, 106, 216, 0.2);
+    display: inline-block;
+    color: #000;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
+  }
+  .x-hide{ 
+     i
+   {
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 8px;
+    color: grey;
+}
+  }
+
+.pdf-print {
+  width: 40px !important;
+  height: 40px !important;
+  text-align: center !important;
+  line-height: 40px !important;
+  border-radius: 100% !important;
+  padding: 0px;
+  font-size: 16px !important;
+  margin-top: 0px !important;
+  bottom: 35px;
+  position: absolute;
+  left: 4px;
+  background-color: #ff0000 !important;
+  cursor: pointer !important;
+}
+
+.exel-icon {
+  bottom: 35px;
+  position: absolute;
+  right: 30px;
+  background-color: #4fa9ff;
+  font-size: 16px;
+  border-radius: 100px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  color: #fff;
+  box-shadow: 5px 4px 24px rgba(0, 0, 0, 0.4);
+}
