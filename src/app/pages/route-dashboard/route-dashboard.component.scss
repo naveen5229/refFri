@@ -2,14 +2,62 @@
   color: black;
   background: cornsilk;
 }
-
-
+:host ::ng-deep.bgblue {
+  background: rgb(26, 1, 247);
+  color: rgb(38, 0, 255);
+}
+:host ::ng-deep.byellow {
+  background: yellow;
+  color: #fff;
+}
+:host ::ng-deep.bgreen{
+  background-color: rgb(181, 243, 124);
+}
 :host ::ng-deep.green{
   background-color: rgb(181, 243, 124);
 }
 :host ::ng-deep.red {
   background-color:rgb(243, 124, 124);
 }
+
+:host ::ng-deep {
+  .ball {
+      margin-top: 3px;
+      float: left;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-left: 4px;
+      -webkit-animation: up-right 1s infinite;
+      -moz-animation: up-right 1s infinite;
+      -o-animation: up-right 1s infinite;
+      animation: up-right 1s infinite;
+  }
+  @keyframes up-right {
+      0% {
+          transform: scale(1);
+          opacity: 0.25;
+      }
+      50% {
+          transform: scale (1, 5);
+          opacity: 1;
+      }
+      100% {
+          transform: scale(1);
+          opacity: 0.25;
+      }
+  }
+}
+.right-status {
+  padding-top: 6px;
+  u {
+      font-size: 14px;
+      margin-left: 3px;
+      cursor: pointer;
+      vertical-align: top;
+  }
+}
+
 :host ::ng-deep .fa-route {
   color: black;
   font-size: 14px;
@@ -266,3 +314,34 @@ th:nth-child(19) {
     color: grey;
 }
   }
+
+.pdf-print {
+  width: 40px !important;
+  height: 40px !important;
+  text-align: center !important;
+  line-height: 40px !important;
+  border-radius: 100% !important;
+  padding: 0px;
+  font-size: 16px !important;
+  margin-top: 0px !important;
+  bottom: 35px;
+  position: absolute;
+  left: 4px;
+  background-color: #ff0000 !important;
+  cursor: pointer !important;
+}
+
+.exel-icon {
+  bottom: 35px;
+  position: absolute;
+  right: 30px;
+  background-color: #4fa9ff;
+  font-size: 16px;
+  border-radius: 100px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  color: #fff;
+  box-shadow: 5px 4px 24px rgba(0, 0, 0, 0.4);
+}
