@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, SecurityContext } from "@angular/core";
 import {
   NbGlobalPhysicalPosition,
   NbToastrService,
@@ -1665,7 +1665,7 @@ export class CommonService {
             ${this.formatTripPlacement(x_placement_type, x_placements)}`;
         break;
     }
-    return this._sanitizer.bypassSecurityTrustHtml(html + this.handleTripStatusOnExcelExport(x_status, x_origin, x_destination, x_placements));
+    return this._sanitizer.sanitize(SecurityContext.HTML, this._sanitizer.bypassSecurityTrustHtml(html + this.handleTripStatusOnExcelExport(x_status, x_origin, x_destination, x_placements)));
   }
 
   formattTripStatus(places: string) {
