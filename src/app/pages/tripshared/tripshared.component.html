@@ -6,13 +6,25 @@
     </nb-card-header>
     <nb-card-body>
         <div class="row vech_num_outer">
-            
-            <div class="col-sm-2 pl-2 pr-2" *ngFor="let veh of tripData; let i = index; ">
+            <div class="col-2">
+                <input type="text" [(ngModel)]="searchText" (input)="getsearchSuggestions()"> 
+            </div>
+            <div class="col-8">
+                <label>Searched Vehicles</label>
+                <div class="row">
+                    <div class="col-2" *ngFor="let veh of vehicledata; let i = index; ">
+                        <input type="checkbox" [(ngModel)]="veh.status" (click)="selectchecked(veh)">
+                        <label>{{veh['r_regno'] }}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2" >
+                <label>Selected Vehicles</label>
+                <div class="" *ngFor="let veh of finaldata; let i = index; ">
                 <input type="checkbox" [(ngModel)]="veh.status">
                 <label>{{veh['r_regno'] }}</label>
+                </div>
             </div>
-
-            
         </div>
         <div class="row mt-3 mb-3">
             <div class="col-sm-3">
