@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SecurityContext } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,6 +10,7 @@ import * as _ from "lodash";
 import { AdhocRouteComponent } from '../../modals/adhoc-route/adhoc-route.component';
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 import { RemaptripandrouteComponent } from '../../modals/remaptripandroute/remaptripandroute.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @AutoUnsubscribe()
 @Component({
@@ -57,8 +58,10 @@ export class RouteDashboardComponent implements OnInit {
   gpsStatus = null;
   gpsStatusKeys = [];
 
-  constructor(public api: ApiService,
+  constructor(
+    public api: ApiService,
     public common: CommonService,
+    private _sanitizer: DomSanitizer,
     public modalService: NgbModal) {
     this.getFoWiseRouteData();
     this.common.refresh = this.refresh.bind(this);
@@ -148,7 +151,8 @@ export class RouteDashboardComponent implements OnInit {
       },
       settings: {
         hideHeader: true,
-        tableHeight: "84vh",
+        tableHeight: "80vh",
+        pagination: true,
         count: {
           icon: "fa fa-map",
           action: this.handleView.bind(this),
@@ -166,7 +170,12 @@ export class RouteDashboardComponent implements OnInit {
     let columns = [];
     this.routeData.map(route => {
       let column = {
-        regno: { value: route.v_regno ? route.v_regno : '-', action: this.remapTripAndRoute.bind(this, route) },
+        regno:
+        {
+          value: route.v_regno ? this._sanitizer.sanitize(SecurityContext.HTML,this._sanitizer.bypassSecurityTrustHtml(`<span><div style='float:left;'>${route['v_regno']}</div><div class="${route['x_gps_state'] == 'Offline' ? 'ball red' : route['x_gps_state'] == 'Online' ? 'ball bgreen' : route['x_gps_state'] == 'SIM' ? 'ball bgblue' : 'ball byellow'}" title=${route['x_gps_state']}></div></span>`)) : '-',
+          action: this.remapTripAndRoute.bind(this, route),
+          isHTML: true,
+        },
         lastSeenTime: { value: route.v_time ? this.common.changeDateformat2(route.v_time) : '-', action: this.viewlocation.bind(this, route) },
         // routeName: { value: route.name ? route.name : '-', action: this.viewlocation.bind(this, route) },
         routeName: route.name ? this.getRouteAconym(route.name, route) : '-',// { value: route.name ? this.getRouteAconym(route.name) : '-', action: this.viewlocation.bind(this, route)  },
