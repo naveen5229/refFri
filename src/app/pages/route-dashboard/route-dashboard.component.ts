@@ -18,6 +18,7 @@ import { RemaptripandrouteComponent } from '../../modals/remaptripandroute/remap
   styleUrls: ['./route-dashboard.component.scss']
 })
 export class RouteDashboardComponent implements OnInit {
+  isPrimaryStatusVisi=true;
   routeData = [];
   table = {
     data: {
