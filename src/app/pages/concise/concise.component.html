@@ -24,9 +24,8 @@
                 </div> -->
       </div>
       <div class="row" *ngIf="pdfData.primary.list.length">
-        <div class="col-sm-3">
-        </div>
-        <div class="col-sm-6">
+       
+        <div class="col-sm-12">
           <div style="overflow: hidden;" [hidden]="isMapView">
             <div
               style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
@@ -58,8 +57,7 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-3">
-        </div>
+      
       </div>
       <div class="truck-route" *ngIf="allKpis && allKpis.length">
         <div class="truck_road">
@@ -70,7 +68,7 @@
       </div>
       <div class="row" id="page-2" *ngIf="allKpis && allKpis.length">
         <div class="col-sm-3 pl-5">
-          <div class="" style="overflow: hidden;" [hidden]="isMapView">
+          <div style="overflow: auto;height: calc(100vh - 461px);" [hidden]="isMapView">
             <div
               style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
               class="row">
@@ -100,7 +98,7 @@
         </div>
         <div class="col-6"></div>
         <div class="col-sm-3 pr-5">
-          <div class="" style="overflow: hidden;" [hidden]="isMapView">
+          <div style="overflow: auto;height: calc(100vh - 461px);" [hidden]="isMapView">
             <div
               style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
               class="row">
@@ -148,9 +146,9 @@
   </div>
 
   <nb-card class="nb_card_box" style="border: 0px;">
-    <nb-card-body style="padding:5px 5px 0px;">
+    <nb-card-body style="padding:0px;">
       <div class="row m-0">
-        <div class="col-sm-3 pl-0 pr-2 h-100" [hidden]="isMapView || isHidePie">
+        <div class="col-sm-3 pl-1 pr-2 h-100" [hidden]="isMapView || isHidePie">
           <div
             style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
             class="row">
@@ -173,7 +171,7 @@
               <chart class="dashboard_chart" type="pie" [data]="chartData" [options]="chartOptions" id="chart">
               </chart>
             </div>
-            <div class="status_box" style="overflow: auto; height: calc(90vh - 250px); max-height: calc(90vh - 250px);">
+            <div class="status_box" style="overflow: auto; height: calc(90vh - 239px);">
               <nb-card>
                 <nb-card-body (click)="allData()" style="cursor: pointer;">
                   <div class="col-sm-1 p-0">
@@ -258,7 +256,7 @@
                 class="fas fa-file-excel"></i></span>
           </ng-container>
         </div>
-        <div  *ngIf="table" [ngClass]="isMapView || isHidePie ? 'col-sm-12 p-0  h-100' : 'col-sm-9 p-0 h-100'">
+        <div  *ngIf="table" [ngClass]="isMapView || isHidePie ? 'col-sm-12 pl-0 pr-1 h-100' : 'col-sm-9 pl-0 pr-1 h-100'">
 
           <!-- ============================= SMART TABLE VIEW ============================= -->
           <div mwlResizable [enableGhostResize]="true" class="map-table-container"

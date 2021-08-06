@@ -1,0 +1,134 @@
+<div class="card-body">
+
+    <div class="row m-0">
+        <div class="col-12 text-center">
+            <div class="vech-no"> <p class="mr-3 mb-0">Vehicle </p> <p class="mb-0">{{tripvehicle}}</p></div>   <h4 class="head">Track Your Consignment</h4>
+        </div>
+        <!-- <div *ngIf="data" class="col-1 refresh" (click)="refresh()"><i class="icon ion-refresh"></i>
+        </div> -->
+      </div>
+  <div class="card-view">
+      <div class="card-view">
+        <!-- <div class="row serching-box m-0"> 
+            <label class="col-2">Trip Number : </label>         
+            <div class="col-3"> <input class="form-control" type="text"  size="30" [(ngModel)]="tripid"> </div>
+            <label class="col-2">Vehicle Number : </label>         
+            <div class="col-3"> <input class="form-control" type="text"  size="30" [(ngModel)]="tripvehicle"></div> 
+            <div class="col-2"> <button class="btn btn-primary" (click)="showData()">Search</button>    </div>    
+           </div> -->
+           
+             <div class="row vech-info" *ngIf="data">
+               
+                
+                 <div class="col-4 pl-2 pr-2  vech-info-list">          <p>Invoice Number</p>          <p>{{data.invoice_no}}</p>          </div>
+                 <div class="col-4 pl-2 pr-2  vech-info-list">          <p>Trip Start Time </p>          <p>{{data.start_time}}</p>          </div>
+                 <div class="col-4 pl-2 pr-2  vech-info-list">          <p>Trip End Time </p>          <p>{{data.end_time}}</p>          </div>                
+                 <div class="col-4 pl-2 pr-2  vech-info-list">          <p>Origin </p>          <p>{{data.start_name}}</p>          </div>
+                 <div class="col-4 pl-2 pr-2  vech-info-list">          <p>Destination </p>          <p>{{data.end_name}}</p>          </div>
+                 <div class="col-4 pl-2 pr-2  vech-info-list">          <p>Route Name </p>          <p>{{data.qty}}</p>          </div> 
+                 <div class="col-4 pl-2 pr-2  vech-info-list">          <p>Lead Distance </p>          <p>{{data.google_dist}}</p>          </div>
+                 <div class="col-4 pl-2 pr-2  vech-info-list">          <p>Qty </p>          <p>{{data.qty}}</p>          </div>
+               
+                 <div class="col-4 pl-2 pr-2  vech-info-list">          <p>Trip Run KM</p>          <p>{{data.actual_dist}}</p>          </div>    
+                
+                
+       
+               
+             </div>
+      </div>
+    <div class="row mr-0 ml-0 mt-2" >
+        <div Class="col-sm-5 pl-0" *ngIf="vehicleEvents">
+            <div class="tableFixHead">
+                <table class="table table-bordered table-hover halts-show" style="border:1px gray solid">
+                  <thead>
+                      <th>S.No.</th>
+                    <th style="width:80px;">Place</th>
+                    <th style="width:80px;">Location</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Duration</th>
+                    <th>ODO(Km,cum Km)</th>
+                  </thead>
+                  <!-- 'color':!vehicleEvent.lastType ? 'none':(vehicleEvent.lastType==21?'red':'green'), -->
+                  <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
+                    <tr cdkDrag [id]="'vehicleEvent-row-'+i" (mouseover)="mapService.toggleBounceMF(i)"
+                        (mouseout)="mapService.toggleBounceMF(i,2)"
+                        [ngClass]="{'bg-yellow': vehicleEvent.halt_type_id === 801}"
+                        [ngStyle]="{'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.rc :'#fff'}"
+                        >
+                        <!-- <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.halt_reason}}</td> -->
+                        <td (click)="openSmartTool(i,vehicleEvent);">{{i+1}}</td>
+                        <td (click)="openSmartTool(i,vehicleEvent);">
+                            <label *ngIf="vehicleEvent.event_type=='state'"
+                                [ngClass]="{'star' : vehicleEvent.event_type=='halt'}">*</label>
+                            {{getPlace[i]}}
+                        </td>
+                        <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.loc_name}}</td>
+                        <td (click)="openSmartTool(i,vehicleEvent);">
+                            {{commonService.changeDateformat2(vehicleEvent.start_time)}}
+                        </td>
+                        <td (click)="openSmartTool(i,vehicleEvent);">
+                            {{commonService.changeDateformat2(vehicleEvent.end_time)}}</td>
+                        <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.duration}}</td>
+                        <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.odo +'
+                            ('+vehicleEvent.grand+')'}}</td>
+                    </tr>
+                    <tr *ngIf="vehicleEvent.isOpen">
+                        <td colspan="9">
+                            <div style="text-align:center" class="smart-Tool slideInDown animated">
+                                <span>
+                                    <span class="zoom-btn" (click)="setZoom(10,vehicleEvent)">1</span>
+                                    <span class="zoom-btn" (click)="setZoom(12,vehicleEvent)">2</span>
+                                    <span class="zoom-btn" (click)="setZoom(14,vehicleEvent)">3</span>
+                                    <span class="zoom-btn" (click)="setZoom(16,vehicleEvent)">4</span>
+                                    <span class="zoom-btn" (click)="setZoom(18,vehicleEvent)">5</span>
+
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+                 
+        </div>
+        <div Class="col-sm-7 p-0" style="text-align: center;">
+            <div id="route-mapper-map" style="width: 100%; height: calc(100vh - 283px);">
+            </div>
+            <div class="slide-bar">
+                <div class="row player_inner">
+                    <div class="col-1 p-0">
+                        <button (click)="isPlay=!isPlay;runLineSymbol()">
+                            <i *ngIf="isPlay" class="fa fa-pause"></i>
+                            <i *ngIf="!isPlay" class="fa fa-play"></i>
+                        </button>
+                        <span class="road"><i class="fa fa-road"></i></span>
+                        <span class="clock"><i class="fa fa-clock"></i></span>
+                    </div>
+                    <div class="col-11 pr-0 tooltip">
+                        <input (input)="setSliderPoint()" type="range" min="1" max="100" name="slider-name"
+                            [(ngModel)]="timelineValue" class="slider" id="myRange">
+                        <div class="tooltiptext"
+                            [ngStyle]="{left: 'calc( ' + slideToolTipLeft + 'px - ' + (45 + 0.10 * timelineValue) + 'px)'}">
+                            <input type="range" min="7" max="13" [(ngModel)]="zoomLevel" (input)="zoomOnArrow()"
+                                name="zoomSlider">
+                        </div>
+                        <div class="time-line-event">
+                            <div class="time-line-scale"></div>
+                            <div *ngFor="let event of vehicleEvents; let i = index;" class="time-line-circle"
+                                [ngStyle]="{background: '#'+event.color, left: event.position + '%', width:event.width+'%'} "
+                                (mouseover)="setEventInfo(event)" (mouseout)="unsetEventInfo()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+ </div>
+</div>
+
+ 
+
+
