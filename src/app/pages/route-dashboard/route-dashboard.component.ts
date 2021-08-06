@@ -18,7 +18,7 @@ import { RemaptripandrouteComponent } from '../../modals/remaptripandroute/remap
   styleUrls: ['./route-dashboard.component.scss']
 })
 export class RouteDashboardComponent implements OnInit {
-  isPrimaryStatusVisi=true;
+  isPrimaryStatusVisi = true;
   routeData = [];
   table = {
     data: {
@@ -54,6 +54,8 @@ export class RouteDashboardComponent implements OnInit {
   keyGroups = [];
   activePrimaryStatus = "";
   primarySubStatus = [];
+  gpsStatus = null;
+  gpsStatusKeys = [];
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -101,6 +103,7 @@ export class RouteDashboardComponent implements OnInit {
         this.routeData = res['data'];
         this.grouping('route_status');
         this.routeData.length ? this.table = this.setTable() : this.resetTable();
+        this.getGpsStatus();
         this.routesData = res['data'];
       }, err => {
         this.common.loading--;
@@ -220,6 +223,13 @@ export class RouteDashboardComponent implements OnInit {
       },
     ]
     return icons;
+  }
+
+  getGpsStatus() {
+    this.gpsStatus = _.groupBy(this.routeData, 'x_gps_state');
+    this.gpsStatusKeys = Object.keys(this.gpsStatus)
+    console.log("this.gpsStatus=", this.gpsStatus);
+    console.log("this.gpsStatusKeys=", this.gpsStatusKeys);
   }
 
   openRouteMapper(route) {

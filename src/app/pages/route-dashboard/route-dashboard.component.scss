@@ -2,14 +2,62 @@
   color: black;
   background: cornsilk;
 }
-
-
+:host ::ng-deep.bgblue {
+  background: rgb(26, 1, 247);
+  color: rgb(38, 0, 255);
+}
+:host ::ng-deep.byellow {
+  background: yellow;
+  color: #fff;
+}
+:host ::ng-deep.bgreen{
+  background-color: rgb(181, 243, 124);
+}
 :host ::ng-deep.green{
   background-color: rgb(181, 243, 124);
 }
 :host ::ng-deep.red {
   background-color:rgb(243, 124, 124);
 }
+
+:host ::ng-deep {
+  .ball {
+      margin-top: 3px;
+      float: left;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-left: 4px;
+      -webkit-animation: up-right 1s infinite;
+      -moz-animation: up-right 1s infinite;
+      -o-animation: up-right 1s infinite;
+      animation: up-right 1s infinite;
+  }
+  @keyframes up-right {
+      0% {
+          transform: scale(1);
+          opacity: 0.25;
+      }
+      50% {
+          transform: scale (1, 5);
+          opacity: 1;
+      }
+      100% {
+          transform: scale(1);
+          opacity: 0.25;
+      }
+  }
+}
+.right-status {
+  padding-top: 6px;
+  u {
+      font-size: 14px;
+      margin-left: 3px;
+      cursor: pointer;
+      vertical-align: top;
+  }
+}
+
 :host ::ng-deep .fa-route {
   color: black;
   font-size: 14px;
