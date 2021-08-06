@@ -1,4 +1,4 @@
-<!-- Author By Lalit -->
+<!-- Author By Durgesh -->
 
 <nb-card style="border:0px;">
   <!-- <nb-card-header>
@@ -46,7 +46,7 @@
           </chart>
         </div>
         <div class="status_box" style="overflow: auto; height: calc(90vh - 250px); max-height: calc(90vh - 250px);">
-          <nb-card>
+          <nb-card *ngIf="routeData.length">
             <nb-card-body (click)="allData()" style="cursor: pointer;">
               <div class="col-sm-1 p-0">
                 <div
@@ -101,9 +101,9 @@
             </nb-card>
           </div>
         </div>
-        <button class="btn btn-primary pdf-print" type="button" pdf (click)="generatePDF()"><i
+        <button *ngIf="routeData.length" class="btn btn-primary pdf-print" type="button" pdf (click)="generatePDF()"><i
             class="fa fa-file-pdf"></i></button>
-        <span class="exel-icon" title="CSV Export" (click)="exportCsv()" style="cursor: pointer;"><i
+        <span *ngIf="routeData.length" class="exel-icon" title="CSV Export" (click)="exportCsv()" style="cursor: pointer;"><i
             class="fas fa-file-excel"></i></span>
       </div>
       <div [ngClass]="isPrimaryStatusVisi ? 'col-sm-9 p-0' : 'col-sm-12 p-0'" style=" overflow: hidden;">
