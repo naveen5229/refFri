@@ -11,6 +11,10 @@ import { AdhocRouteComponent } from '../../modals/adhoc-route/adhoc-route.compon
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 import { RemaptripandrouteComponent } from '../../modals/remaptripandroute/remaptripandroute.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { UserService } from '../../services/user.service';
+import { DatePipe } from '@angular/common';
+import { ExcelService } from '../../services/excel/excel.service';
+import { CsvService } from '../../services/csv/csv.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -57,15 +61,20 @@ export class RouteDashboardComponent implements OnInit {
   primarySubStatus = [];
   gpsStatus = null;
   gpsStatusKeys = [];
+  today;
 
   constructor(
     public api: ApiService,
     public common: CommonService,
+    private user: UserService,
+    private csvService: CsvService,
+    private datePipe: DatePipe,
+    private excelService: ExcelService,
     private _sanitizer: DomSanitizer,
     public modalService: NgbModal) {
+    this.today = new Date();
     this.getFoWiseRouteData();
     this.common.refresh = this.refresh.bind(this);
-
   }
 
   ngOnInit() {
@@ -172,7 +181,7 @@ export class RouteDashboardComponent implements OnInit {
       let column = {
         regno:
         {
-          value: route.v_regno ? this._sanitizer.sanitize(SecurityContext.HTML,this._sanitizer.bypassSecurityTrustHtml(`<span><div style='float:left;'>${route['v_regno']}</div><div class="${route['x_gps_state'] == 'Offline' ? 'ball red' : route['x_gps_state'] == 'Online' ? 'ball bgreen' : route['x_gps_state'] == 'SIM' ? 'ball bgblue' : 'ball byellow'}" title=${route['x_gps_state']}></div></span>`)) : '-',
+          value: route.v_regno ? this._sanitizer.sanitize(SecurityContext.HTML, this._sanitizer.bypassSecurityTrustHtml(`<span><div style='float:left;'>${route['v_regno']}</div><div class="${route['x_gps_state'] == 'Offline' ? 'ball red' : route['x_gps_state'] == 'Online' ? 'ball bgreen' : route['x_gps_state'] == 'SIM' ? 'ball bgblue' : 'ball byellow'}" title=${route['x_gps_state']}></div></span>`)) : '-',
           action: this.remapTripAndRoute.bind(this, route),
           isHTML: true,
         },
@@ -432,5 +441,38 @@ export class RouteDashboardComponent implements OnInit {
     console.log('route is: ', route)
     const activeModal = this.modalService.open(RemaptripandrouteComponent, { size: 'lg', container: 'nb-layout' });
 
+  }
+
+  exportCsv() {
+    let name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.name;
+    let details = [
+      { customer:  name },
+      { report: 'Report : Dashboard Trips' },
+    ];
+    let headersArray = ["Regno", "Last Seen Time", "Route Name", "Invoice Time", "Add Time", "Start Location", "Start Time", "Last Location", "Last Exit Time", "Current Location", "CL Time", "Next Location","Distance Remaining","ETOA","Start Delay","Total Delay","Last Hr KMS"];
+    let json = this.routeData.map(data => {
+      return {
+        "Regno": data['v_regno'] ? data['v_regno'] : '-',
+        "Last Seen Time": this.common.changeDateformat2(data.v_time),
+        "Route Name": data.name ? data['name'] : '-',
+        "Invoice Time": this.common.changeDateformat2(data.invoice_time),
+        "Add Time": data.addtime ? this.common.changeDateformat2(data.addtime) : '-',
+        "Start Location": data.f_name ? data.f_name : '-',
+        "Start Time": data.f_end_time ? this.common.changeDateformat2(data.f_end_time) : '-',
+        "Last Location": data.l_name ? data.l_name : '-',
+        "Last Exit Time": data.l_end_time ? this.common.changeDateformat2(data.l_end_time) : '-',
+        "Current Location": data.c_name ? data.c_name : '-',
+        "CL Time": data.c_start_time ? this.common.changeDateformat2(data.c_start_time) : '-',
+        "Next Location": data.n_name ? data.n_name : '-',
+        "Distance Remaining": data.n_dist_rem ? data.n_dist_rem : '-',
+        "ETOA": data.etoa_next ? this.common.changeDateformat2(data.etoa_next) : '-',
+        "Start Delay": data.start_delay ? data.start_delay : '-' ,
+        "Total Delay": data.total_delay ? data.total_delay : '-',
+        "Last Hr KMS": data.last_hour_kms ? data.last_hour_kms : '-',
+      };
+    });
+
+    this.excelService.dkgExcel("Route Dashboard", details, headersArray, json, 'Route Dashboard', false);
+     
   }
 }
