@@ -4,9 +4,13 @@
   <!-- <nb-card-header>
     <h5>Route Dashboard</h5>
   </nb-card-header> -->
-  <nb-card-body>
+  <nb-card-body class="pt-0">
+    <div class="row mb-4">
+        <div class="col-2 x-hide"> <i class="fa fa-bars" (click)="isPrimaryStatusVisi=!isPrimaryStatusVisi"></i> </div>
+        <div class="col-10 status-print-title text-center"><h4 >Trip dashboard</h4></div>
+   </div>
       <div class="row m-0">
-          <div class="col-sm-3 pl-0 pr-2" style="height: 90vh; overflow: hidden;" [hidden]="isGraphView" >
+          <div class="col-sm-3 pl-0 pr-2" style="height: 90vh; overflow: hidden;" [hidden]="isGraphView" *ngIf="isPrimaryStatusVisi" >
               <div style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
                   class="row">
                   <div class="col-sm-2">
@@ -86,7 +90,7 @@
               </div>
              
           </div>
-          <div class="" [ngClass]="isGraphView ? 'col-sm-12 p-0' : 'col-sm-9 p-0'" style=" overflow: hidden;" >
+          <div  [ngClass]="isPrimaryStatusVisi ? 'col-sm-9 p-0' : 'col-sm-12 p-0'" style=" overflow: hidden;" >
     <smart-table [data]="table.data" [settings]="table.settings" id="routeDashbord" style="width:100%">
     </smart-table>
     </div>
