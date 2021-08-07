@@ -181,7 +181,7 @@ export class RouteDashboardComponent implements OnInit {
       let column = {
         regno:
         {
-          value: route.v_regno ? this._sanitizer.sanitize(SecurityContext.HTML, this._sanitizer.bypassSecurityTrustHtml(`<span><div style='float:left;'>${route['v_regno']}</div><div class="${route['x_gps_state'] == 'Offline' ? 'ball red' : route['x_gps_state'] == 'Online' ? 'ball bgreen' : route['x_gps_state'] == 'SIM' ? 'ball bgblue' : 'ball byellow'}" title=${route['x_gps_state']}></div></span>`)) : '-',
+          value: route.v_regno ? this._sanitizer.sanitize(SecurityContext.HTML, this._sanitizer.bypassSecurityTrustHtml(`<span><div class="float-left">${route['v_regno']}</div><div class="${route['x_gps_state'] == 'Offline' ? 'ball red' : route['x_gps_state'] == 'Online' ? 'ball bgreen' : route['x_gps_state'] == 'SIM' ? 'ball bgblue' : 'ball byellow'}" title=${route['x_gps_state']}></div></span>`)) : '-',
           action: this.remapTripAndRoute.bind(this, route),
           isHTML: true,
         },
