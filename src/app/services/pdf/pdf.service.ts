@@ -146,6 +146,12 @@ export class PdfService {
       }
     }
 
+    // ngm remove action field from pdf
+    if (hdgs && hdgs.length > 0 && hdgs.includes('Action')) {
+      hdgs.splice(hdgs.indexOf('Action'), 1)
+    }
+    // ngm remove action field from pdf
+    
     hdg_coll.push(hdgs);
     return hdg_coll;
   }
