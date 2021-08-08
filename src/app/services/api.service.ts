@@ -76,7 +76,11 @@ export class ApiService {
       reqOpts.headers['authkey'] = localStorage.getItem('USER_TOKEN');
     }
     console.log("headers:", reqOpts);
-    return this.http.get(this.URLJavaPortDost + ":" + port + "/" + endpoint, reqOpts);
+    if (port == null) {
+      return this.http.get(this.URLJavaPortDost + "/" + endpoint, reqOpts);
+    } else {
+      return this.http.get(this.URLJavaPortDost + ":" + port + "/" + endpoint, reqOpts);
+    }
   }
 
   postJavaPortDost(port: number, endpoint: string, body: any,) {
@@ -99,7 +103,11 @@ export class ApiService {
       reqOpts.headers['authkey'] = localStorage.getItem('USER_TOKEN');
     }
     console.log("headers:", reqOpts);
-    return this.http.post(this.URLJavaPortDost + ":" + port + "/" + endpoint, body, reqOpts);
+    if (port == null) {
+      return this.http.post(this.URLJavaPortDost + "/" + endpoint, body, reqOpts);
+    } else {
+      return this.http.post(this.URLJavaPortDost + ":" + port + "/" + endpoint, body, reqOpts);
+    }
   }
 
   post(subURL: string, body: any, options?) {

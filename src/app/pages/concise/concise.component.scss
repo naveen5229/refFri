@@ -882,7 +882,7 @@ mwlResizable {
 
 :host ::ng-deep.tableFixHead {
     height: auto !important;
-    max-height: calc(100vh - 136px);
+    max-height: calc(100vh - 122px);
     .table>tbody>tr>td,
     .table>tbody>tr>th,
     .table>tfoot>tr>td,
@@ -945,7 +945,7 @@ mwlResizable {
 }
 .status-print-title {
     margin-top: -7px;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     h4 {
         height: auto;
         margin: auto;
@@ -995,7 +995,7 @@ mwlResizable {
     }
 }
 .right-status {
-    padding-top: 6px;
+    padding-top: 10px;
     u {
         font-size: 14px;
         margin-left: 3px;
