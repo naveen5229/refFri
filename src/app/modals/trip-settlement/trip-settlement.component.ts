@@ -48,7 +48,7 @@ ngOnInit() {
 
   closeModal() {
     this.activeModal.close();
-    this.renderer.addClass(document.body, 'test');
+    // this.renderer.addClass(document.body, 'test');
   }
 
   printInvoice() {

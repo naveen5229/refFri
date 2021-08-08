@@ -78,6 +78,11 @@ export class CsvService {
         }
       }
     }
+    // ngm remove action field from excel
+    if (headings && headings.length > 0 && headings.includes('Action')) {
+      headings.splice(headings.indexOf('Action'), 1)
+    }
+    // ngm remove action field from excel
     return headings;
   }
 

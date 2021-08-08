@@ -103,13 +103,15 @@
         </div>
         <button *ngIf="routeData.length" class="btn btn-primary pdf-print" type="button" pdf (click)="generatePDF()"><i
             class="fa fa-file-pdf"></i></button>
-        <span *ngIf="routeData.length" class="exel-icon" title="CSV Export" (click)="exportCsv()" style="cursor: pointer;"><i
-            class="fas fa-file-excel"></i></span>
+        <span *ngIf="routeData.length" class="exel-icon" title="CSV Export" (click)="exportCsv()"
+          style="cursor: pointer;"><i class="fas fa-file-excel"></i></span>
       </div>
       <div [ngClass]="isPrimaryStatusVisi ? 'col-sm-9 p-0' : 'col-sm-12 p-0'" style=" overflow: hidden;">
+        <div id="print-section">
 
-        <smart-table [data]="table.data" [settings]="table.settings" id="routeDashbord" style="width:100%">
-        </smart-table>
+          <smart-table [data]="table.data" [settings]="table.settings" id="routeDashbord" style="width:100%">
+          </smart-table>
+        </div>
       </div>
     </div>
   </nb-card-body>

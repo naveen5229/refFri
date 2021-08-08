@@ -46,7 +46,8 @@
                 <button class="btn btn-primary" (click)="saveTripStatus()">submit</button>
             </div>
         </div>
-        <div *ngIf="tripData && tripData.length>0">
+        <div  class="row"  *ngIf="tripData && tripData.length>0">
+            <label>{{message}}</label>
             <div class="table-responsive" >
                 <table *ngIf="sharedvehicledata && sharedvehicledata.length" id="Tripshared">
                     <thead style="background-color: #263238; color: #fff; white-space: nowrap;">
