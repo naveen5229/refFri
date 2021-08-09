@@ -107,7 +107,7 @@ export class TripmasterreportComponent implements OnInit {
             this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'black', action: '' };
           }
         } else if (this.headings[i] === 'Halt') {
-          if (matrix[this.headings[i]] > 0) {
+          if (matrix[this.headings[i]] >= 0) {
             this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'blue', action: this.showRouteMapper.bind(this, matrix) };
           } else {
             this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'black', action: '' };
