@@ -15,6 +15,7 @@ import { UserService } from '../../services/user.service';
 import { DatePipe } from '@angular/common';
 import { ExcelService } from '../../services/excel/excel.service';
 import { CsvService } from '../../services/csv/csv.service';
+import { PdfService } from '../../services/pdf/pdf.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -62,11 +63,39 @@ export class RouteDashboardComponent implements OnInit {
   gpsStatus = null;
   gpsStatusKeys = [];
   today;
+  pdfData = {
+    routeStatus: {
+      name: 'Route Status',
+      chartData: null,
+      chartOptions: null,
+      list: [],
+      key: 'route_status',
+    },
+    routes: {
+      name: 'Routes',
+      chartData: null,
+      chartOptions: null,
+      list: [],
+      key: 'show_name',
+      kpiGroups: null,
+    },
+    onwardStatus: {
+      name: 'Onward Status',
+      chartData: null,
+      chartOptions: null,
+      list: [],
+      key: 'onward_status',
+      kpiGroups: null,
+    },
+    tables: []
+  };
+  startDate = new Date();
 
   constructor(
     public api: ApiService,
     public common: CommonService,
     private user: UserService,
+    private pdfService: PdfService,
     private csvService: CsvService,
     private datePipe: DatePipe,
     private excelService: ExcelService,
@@ -181,7 +210,7 @@ export class RouteDashboardComponent implements OnInit {
       let column = {
         regno:
         {
-          value: route.v_regno ? this._sanitizer.sanitize(SecurityContext.HTML, this._sanitizer.bypassSecurityTrustHtml(`<span><div style='float:left;'>${route['v_regno']}</div><div class="${route['x_gps_state'] == 'Offline' ? 'ball red' : route['x_gps_state'] == 'Online' ? 'ball bgreen' : route['x_gps_state'] == 'SIM' ? 'ball bgblue' : 'ball byellow'}" title=${route['x_gps_state']}></div></span>`)) : '-',
+          value: route.v_regno ? this._sanitizer.sanitize(SecurityContext.HTML, this._sanitizer.bypassSecurityTrustHtml(`<span><div class="float-left">${route['v_regno']}</div><div class="${route['x_gps_state'] == 'Offline' ? 'ball red' : route['x_gps_state'] == 'Online' ? 'ball bgreen' : route['x_gps_state'] == 'SIM' ? 'ball bgblue' : 'ball byellow'}" title=${route['x_gps_state']}></div></span>`)) : '-',
           action: this.remapTripAndRoute.bind(this, route),
           isHTML: true,
         },
@@ -475,4 +504,15 @@ export class RouteDashboardComponent implements OnInit {
     this.excelService.dkgExcel("Route Dashboard", details, headersArray, json, 'Route Dashboard', false);
      
   }
+
+  generatePDF(){
+    let name = this.user._loggedInBy == 'admin' ? this.user._details.username : this.user._details.name;
+    console.log("Name:", name);
+    let details = [
+      ['Name: ' + name, 'Start Date: ' + this.common.dateFormatter1(this.startDate) ]
+    ];
+    this.pdfService.jrxTablesPDF(['routeDashbord'], 'route-dashboard', details);
+  }
+
+ 
 }
