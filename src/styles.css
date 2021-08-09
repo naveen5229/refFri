@@ -1009,7 +1009,9 @@ input[type="number"] {
   .graphspopup  .modal-dialog .tableFixHead th{
     width: 200px;
 }
-
+input[type=checkbox], input[type=radio] {
+  margin: 4px 4px 0;
+}
 @media (max-width: 1024px) and (min-width: 768px) {
   table thead,
   table tbody {
