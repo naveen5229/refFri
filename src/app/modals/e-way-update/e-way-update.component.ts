@@ -217,7 +217,7 @@ export class EWayUpdateComponent implements OnInit {
 
     // return;
     this.common.loading++;
-    this.api.postJavaPortDost(null,this.updateAt, params).subscribe(res => {
+    this.api.postEwayPort(this.updateAt, params).subscribe(res => {
       console.log(res);
       this.common.loading--;
       if (res['code'] === 1) {
