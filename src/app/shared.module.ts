@@ -43,6 +43,8 @@ import { TmgUnloadingAnalysisComponent } from './pages/tmg-unloading-analysis/tm
 import { PlacementoptimizationComponent } from './pages/placementoptimization/placementoptimization.component';
 import { NightDriveReportComponent } from './pages/night-drive-report/night-drive-report.component';
 import { TmgMaintainaceComponent } from './pages/tmg-maintainace/tmg-maintainace.component';
+import { TripsharedComponent } from './pages/tripshared/tripshared.component';
+import { StampingComponent } from './pages/stamping/stamping.component';
 
 
 const PAGES_COMPONENTS = [
@@ -81,7 +83,9 @@ const PAGES_COMPONENTS = [
     TmgUnloadingAnalysisComponent,
     PlacementoptimizationComponent,
     NightDriveReportComponent,
-    TmgMaintainaceComponent
+    TmgMaintainaceComponent,
+    TripsharedComponent,
+    StampingComponent
     
 ];
 

@@ -1,0 +1,207 @@
+<nb-card>
+    <nb-card-header>
+      <div class="row">
+          <h5>Trip Shared</h5>
+      </div>
+    </nb-card-header>
+    <nb-card-body> 
+        <div class="row vech_num_outer">
+            <div class="col-4">
+                <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getFoVehicleList"
+                display="regno" placeholder="Search Vehicle" [preSelected]="null"></auto-suggestion>
+            </div>
+            <div class="col-8">
+                <label>Preferences</label>
+                <div class="col-2">
+                    <label>Gps</label>
+                    <input type="radio" [(ngModel)]="preference" value="GPS" (click)="changevalue()">
+                </div>
+                <div class="col-2">
+                    <label>SIM</label>
+                    <input type="radio" [(ngModel)]="preference" value="SIM" (click)="changevalue()">
+                </div>
+                <div class="col-2">
+                    <label>API</label>
+                    <input type="radio" [(ngModel)]="preference" value="API" (click)="changevalue()">
+                </div>
+                <div class="col-2">
+                    <label>Driver App</label>
+                    <input type="radio" [(ngModel)]="preference" value="DriverApp" (click)="changevalue()">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <label>Driver Name</label>
+            <input type="text" [(ngModel)]="divername">
+        </div>
+        <div class="row">
+            <label>Driver Mobile</label>
+            <input type="text" [(ngModel)]="divermobile">
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <label>Initiated Status</label>
+                <input type="text" [(ngModel)]="initiated">
+            </div>
+            <div class="col-4">
+                <label>Active Status</label>
+                <input type="text" [(ngModel)]="activestatus">
+            </div>
+        </div>
+        <div class="row vech_num_outer" >
+            <div class="col-3">
+                        <label>GPS</label>
+                    <div class="row">
+                        <label>Initial Status : </label>
+                        <label *ngIf="data">{{data['gps']}}</label>
+                    </div>
+                    <div class="row">
+                        <label>Active Status : </label>
+                        <label *ngIf="data">{{data['gps_status']}}</label>
+                    </div>
+                    <div class="row">
+                        <label>Last Data : </label>
+                        <label *ngIf="data">{{data['gps_status']}}</label>
+                    </div>
+                    <div class="row">
+                        <label>Icon Color : </label>
+                        <label *ngIf="data">{{data['gps_icon_color']}}</label>
+                    </div>
+            </div>
+            <div class="col-3">
+                <label>SIM</label>
+            <div class="row">
+                <label>Initial Status : </label>
+                <label *ngIf="data">{{data['sim']}}</label>
+            </div>
+            <div class="row">
+                <label>Active Status : </label>
+                <label *ngIf="data">{{data['sim_status']}}</label>
+            </div>
+            <div class="row">
+                <label>Last Data : </label>
+                <label *ngIf="data">{{data['sim_status']}}</label>
+            </div>
+            <div class="row">
+                <label>Status : </label>
+                <label *ngIf="data">{{data['sim_status']}}</label>
+            </div>
+            <div class="row">
+                <label>Request Time : </label>
+                <label *ngIf="data">{{data['sim_req_time']}}</label>
+            </div>
+            <div class="row">
+                <label>Responced Time : </label>
+                <label *ngIf="data">{{data['gps_status']}}</label>
+            </div>
+            <div class="row">
+                <label>Reminding Days : </label>
+                <label *ngIf="data">{{data['remaining_days']}}</label>
+            </div>
+            <div class="row">
+                <label>Icon Color : </label>
+                <label *ngIf="data">{{data['sim_icon_color']}}</label>
+            </div>
+            </div>
+            <div class="col-3">
+                <label>API</label>
+            <div class="row">
+                <label>Initial Status</label>
+                <label>_</label>
+            </div>
+            <div class="row">
+                <label>Active Status</label>
+                <label>_</label>
+                
+            </div>
+            <div class="row">
+                <label>Last Data</label>
+                <label>_</label>
+
+            </div>
+            <div class="row">
+                <label>Icon Color</label>
+                <label>_</label>
+
+            </div>
+            </div>
+            <div class="col-3">
+                <label>Driver App</label>
+            <div class="row">
+                <label>Initial Status</label>
+                <label>_</label>
+
+            </div>
+            <div class="row">
+                <label>Active Status</label>
+                <label>_</label>
+
+            </div>
+            <div class="row">
+                <label>Last Data</label>
+                <label>_</label>
+
+            </div>
+            <div class="row">
+                <label>Icon Color</label>
+                <label>_</label>
+
+            </div>
+            </div>
+        </div>
+        <div class="row">
+            <label>Remarks</label>
+            <input type="text" [(ngModel)]="remark">
+        </div>
+        <div class="row">
+            <div class="col-4" *ngIf="data">
+                <label>Final Status</label>
+                <input type="text"  [(ngModel)]="finalstatus" >
+            </div>
+            <div class="col-4">
+                <button (click)="((finalstatus == 'GREEN')? allowed=true : optionflag =true); allowedoption = true ; ">Allowed</button>
+            </div>
+            <div class="col-4">
+                <button (click)="((finalstatus == 'RED')? allowed = true : optionflag =true);allowedoption = false ; ">Disallowed</button>
+            </div>
+        </div>
+<div class="date-modal" *ngIf="allowed">
+    <div class="date-modal-body data_model_save">
+        <div>
+        <!-- <h5><b>Invoice detail</b></h5> -->
+        <p>Are You sure you want to preceed ?</p>
+        <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
+            (click)="allowed=false">Cancel</button>
+        </div>
+    </div>
+</div>
+<div class="date-modal" *ngIf="optionflag">
+    <div class="date-modal-body data_model_save">
+        <div>
+            <div class="option">
+            <select *ngIf="allowedoption">
+                <option>Please Select Option</option>
+                <option>Allowed On Technical/Network issue</option>
+                <option>Allowed -GPS Device Is Working</option>
+                <option>Allowed On PLH Request</option>
+                <option>Allowed -App/Sim Traking</option>
+                <option>Allowed -App Installed</option>
+                <option>Allowed -Constant Intiated</option>
+            </select>
+            <select *ngIf="!allowedoption">
+                <option>Please Select Option</option>
+                <option>Not Allowed - Handed over to the Technician</option>
+                <option>More option I will share </option>
+            </select>
+            </div>
+            <div>
+                <label>Spatial Remarks</label>
+                <input type="text" [(ngModel)]="spatialremarks">
+            </div>
+        <button>Proceed</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
+            (click)="optionflag=false">Cancel</button>
+        </div>
+    </div>
+</div>
+    </nb-card-body>
+</nb-card>
