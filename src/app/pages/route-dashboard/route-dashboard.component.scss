@@ -49,7 +49,8 @@
   }
 }
 .right-status {
-  padding-top: 6px;
+  display: flex;
+  align-items: center;
   u {
       font-size: 14px;
       margin-left: 3px;
@@ -57,7 +58,11 @@
       vertical-align: top;
   }
 }
-
+.status_box nb-card {
+  margin: 0px !important;
+  border: none !important;
+  border-top: 1px solid #d7dee4 !important;
+}
 :host ::ng-deep .fa-route {
   color: black;
   font-size: 14px;
@@ -205,94 +210,25 @@ left: -36px;
   }
 
   
-  :host ::ng-deep {
-    td{text-align:center;}
+  :host ::ng-deep.tableFixHead{
+    overflow: auto;
+    height: calc(100vh - 135px)!important;
+    td,th {
+      width: 150px;
+    }
   }
 
-  :host ::ng-deep {
-    th{text-align:center;}
-  }
+ 
 
 
-  :host ::ng-deep {
-    th:nth-child(1) {
-        width: 30px !important;
-    }
-
-    th:nth-child(2) {
-        width: 90px;
-    }
-
-    th:nth-child(3) {
-        width: 118px;
-    }
-
-    th:nth-child(4) {
-        width:106px;
-    }
-
-    th:nth-child(5) {
-      width: 95px;
-  }
-
-    th:nth-child(6) {
-        width: 114px;
-    }
-
-    th:nth-child(7) {
-        width:95px;
-    }
-
-    th:nth-child(8) {
-        width:108px;
-    }
-
-    th:nth-child(9) {
-        width: 110px;
-    }
-
-    th:nth-child(10) {
-        width: 130px;
-    }
-
-    th:nth-child(11) {
-        width:95px;
-    }
-    th:nth-child(12) {
-      width:110px;
-  }
-
-  th:nth-child(13) {
-      width:152px;
-  }
-  th:nth-child(14) {
-    width:95px;
-}
-
-th:nth-child(15) {
-    width:97px;
-}
-th:nth-child(16) {
-  width: 98px;
-}
-
-th:nth-child(17) {
-  width:101px;
-}
-th:nth-child(18) {
-  width: 100px;
-}
-th:nth-child(19) {
-  width: 100px;
-}
-  }
+ 
   .status-print-title h4{
     height: auto;
     margin: auto;
     z-index: 999999;
     overflow: visible;
     border-radius: 0.17rem;
-    padding: 4px 20px;
+    padding: 0px 20px;
     background-color: #c9c2de;
     border-bottom: 1px solid #fff;
     -webkit-box-shadow: 0 16px 26px -10px rgba(63, 106, 216, 0.56), 0 4px 25px 0 rgba(0, 0, 0, 0.12),
@@ -306,6 +242,8 @@ th:nth-child(19) {
     text-align: center;
   }
   .x-hide{ 
+    display: flex;
+    align-items: center;
      i
    {
     cursor: pointer;
@@ -324,7 +262,7 @@ th:nth-child(19) {
   padding: 0px;
   font-size: 16px !important;
   margin-top: 0px !important;
-  bottom: 35px;
+  bottom: -11px;
   position: absolute;
   left: 4px;
   background-color: #ff0000 !important;
@@ -332,7 +270,7 @@ th:nth-child(19) {
 }
 
 .exel-icon {
-  bottom: 35px;
+  bottom: -11px;
   position: absolute;
   right: 30px;
   background-color: #4fa9ff;
