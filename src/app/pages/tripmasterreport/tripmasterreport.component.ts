@@ -112,7 +112,9 @@ export class TripmasterreportComponent implements OnInit {
           } else {
             this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'black', action: '' };
           }
-        } else this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'black', action: '' };
+        } else if(this.headings[i] == 'Share Trip'){
+          this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'blue', action: this.shareTrip.bind(this, matrix) };
+        }else this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'black', action: '' };
       }
       columns.push(this.valobj);
     });
@@ -126,6 +128,11 @@ export class TripmasterreportComponent implements OnInit {
     } else {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
+  }
+
+  shareTrip(matrix){
+    let url = matrix['Share Trip'];
+    window.open(url, '_blank').focus();
   }
 
   openTripKmRepair(data) {
