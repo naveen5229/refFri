@@ -125,6 +125,7 @@ import { ConsignmentComponent } from './consignment/consignment.component';
 import { TmgMaintainaceComponent } from './tmg-maintainace/tmg-maintainace.component';
 import { TripsharedComponent } from './tripshared/tripshared.component';
 import { EWayBillTripComponent } from './e-way-bill-trip/e-way-bill-trip.component';
+import { StampingComponent } from './stamping/stamping.component';
 
 
 const routes: Routes = [{
@@ -768,6 +769,11 @@ const routes: Routes = [{
     component: TripsharedComponent,
     canActivate: [AuthGuard, RouteGuard]
   },
+  {
+    path: 'stamping',
+    component: StampingComponent,
+    canActivate: [AuthGuard, RouteGuard]
+  }
   ],
 }];
 

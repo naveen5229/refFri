@@ -208,7 +208,6 @@ export class SharedvehicleComponent implements OnInit {
       isCheckbox: true,
       action: this.selectUnselectAllVehicles.bind(this),
       value: false,
-      class: 'ckbox'
     };
 
     for (var key in keyObject) {
@@ -219,6 +218,19 @@ export class SharedvehicleComponent implements OnInit {
         }
       }
     }
+    this.data.map((vehicle, index) => {
+      let column = {};
+      Object.keys(headings).forEach(heading => {
+        if (heading === 'checkbox') {
+          column[heading] = {
+            isCheckbox: true,
+            action: this.selectOrUnselectVehicle.bind(this, vehicle),
+            value: this.selected.vehicles.indexOf(vehicle._vid) !== -1 ? true : false
+          }
+        }
+      });
+    });
+
     
     return headings;
   }
