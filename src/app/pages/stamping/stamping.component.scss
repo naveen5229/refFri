@@ -1,8 +1,7 @@
 .data_model_save{
     padding: 20px;
-    text-align: center;
     width: auto;
-    max-width: 250px;
+   
   }
   .data_model_save button{
     border: none;
@@ -22,6 +21,68 @@
   }
   .date-modal-body{
     background: #fff;
-    width: 200px;
+    width: 80%;
     margin: 15% auto auto auto;
   }
+  
+  :host ::ng-deep .tagsinput {
+    border: none!important;
+    input{
+      padding: 10px 10px !important;
+      background: white !important;
+      border: 0 !important;
+      border-radius: 40px !important;
+      -webkit-box-shadow: 5px 2px 8px #e0e0e0 !important;
+      box-shadow: 5px 2px 8px #e0e0e0 !important;
+      border: 1px solid #04a9f5 !important;
+    }
+   
+}
+.option{
+  select{
+    width: 90%;
+  }
+}
+.head{
+ 
+  height: auto;
+  margin: auto;
+  z-index: 999999;
+  overflow: visible;
+  border-radius: 0.17rem;
+  padding: 6px 20px;
+  background-color: #c9c2de;
+  border-bottom: 1px solid #fff;
+  -webkit-box-shadow: 0 16px 26px -10px rgba(63, 106, 216, 0.56), 0 4px 25px 0 rgba(0, 0, 0, 0.12),
+      0 8px 10px -5px rgba(63, 106, 216, 0.2);
+  box-shadow: 0 16px 26px -10px rgba(63, 106, 216, 0.56), 0 4px 25px 0 rgba(0, 0, 0, 0.12),
+      0 8px 10px -5px rgba(63, 106, 216, 0.2);
+  display: inline-block;
+  color: #000;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+}
+.preference{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.green{
+  border: 1px solid green;
+  h6{
+    background-color: green;
+  }
+}
+.red{
+  border: 1px solid red;
+  h6{
+    background-color: red;
+  }
+}
+.others{
+  border: 1px solid grey;
+  h6{
+    background-color: grey;
+  }
+}
