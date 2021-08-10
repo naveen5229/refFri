@@ -39,17 +39,17 @@ export class UpdateTripDetailComponent implements OnInit {
     this.vehicleTrip.tripTypeId = this.common.params.vehicleTrip.trip_type_id;
     this.vehicleTrip.VehicleId = this.common.params.vehicleTrip.vehicle_id;
     this.vehicleTrip.vehicleRegNo = this.common.params.vehicleTrip.regno;
-    this.vehicleTrip.startName = this.common.params.vehicleTrip.start_name?this.common.params.vehicleTrip.start_name:this.common.params.vehicleTrip._origin;
-    this.vehicleTrip.startTime = this.common.params.vehicleTrip.start_time?this.common.params.vehicleTrip.start_time:this.common.params.vehicleTrip._startdate;
-    this.vehicleTrip.endName = this.common.params.vehicleTrip.end_name?this.common.params.vehicleTrip.end_name:this.common.params.vehicleTrip._destination;
+    this.vehicleTrip.startName = this.common.params.vehicleTrip.start_name ? this.common.params.vehicleTrip.start_name : this.common.params.vehicleTrip._origin;
+    this.vehicleTrip.startTime = this.common.params.vehicleTrip.start_time ? this.common.params.vehicleTrip.start_time : this.common.params.vehicleTrip._startdate;
+    this.vehicleTrip.endName = this.common.params.vehicleTrip.end_name ? this.common.params.vehicleTrip.end_name : this.common.params.vehicleTrip._destination;
     this.vehicleTrip.targetTime = this.common.params.vehicleTrip.end_time;
-  
+
     this.vehicleTrip.startName = this.vehicleTrip.startName.split("#")[0];
     this.vehicleTrip.endName = this.vehicleTrip.endName.split("#")[0];
   }
 
-  ngOnDestroy(){}
-ngOnInit() {
+  ngOnDestroy() { }
+  ngOnInit() {
   }
 
   getDate(type) {
@@ -85,7 +85,9 @@ ngOnInit() {
       .subscribe(res => {
         --this.common.loading;
         console.log(res['msg']);
-        this.common.showToast(res['msg']);
+        if (res['success']) {
+          this.common.showToast(res['msg']);
+        }
         this.activeModal.close();
       }, err => {
         --this.common.loading;
