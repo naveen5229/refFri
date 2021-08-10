@@ -26,6 +26,7 @@ export class StampingComponent implements OnInit {
   optionflag = false;
   spatialremarks='';
   allowedoption=true;
+  stampingdata:any;
   constructor(public api: ApiService,
     public common: CommonService,
     private datePipe: DatePipe,
@@ -69,5 +70,32 @@ export class StampingComponent implements OnInit {
         this.common.loading--;
         this.common.showError();
       })
+  }
+  callsave(){
+    let params = {
+        stampingdata:this.data,
+        preference:this.preference,
+        divermobile:this.divermobile,
+        finaliconcolor:this.finalstatus,
+        remark:this.remark, 
+        allowedoption:this.allowedoption, 
+    };
+    let url = 'TripConsignment/saveStampingDetails';
+    this.common.loading++;
+    this.api.post(url, params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("Success:", res);
+        if (res['code'] > 0) {
+          this.common.showToast("success!!");
+          
+        }
+        if (res['code'] < 0) {
+          this.common.showError(res['msg']);
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
 }
