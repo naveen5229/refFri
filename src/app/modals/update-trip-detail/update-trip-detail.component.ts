@@ -43,8 +43,9 @@ export class UpdateTripDetailComponent implements OnInit {
     this.vehicleTrip.startTime = this.common.params.vehicleTrip.start_time?this.common.params.vehicleTrip.start_time:this.common.params.vehicleTrip._startdate;
     this.vehicleTrip.endName = this.common.params.vehicleTrip.end_name?this.common.params.vehicleTrip.end_name:this.common.params.vehicleTrip._destination;
     this.vehicleTrip.targetTime = this.common.params.vehicleTrip.end_time;
-
-
+  
+    this.vehicleTrip.startName = this.vehicleTrip.startName.split("#")[0];
+    this.vehicleTrip.endName = this.vehicleTrip.endName.split("#")[0];
   }
 
   ngOnDestroy(){}
