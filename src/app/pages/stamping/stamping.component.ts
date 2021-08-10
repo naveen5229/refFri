@@ -26,6 +26,7 @@ export class StampingComponent implements OnInit {
   optionflag = false;
   spatialremarks='';
   allowedoption=true;
+  stampingdata:any;
   constructor(public api: ApiService,
     public common: CommonService,
     private datePipe: DatePipe,
