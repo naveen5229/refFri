@@ -9,7 +9,7 @@
         <div class="col-5">
             <div class="row">
                 <div class="col-6 pr-0">
-                    <span><b>Vehicle No</b></span>
+                    <label>Vehicle No</label>
                 </div>
                 <div class="col-6 pl-0">
                     <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid"
@@ -22,7 +22,7 @@
         <div class="col-7">
             <div class="row">
                 <div class="col-3 pr-0 mt-2">
-                    <span><b>Reference Type</b></span>
+                    <label>Reference Type</label>
                 </div>
                 <div class="col-3 ml-3">
 
@@ -58,7 +58,7 @@
             <div class="col-5">
                 <div class="row">
                     <div class="col-6 pr-0">
-                        <span><b>Regno </b></span>
+                        <label>Regno </label>
                     </div>
                     <div class="col-6 pl-0">
                         <span>{{transferReceipt.vehicleRegNo}}</span>
@@ -87,20 +87,20 @@
                     <label>Type</label>
                 </div>
 
-                <div class="radio-type col-8" style="padding-left: 37px;">
+                <div class="col-8" style="padding-left: 37px;">
                     <input type="radio" value="Transfer" name="radio" [(ngModel)]="transferReceipt.selectOption"
                         (change)="report(transferReceipt.selectOption)"
-                        [disabled]="refData?.selectOption && refData.selectOption=='Receipt'?true:false">Transfer<br>
+                        [disabled]="refData?.selectOption && refData.selectOption=='Receipt'?true:false"> Transfer <br>
                     <input type="radio" value="Receipt" name="radio" [(ngModel)]="transferReceipt.selectOption"
                         (change)="report(transferReceipt.selectOption)"
-                        [disabled]="refData?.selectOption && refData.selectOption=='Transfer'?true:false">Receipt
+                        [disabled]="refData?.selectOption && refData.selectOption=='Transfer'?true:false"> Receipt 
                 </div>
             </div>
         </div>
         <div class="col-7">
             <div class="row">
                 <div class="col-3 pr-0">
-                    <span><b> Date</b></span>
+                    <label> Date</label>
                 </div>
                 <div class="col-8 " style="padding-left: 30px;">
                     <uj-date-time-picker (onChanged)="transferReceipt.date = $event"
@@ -115,7 +115,7 @@
         <div class="col-5">
             <div class="row">
                 <div class="col-6 pr-0">
-                    <span><b>Payer(Cr)</b><b style="color:red;">*</b></span>
+                    <label><b>Payer(Cr)</b><b style="color:red;">*</b></label>
                 </div>
                 <div class="col-6 pl-0">
                     <auto-suggestion url="Suggestion/GetPurchaseLedger" (onSelected)="creditId=$event.id" display="name"
@@ -128,7 +128,7 @@
         <div class="col-6">
             <div class="row">
                 <div class="col-4">
-                    <span><b>Receiver(Dr)</b><b style="color:red;">*</b></span>
+                    <label><b>Receiver(Dr)</b><b style="color:red;">*</b></label>
                 </div>
                 <div class="col-7">
                     <auto-suggestion url="Suggestion/GetPurchaseLedger" (onSelected)="debitId=$event.id" display="name"
@@ -143,7 +143,7 @@
         <div class="col-5">
             <div class="row">
                 <div class="col-6 pr-0">
-                    <span><b>Transfer Type</b></span>
+                    <label>Transfer Type</label>
                 </div>
                 <div class="col-6 pl-0">
                     <select class="form-control" [(ngModel)]="transferReceipt.adviceTypeId">
@@ -160,7 +160,7 @@
         <div class="col-6">
             <div class="row">
                 <div class="col-4">
-                    <span><b>Mode</b></span>
+                    <label>Mode</label>
                 </div>
                 <div class="col-7">
                     <select class="form-control" [(ngModel)]="transferReceipt.modeId">
@@ -178,7 +178,7 @@
         <div class="col-5">
             <div class="row">
                 <div class="col-6">
-                    <span><b>Amount Value</b></span>
+                    <label>Amount Value</label>
                 </div>
                 <div class="col-6 pl-0">
                     <input type="number" id="amount" name="amount" class="form-control"
@@ -197,7 +197,7 @@
         <div class="col-6">
             <div class="row">
                 <div class="col-4">
-                    <span><b>Remark</b></span>
+                    <label>Remark</label>
                 </div>
                 <div class="col-8 pr-0">
                     <textarea rows="5" name="remark" id="remark" row="5" rows="3" class="form-control"

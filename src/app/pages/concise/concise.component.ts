@@ -963,9 +963,12 @@ export class ConciseComponent implements OnInit {
   onResizeEnd(event: ResizeEvent, type): void {
     this.widths[type] = event.rectangle.width + "px";
   }
-
+  isfirst = true;
   initialiseMap() {
-    this.mapService.mapIntialize("concise-view-map", 18, 25, 75, false, true);
+    if(this.isfirst){
+      this.mapService.mapIntialize("concise-view-map", 18, 25, 75, false, true);
+      this.isfirst = false;
+    }
     this.mapService.clearAll();
     for (let index = 0; index < this.kpis.length; index++) {
       if (this.kpis[index].showprim_status.includes('No Data') || this.kpis[index].showprim_status == "Undetected" || this.kpis[index].showprim_status == "No GPS Data") {
@@ -979,6 +982,8 @@ export class ConciseComponent implements OnInit {
     setTimeout(() => {
       this.mapService.setMapType(0);
       this.markers = this.mapService.createMarkers(this.kpis);
+      console.log("Here",this.markers);
+      
       // x_vehicle_id
       this.markersWithId = this.markers.map((marker, index) => {
         return { marker, id: this.kpis[index].x_showveh }

@@ -148,10 +148,16 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         title: 'Placement Optimization',
         icon: 'fa-home',
         link: '/pages/placementoptimization',
-      },{
+      },
+      {
         title: 'Trip Shared',
         icon: 'fa-exchange-alt',
         link: '/pages/tripshared',
+      },
+      {
+        title: 'Stamping',
+        icon: 'fa-exchange-alt',
+        link: '/pages/stamping',
       },
       {
         title: 'E-Way-Bill',

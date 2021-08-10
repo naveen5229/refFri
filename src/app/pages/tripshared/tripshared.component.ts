@@ -19,6 +19,7 @@ export class TripsharedComponent implements OnInit {
   vehicledata = [];
   searchText = '';
   finaldata = [];
+  message='';
   constructor(public api: ApiService,
     public common: CommonService,
     private datePipe: DatePipe,
@@ -47,6 +48,7 @@ export class TripsharedComponent implements OnInit {
         this.tripData.map((dd,index)=>{
           this.tripData[index].status=false;
         }); 
+        this.vehicledata = this.tripData;
         console.log('res: ',this.tripData);
         
 
@@ -78,7 +80,7 @@ export class TripsharedComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['data'])
-         
+         this.message= res['data'][0]['url_token'];
         this.getSharedVehicles();
 
       }, err => {

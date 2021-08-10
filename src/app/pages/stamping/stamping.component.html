@@ -1,0 +1,220 @@
+<nb-card>
+    <nb-card-header class="pt-0">
+      <div class="row">
+          <h4 class="head">Trip Shared</h4>
+      </div>
+    </nb-card-header>
+    <nb-card-body> 
+        <div class="row mb-5">
+            <div class="col-3">
+                <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getFoVehicleList"
+                display="regno" placeholder="Search Vehicle" [preSelected]="null"></auto-suggestion>
+            </div>
+            <div class="col-9 preference">
+                <label> <h6>Preferences</h6> </label>
+                <div>
+                    <label>Gps</label>
+                    <input type="radio" [(ngModel)]="preference" value="GPS" (click)="changevalue()">
+                </div>
+                <div>
+                    <label>SIM</label>
+                    <input type="radio" [(ngModel)]="preference" value="SIM" (click)="changevalue()">
+                </div>
+                <div>
+                    <label>API</label>
+                    <input type="radio" [(ngModel)]="preference" value="API" (click)="changevalue()">
+                </div>
+                <div>
+                    <label>Driver App</label>
+                    <input type="radio" [(ngModel)]="preference" value="DriverApp" (click)="changevalue()">
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+           
+            <label class="col-3">Driver Name</label>
+            <div class="col-3"> <input class="form-control" type="text" [(ngModel)]="divername">  </div>
+      
+       
+            <label class="col-3">Driver Mobile</label>
+            <div class="col-3"><input class="form-control" type="text" [(ngModel)]="divermobile"> </div>
+       
+        </div>
+        <div class="row mb-3">
+           
+                <label class="col-3">Initiated Status</label>
+                <div class="col-3">  <input class="form-control" type="text" [(ngModel)]="initiated"> </div>
+           
+           
+                <label class="col-3">Active Status</label>
+                <div class="col-3">  <input class="form-control" type="text" [(ngModel)]="activestatus">   </div>
+         
+        </div>
+        <div class="row mb-3">
+            <div class="col-3">
+                <div class="box">
+                        <h6>GPS</h6>
+                        <div>
+                    <div>
+                        <label>Initial Status : </label>
+                        <label *ngIf="data">{{data['gps']}}</label>
+                    </div>
+                    <div>
+                        <label>Active Status : </label>
+                        <label *ngIf="data">{{data['gps_status']}}</label>
+                    </div>
+                    <div>
+                        <label>Last Data : </label>
+                        <label *ngIf="data">{{data['gps_status']}}</label>
+                    </div>
+                    <div>
+                        <label>Icon Color : </label>
+                        <label *ngIf="data">{{data['gps_icon_color']}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="col-3">
+                <div class="box"></div>
+                <h6>SIM</h6>
+            <div>
+                <label>Initial Status : </label>
+                <label *ngIf="data">{{data['sim']}}</label>
+            </div>
+            <div>
+                <label>Active Status : </label>
+                <label *ngIf="data">{{data['sim_status']}}</label>
+            </div>
+            <div>
+                <label>Last Data : </label>
+                <label *ngIf="data">{{data['sim_status']}}</label>
+            </div>
+            <div>
+                <label>Status : </label>
+                <label *ngIf="data">{{data['sim_status']}}</label>
+            </div>
+            <div>
+                <label>Request Time : </label>
+                <label *ngIf="data">{{data['sim_req_time']}}</label>
+            </div>
+            <div>
+                <label>Responced Time : </label>
+                <label *ngIf="data">{{data['gps_status']}}</label>
+            </div>
+            <div>
+                <label>Reminding Days : </label>
+                <label *ngIf="data">{{data['remaining_days']}}</label>
+            </div>
+            <div>
+                <label>Icon Color : </label>
+                <label *ngIf="data">{{data['sim_icon_color']}}</label>
+            </div>
+            </div>
+            <div class="col-3">
+                <div class="box">
+                <h6>API</h6>
+            <div>
+                <label>Initial Status</label>
+                <label>_</label>
+            </div>
+            <div>
+                <label>Active Status</label>
+                <label>_</label>
+                
+            </div>
+            <div>
+                <label>Last Data</label>
+                <label>_</label>
+
+            </div>
+            <div>
+                <label>Icon Color</label>
+                <label>_</label>
+
+            </div>
+            </div>
+        </div>
+            <div class="col-3">
+                <div class="box">
+                <h6>Driver App</h6>
+            <div>
+                <label>Initial Status</label>
+                <label>_</label>
+
+            </div>
+            <div>
+                <label>Active Status</label>
+                <label>_</label>
+
+            </div>
+            <div>
+                <label>Last Data</label>
+                <label>_</label>
+
+            </div>
+            <div>
+                <label>Icon Color</label>
+                <label>_</label>
+
+            </div>
+            </div>
+        </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-3">Remarks</label>
+           <div class="col-3"> <input class="form-control" type="text" [(ngModel)]="remark"></div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-4" *ngIf="data">
+                <label>Final Status</label>
+                <input type="text"  [(ngModel)]="finalstatus" >
+            </div>
+            <div class="col-4">
+                <button class="btn btn-primary" (click)="((finalstatus == 'GREEN')? allowed=true : optionflag =true); allowedoption = true ; ">Allowed</button>
+            </div>
+            <div class="col-4">
+                <button class="btn btn-danger" (click)="((finalstatus == 'RED')? allowed = true : optionflag =true);allowedoption = false ; ">Disallowed</button>
+            </div>
+        </div>
+<div class="date-modal" *ngIf="allowed">
+    <div class="date-modal-body data_model_save">
+        <div>
+        <!-- <h5><b>Invoice detail</b></h5> -->
+        <p>Are You sure you want to preceed ?</p>
+        <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
+            (click)="allowed=false">Cancel</button>
+        </div>
+    </div>
+</div>
+<div class="date-modal" *ngIf="optionflag">
+    <div class="date-modal-body data_model_save">
+      <div class="row mb-5">
+            <div class="option col-5">
+            <select *ngIf="allowedoption"  class="form-control">
+                <option>Please Select Option</option>
+                <option>Allowed On Technical/Network issue</option>
+                <option>Allowed -GPS Device Is Working</option>
+                <option>Allowed On PLH Request</option>
+                <option>Allowed -App/Sim Traking</option>
+                <option>Allowed -App Installed</option>
+                <option>Allowed -Constant Intiated</option>
+            </select>
+            <select *ngIf="!allowedoption"  class="form-control">
+                <option>Please Select Option</option>
+                <option>Not Allowed - Handed over to the Technician</option>
+                <option>More option I will share </option>
+            </select>
+            </div>
+          
+                <label class="col-3 text-right">Spatial Remarks</label>
+                <div class="col-4"><input class="form-control" type="text" [(ngModel)]="spatialremarks"> </div>
+        </div>
+      <div class="text-right mb-5"> 
+           <button class="btn btn-primary mr-5">Proceed</button>
+          <button class="btn btn-danger mr-5" (click)="optionflag=false">Cancel</button>
+        </div>
+      
+    </div>
+</div>
+    </nb-card-body>
+</nb-card>

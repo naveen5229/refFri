@@ -6,6 +6,8 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TollpaymentmanagementComponent } from '../../modals/tollpaymentmanagement/tollpaymentmanagement.component';
 import { RouteMapper } from '../../modals';
+import { ExcelService } from '../../services/excel/excel.service';
+import { CsvService } from '../../services/csv/csv.service';
 
 
 
@@ -40,6 +42,8 @@ export class TripmasterreportComponent implements OnInit {
 
   constructor(public api: ApiService,
     public common: CommonService,
+    private excelService: ExcelService,
+    private csvService: CsvService,
     private modalService: NgbModal,
     public user: UserService) {
     let today = new Date();
@@ -103,12 +107,14 @@ export class TripmasterreportComponent implements OnInit {
             this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'black', action: '' };
           }
         } else if (this.headings[i] === 'Halt') {
-          if (matrix[this.headings[i]] > 0) {
+          if (matrix[this.headings[i]] >= 0) {
             this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'blue', action: this.showRouteMapper.bind(this, matrix) };
           } else {
             this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'black', action: '' };
           }
-        } else this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'black', action: '' };
+        } else if(this.headings[i] == 'Share Trip'){
+          this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'blue', action: this.shareTrip.bind(this, matrix) };
+        }else this.valobj[this.headings[i]] = { value: matrix[this.headings[i]], class: 'black', action: '' };
       }
       columns.push(this.valobj);
     });
@@ -122,6 +128,11 @@ export class TripmasterreportComponent implements OnInit {
     } else {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
+  }
+
+  shareTrip(matrix){
+    let url = matrix['Share Trip'];
+    window.open(url, '_blank').focus();
   }
 
   openTripKmRepair(data) {
@@ -179,7 +190,14 @@ export class TripmasterreportComponent implements OnInit {
 
   downloadExcel() {
     // this.common.getCSVFromTableId('trip-master-report');
-    this.common.getCSVFromDataArray(this.tripData, this.table.data.headings, 'trip master report')
+    // this.common.getCSVFromDataArray(this.tripData, this.table.data.headings, 'trip master report')
+
+    let name=this.user._loggedInBy=='admin' ? this.user._details.username : this.user._details.name;
+    let details = [
+      { name: 'Name:' + name}
+    ];
+
+    this.excelService.dkgExcel('Trip Master Report', details, this.headings, this.tripData, 'Trip Master Report')
   }
 
 }
