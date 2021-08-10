@@ -176,19 +176,20 @@ export class EWayUpdateComponent implements OnInit {
     if (this.formType == 1) {
       let requiredFields = ['FromState', 'FromCity', 'TransportMode'];
       if (this.billDateExtend.TransportMode == 'In-Transit') {
-        let otherValidation = ['TransitType','FromPincode', 'AddressLine1','ExtnRsn'];
+        let otherValidation = ['TransitType', 'FromPincode', 'AddressLine1', 'ExtnRsn'];
         requiredFields = requiredFields.concat(otherValidation);
       } else {
         this.billDateExtend.TransitType = '';
         this.billDateExtend.AddressLine1 = '';
         this.billDateExtend.AddressLine2 = '';
         this.billDateExtend.AddressLine3 = '';
-        requiredFields.push('FromPincode','ExtnRsn');
+        requiredFields.push('FromPincode', 'ExtnRsn');
       }
+
+      if (this.billDateExtend['ExtnRsn'] && this.billDateExtend['ExtnRsn'] == "Others") requiredFields.push('ExtnRemarks');
       let ValidationFound = [];
       requiredFields.forEach(key => {
         if (!this.billDateExtend[key]) ValidationFound.push(key);
-        if(this.billDateExtend['ExtnRsn'] && this.billDateExtend['ExtnRsn']=="Others") ValidationFound.push('Enter Remarks');
       });
       if (ValidationFound && ValidationFound.length > 0) return this.common.showError(`${this.common.formatTitle(ValidationFound[0])} is Required Field.`);
       params = this.billDateExtend;
@@ -199,7 +200,7 @@ export class EWayUpdateComponent implements OnInit {
         let otherValidation = ['VehicleType', 'VehicleNo', 'StateName', 'FromCityPlace', 'VehicleReason'];
         requiredFields = requiredFields.concat(otherValidation);
       } else {
-        let otherValidation = ['StateName', 'FromCityPlace', 'TransDocNumber', 'TransDocDate','VehicleReason'];
+        let otherValidation = ['StateName', 'FromCityPlace', 'TransDocNumber', 'TransDocDate', 'VehicleReason'];
         requiredFields = requiredFields.concat(otherValidation);
       }
       if (this.partsInfo.VehicleReason == 'Others') {
@@ -230,7 +231,7 @@ export class EWayUpdateComponent implements OnInit {
         }
       } else {
         this.common.showError(res['msg']);
-        console.log('res',res);
+        console.log('res', res);
       }
     }, err => {
       this.common.loading--;
