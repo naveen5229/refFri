@@ -4,6 +4,8 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
+import { AddDriverCompleteComponent } from '../../modals/DriverModals/add-driver-complete/add-driver-complete.component';
+import { AddDriverVehicleComponent } from '../../modals/DriverModals/add-driver-vehicle/add-driver-vehicle.component';
 
 @Component({
   selector: 'stamping',
@@ -118,6 +120,16 @@ export class StampingComponent implements OnInit {
         this.common.loading--;
         this.common.showError();
       })
+  }
+  addDriver() {
+    this.common.params = { 'vid':this.vehicleId };
+    const activeModal = this.modalService.open(AddDriverVehicleComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.GetStampingdata();
+       // this.getDriverConsentList();
+      }
+    })
   }
   getTableColumns() {
     let columns = [];
