@@ -183,9 +183,11 @@
                 <button class="btn btn-danger" (click)="((finalstatus == 'RED')? allowed = true : optionflag =true);allowedoption = false ; ">Disallowed</button>
             </div>
             <div class="row">
-                <smart-table *ngIf="stampingdata" 
+                <!-- <smart-table *ngIf="stampingdata" 
                     [data]="table.data" [settings]="table.settings" id="verifyState">
-                  </smart-table>
+                  </smart-table> -->
+                  <smart-table *ngIf="stampingdata && stampingdata.length" id="stampingdata" [data]="table.data" [settings]="table.settings">
+                </smart-table>
             </div>
       
 <div class="date-modal" *ngIf="allowed">
