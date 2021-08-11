@@ -1,0 +1,17 @@
+        <div class="modal-body">
+        <div class="card border-0  justify-content-center">
+            <div class="card-header pb-0 bg-white border-0 ">
+                <div class="closebtn">
+                   <button type="button" class="close" (click)="closeModal()" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                </div>
+                <p class="font-weight-bold mb-2"> Are you sure you wanna delete this ?</p>
+                <p class="text-muted "> Do you want to remove this trip.</p>
+            </div>
+            <div class="card-body  mb-2 pt-1 pb-0">
+                <div class="row justify-content-end no-gutters">
+                    <div class="col-auto"><button type="button" (click)="closeModal()" class="btn btn-light text-muted" data-dismiss="modal">Cancel</button></div>
+                    <div class="col-auto"><button type="button" (click)="deleteTrip()" class="btn btn-danger px-4" data-dismiss="modal">Delete</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
