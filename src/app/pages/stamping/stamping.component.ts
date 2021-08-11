@@ -71,4 +71,31 @@ export class StampingComponent implements OnInit {
         this.common.showError();
       })
   }
+  callsave(){
+    let params = {
+        stampingdata:this.data,
+        preference:this.preference,
+        divermobile:this.divermobile,
+        finaliconcolor:this.finalstatus,
+        remark:this.remark, 
+        allowedoption:this.allowedoption, 
+    };
+    let url = 'TripConsignment/saveStampingDetails';
+    this.common.loading++;
+    this.api.post(url, params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("Success:", res);
+        if (res['code'] > 0) {
+          this.common.showToast("success!!");
+          
+        }
+        if (res['code'] < 0) {
+          this.common.showError(res['msg']);
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
 }
