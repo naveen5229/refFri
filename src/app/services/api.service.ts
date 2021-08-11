@@ -56,8 +56,8 @@ export class ApiService {
     if (this.user._details && this.user._details.isDemo) {
       reqOpts.headers['pageId'] = this.user.findPageIdByRoute(this.router.url);
     }
-    if (localStorage.getItem('TOKEN')) {
-      reqOpts.headers['authkey'] = localStorage.getItem('TOKEN');
+    if (localStorage.getItem('USER_TOKEN')) {
+      reqOpts.headers['authkey'] = localStorage.getItem('USER_TOKEN');
     }
     return this.http.post(this.eWayURL + "/" + endpoint, body, reqOpts);
   }
