@@ -34,20 +34,21 @@
         </div>
         <div class="row mb-4">
            
-            <label class="col-3">Driver Name</label>
-            <label class="col-3">{{divername}}</label>
+            <label class="col-2">Driver Name</label>
+            <span class="col-3">{{divername}}</span>
             <!-- <div class="col-3">
                  <input class="form-control" type="text" [(ngModel)]="divername">
                   </div> -->
       
        
-            <label class="col-3">Driver Mobile</label>
-            <label class="col-3">{{divermobile}}</label>
+            <label class="col-2">Driver Mobile</label>
+            <span class="col-3">{{divermobile}}</span>
             <!-- <div class="col-3">
                 <input class="form-control" type="text" [(ngModel)]="divermobile"> 
             </div> -->
-            <button (click)="addDriver()">Add Driver</button>
+           <div class="col-2"> <button class="btn btn-primary float-right" (click)="addDriver()">Add Driver</button></div> 
         </div>
+        
         <!-- <div class="row mb-2">
            
                 <label class="col-3">Initiated Status</label>
@@ -200,16 +201,16 @@
     <div class="date-modal-body data_model_save">
         <div>
         <!-- <h5><b>Invoice detail</b></h5> -->
-        <p>Are You sure you want to preceed ?</p>
-        <button (click)="callsave()" class="model-ex-button">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> 
-        <button (click)="allowed=false" class="model-ex-button">Cancel</button>
+        <h6 class="mb-5">Are You sure you want to preceed ?</h6>
+       <div class="text-right"> <button (click)="callsave()" class="btn btn-primary mr-3">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> 
+        <button (click)="allowed=false" class="btn btn-danger">Cancel</button></div>
         </div>
     </div>
 </div>
 <div class="date-modal" *ngIf="optionflag">
     <div class="date-modal-body data_model_save">
-            <div class="option row mb-5">
-            <label class="col-5">Type</label>
+            <div class="option row mb-3">
+            <label class="col-5"><b> Type </b></label>
             <div class="col-7">
             <select *ngIf="allowedoption"  class="form-control" [(ngModel)]="optionselect">
                 <option>Please Select Option</option>
@@ -227,14 +228,14 @@
             </select>
         </div>
             </div>
-        <div class="row mb-5">
-            <label class="col-5">Spatial Remarks</label>
+        <div class="row mb-3">
+            <label class="col-5"> <b> Description </b></label>
             <div class="col-7">
-                <input class="form-control" type="text" [(ngModel)]="spatialremarks"> </div>
+                <textarea class="form-control" type="text" [(ngModel)]="spatialremarks"  rows="4" cols="50"> </textarea>  </div>
         </div>
-      <div class="text-right mb-5"> 
-           <button class="btn btn-primary mr-5 model-ex-button" (click)="callsave()">Proceed</button>
-          <button class="btn btn-danger mr-5 model-ex-button" (click)="optionflag=false">Cancel</button>
+      <div class="text-right"> 
+           <button class="btn btn-primary mr-5 " (click)="callsave()">Proceed</button>
+          <button class="btn btn-danger " (click)="optionflag=false">Cancel</button>
         </div>
       
     </div>
