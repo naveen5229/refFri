@@ -5,7 +5,7 @@
       </div>
     </nb-card-header>
     <nb-card-body> 
-        <div class="row mb-3">
+        <div class="row mb-4">
             <div class="col-6">
                 <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getFoVehicleList"
                 display="regno" placeholder="Search Vehicle" [preSelected]="null"></auto-suggestion>
@@ -32,7 +32,7 @@
             </div>
         </div>
         </div>
-        <div class="row mb-2">
+        <div class="row mb-4">
            
             <label class="col-3">Driver Name</label>
             <div class="col-3"> <input class="form-control" type="text" [(ngModel)]="divername">  </div>
@@ -52,7 +52,7 @@
                 <div class="col-3">  <input class="form-control" type="text" [(ngModel)]="activestatus">   </div>
          
         </div> -->
-        <div class="row mb-2">
+        <div class="row mb-4">
             <div class="col-3 pl-1 pr-1">
               <div class="box-outer"   [ngClass]="{'green' : (data && data['gps_icon_color'] == 'GREEN') , 'red' :(data && data['gps_icon_color'] == 'RED'),'box-others' : (!data),'selectedtab' : (preference == 'GPS')}">
                         <h6>GPS</h6>
@@ -166,7 +166,7 @@
             </div>
         </div>
         </div>
-        <div class="row mb-2">
+        <div class="row mb-4">
             <label class="col-3">Remarks</label>
            <div class="col-3"> <textarea class="form-control" type="text" [(ngModel)]="remark"  rows="4" cols="50"> </textarea></div>
           <div *ngIf="data" class="col-6">
@@ -202,10 +202,10 @@
 </div>
 <div class="date-modal" *ngIf="optionflag">
     <div class="date-modal-body data_model_save">
-      <div class="row mb-5">
-            <div class="option row">
-            <label class="col-5 text-right">Type</label>
-            <select *ngIf="allowedoption"  class="form-control col-5" [(ngModel)]="optionselect">
+            <div class="option row mb-5">
+            <label class="col-5">Type</label>
+            <div class="col-7">
+            <select *ngIf="allowedoption"  class="form-control" [(ngModel)]="optionselect">
                 <option>Please Select Option</option>
                 <option>Allowed On Technical/Network issue</option>
                 <option>Allowed -GPS Device Is Working</option>
@@ -219,13 +219,12 @@
                 <option>Not Allowed - Handed over to the Technician</option>
                 <option>More option I will share </option>
             </select>
+        </div>
             </div>
-            <div class="row">&nbsp;&nbsp;</div>
-            <div class="row">
-                <label class="col-5 text-right">Spatial Remarks</label>
-                <div class="col-7">
-                    <input class="form-control" type="text" [(ngModel)]="spatialremarks"> </div>
-            </div>
+        <div class="row mb-5">
+            <label class="col-5">Spatial Remarks</label>
+            <div class="col-7">
+                <input class="form-control" type="text" [(ngModel)]="spatialremarks"> </div>
         </div>
       <div class="text-right mb-5"> 
            <button class="btn btn-primary mr-5 model-ex-button" (click)="callsave()">Proceed</button>

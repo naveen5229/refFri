@@ -43,11 +43,11 @@
     }
    
 }
-.option{
-  select{
-    width: 60%;
-  }
-}
+// .option{
+//   select{
+//     width: 60%;
+//   }
+// }
 .head{
  
   height: auto;
@@ -142,6 +142,9 @@
     }
   }
  
+}
+:host ::ng-deep .tableFixHead{
+  height: calc(100vh - 640px)!important;
 }
 .selectedtab{
   -webkit-transform: translate3d(0,-2px,0);
