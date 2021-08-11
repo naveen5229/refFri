@@ -95,7 +95,7 @@ ngOnInit() {
       iswallet : localStorage.getItem('iswallet') || '0' 
     };
     this.common.loading++;
-    this.api.post('UserRoles/getAllPages', params)
+    this.api.post('UserRoles/getAllPagesWrtFo', params)
       .subscribe(res => {
         this.common.loading--;
       

@@ -82,10 +82,15 @@ export class EWayBillTripComponent implements OnInit {
     Object.keys(this.dashBoardData.chartDetail).map(key => {
       this.dashboardData.pieChart.push({ title: this.formatTitle(key), count: this.dashBoardData.chartDetail[key]['count'], data: this.dashBoardData.chartDetail[key]['data'] ? this.dashBoardData.chartDetail[key]['data'] : [] });
     });
+    console.log('dashboardData:',this.dashboardData)
     this.renderDashboardScreen();
   }
 
+  graphPie:any;
+  graphDoughnut:any;
   renderDashboardScreen() {
+    if(this.graphPie) this.graphPie.destroy();
+    if(this.graphDoughnut) this.graphDoughnut.destroy();
     let labelsPie = [];
     let chartDataSetPie = [];
     let labelsDoughnut = [];
@@ -100,10 +105,10 @@ export class EWayBillTripComponent implements OnInit {
       chartDataSetDoughnut.push(data.count)
     });
 
-    var ctxPie = $('#pieGraph');
-    var ctxDoughnut = $('#doughnutGraph');
+    var ctxPie = document.getElementById('pieGraph') as HTMLCanvasElement;
+    var ctxDoughnut = document.getElementById('doughnutGraph') as HTMLCanvasElement;
 
-    var graphPie = new Chart(ctxPie, {
+    this.graphPie = new Chart(ctxPie.getContext('2d'), {
       type: 'pie',
       data: {
         labels: labelsPie,
@@ -128,7 +133,7 @@ export class EWayBillTripComponent implements OnInit {
       }
     });
 
-    var graphDoughnut = new Chart(ctxDoughnut, {
+    this.graphDoughnut = new Chart(ctxDoughnut.getContext('2d'), {
       type: 'doughnut',
       data: {
         labels: labelsDoughnut,
@@ -152,7 +157,7 @@ export class EWayBillTripComponent implements OnInit {
         }
       }
     });
-    console.log(graphDoughnut,graphPie)
+    console.log(this.graphDoughnut,this.graphPie)
   }
 
   findDrillDownData(index, findFrom) {
