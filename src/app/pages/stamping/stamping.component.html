@@ -35,12 +35,18 @@
         <div class="row mb-4">
            
             <label class="col-3">Driver Name</label>
-            <div class="col-3"> <input class="form-control" type="text" [(ngModel)]="divername">  </div>
+            <label class="col-3">{{divername}}</label>
+            <!-- <div class="col-3">
+                 <input class="form-control" type="text" [(ngModel)]="divername">
+                  </div> -->
       
        
             <label class="col-3">Driver Mobile</label>
-            <div class="col-3"><input class="form-control" type="text" [(ngModel)]="divermobile"> </div>
-       
+            <label class="col-3">{{divermobile}}</label>
+            <!-- <div class="col-3">
+                <input class="form-control" type="text" [(ngModel)]="divermobile"> 
+            </div> -->
+            <button (click)="addDriver()">Add Driver</button>
         </div>
         <!-- <div class="row mb-2">
            
@@ -54,7 +60,7 @@
         </div> -->
         <div class="row mb-4">
             <div class="col-3 pl-1 pr-1">
-              <div class="box-outer"   [ngClass]="{'green' : (data && data['gps_icon_color'] == 'GREEN') , 'red' :(data && data['gps_icon_color'] == 'RED'),'box-others' : (!data),'selectedtab' : (preference == 'GPS')}">
+              <div class="box-outer"   [ngClass]="{'green' : (data && data['gps_icon_color'] == 'GREEN') , 'red' :(data && data['gps_icon_color'] == 'RED'),'box-others' :  ((data && data['sim_icon_color'] != 'RED') && (data && data['sim_icon_color'] != 'GREEN')),'selectedtab' : (preference == 'GPS')}">
                         <h6>GPS</h6>
                         <div class="box">
                     <div>
@@ -77,7 +83,7 @@
            </div>
         </div>
             <div class="col-3 pl-1 pr-1">
-              <div class="box-outer"  [ngClass]="{'red' : (data && data['sim_icon_color'] == 'RED'),'green' : (data && data['sim_icon_color'] == 'GREEN'),'box-others' : (!data),'selectedtab' : (preference == 'SIM')}">
+              <div class="box-outer"  [ngClass]="{'red' : (data && data['sim_icon_color'] == 'RED'),'green' : (data && data['sim_icon_color'] == 'GREEN'),'box-others' : ((data && data['sim_icon_color'] != 'RED') && (data && data['sim_icon_color'] != 'GREEN')),'selectedtab' : (preference == 'SIM')}">
                 <h6>SIM</h6>
                 <div class="box">
             <div>
