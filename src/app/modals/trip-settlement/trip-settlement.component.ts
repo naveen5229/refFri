@@ -121,7 +121,8 @@ ngOnInit() {
   onPrint() {
     this.renderer.addClass(document.body, 'test');
     window.print();
-    this.renderer.addClass(document.body, 'test');
+    // this.renderer.addClass(document.body, 'test');
+    window.location.reload();
   }
 
   findCustomFields(customFields) {
