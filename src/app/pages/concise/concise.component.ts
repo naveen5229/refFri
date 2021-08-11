@@ -263,34 +263,36 @@ export class ConciseComponent implements OnInit {
             action: null,
             icons: this.actionIcons(ticket['x_actions'])
           };
-        } else if(key === 'x_hrssince'){
+        } else if (key === 'x_hrssince') {
           column[key] = {
             value: this.convertHrsToDays(ticket['x_hrssince']),
             action: null,
             sortBy: ticket['x_hrssince']
           }
-        } else if(key === 'x_idle_time'){
+        } else if (key === 'x_idle_time') {
           column[key] = {
             value: this.common.changeTimeformat(ticket['x_idle_time']),
             action: null,
           }
-        } else if(key === 'x_showtripstart'){
+        } else if (key === 'x_showtripstart') {
           column[key] = {
             value: this.common.getTripStatusHTML(ticket['trip_status_type'], ticket['x_showtripstart'], ticket['x_showtripend'], ticket['x_p_placement_type'], ticket['x_p_loc_name']),
             action: null,
             isHTML: true,
           }
-        } else if(key === 'x_showveh'){
+        } else if (key === 'sharetriplink') {
+          column[key] = { value: ticket['sharetriplink'], class: 'blue', action: this.shareTrip.bind(this, ticket) };
+        } else if (key === 'x_showveh') {
           column[key] = {
             value: this._sanitizer.bypassSecurityTrustHtml(`<span><div style='float:left;'>${ticket['x_showveh']}</div><div class="${ticket['x_gps_state'] == 'Offline' ? 'ball red' : ticket['x_gps_state'] == 'Online' ? 'ball bgreen' : ticket['x_gps_state'] == 'SIM' ? 'ball bgblue' : 'ball byellow'}" title=${ticket['x_gps_state']}></div></span>`),
-                  action: '',
-                  isHTML: true,
-                  colActions: {
-                    dblclick: '',
-                    click: '',
-                    mouseover: '',
-                    mouseout: ''
-                  }
+            action: '',
+            isHTML: true,
+            colActions: {
+              dblclick: '',
+              click: '',
+              mouseover: '',
+              mouseout: ''
+            }
           }
           column['_id'] = {
             value: ticket['x_showveh']
@@ -361,6 +363,13 @@ export class ConciseComponent implements OnInit {
 
 
     return columns;
+  }
+
+  shareTrip(url) {
+    console.log('url is: ', url)
+    // console.log('ticket is: ', ticket)
+    // let url = ticket['sharetriplink'];
+    window.open(url, '_blank').focus();
   }
 
   convertHrsToDays(hrs: number) {
@@ -824,7 +833,7 @@ export class ConciseComponent implements OnInit {
     });
 
 
-    Object.assign(this.kpiHeadings, {...headings});
+    Object.assign(this.kpiHeadings, { ...headings });
     console.log('kpiHeadings data is: ', this.kpiHeadings)
 
     return {
@@ -965,7 +974,7 @@ export class ConciseComponent implements OnInit {
   }
   isfirst = true;
   initialiseMap() {
-    if(this.isfirst){
+    if (this.isfirst) {
       this.mapService.mapIntialize("concise-view-map", 18, 25, 75, false, true);
       this.isfirst = false;
     }
@@ -982,8 +991,8 @@ export class ConciseComponent implements OnInit {
     setTimeout(() => {
       this.mapService.setMapType(0);
       this.markers = this.mapService.createMarkers(this.kpis);
-      console.log("Here",this.markers);
-      
+      console.log("Here", this.markers);
+
       // x_vehicle_id
       this.markersWithId = this.markers.map((marker, index) => {
         return { marker, id: this.kpis[index].x_showveh }
@@ -1112,14 +1121,14 @@ export class ConciseComponent implements OnInit {
   }
 
   actionIcons(x_actions) {
-    
-    let actionIcons = ["chvehstatus", "vehevent", "routemap", "trips", "vehstates", "rptissue", "nearby", "odometer", "entityflag", "vehorders", "calldriver", "nearby"];
-    let actions : [] = JSON.parse(x_actions) || actionIcons
 
-    if(this.user._loggedInBy != 'admin'){
+    let actionIcons = ["chvehstatus", "vehevent", "routemap", "trips", "vehstates", "rptissue", "nearby", "odometer", "entityflag", "vehorders", "calldriver", "nearby"];
+    let actions: [] = JSON.parse(x_actions) || actionIcons
+
+    if (this.user._loggedInBy != 'admin') {
       console.log('actions is: ', actions)
-      let data = actions.findIndex(e=>e==='chvehstatus')
-      actions.splice(data,1);
+      let data = actions.findIndex(e => e === 'chvehstatus')
+      actions.splice(data, 1);
       console.log('data is: ', data)
     }
     let icons = [
@@ -1179,7 +1188,7 @@ export class ConciseComponent implements OnInit {
     ];
 
     return icons.filter((icon, index) => {
-      if (actions.findIndex(e=>e===icon.key) != -1) {
+      if (actions.findIndex(e => e === icon.key) != -1) {
         return true;
       }
       return false;
@@ -1188,7 +1197,7 @@ export class ConciseComponent implements OnInit {
 
   openChangeStatusModal(trip) {
     console.log('trip is:', trip);
-    
+
     let ltime = new Date();
     let tTime = this.common.dateFormatter(new Date());
     let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 48));
@@ -1468,7 +1477,7 @@ export class ConciseComponent implements OnInit {
 
   jrxActionHandler(details: any) {
     console.log('jrxActionHandlerDetails is: ', details);
-    
+
     if (details.heading && details.actionLevel !== 'icon') {
       switch (details.heading) {
         case 'x_showveh':
@@ -1489,6 +1498,9 @@ export class ConciseComponent implements OnInit {
           break;
         case 'x_showtripstart':
           this.getUpdate(this.findKPI(details.column._id.value));
+          break;
+        case 'sharetriplink':
+          this.shareTrip(details.column.sharetriplink.value);
           break;
       }
     } else if (details.actionLevel === 'icon') {
