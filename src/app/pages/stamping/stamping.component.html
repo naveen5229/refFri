@@ -5,13 +5,14 @@
       </div>
     </nb-card-header>
     <nb-card-body> 
-        <div class="row mb-5">
-            <div class="col-3">
+        <div class="row mb-3">
+            <div class="col-6">
                 <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getFoVehicleList"
                 display="regno" placeholder="Search Vehicle" [preSelected]="null"></auto-suggestion>
             </div>
-            <div class="col-9 preference">
-                <label> <h6>Preferences</h6> </label>
+            <div class="col-6 preference">
+                <label class="w-30"> <h6>Preferences</h6> </label>
+                <div class="d-flex text-right">
                 <div>
                     <label>Gps</label>
                     <input type="radio" [(ngModel)]="preference" value="GPS" (click)="changevalue()">
@@ -30,7 +31,8 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-3">
+        </div>
+        <div class="row mb-2">
            
             <label class="col-3">Driver Name</label>
             <div class="col-3"> <input class="form-control" type="text" [(ngModel)]="divername">  </div>
@@ -40,7 +42,7 @@
             <div class="col-3"><input class="form-control" type="text" [(ngModel)]="divermobile"> </div>
        
         </div>
-        <div class="row mb-3">
+        <div class="row mb-2">
            
                 <label class="col-3">Initiated Status</label>
                 <div class="col-3">  <input class="form-control" type="text" [(ngModel)]="initiated"> </div>
@@ -50,11 +52,11 @@
                 <div class="col-3">  <input class="form-control" type="text" [(ngModel)]="activestatus">   </div>
          
         </div>
-        <div class="row mb-3">
-            <div class="col-3">
-                <div class="box">
+        <div class="row mb-2">
+            <div class="col-3 pl-1 pr-1">
+              <div class="box-outer"   [ngClass]="{'green' : (data && data['gps_icon_color'] == 'GREEN') , 'red' :(data && data['gps_icon_color'] == 'RED'),'box-others' : (!data),'selectedtab' : (preference == 'GPS')}">
                         <h6>GPS</h6>
-                        <div>
+                        <div class="box">
                     <div>
                         <label>Initial Status : </label>
                         <label *ngIf="data">{{data['gps']}}</label>
@@ -72,11 +74,12 @@
                         <label *ngIf="data">{{data['gps_icon_color']}}</label>
                     </div>
                 </div>
-            </div>
+           </div>
         </div>
-            <div class="col-3">
-                <div class="box"></div>
+            <div class="col-3 pl-1 pr-1">
+              <div class="box-outer"  [ngClass]="{'red' : (data && data['sim_icon_color'] == 'RED'),'green' : (data && data['sim_icon_color'] == 'GREEN'),'box-others' : (!data),'selectedtab' : (preference == 'SIM')}">
                 <h6>SIM</h6>
+                <div class="box">
             <div>
                 <label>Initial Status : </label>
                 <label *ngIf="data">{{data['sim']}}</label>
@@ -109,34 +112,37 @@
                 <label>Icon Color : </label>
                 <label *ngIf="data">{{data['sim_icon_color']}}</label>
             </div>
+        </div>
+    </div>
             </div>
-            <div class="col-3">
-                <div class="box">
+            <div class="col-3 pl-1 pr-1">
+              <div class="box-outer box-others" [ngClass]="{'selectedtab' : (preference == 'API')}">
                 <h6>API</h6>
-            <div>
-                <label>Initial Status</label>
-                <label>_</label>
-            </div>
-            <div>
-                <label>Active Status</label>
-                <label>_</label>
-                
-            </div>
-            <div>
-                <label>Last Data</label>
-                <label>_</label>
-
-            </div>
-            <div>
-                <label>Icon Color</label>
-                <label>_</label>
-
-            </div>
-            </div>
-        </div>
-            <div class="col-3">
                 <div class="box">
+            <div>
+                <label>Initial Status</label>
+                <label>_</label>
+            </div>
+            <div>
+                <label>Active Status</label>
+                <label>_</label>
+            </div>
+            <div>
+                <label>Last Data</label>
+                <label>_</label>
+
+            </div>
+            <div>
+                <label>Icon Color</label>
+                <label>_</label>
+            </div>
+            </div>
+            </div>
+        </div>
+            <div class="col-3 pl-1 pr-1">
+              <div class="box-outer box-others" [ngClass]="{'selectedtab' : (preference == 'DriverApp')}">
                 <h6>Driver App</h6>
+                <div class="box">
             <div>
                 <label>Initial Status</label>
                 <label>_</label>
@@ -155,27 +161,33 @@
             <div>
                 <label>Icon Color</label>
                 <label>_</label>
-
+            </div>
             </div>
             </div>
         </div>
         </div>
-        <div class="row mb-3">
+        <div class="row mb-2">
             <label class="col-3">Remarks</label>
-           <div class="col-3"> <input class="form-control" type="text" [(ngModel)]="remark"></div>
+           <div class="col-3"> <textarea class="form-control" type="text" [(ngModel)]="remark"  rows="4" cols="50"> </textarea></div>
+          <div *ngIf="data" class="col-6">
+            <div class="row">
+            <label class="col-6">Final Status</label>
+           <div class="col-6"> <input class="form-control" type="text"  [(ngModel)]="finalstatus" ></div>
         </div>
-        <div class="row mb-3">
-            <div class="col-4" *ngIf="data">
-                <label>Final Status</label>
-                <input type="text"  [(ngModel)]="finalstatus" >
-            </div>
-            <div class="col-4">
-                <button class="btn btn-primary" (click)="((finalstatus == 'GREEN')? allowed=true : optionflag =true); allowedoption = true ; ">Allowed</button>
-            </div>
-            <div class="col-4">
+        </div>
+       
+        </div>
+            <div class="text-right mb-2">
+                <button class="btn btn-primary mr-5" (click)="((finalstatus == 'GREEN')? allowed=true : optionflag =true); allowedoption = true ; ">Allowed</button>
+           
                 <button class="btn btn-danger" (click)="((finalstatus == 'RED')? allowed = true : optionflag =true);allowedoption = false ; ">Disallowed</button>
             </div>
-        </div>
+            <div class="row mb-3">
+                <smart-table *ngIf="stampingdata.length>0" style="height:27vh!important;overflow-y:scroll!important;"
+                    [data]="table.data" [settings]="table.settings" id="verifyState">
+                  </smart-table>
+            </div>
+      
 <div class="date-modal" *ngIf="allowed">
     <div class="date-modal-body data_model_save">
         <div>
