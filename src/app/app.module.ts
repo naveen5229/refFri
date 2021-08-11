@@ -329,6 +329,7 @@ import { ForcellyRemappingRouteComponent } from './modals/forcelly-remapping-rou
 import { EWayUpdateComponent } from './modals/e-way-update/e-way-update.component';
 import { SharedvehicleComponent } from './direct/sharedvehicle/sharedvehicle.component';
 import { TripconsignmentComponent } from './direct/tripconsignment/tripconsignment.component';
+import { AskPermissionComponent } from './modals/ask-permission/ask-permission.component';
 
 
 
@@ -608,7 +609,8 @@ const COMMON_COMPONENT = [UnMergeStateComponent,
   CostGamificationComponent,
   PlacementCostComponent,
   AddMapVehicleComponentComponent,
-  RemaptripandrouteComponent
+  RemaptripandrouteComponent,
+  AskPermissionComponent
 ];
 
 @NgModule({

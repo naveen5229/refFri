@@ -651,29 +651,39 @@ export class RouteMapperComponent implements OnInit {
 
     });
   }
-
+  trailsGoogle :any = null;
   getSingleTripInfoForView() {
     if (this.vehicleTripId) {
       this.commonService.loading++;
-      this.apiService.get(`TripsOperation/getSingleTripInfoForView?tripId=${this.vehicleTripId}`)
+      this.apiService.getJavaPortDost(8088, `googleRouteUsingTripId/${this.vehicleTripId}`)
         .subscribe(res => {
           this.commonService.loading--;
+          console.log('response is: ', res);
+
           this.circles.forEach(item => {
             item.setMap(null);
           });
           this.circleCenter.forEach(item => {
             item.setMap(null);
           });
+
+          if(this.trailsGoogle){
+            this.trailsGoogle.setMap(null);
+            this.trailsGoogle = null;
+          }
+
           this.circles = [];
           this.circleCenter = [];
           this.latLngArr = [];
-          res['data'].forEach(element => {
+          let vehicleStates = res['data']['vehicleStates'];
+          let googleRoute = res['data']['googleRoute'];
+          vehicleStates.forEach(element => {
             console.log("element====", element);
             if (element.type === 3 || element.type === 1) {
               console.log("element1 in side====", element);
               let color = element.type === 1 ? '00FF00' : 'FF0000';
               let center = this.mapService.createLatLng(element.rlat, element.rlong)
-              this.latLngArr.push({lat:parseFloat(element.rlat),lng:parseFloat(element.rlong)})
+              this.latLngArr.push({ lat: parseFloat(element.rlat), lng: parseFloat(element.rlong) })
               let circle = this.mapService.createCirclesOnPostion(center, 1000, '#' + color, '#' + color);
               this.circles.push(circle);
               if (element.type == 3) {
@@ -702,6 +712,13 @@ export class RouteMapperComponent implements OnInit {
             this.mapService.setMultiBounds(this.latLngArr, true);
 
           });
+          if(googleRoute){
+            let dataList = [];
+            dataList.push({ data: googleRoute ,color: 'blue'});
+            console.log('dataList is: ', dataList)
+            this.trailsGoogle = this.mapService.createPolyLines(dataList);
+          }
+
         }, err => {
           this.commonService.loading--;
           console.error(err);
