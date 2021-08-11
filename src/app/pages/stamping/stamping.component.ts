@@ -159,7 +159,7 @@ export class StampingComponent implements OnInit {
           this.allowed = false;
           this.optionflag = false;
           this.GetdefaultStampingdata();
-          this.common.showToast("success!!");
+          this.common.showToast(res['data']);
           
         }
         if (res['code'] < 0) {
