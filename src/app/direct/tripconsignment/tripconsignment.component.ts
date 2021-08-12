@@ -113,7 +113,8 @@ export class TripconsignmentComponent implements OnInit {
           this.startDate = this.data._start_time;
           this.endDate = this.data._end_time;
           this.vehicleTripId = this.data._tripid;
-          console.log("Data:", res['data']);
+          this.tripvehicle = this.data['vehicle_name'];
+          console.log("Data:", this.data);
           this.aftergetcallinitilize();
         } else {
           //this.msg = res.msg;

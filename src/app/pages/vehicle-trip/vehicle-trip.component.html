@@ -41,6 +41,12 @@
                 </span>
             </div>
         </div>
+        <div class="nodate">
+            <div>
+            <p class="oops"> Oops...</p>
+            <p>No Data Found </p>
+        </div>
+        </div>
         <smart-table *ngIf="vehicleTrips && vehicleTrips.length" id="vehicleTrip" [data]="table.data"
             [settings]="table.settings">
         </smart-table>
