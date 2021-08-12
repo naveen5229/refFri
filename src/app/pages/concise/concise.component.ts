@@ -25,7 +25,7 @@ import {
   VehiclesOnMap,
   VehicleStates,
   VehicleTripUpdate
-} from "../../modals";
+} from '../../modals';
 
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 import { NearByVehiclesComponent } from "../../modals/near-by-vehicles/near-by-vehicles.component";

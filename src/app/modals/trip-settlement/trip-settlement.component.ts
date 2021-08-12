@@ -48,6 +48,7 @@ ngOnInit() {
 
   closeModal() {
     this.activeModal.close();
+    window.location.reload();
     // this.renderer.addClass(document.body, 'test');
   }
 
@@ -122,7 +123,7 @@ ngOnInit() {
     this.renderer.addClass(document.body, 'test');
     window.print();
     // this.renderer.addClass(document.body, 'test');
-    window.location.reload();
+    // window.location.reload();
   }
 
   findCustomFields(customFields) {

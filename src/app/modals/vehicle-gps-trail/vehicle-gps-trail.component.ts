@@ -29,6 +29,8 @@ export class VehicleGpsTrailComponent implements OnInit {
   };
   headings = [];
   valobj = {};
+  newGpsTrail = [];
+  showHaltTable:boolean = false;
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -80,13 +82,16 @@ ngOnInit() {
       selectapi = 'VehicleTrail/showVehicleTrail';
     }
     else if (button == 3) {
-      selectapi = 'AutoHalts/getSingleVehicleHalts';
+      this.createHalts(params);
+      return;
+      // selectapi = 'AutoHalts/getSingleVehicleHalts';
     }
     console.log('params: ', params);
     this.common.loading++;
     this.api.post(selectapi, params)
       .subscribe(res => {
         this.common.loading--;
+        this.showHaltTable = false;
         this.table = {
           data: {
             headings: {},
@@ -97,7 +102,8 @@ ngOnInit() {
           }
         };
         this.headings = [];
-        console.log('res: ', res['data'])
+        console.log('res: ', res['data']);
+        this.gpsTrail = [];
         this.gpsTrail = res['data'];
         console.log('Length', res['data'].length);
 
@@ -116,6 +122,23 @@ ngOnInit() {
         this.common.showError();
       })
   }
+
+  createHalts(params){
+    this.common.loading ++;
+    this.api.getJavaPortDost(8081, `halts?vehId=${params.vehicleId}&receivedStartTime=${params.startTime}&receivedEndTime=${params.toTime}` )
+      .subscribe((res) => {
+        this.common.loading --;
+        this.showHaltTable = true;
+        console.log('halts is: ', res);
+        console.log('res: ', res['generatedHalts']);
+        this.newGpsTrail = res['generatedHalts'];
+        
+      }, err => {
+        this.common.loading --;
+        console.log('err is: ', err)
+      })
+  }
+
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }

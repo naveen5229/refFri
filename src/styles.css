@@ -1012,6 +1012,12 @@ input[type="number"] {
 input[type=checkbox], input[type=radio] {
   margin: 4px 4px 0;
 }
+
+.nb-theme-corporate nb-spinner.status-success {
+  background: #000000d1!important;
+}
+
+
 @media (max-width: 1024px) and (min-width: 768px) {
   table thead,
   table tbody {

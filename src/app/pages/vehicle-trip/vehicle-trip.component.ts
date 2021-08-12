@@ -28,6 +28,7 @@ import { CsvErrorReportComponent } from '../../modals/csv-error-report/csv-error
 import { TollpaymentmanagementComponent } from '../../modals/tollpaymentmanagement/tollpaymentmanagement.component';
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe";
 import { RemaptripandrouteComponent } from '../../modals/remaptripandroute/remaptripandroute.component';
+import { AskPermissionComponent } from '../../modals/ask-permission/ask-permission.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -314,22 +315,12 @@ export class VehicleTripComponent implements OnInit {
     const activeModal = this.modalService.open(ReportIssueComponent, { size: 'sm', container: 'nb-layout' });
     activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleTrip.id));
   }
+
   deleteTrip(vehicleTrip) {
     console.log("deleteTrip", vehicleTrip);
-    let params = {
-      tripId: vehicleTrip._tripid
-    }
-    ++this.common.loading;
-    this.api.post('VehicleTrips/deleteVehicleTrip', params)
-      .subscribe(res => {
-        --this.common.loading;
-        console.log('Res:', res);
-        this.common.showToast(res['msg']);
-      }, err => {
-        --this.common.loading;
 
-        console.log('Err:', err);
-      });
+    this.common.params = {tripId: vehicleTrip._tripid}
+    const activeModal = this.modalService.open(AskPermissionComponent, { size: 'md', container: 'nb-layout', backdrop: 'static', windowClass: 'ask' })
   }
 
   update(vehicleTrip) {

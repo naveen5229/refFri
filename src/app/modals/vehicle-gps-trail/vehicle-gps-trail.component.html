@@ -25,7 +25,7 @@
 
         </div>
       </div>
-      <div class="row">
+      <div class="row" style="margin-top: 10px;">
         <div class="col-md-3">
           <button type="submit" class="btn btn-primary" (click)="result(1)">Gps Trail</button>
         </div>
@@ -39,7 +39,40 @@
 
     </div>
   </div>
-  <smart-table *ngIf="gpsTrail.length" [data]="table.data" [settings]="table.settings"></smart-table>
+  <ng-container *ngIf="!showHaltTable">
+    <smart-table *ngIf="gpsTrail.length" [data]="table.data" [settings]="table.settings"></smart-table>
+  </ng-container>
+
+  <div class="row" *ngIf="showHaltTable" style="margin-top: 10px;">
+    <table class="table table-bordered">
+      <thead style="background-color: #263238; color: #fff; white-space: nowrap;">
+        <tr>
+          <th>#</th>
+          <th>Vehicle Id</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Site Id</th>
+          <th>Add Time</th>
+          <th>Lat</th>
+          <th>Lng</th>
+          <th>Mode Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let gps of newGpsTrail; let i = index;">
+          <td>{{i + 1}}</td>
+          <td>{{ gps.key.vehicleId}}</td>
+          <td>{{common.dateFormatter(gps.key.startTime)}}</td>
+          <td>{{common.dateFormatter(gps.endTime)}}</td>
+          <td>{{gps.siteId}}</td>
+          <td>{{common.dateFormatter(gps.addTime)}}</td>
+          <td>{{gps.lat}}</td>
+          <td>{{gps.lng}}</td>
+          <td>{{gps.modType}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
 
 </div>

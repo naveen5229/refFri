@@ -18,11 +18,15 @@
     z-index: 999999;
     top: 0;
     left: 0;
+   
   }
   .date-modal-body{
     background: #fff;
-    width: 80%;
+    width: 35%;
     margin: 15% auto auto auto;
+    .model-ex-button{
+      background-color: black;
+    }
   }
   
   :host ::ng-deep .tagsinput {
@@ -39,11 +43,11 @@
     }
    
 }
-.option{
-  select{
-    width: 90%;
-  }
-}
+// .option{
+//   select{
+//     width: 60%;
+//   }
+// }
 .head{
  
   height: auto;
@@ -138,6 +142,9 @@
     }
   }
  
+}
+:host ::ng-deep .tableFixHead{
+  height: calc(100vh - 645px)!important;
 }
 .selectedtab{
   -webkit-transform: translate3d(0,-2px,0);
